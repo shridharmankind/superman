@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
+import theme from '../../../common/theme';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
   },
 
   inputView: {
-    backgroundColor: '#FFC0CB',
+    backgroundColor: theme.colors.accent,
     borderRadius: 30,
     width: '70%',
     height: 45,
@@ -43,10 +44,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40,
-    backgroundColor: '#FF1493',
+    backgroundColor: theme.colors.primary,
   },
   logo: {
     height: 80,
+  },
+  loginText: {
+    color: theme.colors.white
+  },
+  iconContainer: {
+    marginBottom: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
 });
 
