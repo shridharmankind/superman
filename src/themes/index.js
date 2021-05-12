@@ -1,4 +1,4 @@
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme } from 'react-native-paper';
 
 const theme = {
     ...DefaultTheme,
@@ -14,4 +14,4 @@ const theme = {
     },
   };
 
-  export default theme;
+export default theme;
