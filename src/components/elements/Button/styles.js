@@ -3,23 +3,17 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   appButtonContainer: {
-    borderRadius: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: theme.roundness,
   },
   appButtonText: {
-    fontSize: 16,
+    fontSize: 14,
   },
   disabledButton: {
-    backgroundColor: theme.colors.veryLightGray,
+    backgroundColor: theme.colors.disabled,
+    borderColor: 'transparent',
   },
-  btnColorContained: {
+  disabledButtonColor: {
     color: theme.colors.white,
-  },
-  btnColorOutlined: {
-    color: theme.colors.primary,
   },
 });
 
