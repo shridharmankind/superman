@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "assets": ["src/assets/"],
+      "elements": ["src/components/elements/"],
+      "widgets": ["src/components/widgets/"],
+      "navigations": ["src/navigations/"],
+      "generic": ["src/screens/generic"],
+      "sales": ["src/screens/sales/"],
+      "tour-plan": ["src/screens/tour-plan"],
+      "services": ["src/services/"],
+      "themes": ["src/themes/"],
+      "utils": ["src/utils/"],
+      "common": ["src/common/"],
+      "database": ["src/database/"],
+    }
+  }
+}
