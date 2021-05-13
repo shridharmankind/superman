@@ -4,6 +4,8 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   appButtonContainer: {
     borderRadius: theme.roundness,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   appButtonText: {
     fontSize: 14,
@@ -11,9 +13,6 @@ const styles = StyleSheet.create({
   disabledButton: {
     backgroundColor: theme.colors.disabled,
     borderColor: 'transparent',
-  },
-  disabledButtonColor: {
-    color: theme.colors.white,
   },
 });
 

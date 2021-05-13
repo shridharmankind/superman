@@ -41,37 +41,11 @@ export default function Login({navigation}) {
       </View>
 
       <Button
-        mode="contained"
-        title="Forgot Password?"
-        uppercase={false}
-        contentStyle={{height: 44}}
-        labelStyle={{color: 'white', fontSize: 18}}
-        onPress={() => console.log('a')}>
-        {/* <Text style={styles.forgot_button}>Forgot Password?</Text> */}
+        mode="text"
+        title="Forgot Password?">
       </Button>
 
-      <Button
-        mode="contained"
-        title="Forgot Password?"
-        uppercase={false}
-        onPress={() => console.log('a')}
-        disabled={true}>
-        {/* <Text style={styles.forgot_button}>Forgot Password?</Text> */}
-      </Button>
-
-      <Button
-        mode="outlined"
-        title="Forgot Password?"
-        uppercase={false}
-        onPress={() => console.log('a')}>
-        {/* <Text style={styles.forgot_button}>Forgot Password?</Text> */}
-      </Button>
-
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
+      <Button mode="contained" title="Login" uppercase={true} contentStyle={styles.loginBtn}></Button>
     </View>
   );
 }

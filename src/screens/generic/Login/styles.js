@@ -38,13 +38,9 @@ const styles = StyleSheet.create({
   },
 
   loginBtn: {
-    width: '80%',
-    borderRadius: 25,
+    width: '60%',
     height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginTop: 40,
-    backgroundColor: theme.colors.primary,
   },
   logo: {
     height: 80,
