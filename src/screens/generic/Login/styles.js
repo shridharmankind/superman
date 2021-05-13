@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     height: 80,
   },
   loginText: {
-    color: theme.colors.white
+    color: theme.colors.white,
   },
   iconContainer: {
     marginBottom: 16,

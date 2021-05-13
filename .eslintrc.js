@@ -2,6 +2,9 @@ module.exports = {
   root: true,
   extends: '@react-native-community',
   plugins: ['import'],
+  rules: {
+    indent: ['error', 2],
+  },
   settings: {
     'import/resolver': {
       node: {
