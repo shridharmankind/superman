@@ -10,9 +10,10 @@
     "env-static": "node setup-environment.js static",
     "env-dev": "node setup-environment.js development",
     "env-staging": "node setup-environment.js staging",
-    "_android": "react-native run-android",
-    "android-dev": "yarn env-dev && yarn _android",
-    "android-staging": "yarn env-staging && yarn _android"
+    "rn-android": "react-native run-android",
+    "android": "yarn env-dev && yarn rn-android",
+    "android-static": "yarn env-static && yarn rn-android",
+    "android-staging": "yarn env-staging && yarn rn-android"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
