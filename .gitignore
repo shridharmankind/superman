@@ -60,3 +60,6 @@ buck-out/
 
 # Jest coverage
 coverage/
+
+# husky
+.husky

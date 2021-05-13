@@ -10,7 +10,8 @@
     "web-build": "react-app-rewired build",
     "web-test": "react-app-rewired test",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
