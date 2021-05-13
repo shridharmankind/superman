@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import theme from '../../../themes';
 
 const styles = StyleSheet.create({
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: theme.colors.white,
+    fontFamily: theme.fonts.bold
   },
   iconContainer: {
     marginBottom: 16,
