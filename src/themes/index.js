@@ -11,6 +11,7 @@ const theme = {
     black: '#000',
     lightGrayishBlue: '#F5F8F9',
     grayishBlue: '#D5E2E7',
+    veryLightGray: '#E4E4E4',
   },
 };
 
