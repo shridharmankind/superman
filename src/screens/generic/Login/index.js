@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import {Text, View, Image, TextInput, TouchableOpacity} from 'react-native';
+import {useTheme} from 'react-native-paper';
 import styles from './styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Login({navigation}) {
+  const {colors} = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,12 +16,15 @@ export default function Login({navigation}) {
         resizeMode="contain"
         source={require('../../../assets/images/logo.png')}
       />
+      <View style={styles.iconContainer}>
+        <Icon name="rocket" size={30} color="#900" />
+      </View>
 
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           placeholder="Email."
-          placeholderTextColor="#003f5c"
+          placeholderTextColor={colors.black}
           onChangeText={emailText => setEmail(emailText)}
         />
       </View>
@@ -27,7 +33,7 @@ export default function Login({navigation}) {
         <TextInput
           style={styles.TextInput}
           placeholder="Password."
-          placeholderTextColor="#003f5c"
+          placeholderTextColor={colors.black}
           secureTextEntry={true}
           onChangeText={passwordText => setPassword(passwordText)}
         />

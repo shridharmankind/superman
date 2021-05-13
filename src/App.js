@@ -2,9 +2,9 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Login from './screens/generic/Login';
-import {Header} from './components';
-import env from '../env.json'
+
+import {Login} from 'screens/generic';
+import {Header} from 'components/elements';
 
 const Stack = createStackNavigator();
 
@@ -16,7 +16,7 @@ const App = () => {
           name="Login"
           component={Login}
           options={{
-            headerTitle: props => <Header title={env.API_HOST} {...props} />,
+            headerTitle: props => <Header title={'Welcome'} {...props} />,
           }}
         />
       </Stack.Navigator>
