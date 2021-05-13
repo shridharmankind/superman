@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import Button from '../src/components/elements/Button';
+import Button from 'components/elements/Button';
 import {withTheme} from 'utils/testHelpers';
 import {fireEvent} from '@testing-library/react-native';
 
