@@ -10,8 +10,7 @@
     "web-build": "react-app-rewired build",
     "web-test": "react-app-rewired test",
     "test": "jest",
-    "lint": "eslint .",
-    "postinstall": "husky install"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
@@ -42,7 +41,7 @@
     "eslint": "7.14.0",
     "eslint-import-resolver-babel-module": "^5.3.1",
     "eslint-plugin-import": "^2.22.1",
-    "husky": "^6.0.0",
+    "husky": "4",
     "jest": "26.6.0",
     "lint-staged": "^11.0.0",
     "metro-react-native-babel-preset": "^0.64.0",
