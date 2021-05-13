@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from './screens/generic/Login';
 import {Header} from './components';
+import env from '../env.json'
 
 const Stack = createStackNavigator();
 
@@ -15,7 +16,7 @@ const App = () => {
           name="Login"
           component={Login}
           options={{
-            headerTitle: props => <Header title="Welcome!" {...props} />,
+            headerTitle: props => <Header title={env.API_HOST} {...props} />,
           }}
         />
       </Stack.Navigator>

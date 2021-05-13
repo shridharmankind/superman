@@ -3,11 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "env:dev": "node setup-environment.js development",
+    "env:staging": "node setup-environment.js staging",
+    "android": "yarn evn:dev && react-native run-android",
+    "android:dev": "yarn env:dev && yarn android",
+    "android:staging": "yarn env:staging && yarn android"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
