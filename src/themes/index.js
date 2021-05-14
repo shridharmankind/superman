@@ -11,6 +11,8 @@ const theme = {
     black: '#000',
     lightGrayishBlue: '#F5F8F9',
     grayishBlue: '#D5E2E7',
+    orange: '#FFA088',
+    borderColor: '#979797'    
   },
 };
 
