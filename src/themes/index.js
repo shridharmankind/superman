@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'react-native-paper';
+import {DefaultTheme} from 'react-native-paper';
 
 const theme = {
   ...DefaultTheme,
@@ -13,13 +13,12 @@ const theme = {
     grayishBlue: '#D5E2E7',
   },
   fonts: {
-    regular: 'Poppins-Regular',
-    bold: 'Poppins-Bold',
-    light: "Poppins-Light",
-    semiBold: "Poppins-SemiBold",
-    italic: "Poppins-Italic"
-
-  }
+    fontRegular: 'Poppins-Regular',
+    fontBold: 'Poppins-Bold',
+    fontLight: 'Poppins-Light',
+    fontSemiBold: 'Poppins-SemiBold',
+    fontItalic: 'Poppins-Italic',
+  },
 };
 
 export default theme;
