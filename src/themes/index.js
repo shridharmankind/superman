@@ -13,7 +13,7 @@ const theme = {
     veryPaleRed: '#FFC0CB',
     white: '#fff',
     orange: '#FFA088',
-    borderColor: '#979797'
+    borderColor: '#979797', 
   },
   roundness: 10,
 };

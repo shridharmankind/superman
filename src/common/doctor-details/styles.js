@@ -41,6 +41,11 @@ const styles = StyleSheet.create({
           position: 'absolute',
           right: 10,
           top: 10
+      },
+      location: {
+          borderLeftColor: '#1C1939',
+          borderLeftWidth: 1,
+          paddingHorizontal: 10
       }
 });
 
