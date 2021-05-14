@@ -1,0 +1,5 @@
+{
+    "ENVIRONMENT": "STAGING",
+    "API_HOST":"http://staging.com",
+    "MOCK_REQUESTS":"NO"
+}

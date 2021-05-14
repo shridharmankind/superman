@@ -1,0 +1,5 @@
+{
+    "ENVIRONMENT": "DEVELOPMENT",
+    "API_HOST":"http://development.com",
+    "MOCK_REQUESTS":"NO"
+}
