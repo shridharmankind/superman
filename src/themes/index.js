@@ -4,16 +4,18 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#322b7c',
     accent: '#ff7171',
+    black: '#000',
+    disabled: '#E4E4E4',
+    grayishBlue: '#D5E2E7',
+    lightGrayishBlue: '#F5F8F9',
+    primary: '#322b7c',
     veryPaleRed: '#FFC0CB',
     white: '#fff',
-    black: '#000',
-    lightGrayishBlue: '#F5F8F9',
-    grayishBlue: '#D5E2E7',
     orange: '#FFA088',
-    borderColor: '#979797'    
+    borderColor: '#979797'
   },
+  roundness: 10,
 };
 
 export default theme;
