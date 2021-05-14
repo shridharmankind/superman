@@ -16,7 +16,7 @@ const App = () => {
           name="Login"
           component={Login}
           options={{
-            headerTitle: props => <Header title={'Welcome'} {...props} />,
+            headerTitle: props => <Header title="Welcome!" {...props} />,
           }}
         />
       </Stack.Navigator>
