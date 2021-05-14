@@ -24,7 +24,6 @@ const Heading = ({title, testID, style, size = 18, type, ...props}) => {
 };
 
 const getFontFamily = type => {
-  console.log('--', type);
   switch (type) {
     case 'bold':
       return theme.fonts.fontBold;
