@@ -1,6 +1,5 @@
 import * as React from 'react';
-import {Text} from 'react-native';
-import {useTheme} from 'react-native-paper';
+import {useTheme, Text} from 'react-native-paper';
 
 /**
  * Custom text component using Text from react-native-paper.
