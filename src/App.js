@@ -12,19 +12,17 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerTitle: props => <Header title="Welcome!" {...props} />,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerTitle: props => <Header title={'Welcome'} {...props} />,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
