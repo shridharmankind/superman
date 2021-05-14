@@ -13,6 +13,13 @@ const theme = {
     veryPaleRed: '#FFC0CB',
     white: '#fff',
   },
+  fonts: {
+    fontRegular: 'Poppins-Regular',
+    fontBold: 'Poppins-Bold',
+    fontLight: 'Poppins-Light',
+    fontSemiBold: 'Poppins-SemiBold',
+    fontItalic: 'Poppins-Italic',
+  },
   roundness: 10,
 };
 
