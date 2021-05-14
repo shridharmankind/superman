@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {useTheme, Text} from 'react-native-paper';
+import {Text} from 'react-native-paper';
+import theme from 'themes';
 
 /**
  * Custom text component using Text from react-native-paper.
@@ -16,12 +17,16 @@ const CustomText = ({
   style,
   size = 18,
   type = 'regular',
+  disabled,
   ...props
 }) => {
-  const {fonts} = useTheme();
   return (
     <Text
-      style={[{fontFamily: fonts[type], fontSize: size}, {...style}]}
+      testID={testID}
+      style={[
+        {fontFamily: theme.fonts[type].fontFamily, fontSize: size},
+        {...style},
+      ]}
       {...props}>
       {title}
     </Text>

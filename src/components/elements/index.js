@@ -1,2 +1,2 @@
 export {default as Header} from './Header';
-export {default as CustomText} from './Text';
+export {default as Text} from './Text';
