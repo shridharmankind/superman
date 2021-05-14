@@ -42,12 +42,7 @@ const AppButton = ({
         styles.appButtonContainer,
       ]}
       {...rest}>
-      <Text
-        style={[
-          disabled && fontStyle,
-          labelStyle,
-          styles.appButtonText,
-        ]}>
+      <Text style={[disabled && fontStyle, labelStyle, styles.appButtonText]}>
         {title}
       </Text>
     </Button>
