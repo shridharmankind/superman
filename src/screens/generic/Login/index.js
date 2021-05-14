@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Image, TextInput} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { fetchAllUsers } from '../../../api'
 import {Button} from 'components/elements';
+import {NetworkService} from 'services';
+import {Constants, Strings} from 'common';
 
 export default function Login({navigation}) {
   const {colors} = useTheme();
@@ -14,6 +16,36 @@ export default function Login({navigation}) {
   const getUserList = () => {
     fetchAllUsers().then(res => console.log(res.data))
   }
+  //Post Request Example
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await NetworkService.post('/api/Chemists', {
+        id: 116,
+        name: 'Name1',
+        operatingYears: 0,
+        location: 'location1',
+      });
+      if (result.status === Constants.HTTP_OK) {
+        console.log('success');
+      } else {
+        console.log('error', result.statusText);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Get Request Example
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await NetworkService.get('/api/Chemists');
+      if (result.status === Constants.HTTP_OK) {
+        console.log('success');
+      } else {
+        console.log('error', result.statusText);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -45,7 +77,7 @@ export default function Login({navigation}) {
         />
       </View>
 
-      <Button mode="text" title="Forgot Password?" />
+      <Button mode="text" title={Strings.forgotpwd} />
 
       <Button
         mode="contained"
