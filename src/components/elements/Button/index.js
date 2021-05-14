@@ -4,7 +4,7 @@ import {Button, useTheme} from 'react-native-paper';
 import theme from 'themes';
 import styles from './styles';
 
-const AppButton = ({
+const CustomButton = ({
   color = theme.colors.primary,
   contentStyle,
   disabled,
@@ -49,4 +49,4 @@ const AppButton = ({
   );
 };
 
-export default AppButton;
+export default CustomButton;
