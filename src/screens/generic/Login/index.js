@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Text, View, Image, TextInput, TouchableOpacity} from 'react-native';
+import {View, Image, TextInput} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Button} from 'components/elements';
 
 export default function Login({navigation}) {
   const {colors} = useTheme();
@@ -39,15 +40,14 @@ export default function Login({navigation}) {
         />
       </View>
 
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <Button mode="text" title="Forgot Password?" />
 
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
+      <Button
+        mode="contained"
+        title="Login"
+        uppercase={true}
+        contentStyle={styles.loginBtn}
+      />
     </View>
   );
 }
