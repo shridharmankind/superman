@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import theme from '../../../themes';
+import theme from 'themes';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,13 +38,8 @@ const styles = StyleSheet.create({
   },
 
   loginBtn: {
-    width: '80%',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '60%',
     marginTop: 40,
-    backgroundColor: theme.colors.primary,
   },
   logo: {
     height: 80,
