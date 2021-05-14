@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: theme.colors.white,
+    fontFamily: theme.fonts.fontBold,
   },
   iconContainer: {
     marginBottom: 16,
