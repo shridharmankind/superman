@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 
   loginBtn: {
     width: '60%',
-    height: 50,
     marginTop: 40,
   },
   logo: {

@@ -4,6 +4,20 @@ import {Button, useTheme} from 'react-native-paper';
 import theme from 'themes';
 import styles from './styles';
 
+/**
+ * Custom button component using Button from react-native-paper.
+ * This serves the purpose to make the use of button consistent throughtout the app
+ * @param {String} color  color of button
+ * @param {Object} contentStyle custom style to be passed from consuming component for the button
+ * @param {Boolean} disabled disable the button
+ * @param {Object} labelStyle custom style for title text
+ * @param {String} mode can be 'text', 'outline' or 'contained'
+ * @param {Function} onPress click event
+ * @param {String} testID date test id
+ * @param {String} title button title
+ * @param {Boolean} uppercase boolean flag to show title in uppercase or camelcase
+ */
+
 const CustomButton = ({
   color = theme.colors.primary,
   contentStyle,
@@ -35,11 +49,11 @@ const CustomButton = ({
       testID={testID}
       uppercase={uppercase}
       style={[
-        borderStyle,
-        contentStyle,
-        disabled && styles.disabledButton,
-        fontStyle,
         styles.appButtonContainer,
+        borderStyle,
+        fontStyle,
+        disabled && styles.disabledButton,
+        contentStyle,
       ]}
       {...rest}>
       <Text style={[disabled && fontStyle, labelStyle, styles.appButtonText]}>
