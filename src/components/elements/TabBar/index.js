@@ -5,7 +5,6 @@ import styles from './styles';
 import {Button} from 'components/elements';
 
 const TabBar = ({state, descriptors, navigation, position}) => {
-  console.log(state, descriptors, navigation, position);
   return (
     <View style={{flexDirection: 'row', paddingTop: 20}}>
       {state.routes.map((route, index) => {

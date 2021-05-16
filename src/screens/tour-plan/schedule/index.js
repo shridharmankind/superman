@@ -4,6 +4,7 @@ import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Button, TabBar} from 'components/elements';
+import {MonthlyTourPlan} from 'screens/tour-plan';
 
 const HomeScreen = () => {
   return (
@@ -41,7 +42,7 @@ const Schedule = () => {
     return (
       <SafeAreaView style={{flex: 1}}>
         <Tab.Navigator tabBar={props => <TabBar {...props} />}>
-          <Tab.Screen name="Daily Plan" component={HomeScreen} />
+          <Tab.Screen name="Daily Plan" component={MonthlyTourPlan} />
           <Tab.Screen name="Tour Plan" component={SettingsScreen} />
         </Tab.Navigator>
       </SafeAreaView>
