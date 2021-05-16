@@ -9,7 +9,7 @@ Server errors (500–599)
 
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import env from '../env.json';
+import env from '../../../env.json';
 
 /*
 Function to handle HTTP GET request
