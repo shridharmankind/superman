@@ -4,9 +4,11 @@ const {
   addBabelPlugins,
   addBabelPlugin,
   babelInclude,
+  removeModuleScopePlugin,
 } = require('customize-cra');
 
 module.exports = override(
+  removeModuleScopePlugin(),
   ...addBabelPlugins('@babel/plugin-proposal-class-properties'),
   addBabelPlugin([
     'module-resolver',
