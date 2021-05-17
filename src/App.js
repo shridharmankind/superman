@@ -12,9 +12,9 @@ import { useEffect } from 'react';
 const Stack = createStackNavigator();
 
 const App = () => {
-  useEffect(()=>{
-    SplashScreen.hide()
-  },[])
+  // useEffect(()=>{
+  //   SplashScreen.hide()
+  // },[])
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
