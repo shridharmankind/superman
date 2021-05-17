@@ -39,7 +39,7 @@ const MonthlyTourPlan = () => {
   const tourPlanDropDown = () => {
     return (
       <TouchableWithoutFeedback onPress={showDialog}>
-        <View style={styles.selectedTour} onPre>
+        <View style={styles.selectedTour}>
           <Text style={styles.selectedTourText}>{selectedTourPlan}</Text>
           <View style={styles.iconContainer}>
             <Icon name="caret-down" size={30} color={colors.black} />
@@ -52,24 +52,41 @@ const MonthlyTourPlan = () => {
   const getModalTitle = () => {
       return (
         <View>
-            <Text style={styles.modalTitleText}>View Tour Plan for</Text>
+          <Text style={[styles.modalText, styles.modalTitleText]}>
+            View Tour Plan for
+          </Text>
         </View>
       );
   }
 
+  const selectedTourPlanHandler = planOption => {
+    console.log('planoption', planOption);
+    setSelectedTourPlan(planOption.text);
+    hideDialog();
+  };
+
   const getModalContent = () => {
     return (
-        <View>
-            {planOptions.map((option, index) => {
-                <Text key={index} style={styles.modalTitleText}>{option}</Text>
-            })}
-        </View>
+      <View style={styles.contentView}>
+        {planOptions.map((option, index) => (
+          <TouchableWithoutFeedback
+            key={index}
+            onPress={() => selectedTourPlanHandler(option)}>
+            <Text style={styles.modalText}>{option.text}</Text>
+          </TouchableWithoutFeedback>
+        ))}
+      </View>
     );
   };
 
   const openTourPlanDropDown = () => {
     return (
-        <Modal open={visible} onClose={hideDialog} modalTitle={getModalTitle()} modalContent={getModalContent()} primaryAction={{actionTitle: 'Close', mode:'outlined', onPress:{hideDialog}}}></Modal>
+      <Modal
+        open={visible}
+        onClose={hideDialog}
+        closeAction={true}
+        modalTitle={getModalTitle()}
+        modalContent={getModalContent()}></Modal>
     );
   };
 

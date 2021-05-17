@@ -9,11 +9,10 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    margin: 50,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -22,6 +21,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: 500,
+    height: 500,
+  },
+  titleView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  title: {
+    width: '80%',
+  },
+  close: {
+    alignItems: 'flex-end',
+    width: '20%',
+  },
+  closeIcon: {
+    fontFamily: theme.fonts.fontRegular,
   },
 });
 

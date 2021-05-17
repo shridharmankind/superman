@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
+    width: 250,
+    minWidth: 250,
   },
   iconContainer: {
     marginLeft: 80,
@@ -16,11 +18,22 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
     fontSize: 16,
   },
-  modalTitleText: {
+  modalText: {
     fontSize: 16,
+    fontFamily: theme.fonts.fontRegular,
+    paddingVertical: 10,
     color: theme.colors.primary,
+
+  },
+  modalTitleText: {
+    color: theme.colors.black,
     fontFamily: theme.fonts.fontBold,
   },
+  contentView: {
+    // alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+
 });
 
 export default styles;

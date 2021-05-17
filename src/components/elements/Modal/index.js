@@ -1,5 +1,15 @@
 import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import {useTheme} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Button} from 'components/elements';
 import theme from 'themes';
 import styles from './styles';
@@ -26,12 +36,11 @@ const CustomButton = ({
   modalContent,
   primaryAction,
   primaryActionProps,
-  ...rest
+  closeAction,
 }) => {
   const {colors} = useTheme();
-
   const primaryActionHandler = () => {
-    primaryActionProps.onPress();
+    primaryAction();
     onClose();
   };
 
@@ -44,13 +53,19 @@ const CustomButton = ({
         onRequestClose={onClose}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {modalTitle}
+            <View style={styles.titleView}>
+              <View style={styles.title}>{modalTitle}</View>
+              {closeAction && (
+                <TouchableWithoutFeedback style={styles.close} onPress={onClose}>
+                    <Icon name="close" size={30} color={colors.black} style={styles.closeIcon} />
+                </TouchableWithoutFeedback>
+              )}
+            </View>
             {modalContent}
-            {...rest}
             {primaryAction && (
               <Button
-                title={primaryAction.actionTitle}
-                mode={primaryAction.mode}
+                title={primaryActionProps.actionTitle}
+                mode={primaryActionProps.mode}
                 onPress={primaryActionHandler}
               />
             )}
