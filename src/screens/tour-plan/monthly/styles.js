@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
   selectedTour: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -23,17 +27,14 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.fontRegular,
     paddingVertical: 10,
     color: theme.colors.primary,
-
   },
   modalTitleText: {
     color: theme.colors.black,
     fontFamily: theme.fonts.fontBold,
   },
   contentView: {
-    // alignItems: 'center',
     justifyContent: 'flex-start',
   },
-
 });
 
 export default styles;

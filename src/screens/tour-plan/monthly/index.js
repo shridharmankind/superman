@@ -2,14 +2,11 @@ import React, {useState} from 'react';
 import {View, Text, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Button, TabBar, Modal} from 'components/elements';
+import {Modal} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Paragraph, Dialog, Portal} from 'react-native-paper';
-import theme from 'themes';
 
 const MonthlyTourPlan = () => {
-  const {colors, fonts} = useTheme();
+  const {colors} = useTheme();
 
   const planOptions = [
     {
@@ -50,17 +47,16 @@ const MonthlyTourPlan = () => {
   };
 
   const getModalTitle = () => {
-      return (
-        <View>
-          <Text style={[styles.modalText, styles.modalTitleText]}>
-            View Tour Plan for
-          </Text>
-        </View>
-      );
-  }
+    return (
+      <View>
+        <Text style={[styles.modalText, styles.modalTitleText]}>
+          View Tour Plan for
+        </Text>
+      </View>
+    );
+  };
 
   const selectedTourPlanHandler = planOption => {
-    console.log('planoption', planOption);
     setSelectedTourPlan(planOption.text);
     hideDialog();
   };
@@ -86,16 +82,13 @@ const MonthlyTourPlan = () => {
         onClose={hideDialog}
         closeAction={true}
         modalTitle={getModalTitle()}
-        modalContent={getModalContent()}></Modal>
+        modalContent={getModalContent()}
+      />
     );
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-      }}>
+    <View style={styles.container}>
       {tourPlanDropDown()}
       {openTourPlanDropDown()}
     </View>
