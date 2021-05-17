@@ -9,7 +9,7 @@ Server errors (500–599)
 
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-const baseURL = 'https://supermanapi.azurewebsites.net';
+import env from '../../../env.json';
 
 /*
 Function to handle HTTP GET request
@@ -18,7 +18,7 @@ Function to handle HTTP GET request
 export const get = async (url, params = {}) => {
   const authCode = await AsyncStorage.getItem('Auth');
   const config = {
-    baseURL: baseURL,
+    baseURL: env.API_HOST,
     method: 'GET',
     url,
     headers: {Authorization: authCode},
@@ -44,7 +44,7 @@ Function to handle HTTP POST request
 export const post = async (url, data = {}, params = {}) => {
   const authCode = await AsyncStorage.getItem('Auth');
   const config = {
-    baseURL,
+    baseURL: env.API_HOST,
     method: 'POST',
     url,
     headers: {

@@ -15,6 +15,13 @@ const theme = {
     orange: '#FFA088',
     borderColor: '#979797', 
   },
+  fonts: {
+    fontRegular: 'Poppins-Regular',
+    fontBold: 'Poppins-Bold',
+    fontLight: 'Poppins-Light',
+    fontSemiBold: 'Poppins-SemiBold',
+    fontItalic: 'Poppins-Italic',
+  },
   roundness: 10,
 };
 

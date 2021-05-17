@@ -1,3 +1,5 @@
 {
-    "API_HOST":"http://localhost.com"
+    "ENVIRONMENT": "DEVELOPMENT",
+    "API_HOST":"http://development.com",
+    "MOCK_REQUESTS":"NO"
 }
