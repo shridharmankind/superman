@@ -1,4 +1,7 @@
 import {StyleSheet} from 'react-native';
+import theme from 'themes';
+
+const border_color = theme.colors.grey[100];
 
 const styles = StyleSheet.create({
   flexFullSpace: {
@@ -6,17 +9,18 @@ const styles = StyleSheet.create({
   },
   weekViewContainer: {
     flex: 1,
-    padding: '2%',
+    padding: 2,
   },
   headerContainer: {
     justifyContent: 'center',
     flexDirection: 'row',
-    padding: '1%',
+    padding: 1,
   },
 
   rowConatiner: {
     flex: 1,
     borderRightWidth: 1,
+    borderColor: border_color,
   },
   row: {
     flex: 1,
@@ -28,6 +32,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderTopWidth: 1,
     flex: 1,
+    borderColor: border_color,
   },
   cellHeader: {
     flexDirection: 'row',
@@ -39,12 +44,13 @@ const styles = StyleSheet.create({
   },
   lastCell: {
     borderBottomWidth: 1,
+    borderColor: border_color,
   },
   textCenterAlign: {
     textAlign: 'center',
   },
   VerticalHeader: {
-    flex: 0.2,
+    flex: 0.3,
   },
 
   flexCenterView: {

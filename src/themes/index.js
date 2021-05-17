@@ -12,6 +12,9 @@ const theme = {
     primary: '#322b7c',
     veryPaleRed: '#FFC0CB',
     white: '#fff',
+    grey: {
+      100: '#BEBEBF',
+    },
   },
   fonts: {
     fontRegular: 'Poppins-Regular',
