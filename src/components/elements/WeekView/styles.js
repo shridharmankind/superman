@@ -7,17 +7,16 @@ const styles = StyleSheet.create({
   flexFullSpace: {
     flex: 1,
   },
-  weekViewContainer: {
+  container: {
     flex: 1,
     padding: 2,
   },
   headerContainer: {
     justifyContent: 'center',
     flexDirection: 'row',
-    padding: 1,
+    paddingVertical: 2,
   },
-
-  rowConatiner: {
+  rowContainer: {
     flex: 1,
     borderRightWidth: 1,
     borderColor: border_color,
@@ -52,6 +51,7 @@ const styles = StyleSheet.create({
   },
   VerticalHeader: {
     flex: 0.3,
+    paddingHorizontal: 2,
   },
   flexCenterView: {
     justifyContent: 'center',

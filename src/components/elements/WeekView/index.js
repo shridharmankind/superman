@@ -130,7 +130,6 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
           title={value}
           style={[
             styles.textCenterAlign,
-
             index === 0 ? styles.VerticalHeader : styles.flexFullSpace,
           ]}
         />
@@ -138,11 +137,11 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
     });
 
   return (
-    <View style={styles.weekViewContainer}>
+    <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Header label={headerData} />
       </View>
-      <View style={[styles.rowConatiner]}>
+      <View style={[styles.rowContainer]}>
         <Rows rows={workingDays} />
       </View>
     </View>
