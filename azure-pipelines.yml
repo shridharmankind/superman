@@ -17,7 +17,8 @@ steps:
 
 - script: |
     npm install
-    npm env-dev && npm web-build
+    npm run env-dev 
+    npm run web-build
   displayName: 'npm env-dev && npm web-build'
 - task: PublishBuildArtifacts@1
   inputs:
