@@ -9,7 +9,7 @@ const client = axios.create({
   baseURL,
 });
 
-if (env.ENVIRONMENT === "STATIC" && env.MOCK_REQUESTS === 'ALL') {
+if (env.ENVIRONMENT === "STATIC") {
   useMock(client);
 }
 

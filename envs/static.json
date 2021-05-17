@@ -1,5 +1,4 @@
 {
     "ENVIRONMENT": "STATIC",
-    "API_HOST":"",
-    "MOCK_REQUESTS":"ALL"
+    "API_HOST":""
 }
