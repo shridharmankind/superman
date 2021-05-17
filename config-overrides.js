@@ -4,9 +4,11 @@ const {
   addBabelPlugins,
   addBabelPlugin,
   babelInclude,
+  removeModuleScopePlugin,
 } = require('customize-cra');
 
 module.exports = override(
+  removeModuleScopePlugin(),
   ...addBabelPlugins('@babel/plugin-proposal-class-properties'),
   addBabelPlugin([
     'module-resolver',
@@ -32,5 +34,6 @@ module.exports = override(
     path.resolve(__dirname, 'node_modules/react-native-vector-icons'),
     path.resolve(__dirname, 'node_modules/react-native-ratings'),
     path.resolve(__dirname, 'src'),
+    path.resolve(__dirname, 'node_modules/react-native-reanimated'),
   ]),
 );

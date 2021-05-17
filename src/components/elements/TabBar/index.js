@@ -1,12 +1,21 @@
+/* eslint-disable indent */
+/** TODO : remove eslint disable */
 import * as React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
-import Animated from 'react-native-reanimated';
+import PropTypes from 'prop-types';
 import styles from './styles';
-import {Button} from 'components/elements';
 
-const TabBar = ({state, descriptors, navigation, position}) => {
+/**
+ * Custom tab bar component using react navigation.
+ * This serves the purpose show top tab bars
+ * @param {Object} state  state object
+ * @param {Object} descriptors state descriptors like tab bar label
+ * @param {Object} navigation object containging navigation functions like navigate, emit
+ */
+
+const TabBar = ({state, descriptors, navigation}) => {
   return (
-    <View style={{flexDirection: 'row', paddingTop: 20}}>
+    <View style={styles.tabBarContainer}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label =
@@ -15,7 +24,6 @@ const TabBar = ({state, descriptors, navigation, position}) => {
             : options.title !== undefined
             ? options.title
             : route.name;
-
         const isFocused = state.index === index;
 
         const onPress = () => {
@@ -36,20 +44,13 @@ const TabBar = ({state, descriptors, navigation, position}) => {
           });
         };
         // modify inputRange for custom behavior
-        const inputRange = state.routes.map((_, i) => i);
+        // const inputRange = state.routes.map((_, i) => i);
         // const opacity = Animated.interpolate(position, {
         //   inputRange,
         //   outputRange: inputRange.map(i => (i === index ? 1 : 0)),
         // });
-
         return (
           <View style={styles.tabWrapper} key={index}>
-            {/* <Button
-              title={label}
-              mode="text"
-              contentStyle={[styles.tab]}
-              labelStyle={[styles.tabText]}
-            /> */}
             <TouchableOpacity
               accessibilityRole="button"
               accessibilityState={isFocused ? {selected: true} : {}}
@@ -70,6 +71,12 @@ const TabBar = ({state, descriptors, navigation, position}) => {
       })}
     </View>
   );
+};
+
+TabBar.propTypes = {
+  state: PropTypes.object,
+  descriptors: PropTypes.object,
+  navigation: PropTypes.object,
 };
 
 export default TabBar;

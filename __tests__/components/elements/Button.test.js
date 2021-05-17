@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import Button from 'components/elements/Button';
+import {Button} from 'components/elements';
 import {withTheme} from 'utils/testHelpers';
 import {fireEvent} from '@testing-library/react-native';
 
@@ -11,6 +11,15 @@ function renderComponent(props) {
 it('renders outlined button', () => {
   const {getByText} = renderComponent({
     mode: 'outlined',
+    title: 'Test',
+  });
+
+  expect(getByText('Test')).toBeTruthy();
+});
+
+it('renders contained button', () => {
+  const {getByText} = renderComponent({
+    mode: 'contained',
     title: 'Test',
   });
 
