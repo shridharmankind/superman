@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import {Text} from 'react-native';
 import theme from 'themes';
+import styles from './styles';
 
 /**
  * Label component using Text from react-native.
@@ -12,11 +13,23 @@ import theme from 'themes';
  * @param {String} testID date test id
  * @param {Object} style custom style of text
  */
-const Label = ({title, testID, style, size = 18, type, ...props}) => {
+const Label = ({
+  title,
+  testID,
+  style,
+  size = 18,
+  isUpperCase = false,
+  type,
+  ...props
+}) => {
   return (
     <Text
       testID={testID}
-      style={[{fontFamily: getFontFamily(type), fontSize: size},{}, style]}
+      style={[
+        {fontFamily: getFontFamily(type), fontSize: size},
+        isUpperCase && styles.upperCase,
+        style,
+      ]}
       {...props}>
       {title}
     </Text>
@@ -25,14 +38,14 @@ const Label = ({title, testID, style, size = 18, type, ...props}) => {
 
 const getFontFamily = type => {
   switch (type) {
-  case 'bold':
-    return theme.fonts.fontBold;
-  case 'regular':
-    return theme.fonts.fontRegular;
-  case 'semiBold':
-    return theme.fonts.fontSemiBold;
-  default:
-    return theme.fonts.fontRegular;
+    case 'bold':
+      return theme.fonts.fontBold;
+    case 'regular':
+      return theme.fonts.fontRegular;
+    case 'semiBold':
+      return theme.fonts.fontSemiBold;
+    default:
+      return theme.fonts.fontRegular;
   }
 };
 Label.propTypes = {
