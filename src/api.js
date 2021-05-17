@@ -2,14 +2,13 @@ import axios from "axios";
 import useMock from "./data/mock"; 
 import env from '../env.json'
 
-const mockRequests = true;
 const baseURL = env.API_HOST;
 
 const client = axios.create({
   baseURL,
 });
 
-if (env.ENVIRONMENT === "STATIC") {
+if (env.ENVIRONMENT === "STATIC" && env.MOCK_REQUESTS === 'ALL') {
   useMock(client);
 }
 
