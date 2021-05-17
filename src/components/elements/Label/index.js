@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import {Text} from 'react-native';
 import theme from 'themes';
+import styles from './styles';
 
 /**
  * Label component using Text from react-native.
@@ -26,7 +27,7 @@ const Label = ({
       testID={testID}
       style={[
         {fontFamily: getFontFamily(type), fontSize: size},
-        isUpperCase && {textTransform: 'uppercase'},
+        isUpperCase && styles.upperCase,
         style,
       ]}
       {...props}>
