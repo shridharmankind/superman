@@ -6,62 +6,32 @@
     >
 
 <LinearLayout
-
-        android:layout_width="match_parent"
-
-        android:orientation="vertical"
-
-        android:layout_gravity="center"
-
-        android:gravity="center"
-        android:layout_marginTop="50.0dp"
-        android:layout_marginBottom="10.0dp"
-
-        android:layout_height="match_parent">
-
-
- 
-
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginTop="50.0dp"
+    android:layout_marginBottom="10.0dp"
+    android:layout_height="match_parent">
     <ImageView
-
-        android:layout_width="700dip"
-        android:layout_height="400dip"
-
-        android:src="@drawable/launch_screen"
-
-        android:layout_gravity="center"
-
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:background="@color/white"
-        
-        />
-
-
- 
-
+    android:layout_width="700dip"
+    android:layout_height="400dip"
+    android:src="@drawable/launch_screen"
+    android:layout_gravity="center"
+    android:scaleType="centerCrop"
+    android:adjustViewBounds="true"
+    android:background="@color/white"
+    />
     <TextView
-
         android:id="@+id/txtAppVersion"
-
         android:text="Become a SuperHero"
-
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
-
         android:textColor="#fff"
-
         android:textSize="30sp"
-
         android:layout_gravity="center"
         android:layout_marginTop="50.0dp"
         android:layout_marginBottom="10.0dp"
-        />
-
-
- 
-
+   />
     </LinearLayout>
-    
 </RelativeLayout>
