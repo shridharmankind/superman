@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {useTheme, Chip } from 'react-native-paper';
 import styles from './styles';
 
@@ -29,11 +28,9 @@ export default function ChipContent({
     ...props
 }) {
 
-    const {colors} = useTheme();
-
     return(
         <Chip 
-            testID={testID && testID}
+            testID={testID}
             style={[styles.chipContainer,props.style,{
                 backgroundColor:selected && selectedColor ? selectedColor : bgColor
             }]} 

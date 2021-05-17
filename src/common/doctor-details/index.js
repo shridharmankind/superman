@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import {Text, View, Image, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import {useTheme, Card, Title, Subheading  } from 'react-native-paper';
-import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Chip } from '../index'
-import theme from '../../themes'
-
+import styles from './styles';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -21,7 +17,6 @@ import theme from '../../themes'
  */
 
 const DoctorDetails = ({title, specialization, image, category, selected, location}) => {
-    const {colors} = useTheme();
 
     return(        
         
