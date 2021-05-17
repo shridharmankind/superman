@@ -92,7 +92,8 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
   const VerticalHeader = ({label}) => (
     <View style={[styles.VerticalHeader, styles.flexCenterView]}>
       <Label
-        style={[styles.upperCaseText, styles.textCenterAlign]}
+        isUpperCase={true}
+        style={[styles.textCenterAlign]}
         title={label.substring(0, Constants.maxDaysLength)}
       />
     </View>
@@ -123,10 +124,11 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
       return (
         <Label
           key={index}
+          isUpperCase={true}
           title={value}
           style={[
             styles.textCenterAlign,
-            styles.upperCaseText,
+
             index === 0 ? styles.VerticalHeader : styles.flexFullSpace,
           ]}
         />

@@ -12,11 +12,23 @@ import theme from 'themes';
  * @param {String} testID date test id
  * @param {Object} style custom style of text
  */
-const Label = ({title, testID, style, size = 18, type, ...props}) => {
+const Label = ({
+  title,
+  testID,
+  style,
+  size = 18,
+  isUpperCase = false,
+  type,
+  ...props
+}) => {
   return (
     <Text
       testID={testID}
-      style={[{fontFamily: getFontFamily(type), fontSize: size}, style]}
+      style={[
+        {fontFamily: getFontFamily(type), fontSize: size},
+        isUpperCase && {textTransform: 'uppercase'},
+        style,
+      ]}
       {...props}>
       {title}
     </Text>
