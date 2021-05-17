@@ -1,6 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {Label} from 'components/elements';
+import {Constants} from 'common';
 import styles from './styles';
 
 /** Render Week View
@@ -10,7 +12,6 @@ import styles from './styles';
  */
 const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
   const headerData = ['', ...columnHeader];
-  const maxDaysLength = 3;
 
   /**
    * Returns whether the value is last element or not
@@ -36,11 +37,11 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
   const renderCellData = cellData => (
     <>
       <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
-        <Text>{''}</Text>
+        <Label title="" />
       </View>
 
       <View style={[styles.cellFooter, styles.flexSpaceBetweenView]}>
-        <Text>{''}</Text>
+        <Label title="" />
       </View>
     </>
   );
@@ -90,9 +91,10 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
    */
   const VerticalHeader = ({label}) => (
     <View style={[styles.VerticalHeader, styles.flexCenterView]}>
-      <Text style={styles.upperCaseText}>
-        {label.substring(0, maxDaysLength)}
-      </Text>
+      <Label
+        style={[styles.upperCaseText, styles.textCenterAlign]}
+        title={label.substring(0, Constants.maxDaysLength)}
+      />
     </View>
   );
 
@@ -119,15 +121,15 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
   const Header = ({label}) =>
     label.map((value, index) => {
       return (
-        <Text
+        <Label
           key={index}
+          title={value}
           style={[
             styles.textCenterAlign,
             styles.upperCaseText,
             index === 0 ? styles.VerticalHeader : styles.flexFullSpace,
-          ]}>
-          {value}
-        </Text>
+          ]}
+        />
       );
     });
 

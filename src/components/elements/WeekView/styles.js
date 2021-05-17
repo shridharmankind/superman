@@ -50,11 +50,9 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   flexCenterView: {
-    display: 'flex',
     justifyContent: 'center',
   },
   flexSpaceBetweenView: {
-    display: 'flex',
     justifyContent: 'space-between',
   },
 });

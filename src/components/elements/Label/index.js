@@ -16,7 +16,7 @@ const Label = ({title, testID, style, size = 18, type, ...props}) => {
   return (
     <Text
       testID={testID}
-      style={[{fontFamily: getFontFamily(type), fontSize: size}, {...style}]}
+      style={[{fontFamily: getFontFamily(type), fontSize: size}, style]}
       {...props}>
       {title}
     </Text>
