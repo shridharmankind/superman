@@ -46,9 +46,7 @@ const styles = StyleSheet.create({
   VerticalHeader: {
     flex: 0.2,
   },
-  upperCaseText: {
-    textTransform: 'uppercase',
-  },
+
   flexCenterView: {
     justifyContent: 'center',
   },
