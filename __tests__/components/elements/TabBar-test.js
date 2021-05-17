@@ -4,8 +4,6 @@ import {TabBar} from 'components/elements';
 import {withTheme} from 'utils/testHelpers';
 import {fireEvent} from '@testing-library/react-native';
 
-// const Tab = createMaterialTopTabNavigator();
-
 function renderComponent(props) {
   return withTheme(<TabBar {...props} />);
 }
