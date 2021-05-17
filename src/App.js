@@ -4,7 +4,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 
-import {Login} from 'screens/generic';
+import {Schedule} from 'screens/tourPlan';
+// import {Settings} from 'screens/generic';
+
 import {Header} from 'components/elements';
 import theme from 'themes';
 
@@ -16,8 +18,8 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="Login"
-            component={Login}
+            name="Schedule"
+            component={Schedule}
             options={{
               headerTitle: props => <Header title="Welcome!" {...props} />,
             }}

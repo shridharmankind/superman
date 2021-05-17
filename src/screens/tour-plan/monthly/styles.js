@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
     fontSize: 16,
   },
+  modalTitleText: {
+    fontSize: 16,
+    color: theme.colors.primary,
+    fontFamily: theme.fonts.fontBold,
+  },
 });
 
 export default styles;

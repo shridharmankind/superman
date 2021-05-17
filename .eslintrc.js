@@ -4,6 +4,7 @@ module.exports = {
   plugins: ['import'],
   rules: {
     indent: ['error', 2],
+    'prettier/prettier': 0,
   },
   settings: {
     'import/resolver': {
