@@ -16,7 +16,7 @@ const Label = ({title, testID, style, size = 18, type, ...props}) => {
   return (
     <Text
       testID={testID}
-      style={[{fontFamily: getFontFamily(type), fontSize: size}, {...style}]}
+      style={[{fontFamily: getFontFamily(type), fontSize: size},{}, style]}
       {...props}>
       {title}
     </Text>
@@ -25,14 +25,14 @@ const Label = ({title, testID, style, size = 18, type, ...props}) => {
 
 const getFontFamily = type => {
   switch (type) {
-    case 'bold':
-      return theme.fonts.fontBold;
-    case 'regular':
-      return theme.fonts.fontRegular;
-    case 'semiBold':
-      return theme.fonts.fontSemiBold;
-    default:
-      return theme.fonts.fontRegular;
+  case 'bold':
+    return theme.fonts.fontBold;
+  case 'regular':
+    return theme.fonts.fontRegular;
+  case 'semiBold':
+    return theme.fonts.fontSemiBold;
+  default:
+    return theme.fonts.fontRegular;
   }
 };
 Label.propTypes = {
