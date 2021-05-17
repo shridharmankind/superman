@@ -6,11 +6,12 @@ const styles = StyleSheet.create({
   },
   weekViewContainer: {
     flex: 1,
-    padding: '5%',
+    padding: '2%',
   },
-  header: {
+  headerContainer: {
     justifyContent: 'center',
     flexDirection: 'row',
+    padding: '1%',
   },
 
   rowConatiner: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   VerticalHeader: {
-    flex: 0.3,
+    flex: 0.2,
   },
   upperCaseText: {
     textTransform: 'uppercase',

@@ -1,1 +1,1 @@
-//All screens sould be exported under the module
+export {default as StandardTour} from './standard';

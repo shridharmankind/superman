@@ -1,98 +1,123 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 
-/**
- *
- * @param {*} param0
- * @returns
+/** Render Week View
+ * @param {Array} workingDays represents the  data for row header
+ * @param {Array} columnHeader represents the  data for col header
+ * @param {Object} weekData Data for all cells
  */
-
-const STP_DATA = {
-  week1: {
-    mon: {title: 'mon', visits: '13 visits', kyc: '7 kyc'},
-    tue: {title: 'tue', visits: '14 visits', kyc: '73kyc'},
-    wed: {title: 'wed'},
-    thrs: {title: 'thrs'},
-    fri: {title: 'fri'},
-    sat: {title: 'sat'},
-  },
-  week2: {
-    mon: {title: 'mon'},
-    tue: {title: 'tue'},
-    wed: {title: 'wed'},
-    thrs: {title: 'thrs'},
-    fri: {title: 'fri'},
-    sat: {title: 'sat'},
-  },
-  week3: {
-    mon: {title: 'mon'},
-    tue: {title: 'tue'},
-    wed: {title: 'wed'},
-    thrs: {title: 'thrs'},
-    fri: {title: 'fri'},
-    sat: {title: 'sat'},
-  },
-  week4: {
-    mon: {title: 'mon'},
-    tue: {title: 'tue'},
-    wed: {title: 'wed'},
-    thrs: {title: 'thrs'},
-    fri: {title: 'fri'},
-    sat: {title: 'sat'},
-  },
-};
-
-const WeekView = () => {
-  const workingWeek = ['Mon', 'Tue', 'Wed', 'Thrs', 'Fri', 'Sat'];
-  const headerKeys = [...Object.keys(STP_DATA)];
-  const headerData = ['', ...headerKeys];
-
-  const isLastElement = (length, index) => length - index === 1;
-
-  const Column = ({rowHeader, onPress, isLast, header}) => {
-    let cellData = STP_DATA[header][rowHeader];
-    return (
-      <View
-        style={[
-          styles.cellContainer,
-          styles.flexCenterView,
-          isLast && styles.lastCell,
-        ]}>
-        <TouchableOpacity
-          onPress={onPress}
-          style={[styles.flexFullSpace, styles.flexSpaceBetweenView]}>
-          <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
-            <Text>{cellData?.visits}</Text>
-            <Text>{cellData?.kyc}</Text>
-          </View>
-
-          <View style={[styles.cellFooter, styles.flexSpaceBetweenView]}>
-            <Text>{cellData?.visits}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
+  const headerData = ['', ...columnHeader];
+  const maxDaysLength = 3;
 
   /**
-   * Render vertical header
-   * @param {*} param0
-   * @returns
+   * Returns whether the value is last element or not
+   * @param {number} length length of array
+   * @param {number} index  index of current value
+   * @returns  Boolean
    */
-  const VerticalHeader = ({data}) => (
-    <View style={[styles.VerticalHeader, styles.flexCenterView]}>
-      <Text>{data}</Text>
+  const isLastElement = (length, index) => length - index === 1;
+
+  /**
+   * Returns value from data on basic of row and column value
+   * @param {Object} weekData Data  for week
+   * @param {string} column column key
+   * @param {string} row row key
+   */
+  const getCellData = (weekData, column, row) =>
+    Object.keys(weekData).length && weekData[column][row];
+
+  /**
+   * Renders data of each cell
+   * @param {cellData} represnt cell info
+   */
+  const renderCellData = cellData => (
+    <>
+      <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
+        <Text>{''}</Text>
+      </View>
+
+      <View style={[styles.cellFooter, styles.flexSpaceBetweenView]}>
+        <Text>{''}</Text>
+      </View>
+    </>
+  );
+
+  /**
+   * @param {*} rowHeader
+   * @param {fn} onPress
+   * @param {Boolean} isLast
+   * @param {string} header
+   */
+  const Cell = ({rowHeader, onPress, isLast, header}) => (
+    <View
+      style={[
+        styles.cellContainer,
+        styles.flexCenterView,
+        isLast && styles.lastCell,
+      ]}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.flexFullSpace, styles.flexSpaceBetweenView]}>
+        {renderCellData(getCellData(weekData, header, rowHeader))}
+      </TouchableOpacity>
     </View>
   );
 
   /**
-   * Render row header
-   * @param {*} param0
-   * @returns
+   * Renders individual row content
+   * It consit of cells whic are based on columnHeader count
+   * @param {Boolean} isLast
+   * @param {String} rowHeader
+   *
    */
-  const RowHeader = ({data}) =>
-    data.map((rowData, index) => {
+  const Row = ({isLast, rowHeader}) =>
+    columnHeader.map((header, index) => (
+      <Cell
+        header={header}
+        key={index}
+        isLast={isLast}
+        rowHeader={rowHeader}
+        onPress={() => console.log('a')}
+      />
+    ));
+
+  /**
+   * Render vertical header
+   * @param {string} label represents column  header
+   */
+  const VerticalHeader = ({label}) => (
+    <View style={[styles.VerticalHeader, styles.flexCenterView]}>
+      <Text style={styles.upperCaseText}>
+        {label.substring(0, maxDaysLength)}
+      </Text>
+    </View>
+  );
+
+  /**
+   * Render rows and rows header - days repreneny individual row header
+   * @param {Array} rows data representing rows info
+   */
+  const Rows = ({rows}) => {
+    const rowCount = rows.length;
+    return rows.map((rowLabel, index) => {
+      return (
+        <View key={index} style={styles.row}>
+          <VerticalHeader label={rowLabel} />
+          <Row rowHeader={rowLabel} isLast={isLastElement(rowCount, index)} />
+        </View>
+      );
+    });
+  };
+
+  /**
+   * Render  header of table
+   * @param {string} label represents name of label
+   */
+  const Header = ({label}) =>
+    label.map((value, index) => {
       return (
         <Text
           key={index}
@@ -101,55 +126,27 @@ const WeekView = () => {
             styles.upperCaseText,
             index === 0 ? styles.VerticalHeader : styles.flexFullSpace,
           ]}>
-          {rowData}
+          {value}
         </Text>
-      );
-    });
-
-  /**
-   *
-   * @param {String} rowIndex
-   * @returns
-   */
-  const ColumnList = ({isLast, rowHeader}) =>
-    headerKeys.map((header, index) => (
-      <Column
-        rowHeader={rowHeader.toLowerCase()}
-        header={header}
-        key={index}
-        isLast={isLast}
-        onPress={() => console.log('a')}
-      />
-    ));
-
-  /**
-   * Render Row using rowData
-   * @param {Array} rows
-   * @returns
-   */
-  const Row = ({rows}) =>
-    rows.map((rowData, index) => {
-      return (
-        <View key={index} style={styles.row}>
-          <VerticalHeader data={rowData} />
-          <ColumnList
-            rowHeader={rowData}
-            isLast={isLastElement(rows.length, index)}
-          />
-        </View>
       );
     });
 
   return (
     <View style={styles.weekViewContainer}>
-      <View style={styles.header}>
-        <RowHeader data={headerData} />
+      <View style={styles.headerContainer}>
+        <Header label={headerData} />
       </View>
       <View style={[styles.rowConatiner]}>
-        <Row rows={workingWeek} />
+        <Rows rows={workingDays} />
       </View>
     </View>
   );
+};
+
+WeekView.propTypes = {
+  workingDays: PropTypes.array.isRequired,
+  columnHeader: PropTypes.array,
+  weekData: PropTypes.object,
 };
 
 export default WeekView;
