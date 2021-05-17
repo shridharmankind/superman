@@ -81,7 +81,9 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
         key={index}
         isLast={isLast}
         rowHeader={rowHeader}
-        onPress={() => console.log('a')}
+        onPress={() =>
+          console.log('clicked on week::', header, 'row', rowHeader)
+        }
       />
     ));
 
