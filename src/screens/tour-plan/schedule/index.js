@@ -6,29 +6,10 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import {Button, TabBar} from 'components/elements';
 import {MonthlyTourPlan} from 'screens/tour-plan';
 
-const HomeScreen = () => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-      }}>
-      <Text>Home!</Text>
-    </View>
-  );
-};
 
 const SettingsScreen = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-      }}>
+    <View style={styles.settingScreen}>
       <Text>Settings!</Text>
     </View>
   );

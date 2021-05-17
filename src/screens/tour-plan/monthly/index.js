@@ -4,6 +4,7 @@ import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Strings} from 'common';
 
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
@@ -50,7 +51,7 @@ const MonthlyTourPlan = () => {
     return (
       <View>
         <Text style={[styles.modalText, styles.modalTitleText]}>
-          View Tour Plan for
+          {Strings.viewTourPlan}
         </Text>
       </View>
     );
