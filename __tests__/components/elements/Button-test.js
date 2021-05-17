@@ -17,6 +17,15 @@ it('renders outlined button', () => {
   expect(getByText('Test')).toBeTruthy();
 });
 
+it('renders contained button', () => {
+  const {getByText} = renderComponent({
+    mode: 'contained',
+    title: 'Test',
+  });
+
+  expect(getByText('Test')).toBeTruthy();
+});
+
 it('onPress is called', () => {
   const onPressMock = jest.fn();
   const {getByText} = renderComponent({

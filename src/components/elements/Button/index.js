@@ -1,13 +1,11 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {Button, useTheme} from 'react-native-paper';
-import theme from 'themes';
+import {Text, TouchableOpacity} from 'react-native';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 /**
- * Custom button component using Button from react-native-paper.
+ * Custom button component using TouchableOpacity from react-native.
  * This serves the purpose to make the use of button consistent throughtout the app
- * @param {String} color  color of button
  * @param {Object} contentStyle custom style to be passed from consuming component for the button
  * @param {Boolean} disabled disable the button
  * @param {Object} labelStyle custom style for title text
@@ -15,11 +13,9 @@ import styles from './styles';
  * @param {Function} onPress click event
  * @param {String} testID date test id
  * @param {String} title button title
- * @param {Boolean} uppercase boolean flag to show title in uppercase or camelcase
  */
 
 const CustomButton = ({
-  color = theme.colors.primary,
   contentStyle,
   disabled,
   labelStyle,
@@ -27,40 +23,52 @@ const CustomButton = ({
   onPress,
   testID,
   title,
-  uppercase = false,
   ...rest
 }) => {
-  const {colors} = useTheme();
-  const borderStyle = mode === 'outlined' && {
-    borderColor: colors.primary,
-    borderWidth: 2,
-  };
-
-  const fontStyle = (mode === 'contained' || disabled) && {
-    color: colors.white,
-  };
+  let buttonStyle = styles.button;
+  let textStyle = styles.buttonOutlinedText;
+  switch (mode) {
+        case 'contained':
+          buttonStyle = styles.buttonContained;
+          textStyle = styles.buttonContainedText;
+          break;
+        case 'outlined':
+          buttonStyle = styles.buttonOutlined;
+          textStyle = !disabled && styles.buttonOutlinedText;
+          break;
+  }
 
   return (
-    <Button
-      color={color}
-      disabled={disabled}
-      mode={mode}
-      onPress={onPress}
-      testID={testID}
-      uppercase={uppercase}
+    <TouchableOpacity
       style={[
-        styles.appButtonContainer,
-        borderStyle,
-        fontStyle,
+        styles.buttonContainer,
+        buttonStyle,
         disabled && styles.disabledButton,
         contentStyle,
       ]}
+      disabled={disabled}
+      onPress={onPress}
+      testId={testID}
       {...rest}>
-      <Text style={[disabled && fontStyle, labelStyle, styles.appButtonText]}>
+      <Text
+        style={[
+          styles.buttonText,
+          textStyle,
+          disabled && styles.disabledButton,
+          labelStyle,
+        ]}>
         {title}
       </Text>
-    </Button>
+    </TouchableOpacity>
   );
+};
+
+CustomButton.propTypes = {
+  model: PropTypes.oneOf(['outlined', 'contained', 'text']),
+  title: PropTypes.string.isRequired,
+  testID: PropTypes.string,
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default CustomButton;

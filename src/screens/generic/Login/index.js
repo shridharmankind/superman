@@ -3,6 +3,7 @@ import {View, Image, TextInput} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { fetchAllUsers } from '../../../api'
 import {Button} from 'components/elements';
 import {NetworkService} from 'services';
 import {Constants, Strings} from 'common';
@@ -12,6 +13,9 @@ export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const getUserList = () => {
+    fetchAllUsers().then(res => console.log(res.data))
+  }
   //Post Request Example
   useEffect(() => {
     const fetchData = async () => {
