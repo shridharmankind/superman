@@ -1,9 +1,11 @@
-import {useTheme, Chip } from 'react-native-paper';
+import React from 'react'
+import {View, Text} from 'react-native';
+import { Chip } from 'react-native-paper';
 import styles from './styles';
 
 /**
  * Custom chip component using Chip from react-native-paper.
- * This serves the purpose to make the use of chip consistent throughtout the app
+ * This serves the purpose to make the use of Select Area, and Doctor,chemist,all filter
  * @param {String} color  color of text
  * @param {String} title text of the chip
  * @param {String} count count to add in text of chip - optional
@@ -16,7 +18,7 @@ import styles from './styles';
  * @param {String} testID date test id
  */
 
-export default function ChipContent({ 
+const ChipContent = ({ 
     title, 
     color, 
     count, 
@@ -26,9 +28,12 @@ export default function ChipContent({
     selectedTextColor,
     testID, 
     ...props
-}) {
+}) => {
 
     return(
+        // <View>
+        //     <Text>sf</Text>
+        // </View>
         <Chip 
             testID={testID}
             style={[styles.chipContainer,props.style,{
@@ -43,3 +48,4 @@ export default function ChipContent({
     )
 }
 
+export default ChipContent;

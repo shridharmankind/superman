@@ -1,3 +1,4 @@
+import React from 'react';
 import {Text, View, Image} from 'react-native';
 import {useTheme, Card, Title, Subheading  } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -26,7 +27,7 @@ const DoctorDetails = ({title, specialization, image, category, selected, locati
             </View>
             <Image 
                 style={styles.image}                    
-                source={require('../../assets/images/logo.png')}
+                source={require('../../../assets/images/logo.png')}
             />
             <View style={styles.detailsContainer}>
                 <Title>{title}</Title>
