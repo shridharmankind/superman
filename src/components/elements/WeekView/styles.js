@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   cellHeader: {
     flexDirection: 'row',
     padding: 5,
+    minHeight: 60,
   },
   cellFooter: {
     flexDirection: 'row',
@@ -52,7 +53,6 @@ const styles = StyleSheet.create({
   VerticalHeader: {
     flex: 0.3,
   },
-
   flexCenterView: {
     justifyContent: 'center',
   },
