@@ -1,12 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-    chipContainer: {       
+    chipContainer: {    
         fontSize: 21,
         textAlign: 'center',
         alignItems: 'center',
-        justifyContent: 'center',  
-        marginRight:20      
+        justifyContent: 'center'              
     }
 })
 

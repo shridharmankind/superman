@@ -4,8 +4,9 @@ import theme from 'themes';
 const styles = StyleSheet.create({
     containerStyle:{
         backgroundColor: theme.colors.white, 
-        padding: 20,
-        margin:10
+        padding: 40,
+        marginHorizontal:100,
+        marginVertical:40
     },
     container:{
         flexDirection:'column'        
@@ -13,17 +14,21 @@ const styles = StyleSheet.create({
     modalHeader: {        
         flexDirection: 'row',
         justifyContent:'space-between',
-        alignItems: 'stretch'
+        alignContent:'center',
+        alignItems:'center',
+        marginBottom:40
     },
     headerButtonGroup:{
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems:'stretch'
     },
     doneBtn: {
-       
+        paddingVertical:10,
+        paddingHorizontal: 60,
     },
     closeBtn:{        
+        paddingVertical:10,
+        paddingHorizontal: 60,
         marginRight:10
     },
     content: {
@@ -40,11 +45,30 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     doctorDetailsContainer:{
-
+        marginVertical:20
     },
     areaFilterContainer:{
         flexDirection:'row',
         marginVertical:20
+    },
+    categoryFilterContainer: {
+        flexDirection:'row',
+        borderWidth: 1,
+        borderColor: '#322B7C',
+        borderRadius:20                
+    },
+    doctorDetailsHeader: {
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        paddingBottom: 20,
+        borderBottomColor: theme.colors.borderColor,
+        borderBottomWidth: 1
+    },
+    doctorDetails:{
+        flexDirection: 'row',
+        alignContent: 'flex-start',
+        flexWrap: 'wrap'
     }
 })
 

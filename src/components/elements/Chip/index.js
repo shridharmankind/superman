@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, Text} from 'react-native';
 import { Chip } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 /**
@@ -30,10 +31,7 @@ const ChipContent = ({
     ...props
 }) => {
 
-    return(
-        // <View>
-        //     <Text>sf</Text>
-        // </View>
+    return(     
         <Chip 
             testID={testID}
             style={[styles.chipContainer,props.style,{
@@ -46,6 +44,19 @@ const ChipContent = ({
             {`${title} ${count ? '('+count+')' : ''}`}
         </Chip>
     )
+}
+
+ChipContent.propTypes = {
+    color: PropTypes.string,
+    title: PropTypes.string,
+    count: PropTypes.string,
+    style: PropTypes.object,
+    selected: PropTypes.bool,
+    selectedColor: PropTypes.string,
+    selectedTextColor: PropTypes.string,
+    bgColor: PropTypes.string,
+    onPress: PropTypes.func,
+    testID: PropTypes.string
 }
 
 export default ChipContent;

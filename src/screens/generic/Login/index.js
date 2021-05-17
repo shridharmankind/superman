@@ -94,7 +94,7 @@ export default function Login({navigation}) {
 
       <Button
         mode="contained"
-        title="Login"
+        title="Open daily plan"
         uppercase={true}
         contentStyle={styles.loginBtn}
         onPress={() => setOpenModal(true)}

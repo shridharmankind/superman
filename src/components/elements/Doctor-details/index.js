@@ -1,7 +1,10 @@
-import React from 'react';
-import {Text, View, Image} from 'react-native';
-import {useTheme, Card, Title, Subheading  } from 'react-native-paper';
+import React, {useState} from 'react';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
+import { Title, Subheading  } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from 'prop-types';
+import { Frequecy } from 'components/elements';
+import themes from 'themes'
 import styles from './styles';
 
 /**
@@ -17,12 +20,20 @@ import styles from './styles';
  * @param {String} testID date test id
  */
 
-const DoctorDetails = ({title, specialization, image, category, selected, location}) => {
+const DoctorDetails = ({
+    title, 
+    specialization, 
+    image, 
+    category, 
+    selected, 
+    location, 
+    ...props }) => {
+
+    const [select,setSelect] = useState(selected)    
 
     return(        
-        
-        <View style={styles.container}>
-            <View style={[styles.divisionContainer]}>
+        <TouchableOpacity onPress={() => setSelect(!select)} style={styles.container} activeOpacity={1}>                  
+            <View style={[styles.divisionContainer,{backgroundColor:getDivisionColor(category)}]}>
                 <Text style={styles.divisionText}>{category}</Text>
             </View>
             <Image 
@@ -34,15 +45,52 @@ const DoctorDetails = ({title, specialization, image, category, selected, locati
                 <View>
                     <Subheading>{specialization}</Subheading>
                     {location && <Subheading style={styles.location}>{location}</Subheading>}
-                </View>
+                </View>                   
             </View>
-            {selected && 
+            <View style={styles.frequecyContainer}>
+                <Frequecy 
+                    visited={true}
+                />
+                <Frequecy/>
+                <Frequecy/>
+            </View>
+            {select && 
                 <View style={styles.checkContainer}>
-                    <Icon name="check-circle" size={20} color="#0095d1" />
+                    <Icon name="check-circle" size={32} color="#0095d1" />
                 </View>
-            }
-        </View>     
+            }        
+        </TouchableOpacity>     
     )
+}
+
+const getDivisionColor = division => {
+    switch(division &&  division.toLowerCase()){
+        case 'kyc':
+            return themes.colors.orange;
+        case 'a+':
+            return themes.colors.darkBlue;
+        case 'b':
+            return themes.colors.lightBlue;
+        default:
+            return themes.colors.white
+    }
+}
+
+DoctorDetails.defaultProps = {
+    selected: false,
+    division: ''    
+}
+
+
+DoctorDetails.propTypes ={
+    title: PropTypes.string.isRequired,
+    specialization: PropTypes.string,
+    category: PropTypes.string, 
+    image: PropTypes.string,
+    location: PropTypes.string,
+    selected: PropTypes.bool,
+    testID: PropTypes.string.isRequired,
+    onPress: PropTypes.func
 }
 
 export default DoctorDetails;

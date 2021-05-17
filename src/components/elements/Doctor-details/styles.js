@@ -4,20 +4,24 @@ import theme from 'themes';
 const styles = StyleSheet.create({
     container: {              
         backgroundColor: theme.colors.white,
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        paddingHorizontal:20,
-        paddingVertical: 10,
+        paddingHorizontal:32,
+        paddingVertical: 40,
         borderColor: theme.colors.borderColor,
-        borderRadius:5,
-        borderWidth:1
+        borderRadius:10,
+        borderWidth:1,
+        marginTop:20,
+        flex:1,
+        minWidth: '46%',
+        marginRight: 20
       },
       image:{
           width: 72,
           height: 72,
           borderRadius: 72/2,
-          marginRight: 10
+          marginRight: 32
       },
       detailsContainer: {
           flex:1,
@@ -26,18 +30,18 @@ const styles = StyleSheet.create({
           alignSelf: 'center'
       },
       divisionContainer: {
-          borderTopLeftRadius: 5,
-          borderBottomRightRadius: 5,
+          borderTopLeftRadius: 10,
+          borderBottomRightRadius: 10,
           backgroundColor: theme.colors.orange,
-          paddingHorizontal: 5, 
+          padding: 10, 
           position: 'absolute',
           top:-1     
       },
       divisionText: {
           color: theme.colors.white,
-          fontSize: 12
+          fontSize: 14
       },
-      checkContainer: {
+      checkContainer: {          
           position: 'absolute',
           right: 10,
           top: 10
@@ -46,6 +50,9 @@ const styles = StyleSheet.create({
           borderLeftColor: '#1C1939',
           borderLeftWidth: 1,
           paddingHorizontal: 10
+      },
+      frequecyContainer:{
+          flexDirection:'row',
       }
 });
 

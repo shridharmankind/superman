@@ -14,6 +14,8 @@ const theme = {
     white: '#fff',
     orange: '#FFA088',
     borderColor: '#979797', 
+    darkBlue: '#5920B7',
+    lightBlue: '#0852C5'
   },
   fonts: {
     fontRegular: 'Poppins-Regular',
