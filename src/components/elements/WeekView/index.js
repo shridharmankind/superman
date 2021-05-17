@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {Label} from 'components/elements';
 import {Constants} from 'common';
 import styles from './styles';
@@ -27,8 +27,8 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
    * @param {string} column column key
    * @param {string} row row key
    */
-  const getCellData = (weekData, column, row) =>
-    Object.keys(weekData).length && weekData[column][row];
+  const getCellData = (data, column, row) =>
+    Object.keys(data).length && weekData[column][row];
 
   /**
    * Renders data of each cell
