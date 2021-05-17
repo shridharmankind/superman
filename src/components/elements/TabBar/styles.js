@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     width: 110,
     height: 25,
   },
+  tabBarContainer: {
+    flexDirection: 'row',
+    paddingTop: 20,
+  },
 });
 
 export default styles;

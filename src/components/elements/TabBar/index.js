@@ -1,8 +1,9 @@
+/* eslint-disable indent */
+/** TODO : remove eslint disable */
 import * as React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-
 
 /**
  * Custom tab bar component using react navigation.
@@ -11,9 +12,10 @@ import styles from './styles';
  * @param {Object} descriptors state descriptors like tab bar label
  * @param {Object} navigation object containging navigation functions like navigate, emit
  */
+
 const TabBar = ({state, descriptors, navigation}) => {
   return (
-    <View style={{flexDirection: 'row', paddingTop: 20}}>
+    <View style={styles.tabBarContainer}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label =
