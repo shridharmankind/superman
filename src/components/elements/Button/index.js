@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 /**
@@ -60,6 +61,14 @@ const CustomButton = ({
       </Text>
     </TouchableOpacity>
   );
+};
+
+CustomButton.propTypes = {
+  model: PropTypes.oneOf(['outlined', 'contained', 'text']),
+  title: PropTypes.string.isRequired,
+  testID: PropTypes.string,
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default CustomButton;
