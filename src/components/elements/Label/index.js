@@ -4,7 +4,7 @@ import {Text} from 'react-native';
 import theme from 'themes';
 
 /**
- * Heading component using Text from react-native.
+ * Label component using Text from react-native.
  * This serves the purpose to make the use of text consistent throughtout the app
  * @param {String} title title of text
  * @param {Number} size size of text
@@ -12,7 +12,7 @@ import theme from 'themes';
  * @param {String} testID date test id
  * @param {Object} style custom style of text
  */
-const Heading = ({title, testID, style, size = 18, type, ...props}) => {
+const Label = ({title, testID, style, size = 18, type, ...props}) => {
   return (
     <Text
       testID={testID}
@@ -35,11 +35,11 @@ const getFontFamily = type => {
       return theme.fonts.fontRegular;
   }
 };
-Heading.propTypes = {
+Label.propTypes = {
   type: PropTypes.oneOf(['bold', 'regular', 'semiBold']),
   title: PropTypes.string.isRequired,
   size: PropTypes.number,
   testID: PropTypes.string,
 };
 
-export default Heading;
+export default Label;
