@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
   buttonContained: {
     backgroundColor: theme.colors.primary,
   },
+  buttonContainedText: {
+    color: theme.colors.white,
+  },
   buttonOutlined: {
     backgroundColor: theme.colors.white,
     borderColor: theme.colors.primary,

@@ -24,19 +24,16 @@ const CustomButton = ({
   title,
   ...rest
 }) => {
-  let buttonStyle;
-  let textStyle;
+  let buttonStyle = styles.button;
+  let textStyle = styles.buttonOutlinedText;
   switch (mode) {
         case 'contained':
           buttonStyle = styles.buttonContained;
+          textStyle = styles.buttonContainedText;
           break;
         case 'outlined':
           buttonStyle = styles.buttonOutlined;
           textStyle = !disabled && styles.buttonOutlinedText;
-          break;
-        default:
-          buttonStyle = styles.button;
-          textStyle = styles.buttonOutlinedText;
           break;
   }
 
