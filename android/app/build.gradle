@@ -142,6 +142,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [
+      appAuthRedirectScheme: 'com.superman'
+    ]
     }
     splits {
         abi {
@@ -158,6 +161,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+		release {
+      storeFile file('app_key.keystore')
+      storePassword '123456'
+      keyAlias 'app_key'
+      keyPassword '123456'
+    }
     }
     buildTypes {
         debug {

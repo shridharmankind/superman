@@ -4,9 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 
-import {Login} from 'screens/generic';
-
-import {Header} from 'components/elements';
+import {Login, Home} from 'screens/generic';
 import theme from 'themes';
 
 const Stack = createStackNavigator();
@@ -19,9 +17,12 @@ const App = () => {
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{
-              headerTitle: props => <Header title="Welcome!" {...props} />,
-            }}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
