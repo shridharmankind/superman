@@ -18,7 +18,7 @@ import styles from './styles';
  * @param {String} testID date test id
  */
 
-const Chip = ({ 
+const AreaChip = ({ 
     title, 
     color, 
     count, 
@@ -58,4 +58,4 @@ Chip.propTypes = {
     testID: PropTypes.string
 }
 
-export default Chip;
+export default AreaChip;

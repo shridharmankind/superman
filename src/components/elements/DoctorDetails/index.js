@@ -89,7 +89,7 @@ DoctorDetails.propTypes ={
     image: PropTypes.string,
     location: PropTypes.string,
     selected: PropTypes.bool,
-    testID: PropTypes.string.isRequired,
+    testID: PropTypes.string,
     onPress: PropTypes.func
 }
 
