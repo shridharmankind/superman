@@ -49,7 +49,10 @@ Chip.propTypes = {
     color: PropTypes.string,
     title: PropTypes.string,
     count: PropTypes.string,
-    style: PropTypes.object,
+    style: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.array,
+    ]),
     selected: PropTypes.bool,
     selectedColor: PropTypes.string,
     selectedTextColor: PropTypes.string,
