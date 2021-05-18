@@ -10,10 +10,9 @@ export default StyleSheet.create({
     height: Dimensions.get('screen').height,
     flexDirection: 'row',
   },
-  drawerContainer: {
+  sidemenuContainer: {
     width: 240,
     height: '100%',
-    backgroundColor: 'lightblue',
   },
   contentContainer: {
     flex: 1,

@@ -1,15 +1,16 @@
 import React from 'react';
 import {View} from 'react-native';
 
-import {NotificationIcon, SearchIcon} from 'src/assets/icons';
+import {NotificationIcon, SearchIcon} from 'assets';
+import NavMenu from './components/NavMenu';
 
 import styles from './styles';
 
 const Dashboard = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.drawerContainer}>
-        <View />
+      <View style={styles.sidemenuContainer}>
+        <NavMenu />
       </View>
       <View style={styles.contentContainer}>
         <View />
