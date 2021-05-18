@@ -19,7 +19,7 @@ import styles from './styles';
  * @param {String} testID date test id
  */
 
-const ChipContent = ({ 
+const Chip = ({ 
     title, 
     color, 
     count, 
@@ -46,7 +46,7 @@ const ChipContent = ({
     )
 }
 
-ChipContent.propTypes = {
+Chip.propTypes = {
     color: PropTypes.string,
     title: PropTypes.string,
     count: PropTypes.string,
@@ -59,4 +59,4 @@ ChipContent.propTypes = {
     testID: PropTypes.string
 }
 
-export default ChipContent;
+export default Chip;
