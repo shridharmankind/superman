@@ -7,9 +7,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: theme.colors.primary,
-    fontSize: 14,
     textAlign: 'center',
-    fontFamily: theme.fonts.fontRegular,
   },
   focusedTab: {
     borderBottomWidth: 3,

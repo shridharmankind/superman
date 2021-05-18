@@ -4,6 +4,7 @@ import * as React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import {Label} from 'components/elements';
 
 /**
  * Custom tab bar component using react navigation.
@@ -60,10 +61,12 @@ const TabBar = ({state, descriptors, navigation}) => {
               onLongPress={onLongPress}
               style={[styles.tab, isFocused && styles.focusedTab]}>
               <View style={styles.tabWrapper}>
-                <Text
-                  style={[styles.tabText, isFocused && styles.focusedTabText]}>
-                  {label}
-                </Text>
+                <Label
+                  type="regular"
+                  title={label}
+                  size={14}
+                  style={[styles.tabText, isFocused && styles.focusedTabText]}
+                />
               </View>
             </TouchableOpacity>
           </View>

@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 
 import {Login} from 'screens/generic';
+
 import {Header} from 'components/elements';
 import theme from 'themes';
 
