@@ -1,8 +1,7 @@
 import 'react-native';
 import React from 'react';
 import {TabBar} from 'components/elements';
-import {withTheme} from 'utils/testHelpers';
-import {fireEvent} from '@testing-library/react-native';
+import {withTheme, fireEvent} from 'utils/testHelpers';
 
 function renderComponent(props) {
   return withTheme(<TabBar {...props} />);

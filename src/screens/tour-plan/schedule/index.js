@@ -1,25 +1,10 @@
 import React from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
-import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Button, TabBar} from 'components/elements';
-
-/** TODO: remove HomeScreen and SettingScreen component */
-const HomeScreen = () => {
-  return (
-    <View style={styles.settingScreen}>
-      <Text>Home!</Text>
-    </View>
-  );
-};
-
-const SettingsScreen = () => {
-  return (
-    <View style={styles.settingScreen}>
-      <Text>Settings!</Text>
-    </View>
-  );
-};
+import styles from './styles';
+import {TabBar} from 'components/elements';
+import {MonthlyTourPlan} from 'screens/tourPlan';
+import {Strings} from 'common';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,8 +13,8 @@ const Schedule = () => {
     return (
       <SafeAreaView style={styles.safeAreaContainer}>
         <Tab.Navigator tabBar={props => <TabBar {...props} />}>
-          <Tab.Screen name="Daily Plan" component={HomeScreen} />
-          <Tab.Screen name="Tour Plan" component={SettingsScreen} />
+          <Tab.Screen name={Strings.dailyPlan} component={MonthlyTourPlan} />
+          <Tab.Screen name={Strings.tourPlan} component={MonthlyTourPlan} />
         </Tab.Navigator>
       </SafeAreaView>
     );
@@ -37,9 +22,7 @@ const Schedule = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.leftPanel}>
-        <Button title="PlanMeet" mode="outlined" />
-      </View>
+      <View style={styles.leftPanel} />
       <SafeAreaView style={styles.mainPanel}>{myTabNavigator()}</SafeAreaView>
       <View style={styles.rightPanel} />
     </View>
