@@ -1,5 +1,5 @@
 import axios from 'axios';
-import useMock from './data/mock';
+import getMock from './data/mock';
 import env from '../env.json';
 
 const baseURL = env.API_HOST;
@@ -9,11 +9,11 @@ const client = axios.create({
 });
 
 if (env.ENVIRONMENT === 'STATIC' && env.MOCK_REQUESTS === 'ALL') {
-  useMock(client);
+  getMock(client);
 }
 
 export const fetchAllUsers = () => {
-  return client.get('/api/all-users');
+  return client.get('/all-users');
 };
 
 export const fetchSingleUser = id => {
