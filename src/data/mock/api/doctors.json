@@ -1,10 +1,10 @@
 {
-"users": [
+  "users": [
     {
-    "name": "John"
+      "name": "John"
     },
     {
-    "name": "Mike"
+      "name": "Mike"
     }
-]
+  ]
 }
