@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {WeekView} from 'components/elements';
+import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
 import styles from './styles';
 import {fetchWorkingDays} from '../../../../api';
