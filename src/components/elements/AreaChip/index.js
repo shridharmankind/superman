@@ -1,5 +1,5 @@
-import React from 'react'
-import { Chip } from 'react-native-paper';
+import React from 'react';
+import {Chip} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -18,47 +18,46 @@ import styles from './styles';
  * @param {String} testID date test id
  */
 
-const AreaChip = ({ 
-    title, 
-    color, 
-    count, 
-    bgColor, 
-    selected, 
-    selectedColor, 
-    selectedTextColor,
-    testID, 
-    ...props
+const AreaChip = ({
+  title,
+  color,
+  count,
+  bgColor,
+  selected,
+  selectedColor,
+  selectedTextColor,
+  testID,
+  ...props
 }) => {
-
-    return(     
-        <Chip 
-            testID={testID}
-            style={[styles.chipContainer,props.style,{
-                backgroundColor:selected && selectedColor ? selectedColor : bgColor
-            }]} 
-            textStyle={{ color:selected ? selectedTextColor : color}}
-            type="flat" 
-            onPress={() => props.onPress()}           
-        >
-            {`${title} ${count ? '('+count+')' : ''}`}
-        </Chip>
-    )
-}
+  return (
+    <Chip
+      testID={testID}
+      style={[
+        styles.chipContainer,
+        props.style,
+        {
+          backgroundColor: selected && selectedColor ? selectedColor : bgColor,
+        },
+      ]}
+      textStyle={{color: selected ? selectedTextColor : color}}
+      type="flat"
+      onPress={() => props.onPress()}>
+      {`${title} ${count ? '(' + count + ')' : ''}`}
+    </Chip>
+  );
+};
 
 Chip.propTypes = {
-    color: PropTypes.string,
-    title: PropTypes.string,
-    count: PropTypes.string,
-    style: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.array,
-    ]),
-    selected: PropTypes.bool,
-    selectedColor: PropTypes.string,
-    selectedTextColor: PropTypes.string,
-    bgColor: PropTypes.string,
-    onPress: PropTypes.func,
-    testID: PropTypes.string
-}
+  color: PropTypes.string,
+  title: PropTypes.string,
+  count: PropTypes.string,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  selected: PropTypes.bool,
+  selectedColor: PropTypes.string,
+  selectedTextColor: PropTypes.string,
+  bgColor: PropTypes.string,
+  onPress: PropTypes.func,
+  testID: PropTypes.string,
+};
 
 export default AreaChip;
