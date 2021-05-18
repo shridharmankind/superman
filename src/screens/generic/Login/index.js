@@ -7,7 +7,7 @@ import {fetchAllUsers} from '../../../api';
 import {Button} from 'components/elements';
 import {NetworkService} from 'services';
 import {Constants, Strings} from 'common';
-import { StandardPlanModal } from 'screens/tour-plan'
+import {StandardPlanModal} from 'screens/tourPlan';
 
 export default function Login({navigation}) {
   const {colors} = useTheme();
@@ -50,8 +50,8 @@ export default function Login({navigation}) {
   }, []);
 
   const showModal = () => {
-    setOpenModal(true)
-  }
+    setOpenModal(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -100,7 +100,12 @@ export default function Login({navigation}) {
         onPress={() => setOpenModal(true)}
       />
 
-      {openModal && <StandardPlanModal visible={openModal} hideModal={() => setOpenModal(false)}/> }
+      {openModal && (
+        <StandardPlanModal
+          visible={openModal}
+          hideModal={() => setOpenModal(false)}
+        />
+      )}
     </View>
   );
 }
