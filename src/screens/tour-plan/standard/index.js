@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {WeekView} from 'components/elements';
 import {Strings} from 'common';
 import styles from './styles';
-import {fetchWorkingDays} from 'api';
+import {fetchWorkingDays} from '../../../api';
 
 const StandardTour = () => {
   const [workingDays, setworkingDays] = useState([]);

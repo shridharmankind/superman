@@ -22,7 +22,6 @@ module.exports = {
           utils: './src/utils',
           common: './src/common',
           database: './src/database',
-          api: 'src/api',
         },
       },
     },

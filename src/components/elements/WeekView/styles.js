@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'center',
     flexDirection: 'row',
-    paddingVertical: 2,
+    paddingVertical: 5,
   },
   rowContainer: {
     flex: 1,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   VerticalHeader: {
     flex: 0.3,
-    paddingHorizontal: 2,
+    paddingHorizontal: 3,
   },
   flexCenterView: {
     justifyContent: 'center',
