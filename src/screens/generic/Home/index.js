@@ -9,7 +9,7 @@ import {
   Text,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as KeyChain from '../../../helper/keychain/index';
+import {KeyChain} from 'helper';
 
 const Separator = () => <View style={styles.separator} />;
 

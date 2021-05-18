@@ -12,7 +12,7 @@ import {authorize} from 'react-native-app-auth';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import theme from 'themes';
-import * as KeyChain from '../../../helper/keychain/index';
+import {KeyChain} from 'helper';
 
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
@@ -21,17 +21,21 @@ const config = {
   scopes: ['openid', 'profile'],
 };
 
+const TOKEN_EXPIRY_TIME = 'token_expiry_time';
+const LOGIN_STATUS = 'loginStatus';
+const ERROR = 'error';
+
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
 
+  // Check if user is already logged in and Token not expired
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const isUserLoggedIn = await AsyncStorage.getItem('isLogged');
-      const isTokenExpired = await AsyncStorage.getItem(
-        'token_expiry_time',
-        null,
-      );
-      if (isUserLoggedIn) {
+      const isUserLoggedIn = await AsyncStorage.getItem(LOGIN_STATUS);
+      const tokenExpiryTime = await AsyncStorage.getItem(TOKEN_EXPIRY_TIME);
+      const currentUTCTime = new Date().toISOString();
+      const diff = new Date(currentUTCTime) - new Date(tokenExpiryTime);
+      if (isUserLoggedIn && diff <= 0) {
         navigation.navigate('Home');
       }
     };
@@ -43,20 +47,20 @@ const Login = ({navigation}) => {
       try {
         setAnimating(true);
         const newAuthState = await authorize(config);
-        KeyChain.saveAccessToken(newAuthState.accessToken);
+        await KeyChain.saveAccessToken(newAuthState.accessToken);
         AsyncStorage.setItem(
-          'token_expiry_time',
+          TOKEN_EXPIRY_TIME,
           newAuthState.accessTokenExpirationDate,
         );
-        AsyncStorage.setItem('isLogged', 'true');
+        AsyncStorage.setItem(LOGIN_STATUS, 'true');
         setAnimating(false);
         navigation.navigate('Home');
       } catch (error) {
-        Alert.alert('Login Error', error.message);
+        Alert.alert(ERROR, error.message);
       }
     } catch (error) {
       setAnimating(false);
-      Alert.alert('Login Error', error.message);
+      Alert.alert(ERROR, error.message);
     }
   }, [navigation]);
 
