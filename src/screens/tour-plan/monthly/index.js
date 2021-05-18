@@ -5,7 +5,6 @@ import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings} from 'common';
-import {getSubordinates} from '../../../api';
 
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
