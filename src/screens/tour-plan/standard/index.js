@@ -5,6 +5,9 @@ import {Strings} from 'common';
 import styles from './styles';
 import {fetchWorkingDays} from '../../../api';
 
+/**
+ * Standard Tour Plan container
+ */
 const StandardTour = () => {
   const [workingDays, setworkingDays] = useState([]);
   useEffect(() => {
