@@ -1,11 +1,9 @@
 import React from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
-import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Button, TabBar} from 'components/elements';
 import {MonthlyTourPlan} from 'screens/tour-plan';
-
 
 const SettingsScreen = () => {
   return (
@@ -18,10 +16,9 @@ const SettingsScreen = () => {
 const Tab = createMaterialTopTabNavigator();
 
 const Schedule = () => {
-  const {colors} = useTheme();
   const myTabNavigator = () => {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <Tab.Navigator tabBar={props => <TabBar {...props} />}>
           <Tab.Screen name="Daily Plan" component={MonthlyTourPlan} />
           <Tab.Screen name="Tour Plan" component={SettingsScreen} />
@@ -33,13 +30,10 @@ const Schedule = () => {
   return (
     <View style={styles.container}>
       <View style={styles.leftPanel}>
-        <Text>left panel</Text>
         <Button title="PlanMeet" mode="outlined" />
       </View>
       <SafeAreaView style={styles.mainPanel}>{myTabNavigator()}</SafeAreaView>
-      <View style={styles.rightPanel}>
-        <Text>Right panel</Text>
-      </View>
+      <View style={styles.rightPanel} />
     </View>
   );
 };
