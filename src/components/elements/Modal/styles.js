@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 50,
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.white,
     borderRadius: 20,
     padding: 35,
-    shadowColor: '#000',
+    shadowColor: theme.colors.white,
     shadowOffset: {
       width: 0,
       height: 2,
