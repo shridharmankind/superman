@@ -6,13 +6,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
   },
   modalView: {
-    margin: 50,
     backgroundColor: theme.colors.white,
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: theme.roundness,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     shadowColor: theme.colors.black,
     shadowOffset: {
       width: 0,
@@ -26,14 +25,14 @@ const styles = StyleSheet.create({
   },
   titleView: {
     flexDirection: 'row',
-    justifyContent: 'center',
   },
   title: {
-    width: '80%',
+    width: '95%',
   },
   close: {
     alignItems: 'flex-end',
-    width: '20%',
+    justifyContent: 'flex-end',
+    width: '5%',
   },
   closeIcon: {
     fontFamily: theme.fonts.fontRegular,
