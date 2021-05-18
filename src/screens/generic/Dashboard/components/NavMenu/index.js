@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Image, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  Image,
+  TouchableWithoutFeedback,
+  View,
+  Animated,
+  Easing,
+} from 'react-native';
 
 import {Label} from 'components/elements';
 import {LogoMankind, SearchIcon} from 'assets';
@@ -11,6 +17,7 @@ import navMenuData from './navMenuData';
 const NavMenu = ({onNavItemPress, onNavToggled}) => {
   const [open, setOpen] = useState(true);
   const [activeItem, setActiveItem] = useState(0);
+  const [navWidth, setNavWidth] = useState(new Animated.Value(100));
 
   useEffect(() => {
     onNavToggled && onNavToggled(open);
@@ -19,6 +26,17 @@ const NavMenu = ({onNavItemPress, onNavToggled}) => {
   useEffect(() => {
     onNavItemPress && onNavItemPress(activeItem);
   }, [onNavItemPress, activeItem]);
+
+  const toggleNavWidth = () => {
+    const endWidth = open ? 104 : 240;
+    console.log('animating to endWidth', endWidth);
+
+    Animated.timing(navWidth, {
+      toValue: endWidth,
+      duration: 200,
+      easing: Easing.linear,
+    }).start();
+  };
 
   const NavItem = ({Icon, label, index, isActive = false}) => (
     <TouchableWithoutFeedback onPress={() => setActiveItem(index)}>
@@ -36,10 +54,25 @@ const NavMenu = ({onNavItemPress, onNavToggled}) => {
   );
 
   return (
-    <View style={styles.container}>
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          width: navWidth.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [50, 200, 50],
+          }),
+        },
+      ]}>
       <Image source={LogoMankind} style={styles.logo} />
       <View style={styles.navToggleButton}>
-        <TouchableWithoutFeedback onPress={() => setOpen(!open)}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            requestAnimationFrame(() => {
+              toggleNavWidth();
+            });
+            setOpen(!open);
+          }}>
           <SearchIcon />
         </TouchableWithoutFeedback>
       </View>
@@ -53,7 +86,7 @@ const NavMenu = ({onNavItemPress, onNavToggled}) => {
           />
         ))}
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

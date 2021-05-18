@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 import theme from 'themes';
 
 export default StyleSheet.create({
@@ -11,7 +11,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   sidemenuContainer: {
-    width: 240,
+    width: 'auto',
     height: '100%',
   },
   contentContainer: {
@@ -31,6 +31,6 @@ export default StyleSheet.create({
     width: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    cursor: 'pointer',
+    ...Platform.select({web: {cursor: 'pointer'}}),
   },
 });

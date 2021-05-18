@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import theme from 'themes';
 
 export default StyleSheet.create({
@@ -18,7 +18,7 @@ export default StyleSheet.create({
     backgroundColor: theme.colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-    cursor: 'pointer',
+    ...Platform.select({web: {cursor: 'pointer'}}),
   },
   navItem: {
     height: 88,
@@ -26,7 +26,7 @@ export default StyleSheet.create({
     paddingHorizontal: 24,
     flexDirection: 'row',
     alignItems: 'center',
-    cursor: 'pointer',
+    ...Platform.select({web: {cursor: 'pointer'}}),
   },
   navItemActive: {
     backgroundColor: theme.colors.white,
