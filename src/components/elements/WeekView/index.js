@@ -60,6 +60,7 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
         isLast && styles.lastCell,
       ]}>
       <TouchableOpacity
+        testID="button_weekView_cell_test"
         onPress={onPress}
         style={[styles.flexFullSpace, styles.flexSpaceBetweenView]}>
         {renderCellData(getCellData(weekData, header, rowHeader))}
@@ -94,6 +95,7 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
   const VerticalHeader = ({label}) => (
     <View style={[styles.VerticalHeader, styles.flexCenterView]}>
       <Label
+        testID="label_weekView_verticalHeader_test"
         isUpperCase={true}
         style={[styles.textCenterAlign]}
         title={label.substring(0, Constants.maxDaysLength)}
@@ -126,6 +128,7 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
       return (
         <Label
           key={index}
+          testID="label_weekView_header_test"
           isUpperCase={true}
           title={value}
           style={[
