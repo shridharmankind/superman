@@ -30,6 +30,7 @@ describe('WeekView Test Cases', () => {
     const {getByText} = renderComponent();
     expect(getByText('Sat')).toBeTruthy();
   });
+
   it('should render Vertical Header', () => {
     const {getAllByTestId} = renderComponent();
 
@@ -37,12 +38,14 @@ describe('WeekView Test Cases', () => {
       workingDays.length,
     );
   });
+
   it('should render Horizontal Header', () => {
     const {getAllByTestId} = renderComponent();
     expect(getAllByTestId('label_weekView_header_test').length).toEqual(
       columnHeader.length + 1,
     );
   });
+
   it('should handle cell click', () => {
     const {getAllByTestId} = renderComponent();
     const cellId = getAllByTestId('button_weekView_cell_test')[0];
