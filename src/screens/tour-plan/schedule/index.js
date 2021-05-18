@@ -6,14 +6,6 @@ import {TabBar} from 'components/elements';
 import {MonthlyTourPlan} from 'screens/tourPlan';
 import {Strings} from 'common';
 
-const SettingsScreen = () => {
-  return (
-    <View style={styles.settingScreen}>
-      <Text>Settings!</Text>
-    </View>
-  );
-};
-
 const Tab = createMaterialTopTabNavigator();
 
 const Schedule = () => {
@@ -22,7 +14,7 @@ const Schedule = () => {
       <SafeAreaView style={styles.safeAreaContainer}>
         <Tab.Navigator tabBar={props => <TabBar {...props} />}>
           <Tab.Screen name={Strings.dailyPlan} component={MonthlyTourPlan} />
-          <Tab.Screen name={String.tourPlan} component={SettingsScreen} />
+          <Tab.Screen name={Strings.tourPlan} component={MonthlyTourPlan} />
         </Tab.Navigator>
       </SafeAreaView>
     );

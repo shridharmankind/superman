@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
-import {Modal} from 'components/elements';
+import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings} from 'common';
 
@@ -30,15 +30,18 @@ const MonthlyTourPlan = () => {
   const [selectedTourPlan, setSelectedTourPlan] = useState(planOptions[0].text);
   const [visible, setVisible] = React.useState(false);
 
-  const showDialog = () => setVisible(true);
-
-  const hideDialog = () => setVisible(false);
+  const handleDialog = () => setVisible(!visible);
 
   const tourPlanDropDown = () => {
     return (
-      <TouchableWithoutFeedback onPress={showDialog}>
+      <TouchableWithoutFeedback onPress={handleDialog}>
         <View style={styles.selectedTour}>
-          <Text style={styles.selectedTourText}>{selectedTourPlan}</Text>
+          <Label
+            type="bold"
+            title={selectedTourPlan}
+            size={16}
+            style={styles.selectedTourText}
+          />
           <View style={styles.iconContainer}>
             <Icon name="caret-down" size={30} color={colors.black} />
           </View>
@@ -50,16 +53,19 @@ const MonthlyTourPlan = () => {
   const getModalTitle = () => {
     return (
       <View>
-        <Text style={[styles.modalText, styles.modalTitleText]}>
-          {Strings.viewTourPlan}
-        </Text>
+        <Label
+          type="bold"
+          title={Strings.viewTourPlan}
+          size={16}
+          style={styles.modalTitleText}
+        />
       </View>
     );
   };
 
   const selectedTourPlanHandler = planOption => {
     setSelectedTourPlan(planOption.text);
-    hideDialog();
+    handleDialog();
   };
 
   const getModalContent = () => {
@@ -69,7 +75,12 @@ const MonthlyTourPlan = () => {
           <TouchableWithoutFeedback
             key={index}
             onPress={() => selectedTourPlanHandler(option)}>
-            <Text style={styles.modalText}>{option.text}</Text>
+            <Label
+              type="regular"
+              title={option.text}
+              size={16}
+              style={styles.modalText}
+            />
           </TouchableWithoutFeedback>
         ))}
       </View>
@@ -80,7 +91,7 @@ const MonthlyTourPlan = () => {
     return (
       <Modal
         open={visible}
-        onClose={hideDialog}
+        onClose={handleDialog}
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
