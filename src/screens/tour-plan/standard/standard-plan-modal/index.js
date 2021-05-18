@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
 import {Area, DoctorDetails} from 'components/elements';
 import themes from 'themes'
+import { Strings } from 'common'
 import styles from './styles';
 
 const StandardPlanModal = ({visible, hideModal}) => {
@@ -14,7 +15,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
           <View style={styles.container}>
               <View style={styles.modalHeader}>
                 <View>
-                    <Text>Select doctors and Chemist</Text>                  
+                    <Text>{Strings.selectDoctorAndChemist}</Text>                  
                 </View>
                 <View>
                     <Text>sf</Text>
@@ -39,7 +40,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
                     <View style={styles.leftContent}>
                         <View style={styles.selectAreaContainer}>
                             <View>
-                                <Text>Select Area</Text>
+                                <Text>{Strings.selectArea}</Text>
                             </View>
                             <View style={styles.areaFilterContainer}>
                                 <Area 
@@ -62,7 +63,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
                             <View>
                                 <View style={styles.doctorDetailsHeader}>
                                     <View>
-                                        <Text>Select Visit</Text>
+                                        <Text>{Strings.selectVisit}</Text>
                                     </View>
                                     <View style={styles.categoryFilterContainer}>
                                         <Area 
@@ -105,7 +106,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
                     </View>
                     <View style={styles.rightContent}>
 
-                        <Text>Plan Compliance</Text>
+                        <Text>{Strings.planCompliance}</Text>
                     </View> 
               </View>
           </View>
