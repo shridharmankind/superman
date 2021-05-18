@@ -18,7 +18,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
                     <Text>{Strings.selectDoctorAndChemist}</Text>                  
                 </View>
                 <View>
-                    <Text>sf</Text>
+                    <Text></Text>
                 </View>
                 <View style={styles.headerButtonGroup}>
                 <Button
