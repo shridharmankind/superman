@@ -10,7 +10,12 @@ const maxDaysLength = 3;
  * @param {Array} columnHeader represents the  data for col header
  * @param {Object} weekData Data for all cells
  */
-const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
+const WeekView = ({
+  workingDays,
+  columnHeader,
+  onPressHandler,
+  weekData = {},
+}) => {
   const headerData = ['', ...columnHeader];
 
   /**
@@ -82,9 +87,7 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
         key={index}
         isLast={isLast}
         rowHeader={rowHeader}
-        onPress={() =>
-          console.log('clicked on week::', header, 'row', rowHeader)
-        }
+        onPress={() => onPressHandler(header, rowHeader)}
       />
     ));
 
@@ -155,6 +158,7 @@ WeekView.propTypes = {
   workingDays: PropTypes.array.isRequired,
   columnHeader: PropTypes.array.isRequired,
   weekData: PropTypes.object,
+  onPressHandler: PropTypes.func,
 };
 
 export default WeekView;
