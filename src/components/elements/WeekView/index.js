@@ -153,7 +153,7 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
 
 WeekView.propTypes = {
   workingDays: PropTypes.array.isRequired,
-  columnHeader: PropTypes.array,
+  columnHeader: PropTypes.array.isRequired,
   weekData: PropTypes.object,
 };
 
