@@ -37,7 +37,7 @@ const CustomModal = ({
     onClose();
   };
   return (
-    <View style={styles.centeredView}>
+    <View>
       <Modal
         animationType={animationType}
         transparent={true}

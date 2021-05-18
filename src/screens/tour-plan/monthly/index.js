@@ -5,6 +5,7 @@ import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings} from 'common';
+import {StandardPlanContainer} from 'screens/tourPlan';
 
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
@@ -32,7 +33,7 @@ const MonthlyTourPlan = () => {
     },
   ];
   const [planOptions, setPlanOptions] = useState(planArray);
-  const [selectedTourPlan, setSelectedTourPlan] = useState(planOptions[0].text);
+  const [selectedTourPlan, setSelectedTourPlan] = useState(planOptions[0]);
   const [visible, setVisible] = React.useState(false);
 
   const handleDialog = () => setVisible(!visible);
@@ -44,7 +45,7 @@ const MonthlyTourPlan = () => {
           <View style={styles.selectedTourTextContainer}>
             <Label
               type="bold"
-              title={selectedTourPlan}
+              title={selectedTourPlan.text}
               size={16}
               style={styles.selectedTourText}
             />
@@ -98,7 +99,7 @@ const MonthlyTourPlan = () => {
       });
       setPlanOptions(newOptions);
     });
-    setSelectedTourPlan(planOption.text);
+    setSelectedTourPlan(planOption);
     handleDialog();
   };
 
@@ -133,6 +134,18 @@ const MonthlyTourPlan = () => {
     );
   };
 
+  /**
+   *  Renders View on basis of selected tour plan
+   * @returns view selected
+   */
+  const renderView = () => {
+    switch (selectedTourPlan.id) {
+      case 1:
+        return <StandardPlanContainer />;
+      default:
+        return null;
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.dropDownsContainer}>
@@ -140,6 +153,7 @@ const MonthlyTourPlan = () => {
         <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
       </View>
       {openTourPlanDropDown()}
+      {renderView()}
     </View>
   );
 };
