@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
+import themes from 'themes';
 import styles from './styles';
 
 /**
@@ -13,12 +14,18 @@ import styles from './styles';
 
 const Frequecy = ({visited, testID, ...props}) => {
   const isVisited = visited
-    ? {borderColor: '#1C1939', borderWidth: 1, backgroundColor: '#fff'}
-    : {backgroundColor: '#e3e3e3'};
+    ? {
+        borderColor: themes.colors.grey[200],
+        borderWidth: 1,
+        backgroundColor: themes.colors.white,
+      }
+    : {backgroundColor: themes.colors.grey[300]};
 
   return (
     <View style={[styles.container, isVisited]} testID={testID}>
-      {visited && <Icon name="circle" size={16} color="#1C1939" />}
+      {visited && (
+        <Icon name="circle" size={16} color={themes.colors.grey[200]} />
+      )}
     </View>
   );
 };

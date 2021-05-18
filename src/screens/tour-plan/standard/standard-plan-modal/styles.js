@@ -1,9 +1,9 @@
 import {StyleSheet} from 'react-native';
-import theme from 'themes';
+import themes from 'themes';
 
 const styles = StyleSheet.create({
   containerStyle: {
-    backgroundColor: theme.colors.white,
+    backgroundColor: themes.colors.white,
     padding: 40,
     marginHorizontal: 100,
     marginVertical: 40,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   categoryFilterContainer: {
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: '#322B7C',
+    borderColor: themes.colors.primary,
     borderRadius: 20,
   },
   doctorDetailsHeader: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 20,
-    borderBottomColor: theme.colors.borderColor,
+    borderBottomColor: themes.colors.borderColor,
     borderBottomWidth: 1,
   },
   doctorDetails: {

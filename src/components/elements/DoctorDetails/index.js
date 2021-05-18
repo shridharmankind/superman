@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
-import {Title, Subheading} from 'react-native-paper';
+import {View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {Frequecy, Label} from 'components/elements';
@@ -41,19 +40,22 @@ const DoctorDetails = ({
           styles.divisionContainer,
           {backgroundColor: getDivisionColor(category)},
         ]}>
-        <Label style={styles.divisionText} title={category} size={14} type={'bold'}/>        
+        <Label
+          style={styles.divisionText}
+          title={category}
+          size={14}
+          type={'bold'}
+        />
       </View>
       <Image
         style={styles.image}
         source={require('../../../assets/images/logo.png')}
       />
       <View style={styles.detailsContainer}>
-        <Label title={title} size={26}/>
+        <Label title={title} size={26} />
         <View>
-          <Label title={specialization}/>
-          {location && (
-            <Label title={location} style={styles.location}/>
-          )}
+          <Label title={specialization} />
+          {location && <Label title={location} style={styles.location} />}
         </View>
       </View>
       <View style={styles.frequecyContainer}>
@@ -63,7 +65,11 @@ const DoctorDetails = ({
       </View>
       {select && (
         <View style={styles.checkContainer}>
-          <Icon name="check-circle" size={32} color="#0095d1" />
+          <Icon
+            name="check-circle"
+            size={32}
+            color={themes.colors.checkCircleBlue}
+          />
         </View>
       )}
     </TouchableOpacity>

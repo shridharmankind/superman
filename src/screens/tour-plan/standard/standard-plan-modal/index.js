@@ -1,12 +1,18 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {Modal} from 'react-native-paper';
 import PropTypes from 'prop-types';
-import {Button} from 'components/elements';
-import {Area, DoctorDetails, Label} from 'components/elements';
+import {Area, DoctorDetails, Label, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings} from 'common';
 import styles from './styles';
+
+/**
+ * Standard Plan Modal component for setting daily standard plan.
+ * This component use DoctorDetails, AreaChip, Label and Button component
+ * @param {Boolean} visible Modal to be set visible/hide
+ * @param {Function} hideModal to hide modal
+ */
 
 const StandardPlanModal = ({visible, hideModal}) => {
   return (
@@ -17,9 +23,9 @@ const StandardPlanModal = ({visible, hideModal}) => {
       <View style={styles.container}>
         <View style={styles.modalHeader}>
           <View>
-            <Label title={Strings.selectDoctorAndChemist} />                
+            <Label title={Strings.selectDoctorAndChemist} />
           </View>
-          <View />            
+          <View />
           <View style={styles.headerButtonGroup}>
             <Button
               mode="outlined"
@@ -40,7 +46,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
           <View style={styles.leftContent}>
             <View style={styles.selectAreaContainer}>
               <View>
-                <Label title={Strings.selectArea}/>
+                <Label title={Strings.selectArea} />
               </View>
               <View style={styles.areaFilterContainer}>
                 <Area
@@ -63,7 +69,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
               <View>
                 <View style={styles.doctorDetailsHeader}>
                   <View>
-                    <Label title={Strings.selectVisit}/>
+                    <Label title={Strings.selectVisit} />
                   </View>
                   <View style={styles.categoryFilterContainer}>
                     <Area
@@ -87,7 +93,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
                   </View>
                 </View>
                 <View style={styles.doctorDetailsContainer}>
-                  <Label title={"Noida Sec 1"}/>
+                  <Label title={'Noida Sec 1'} />
                   <View style={styles.doctorDetails}>
                     <DoctorDetails
                       title={'Dr Harish'}
@@ -105,7 +111,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
             </View>
           </View>
           <View style={styles.rightContent}>
-            <Label title={Strings.planCompliance}/>
+            <Label title={Strings.planCompliance} />
           </View>
         </View>
       </View>
