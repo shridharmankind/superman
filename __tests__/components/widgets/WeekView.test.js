@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import WeekView from 'components/elements/WeekView';
+import {WeekView} from 'components/widgets';
 import {withTheme, cleanup, fireEvent} from 'utils/testHelpers';
 
 afterEach(cleanup);

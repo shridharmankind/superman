@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   textCenterAlign: {
     textAlign: 'center',
   },
-  VerticalHeader: {
+  verticalHeader: {
     flex: 0.3,
     paddingHorizontal: 3,
   },

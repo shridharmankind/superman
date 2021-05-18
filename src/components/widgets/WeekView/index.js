@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import {View, TouchableOpacity} from 'react-native';
 import {Label} from 'components/elements';
-import {Constants} from 'common';
 import styles from './styles';
 
+const maxDaysLength = 3;
 /** Render Week View
  * @param {Array} workingDays represents the  data for row header
  * @param {Array} columnHeader represents the  data for col header
@@ -93,12 +93,12 @@ const WeekView = ({workingDays, columnHeader, weekData = {}}) => {
    * @param {string} label represents column  header
    */
   const VerticalHeader = ({label}) => (
-    <View style={[styles.VerticalHeader, styles.flexCenterView]}>
+    <View style={[styles.verticalHeader, styles.flexCenterView]}>
       <Label
         testID="label_weekView_verticalHeader_test"
         isUpperCase={true}
         style={[styles.textCenterAlign]}
-        title={label.substring(0, Constants.maxDaysLength)}
+        title={label.substring(0, maxDaysLength)}
       />
     </View>
   );
