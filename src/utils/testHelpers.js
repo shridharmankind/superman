@@ -6,7 +6,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {render} from '@testing-library/react-native';
 
 import theme from 'themes';
-import store from 'src/store';
+import store from 'store';
 
 export const withTheme = component =>
   render(<PaperProvider theme={theme}>{component}</PaperProvider>);
