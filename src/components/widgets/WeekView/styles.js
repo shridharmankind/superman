@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   rowContainer: {
     flex: 1,
     borderRightWidth: 1,
-    borderColor: borderColor,
+    borderColor,
   },
   row: {
     flex: 1,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderTopWidth: 1,
     flex: 1,
-    borderColor: borderColor,
+    borderColor,
   },
   cellHeader: {
     flexDirection: 'row',
@@ -44,14 +44,17 @@ const styles = StyleSheet.create({
   },
   lastCell: {
     borderBottomWidth: 1,
-    borderColor: borderColor,
+    borderColor,
   },
   textCenterAlign: {
     textAlign: 'center',
   },
+  textAlignStart: {
+    alignSelf: 'flex-start',
+  },
   verticalHeader: {
     flex: 0.3,
-    paddingHorizontal: 3,
+    minWidth: 18,
   },
   flexCenterView: {
     justifyContent: 'center',

@@ -18,6 +18,7 @@ const Label = ({
   testID,
   style,
   size = 18,
+  textColor = theme.colors.blackShades[100],
   isUpperCase = false,
   type,
   ...props
@@ -26,7 +27,11 @@ const Label = ({
     <Text
       testID={testID}
       style={[
-        {fontFamily: getFontFamily(type), fontSize: size},
+        {
+          fontFamily: getFontFamily(type),
+          fontSize: size,
+          color: textColor,
+        },
         isUpperCase && styles.upperCase,
         style,
       ]}
