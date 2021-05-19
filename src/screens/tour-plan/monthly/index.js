@@ -28,21 +28,26 @@ const MonthlyTourPlan = () => {
     {
       id: 1,
       text: 'Standard Tour Plan (STP)',
+      selected: true,
     },
     {
       id: 2,
       text: 'March 2021',
+      selected: false,
     },
     {
       id: 3,
       text: 'April 2021',
+      selected: false,
     },
     {
       id: 4,
       text: 'May 2021',
+      selected: false,
     },
   ];
-  const [selectedTourPlan, setSelectedTourPlan] = useState(planOptions[0].text);
+  const [planOptions, setPlanOptions] = useState(planArray);
+  const [selectedTourPlan, setSelectedTourPlan] = useState(planOptions[0]);
   const [visible, setVisible] = React.useState(false);
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [user, setUser] = useState({});
@@ -64,14 +69,36 @@ const MonthlyTourPlan = () => {
     return (
       <TouchableWithoutFeedback onPress={handleDialog}>
         <View style={styles.selectedTour}>
-          <Label
-            type="bold"
-            title={selectedTourPlan}
-            size={16}
-            style={styles.selectedTourText}
-          />
+          <View style={styles.selectedTourTextContainer}>
+            <Label
+              type="bold"
+              title={selectedTourPlan.text}
+              size={16}
+              style={styles.selectedTourText}
+            />
+          </View>
           <View style={styles.iconContainer}>
-            <Icon name="caret-down" size={30} color={colors.black} />
+            <Icon name="caret-down" size={20} color={colors.primary} />
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
+
+  const myPlanDropDown = () => {
+    return (
+      <TouchableWithoutFeedback onPress={handleDialog}>
+        <View style={styles.selectedTour}>
+          <View style={styles.mySelectedTourTextContainer}>
+            <Label
+              type="bold"
+              title={Strings.myPlan}
+              size={16}
+              style={styles.selectedTourText}
+            />
+          </View>
+          <View style={styles.iconContainer}>
+            <Icon name="caret-down" size={20} color={colors.primary} />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -84,7 +111,7 @@ const MonthlyTourPlan = () => {
         <Label
           type="bold"
           title={Strings.viewTourPlan}
-          size={16}
+          size={14}
           style={styles.modalTitleText}
         />
       </View>
@@ -92,7 +119,14 @@ const MonthlyTourPlan = () => {
   };
 
   const selectedTourPlanHandler = planOption => {
-    setSelectedTourPlan(planOption.text);
+    setPlanOptions(options => {
+      const newOptions = options.map(o => {
+        o.selected = o.id === planOption.id;
+        return o;
+      });
+      setPlanOptions(newOptions);
+    });
+    setSelectedTourPlan(planOption);
     handleDialog();
   };
 
@@ -110,9 +144,9 @@ const MonthlyTourPlan = () => {
             key={index}
             onPress={() => selectedTourPlanHandler(option)}>
             <Label
-              type="regular"
+              type={option.selected ? 'bold' : 'regular'}
               title={option.text}
-              size={16}
+              size={14}
               style={styles.modalText}
             />
           </TouchableWithoutFeedback>
@@ -133,6 +167,18 @@ const MonthlyTourPlan = () => {
     );
   };
 
+  /**
+   *  Renders View on basis of selected tour plan
+   * @returns view selected
+   */
+  const renderView = () => {
+    switch (selectedTourPlan.id) {
+      case 1:
+        return <StandardPlanContainer />;
+      default:
+        return null;
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.dropDownsContainer}>
@@ -142,6 +188,7 @@ const MonthlyTourPlan = () => {
         )}
       </View>
       {openTourPlanDropDown()}
+      {renderView()}
     </View>
   );
 };
