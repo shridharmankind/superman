@@ -18,7 +18,7 @@ const Label = ({
   testID,
   style,
   size = 18,
-  textColor = theme.colors.text[100],
+  textColor = theme.colors.blackShades[100],
   isUpperCase = false,
   type,
   ...props
@@ -30,7 +30,7 @@ const Label = ({
         {
           fontFamily: getFontFamily(type),
           fontSize: size,
-          fontColor: textColor,
+          color: textColor,
         },
         isUpperCase && styles.upperCase,
         style,

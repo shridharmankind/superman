@@ -17,7 +17,7 @@ const theme = {
     darkBlue: '#5920B7',
     lightBlue: '#0852C5',
     checkCircleBlue: '#0095d1',
-    text: {
+    blackShades: {
       100: '#1C1939',
     },
     grey: {
