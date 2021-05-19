@@ -49,9 +49,12 @@ const styles = StyleSheet.create({
   textCenterAlign: {
     textAlign: 'center',
   },
+  textAlignStart: {
+    alignSelf: 'flex-start',
+  },
   verticalHeader: {
     flex: 0.3,
-    paddingHorizontal: 3,
+    minWidth: 18,
   },
   flexCenterView: {
     justifyContent: 'center',

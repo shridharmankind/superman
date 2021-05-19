@@ -100,7 +100,7 @@ const WeekView = ({
       <Label
         testID="label_weekView_verticalHeader_test"
         isUpperCase={true}
-        style={[styles.textCenterAlign]}
+        style={[styles.textAlignStart]}
         title={label.substring(0, maxDaysLength)}
       />
     </View>
@@ -136,7 +136,7 @@ const WeekView = ({
           title={value}
           style={[
             styles.textCenterAlign,
-            index === 0 ? styles.VerticalHeader : styles.flexFullSpace,
+            index === 0 ? styles.verticalHeader : styles.flexFullSpace,
           ]}
         />
       );
