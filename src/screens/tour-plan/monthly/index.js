@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {getSubordinates, fetchSingleUser} from '../../../api';
-import {getTourPlanScheduleMonths} from 'utils/helper';
+import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();

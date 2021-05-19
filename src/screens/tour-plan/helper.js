@@ -21,7 +21,6 @@ export const getTourPlanScheduleMonths = inputDate => {
     month: currentDate.month,
     year: currentDate.year,
   };
-  console.log('inputdate', nextFiscalYear, schedule);
 
   /**
    * loop from current month till next fiscal year end
@@ -31,7 +30,6 @@ export const getTourPlanScheduleMonths = inputDate => {
     (schedule.year === nextFiscalYear.year &&
       schedule.month !== nextFiscalYear.month)
   ) {
-    // console.log('here', tourPlanScheduleMonths);
     if (schedule.month === 12) {
       schedule.month = 0;
       schedule.year = nextFiscalYear.year;
@@ -41,6 +39,5 @@ export const getTourPlanScheduleMonths = inputDate => {
     );
     schedule.month += 1;
   }
-  console.log(tourPlanScheduleMonths);
   return tourPlanScheduleMonths;
 };
