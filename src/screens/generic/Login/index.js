@@ -13,6 +13,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import theme from 'themes';
 import {KeyChain} from 'helper';
+import {Button} from 'components/elements';
+import {Strings} from 'common';
 
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
@@ -67,9 +69,14 @@ const Login = ({navigation}) => {
           style={styles.image}
           source={require('../../../assets/images/logo.png')}
         />
-        <TouchableOpacity style={styles.button} onPress={loginHandler}>
-          <Text style={styles.textStyle}>Login</Text>
-        </TouchableOpacity>
+
+        <Button
+          title={Strings.login}
+          uppercase={true}
+          contentStyle={styles.button}
+          labelStyle={styles.textStyle}
+          onPress={() => loginHandler()}
+        />
         <ActivityIndicator
           animating={animating}
           color={theme.colors.white}
