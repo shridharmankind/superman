@@ -15,9 +15,10 @@ export default function Login({navigation}) {
   const [password, setPassword] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
-   const getUserList = () => {
-     fetchAllUsers().then(res => console.log(res.data));
-   };
+  const getUserList = () => {
+    fetchAllUsers().then(res => console.log(res.data));
+  };
+
   //Post Request Example
   useEffect(() => {
     const fetchData = async () => {
