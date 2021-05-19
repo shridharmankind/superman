@@ -64,7 +64,7 @@ const NavMenu = ({onNavItemPress, onNavToggled}) => {
           }),
         },
       ]}>
-      <Image source={LogoMankind} style={styles.logo} />
+      <Image source={LogoMankind} style={styles.logo} resizeMode="contain" />
       <View style={styles.navToggleButton}>
         <TouchableWithoutFeedback
           onPress={() => {
@@ -73,7 +73,7 @@ const NavMenu = ({onNavItemPress, onNavToggled}) => {
             });
             setOpen(!open);
           }}>
-          <SearchIcon />
+          <SearchIcon height={32} width={32} />
         </TouchableWithoutFeedback>
       </View>
       <View>

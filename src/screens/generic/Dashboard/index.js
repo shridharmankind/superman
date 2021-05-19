@@ -1,12 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, View} from 'react-native';
 
-import NavMenu from './components/NavMenu';
 import {Label} from 'components/elements';
+import {ContentWithSidePanel} from 'components/layouts';
+
+import NavMenu from './components/NavMenu';
 import navMenuData from './components/NavMenu/navMenuData';
 
-import styles from './styles';
 import {NotificationIcon, SearchIcon} from 'assets';
+
+import styles from './styles';
+import {Card} from 'react-native-paper';
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState(0);
@@ -24,25 +28,42 @@ const Dashboard = () => {
     setIsNavOpen(open);
   };
 
+  const renderSidePanel = () => {
+    <View style={{flex: 1}}>
+      <Label title={navMenuData[activePage].label} />
+      <Card
+        style={{
+          height: 200,
+          width: 200,
+          backgroundColor: 'white',
+          borderRadius: 16,
+        }}>
+        <Label title={navMenuData[activePage].label} />
+      </Card>
+    </View>;
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.sidemenuContainer}>
-        <NavMenu
-          onNavItemPress={onActivePageChanged}
-          onNavToggled={onNavToggled}
-        />
-      </View>
-      <View style={styles.contentContainer}>
-        <View>
+    <ScrollView
+      style={styles.scroll}
+      contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <View style={styles.sidemenuContainer}>
+          <NavMenu
+            onNavItemPress={onActivePageChanged}
+            onNavToggled={onNavToggled}
+          />
+        </View>
+        <ContentWithSidePanel sidePanel={renderSidePanel()}>
           <Label title={navMenuData[activePage].label} />
-        </View>
-      </View>
-      <View style={styles.actionsContainer}>
-        <View style={styles.action}>
-          <SearchIcon height={32} width={32} />
-        </View>
-        <View style={styles.action}>
-          <NotificationIcon height={32} width={32} />
+        </ContentWithSidePanel>
+        <View style={styles.actionsContainer}>
+          <View style={styles.action}>
+            <SearchIcon height={32} width={32} />
+          </View>
+          <View style={[styles.action, styles.actionPadding]}>
+            <NotificationIcon height={32} width={32} />
+          </View>
         </View>
       </View>
     </ScrollView>

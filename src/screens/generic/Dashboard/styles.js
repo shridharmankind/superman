@@ -2,26 +2,26 @@ import {StyleSheet, Platform} from 'react-native';
 import theme from 'themes';
 
 export default StyleSheet.create({
-  container: {
-    position: 'relative',
-    paddingHorizontal: 32,
-    paddingVertical: 40,
+  scroll: {
     backgroundColor: theme.colors.background,
+  },
+  scrollContainer: {
+    position: 'relative',
+    marginHorizontal: 32,
+    paddingVertical: 40,
+  },
+  container: {
+    flex: 1,
     flexDirection: 'row',
   },
   sidemenuContainer: {
     width: 'auto',
     height: '100%',
   },
-  contentContainer: {
-    flex: 1,
-    flexGrow: 1,
-    backgroundColor: theme.colors.white,
-  },
   actionsContainer: {
     position: 'absolute',
-    top: 40,
-    right: 32,
+    top: 0,
+    right: 0,
     display: 'flex',
     flexDirection: 'row',
   },
@@ -31,5 +31,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({web: {cursor: 'pointer'}}),
+  },
+  actionPadding: {
+    marginLeft: 24,
   },
 });

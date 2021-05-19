@@ -13,6 +13,7 @@ module.exports = {
           assets: './src/assets',
           'components/elements': './src/components/elements',
           'components/widgets': './src/components/widgets',
+          'components/layouts': './src/components/layouts',
           'screens/generic': './src/screens/generic',
           'screens/sales': './src/screens/sales',
           'screens/tourPlan': './src/screens/tour-plan',
