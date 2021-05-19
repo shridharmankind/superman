@@ -46,7 +46,7 @@ const AreaChip = ({
       type="flat"
       onPress={() => onPress(value)}
       activeOpacity={1}>
-      {`${title} ${count ? '(' + count + ')' : ''}`}
+      {`${title}${count ? ' (' + count + ')' : ''}`}
     </Chip>
   );
 };

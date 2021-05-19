@@ -65,9 +65,9 @@ const StandardPlanModal = ({visible, hideModal}) => {
           <View
             style={[
               styles.patchInputCotainer,
-              {opacity: patchValue === '' ? 0.2 : 1},
+              {opacity: !patchValue ? 0.2 : 1},
             ]}>
-            <Label title={patchValue ? patchValue : Strings.patchName} />
+            <Label title={patchValue || Strings.patchName} />
             <View style={styles.patchIconContainer}>
               <View style={[styles.patchIcon]}>
                 <Icon name="edit" size={15} color={themes.colors.white} />
@@ -80,20 +80,20 @@ const StandardPlanModal = ({visible, hideModal}) => {
           <View style={styles.headerButtonGroup}>
             <Button
               mode="contained"
-              title="Save Draft"
+              title={Strings.saveDraft}
               uppercase={true}
               contentStyle={styles.doneBtn}
             />
             <Button
               mode="contained"
-              title="Done"
+              title={Strings.done}
               uppercase={true}
               contentStyle={styles.doneBtn}
               onPress={() => hideModal()}
             />
             <Button
               mode="outlined"
-              title="Close"
+              title={Strings.close}
               uppercase={true}
               contentStyle={styles.closeBtn}
               onPress={() => hideModal()}
