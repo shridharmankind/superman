@@ -6,26 +6,43 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  dropDownsContainer: {
+    flexDirection: 'row',
+  },
+  tourPlanContainer: {
+    width: '90%',
+    alignItems: 'flex-start',
+  },
+  myPlanContainer: {
+    width: '10%',
+    alignItems: 'flex-end',
+  },
   selectedTour: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
-    width: 250,
-    minWidth: 250,
   },
   iconContainer: {
-    marginLeft: 80,
+    marginLeft: 10,
     marginRight: 20,
+  },
+  selectedTourTextContainer: {
+    minWidth: 220,
+    width: 220,
+  },
+  mySelectedTourTextContainer: {
+    minWidth: 80,
+    width: 80,
   },
   selectedTourText: {
     color: theme.colors.black,
   },
   modalText: {
-    paddingVertical: 10,
+    paddingVertical: 5,
     color: theme.colors.primary,
   },
   modalTitleText: {
-    paddingVertical: 10,
+    paddingVertical: 5,
     color: theme.colors.black,
   },
   contentView: {
