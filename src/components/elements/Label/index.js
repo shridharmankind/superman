@@ -50,7 +50,7 @@ const getFontFamily = type => {
 };
 Label.propTypes = {
   type: PropTypes.oneOf(['bold', 'regular', 'semiBold']),
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   size: PropTypes.number,
   testID: PropTypes.string,
 };

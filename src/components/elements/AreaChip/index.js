@@ -8,6 +8,7 @@ import styles from './styles';
  * This serves the purpose to make the use of Select Area, and Doctor,chemist,all filter
  * @param {String} color  color of text
  * @param {String} title text of the chip
+ * @param {String} value value of the chip
  * @param {String} count count to add in text of chip - optional
  * @param {Object} style custom style to be passed from consuming component for the button
  * @param {Boolean} selected chip is selected or not
@@ -27,21 +28,24 @@ const AreaChip = ({
   selectedColor,
   selectedTextColor,
   testID,
-  ...props
+  style,
+  value,
+  onPress,
 }) => {
   return (
     <Chip
       testID={testID}
       style={[
         styles.chipContainer,
-        props.style,
+        style,
         {
           backgroundColor: selected && selectedColor ? selectedColor : bgColor,
         },
       ]}
       textStyle={{color: selected ? selectedTextColor : color}}
       type="flat"
-      onPress={() => props.onPress()}>
+      onPress={() => onPress(value)}
+      activeOpacity={1}>
       {`${title} ${count ? '(' + count + ')' : ''}`}
     </Chip>
   );
@@ -58,6 +62,7 @@ Chip.propTypes = {
   bgColor: PropTypes.string,
   onPress: PropTypes.func,
   testID: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default AreaChip;

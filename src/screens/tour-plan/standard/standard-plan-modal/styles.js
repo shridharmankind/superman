@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   doneBtn: {
     paddingVertical: 10,
     paddingHorizontal: 60,
+    marginRight: 15,
   },
   closeBtn: {
     paddingVertical: 10,
     paddingHorizontal: 60,
-    marginRight: 10,
   },
   content: {
     flexDirection: 'row',
@@ -69,6 +69,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'flex-start',
     flexWrap: 'wrap',
+  },
+  areaFilter: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  patchInputCotainer: {
+    flex: 0,
+    borderColor: themes.colors.borderColor,
+    borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'row',
+    padding: 10,
+    justifyContent: 'space-between',
+  },
+  patchIcon: {
+    backgroundColor: themes.colors.darkBlue,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    width: 30,
+    height: 30,
+    borderRadius: 30 / 2,
+    marginRight: 5,
+  },
+  patchIconContainer: {
+    flexDirection: 'row',
+    marginLeft: 50,
   },
 });
 

@@ -4,10 +4,10 @@ import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {fetchAllUsers} from '../../../api';
-import {Button} from 'components/elements';
+import {Button, PatchDropdown} from 'components/elements';
 import {NetworkService} from 'services';
 import {Constants, Strings} from 'common';
-import { StandardPlanModal } from 'screens/tour-plan'
+import {StandardPlanModal} from 'screens/tour-plan';
 
 export default function Login({navigation}) {
   const {colors} = useTheme();
@@ -50,8 +50,8 @@ export default function Login({navigation}) {
   }, []);
 
   const showModal = () => {
-    setOpenModal(true)
-  }
+    setOpenModal(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -63,7 +63,6 @@ export default function Login({navigation}) {
       <View style={styles.iconContainer}>
         <Icon name="rocket" size={30} color="#900" />
       </View>
-
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
@@ -100,7 +99,12 @@ export default function Login({navigation}) {
         onPress={() => setOpenModal(true)}
       />
 
-      {openModal && <StandardPlanModal visible={openModal} hideModal={() => setOpenModal(false)}/> }
+      {openModal && (
+        <StandardPlanModal
+          visible={openModal}
+          hideModal={() => setOpenModal(false)}
+        />
+      )}
     </View>
   );
 }
