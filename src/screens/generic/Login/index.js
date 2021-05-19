@@ -1,7 +1,5 @@
 import React, {useCallback, useState, useEffect} from 'react';
 import {
-  Text,
-  TouchableOpacity,
   SafeAreaView,
   Image,
   View,
