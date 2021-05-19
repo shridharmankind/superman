@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="ipad10_5" orientation="landscape" layout="fullscreen" appearance="dark"/>
+    <device id="ipad10_5" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -17,26 +17,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchScreen" highlightedImage="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="x3f-IG-qQP">
-                                <rect key="frame" x="490" y="382.5" width="132" height="69"/>
+                                <rect key="frame" x="490" y="60" width="132" height="714"/>
                                 <color key="tintColor" red="0.10980392156862745" green="0.094117647058823528" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="132" id="SId-8I-01m"/>
-                                    <constraint firstAttribute="height" constant="69" id="kgH-4N-b6M"/>
-                                </constraints>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                             </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Become a SuperHero" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yft-C3-a0x">
+                                <rect key="frame" x="452" y="470" width="208" height="34"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="x3f-IG-qQP" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="fwG-qb-FWL"/>
-                            <constraint firstItem="x3f-IG-qQP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="zwj-YI-GS1"/>
+                            <constraint firstItem="yft-C3-a0x" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="70" id="6kQ-rX-hpT"/>
+                            <constraint firstItem="x3f-IG-qQP" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="60" id="PI0-8r-VmJ"/>
+                            <constraint firstItem="x3f-IG-qQP" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="b22-7S-F03"/>
+                            <constraint firstItem="yft-C3-a0x" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="mqm-s1-yAc"/>
+                            <constraint firstItem="x3f-IG-qQP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="wpX-Lc-T23"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+            <point key="canvasLocation" x="51.390922401171302" y="373.828125"/>
         </scene>
     </scenes>
     <resources>
