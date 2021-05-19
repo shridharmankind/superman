@@ -3,6 +3,7 @@ import {View, LogBox} from 'react-native';
 import {Dropdown as DropdownContainer} from 'react-native-material-dropdown-v2';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import {Strings} from 'common';
 
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
@@ -30,7 +31,7 @@ const Dropdown = ({
     <View style={styles.container}>
       <DropdownContainer
         data={data}
-        value={'Select Patch'}
+        value={Strings.selectPatch}
         dropdownOffset={styles.offset}
         shadeOpacity={shadowOpacity}
         pickerStyle={[styles.picker, {width: pickerWidth}]}
