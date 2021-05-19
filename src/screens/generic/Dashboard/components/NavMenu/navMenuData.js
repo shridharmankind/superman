@@ -1,37 +1,51 @@
-import {SearchIcon} from 'assets';
+import {
+  HomeIcon,
+  CalendarIcon,
+  PerformanceIcon,
+  DirectoryIcon,
+  GSPIcon,
+  ExpensesIcon,
+  ContentIcon,
+  LearnIcon,
+  SettingsIcon,
+} from 'assets';
 
 // TODO move strings to en.json locale file
 export default [
   {
-    Icon: SearchIcon,
+    Icon: HomeIcon,
     label: 'Home',
   },
   {
-    Icon: SearchIcon,
+    Icon: CalendarIcon,
     label: 'Plan & Meet',
   },
   {
-    Icon: SearchIcon,
+    Icon: PerformanceIcon,
     label: 'Performance',
   },
   {
-    Icon: SearchIcon,
+    Icon: DirectoryIcon,
     label: 'Directory',
   },
   {
-    Icon: SearchIcon,
+    Icon: GSPIcon,
     label: 'GSP',
   },
   {
-    Icon: SearchIcon,
+    Icon: ExpensesIcon,
     label: 'Admin',
   },
   {
-    Icon: SearchIcon,
+    Icon: ContentIcon,
     label: 'Content',
   },
   {
-    Icon: SearchIcon,
+    Icon: LearnIcon,
     label: 'Learn',
+  },
+  {
+    Icon: SettingsIcon,
+    label: 'Settings',
   },
 ];

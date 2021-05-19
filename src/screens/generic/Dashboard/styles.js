@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions, Platform} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import theme from 'themes';
 
 export default StyleSheet.create({
@@ -7,7 +7,6 @@ export default StyleSheet.create({
     paddingHorizontal: 32,
     paddingVertical: 40,
     backgroundColor: theme.colors.background,
-    height: Dimensions.get('screen').height,
     flexDirection: 'row',
   },
   sidemenuContainer: {

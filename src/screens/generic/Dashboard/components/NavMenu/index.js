@@ -13,7 +13,7 @@ import {LogoMankind, SearchIcon} from 'assets';
 import styles from './styles';
 import navMenuData from './navMenuData';
 
-// TODO - mankind logo not showing
+// TODO - mankind logo not showing on web
 const NavMenu = ({onNavItemPress, onNavToggled}) => {
   const [open, setOpen] = useState(true);
   const [activeItem, setActiveItem] = useState(0);

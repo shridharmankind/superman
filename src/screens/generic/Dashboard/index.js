@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
-import {NotificationIcon, SearchIcon} from 'assets';
 import NavMenu from './components/NavMenu';
 import {Label} from 'components/elements';
 import navMenuData from './components/NavMenu/navMenuData';
 
 import styles from './styles';
+import {NotificationIcon, SearchIcon} from 'assets';
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState(0);
@@ -25,7 +25,7 @@ const Dashboard = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.sidemenuContainer}>
         <NavMenu
           onNavItemPress={onActivePageChanged}
@@ -39,13 +39,13 @@ const Dashboard = () => {
       </View>
       <View style={styles.actionsContainer}>
         <View style={styles.action}>
-          <SearchIcon />
+          <SearchIcon height={32} width={32} />
         </View>
         <View style={styles.action}>
-          <NotificationIcon />
+          <NotificationIcon height={32} width={32} />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
