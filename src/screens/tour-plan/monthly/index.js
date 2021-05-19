@@ -17,7 +17,9 @@ const MonthlyTourPlan = () => {
       if (result.data) {
         setUser(result.data);
         let schedule = getTourPlanScheduleMonths();
-        if (result.data.staffPositions[0].staffCode === 1) {
+        if (
+          result.data.staffPositions[0].staffCode === Constants.staffCodes.MR
+        ) {
           schedule = [Strings.stp, ...schedule];
         }
         let newSchedule = schedule.map((option, index) => {
@@ -204,9 +206,10 @@ const MonthlyTourPlan = () => {
     <View style={styles.container}>
       <View style={styles.dropDownsContainer}>
         <View style={styles.tourPlanContainer}>{tourPlanDropDown()}</View>
-        {user.staffPositions && user?.staffPositions[0].staffCode === 2 && (
-          <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
-        )}
+        {user?.staffPositions &&
+          user?.staffPositions[0].staffCode === Constants.staffCodes.FLM && (
+            <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
+          )}
       </View>
       {openTourPlanDropDown()}
       {renderView()}

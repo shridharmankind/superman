@@ -17,7 +17,7 @@
       "staffPositions": [
         {
           "id": 0,
-          "staffCode": 1,
+          "staffCode": "MR",
           "reportingStaffPositionId": 0,
           "divisionId": 0,
           "role": 0,
@@ -42,7 +42,7 @@
       "staffPositions": [
         {
           "id": 0,
-          "staffCode": 2,
+          "staffCode": "FLM",
           "reportingStaffPositionId": 0,
           "divisionId": 0,
           "role": 0,

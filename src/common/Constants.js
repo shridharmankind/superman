@@ -18,3 +18,9 @@ export const planTypes = {
   TOURPLAN: 'tourplan',
   MYPLAN: 'myplan',
 };
+
+export const staffCodes = {
+  MR: 'MR',
+  FLM: 'FLM',
+  SLM: 'SLM',
+};
