@@ -8,6 +8,7 @@ const Strings = {
   viewTourPlan: 'View Tour Plan for',
   dailyPlan: 'Daily Plan',
   tourPlan: 'Tour Plan',
+  myPlan: 'My Plan',
 };
 
 export default Strings;

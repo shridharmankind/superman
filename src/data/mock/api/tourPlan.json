@@ -1,0 +1,27 @@
+{
+  "subOrdinates": {
+    "u1": [
+      {
+        "id": 0,
+        "firstName": "Naregsh",
+        "middleName": "K",
+        "lastName": "Khurana",
+        "username": "nk"
+      },
+      {
+        "id": 1,
+        "firstName": "Paresh",
+        "middleName": "K",
+        "lastName": "Oberoi",
+        "username": "po"
+      },
+      {
+        "id": 2,
+        "firstName": "Manoj",
+        "middleName": "k",
+        "lastName": "Majhi",
+        "username": "mm"
+      }
+    ]
+  }
+}

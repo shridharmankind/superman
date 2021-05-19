@@ -19,3 +19,11 @@ export const fetchAllUsers = () => {
 export const fetchSingleUser = id => {
   return client.get(`/single-user?id=${id}`);
 };
+
+export const fetchWorkingDays = country => {
+  return client.get(`/api/working-days?country=${country}`);
+};
+
+export const getSubordinates = () => {
+  return client.get('/getSubordinates');
+};
