@@ -23,7 +23,7 @@ const config = {
 
 const TOKEN_EXPIRY_TIME = 'token_expiry_time';
 const LOGIN_STATUS = 'loginStatus';
-const ERROR = 'error';
+const ERROR = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
@@ -44,20 +44,16 @@ const Login = ({navigation}) => {
 
   const loginHandler = useCallback(async () => {
     try {
-      try {
-        setAnimating(true);
-        const newAuthState = await authorize(config);
-        await KeyChain.saveAccessToken(newAuthState.accessToken);
-        AsyncStorage.setItem(
-          TOKEN_EXPIRY_TIME,
-          newAuthState.accessTokenExpirationDate,
-        );
-        AsyncStorage.setItem(LOGIN_STATUS, 'true');
-        setAnimating(false);
-        navigation.navigate('Home');
-      } catch (error) {
-        Alert.alert(ERROR, error.message);
-      }
+      setAnimating(true);
+      const newAuthState = await authorize(config);
+      await KeyChain.saveAccessToken(newAuthState.accessToken);
+      AsyncStorage.setItem(
+        TOKEN_EXPIRY_TIME,
+        newAuthState.accessTokenExpirationDate,
+      );
+      AsyncStorage.setItem(LOGIN_STATUS, 'true');
+      setAnimating(false);
+      navigation.navigate('Home');
     } catch (error) {
       setAnimating(false);
       Alert.alert(ERROR, error.message);
