@@ -3,7 +3,7 @@ module.exports = {
   extends: '@react-native-community',
   plugins: ['import'],
   rules: {
-    indent: ['error', 2],
+    indent: ['error', 2, {SwitchCase: 1}],
   },
   settings: {
     'import/resolver': {

@@ -1,1 +1,1 @@
-//All screens sould be exported under the module
+export {default as WeekView} from '../widgets/WeekView';

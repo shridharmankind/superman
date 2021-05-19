@@ -3,20 +3,22 @@ import {View, Image, TextInput} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { fetchAllUsers } from '../../../api'
+//import {fetchAllUsers} from '../../../api';
 import {Button} from 'components/elements';
 import {NetworkService} from 'services';
 import {Constants, Strings} from 'common';
+import {StandardPlanModal} from 'screens/tourPlan';
 
 export default function Login({navigation}) {
   const {colors} = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [openModal, setOpenModal] = useState(false);
 
-  const getUserList = () => {
-    fetchAllUsers().then(res => console.log(res.data))
-  }
-  //Post Request Example .
+   const getUserList = () => {
+     fetchAllUsers().then(res => console.log(res.data));
+   };
+  //Post Request Example
   useEffect(() => {
     const fetchData = async () => {
       const result = await NetworkService.post('/api/Chemists', {
@@ -46,6 +48,10 @@ export default function Login({navigation}) {
     };
     fetchData();
   }, []);
+
+  const showModal = () => {
+    setOpenModal(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -85,6 +91,21 @@ export default function Login({navigation}) {
         uppercase={true}
         contentStyle={styles.loginBtn}
       />
+
+      <Button
+        mode="contained"
+        title="Open daily plan"
+        uppercase={true}
+        contentStyle={styles.loginBtn}
+        onPress={() => setOpenModal(true)}
+      />
+
+      {openModal && (
+        <StandardPlanModal
+          visible={openModal}
+          hideModal={() => setOpenModal(false)}
+        />
+      )}
     </View>
   );
 }
