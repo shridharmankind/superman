@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     backgroundColor: themes.colors.white,
     padding: 40,
-    marginHorizontal: 100,
+    marginHorizontal: 50,
     marginVertical: 40,
   },
   container: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     alignItems: 'center',
-    marginBottom: 40,
+    marginVertical: 40,
   },
   headerButtonGroup: {
     flexDirection: 'row',

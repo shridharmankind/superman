@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     height: '100%',
-    padding: 40,
+    padding: 20,
   },
   leftPanel: {
     flexGrow: 1,
@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 7,
     backgroundColor: theme.colors.white,
-    borderRadius: 40,
+    borderRadius: 20,
     height: '100%',
-    margin: 20,
-    padding: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 30,
   },
   header: {
     backgroundColor: theme.colors.grayishBlue,

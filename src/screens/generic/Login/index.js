@@ -4,10 +4,9 @@ import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {fetchAllUsers} from '../../../api';
-import {Button, PatchDropdown} from 'components/elements';
+import {Button} from 'components/elements';
 import {NetworkService} from 'services';
 import {Constants, Strings} from 'common';
-import {StandardPlanModal} from 'screens/tour-plan';
 
 export default function Login({navigation}) {
   const {colors} = useTheme();
@@ -90,21 +89,6 @@ export default function Login({navigation}) {
         uppercase={true}
         contentStyle={styles.loginBtn}
       />
-
-      <Button
-        mode="contained"
-        title="Open daily plan"
-        uppercase={true}
-        contentStyle={styles.loginBtn}
-        onPress={() => setOpenModal(true)}
-      />
-
-      {openModal && (
-        <StandardPlanModal
-          visible={openModal}
-          hideModal={() => setOpenModal(false)}
-        />
-      )}
     </View>
   );
 }

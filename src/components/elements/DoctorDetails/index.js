@@ -35,27 +35,29 @@ const DoctorDetails = ({
       onPress={() => setSelect(!select)}
       style={styles.container}
       activeOpacity={1}>
-      <View
-        style={[
-          styles.divisionContainer,
-          {backgroundColor: getDivisionColor(category)},
-        ]}>
-        <Label
-          style={styles.divisionText}
-          title={category}
-          size={14}
-          type={'bold'}
-        />
-      </View>
-      <Image
-        style={styles.image}
-        source={require('../../../assets/images/logo.png')}
-      />
       <View style={styles.detailsContainer}>
-        <Label title={title} size={26} />
-        <View>
-          <Label title={specialization} />
-          {location && <Label title={location} style={styles.location} />}
+        <View
+          style={[
+            styles.divisionContainer,
+            {backgroundColor: getDivisionColor(category)},
+          ]}>
+          <Label
+            style={styles.divisionText}
+            title={category}
+            size={14}
+            type={'bold'}
+          />
+        </View>
+        <Image
+          style={styles.image}
+          source={require('../../../assets/images/logo.png')}
+        />
+        <View style={styles.nameContainer}>
+          <Label title={title} size={26} />
+          <View>
+            <Label title={specialization} />
+            {location && <Label title={location} style={styles.location} />}
+          </View>
         </View>
       </View>
       <View style={styles.frequecyContainer}>
