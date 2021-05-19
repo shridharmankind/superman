@@ -23,7 +23,7 @@ const config = {
 
 const TOKEN_EXPIRY_TIME = 'token_expiry_time';
 const LOGIN_STATUS = 'loginStatus';
-const ERROR = 'Info';
+const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
@@ -56,7 +56,7 @@ const Login = ({navigation}) => {
       navigation.navigate('Home');
     } catch (error) {
       setAnimating(false);
-      Alert.alert(ERROR, error.message);
+      Alert.alert(AlertTitle, error.message);
     }
   }, [navigation]);
 
