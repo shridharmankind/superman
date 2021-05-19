@@ -10,6 +10,7 @@ const Strings = {
   dailyPlan: 'Daily Plan',
   tourPlan: 'Tour Plan',
   myPlan: 'My Plan',
+  stp: 'Standard Tour Plan(STP)',
 };
 
 export default Strings;

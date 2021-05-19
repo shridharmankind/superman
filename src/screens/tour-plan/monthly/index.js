@@ -4,75 +4,85 @@ import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {getSubordinates, fetchSingleUser} from '../../../api';
-
+import {getTourPlanScheduleMonths} from 'utils/helper';
 
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
-
   useEffect(() => {
-    console.log('here');
     const fetchData = async () => {
-      const result = await fetchSingleUser('1');
-      console.log('res', result);
+      const result = await fetchSingleUser(1);
       if (result.data) {
-        console.log('singleuser', result.data);
         setUser(result.data);
+        let schedule = getTourPlanScheduleMonths();
+        if (result.data.staffPositions[0].staffCode === 1) {
+          schedule = [Strings.stp, ...schedule];
+        }
+        let newSchedule = schedule.map((option, index) => {
+          return {
+            id: index + 1,
+            text: option,
+            selected: index === 0,
+          };
+        });
+        setPlanOptions(newSchedule);
+        setSelectedTourPlan(newSchedule[0]);
       }
     };
     fetchData();
-  }, []);
-  const planArray = [
-    {
-      id: 1,
-      text: 'Standard Tour Plan (STP)',
-      selected: true,
-    },
-    {
-      id: 2,
-      text: 'March 2021',
-      selected: false,
-    },
-    {
-      id: 3,
-      text: 'April 2021',
-      selected: false,
-    },
-    {
-      id: 4,
-      text: 'May 2021',
-      selected: false,
-    },
-  ];
-  const [planOptions, setPlanOptions] = useState(planArray);
-  const [selectedTourPlan, setSelectedTourPlan] = useState(planOptions[0]);
-  const [visible, setVisible] = React.useState(false);
-  const [myPlanOptions, setMyPlanOptions] = useState([]);
-  const [user, setUser] = useState({});
+  }, [planOptions, user]);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await getSubordinates();
       if (result.data) {
-        console.log('subordinates', result.data);
-        setMyPlanOptions(result.data);
+        let myPlan = [
+          {
+            id: 1,
+            text: Strings.myPlan,
+            selected: true,
+          },
+        ];
+        result.data.map((option, index) => {
+          myPlan.push({
+            id: index + 2,
+            text: `${option.firstName} ${option.middleName} ${option.lastName}`,
+            selected: false,
+          });
+        });
+        setMyPlanOptions(myPlan);
+        setSelectedMyPlan(myPlan[0]);
       }
     };
     fetchData();
   }, []);
 
+  const [planOptions, setPlanOptions] = useState([]);
+  const [selectedTourPlan, setSelectedTourPlan] = useState({});
+  const [selectedMyPlan, setSelectedMyPlan] = useState({});
+  const [visible, setVisible] = useState(false);
+  const [myPlanOptions, setMyPlanOptions] = useState([]);
+  const [user, setUser] = useState({});
+  const [dropDownClicked, setDropDownClicked] = useState(
+    Constants.planTypes.TOURPLAN,
+  );
+
   const handleDialog = () => setVisible(!visible);
 
   const tourPlanDropDown = () => {
     return (
-      <TouchableWithoutFeedback onPress={handleDialog}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          setDropDownClicked(Constants.planTypes.TOURPLAN);
+          setVisible(!visible);
+        }}>
         <View style={styles.selectedTour}>
           <View style={styles.selectedTourTextContainer}>
             <Label
               type="bold"
-              title={selectedTourPlan.text}
+              title={selectedTourPlan?.text}
               size={16}
               style={styles.selectedTourText}
             />
@@ -87,12 +97,16 @@ const MonthlyTourPlan = () => {
 
   const myPlanDropDown = () => {
     return (
-      <TouchableWithoutFeedback onPress={handleDialog}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          setDropDownClicked(Constants.planTypes.MYPLAN);
+          setVisible(!visible);
+        }}>
         <View style={styles.selectedTour}>
           <View style={styles.mySelectedTourTextContainer}>
             <Label
               type="bold"
-              title={Strings.myPlan}
+              title={selectedMyPlan.text}
               size={16}
               style={styles.selectedTourText}
             />
@@ -119,24 +133,31 @@ const MonthlyTourPlan = () => {
   };
 
   const selectedTourPlanHandler = planOption => {
-    setPlanOptions(options => {
-      const newOptions = options.map(o => {
-        o.selected = o.id === planOption.id;
-        return o;
-      });
-      setPlanOptions(newOptions);
+    let optionsToIterate = [];
+    let isTourPlan = dropDownClicked === Constants.planTypes.TOURPLAN;
+    optionsToIterate = isTourPlan ? planOptions : myPlanOptions;
+    const newOptions = optionsToIterate.map(o => {
+      o.selected = o.id === planOption.id;
+      return o;
     });
-    setSelectedTourPlan(planOption);
+
+    if (isTourPlan) {
+      setPlanOptions(newOptions);
+      setSelectedTourPlan(planOption);
+    } else {
+      setMyPlanOptions(newOptions);
+      setSelectedMyPlan(planOption);
+    }
+
     handleDialog();
   };
 
   const getModalContent = () => {
-    let optionsToIterate = planOptions;
-    if (user.staffPositions && user?.staffPositions[0].staffCode === 1) {
-      optionsToIterate = myPlanOptions;
-    }
-
-    console.log('firstName', optionsToIterate);
+    let optionsToIterate = [];
+    optionsToIterate =
+      dropDownClicked === Constants.planTypes.TOURPLAN
+        ? planOptions
+        : myPlanOptions;
     return (
       <View style={styles.contentView}>
         {optionsToIterate.map((option, index) => (
@@ -172,7 +193,7 @@ const MonthlyTourPlan = () => {
    * @returns view selected
    */
   const renderView = () => {
-    switch (selectedTourPlan.id) {
+    switch (selectedTourPlan?.id) {
       case 1:
         return <StandardPlanContainer />;
       default:
@@ -183,7 +204,7 @@ const MonthlyTourPlan = () => {
     <View style={styles.container}>
       <View style={styles.dropDownsContainer}>
         <View style={styles.tourPlanContainer}>{tourPlanDropDown()}</View>
-        {user.staffPositions && user?.staffPositions[0].staffCode === 1 && (
+        {user.staffPositions && user?.staffPositions[0].staffCode === 2 && (
           <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
         )}
       </View>
