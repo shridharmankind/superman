@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     borderColor: theme.colors.grey[100],
-    minHeight: 70,
+    minHeight: 80,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
   },
