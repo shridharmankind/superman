@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView, View} from 'react-native';
 
+import {useNavigation} from '@react-navigation/core';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
@@ -15,10 +16,10 @@ import theme from 'themes';
 const DashboardStack = createStackNavigator();
 
 const Dashboard = () => {
-  const [activePage, setActivePage] = useState(0);
+  const navigation = useNavigation();
 
-  const onActivePageChanged = pageIndex => {
-    setActivePage(pageIndex);
+  const onActivePageChanged = route => {
+    route && navigation.navigate(route);
   };
 
   const renderSideMenu = () => (

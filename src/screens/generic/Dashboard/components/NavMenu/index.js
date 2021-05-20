@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Image, TouchableWithoutFeedback, View} from 'react-native';
 
 import {Label} from 'components/elements';
@@ -11,12 +11,13 @@ import navMenuData from './navMenuData';
 const NavMenu = ({onNavItemPress}) => {
   const [activeItem, setActiveItem] = useState(0);
 
-  useEffect(() => {
-    onNavItemPress && onNavItemPress(activeItem);
-  }, [onNavItemPress, activeItem]);
+  const onNavItemSelected = index => {
+    setActiveItem(index);
+    onNavItemPress && onNavItemPress(navMenuData[index].route);
+  };
 
   const NavItem = ({Icon, label, index, isActive = false}) => (
-    <TouchableWithoutFeedback onPress={() => setActiveItem(index)}>
+    <TouchableWithoutFeedback onPress={() => onNavItemSelected(index)}>
       <View style={[styles.navItem, isActive ? styles.navItemActive : '']}>
         <Icon height={32} width={32} />
         <Label
@@ -36,7 +37,7 @@ const NavMenu = ({onNavItemPress}) => {
       <View style={styles.navItemsContainer}>
         {navMenuData.map((item, index) => (
           <NavItem
-            key={index}
+            key={item.route}
             index={index}
             isActive={index === activeItem}
             {...item}
