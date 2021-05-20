@@ -7,10 +7,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 6,
     alignSelf: 'stretch',
-    borderRightWidth: 1,
     justifyContent: 'space-between',
     borderColor: theme.colors.grey[100],
     minHeight: 70,
+    borderLeftWidth: 1,
+    borderBottomWidth: 1,
+  },
+  currentDailyContainer: {
+    borderWidth: 1,
+    borderColor: theme.colors.blueShades[100],
   },
   headerContent: {
     flexDirection: 'row',

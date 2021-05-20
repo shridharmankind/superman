@@ -32,10 +32,9 @@ const MonthlyView = ({DayComponent = DailyView}) => {
             margin: 0,
             padding: 0,
             flexDirection: 'row',
-            justifyContent: 'space-around',
-            borderLeftWidth: 1,
-            borderBottomWidth: 1,
+            borderRightWidth: 1,
             borderColor: theme.colors.grey[100],
+            justifyContent: 'space-around',
           },
         },
       }}

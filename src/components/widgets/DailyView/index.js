@@ -2,25 +2,32 @@ import React from 'react';
 import {View} from 'react-native';
 import {Label} from 'components/elements';
 import styles from './styles';
+const currentDate = new Date();
 
-const isDisabled = month => month !== new Date().getMonth() + 1;
+const isDisabled = month => month !== currentDate.getMonth() + 1;
 
-const isCurrent = date => date === new Date().getDate();
+const isCurrent = date =>
+  date.day === currentDate.getDate() &&
+  date.month === currentDate.getMonth() + 1;
 
 const DailyView = ({props}) => {
   return (
-    <View style={styles.dailyViewContainer}>
+    <View
+      style={[
+        styles.dailyViewContainer,
+        isCurrent(props.date) && styles.currentDailyContainer,
+      ]}>
       <View style={styles.headerContent}>
         <Label size={16} title={''} />
 
         <Label
           size={16}
-          type={isCurrent(props.date.day) ? 'bold' : 'regular'}
+          type={isCurrent(props.date) ? 'bold' : 'regular'}
           style={[
             isDisabled(props.date.month)
               ? styles.disabledText
               : styles.activeText,
-            isCurrent(props.date.day) && styles.currentDate,
+            isCurrent(props.date) && styles.currentDate,
           ]}
           title={props.date.day}
         />
