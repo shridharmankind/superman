@@ -6,3 +6,4 @@ export {default as DoctorDetails} from './DoctorDetails';
 export {default as Frequecy} from './Frequency';
 export {default as TabBar} from './TabBar';
 export {default as Modal} from './Modal';
+export {default as Tab} from './Tab';
