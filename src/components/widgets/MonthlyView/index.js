@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
 import theme from 'themes';
+
 /**
  * Render Monthly View Calendar created using
  * react-native-calendars.View is rendered

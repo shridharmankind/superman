@@ -6,9 +6,15 @@ const currentDate = new Date();
 
 const isDisabled = month => month !== currentDate.getMonth() + 1;
 
+//TO DO: will move to utility once finalise time lib
 const isCurrent = date =>
   date.day === currentDate.getDate() &&
   date.month === currentDate.getMonth() + 1;
+
+/**
+ * Render Daily Container
+ * @param {Object} props
+ */
 
 const DailyView = ({props}) => {
   return (

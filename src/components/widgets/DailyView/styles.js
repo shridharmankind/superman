@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const borderRadius = 14;
+
 const styles = StyleSheet.create({
   dailyViewContainer: {
     alignSelf: 'stretch',
