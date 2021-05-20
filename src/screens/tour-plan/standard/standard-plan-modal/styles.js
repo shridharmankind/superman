@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 30,
     height: 30,
-    borderRadius: 30 / 2,
+    borderRadius: 15,
     marginRight: 5,
   },
   patchIconContainer: {
