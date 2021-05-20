@@ -16,8 +16,10 @@ import {DoctorVisitStates} from 'components/widgets';
  * @param {Boolean} selected doctor is selected or not
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
- * @param {Function} onPress click event
- * @param {String} testID date test id
+ * @param {Object} customStyle style object passed fro consumer component
+ * @param {Boolean} showFrequencyChiclet flag to show/hide frequency chiclet
+ * @param {Boolean} showVisitPlan flag to show/hide doctor's daily visit plan
+ * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
  */
 
 const DoctorDetails = ({
@@ -35,10 +37,14 @@ const DoctorDetails = ({
 }) => {
   const [select, setSelect] = useState(selected);
 
+  /**
+   * Function to render the visits planned - upcoming, today, missed, completed
+   * @returns the list of visits metadata
+   */
   const renderVisitData = () => {
     return (
       <View style={styles.visitContainer}>
-        {visitData.map((visit, index) => (
+        {(visitData || []).map((visit, index) => (
           <DoctorVisitStates
             key={index}
             visitDate={visit.date}
@@ -142,6 +148,8 @@ DoctorDetails.propTypes = {
   testID: PropTypes.string,
   onPress: PropTypes.func,
   customStyle: PropTypes.object,
+  showFrequencyChiclet: PropTypes.bool,
+  showVisitPlan: PropTypes.bool,
 };
 
 export default DoctorDetails;

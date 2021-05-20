@@ -4,15 +4,12 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import {Label} from 'components/elements';
 /**
- * Custom button component using TouchableOpacity from react-native.
- * This serves the purpose to make the use of button consistent throughtout the app
- * @param {Object} contentStyle custom style to be passed from consuming component for the button
- * @param {Boolean} disabled disable the button
- * @param {Object} labelStyle custom style for title text
- * @param {String} mode can be 'text', 'outline' or 'contained'
- * @param {Function} onPress click event
- * @param {String} testID date test id
- * @param {String} title button title
+ * renders the doctor visit states - upcoming, completed, today, missed etc.
+ * @param {String} visitDate date to visit doctor
+ * @param {String} visitMonth month of visit
+ * @param {String} testID test id
+ * @param {String} visitState can be upcoming, today, completed etc.
+ * @returns view of visit states
  */
 
 const DoctorVisitStates = ({

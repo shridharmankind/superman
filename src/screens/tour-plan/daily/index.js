@@ -108,13 +108,21 @@ const DailyTourPlan = () => {
     divisionSize: 10,
   };
 
+  /**
+   * formats current date
+   * @returns formatted date
+   */
   const getCurrentDateFormatted = () => {
     const currentDate = new Date();
-    return `${Strings.today}, ${currentDate.getDate()}th ${
+    return `${Strings.today}, ${currentDate.getDate()} ${
       MONTH_ARRAY[currentDate.getMonth()]
     } ${currentDate.getFullYear()}`;
   };
 
+  /**
+   * formats the stirng to make some words of text bold
+   * @returns formatted string
+   */
   const getVisitBifurcationLabel = () => {
     // const sample = {
     //   sentence: `${Strings.youHave} {0} ${Strings.and} {1} ${Strings.visits}`,
@@ -138,6 +146,10 @@ const DailyTourPlan = () => {
     return <Text style={styles.dailyTitle}>{result}</Text>;
   };
 
+  /**
+   * function to render the list of doctor's planned visits
+   * @returns list of doctors planned for current day visit
+   */
   const renderDayPlan = () => {
     return (
       <View style={styles.contentView}>
