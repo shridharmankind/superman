@@ -1,9 +1,11 @@
 import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
+const borderRadius = 14;
 const styles = StyleSheet.create({
   dailyViewContainer: {
-    padding: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
     alignSelf: 'stretch',
     borderRightWidth: 1,
     justifyContent: 'space-between',
@@ -26,6 +28,18 @@ const styles = StyleSheet.create({
   },
   activeText: {
     color: theme.colors.black,
+  },
+  currentDate: {
+    minWidth: borderRadius * 2,
+    minHeight: borderRadius * 2,
+    borderRadius: borderRadius,
+    textAlign: 'center',
+    backgroundColor: theme.colors.blueShades[100],
+    alignContent: 'center',
+    color: theme.colors.white,
+    display: 'flex', // for web  flex support
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
