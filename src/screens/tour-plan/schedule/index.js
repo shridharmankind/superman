@@ -17,11 +17,7 @@ const Schedule = () => {
     },
   ];
   const myTabNavigator = () => {
-    return (
-      <SafeAreaView style={styles.safeAreaContainer}>
-        <TabBar values={data} onPress={onRadioButtonPress} />
-      </SafeAreaView>
-    );
+    return <TabBar values={data} onPress={onRadioButtonPress} />;
   };
 
   const onRadioButtonPress = itemIdx => {
