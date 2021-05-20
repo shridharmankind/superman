@@ -17,6 +17,7 @@ export default function Login({navigation}) {
   const getUserList = () => {
     fetchAllUsers().then(res => console.log(res.data));
   };
+
   //Post Request Example
   useEffect(() => {
     const fetchData = async () => {
