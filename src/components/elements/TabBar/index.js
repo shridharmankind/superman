@@ -1,32 +1,36 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {Tab} from 'components/elements';
 
 /**
- * Custom tab bar component using react navigation.
+ * Custom tab bar component rendering tabs, acting as radio button group.
  * This serves the purpose show top tab bars
- * @param {Object} state  state object
- * @param {Object} descriptors state descriptors like tab bar label
- * @param {Object} navigation object containging navigation functions like navigate, emit
+ * @param {Array} values  array of radio buttons
+ * @param {Function} onPress click event on tab
+ * @retuns tab bar view
  */
 
 const TabBar = ({values, onPress}) => {
   const [currentSelectedItem, setCurrentSelectedItem] = useState(0);
 
-  const _onPress = idx => {
+  const onTabPress = idx => {
     onPress(idx);
     setCurrentSelectedItem(idx);
   };
 
+  /**
+   * function to render tabs
+   * @returns list of tabs
+   */
   const renderRadioButtons = () => {
     return (values || []).map((listItem, idx) => {
       let isChecked = currentSelectedItem === idx ? true : false;
       return (
         <Tab
           key={idx}
-          onRadioButtonPress={() => _onPress(idx)}
+          onTabPress={() => onTabPress(idx)}
           isChecked={isChecked}
           text={listItem.text}
         />
@@ -41,9 +45,8 @@ const TabBar = ({values, onPress}) => {
 };
 
 TabBar.propTypes = {
-  state: PropTypes.object,
-  descriptors: PropTypes.object,
-  navigation: PropTypes.object,
+  values: PropTypes.array.isRequired,
+  onPress: PropTypes.func,
 };
 
 export default TabBar;
