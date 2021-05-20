@@ -1,7 +1,7 @@
 import {Constants} from 'common';
 
 /**
- * This function fetches the current date and give us the month-year array for Mr to plan his work
+ * This function fetches the current date and give us the month-year array for MR to plan his work
  * Ex: let today is May 2021. So, I will get [May 2021, June 2021, ..... February 2022, March 2022]
  */
 export const getTourPlanScheduleMonths = inputDate => {
