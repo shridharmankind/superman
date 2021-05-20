@@ -27,41 +27,53 @@ const DoctorDetails = ({
   category,
   selected,
   location,
+  customStyle,
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
 
   return (
-    <TouchableOpacity
-      onPress={() => setSelect(!select)}
-      style={styles.container}
-      activeOpacity={1}>
+    <>
       <View style={styles.detailsContainer}>
         <View
           style={[
             styles.divisionContainer,
+            customStyle && customStyle.divisionContainerCustom,
             {backgroundColor: getDivisionColor(category)},
           ]}>
           <Label
             style={styles.divisionText}
             title={category}
-            size={14}
+            size={customStyle ? customStyle.divisionSize : 14}
             type={'bold'}
           />
         </View>
         <Image
-          style={styles.image}
+          style={[styles.image, customStyle && customStyle.imageCustom]}
           source={require('../../../assets/images/logo.png')}
         />
         <View style={styles.nameContainer}>
-          <Label title={title} size={26} />
-          <View>
-            <Label title={specialization} />
-            {location && <Label title={location} style={styles.location} />}
+          <Label
+            title={title}
+            size={customStyle ? customStyle.titleSize : 26}
+          />
+          <View style={customStyle && customStyle.nameContainerCustom}>
+            <Label
+              size={customStyle ? customStyle.titleSize : 18}
+              title={specialization}
+              style={customStyle && customStyle.specialization}
+            />
+            {location && (
+              <Label
+                size={customStyle ? customStyle.titleSize : 18}
+                title={location}
+                style={styles.location}
+              />
+            )}
           </View>
         </View>
       </View>
-      <View style={styles.frequecyContainer}>
+      {/* <View style={styles.frequecyContainer}>
         <Frequency visited={true} />
         <Frequency />
         <Frequency />
@@ -74,8 +86,8 @@ const DoctorDetails = ({
             color={themes.colors.checkCircleBlue}
           />
         </View>
-      )}
-    </TouchableOpacity>
+      )} */}
+    </>
   );
 };
 
@@ -106,6 +118,7 @@ DoctorDetails.propTypes = {
   selected: PropTypes.bool,
   testID: PropTypes.string,
   onPress: PropTypes.func,
+  customStyle: PropTypes.object,
 };
 
 export default DoctorDetails;
