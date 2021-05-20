@@ -1,6 +1,9 @@
 package com.superman;
 
 import com.facebook.react.ReactActivity;
+import android.os.Bundle; 
+import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +15,9 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "Superman";
   }
+  @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      SplashScreen.show(this);  
+      super.onCreate(savedInstanceState);
+    }
 }
