@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
+import {DoctorVisitStates} from 'components/widgets';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -28,9 +28,27 @@ const DoctorDetails = ({
   selected,
   location,
   customStyle,
+  showFrequencyChiclet,
+  showVisitPlan,
+  visitData,
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
+
+  const renderVisitData = () => {
+    return (
+      <View style={styles.visitContainer}>
+        {visitData.map((visit, index) => (
+          <DoctorVisitStates
+            key={index}
+            visitDate={visit.date}
+            visitMonth={visit.month}
+            visitState={visit.state}
+          />
+        ))}
+      </View>
+    );
+  };
 
   return (
     <>
@@ -43,7 +61,7 @@ const DoctorDetails = ({
           ]}>
           <Label
             style={styles.divisionText}
-            title={category}
+            title={category && category.toUpperCase()}
             size={customStyle ? customStyle.divisionSize : 14}
             type={'bold'}
           />
@@ -73,11 +91,13 @@ const DoctorDetails = ({
           </View>
         </View>
       </View>
-      {/* <View style={styles.frequecyContainer}>
-        <Frequency visited={true} />
-        <Frequency />
-        <Frequency />
-      </View>
+      {showFrequencyChiclet && (
+        <View style={styles.frequecyContainer}>
+          <Frequency visited={true} />
+          <Frequency />
+          <Frequency />
+        </View>
+      )}
       {select && (
         <View style={styles.checkContainer}>
           <Icon
@@ -86,7 +106,8 @@ const DoctorDetails = ({
             color={themes.colors.checkCircleBlue}
           />
         </View>
-      )} */}
+      )}
+      {showVisitPlan && renderVisitData()}
     </>
   );
 };
@@ -105,6 +126,8 @@ const getDivisionColor = division => {
 };
 
 DoctorDetails.defaultProps = {
+  showFrequencyChiclet: true,
+  showVisitPlan: false,
   selected: false,
   division: '',
 };

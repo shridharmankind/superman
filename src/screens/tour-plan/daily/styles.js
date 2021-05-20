@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 32,
     paddingVertical: 20,
-    borderColor: theme.colors.borderColor,
+    borderColor: theme.colors.grey[400],
     borderRadius: 10,
     position: 'relative',
     borderWidth: 1,
@@ -41,6 +41,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 40 / 2,
+  },
+  dailyTitle: {
+    color: theme.colors.primary,
+    fontFamily: theme.fonts.fontRegular,
+    fontSize: 16,
+  },
+  visitText: {
+    color: theme.colors.primary,
+    fontFamily: theme.fonts.fontBold,
   },
 });
 

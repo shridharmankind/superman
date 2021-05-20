@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -40,
     left: -32,
+    minWidth: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   divisionText: {
     color: theme.colors.white,
@@ -57,6 +60,10 @@ const styles = StyleSheet.create({
   },
   frequecyContainer: {
     flexDirection: 'row',
+  },
+  visitContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
 });
 

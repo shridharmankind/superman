@@ -16,7 +16,9 @@ const theme = {
     borderColor: '#979797',
     darkBlue: '#5920B7',
     lightBlue: '#0852C5',
+    limeGreen: '#00B637',
     checkCircleBlue: '#0095d1',
+    softRed: '#E36565',
     blackShades: {
       100: '#1C1939',
     },
@@ -24,6 +26,7 @@ const theme = {
       100: '#BEBEBF',
       200: '#1C1939',
       300: '#e3e3e3',
+      400: '#e2e2e2',
     },
   },
   fonts: {

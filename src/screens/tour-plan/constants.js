@@ -23,3 +23,10 @@ export const STAFF_CODES = {
   FLM: 'FLM',
   SLM: 'SLM',
 };
+
+export const DOCTOR_VISIT_STATES = {
+  UPCOMING: 'UPCOMING',
+  COMPLETED: 'COMPLETED',
+  TODAY: 'TODAY',
+  MISSED: 'MISSED',
+};

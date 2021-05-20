@@ -17,6 +17,11 @@ const Strings = {
   close: 'Close',
   done: 'Done',
   saveDraft: 'Save Draft',
+  youHave: 'You have',
+  numberOfDoctors: '11 doctors',
+  and: 'and',
+  numberOfChemist: '6 chemist',
+  visits: 'visits',
 };
 
 export default Strings;
