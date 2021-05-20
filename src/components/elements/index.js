@@ -8,3 +8,4 @@ export {default as Frequency} from './Frequency';
 export {default as TabBar} from './TabBar';
 export {default as Modal} from './Modal';
 export {default as Dropdown} from './Dropdown';
+export {default as Tab} from './Tab';

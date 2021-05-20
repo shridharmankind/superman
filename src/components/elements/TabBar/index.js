@@ -1,85 +1,52 @@
-/* eslint-disable indent */
-/** TODO : remove eslint disable */
-import * as React from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import {Label} from 'components/elements';
+import {Tab} from 'components/elements';
 
 /**
- * Custom tab bar component using react navigation.
+ * Custom tab bar component rendering tabs, acting as radio button group.
  * This serves the purpose show top tab bars
- * @param {Object} state  state object
- * @param {Object} descriptors state descriptors like tab bar label
- * @param {Object} navigation object containging navigation functions like navigate, emit
+ * @param {Array} values  array of radio buttons
+ * @param {Function} onPress click event on tab
+ * @retuns tab bar view
  */
 
-const TabBar = ({state, descriptors, navigation}) => {
+const TabBar = ({values, onPress}) => {
+  const [currentSelectedItem, setCurrentSelectedItem] = useState(0);
+
+  const onTabPress = idx => {
+    onPress(idx);
+    setCurrentSelectedItem(idx);
+  };
+
+  /**
+   * function to render tabs
+   * @returns list of tabs
+   */
+  const renderRadioButtons = () => {
+    return (values || []).map((listItem, idx) => {
+      let isChecked = currentSelectedItem === idx ? true : false;
+      return (
+        <Tab
+          key={idx}
+          onTabPress={() => onTabPress(idx)}
+          isChecked={isChecked}
+          text={listItem.text}
+        />
+      );
+    });
+  };
   return (
-    <View style={styles.tabBarContainer}>
-      {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
-        };
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-        // modify inputRange for custom behavior
-        // const inputRange = state.routes.map((_, i) => i);
-        // const opacity = Animated.interpolate(position, {
-        //   inputRange,
-        //   outputRange: inputRange.map(i => (i === index ? 1 : 0)),
-        // });
-        return (
-          <View style={styles.tabWrapper} key={index}>
-            <TouchableOpacity
-              accessibilityRole="button"
-              accessibilityState={isFocused ? {selected: true} : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              style={[styles.tab, isFocused && styles.focusedTab]}>
-              <View style={styles.tabWrapper}>
-                <Label
-                  type="regular"
-                  title={label}
-                  size={14}
-                  style={[styles.tabText, isFocused && styles.focusedTabText]}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-        );
-      })}
+    <View>
+      <View style={styles.tabBarContainer}>{renderRadioButtons()}</View>
     </View>
   );
 };
 
 TabBar.propTypes = {
-  state: PropTypes.object,
-  descriptors: PropTypes.object,
-  navigation: PropTypes.object,
+  values: PropTypes.array.isRequired,
+  onPress: PropTypes.func,
 };
 
 export default TabBar;
