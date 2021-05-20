@@ -36,6 +36,7 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
+        isTicked={select}
         {...props}
       />
     </TouchableOpacity>

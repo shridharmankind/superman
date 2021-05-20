@@ -6,7 +6,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
 import {Login} from 'screens/generic';
-import {Schedule} from 'screens/tourPlan';
 import {Header} from 'components/elements';
 import theme from 'themes';
 import {useEffect} from 'react';
@@ -25,7 +24,7 @@ const App = () => {
         <Stack.Navigator mode="modal">
           <Stack.Screen
             name="Login"
-            component={Schedule}
+            component={Login}
             options={{
               headerTitle: props => <Header title="Welcome!" {...props} />,
             }}

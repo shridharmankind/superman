@@ -20,6 +20,7 @@ import {DoctorVisitStates} from 'components/widgets';
  * @param {Boolean} showFrequencyChiclet flag to show/hide frequency chiclet
  * @param {Boolean} showVisitPlan flag to show/hide doctor's daily visit plan
  * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
+ * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
  */
 
 const DoctorDetails = ({
@@ -33,10 +34,9 @@ const DoctorDetails = ({
   showFrequencyChiclet,
   showVisitPlan,
   visitData,
+  isTicked,
   ...props
 }) => {
-  const [select, setSelect] = useState(selected);
-
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -104,7 +104,7 @@ const DoctorDetails = ({
           <Frequency />
         </View>
       )}
-      {select && (
+      {isTicked && (
         <View style={styles.checkContainer}>
           <Icon
             name="check-circle"
@@ -150,6 +150,7 @@ DoctorDetails.propTypes = {
   customStyle: PropTypes.object,
   showFrequencyChiclet: PropTypes.bool,
   showVisitPlan: PropTypes.bool,
+  isTicked: PropTypes.bool,
 };
 
 export default DoctorDetails;
