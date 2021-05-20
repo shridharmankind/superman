@@ -2,15 +2,11 @@ import React from 'react';
 import {View} from 'react-native';
 import {Label} from 'components/elements';
 import styles from './styles';
+import {getMonth, isSameDate} from 'utils/dateTimeHelper';
+
 const currentDate = new Date();
 
-const isDisabled = month => month !== currentDate.getMonth() + 1;
-
-//TO DO: will move to utility once finalise time lib
-const isCurrent = date =>
-  date.day === currentDate.getDate() &&
-  date.month === currentDate.getMonth() + 1;
-
+const isDisabled = month => month != getMonth();
 /**
  * Render Daily Container
  * @param {Object} props
@@ -22,19 +18,20 @@ const DailyView = ({props}) => {
       <View
         style={[
           styles.innerContainer,
-          isCurrent(props.date) && styles.currentDailyContainer,
+          isSameDate(props.date.dateString) && styles.currentDailyContainer,
         ]}>
         <View style={styles.headerContent}>
-          <Label size={16} title={''} />
+          <Label testID={'label_dailyView_leftContent_test'} title={''} />
 
           <Label
+            testID={'label_dailyView_date_test'}
             size={16}
-            type={isCurrent(props.date) ? 'bold' : 'regular'}
+            type={isSameDate(props.date.dateString) ? 'bold' : 'regular'}
             style={[
               isDisabled(props.date.month)
                 ? styles.disabledText
                 : styles.activeText,
-              isCurrent(props.date) && styles.currentDate,
+              isSameDate(props.date.dateString) && styles.currentDate,
             ]}
             title={props.date.day}
           />
