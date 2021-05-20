@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import {Tab} from 'components/elements';
+import {Tab} from 'components/widgets';
 
 /**
  * Custom tab bar component rendering tabs, acting as radio button group.

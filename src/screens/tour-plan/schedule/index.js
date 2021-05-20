@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, SafeAreaView} from 'react-native';
 import styles from './styles';
-import {TabBar} from 'components/elements';
+import {TabBar} from 'components/widgets';
 import {MonthlyTourPlan} from 'screens/tourPlan';
 import {Strings} from 'common';
 

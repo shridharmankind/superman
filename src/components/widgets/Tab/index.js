@@ -24,7 +24,7 @@ const Tab = ({isChecked, text, onTabPress}) => {
   );
 };
 
-Tab.PropTypes = {
+Tab.propTypes = {
   isChecked: PropTypes.bool,
   text: PropTypes.string.isRequired,
   onTabPress: PropTypes.func,

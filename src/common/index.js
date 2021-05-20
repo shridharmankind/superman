@@ -1,4 +1,4 @@
-import * as Constants from './constants';
+import * as Constants from './Constants';
 import Strings from './Strings';
 
 export {Constants, Strings};

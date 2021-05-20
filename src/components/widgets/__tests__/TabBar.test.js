@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {TabBar} from 'components/elements';
+import {TabBar} from 'components/widgets';
 import {withTheme, fireEvent} from 'utils/testHelpers';
 import {Strings} from 'common';
 

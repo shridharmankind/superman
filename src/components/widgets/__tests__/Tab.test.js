@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {Tab} from 'components/elements';
+import {Tab} from 'components/widgets';
 import {withTheme, fireEvent} from 'utils/testHelpers';
 
 function renderComponent(props) {
