@@ -10,10 +10,15 @@ import theme from 'themes';
  * according to selected Month. To show daily status
  * DayComponent can be passed via prop
  */
-const MonthlyView = ({DayComponent = DailyView}) => {
+const MonthlyView = ({
+  selectedMonth = new Date(),
+  DayComponent = DailyView,
+}) => {
   return (
     <Calendar
       hideArrows={true}
+      disabledDaysIndexes={[0, 6]}
+      current={selectedMonth}
       style={{backgroundColor: 'white'}}
       theme={{
         //for web inline style applied
@@ -39,6 +44,7 @@ const MonthlyView = ({DayComponent = DailyView}) => {
       }}
       dayComponent={props => <DayComponent props={props} />}
       renderHeader={() => null}
+      firstDay={1}
     />
   );
 };
