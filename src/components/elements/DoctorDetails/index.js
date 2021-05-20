@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {View, Image} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {Frequecy, Label} from 'components/elements';

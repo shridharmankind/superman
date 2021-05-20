@@ -1,47 +1,76 @@
-import React, {useState, useEffect} from 'react';
-import {View, LogBox} from 'react-native';
-import {Dropdown as DropdownContainer} from 'react-native-material-dropdown-v2';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
-import {Strings} from 'common';
+import {Label} from 'components/elements';
 
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
  * This serves the purpose to make the use of Dropdown throughout the app
- * @param {Number,String} pickerWidth  define width of the picker
- * @param {Number,String} shadowOpacity define opacity of shadow for picker
- * @param {Number} animationDuration duration of animation to show picker on click
+ * @param {String} defaultLabel defaultLable for the dropdown
  * @param {Array} data pass data as an array eg: [{value: test}]
  * @param {Function} valueSelcted value to pass to parent component
  * @param {String} testID testID to pass
  */
 
-const Dropdown = ({
-  pickerWidth,
-  shadowOpacity,
-  animationDuration,
-  valueSelcted,
-  testID,
-  data,
-}) => {
+const Dropdown = ({defaultLabel, valueSelcted, testID, data}) => {
+  const [value, setValue] = useState();
+  const [togglePicker, setTogglePicker] = useState(false);
+  let childrenIds;
+
+  const handleValueSelected = useCallback(
+    val => {
+      setValue(val);
+      setTogglePicker(false);
+      valueSelcted(val);
+    },
+    [valueSelcted],
+  );
+
   useEffect(() => {
-    LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
-  }, []);
+    handleValueSelected(value);
+  }, [handleValueSelected, value]);
+
   return (
-    <View style={styles.container}>
-      <DropdownContainer
-        data={data}
-        value={Strings.selectPatch}
-        dropdownOffset={styles.offset}
-        shadeOpacity={shadowOpacity}
-        pickerStyle={[styles.picker, {width: pickerWidth}]}
-        rippleOpacity={0}
-        style={styles.dropDownContainer}
-        animationDuration={animationDuration}
-        onChangeText={value => valueSelcted(value)}
-        useNativeDriver={true}
+    <View
+      style={styles.container}
+      onStartShouldSetResponder={evt => {
+        evt.persist();
+        if (childrenIds && childrenIds.length) {
+          if (childrenIds.includes(evt.target)) {
+            return;
+          }
+          setTogglePicker(false);
+        }
+      }}>
+      <TouchableOpacity
         testID={testID}
-      />
+        style={styles.selectContainer}
+        activeOpacity={1}
+        onPress={() => setTogglePicker(!togglePicker)}>
+        <Label title={value || defaultLabel} />
+        <Icon name={'sort-down'} size={20} />
+      </TouchableOpacity>
+      {togglePicker && (
+        <View
+          style={styles.pickerContainer}
+          ref={component => {
+            childrenIds =
+              component &&
+              component._children[0]._children.map(el => el._nativeTag);
+          }}>
+          {data.map(option => (
+            <TouchableOpacity
+              key={option.value}
+              style={styles.pickerLabel}
+              onPress={() => handleValueSelected(option.value)}>
+              <Label title={option.label} />
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </View>
   );
 };

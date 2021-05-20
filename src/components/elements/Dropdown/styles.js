@@ -8,31 +8,40 @@ const styles = StyleSheet.create({
     borderRightColor: themes.colors.disabled,
     borderRightWidth: 2,
     marginRight: 20,
+    position: 'relative',
+    zIndex: 2,
   },
-  dropDownContainer: {
-    borderWidth: 1,
-    borderColor: themes.colors.grey,
+  pickerContainer: {
     borderRadius: 10,
-    padding: 10,
-    margin: 0,
-    height: 30,
+    position: 'absolute',
+    top: 60,
+    width: '100%',
+    backgroundColor: themes.colors.white,
+    zIndex: 2,
+    padding: 20,
     alignContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  offset: {
-    top: 120,
-    left: 20,
-  },
-  picker: {
-    shadowColor: themes.colors.black,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.5,
     shadowRadius: 3.84,
 
-    elevation: 5,
+    elevation: 10,
+  },
+  selectContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: themes.colors.grey[100],
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  pickerLabel: {
+    paddingVertical: 5,
+    position: 'relative',
+    zIndex: 2,
   },
 });
 

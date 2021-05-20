@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Modal} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,18 +16,23 @@ import styles from './styles';
 
 const data = [
   {
+    label: 'Noida-Sec-1 (1)',
     value: 'Noida-Sec-1 (1)',
   },
   {
+    label: 'Noida-Sec-1 (1)',
     value: 'Noida-Sec-2 (1)',
   },
   {
+    label: 'Noida-Sec-1 (1)',
     value: 'Noida-Sec-3 (1)',
   },
   {
+    label: 'Noida-Sec-1 (1)',
     value: 'Noida-Sec-4 (1)',
   },
   {
+    label: 'Noida-Sec-1 (1)',
     value: 'Noida-Sec-5 (3)',
   },
 ];
@@ -57,7 +62,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
       visible={visible}
       onDismiss={hideModal}
       contentContainerStyle={styles.containerStyle}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.modalHeader}>
           <View>
             <Label title={Strings.selectDoctorAndChemist} />
@@ -110,6 +115,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
                 <Dropdown
                   valueSelcted={val => setPatchValue(val)}
                   data={data}
+                  defaultLabel={Strings.selectPatch}
                 />
                 <View style={styles.areaFilter}>
                   <Area
@@ -182,7 +188,7 @@ const StandardPlanModal = ({visible, hideModal}) => {
             <Label title={Strings.planCompliance} />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 };
