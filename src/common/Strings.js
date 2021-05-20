@@ -12,6 +12,11 @@ const Strings = {
   myPlan: 'My Plan',
   stp: 'Standard Tour Plan(STP)',
   today: 'Today',
+  patchName: 'Patch Name',
+  selectPatch: 'Select Patch',
+  close: 'Close',
+  done: 'Done',
+  saveDraft: 'Save Draft',
 };
 
 export default Strings;

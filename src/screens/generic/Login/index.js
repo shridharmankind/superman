@@ -7,7 +7,6 @@ import {fetchAllUsers} from '../../../api';
 import {Button} from 'components/elements';
 import {NetworkService} from 'services';
 import {Constants, Strings} from 'common';
-import {StandardPlanModal} from 'screens/tourPlan';
 
 export default function Login({navigation}) {
   const {colors} = useTheme();
@@ -64,7 +63,6 @@ export default function Login({navigation}) {
       <View style={styles.iconContainer}>
         <Icon name="rocket" size={30} color="#900" />
       </View>
-
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
@@ -92,21 +90,6 @@ export default function Login({navigation}) {
         uppercase={true}
         contentStyle={styles.loginBtn}
       />
-
-      <Button
-        mode="contained"
-        title="Open daily plan"
-        uppercase={true}
-        contentStyle={styles.loginBtn}
-        onPress={() => setOpenModal(true)}
-      />
-
-      {openModal && (
-        <StandardPlanModal
-          visible={openModal}
-          hideModal={() => setOpenModal(false)}
-        />
-      )}
     </View>
   );
 }

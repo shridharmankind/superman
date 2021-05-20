@@ -32,7 +32,10 @@ const DoctorDetails = ({
   const [select, setSelect] = useState(selected);
 
   return (
-    <>
+    <TouchableOpacity
+      onPress={() => setSelect(!select)}
+      style={styles.container}
+      activeOpacity={1}>
       <View style={styles.detailsContainer}>
         <View
           style={[
@@ -72,7 +75,7 @@ const DoctorDetails = ({
           />
         </View>
       )}
-    </>
+    </TouchableOpacity>
   );
 };
 
