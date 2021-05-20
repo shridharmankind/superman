@@ -1,5 +1,5 @@
 import 'react-native';
-import {getTourPlanScheduleMonths} from 'utils/helper';
+import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 
 it('returns the tour plan schedule', () => {
   const result = getTourPlanScheduleMonths(new Date('2011-02-11T10:20:30Z'));
