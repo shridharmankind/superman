@@ -17,7 +17,6 @@ const MonthlyView = ({
   return (
     <Calendar
       hideArrows={true}
-      disabledDaysIndexes={[0, 6]}
       current={selectedMonth}
       style={{backgroundColor: 'white'}}
       theme={{
