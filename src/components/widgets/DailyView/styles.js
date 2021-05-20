@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   currentDailyContainer: {
     borderWidth: 1,
 
-    borderColor: theme.colors.blueShades[100],
+    borderColor: theme.colors.primary,
     alignSelf: 'stretch',
     flex: 1,
   },
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     minHeight: borderRadius * 2,
     borderRadius: borderRadius,
     textAlign: 'center',
-    backgroundColor: theme.colors.blueShades[100],
+    backgroundColor: theme.colors.primary,
     alignContent: 'center',
     color: theme.colors.white,
     display: 'flex', // for web  flex support
