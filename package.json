@@ -40,7 +40,8 @@
     "react-native-web": "^0.16.2",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
-    "rn-fetch-blob": "^0.12.0"
+    "rn-fetch-blob": "^0.12.0",
+    "rn-local-authentication": "^1.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
