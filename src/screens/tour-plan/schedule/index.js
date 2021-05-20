@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {View, SafeAreaView} from 'react-native';
-// import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import styles from './styles';
 import {TabBar} from 'components/elements';
 import {MonthlyTourPlan} from 'screens/tourPlan';
@@ -17,12 +16,11 @@ const Schedule = () => {
     },
   ];
   const myTabNavigator = () => {
-    return <TabBar values={data} onPress={onRadioButtonPress} />;
+    return <TabBar values={data} onPress={onTabPress} />;
   };
 
-  const onRadioButtonPress = itemIdx => {
+  const onTabPress = itemIdx => {
     setSelectedTabIndex(itemIdx);
-    console.log('Clicked', itemIdx);
   };
 
   const renderChildView = () => {
@@ -41,7 +39,7 @@ const Schedule = () => {
       <View style={styles.leftPanel} />
       <SafeAreaView style={styles.mainPanel}>
         {myTabNavigator()}
-        <View style={{flex: 1}}>{renderChildView()}</View>
+        {renderChildView()}
       </SafeAreaView>
       <View style={styles.rightPanel} />
     </View>

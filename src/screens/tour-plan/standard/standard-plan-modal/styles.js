@@ -7,8 +7,6 @@ const styles = StyleSheet.create({
     padding: 40,
     marginHorizontal: 100,
     marginVertical: 40,
-    width: 500,
-    height: 500,
   },
   container: {
     flexDirection: 'column',
