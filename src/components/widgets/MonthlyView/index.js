@@ -1,21 +1,32 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
 import styles from './styles';
+import {View, Text} from 'react-native';
+import theme from 'themes';
 /**
  * Render Monthly View Calendar created using
  * react-native-calendars.View is rendered
- * according to selected Month.It nest of DailyView
- * container.
+ * according to selected Month. To show daily status
+ * DayComponent can be passed via prop
  */
-const MonthlyView = () => {
+const MonthlyView = ({DayComponent = DailyView}) => {
   return (
     <Calendar
-      style={styles.calendarContainer}
       hideArrows={true}
+      style={{backgroundColor: 'white'}}
       theme={{
-        //for web fix doing inline style
+        //for web inline style applied
+        'stylesheet.calendar.header': {
+          week: {
+            marginTop: 5,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            borderBottomWidth: 1,
+            borderColor: theme.colors.grey[100],
+          },
+        },
         'stylesheet.calendar.main': {
           week: {
             margin: 0,
@@ -23,10 +34,12 @@ const MonthlyView = () => {
             flexDirection: 'row',
             justifyContent: 'space-around',
             borderLeftWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: theme.colors.grey[100],
           },
         },
       }}
-      dayComponent={props => <DailyView props={props} />}
+      dayComponent={props => <DayComponent props={props} />}
       renderHeader={() => null}
     />
   );
@@ -34,5 +47,6 @@ const MonthlyView = () => {
 
 export default MonthlyView;
 
-MonthlyView.defaultProps = {};
-MonthlyView.propTypes = {};
+MonthlyView.propTypes = {
+  DayComponent: PropTypes.element,
+};

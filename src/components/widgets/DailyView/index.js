@@ -1,34 +1,27 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import {Label} from 'components/elements';
 import styles from './styles';
-import theme from 'themes';
-const currentMonth = new Date().getMonth() + 1;
+
+const isDisabled = month => month !== new Date().getMonth() + 1;
 
 const DailyView = ({props}) => {
   return (
     <View style={styles.dailyViewContainer}>
       <View style={styles.headerContent}>
-        <Text>{'12 Vistis'}</Text>
-        <Text
-          style={{
-            color:
-              props.date.month !== currentMonth
-                ? theme.colors.grey
-                : theme.colors.black,
-          }}>
-          {props.date.day}
-        </Text>
+        <Label size={16} title={''} />
+        <Label
+          size={16}
+          style={
+            isDisabled(props.date.month)
+              ? styles.disabledText
+              : styles.activeText
+          }
+          title={props.date.day}
+        />
       </View>
 
-      <View>
-        <Text>{'6 KYC'}</Text>
-        <Text>{'6 KYC'}</Text>
-      </View>
-
-      <View style={styles.bottomContent}>
-        <Text>{'title'}</Text>
-        <Text>{'title'}</Text>
-      </View>
+      <View style={styles.bottomContent} />
     </View>
   );
 };
