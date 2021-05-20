@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
-import {Login} from 'screens/generic';
+import {Login,Downloading} from 'screens/generic';
 
 import {Header} from 'components/elements';
 import theme from 'themes';
@@ -23,6 +23,13 @@ const App = () => {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen
+            name="Downloading"
+            component={Downloading}
+            options={{
+              headerTitle: props => <Header title="Welcome!" {...props} />,
+            }}
+          />
           <Stack.Screen
             name="Login"
             component={Login}
