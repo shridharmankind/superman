@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 /** TODO : remove eslint disable */
 import * as React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {Label} from 'components/elements';
