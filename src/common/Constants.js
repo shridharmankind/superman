@@ -1,5 +1,5 @@
 export const HTTP_OK = 200;
-export const month_array = [
+export const MONTH_ARRAY = [
   'January',
   'February',
   'March',
@@ -14,12 +14,12 @@ export const month_array = [
   'December',
 ];
 
-export const planTypes = {
+export const PLAN_TYPES = {
   TOURPLAN: 'tourplan',
   MYPLAN: 'myplan',
 };
 
-export const staffCodes = {
+export const STAFF_CODES = {
   MR: 'MR',
   FLM: 'FLM',
   SLM: 'SLM',
