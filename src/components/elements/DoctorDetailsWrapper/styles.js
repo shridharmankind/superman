@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     marginTop: 20,
-    flex: 1,
+    // flex: 1,
     minWidth: '45%',
     marginRight: 20,
     zIndex: 1,

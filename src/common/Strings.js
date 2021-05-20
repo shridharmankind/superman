@@ -11,6 +11,7 @@ const Strings = {
   tourPlan: 'Tour Plan',
   myPlan: 'My Plan',
   stp: 'Standard Tour Plan(STP)',
+  today: 'Today',
 };
 
 export default Strings;
