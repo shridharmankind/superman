@@ -4,8 +4,6 @@ import theme from 'themes';
 const borderRadius = 14;
 const styles = StyleSheet.create({
   dailyViewContainer: {
-    paddingHorizontal: 8,
-    paddingVertical: 6,
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     borderColor: theme.colors.grey[100],
@@ -15,7 +13,14 @@ const styles = StyleSheet.create({
   },
   currentDailyContainer: {
     borderWidth: 1,
+
     borderColor: theme.colors.blueShades[100],
+    alignSelf: 'stretch',
+    flex: 1,
+  },
+  innerContainer: {
+    paddingHorizontal: 8,
+    paddingVertical: 6,
   },
   headerContent: {
     flexDirection: 'row',

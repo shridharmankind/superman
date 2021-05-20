@@ -12,28 +12,30 @@ const isCurrent = date =>
 
 const DailyView = ({props}) => {
   return (
-    <View
-      style={[
-        styles.dailyViewContainer,
-        isCurrent(props.date) && styles.currentDailyContainer,
-      ]}>
-      <View style={styles.headerContent}>
-        <Label size={16} title={''} />
+    <View style={[styles.dailyViewContainer]}>
+      <View
+        style={[
+          styles.innerContainer,
+          isCurrent(props.date) && styles.currentDailyContainer,
+        ]}>
+        <View style={styles.headerContent}>
+          <Label size={16} title={''} />
 
-        <Label
-          size={16}
-          type={isCurrent(props.date) ? 'bold' : 'regular'}
-          style={[
-            isDisabled(props.date.month)
-              ? styles.disabledText
-              : styles.activeText,
-            isCurrent(props.date) && styles.currentDate,
-          ]}
-          title={props.date.day}
-        />
+          <Label
+            size={16}
+            type={isCurrent(props.date) ? 'bold' : 'regular'}
+            style={[
+              isDisabled(props.date.month)
+                ? styles.disabledText
+                : styles.activeText,
+              isCurrent(props.date) && styles.currentDate,
+            ]}
+            title={props.date.day}
+          />
+        </View>
+
+        <View style={styles.bottomContent} />
       </View>
-
-      <View style={styles.bottomContent} />
     </View>
   );
 };
