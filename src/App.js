@@ -4,10 +4,9 @@ import {Platform} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
-import SplashScreen from 'react-native-splash-screen';
-import {Login} from 'screens/generic';
 
-import {Header} from 'components/elements';
+import {Login, Home} from 'screens/generic';
+import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
 import {useEffect} from 'react';
 
@@ -26,9 +25,12 @@ const App = () => {
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{
-              headerTitle: props => <Header title="Welcome!" {...props} />,
-            }}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
