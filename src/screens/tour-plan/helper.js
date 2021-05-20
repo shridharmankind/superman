@@ -1,4 +1,4 @@
-import {Constants} from 'common';
+import {MONTH_ARRAY} from 'constants';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
@@ -35,7 +35,7 @@ export const getTourPlanScheduleMonths = inputDate => {
       schedule.year = nextFiscalYear.year;
     }
     tourPlanScheduleMonths.push(
-      `${Constants.MONTH_ARRAY[schedule.month]} ${schedule.year}`,
+      `${MONTH_ARRAY[schedule.month]} ${schedule.year}`,
     );
     schedule.month += 1;
   }

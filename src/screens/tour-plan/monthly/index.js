@@ -4,10 +4,11 @@ import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Strings, Constants} from 'common';
+import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {getSubordinates, fetchSingleUser} from '../../../api';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
+import {PLAN_TYPES, STAFF_CODES} from 'constants';
 
 /**
  * This file renders the dropdowns to configure your monthly plan by creating your STP
@@ -21,9 +22,7 @@ const MonthlyTourPlan = () => {
       if (result.data) {
         setUser(result.data);
         let schedule = getTourPlanScheduleMonths();
-        if (
-          result.data.staffPositions[0].staffCode === Constants.STAFF_CODES.MR
-        ) {
+        if (result.data.staffPositions[0].staffCode === STAFF_CODES.MR) {
           schedule = [Strings.stp, ...schedule];
         }
         let newSchedule = schedule.map((option, index) => {
@@ -71,9 +70,7 @@ const MonthlyTourPlan = () => {
   const [visible, setVisible] = useState(false);
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [user, setUser] = useState({});
-  const [dropDownClicked, setDropDownClicked] = useState(
-    Constants.PLAN_TYPES.TOURPLAN,
-  );
+  const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
 
   /**
    * toggles modal
@@ -97,7 +94,7 @@ const MonthlyTourPlan = () => {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          dropDownClickHandler(Constants.PLAN_TYPES.TOURPLAN);
+          dropDownClickHandler(PLAN_TYPES.TOURPLAN);
         }}>
         <View style={styles.selectedTour}>
           <View style={styles.selectedTourTextContainer}>
@@ -124,7 +121,7 @@ const MonthlyTourPlan = () => {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          dropDownClickHandler(Constants.PLAN_TYPES.MYPLAN);
+          dropDownClickHandler(PLAN_TYPES.MYPLAN);
         }}>
         <View style={styles.selectedTour}>
           <View style={styles.mySelectedTourTextContainer}>
@@ -165,7 +162,7 @@ const MonthlyTourPlan = () => {
    * @returns tourplan/myplan options
    */
   const getOptionsToIterateForDropDown = () => {
-    const isTourPlan = dropDownClicked === Constants.PLAN_TYPES.TOURPLAN;
+    const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     const optionsToIterate = isTourPlan ? planOptions : myPlanOptions;
     return optionsToIterate;
   };
@@ -176,7 +173,7 @@ const MonthlyTourPlan = () => {
    * @param {Object} planOption dropdown option clicked
    */
   const selectedTourPlanHandler = planOption => {
-    const isTourPlan = dropDownClicked === Constants.PLAN_TYPES.TOURPLAN;
+    const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     let optionsToIterate = getOptionsToIterateForDropDown();
     const newOptions = optionsToIterate.map(o => {
       o.selected = o.id === planOption.id;
@@ -252,7 +249,7 @@ const MonthlyTourPlan = () => {
       <View style={styles.dropDownsContainer}>
         <View style={styles.tourPlanContainer}>{tourPlanDropDown()}</View>
         {user?.staffPositions &&
-          user?.staffPositions[0].staffCode === Constants.STAFF_CODES.FLM && (
+          user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
       </View>
