@@ -1,4 +1,4 @@
-import {MONTH_ARRAY} from 'constants';
+import {MONTH_ARRAY} from 'screens/tourPlan/constants';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work

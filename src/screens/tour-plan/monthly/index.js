@@ -8,7 +8,7 @@ import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {getSubordinates, fetchSingleUser} from '../../../api';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
-import {PLAN_TYPES, STAFF_CODES} from 'constants';
+import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 
 /**
  * This file renders the dropdowns to configure your monthly plan by creating your STP
