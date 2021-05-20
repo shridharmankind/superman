@@ -9,16 +9,8 @@ export default StyleSheet.create({
     height: 40,
     width: 200,
   },
-  navToggleButton: {
-    height: 40,
-    width: 40,
-    marginLeft: 16,
-    marginTop: 52,
-    marginBottom: 40,
-    backgroundColor: theme.colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...Platform.select({web: {cursor: 'pointer'}}),
+  navItemsContainer: {
+    marginTop: 108,
   },
   navItem: {
     height: 88,

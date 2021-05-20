@@ -14,18 +14,9 @@ import {Card} from 'react-native-paper';
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState(0);
-  const [isNavOpen, setIsNavOpen] = useState(true);
 
   const onActivePageChanged = pageIndex => {
     setActivePage(pageIndex);
-  };
-
-  useEffect(() => {
-    // transition of content layout to left side
-  }, [isNavOpen]);
-
-  const onNavToggled = open => {
-    setIsNavOpen(open);
   };
 
   const renderSidePanel = () => {
@@ -49,10 +40,7 @@ const Dashboard = () => {
       contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <View style={styles.sidemenuContainer}>
-          <NavMenu
-            onNavItemPress={onActivePageChanged}
-            onNavToggled={onNavToggled}
-          />
+          <NavMenu onNavItemPress={onActivePageChanged} />
         </View>
         <ContentWithSidePanel sidePanel={renderSidePanel()}>
           <Label title={navMenuData[activePage].label} />

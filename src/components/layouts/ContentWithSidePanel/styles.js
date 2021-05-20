@@ -8,7 +8,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   contentContainer: {
-    width: '67.7%',
+    width: '70%',
     minHeight: 1120,
     padding: 40,
     borderRadius: 16,
@@ -17,6 +17,7 @@ export default StyleSheet.create({
   sidePanelContainer: {
     width: 310,
     marginTop: 64,
-    paddingLeft: 32,
+    marginLeft: 32,
+    backgroundColor: 'lightblue',
   },
 });
