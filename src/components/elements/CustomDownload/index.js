@@ -6,10 +6,11 @@ import {Text,
   TouchableOpacity,
   PermissionsAndroid} from 'react-native';
 import styles from './style';
-import RNFetchBlob from 'rn-fetch-blob';
+//import RNFetchBlob from 'rn-fetch-blob';
 
 
 const CustomDownload = ({ }) => {
+  let RNFetchBlob = null;
   const [showImage,setShowImage] = React.useState(false);
   const [filePath,setFileUrl] = React.useState(null);
   const fileUrl = 'https://www.techup.co.in/wp-content/uploads/2020/01/techup_logo_72-scaled.jpg';  
@@ -105,11 +106,11 @@ const CustomDownload = ({ }) => {
         setFileUrl('file://'+res.data);
         // Alert after successful downloading
         console.log('res -> ', JSON.stringify(res));
-        const dirs = RNFetchBlob.fs.dirs
-        console.log(dirs.DocumentDir)
-        console.log(dirs.CacheDir)
-        console.log(dirs.DCIMDir)
-        console.log(dirs.DownloadDir)
+        // const dirs = RNFetchBlob.fs.dirs
+        // console.log(dirs.DocumentDir)
+        // console.log(dirs.CacheDir)
+        // console.log(dirs.DCIMDir)
+        // console.log(dirs.DownloadDir)
         alert('File Downloaded Successfully.');
         requestStoragePermission();
       });
