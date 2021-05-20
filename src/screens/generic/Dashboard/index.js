@@ -19,20 +19,65 @@ const Dashboard = () => {
     setActivePage(pageIndex);
   };
 
-  const renderSidePanel = () => {
+  const renderHeader = () => (
+    <View
+      style={{
+        paddingHorizontal: 48,
+        paddingVertical: 34,
+        borderRadius: 16,
+        width: '100%',
+        backgroundColor: '#D5E2E7',
+      }}>
+      <Label type="bold" size={28} title="Good Morning" />
+    </View>
+  );
+
+  const renderSidePanel = () => (
     <View style={{flex: 1}}>
-      <Label title={navMenuData[activePage].label} />
+      <Label type="bold" size={21} title="Upcoming Events" />
+      <Label style={{marginTop: 30}} title="Birthdays & Anniversaries" />
       <Card
         style={{
-          height: 200,
-          width: 200,
           backgroundColor: 'white',
-          borderRadius: 16,
+          borderRadius: 8,
+          marginTop: 20,
+          paddingHorizontal: 16,
+          paddingVertical: 18,
         }}>
-        <Label title={navMenuData[activePage].label} />
+        <Label title="Dr. Brijesh Agarwal" />
       </Card>
-    </View>;
-  };
+      <Card
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 8,
+          marginTop: 4,
+          paddingHorizontal: 16,
+          paddingVertical: 18,
+        }}>
+        <Label title="Dr. Radhika Rao" />
+      </Card>
+      <Card
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 8,
+          marginTop: 4,
+          paddingHorizontal: 16,
+          paddingVertical: 18,
+        }}>
+        <Label title="Dr. Priya Singh" />
+      </Card>
+      <Card
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 8,
+          marginTop: 4,
+          paddingHorizontal: 16,
+          paddingVertical: 18,
+        }}>
+        <Label title="Dr. Rajesh Chouhan" />
+      </Card>
+    </View>
+  );
 
   return (
     <ScrollView
@@ -42,7 +87,9 @@ const Dashboard = () => {
         <View style={styles.sidemenuContainer}>
           <NavMenu onNavItemPress={onActivePageChanged} />
         </View>
-        <ContentWithSidePanel sidePanel={renderSidePanel()}>
+        <ContentWithSidePanel
+          header={renderHeader()}
+          sidePanel={renderSidePanel()}>
           <Label title={navMenuData[activePage].label} />
         </ContentWithSidePanel>
         <View style={styles.actionsContainer}>
