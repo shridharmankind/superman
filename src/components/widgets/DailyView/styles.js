@@ -1,8 +1,6 @@
 import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
-const borderRadius = 14;
-
 const styles = StyleSheet.create({
   dailyViewContainer: {
     alignSelf: 'stretch',
@@ -41,9 +39,9 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
   },
   currentDate: {
-    minWidth: borderRadius * 2,
-    minHeight: borderRadius * 2,
-    borderRadius: borderRadius,
+    minWidth: 28,
+    minHeight: 28,
+    borderRadius: 14,
     textAlign: 'center',
     backgroundColor: theme.colors.primary,
     alignContent: 'center',
