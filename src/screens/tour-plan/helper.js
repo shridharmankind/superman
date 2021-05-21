@@ -46,5 +46,5 @@ export const getTourPlanScheduleMonths = inputDate => {
 };
 
 export const getSelectedMonthIndex = month => {
-  return String(MONTH_ARRAY.indexOf(month) + 1).padStart(2, '0');
+  return String(getMonthList().indexOf(month) + 1).padStart(2, '0');
 };
