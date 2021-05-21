@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, SafeAreaView} from 'react-native';
 import styles from './styles';
 import {TabBar} from 'components/widgets';
-import {MonthlyTourPlan} from 'screens/tourPlan';
+import {DailyTourPlan, MonthlyTourPlan} from 'screens/tourPlan';
 import {Strings} from 'common';
 
 const Schedule = () => {
@@ -26,11 +26,11 @@ const Schedule = () => {
   const renderChildView = () => {
     switch (selectedTabIndex) {
       case 0:
-        return <MonthlyTourPlan />;
+        return <DailyTourPlan />;
       case 1:
         return <MonthlyTourPlan />;
       default:
-        return <MonthlyTourPlan />;
+        return <DailyTourPlan />;
     }
   };
 

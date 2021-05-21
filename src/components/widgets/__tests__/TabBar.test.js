@@ -2,36 +2,42 @@ import 'react-native';
 import React from 'react';
 import {TabBar} from 'components/widgets';
 import {withTheme, fireEvent} from 'utils/testHelpers';
-import {Strings} from 'common';
 
 function renderComponent(props) {
   return withTheme(<TabBar {...props} />);
 }
 
-const tabValues = [
-  {
-    text: `${Strings.dailyPlan}`,
-  },
-  {
-    text: `${Strings.tourPlan}`,
-  },
-];
-
 const props = {
-  values: tabValues,
-  onPress: jest.fn(),
+  state: {
+    index: 0,
+    routes: [{key: 'DailyPlan', name: 'Daily Plan'}],
+  },
+  descriptors: {
+    DailyPlan: {
+      options: {
+        tabBarTestID: 'dailyPlanButton',
+      },
+    },
+  },
+  navigation: {
+    navigate: jest.fn(),
+    emit: jest.fn(),
+  },
+  position: {},
 };
 
 it('renders tab bar with expected name', () => {
   const {getByText} = renderComponent(props);
 
-  expect(getByText(`${Strings.dailyPlan}`)).toBeTruthy();
+  expect(getByText('Daily Plan')).toBeTruthy();
 });
 
 it('click rendered tab', () => {
-  const {getByText} = renderComponent(props);
-  const button = getByText(`${Strings.dailyPlan}`);
+  const {getByText, getByTestId} = renderComponent(props);
+
+  expect(getByText('Daily Plan')).toBeTruthy();
+  const button = getByTestId('dailyPlanButton');
   expect(button).toBeTruthy();
   fireEvent.press(button);
-  expect(props.onPress).toHaveBeenCalled();
+  expect(props.navigation.emit).toHaveBeenCalled();
 });
