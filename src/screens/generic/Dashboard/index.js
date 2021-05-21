@@ -9,7 +9,7 @@ import NavMenu from './components/NavMenu';
 import {
   ROUTE_COMPONENT_MAPPING_DASHBOARD,
   ROUTE_HOME,
-} from 'src/navigations/routes';
+} from 'navigations/routes';
 import {NotificationIcon, SearchIcon} from 'assets';
 
 import styles from './styles';
@@ -46,6 +46,7 @@ const Dashboard = () => {
     <DashboardStack.Navigator initialRouteName={ROUTE_HOME}>
       {Object.keys(ROUTE_COMPONENT_MAPPING_DASHBOARD).map(route => (
         <DashboardStack.Screen
+          key={route}
           name={route}
           component={ROUTE_COMPONENT_MAPPING_DASHBOARD[route]}
           options={{

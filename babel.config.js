@@ -15,6 +15,7 @@ module.exports = {
           'screens/generic': './src/screens/generic',
           'screens/sales': './src/screens/sales',
           'screens/tourPlan': './src/screens/tour-plan',
+          screens: './src/screens',
           navigations: './src/navigations',
           services: './src/services',
           themes: './src/themes',

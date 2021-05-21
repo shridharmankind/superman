@@ -24,6 +24,7 @@ const App = () => {
         <Stack.Navigator initialRouteName={initialRoute}>
           {Object.keys(ROUTE_COMPONENT_MAPPING).map(route => (
             <Stack.Screen
+              key={route}
               name={route}
               component={ROUTE_COMPONENT_MAPPING[route]}
               options={{

@@ -9,7 +9,7 @@ import {
   LearnIcon,
   SettingsIcon,
 } from 'assets';
-import * as Routes from 'src/navigations/routes';
+import * as Routes from 'navigations/routes';
 
 // TODO move strings to en.json locale file after localization is setup
 export default [

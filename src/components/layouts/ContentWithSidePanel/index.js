@@ -25,7 +25,6 @@ const ContentWithSidePanel = ({children, header = null, sidePanel = null}) => {
 };
 
 ContentWithSidePanel.propTypes = {
-  children: PropTypes.element,
   header: PropTypes.element,
   sidePanel: PropTypes.element,
 };

@@ -1,5 +1,5 @@
 import {Login, Dashboard} from 'screens/generic';
-import {Home, Performance} from 'src/screens';
+import {Home, Performance} from 'screens';
 
 export const ROUTE_LOGIN = 'Login';
 export const ROUTE_DASHBOARD = 'Dashboard';

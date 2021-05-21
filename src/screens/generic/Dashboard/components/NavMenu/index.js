@@ -37,12 +37,9 @@ const NavMenu = ({onNavItemPress}) => {
       <Image source={LogoMankind} style={styles.logo} resizeMode="contain" />
       <View style={styles.navItemsContainer}>
         {navMenuData.map((item, index) => (
-          <NavItem
-            key={item.route}
-            index={index}
-            isActive={index === activeItem}
-            {...item}
-          />
+          <React.Fragment key={item.route || index}>
+            <NavItem index={index} isActive={index === activeItem} {...item} />
+          </React.Fragment>
         ))}
       </View>
     </View>

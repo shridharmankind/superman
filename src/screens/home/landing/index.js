@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Card} from 'react-native-paper';
 
 import {ContentWithSidePanel} from 'components/layouts';
@@ -7,7 +7,7 @@ import {Label} from 'components/elements';
 
 import styles from './styles';
 
-const HomeLanding = () => {
+const HomeLanding = ({navigation}) => {
   const renderHeader = () => (
     <View style={styles.header}>
       <Label type="bold" size={28} title="Good Morning" />
@@ -38,6 +38,10 @@ const HomeLanding = () => {
   return (
     <ContentWithSidePanel header={renderHeader()} sidePanel={renderSidePanel()}>
       <Label title="Welcome to our beautiful Home Page" />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('HomeLandingSecondary')}>
+        <Label title="route back to secondary landing" />
+      </TouchableOpacity>
     </ContentWithSidePanel>
   );
 };
