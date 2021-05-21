@@ -14,7 +14,11 @@ const isDisabled = month => month != getMonth();
 
 const DailyView = ({props}) => {
   return (
-    <View style={[styles.dailyViewContainer]}>
+    <View
+      style={[
+        styles.dailyViewContainer,
+        isDisabled(props.date.month) && styles.disabled,
+      ]}>
       <View
         style={[
           styles.innerContainer,
@@ -28,9 +32,7 @@ const DailyView = ({props}) => {
             size={16}
             type={isSameDate(props.date.dateString) ? 'bold' : 'regular'}
             style={[
-              isDisabled(props.date.month)
-                ? styles.disabledText
-                : styles.activeText,
+              styles.activeText,
               isSameDate(props.date.dateString) && styles.currentDate,
             ]}
             title={props.date.day}

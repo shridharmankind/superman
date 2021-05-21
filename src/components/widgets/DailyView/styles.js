@@ -7,12 +7,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderColor: theme.colors.grey[100],
     minHeight: 80,
+    minWidth: 80,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
   },
   currentDailyContainer: {
     borderWidth: 1,
-
     borderColor: theme.colors.primary,
     alignSelf: 'stretch',
     flex: 1,
@@ -32,8 +32,9 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'space-between',
   },
-  disabledText: {
+  disabled: {
     color: theme.colors.grey[100],
+    opacity: 0.4,
   },
   activeText: {
     color: theme.colors.black,
