@@ -58,4 +58,8 @@ export default [
     label: 'Settings',
     route: Routes.ROUTE_SETTINGS,
   },
+  {
+    Icon: SettingsIcon,
+    label: 'Logout',
+  },
 ];

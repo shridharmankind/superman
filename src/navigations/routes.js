@@ -13,5 +13,12 @@ export const ROUTE_SETTINGS = 'Settings';
 
 export const ROUTE_COMPONENT_MAPPING = {
   [ROUTE_HOME]: Home,
+  [ROUTE_TOUR_PLAN]: Performance,
   [ROUTE_PERFORMANCE]: Performance,
+  [ROUTE_DIRECTORY]: Performance,
+  [ROUTE_GSP]: Performance,
+  [ROUTE_ADMIN]: Performance,
+  [ROUTE_CONTENT]: Performance,
+  [ROUTE_LEARN]: Performance,
+  [ROUTE_SETTINGS]: Performance,
 };

@@ -12,8 +12,9 @@ const NavMenu = ({onNavItemPress}) => {
   const [activeItem, setActiveItem] = useState(0);
 
   const onNavItemSelected = index => {
-    setActiveItem(index);
-    onNavItemPress && onNavItemPress(navMenuData[index].route);
+    const route = navMenuData[index].route;
+    route && setActiveItem(index);
+    onNavItemPress && onNavItemPress(route);
   };
 
   const NavItem = ({Icon, label, index, isActive = false}) => (

@@ -12,10 +12,9 @@ import {NotificationIcon, SearchIcon} from 'assets';
 import styles from './styles';
 import theme from 'themes';
 
-const DashboardStack = createStackNavigator();
+export const DashboardStack = createStackNavigator();
 
-// TODO navigating between dashboard stack items
-// navigating between feature level stack, home stack
+// TODO navigating between feature level stack, home stack
 const Dashboard = () => {
   const navigation = useNavigation();
 

@@ -6,7 +6,7 @@ import {Label} from 'components/elements';
 const PerformanceLanding = () => {
   return (
     <ContentWithSidePanel>
-      <Label title="Here we'll show all the good and bad things in a beautiful chart" />
+      <Label title="Coming soon  o . o" />
     </ContentWithSidePanel>
   );
 };
