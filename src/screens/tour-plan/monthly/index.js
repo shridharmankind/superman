@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
@@ -7,39 +7,32 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView} from 'components/widgets';
-import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
+import {
+  getTourPlanScheduleMonths,
+  getSelectedMonthIndex,
+} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
 
+/**
+ * TODO::chane with API Integration hence keeping here
+ * @param {String} value
+ * @returns ref value
+ */
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 /**
  * This file renders the dropdowns to configure your monthly plan by creating your STP
  * or view your subOrdinates/STP if you are FLM/SLM.
  */
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
-  // constants
-  const planArray = [
-    {
-      id: 1,
-      text: 'Standard Tour Plan (STP)',
-      selected: true,
-    },
-    {
-      id: 2,
-      text: 'March 2021',
-      selected: false,
-    },
-    {
-      id: 3,
-      text: 'April 2021',
-      selected: false,
-    },
-    {
-      id: 4,
-      text: 'May 2021',
-      selected: false,
-    },
-  ];
+
   const [workingDays, setworkingDays] = useState([]);
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
@@ -48,7 +41,8 @@ const MonthlyTourPlan = () => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [user, setUser] = useState({});
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
-
+  const [monthSelected, setMonthSelected] = useState(5);
+  const previousMonthSelected = usePrevious(monthSelected);
   //effects
   useEffect(() => {
     const fetchData = async () => {
@@ -273,17 +267,28 @@ const MonthlyTourPlan = () => {
    *  Renders View on basis of selected tour plan
    * @returns view selected
    */
+
   const renderView = () => {
+    let selectedMonth;
+    if (getTourPlanScheduleMonths().includes(selectedTourPlan.text)) {
+      selectedMonth = getSelectedMonthIndex(
+        selectedTourPlan.text.split(' ')[0],
+      );
+      if (selectedMonth !== monthSelected) setMonthSelected(selectedMonth);
+    }
+
     switch (selectedTourPlan?.id) {
       case 1:
         return <StandardPlanContainer workingDays={workingDays} />;
-      default:
-        return (
+      default: {
+        return selectedMonth ? (
           <MonthlyView
-            selectedMonth={new Date().getMonth() + 1} //TODO:: integrate with pop-up
             workingDays={workingDays}
+            monthSelected={monthSelected}
+            previousMonthSelected={previousMonthSelected}
           />
-        );
+        ) : null;
+      }
     }
   };
 

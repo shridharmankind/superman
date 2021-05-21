@@ -4,10 +4,21 @@ import {Label} from 'components/elements';
 import styles from './styles';
 import {isSameDate, getFormatDate} from 'utils/dateTimeHelper';
 
+/**
+ *
+ * @param {number} month
+ * @param {number} selectedMonth
+ * @returns  boolean for different months
+ */
 const isDisabled = (month, selectedMonth) => month != selectedMonth;
 
+/**
+ * Returns true for workingDay
+ * @param {Date} date
+ * @param {Array} workingDays
+ * @returns  Boolean
+ */
 const isWorkingDay = (date, workingDays) => {
-  //TO DO:: replace with API response
   const dayName = getFormatDate({date: date.dateString, format: 'dddd'});
   return workingDays.includes(dayName);
 };
@@ -32,7 +43,6 @@ const DailyView = ({props, selectedMonth, workingDays}) => {
         ]}>
         <View style={styles.headerContent}>
           <Label testID={'label_dailyView_leftContent_test'} title={''} />
-
           <Label
             testID={'label_dailyView_date_test'}
             size={16}

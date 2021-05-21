@@ -1,25 +1,34 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
 import theme from 'themes';
-import {getFormatDate} from 'utils/dateTimeHelper';
 /**
  * Render Monthly View Calendar created using
  * react-native-calendars.View is rendered
  * according to selected Month. To show daily status
  * DayComponent can be passed via prop
  */
+
+const getCurrentData = (year, month, date = '01') => {
+  return year && month ? `${year}-${month}-${date}` : new Date();
+};
 const MonthlyView = ({
-  current = new Date(),
-  selectedMonth = getFormatDate({date: current, format: 'M'}),
   workingDays = [],
   DayComponent = DailyView,
+  previousMonthSelected,
+  monthSelected,
 }) => {
+  const textInput = React.useRef(null);
+  useEffect(() => {
+    if (monthSelected)
+      textInput.current.addMonth(monthSelected - previousMonthSelected);
+  }, [monthSelected, previousMonthSelected]);
   return (
     <Calendar
+      current={() => getCurrentData(year, selectedMonth)}
+      ref={textInput}
       hideArrows={true}
-      current={current}
       style={{backgroundColor: 'white'}}
       theme={{
         textMonthFontSize: 18,
@@ -55,7 +64,7 @@ const MonthlyView = ({
       dayComponent={props => (
         <DayComponent
           props={props}
-          selectedMonth={selectedMonth}
+          selectedMonth={monthSelected}
           workingDays={workingDays}
         />
       )}
