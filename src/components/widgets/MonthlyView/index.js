@@ -20,6 +20,7 @@ const MonthlyView = ({
       current={selectedMonth}
       style={{backgroundColor: 'white'}}
       theme={{
+        textMonthFontSize: 18,
         //for web inline style applied
         'stylesheet.calendar.header': {
           week: {
@@ -28,6 +29,14 @@ const MonthlyView = ({
             justifyContent: 'space-around',
             borderBottomWidth: 1,
             borderColor: theme.colors.grey[100],
+          },
+          dayHeader: {
+            marginTop: 2,
+            marginBottom: 7,
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            fontFamily: theme.fonts.fontRegular,
+            color: theme.colors.grey[400],
           },
         },
         'stylesheet.calendar.main': {
