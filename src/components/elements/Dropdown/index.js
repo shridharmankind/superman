@@ -1,6 +1,7 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TextInput} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
@@ -18,20 +19,42 @@ import {Label} from 'components/elements';
 const Dropdown = ({defaultLabel, valueSelcted, testID, data}) => {
   const [value, setValue] = useState();
   const [togglePicker, setTogglePicker] = useState(false);
+  const [dropDowndata, setDropDownData] = useState(data);
+  const [dropDownText, setDropdownText] = useState(defaultLabel);
   let childrenIds;
 
-  const handleValueSelected = useCallback(
-    val => {
-      setValue(val);
-      setTogglePicker(false);
-      valueSelcted(val);
-    },
-    [valueSelcted],
-  );
+  const handleValueSelected = val => {
+    setDropdownText(val);
+    setTogglePicker(false);
+    setValue(val);
+  };
 
   useEffect(() => {
-    handleValueSelected(value);
-  }, [handleValueSelected, value]);
+    valueSelcted(value);
+  }, [value, valueSelcted]);
+
+  const handleDropdownFocus = () => {
+    setDropdownText('');
+    setDropDownData(data);
+    setTogglePicker(true);
+  };
+
+  const handleTextChange = text => {
+    if (text) {
+      setDropdownText(text);
+      const filteredData = data.filter(val =>
+        val.value.toLowerCase().includes(text.toLowerCase()),
+      );
+      if (filteredData.length > 0) {
+        setDropDownData(filteredData);
+      } else {
+        setDropDownData([{value: 'No patch found'}]);
+      }
+    } else {
+      setDropdownText('');
+      setDropDownData(data);
+    }
+  };
 
   return (
     <View
@@ -42,31 +65,47 @@ const Dropdown = ({defaultLabel, valueSelcted, testID, data}) => {
           if (childrenIds.includes(evt.target)) {
             return;
           }
+          setDropdownText(value);
           setTogglePicker(false);
         }
       }}>
-      <TouchableOpacity
-        testID={testID}
-        style={styles.selectContainer}
-        activeOpacity={1}
-        onPress={() => setTogglePicker(!togglePicker)}>
-        <Label title={value || defaultLabel} />
-        <Icon name={'sort-down'} size={20} />
-      </TouchableOpacity>
+      {dropDowndata.length < 6 ? (
+        <TextInput
+          testID={testID}
+          style={styles.selectContainer}
+          value={dropDownText}
+          onChangeText={text => handleTextChange(text)}
+          placeholder={defaultLabel}
+          onFocus={() => handleDropdownFocus()}
+          right={
+            <TextInput.Icon name={() => <Icon name="sort-down" size={20} />} />
+          }
+        />
+      ) : (
+        <TouchableOpacity
+          testID={testID}
+          style={styles.selectContainer}
+          activeOpacity={1}
+          onPress={() => setTogglePicker(!togglePicker)}>
+          <Label title={dropDownText} />
+          <Icon name={'sort-down'} size={20} />
+        </TouchableOpacity>
+      )}
       {togglePicker && (
         <View
           style={styles.pickerContainer}
           ref={component => {
             childrenIds =
               component &&
+              component._children[0] &&
               component._children[0]._children.map(el => el._nativeTag);
           }}>
-          {data.map(option => (
+          {dropDowndata.map(option => (
             <TouchableOpacity
               key={option.value}
               style={styles.pickerLabel}
               onPress={() => handleValueSelected(option.value)}>
-              <Label title={option.label} />
+              <Label title={option.value} />
             </TouchableOpacity>
           ))}
         </View>
