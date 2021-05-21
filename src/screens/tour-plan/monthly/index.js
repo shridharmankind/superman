@@ -298,7 +298,6 @@ const MonthlyTourPlan = () => {
       </View>
       {openTourPlanDropDown()}
       {renderView()}
-      {renderView()}
     </View>
   );
 };
