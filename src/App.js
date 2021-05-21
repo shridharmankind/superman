@@ -21,7 +21,7 @@ const App = () => {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator mode="modal">
+        <Stack.Navigator>
           <Stack.Screen
             name="Login"
             component={Login}
