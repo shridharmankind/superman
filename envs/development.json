@@ -1,5 +1,5 @@
 {
-    "ENVIRONMENT": "DEVELOPMENT",
-    "API_HOST":"http://development.com",
-    "MOCK_REQUESTS":"NO"
+  "ENVIRONMENT": "DEVELOPMENT",
+  "API_HOST": "http://52.140.117.105:5001/api/",
+  "MOCK_REQUESTS": "NO"
 }
