@@ -1,3 +1,6 @@
+import Home from 'src/screens/home';
+import Performance from 'src/screens/performance';
+
 export const ROUTE_HOME = 'Home';
 export const ROUTE_TOUR_PLAN = 'TourPlan';
 export const ROUTE_PERFORMANCE = 'Performance';
@@ -7,3 +10,8 @@ export const ROUTE_ADMIN = 'Admin';
 export const ROUTE_CONTENT = 'Content';
 export const ROUTE_LEARN = 'Learn';
 export const ROUTE_SETTINGS = 'Settings';
+
+export const ROUTE_COMPONENT_MAPPING = {
+  [ROUTE_HOME]: Home,
+  [ROUTE_PERFORMANCE]: Performance,
+};
