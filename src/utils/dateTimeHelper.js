@@ -13,6 +13,10 @@ export const getMonth = param => {
   return dayjs(date).format(monthFormat);
 };
 
-export const isSameDate = (selectedDate, date = new Date()) => {
-  return selectedDate === dayjs(date).format('YYYY-MM-DD');
+export const isSameDate = (
+  selectedDate,
+  date = new Date(),
+  format = 'YYYY-MM-DD',
+) => {
+  return selectedDate === dayjs(date).format(format);
 };
