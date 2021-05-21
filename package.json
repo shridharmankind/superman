@@ -73,7 +73,8 @@
     "collectCoverageFrom": [
       "src/components/**/*.js",
       "src/database/**/*.js",
-      "src/screens/**/*.js"
+      "src/screens/**/*.js",
+      "src/utils/dateTimeHelper.js"
     ],
     "coverageThreshold": {
       "global": {
