@@ -5,11 +5,11 @@ import {Label} from 'components/elements';
 import {LogoMankind} from 'assets';
 
 import styles from './styles';
-import navMenuData from './navMenuData';
 
 // TODO - mankind logo not showing on web
 const NavMenu = ({onNavItemPress}) => {
   const [activeItem, setActiveItem] = useState(0);
+  const navMenuData = require('./navMenuData').default;
 
   const onNavItemSelected = index => {
     const route = navMenuData[index].route;

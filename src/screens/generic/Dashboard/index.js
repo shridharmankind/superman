@@ -6,7 +6,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
 
-import {ROUTE_COMPONENT_MAPPING, ROUTE_HOME} from 'src/navigations/routes';
+import {
+  ROUTE_COMPONENT_MAPPING_DASHBOARD,
+  ROUTE_HOME,
+} from 'src/navigations/routes';
 import {NotificationIcon, SearchIcon} from 'assets';
 
 import styles from './styles';
@@ -41,10 +44,10 @@ const Dashboard = () => {
 
   const renderNavigator = () => (
     <DashboardStack.Navigator initialRouteName={ROUTE_HOME}>
-      {Object.keys(ROUTE_COMPONENT_MAPPING).map(route => (
+      {Object.keys(ROUTE_COMPONENT_MAPPING_DASHBOARD).map(route => (
         <DashboardStack.Screen
           name={route}
-          component={ROUTE_COMPONENT_MAPPING[route]}
+          component={ROUTE_COMPONENT_MAPPING_DASHBOARD[route]}
           options={{
             headerShown: false,
             cardStyle: {
