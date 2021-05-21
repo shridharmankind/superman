@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Area,
-  DoctorDetails,
   Label,
   Button,
   Dropdown,
+  DoctorDetailsWrapper,
 } from 'components/elements';
 import themes from 'themes';
 import {Strings} from 'common';
@@ -169,16 +169,16 @@ const StandardPlanModal = ({visible, hideModal}) => {
                 <View style={styles.doctorDetailsContainer}>
                   <Label title={'Noida Sec 1'} />
                   <View style={styles.doctorDetails}>
-                    <DoctorDetails
+                    <DoctorDetailsWrapper
                       title={'Dr Harish'}
                       specialization={'Cardiologist'}
                       category={'KYC'}
                       selected={true}
                       testID={''}
                     />
-                    <DoctorDetails title={'Dr Harish'} />
-                    <DoctorDetails title={'Dr Harish'} />
-                    <DoctorDetails title={'Dr Harish'} />
+                    <DoctorDetailsWrapper title={'Dr Harish'} />
+                    <DoctorDetailsWrapper title={'Dr Harish'} />
+                    <DoctorDetailsWrapper title={'Dr Harish'} />
                   </View>
                 </View>
               </View>

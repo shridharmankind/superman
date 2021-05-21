@@ -3,9 +3,8 @@ import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
 import styles from './styles';
-// import {fetchWorkingDays} from '../../../../api';
-import {NetworkService} from 'services';
 import {StandardPlanModal} from 'screens/tourPlan';
+import {NetworkService} from 'services';
 
 /**
  * Standard Tour Plan container
