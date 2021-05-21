@@ -5,17 +5,22 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.white,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     flexDirection: 'row',
     paddingHorizontal: 32,
     paddingVertical: 40,
     borderColor: theme.colors.borderColor,
     borderRadius: 10,
+    position: 'relative',
     borderWidth: 1,
     marginTop: 20,
-    flex: 1,
-    minWidth: '46%',
+    // flex: 1,
+    minWidth: '45%',
     marginRight: 20,
+    zIndex: 1,
+  },
+  detailsContainer: {
+    flexDirection: 'row',
   },
   image: {
     width: 72,
@@ -23,8 +28,7 @@ const styles = StyleSheet.create({
     borderRadius: 72 / 2,
     marginRight: 32,
   },
-  detailsContainer: {
-    flex: 1,
+  nameContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     alignSelf: 'center',
@@ -35,7 +39,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.orange,
     padding: 10,
     position: 'absolute',
-    top: -1,
+    top: -40,
+    left: -32,
   },
   divisionText: {
     color: theme.colors.white,

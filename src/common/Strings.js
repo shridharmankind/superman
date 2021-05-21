@@ -10,6 +10,11 @@ const Strings = {
   dailyPlan: 'Daily Plan',
   tourPlan: 'Tour Plan',
   login: 'Login',
+  patchName: 'Patch Name',
+  selectPatch: 'Select Patch',
+  close: 'Close',
+  done: 'Done',
+  saveDraft: 'Save Draft',
 };
 
 export default Strings;

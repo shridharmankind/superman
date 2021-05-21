@@ -34,7 +34,9 @@ module.exports = override(
     path.resolve(__dirname, 'node_modules/react-native-elements'),
     path.resolve(__dirname, 'node_modules/react-native-vector-icons'),
     path.resolve(__dirname, 'node_modules/react-native-ratings'),
-    path.resolve(__dirname, 'src'),
     path.resolve(__dirname, 'node_modules/react-native-reanimated'),
+    path.resolve(__dirname, 'node_modules/react-native-calendars'),
+    path.resolve(__dirname, 'node_modules/react-native-swipe-gestures'),
+    path.resolve(__dirname, 'src'),
   ]),
 );
