@@ -8,8 +8,8 @@ export const getTourPlanScheduleMonths = inputDate => {
   const MONTH_ARRAY = getMonthList();
   const tourPlanScheduleMonths = [];
   const deviceDate = inputDate ? inputDate : new Date();
-  const month = parseInt(getMonth(deviceDate), 10);
-  const year = parseInt(getYear(deviceDate), 10);
+  const month = parseInt(getMonth({date: deviceDate}), 10);
+  const year = parseInt(getYear({date: deviceDate}), 10);
   const currentDate = {
     month,
     year,
