@@ -1,4 +1,9 @@
 import dayjs from 'dayjs';
+import localeData from 'dayjs/plugin/localeData';
+import 'dayjs/locale/en-in';
+
+dayjs.extend(localeData);
+
 /**
  * Utility file to handle Date/Time method
  */
@@ -24,3 +29,22 @@ export const isSameDate = (
   date = new Date(),
   format = 'YYYY-MM-DD',
 ) => selectedDate === dayjs(date).format(format);
+
+/**
+ *
+ * @param {object} param
+ * @returns year of given date
+ */
+export const getYear = param => {
+  const {date = new Date(), yearFormat = 'YYYY'} = param || {};
+  return dayjs(date).format(yearFormat);
+};
+
+/**
+ *
+ * @param {boolean} short if true, returns short month names, else full month names
+ * @returns list of months in the year
+ */
+export const getMonthList = short => {
+  return short ? dayjs.monthsShort() : dayjs.months();
+};
