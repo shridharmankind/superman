@@ -269,14 +269,16 @@ const MonthlyTourPlan = () => {
    */
 
   const renderView = () => {
+    //TO DO:: as per current JSON - might change after actual api
     let selectedMonth;
     if (getTourPlanScheduleMonths().includes(selectedTourPlan.text)) {
       selectedMonth = getSelectedMonthIndex(
         selectedTourPlan.text.split(' ')[0],
       );
-      if (selectedMonth !== monthSelected) setMonthSelected(selectedMonth);
+      if (selectedMonth !== monthSelected) {
+        setMonthSelected(selectedMonth);
+      }
     }
-
     switch (selectedTourPlan?.id) {
       case 1:
         return <StandardPlanContainer workingDays={workingDays} />;
