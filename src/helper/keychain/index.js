@@ -8,9 +8,9 @@ export const resetPassword = async () => {
   await Keychain.resetGenericPassword();
 };
 
-/*
+/**
 This token will be used for all API calls
-@ accessToken- token that will be received once user is authenticated.
+@ @param {String}- accessToken that will be received once user is authenticated.
 */
 export const saveAccessToken = async accessToken => {
   await Keychain.setGenericPassword('idToken', accessToken);
