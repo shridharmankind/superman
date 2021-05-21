@@ -6,9 +6,9 @@ import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {getSubordinates, fetchSingleUser} from '../../../api';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
+import {NetworkService} from 'services';
 
 /**
  * This file renders the dropdowns to configure your monthly plan by creating your STP
@@ -18,7 +18,7 @@ const MonthlyTourPlan = () => {
   const {colors} = useTheme();
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetchSingleUser(1);
+      const result = await NetworkService.get('/single-user');
       if (result.data) {
         setUser(result.data);
         let schedule = getTourPlanScheduleMonths();
@@ -41,7 +41,7 @@ const MonthlyTourPlan = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getSubordinates();
+      const result = await NetworkService.get('/getSubordinates');
       if (result.data) {
         let myPlan = [
           {
