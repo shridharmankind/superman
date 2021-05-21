@@ -13,10 +13,14 @@ export const getMonth = param => {
   return dayjs(date).format(monthFormat);
 };
 
+/**
+ * @param {Date} selectedDate  the selecte date to comapred
+ * @param {Date} date Date with which to compare
+ * @param {String} format  format of dates to compare
+ * @returns
+ */
 export const isSameDate = (
   selectedDate,
   date = new Date(),
   format = 'YYYY-MM-DD',
-) => {
-  return selectedDate === dayjs(date).format(format);
-};
+) => selectedDate === dayjs(date).format(format);
