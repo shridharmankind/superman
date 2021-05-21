@@ -9,7 +9,7 @@ import {Login} from 'screens/generic';
 import {Header} from 'components/elements';
 import theme from 'themes';
 import {useEffect} from 'react';
-import {Schedule} from 'screens/tourPlan';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -24,7 +24,7 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen
             name="Login"
-            component={Schedule}
+            component={Login}
             options={{
               headerTitle: props => <Header title="Welcome!" {...props} />,
             }}
