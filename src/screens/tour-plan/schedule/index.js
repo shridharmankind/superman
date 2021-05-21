@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, SafeAreaView} from 'react-native';
 import styles from './styles';
+import {Button} from 'components/elements';
 import {TabBar} from 'components/widgets';
 import {DailyTourPlan, MonthlyTourPlan} from 'screens/tourPlan';
 import {Strings} from 'common';
@@ -16,8 +17,27 @@ const Schedule = () => {
     },
   ];
   const myTabNavigator = () => {
-    return <TabBar values={data} onPress={onTabPress} />;
-  };
+    return (
+      <View style={styles.tabContainer}>
+        <View style={styles.leftTabContainer}>
+          <TabBar values={data} onPress={onTabPress} />
+        </View>
+        <View style={styles.rightTabContainer}>
+          <Button
+            title={Strings.reviewDCR}
+            mode="outlined"
+            contentStyle={styles.buttonTabBar}
+          />
+          <Button
+            title={Strings.addToTodayPlan}
+            mode="contained"
+            contentStyle={styles.buttonTabBar}
+          />
+        </View>
+      </View>
+    );
+    // return <TabBar values={data} onPress={onTabPress} />;
+  };;
 
   const onTabPress = itemIdx => {
     setSelectedTabIndex(itemIdx);

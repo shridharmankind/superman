@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
     borderRadius: 40 / 2,
   },
   dailyTitle: {
-    color: theme.colors.primary,
+    color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontRegular,
     fontSize: 16,
   },
   visitText: {
-    color: theme.colors.primary,
+    color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
   },
 });

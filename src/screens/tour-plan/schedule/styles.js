@@ -39,6 +39,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  leftTabContainer: {
+    width: '54%',
+  },
+  rightTabContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    marginTop: 25,
+  },
+  buttonTabBar: {
+    width: 200,
+    marginHorizontal: 8,
+  },
 });
 
 export default styles;

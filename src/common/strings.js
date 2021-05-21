@@ -22,6 +22,8 @@ const Strings = {
   and: 'and',
   numberOfChemist: '6 chemist',
   visits: 'visits',
+  reviewDCR: 'Review DCR',
+  addToTodayPlan: "Add to Today's Plan",
 };
 
 export default Strings;
