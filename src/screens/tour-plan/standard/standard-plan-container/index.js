@@ -3,25 +3,13 @@ import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
 import styles from './styles';
-import {fetchWorkingDays} from '../../../../api';
 import {StandardPlanModal} from 'screens/tourPlan';
 
 /**
  * Standard Tour Plan container
  */
-const StandardPlanContainer = () => {
-  const [workingDays, setworkingDays] = useState([]);
+const StandardPlanContainer = ({workingDays}) => {
   const [openModal, setOpenModal] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetchWorkingDays('india');
-      if (result.data) {
-        setworkingDays(result.data);
-      }
-    };
-    fetchData();
-  }, []);
-
   /**
    * Handle Week View click  event
    * @param {string} header represemts cell Header

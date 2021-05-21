@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
 import theme from 'themes';
-
+import {getFormatDate} from 'utils/dateTimeHelper';
 /**
  * Render Monthly View Calendar created using
  * react-native-calendars.View is rendered
@@ -11,13 +11,15 @@ import theme from 'themes';
  * DayComponent can be passed via prop
  */
 const MonthlyView = ({
-  selectedMonth = new Date(),
+  current = new Date(),
+  selectedMonth = getFormatDate({date: current, format: 'M'}),
+  workingDays = [],
   DayComponent = DailyView,
 }) => {
   return (
     <Calendar
       hideArrows={true}
-      current={selectedMonth}
+      current={current}
       style={{backgroundColor: 'white'}}
       theme={{
         textMonthFontSize: 18,
@@ -50,7 +52,13 @@ const MonthlyView = ({
           },
         },
       }}
-      dayComponent={props => <DayComponent props={props} />}
+      dayComponent={props => (
+        <DayComponent
+          props={props}
+          selectedMonth={selectedMonth}
+          workingDays={workingDays}
+        />
+      )}
       renderHeader={() => null}
       firstDay={1}
     />

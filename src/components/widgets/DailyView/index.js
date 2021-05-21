@@ -2,22 +2,28 @@ import React from 'react';
 import {View} from 'react-native';
 import {Label} from 'components/elements';
 import styles from './styles';
-import {getMonth, isSameDate} from 'utils/dateTimeHelper';
+import {isSameDate, getFormatDate} from 'utils/dateTimeHelper';
 
-const currentDate = new Date();
+const isDisabled = (month, selectedMonth) => month != selectedMonth;
 
-const isDisabled = month => month != getMonth();
+const isWorkingDay = (date, workingDays) => {
+  //TO DO:: replace with API response
+  const dayName = getFormatDate({date: date.dateString, format: 'dddd'});
+  return workingDays.includes(dayName);
+};
+
 /**
  * Render Daily Container
  * @param {Object} props
  */
 
-const DailyView = ({props}) => {
+const DailyView = ({props, selectedMonth, workingDays}) => {
   return (
     <View
       style={[
         styles.dailyViewContainer,
-        isDisabled(props.date.month) && styles.disabled,
+        isDisabled(props.date.month, selectedMonth) && styles.disabled,
+        !isWorkingDay(props.date, workingDays) && styles.weekendContainer,
       ]}>
       <View
         style={[

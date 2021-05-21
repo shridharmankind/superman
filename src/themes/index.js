@@ -26,6 +26,7 @@ const theme = {
       300: '#e3e3e3',
       400: '#6D7278',
     },
+    blueShades: {100: '#32C5FF14'},
   },
   fonts: {
     fontRegular: 'Poppins-Regular',

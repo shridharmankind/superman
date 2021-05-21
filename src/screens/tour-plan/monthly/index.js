@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
+import {MonthlyView} from 'components/widgets';
+import {NetworkService} from 'services';
 
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
@@ -35,8 +37,19 @@ const MonthlyTourPlan = () => {
   const [planOptions, setPlanOptions] = useState(planArray);
   const [selectedTourPlan, setSelectedTourPlan] = useState(planOptions[0]);
   const [visible, setVisible] = React.useState(false);
+  const [workingDays, setworkingDays] = useState([]);
 
   const handleDialog = () => setVisible(!visible);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await NetworkService.get('/api/workingDays');
+      if (result.status === Constants.HTTP_OK) {
+        setworkingDays(result.data);
+      }
+    };
+    fetchData();
+  }, []);
 
   const tourPlanDropDown = () => {
     return (
@@ -141,9 +154,14 @@ const MonthlyTourPlan = () => {
   const renderView = () => {
     switch (selectedTourPlan.id) {
       case 1:
-        return <StandardPlanContainer />;
+        return <StandardPlanContainer workingDays={workingDays} />;
       default:
-        return null;
+        return (
+          <MonthlyView
+            selectedMonth={new Date().getMonth() + 1} //TODO:: integrate with pop-up
+            workingDays={workingDays}
+          />
+        );
     }
   };
   return (
