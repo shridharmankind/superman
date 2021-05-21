@@ -7,7 +7,7 @@ Client errors (400–499)
 Server errors (500–599)
 */
 
-import axios from 'axios';
+import {client} from '../../api';
 import AsyncStorage from '@react-native-community/async-storage';
 import env from '../../../env.json';
 
@@ -25,7 +25,7 @@ export const get = async (url, params = {}) => {
     params,
   };
 
-  return axios(config)
+  return client(config)
     .then(function (response) {
       // handle success
       return response;
@@ -55,7 +55,7 @@ export const post = async (url, data = {}, params = {}) => {
     params,
   };
 
-  return axios(config)
+  return client(config)
     .then(function (response) {
       // handle success
       return response;
