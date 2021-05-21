@@ -7,7 +7,6 @@ Client errors (400–499)
 Server errors (500–599)
 */
 
-// import axios from 'axios';
 import {client} from '../../api';
 import AsyncStorage from '@react-native-community/async-storage';
 import env from '../../../env.json';
