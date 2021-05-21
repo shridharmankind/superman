@@ -5,6 +5,7 @@ import {getMonth, getYear, getMonthList} from 'utils/dateTimeHelper';
  * Ex: let today is May 2021. So, I will get [May 2021, June 2021, ..... February 2022, March 2022]
  */
 export const getTourPlanScheduleMonths = inputDate => {
+  const MONTH_RANGE = 13;
   const MONTH_ARRAY = getMonthList();
   const tourPlanScheduleMonths = [];
   const deviceDate = inputDate ? inputDate : new Date();
@@ -33,7 +34,7 @@ export const getTourPlanScheduleMonths = inputDate => {
     (schedule.year === nextFiscalYear.year &&
       schedule.month !== nextFiscalYear.month)
   ) {
-    if (schedule.month === 13) {
+    if (schedule.month === MONTH_RANGE) {
       schedule.month = 1;
       schedule.year = nextFiscalYear.year;
     }
