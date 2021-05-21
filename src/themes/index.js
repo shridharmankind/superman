@@ -13,6 +13,23 @@ const theme = {
     primary: '#322b7c',
     veryPaleRed: '#FFC0CB',
     white: '#fff',
+    orange: '#FFA088',
+    borderColor: '#979797',
+    darkBlue: '#5920B7',
+    lightBlue: '#0852C5',
+    limeGreen: '#00B637',
+    checkCircleBlue: '#0095d1',
+    softRed: '#E36565',
+    blackShades: {
+      100: '#1C1939',
+    },
+    grey: {
+      100: '#BEBEBF',
+      200: '#1C1939',
+      300: '#e3e3e3',
+      400: '#e2e2e2',
+      500: '#6D7278',
+    },
   },
   fonts: {
     fontRegular: 'Poppins-Regular',

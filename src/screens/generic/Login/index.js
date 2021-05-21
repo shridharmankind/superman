@@ -12,10 +12,12 @@ export default function Login({navigation}) {
   const {colors} = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [openModal, setOpenModal] = useState(false);
 
   const getUserList = () => {
     fetchAllUsers().then(res => console.log(res.data));
   };
+
   //Post Request Example
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +49,10 @@ export default function Login({navigation}) {
     fetchData();
   }, []);
 
+  const showModal = () => {
+    setOpenModal(true);
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -57,7 +63,6 @@ export default function Login({navigation}) {
       <View style={styles.iconContainer}>
         <Icon name="rocket" size={30} color="#900" />
       </View>
-
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
