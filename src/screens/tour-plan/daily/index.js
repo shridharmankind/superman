@@ -124,13 +124,9 @@ const DailyTourPlan = () => {
    * @returns formatted string
    */
   const getVisitBifurcationLabel = () => {
-    // const sample = {
-    //   sentence: `${Strings.youHave} {0} ${Strings.and} {1} ${Strings.visits}`,
-    //   boldText: [`${Strings.numberOfDoctors}`, `${Strings.numberOfChemist}`],
-    // };
     const sample = {
-      sentence: 'You have {0} and {1} visits',
-      boldText: ['11 doctors', '2 chemist'],
+      sentence: `${Strings.youHave} {0} ${Strings.and} {1} ${Strings.visits}`,
+      boldText: [`${Strings.numberOfDoctors}`, `${Strings.numberOfChemist}`],
     };
     let numberOfItemsAdded = 0;
     const result = sample.sentence.split(/\{\d+\}/);

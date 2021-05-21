@@ -21,12 +21,14 @@ const DoctorDetailsWrapper = ({
   category,
   selected,
   location,
+  testID,
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
 
   return (
     <TouchableOpacity
+      testID={testID}
       onPress={() => setSelect(!select)}
       style={styles.container}
       activeOpacity={1}>
@@ -54,6 +56,7 @@ DoctorDetailsWrapper.propTypes = {
   image: PropTypes.string,
   location: PropTypes.string,
   selected: PropTypes.bool,
+  testID: PropTypes.string,
 };
 
 export default DoctorDetailsWrapper;

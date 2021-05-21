@@ -26,12 +26,11 @@ const TabBar = ({values, onPress}) => {
    */
   const renderRadioButtons = () => {
     return (values || []).map((listItem, idx) => {
-      let isChecked = currentSelectedItem === idx ? true : false;
       return (
         <Tab
           key={idx}
           onTabPress={() => onTabPress(idx)}
-          isChecked={isChecked}
+          isChecked={currentSelectedItem === idx}
           text={listItem.text}
         />
       );
