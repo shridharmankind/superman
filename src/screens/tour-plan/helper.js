@@ -1,4 +1,4 @@
-import {getMonth, getYear, getMonthList} from 'utils/dateTimeHelper';
+import {getFormatDate, getYear, getMonthList} from 'utils/dateTimeHelper';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
@@ -8,7 +8,7 @@ export const getTourPlanScheduleMonths = inputDate => {
   const MONTH_ARRAY = getMonthList();
   const tourPlanScheduleMonths = [];
   const deviceDate = inputDate ? inputDate : new Date();
-  const month = parseInt(getMonth({date: deviceDate}), 10);
+  const month = parseInt(getFormatDate({date: deviceDate, format: 'M'}), 10);
   const year = parseInt(getYear({date: deviceDate}), 10);
   const currentDate = {
     month,
