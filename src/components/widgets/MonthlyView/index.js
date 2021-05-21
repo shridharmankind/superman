@@ -18,6 +18,7 @@ const MonthlyView = ({
   DayComponent = DailyView,
   previousMonthSelected,
   monthSelected,
+  year,
 }) => {
   const textInput = React.useRef(null);
   useEffect(() => {
@@ -26,7 +27,7 @@ const MonthlyView = ({
   }, [monthSelected, previousMonthSelected]);
   return (
     <Calendar
-      current={() => getCurrentData(year, selectedMonth)}
+      current={() => getCurrentData(year, monthSelected)}
       ref={textInput}
       hideArrows={true}
       style={{backgroundColor: 'white'}}
