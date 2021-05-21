@@ -1,20 +1,23 @@
-import {MONTH_ARRAY} from 'screens/tourPlan/constants';
+import {getMonth, getYear, getMonthList} from 'utils/dateTimeHelper';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
  * Ex: let today is May 2021. So, I will get [May 2021, June 2021, ..... February 2022, March 2022]
  */
 export const getTourPlanScheduleMonths = inputDate => {
+  const MONTH_ARRAY = getMonthList();
   const tourPlanScheduleMonths = [];
   const deviceDate = inputDate ? inputDate : new Date();
+  const month = parseInt(getMonth(deviceDate), 10);
+  const year = parseInt(getYear(deviceDate), 10);
   const currentDate = {
-    month: deviceDate.getMonth(),
-    year: deviceDate.getFullYear(),
+    month,
+    year,
   };
 
   const nextFiscalYear = {
-    month: 3,
-    year: deviceDate.getFullYear() + 1,
+    month: 4,
+    year: year + 1,
   };
 
   let schedule = {
@@ -30,12 +33,12 @@ export const getTourPlanScheduleMonths = inputDate => {
     (schedule.year === nextFiscalYear.year &&
       schedule.month !== nextFiscalYear.month)
   ) {
-    if (schedule.month === 12) {
-      schedule.month = 0;
+    if (schedule.month === 13) {
+      schedule.month = 1;
       schedule.year = nextFiscalYear.year;
     }
     tourPlanScheduleMonths.push(
-      `${MONTH_ARRAY[schedule.month]} ${schedule.year}`,
+      `${MONTH_ARRAY[schedule.month - 1]} ${schedule.year}`,
     );
     schedule.month += 1;
   }
