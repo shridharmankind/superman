@@ -65,7 +65,7 @@ const CustomButton = ({
 
 CustomButton.propTypes = {
   model: PropTypes.oneOf(['outlined', 'contained', 'text']),
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   testID: PropTypes.string,
   onPress: PropTypes.func,
   disabled: PropTypes.bool,

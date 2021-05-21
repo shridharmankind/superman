@@ -41,9 +41,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -40,
     left: -32,
-    minWidth: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   divisionText: {
     color: theme.colors.white,
@@ -54,16 +51,12 @@ const styles = StyleSheet.create({
     top: 10,
   },
   location: {
-    borderLeftColor: theme.colors.grey[200],
+    borderLeftColor: theme.colors.blackShades[100],
     borderLeftWidth: 1,
     paddingHorizontal: 10,
   },
   frequecyContainer: {
     flexDirection: 'row',
-  },
-  visitContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
   },
 });
 

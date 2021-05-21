@@ -1,29 +1,46 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, SafeAreaView} from 'react-native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import styles from './styles';
-import {TabBar} from 'components/elements';
-import {MonthlyTourPlan} from 'screens/tourPlan';
+import {TabBar} from 'components/widgets';
+import {DailyTourPlan, MonthlyTourPlan} from 'screens/tourPlan';
 import {Strings} from 'common';
 
-const Tab = createMaterialTopTabNavigator();
-
 const Schedule = () => {
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const data = [
+    {
+      text: `${Strings.dailyPlan}`,
+    },
+    {
+      text: `${Strings.tourPlan}`,
+    },
+  ];
   const myTabNavigator = () => {
-    return (
-      <SafeAreaView style={styles.safeAreaContainer}>
-        <Tab.Navigator tabBar={props => <TabBar {...props} />}>
-          <Tab.Screen name={Strings.dailyPlan} component={MonthlyTourPlan} />
-          <Tab.Screen name={Strings.tourPlan} component={MonthlyTourPlan} />
-        </Tab.Navigator>
-      </SafeAreaView>
-    );
+    return <TabBar values={data} onPress={onTabPress} />;
+  };
+
+  const onTabPress = itemIdx => {
+    setSelectedTabIndex(itemIdx);
+  };
+
+  const renderChildView = () => {
+    switch (selectedTabIndex) {
+      case 0:
+        return <DailyTourPlan />;
+      case 1:
+        return <MonthlyTourPlan />;
+      default:
+        return <DailyTourPlan />;
+    }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.leftPanel} />
-      <SafeAreaView style={styles.mainPanel}>{myTabNavigator()}</SafeAreaView>
+      <SafeAreaView style={styles.mainPanel}>
+        {myTabNavigator()}
+        {renderChildView()}
+      </SafeAreaView>
       <View style={styles.rightPanel} />
     </View>
   );
