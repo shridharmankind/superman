@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   image: {
     width: 72,
     height: 72,
-    borderRadius: 72 / 2,
+    borderRadius: 36,
     marginRight: 32,
   },
   nameContainer: {
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     top: 10,
   },
   location: {
-    borderLeftColor: '#1C1939',
+    borderLeftColor: theme.colors.blackShades[100],
     borderLeftWidth: 1,
     paddingHorizontal: 10,
   },
