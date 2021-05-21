@@ -2,9 +2,6 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     backgroundColor: theme.colors.lightGrayishBlue,

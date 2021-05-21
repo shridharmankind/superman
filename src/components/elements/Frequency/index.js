@@ -14,7 +14,7 @@ import styles from './styles';
  * @param {String} testID date test id
  */
 
-const Frequecy = ({visited, testID, ...props}) => {
+const Frequency = ({visited, testID, ...props}) => {
   const isVisited = visited
     ? {
         borderColor: themes.colors.grey[200],
@@ -32,13 +32,13 @@ const Frequecy = ({visited, testID, ...props}) => {
   );
 };
 
-Frequecy.defaultProps = {
+Frequency.defaultProps = {
   visited: false,
 };
 
-Frequecy.propsTypes = {
+Frequency.propsTypes = {
   testID: PropTypes.string,
   visited: PropTypes.bool,
 };
 
-export default Frequecy;
+export default Frequency;
