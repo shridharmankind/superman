@@ -3,7 +3,8 @@ import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
 import styles from './styles';
-import {fetchWorkingDays} from '../../../../api';
+// import {fetchWorkingDays} from '../../../../api';
+import {NetworkService} from 'services';
 import {StandardPlanModal} from 'screens/tourPlan';
 
 /**
@@ -14,7 +15,7 @@ const StandardPlanContainer = () => {
   const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetchWorkingDays('india');
+      const result = await NetworkService.get('/working-days');
       if (result.data) {
         setworkingDays(result.data);
       }

@@ -6,7 +6,8 @@ import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {getSubordinates, fetchSingleUser} from '../../../api';
+// import {getSubordinates, fetchSingleUser} from '../../../api';
+import {NetworkService} from 'services';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 
@@ -18,7 +19,7 @@ const MonthlyTourPlan = () => {
   const {colors} = useTheme();
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetchSingleUser(1);
+      const result = await NetworkService.get('/single-user');
       if (result.data) {
         setUser(result.data);
         let schedule = getTourPlanScheduleMonths();
@@ -41,7 +42,7 @@ const MonthlyTourPlan = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getSubordinates();
+      const result = await NetworkService.get('/getSubOrdinates');
       if (result.data) {
         let myPlan = [
           {

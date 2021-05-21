@@ -1,4 +1,5 @@
 import {MONTH_ARRAY} from 'screens/tourPlan/constants';
+import {getMonth, getYear} from 'utils/dateTimeHelper';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
@@ -8,13 +9,13 @@ export const getTourPlanScheduleMonths = inputDate => {
   const tourPlanScheduleMonths = [];
   const deviceDate = inputDate ? inputDate : new Date();
   const currentDate = {
-    month: deviceDate.getMonth(),
-    year: deviceDate.getFullYear(),
+    month: getMonth(deviceDate),
+    year: getYear(deviceDate),
   };
 
   const nextFiscalYear = {
     month: 3,
-    year: deviceDate.getFullYear() + 1,
+    year: getYear(deviceDate) + 1,
   };
 
   let schedule = {
@@ -39,5 +40,6 @@ export const getTourPlanScheduleMonths = inputDate => {
     );
     schedule.month += 1;
   }
+  console.log('plan', tourPlanScheduleMonths);
   return tourPlanScheduleMonths;
 };
