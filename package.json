@@ -21,11 +21,11 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-navigation/material-top-tabs": "^5.3.15",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.19.0",
+    "dayjs": "^1.10.4",
     "react": "17.0.1",
     "react-dom": "^17.0.2",
     "react-native": "0.64.1",
@@ -49,6 +49,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/react-native": "^7.2.0",
@@ -77,7 +78,8 @@
     "collectCoverageFrom": [
       "src/components/**/*.js",
       "src/database/**/*.js",
-      "src/screens/**/*.js"
+      "src/screens/**/*.js",
+      "src/utils/dateTimeHelper.js"
     ],
     "coverageThreshold": {
       "global": {

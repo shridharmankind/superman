@@ -1,10 +1,54 @@
 {
   "users": [
     {
-      "name": "John"
+      "id": 0,
+      "firstName": "Manish",
+      "middleName": "K",
+      "lastName": "Manjhi",
+      "username": "mm",
+      "designation": {
+        "id": 0,
+        "name": "MR",
+        "shortName": "MR",
+        "isActive": true,
+        "isDeleted": false,
+        "divisionId": 0
+      },
+      "staffPositions": [
+        {
+          "id": 0,
+          "staffCode": "MR",
+          "reportingStaffPositionId": 0,
+          "divisionId": 0,
+          "role": 0,
+          "isActive": true
+        }
+      ]
     },
     {
-      "name": "Mike"
+      "id": 1,
+      "firstName": "Manish",
+      "middleName": "K",
+      "lastName": "Manjhi",
+      "username": "mm",
+      "designation": {
+        "id": 0,
+        "name": "MR",
+        "shortName": "MR",
+        "isActive": true,
+        "isDeleted": false,
+        "divisionId": 0
+      },
+      "staffPositions": [
+        {
+          "id": 0,
+          "staffCode": "FLM",
+          "reportingStaffPositionId": 0,
+          "divisionId": 0,
+          "role": 0,
+          "isActive": true
+        }
+      ]
     }
   ]
 }

@@ -9,7 +9,10 @@ const {
 
 module.exports = override(
   removeModuleScopePlugin(),
-  ...addBabelPlugins('@babel/plugin-proposal-class-properties'),
+  ...addBabelPlugins(
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-transform-modules-commonjs',
+  ),
   addBabelPlugin([
     'module-resolver',
     {
