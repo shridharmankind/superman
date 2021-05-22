@@ -38,9 +38,10 @@ const styles = StyleSheet.create({
     left: -34,
   },
   image: {
-    width: 40,
-    height: 40,
-    borderRadius: 40 / 2,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    marginTop: 8,
   },
   dailyTitle: {
     color: theme.colors.grey[200],
