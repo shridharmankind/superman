@@ -47,14 +47,13 @@ const styles = StyleSheet.create({
     width: '54%',
   },
   rightTabContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
     justifyContent: 'flex-end',
     marginTop: 25,
   },
   buttonTabBar: {
     width: 200,
     marginHorizontal: 8,
+    height: 45,
   },
 });
 

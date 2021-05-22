@@ -1,4 +1,5 @@
 import {getMonth, getYear, getMonthList} from 'utils/dateTimeHelper';
+import {CATEGORY_SORTING_ORDER} from 'screens/tourPlan/constants';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
@@ -44,4 +45,11 @@ export const getTourPlanScheduleMonths = inputDate => {
     schedule.month += 1;
   }
   return tourPlanScheduleMonths;
+};
+
+export const sortBasedOnCategory = (a, b) => {
+  return (
+    CATEGORY_SORTING_ORDER.indexOf(a.category.toLowerCase()) -
+    CATEGORY_SORTING_ORDER.indexOf(b.category.toLowerCase())
+  );
 };

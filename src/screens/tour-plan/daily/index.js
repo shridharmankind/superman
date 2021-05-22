@@ -2,13 +2,17 @@ import React from 'react';
 import {ScrollView, View, Text} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
-import {MONTH_ARRAY, DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
+import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
+import {sortBasedOnCategory} from 'screens/tourPlan/helper';
+import {getMonthList} from 'utils/dateTimeHelper';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
+  const MONTH_ARRAY = getMonthList();
+
   const dayPlan = [
     {
       name: 'Dr. Manoj Manjhi',
@@ -147,9 +151,10 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
+    const sortedDayPlan = dayPlan.sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
-        {dayPlan.map((plan, index) => (
+        {sortedDayPlan.map((plan, index) => (
           <View key={index} style={styles.doctorDetailContainer}>
             <DoctorDetails
               title={plan.name}

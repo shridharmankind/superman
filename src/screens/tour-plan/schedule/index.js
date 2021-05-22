@@ -22,7 +22,7 @@ const Schedule = () => {
         <View style={styles.leftTabContainer}>
           <TabBar values={data} onPress={onTabPress} />
         </View>
-        <View style={styles.rightTabContainer}>
+        <View style={[styles.tabContainer, styles.rightTabContainer]}>
           <Button
             title={Strings.reviewDCR}
             mode="outlined"
@@ -36,8 +36,7 @@ const Schedule = () => {
         </View>
       </View>
     );
-    // return <TabBar values={data} onPress={onTabPress} />;
-  };;
+  };
 
   const onTabPress = itemIdx => {
     setSelectedTabIndex(itemIdx);
