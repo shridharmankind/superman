@@ -8,20 +8,20 @@ Server errors (500–599)
 */
 
 import {client} from '../../api';
-import AsyncStorage from '@react-native-community/async-storage';
 import env from '../../../env.json';
+import {KeyChain} from 'helper';
 
 /*
 Function to handle HTTP GET request
 @params- for query params
 */
 export const get = async (url, params = {}) => {
-  const authCode = await AsyncStorage.getItem('Auth');
+  const accessToken = await KeyChain.getAccessToken();
   const config = {
     baseURL: env.API_HOST,
     method: 'GET',
     url,
-    headers: {Authorization: authCode},
+    headers: {Authorization: `Bearer ${accessToken}`},
     params,
   };
 
@@ -42,14 +42,14 @@ Function to handle HTTP POST request
 @params- for query params
 */
 export const post = async (url, data = {}, params = {}) => {
-  const authCode = await AsyncStorage.getItem('Auth');
+  const accessToken = await KeyChain.getAccessToken();
   const config = {
     baseURL: env.API_HOST,
     method: 'POST',
     url,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: authCode,
+      Authorization: `Bearer ${accessToken}`,
     },
     data,
     params,
