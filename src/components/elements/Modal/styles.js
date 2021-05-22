@@ -4,8 +4,6 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   modalView: {
     backgroundColor: theme.colors.white,

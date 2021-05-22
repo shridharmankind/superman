@@ -48,6 +48,10 @@ const styles = StyleSheet.create({
   contentView: {
     justifyContent: 'flex-start',
   },
+  modalPosition: {
+    marginTop: '16%',
+    marginLeft: '14%',
+  },
 });
 
 export default styles;

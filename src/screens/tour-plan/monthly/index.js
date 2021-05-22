@@ -228,6 +228,7 @@ const MonthlyTourPlan = () => {
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
+        customModalPosition={styles.modalPosition}
       />
     );
   };
