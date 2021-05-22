@@ -6,13 +6,11 @@ import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
-import {getMonthList} from 'utils/dateTimeHelper';
+import {returnDateWithOrdinal} from 'utils/dateTimeHelper';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
-  const MONTH_ARRAY = getMonthList();
-
   const dayPlan = [
     {
       name: 'Dr. Manoj Manjhi',
@@ -118,10 +116,7 @@ const DailyTourPlan = () => {
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
-    const currentDate = new Date();
-    return `${Strings.today}, ${currentDate.getDate()} ${
-      MONTH_ARRAY[currentDate.getMonth()]
-    } ${currentDate.getFullYear()}`;
+    return `${Strings.today}, ${returnDateWithOrdinal()}`;
   };
 
   /**

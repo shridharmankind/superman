@@ -1,8 +1,10 @@
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/en-in';
 
 dayjs.extend(localeData);
+dayjs.extend(advancedFormat);
 
 /**
  * Utility file to handle Date/Time method
@@ -47,4 +49,11 @@ export const getYear = param => {
  */
 export const getMonthList = short => {
   return short ? dayjs.monthsShort() : dayjs.months();
+};
+
+export const returnDateWithOrdinal = (
+  inputDate = new Date(),
+  format = 'Do MMM YYYY',
+) => {
+  return dayjs(inputDate).format(format);
 };
