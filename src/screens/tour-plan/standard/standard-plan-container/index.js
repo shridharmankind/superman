@@ -16,7 +16,6 @@ const StandardPlanContainer = ({workingDays}) => {
    * @param {string} row represents row clicked
    */
   const handleOnClickWeekView = (header, row) => setOpenModal(true);
-
   return (
     <View style={styles.container}>
       <WeekView
@@ -34,4 +33,4 @@ const StandardPlanContainer = ({workingDays}) => {
   );
 };
 
-export default StandardPlanContainer;
+export default React.memo(StandardPlanContainer);
