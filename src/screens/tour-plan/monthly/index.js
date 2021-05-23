@@ -99,7 +99,7 @@ const MonthlyTourPlan = () => {
   //Effect to get working Days from API on load of page
   useEffect(() => {
     const fetchData = async () => {
-      const result = await NetworkService.get('/api/workingDays');
+      const result = await NetworkService.get('/workingDay/1');
       if (result.status === Constants.HTTP_OK) {
         setworkingDays(result.data);
       }
@@ -285,12 +285,12 @@ const MonthlyTourPlan = () => {
     }
     switch (selectedTourPlan?.id) {
       case 1:
-        return (
+        return workingDays ? (
           <>
             <StandardPlanContainer workingDays={workingDays} />
             <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
           </>
-        );
+        ) : null;
 
       default: {
         return selectedMonth ? (

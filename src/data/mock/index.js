@@ -8,7 +8,7 @@ const getMock = axios => {
 
   mock.onGet('/all-users').reply(200, userMock);
   mock.onGet('/single-user').reply(200, userMock.users[0]);
-  mock.onGet('/api/workingDays').reply(200, stpMock.workingDays);
+  mock.onGet('/workingDay/1').reply(200, stpMock.workingDays);
   mock.onGet('/api/Chemists').reply(200, userMock);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
 };
