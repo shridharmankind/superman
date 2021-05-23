@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Platform} from 'react-native';
 
 import {useNavigation} from '@react-navigation/core';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -22,7 +22,11 @@ const Dashboard = () => {
   const onActivePageChanged = route => {
     route && navigation.navigate(route);
     requestAnimationFrame(() => {
-      scrollRef && scrollRef.current.scrollTo({x: 0, y: 0, animated: true});
+      if (Platform.OS === 'web') {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      } else {
+        scrollRef && scrollRef.current.scrollTo({x: 0, y: 0, animated: true});
+      }
     });
   };
 
