@@ -140,7 +140,7 @@ const MonthlyTourPlan = () => {
               title={
                 selectedTourPlan.id === 1
                   ? `${Strings.stp}`
-                  : selectedTourPlan?.text
+                  : (selectedTourPlan?.text || '').split(' ').join(', ')
               }
               size={16}
               style={styles.selectedTourText}
