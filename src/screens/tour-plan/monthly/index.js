@@ -37,7 +37,7 @@ function usePrevious(value) {
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
 
-  const [workingDays, setworkingDays] = useState([]);
+  const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
