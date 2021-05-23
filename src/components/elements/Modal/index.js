@@ -18,6 +18,7 @@ import styles from './styles';
  * @param {Object} primaryActionProps button props of primary action
  * @param {Boolean} closeAction boolean flag to decide whether to show close icon
  * @param {String} closeTestId test id for close icon
+ * @param {Object} customModalPosition styling for custom modal position
  */
 
 const CustomModal = ({
@@ -88,6 +89,7 @@ CustomModal.propTypes = {
   primaryActionProps: PropTypes.object,
   closeAction: PropTypes.bool,
   closeTestId: PropTypes.string,
+  customModalPosition: PropTypes.object,
 };
 
 export default CustomModal;

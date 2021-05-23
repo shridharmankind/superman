@@ -39,9 +39,11 @@ export const getTourPlanScheduleMonths = inputDate => {
       schedule.month = 1;
       schedule.year = nextFiscalYear.year;
     }
-    tourPlanScheduleMonths.push(
-      `${MONTH_ARRAY[schedule.month - 1]} ${schedule.year}`,
-    );
+    tourPlanScheduleMonths.push({
+      text: `${MONTH_ARRAY[schedule.month - 1]} ${schedule.year}`,
+      month: schedule.month,
+      year: schedule.year,
+    });
     schedule.month += 1;
   }
   return tourPlanScheduleMonths;

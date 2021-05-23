@@ -7,12 +7,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView} from 'components/widgets';
-import {
-  getTourPlanScheduleMonths,
-  getSelectedMonthIndex,
-} from 'screens/tourPlan/helper';
+import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
+import {getMonthList} from 'utils/dateTimeHelper';
 
 /**
  * TODO::chane with API Integration hence keeping here
@@ -32,7 +30,6 @@ function usePrevious(value) {
  */
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
-
   const [workingDays, setworkingDays] = useState([]);
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
@@ -51,17 +48,26 @@ const MonthlyTourPlan = () => {
         setUser(result.data);
         let schedule = getTourPlanScheduleMonths();
         if (result.data.staffPositions[0].staffCode === STAFF_CODES.MR) {
-          schedule = [Strings.stp, ...schedule];
+          schedule = [
+            {
+              text: Strings.stpWithAbbreviation,
+              month: 0,
+              year: 0,
+            },
+            ...schedule,
+          ];
         }
         let newSchedule = schedule.map((option, index) => {
           return {
             id: index + 1,
-            text: option,
-            selected: index === 0,
+            text: option.text,
+            selected: index === 1,
+            month: option.month,
+            year: option.year,
           };
         });
         setPlanOptions(newSchedule);
-        setSelectedTourPlan(newSchedule[0]);
+        setSelectedTourPlan(newSchedule[1]);
       }
     };
     fetchData();
@@ -131,7 +137,11 @@ const MonthlyTourPlan = () => {
           <View style={styles.selectedTourTextContainer}>
             <Label
               type="bold"
-              title={selectedTourPlan?.text}
+              title={
+                selectedTourPlan.id === 1
+                  ? `${Strings.stp}`
+                  : selectedTourPlan?.text
+              }
               size={16}
               style={styles.selectedTourText}
             />
@@ -271,20 +281,20 @@ const MonthlyTourPlan = () => {
 
   const renderView = () => {
     //TO DO:: as per current JSON - might change after actual api
-    let selectedMonth;
-    if (getTourPlanScheduleMonths().includes(selectedTourPlan.text)) {
-      selectedMonth = getSelectedMonthIndex(
-        selectedTourPlan.text.split(' ')[0],
-      );
-      if (selectedMonth !== monthSelected) {
-        setMonthSelected(selectedMonth);
+    const MONTH_ARRAY = getMonthList();
+    const monthFound = getTourPlanScheduleMonths().find(schedule => {
+      return schedule.text.indexOf(selectedTourPlan.text) > -1;
+    });
+    if (monthFound) {
+      if (monthFound.month !== monthSelected) {
+        setMonthSelected(MONTH_ARRAY[selectedTourPlan.month - 1]);
       }
     }
     switch (selectedTourPlan?.id) {
       case 1:
         return <StandardPlanContainer workingDays={workingDays} />;
       default: {
-        return selectedMonth ? (
+        return monthFound?.month ? (
           <MonthlyView
             workingDays={workingDays}
             monthSelected={monthSelected}
