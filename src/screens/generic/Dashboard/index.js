@@ -17,9 +17,13 @@ export const DashboardStack = createStackNavigator();
 
 const Dashboard = () => {
   const navigation = useNavigation();
+  const scrollRef = React.useRef();
 
   const onActivePageChanged = route => {
     route && navigation.navigate(route);
+    requestAnimationFrame(() => {
+      scrollRef && scrollRef.current.scrollTo({x: 0, y: 0, animated: true});
+    });
   };
 
   const renderSideMenu = () => (
@@ -59,6 +63,7 @@ const Dashboard = () => {
 
   return (
     <ScrollView
+      ref={scrollRef}
       showsVerticalScrollIndicator={false}
       style={styles.scroll}
       contentContainerStyle={styles.scrollContainer}>
