@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   legendsContainer: {
     flexDirection: 'row',
-    margin: 3,
+    margin: 5,
     alignItems: 'center',
   },
 
