@@ -4,17 +4,22 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  Monthlycontainer: {
     justifyContent: 'flex-end',
-    marginVertical: 10,
+  },
+  StandardContainer: {
+    justifyContent: 'flex-start',
   },
   legendsContainer: {
     flexDirection: 'row',
+    margin: 3,
     alignItems: 'center',
-    marginLeft: 15,
   },
 
   contentBasicStyle: {
-    marginHorizontal: 5,
+    marginHorizontal: 6,
   },
 
   verticalBar: {
@@ -34,6 +39,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
+
     backgroundColor: theme.colors.primary,
   },
 

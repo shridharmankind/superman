@@ -11,7 +11,11 @@ import {
   getTourPlanScheduleMonths,
   getSelectedMonthIndex,
 } from 'screens/tourPlan/helper';
-import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
+import {
+  PLAN_TYPES,
+  STAFF_CODES,
+  TOUR_PLAN_TYPE,
+} from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
 
 /**
@@ -281,11 +285,16 @@ const MonthlyTourPlan = () => {
     }
     switch (selectedTourPlan?.id) {
       case 1:
-        return <StandardPlanContainer workingDays={workingDays} />;
+        return (
+          <>
+            <StandardPlanContainer workingDays={workingDays} />
+            <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
+          </>
+        );
 
       default: {
         return selectedMonth ? (
-          <View>
+          <>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
@@ -293,7 +302,7 @@ const MonthlyTourPlan = () => {
             />
 
             <Legends />
-          </View>
+          </>
         ) : null;
       }
     }

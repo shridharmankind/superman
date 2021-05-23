@@ -30,7 +30,7 @@ const MonthlyView = ({
       current={() => getCurrentData(year, monthSelected)}
       ref={textInput}
       hideArrows={true}
-      style={{backgroundColor: 'white'}}
+      style={{backgroundColor: theme.colors.white}}
       theme={{
         textMonthFontSize: 18,
         //for web inline style applied
