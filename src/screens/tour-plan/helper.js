@@ -1,4 +1,4 @@
-import {getMonth, getYear, getMonthList} from 'utils/dateTimeHelper';
+import {getMonth, getYear, getMonthList, getFormatDate} from 'utils/dateTimeHelper';
 import {CATEGORY_SORTING_ORDER} from 'screens/tourPlan/constants';
 
 /**
@@ -10,7 +10,7 @@ export const getTourPlanScheduleMonths = inputDate => {
   const MONTH_ARRAY = getMonthList();
   const tourPlanScheduleMonths = [];
   const deviceDate = inputDate ? inputDate : new Date();
-  const month = parseInt(getMonth({date: deviceDate}), 10);
+  const month = parseInt(getFormatDate({date: deviceDate, format: 'M'}), 10);
   const year = parseInt(getYear({date: deviceDate}), 10);
   const currentDate = {
     month,
@@ -52,4 +52,8 @@ export const sortBasedOnCategory = (a, b) => {
     CATEGORY_SORTING_ORDER.indexOf(a.category.toLowerCase()) -
     CATEGORY_SORTING_ORDER.indexOf(b.category.toLowerCase())
   );
+};
+
+export const getSelectedMonthIndex = month => {
+  return String(getMonthList().indexOf(month) + 1).padStart(2, '0');
 };

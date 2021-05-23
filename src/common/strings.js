@@ -9,6 +9,7 @@ const Strings = {
   viewTourPlan: 'View Tour Plan for',
   dailyPlan: 'Daily Plan',
   tourPlan: 'Tour Plan',
+  login: 'Login',
   myPlan: 'My Plan',
   stp: 'Standard Tour Plan(STP)',
   today: 'Today',

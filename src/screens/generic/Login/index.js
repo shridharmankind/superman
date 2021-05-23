@@ -1,95 +1,89 @@
-import React, {useState, useEffect} from 'react';
-import {View, Image, TextInput} from 'react-native';
-import {useTheme} from 'react-native-paper';
+import React, {useCallback, useState, useEffect} from 'react';
+import {
+  SafeAreaView,
+  Image,
+  View,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
+import {authorize} from 'react-native-app-auth';
+import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {fetchAllUsers} from '../../../api';
+import theme from 'themes';
+import {KeyChain} from 'helper';
 import {Button} from 'components/elements';
-import {NetworkService} from 'services';
-import {Constants, Strings} from 'common';
+import {Strings} from 'common';
 
-export default function Login({navigation}) {
-  const {colors} = useTheme();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [openModal, setOpenModal] = useState(false);
+const config = {
+  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
+  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
+  redirectUrl: 'com.superman://callback',
+  scopes: ['openid', 'profile'],
+};
 
-  const getUserList = () => {
-    fetchAllUsers().then(res => console.log(res.data));
-  };
+const TOKEN_EXPIRY_TIME = 'token_expiry_time';
+const LOGIN_STATUS = 'loginStatus';
+const AlertTitle = 'Info';
 
-  //Post Request Example
+const Login = ({navigation}) => {
+  const [animating, setAnimating] = useState(false);
+
+  // Check if user is already logged in and Token not expired
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await NetworkService.post('/api/Chemists', {
-        id: 116,
-        name: 'Name1',
-        operatingYears: 0,
-        location: 'location1',
-      });
-      if (result.status === Constants.HTTP_OK) {
-        console.log('success');
-      } else {
-        console.log('error', result.statusText);
+    const checkLoginStatus = async () => {
+      const isUserLoggedIn = await AsyncStorage.getItem(LOGIN_STATUS);
+      const tokenExpiryTime = await AsyncStorage.getItem(TOKEN_EXPIRY_TIME);
+      const currentUTCTime = new Date().toISOString();
+      const diff = new Date(currentUTCTime) - new Date(tokenExpiryTime);
+      if (isUserLoggedIn && diff <= 0) {
+        navigation.navigate('Home');
       }
     };
-    fetchData();
-  }, []);
+    checkLoginStatus();
+  }, [navigation]);
 
-  // Get Request Example
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await NetworkService.get('/api/Chemists');
-      if (result.status === Constants.HTTP_OK) {
-        console.log('success');
-      } else {
-        console.log('error', result.statusText);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const showModal = () => {
-    setOpenModal(true);
-  };
+  const loginHandler = useCallback(async () => {
+    try {
+      setAnimating(true);
+      const newAuthState = await authorize(config);
+      await KeyChain.saveAccessToken(newAuthState.accessToken);
+      AsyncStorage.setItem(
+        TOKEN_EXPIRY_TIME,
+        newAuthState.accessTokenExpirationDate,
+      );
+      AsyncStorage.setItem(LOGIN_STATUS, 'true');
+      setAnimating(false);
+      navigation.navigate('Home');
+    } catch (error) {
+      setAnimating(false);
+      Alert.alert(AlertTitle, error.message);
+    }
+  }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.image}
-        resizeMode="contain"
-        source={require('../../../assets/images/logo.png')}
-      />
-      <View style={styles.iconContainer}>
-        <Icon name="rocket" size={30} color="#900" />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email."
-          placeholderTextColor={colors.black}
-          onChangeText={emailText => setEmail(emailText)}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.viewContainer}>
+        <Image
+          style={styles.image}
+          source={require('../../../assets/images/logo.png')}
+        />
+
+        <Button
+          title={Strings.login}
+          uppercase={true}
+          contentStyle={styles.button}
+          labelStyle={styles.textStyle}
+          onPress={() => loginHandler()}
+        />
+        <ActivityIndicator
+          animating={animating}
+          color={theme.colors.white}
+          size="large"
+          style={styles.activityIndicator}
         />
       </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password."
-          placeholderTextColor={colors.black}
-          secureTextEntry={true}
-          onChangeText={passwordText => setPassword(passwordText)}
-        />
-      </View>
-
-      <Button mode="text" title={Strings.forgotpwd} />
-
-      <Button
-        mode="contained"
-        title="Login"
-        uppercase={true}
-        contentStyle={styles.loginBtn}
-      />
-    </View>
+    </SafeAreaView>
   );
-}
+};
+
+export default Login;

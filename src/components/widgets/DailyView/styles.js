@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  weekendContainer: {
+    backgroundColor: theme.colors.blueShades[100],
+    opacity: 0.5,
+  },
 });
 
 export default styles;
