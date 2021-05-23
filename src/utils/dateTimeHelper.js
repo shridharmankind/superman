@@ -25,16 +25,6 @@ export const isSameDate = (
 
 /**
  *
- * @param {object} param
- * @returns year of given date
- */
-export const getYear = param => {
-  const {date = new Date(), yearFormat = 'YYYY'} = param || {};
-  return dayjs(date).format(yearFormat);
-};
-
-/**
- *
  * @param {boolean} short if true, returns short month names, else full month names
  * @returns list of months in the year
  */
@@ -42,11 +32,14 @@ export const getMonthList = short => {
   return short ? dayjs.monthsShort() : dayjs.months();
 };
 
-export const returnDateWithOrdinal = (
-  inputDate = new Date(),
-  format = 'Do MMM YYYY',
-) => {
-  return dayjs(inputDate).format(format);
+/**
+ * Return date with ordinal - 23rd May 2001
+ * @param {Object} param object containing date and format
+ * @returns string date ex. 23rd May 2001
+ */
+export const returnDateWithOrdinal = param => {
+  const {date = new Date(), format = 'Do MMM YYYY'} = param || {};
+  return dayjs(date).format(format);
 };
 
 /**
