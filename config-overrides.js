@@ -32,6 +32,7 @@ module.exports = override(
         utils: './src/utils',
         common: './src/common',
         database: './src/database',
+        helper: './src/helper',
       },
     },
   ]),

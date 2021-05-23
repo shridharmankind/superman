@@ -1,1 +1,2 @@
-//All screens sould be exported under the module
+import * as DatabaseHelper from './DatabaseHelper';
+export {DatabaseHelper};

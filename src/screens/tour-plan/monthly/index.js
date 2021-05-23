@@ -1,22 +1,50 @@
 /* eslint-disable indent */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
+import {MonthlyView} from 'components/widgets';
+import {
+  getTourPlanScheduleMonths,
+  getSelectedMonthIndex,
+} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
 
+/**
+ * TODO::chane with API Integration hence keeping here
+ * @param {String} value
+ * @returns ref value
+ */
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 /**
  * This file renders the dropdowns to configure your monthly plan by creating your STP
  * or view your subOrdinates/STP if you are FLM/SLM.
  */
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
+
+  const [workingDays, setworkingDays] = useState([]);
+  const [planOptions, setPlanOptions] = useState([]);
+  const [selectedTourPlan, setSelectedTourPlan] = useState({});
+  const [selectedMyPlan, setSelectedMyPlan] = useState({});
+  const [visible, setVisible] = useState(false);
+  const [myPlanOptions, setMyPlanOptions] = useState([]);
+  const [user, setUser] = useState({});
+  const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
+  const [monthSelected, setMonthSelected] = useState(5);
+  const previousMonthSelected = usePrevious(monthSelected);
+  //effects
   useEffect(() => {
     const fetchData = async () => {
       const result = await NetworkService.get('/single-user');
@@ -65,13 +93,16 @@ const MonthlyTourPlan = () => {
     fetchData();
   }, []);
 
-  const [planOptions, setPlanOptions] = useState([]);
-  const [selectedTourPlan, setSelectedTourPlan] = useState({});
-  const [selectedMyPlan, setSelectedMyPlan] = useState({});
-  const [visible, setVisible] = useState(false);
-  const [myPlanOptions, setMyPlanOptions] = useState([]);
-  const [user, setUser] = useState({});
-  const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
+  //Effect to get working Days from API on load of page
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await NetworkService.get('/api/workingDays');
+      if (result.status === Constants.HTTP_OK) {
+        setworkingDays(result.data);
+      }
+    };
+    fetchData();
+  }, []);
 
   /**
    * toggles modal
@@ -237,14 +268,33 @@ const MonthlyTourPlan = () => {
    *  Renders View on basis of selected tour plan
    * @returns view selected
    */
+
   const renderView = () => {
+    //TO DO:: as per current JSON - might change after actual api
+    let selectedMonth;
+    if (getTourPlanScheduleMonths().includes(selectedTourPlan.text)) {
+      selectedMonth = getSelectedMonthIndex(
+        selectedTourPlan.text.split(' ')[0],
+      );
+      if (selectedMonth !== monthSelected) {
+        setMonthSelected(selectedMonth);
+      }
+    }
     switch (selectedTourPlan?.id) {
       case 1:
-        return <StandardPlanContainer />;
-      default:
-        return null;
+        return <StandardPlanContainer workingDays={workingDays} />;
+      default: {
+        return selectedMonth ? (
+          <MonthlyView
+            workingDays={workingDays}
+            monthSelected={monthSelected}
+            previousMonthSelected={previousMonthSelected}
+          />
+        ) : null;
+      }
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.dropDownsContainer}>

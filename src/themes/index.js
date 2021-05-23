@@ -30,6 +30,7 @@ const theme = {
       400: '#e2e2e2',
       500: '#6D7278',
     },
+    blueShades: {100: '#32C5FF14'},
   },
   fonts: {
     fontRegular: 'Poppins-Regular',

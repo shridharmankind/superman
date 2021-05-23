@@ -16,7 +16,8 @@
       "themes": ["src/themes"],
       "utils": ["src/utils"],
       "common": ["src/common"],
-      "database": ["src/database"]
+      "database": ["src/database"],
+      "helper": ["src/helper"]
     }
   }
 }
