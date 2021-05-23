@@ -48,7 +48,7 @@ const MonthlyView = ({
             textAlign: 'center',
             textTransform: 'uppercase',
             fontFamily: theme.fonts.fontRegular,
-            color: theme.colors.grey[400],
+            color: theme.colors.grey[500],
           },
         },
         'stylesheet.calendar.main': {

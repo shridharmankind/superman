@@ -6,7 +6,7 @@ import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {MonthlyView} from 'components/widgets';
+import {MonthlyView, Legends} from 'components/widgets';
 import {
   getTourPlanScheduleMonths,
   getSelectedMonthIndex,
@@ -282,13 +282,18 @@ const MonthlyTourPlan = () => {
     switch (selectedTourPlan?.id) {
       case 1:
         return <StandardPlanContainer workingDays={workingDays} />;
+
       default: {
         return selectedMonth ? (
-          <MonthlyView
-            workingDays={workingDays}
-            monthSelected={monthSelected}
-            previousMonthSelected={previousMonthSelected}
-          />
+          <View>
+            <MonthlyView
+              workingDays={workingDays}
+              monthSelected={monthSelected}
+              previousMonthSelected={previousMonthSelected}
+            />
+
+            <Legends />
+          </View>
         ) : null;
       }
     }
@@ -298,10 +303,10 @@ const MonthlyTourPlan = () => {
     <View style={styles.container}>
       <View style={styles.dropDownsContainer}>
         <View style={styles.tourPlanContainer}>{tourPlanDropDown()}</View>
-        {user?.staffPositions &&
+        {/* {user?.staffPositions &&
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
-          )}
+          )} */}
       </View>
       {openTourPlanDropDown()}
       {renderView()}
