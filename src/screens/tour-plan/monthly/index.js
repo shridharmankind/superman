@@ -312,10 +312,10 @@ const MonthlyTourPlan = () => {
     <View style={styles.container}>
       <View style={styles.dropDownsContainer}>
         <View style={styles.tourPlanContainer}>{tourPlanDropDown()}</View>
-        {/* {user?.staffPositions &&
+        {user?.staffPositions &&
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
-          )} */}
+          )}
       </View>
       {openTourPlanDropDown()}
       {renderView()}
