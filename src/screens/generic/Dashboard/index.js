@@ -5,9 +5,10 @@ import {useNavigation} from '@react-navigation/core';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
-
-import ROUTES, {ROUTE_HOME} from 'navigations/routes';
 import {NotificationIcon, SearchIcon} from 'assets';
+
+import {ROUTE_HOME} from 'navigations/routes';
+import ROUTES_DASHBOARD from './routes';
 
 import styles from './styles';
 import theme from 'themes';
@@ -40,7 +41,7 @@ const Dashboard = () => {
 
   const renderNavigator = () => (
     <DashboardStack.Navigator initialRouteName={ROUTE_HOME}>
-      {ROUTES.map(route => (
+      {ROUTES_DASHBOARD.map(route => (
         <DashboardStack.Screen
           key={route.name}
           name={route.name}
@@ -58,6 +59,7 @@ const Dashboard = () => {
 
   return (
     <ScrollView
+      showsVerticalScrollIndicator={false}
       style={styles.scroll}
       contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>

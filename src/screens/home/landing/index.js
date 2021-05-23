@@ -40,7 +40,7 @@ const HomeLanding = ({navigation}) => {
       <Label title="Welcome to our beautiful Home Page" />
       <TouchableOpacity
         onPress={() => navigation.navigate('HomeLandingSecondary')}>
-        <Label title="route back to secondary landing" />
+        <Label title="route to secondary landing" />
       </TouchableOpacity>
     </ContentWithSidePanel>
   );

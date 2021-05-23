@@ -8,7 +8,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
 
 import theme from 'themes';
-import {ROUTES_ROOT, ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
+import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
 import {useEffect} from 'react';
 
 const Stack = createStackNavigator();
@@ -27,7 +27,7 @@ const App = () => {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={initialRoute}>
-          {ROUTES_ROOT.map(route => (
+          {ROUTES.map(route => (
             <Stack.Screen
               key={route.name}
               name={route.name}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -7,15 +7,15 @@ import {ContentWithSidePanel} from 'components/layouts';
 import {Label} from 'components/elements';
 import theme from 'themes';
 
-import HomeLanding from './landing';
-import {ROUTE_HOME_LANDING} from './routes';
-
 const HomeStack = createStackNavigator();
 
-const HomeLandingSecondaryPage = ({navigation}) => {
+export const HomeLandingSecondaryScreen = ({navigation}) => {
   return (
     <ContentWithSidePanel>
       <Label title="HomeLandingPageSecondary" />
+      <TouchableOpacity onPress={() => navigation.pop()}>
+        <Label title="Go back" />
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('HomeDetails')}>
         <Label title="route to secondary details" />
       </TouchableOpacity>
@@ -23,50 +23,38 @@ const HomeLandingSecondaryPage = ({navigation}) => {
   );
 };
 
-export const HomeDetailsPage = ({navigation}) => {
+export const HomeDetailsScreen = ({navigation}) => {
   return (
-    <ContentWithSidePanel>
+    <View>
       <Label title="HomePageDetails" />
-      <TouchableOpacity onPress={() => navigation.navigate('HomeLanding')}>
-        <Label title="route back to secondary landing" />
+      <TouchableOpacity onPress={() => navigation.pop()}>
+        <Label title="Go back" />
       </TouchableOpacity>
-    </ContentWithSidePanel>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeLanding')}>
+        <Label title="route to home landing" />
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const Home = () => {
+  const {ROUTES_HOME} = require('./routes');
+
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen
-        name={ROUTE_HOME_LANDING}
-        component={HomeLanding}
-        options={{
-          headerShown: false,
-          cardStyle: {
-            backgroundColor: theme.colors.background,
-          },
-        }}
-      />
-      <HomeStack.Screen
-        name={'HomeLandingSecondary'}
-        component={HomeLandingSecondaryPage}
-        options={{
-          headerShown: false,
-          cardStyle: {
-            backgroundColor: theme.colors.background,
-          },
-        }}
-      />
-      <HomeStack.Screen
-        name={'HomeDetails'}
-        component={HomeDetailsPage}
-        options={{
-          headerShown: false,
-          cardStyle: {
-            backgroundColor: theme.colors.background,
-          },
-        }}
-      />
+      {ROUTES_HOME.map(route => (
+        <HomeStack.Screen
+          key={route.name}
+          name={route.name}
+          component={route.component}
+          options={{
+            headerShown: false,
+            cardStyle: {
+              backgroundColor: theme.colors.background,
+            },
+          }}
+        />
+      ))}
     </HomeStack.Navigator>
   );
 };
