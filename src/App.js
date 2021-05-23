@@ -9,9 +9,11 @@ import {Login, Home} from 'screens/generic';
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
 import {useEffect} from 'react';
+import {getStore} from './store/getStore';
+import {Provider} from 'react-redux';
 
 const Stack = createStackNavigator();
-
+const store = getStore();
 const App = () => {
   useEffect(() => {
     if (Platform.OS !== 'web') {
@@ -19,22 +21,24 @@ const App = () => {
     }
   }, []);
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{headerShown: false}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 };
 

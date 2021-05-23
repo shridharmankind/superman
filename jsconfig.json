@@ -14,7 +14,11 @@
       "utils": ["src/utils"],
       "common": ["src/common"],
       "database": ["src/database"],
-      "helper": ["src/helper"]
+      "helper": ["src/helper"],
+      "reducers": ["src/store/reducers"],
+      "sagas": ["src/store/sagas"],
+      "selectors": ["src/store/selectors"],
+      "states": ["src/store/states"],
     }
   }
 }
