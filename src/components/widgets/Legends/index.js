@@ -9,9 +9,9 @@ import {TOUR_PLAN_TYPE} from 'screens/tourPlan/constants';
 const legends = Strings.Legends;
 
 const LegendWrapper = props => {
-  const {title, style} = props;
+  const {title, style, testID = `legends_${title}_test`} = props;
   return (
-    <View style={styles.legendsContainer}>
+    <View style={styles.legendsContainer} testID={testID}>
       {props.children}
       {style && <View style={style}></View>}
       <Label style={[styles.contentBasicStyle]} title={title} size={14} />
