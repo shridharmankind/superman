@@ -1,13 +1,21 @@
 import {Login, Dashboard} from 'screens/generic';
 import {Home, Performance} from 'screens';
+import TourPlanning from 'screens/tour-plan';
+import {HomeDetailsPage} from 'screens/home';
 
 export const ROUTE_LOGIN = 'Login';
 export const ROUTE_DASHBOARD = 'Dashboard';
 
-export const ROUTE_COMPONENT_MAPPING = {
-  [ROUTE_LOGIN]: Login,
-  [ROUTE_DASHBOARD]: Dashboard,
-};
+export const ROUTES_ROOT = [
+  {
+    name: ROUTE_LOGIN,
+    component: Login,
+  },
+  {
+    name: ROUTE_DASHBOARD,
+    component: Dashboard,
+  },
+];
 
 export const ROUTE_HOME = 'Home';
 export const ROUTE_TOUR_PLAN = 'TourPlan';
@@ -19,14 +27,26 @@ export const ROUTE_CONTENT = 'Content';
 export const ROUTE_LEARN = 'Learn';
 export const ROUTE_SETTINGS = 'Settings';
 
-export const ROUTE_COMPONENT_MAPPING_DASHBOARD = {
-  [ROUTE_HOME]: Home,
-  [ROUTE_TOUR_PLAN]: Performance,
-  [ROUTE_PERFORMANCE]: Performance,
-  [ROUTE_DIRECTORY]: Performance,
-  [ROUTE_GSP]: Performance,
-  [ROUTE_ADMIN]: Performance,
-  [ROUTE_CONTENT]: Performance,
-  [ROUTE_LEARN]: Performance,
-  [ROUTE_SETTINGS]: Performance,
-};
+const ROUTES = [
+  {
+    name: ROUTE_HOME,
+    component: Home,
+    isLandingScreen: true,
+  },
+  {
+    name: ROUTE_TOUR_PLAN,
+    component: TourPlanning,
+    isLandingScreen: true,
+  },
+  {
+    name: ROUTE_PERFORMANCE,
+    component: Performance,
+    isLandingScreen: true,
+  },
+  {
+    name: 'HomeDetails',
+    component: HomeDetailsPage,
+  },
+];
+
+export default ROUTES;

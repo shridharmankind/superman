@@ -23,7 +23,7 @@ const HomeLandingSecondaryPage = ({navigation}) => {
   );
 };
 
-const HomeDetailsPage = ({navigation}) => {
+export const HomeDetailsPage = ({navigation}) => {
   return (
     <ContentWithSidePanel>
       <Label title="HomePageDetails" />

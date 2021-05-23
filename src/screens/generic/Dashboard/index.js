@@ -6,10 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
 
-import {
-  ROUTE_COMPONENT_MAPPING_DASHBOARD,
-  ROUTE_HOME,
-} from 'navigations/routes';
+import ROUTES, {ROUTE_HOME} from 'navigations/routes';
 import {NotificationIcon, SearchIcon} from 'assets';
 
 import styles from './styles';
@@ -17,7 +14,6 @@ import theme from 'themes';
 
 export const DashboardStack = createStackNavigator();
 
-// TODO navigating between feature level stack, home stack
 const Dashboard = () => {
   const navigation = useNavigation();
 
@@ -44,11 +40,11 @@ const Dashboard = () => {
 
   const renderNavigator = () => (
     <DashboardStack.Navigator initialRouteName={ROUTE_HOME}>
-      {Object.keys(ROUTE_COMPONENT_MAPPING_DASHBOARD).map(route => (
+      {ROUTES.map(route => (
         <DashboardStack.Screen
-          key={route}
-          name={route}
-          component={ROUTE_COMPONENT_MAPPING_DASHBOARD[route]}
+          key={route.name}
+          name={route.name}
+          component={route.component}
           options={{
             headerShown: false,
             cardStyle: {

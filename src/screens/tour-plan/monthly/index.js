@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, {useState, useEffect} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
@@ -37,7 +38,7 @@ const MonthlyTourPlan = () => {
       }
     };
     fetchData();
-  }, [planOptions, user]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
