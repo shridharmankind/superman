@@ -99,7 +99,7 @@ const MonthlyTourPlan = () => {
   //Effect to get working Days from API on load of page
   useEffect(() => {
     const fetchData = async () => {
-      const result = await NetworkService.get('/workingDay/1');
+      const result = await NetworkService.get('Stp/workingDay/1');
       if (result.status === Constants.HTTP_OK) {
         setworkingDays(result.data);
       }

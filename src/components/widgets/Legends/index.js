@@ -1,11 +1,12 @@
-import {Label} from 'components/elements';
 import React from 'react';
+import {Label} from 'components/elements';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from 'themes';
 import styles from './styles';
 import {Strings} from 'common';
 import {TOUR_PLAN_TYPE} from 'screens/tourPlan/constants';
+
 const legends = Strings.Legends;
 
 const LegendWrapper = props => {
@@ -13,7 +14,7 @@ const LegendWrapper = props => {
   return (
     <View style={styles.legendsContainer} testID={testID}>
       {props.children}
-      {style && <View style={style}></View>}
+      {style && <View style={style} />}
       <Label style={[styles.contentBasicStyle]} title={title} size={14} />
     </View>
   );
@@ -116,4 +117,4 @@ const Legends = ({tourType}) => {
     : renderMTPLegends();
 };
 
-export default Legends;
+export default React.memo(Legends);

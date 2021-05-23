@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';

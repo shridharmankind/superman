@@ -22,8 +22,9 @@ const MonthlyView = ({
 }) => {
   const textInput = React.useRef(null);
   useEffect(() => {
-    if (monthSelected)
+    if (monthSelected) {
       textInput.current.addMonth(monthSelected - previousMonthSelected);
+    }
   }, [monthSelected, previousMonthSelected]);
   return (
     <Calendar
