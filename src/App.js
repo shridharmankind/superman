@@ -11,7 +11,7 @@ import theme from 'themes';
 import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
 import {useEffect} from 'react';
 
-export const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const App = () => {
   const isLoggedIn = true;
