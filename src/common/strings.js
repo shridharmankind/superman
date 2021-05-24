@@ -4,7 +4,7 @@ const Strings = {
   week: ['week 1', 'week 2', 'week 3', 'week 4'],
   selectDoctorAndChemist: 'Select doctors and chemist',
   selectArea: 'Select Area',
-  selectVisit: 'Select Visit',
+  selectVisit: 'Selected Visits',
   planCompliance: 'Plan Compliance',
   viewTourPlan: 'View Tour Plan for',
   dailyPlan: 'Daily Plan',
