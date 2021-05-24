@@ -22,15 +22,16 @@ const MonthlyView = ({
 }) => {
   const textInput = React.useRef(null);
   useEffect(() => {
-    if (monthSelected)
+    if (monthSelected) {
       textInput.current.addMonth(monthSelected - previousMonthSelected);
+    }
   }, [monthSelected, previousMonthSelected]);
   return (
     <Calendar
       current={() => getCurrentData(year, monthSelected)}
       ref={textInput}
       hideArrows={true}
-      style={{backgroundColor: 'white'}}
+      style={{backgroundColor: theme.colors.white}}
       theme={{
         textMonthFontSize: 18,
         //for web inline style applied
@@ -48,7 +49,7 @@ const MonthlyView = ({
             textAlign: 'center',
             textTransform: 'uppercase',
             fontFamily: theme.fonts.fontRegular,
-            color: theme.colors.grey[400],
+            color: theme.colors.grey[500],
           },
         },
         'stylesheet.calendar.main': {

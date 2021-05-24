@@ -6,7 +6,7 @@ import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
-import {returnDateWithOrdinal, getFormatDate} from 'utils/dateTimeHelper';
+import {getFormatDate} from 'utils/dateTimeHelper';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
@@ -213,7 +213,7 @@ const DailyTourPlan = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}
