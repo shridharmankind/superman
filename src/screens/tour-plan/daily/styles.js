@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     zIndex: 1,
-    width: '80%',
+    width: '100%',
   },
   heading: {
     paddingTop: 20,

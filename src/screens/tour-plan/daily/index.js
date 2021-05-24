@@ -1,9 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
-import {Label} from 'components/elements';
+import {Label, SwipeRow} from 'components/elements';
 import {DoctorDetails, Button} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
@@ -201,16 +202,45 @@ const DailyTourPlan = () => {
     return (
       <View style={styles.contentView}>
         {sortedDayPlan.map((plan, index) => (
-          <View style={styles.doctorDetailWrapper}>
-            <View key={index} style={styles.doctorDetailContainer}>
-              <GestureRecognizer
-                onSwipe={(direction, state) => onSwipe(direction, state)}
-                onSwipeLeft={state => onSwipeLeft(state)}
-                config={config}
-                style={{
-                  flex: 1,
-                  backgroundColor: 'red',
-                }}>
+          <SwipeRow
+            key={index}
+            closeOnRowPress
+            disableRightSwipe
+            preview={index === 0}
+            rightOpenValue={-90}
+            rightActivationValue={-90}
+            stopLeftSwipe={0}
+            stopRightSwipe={-90}
+            initialRightActionState={true}>
+            <View
+              style={{
+                alignItems: 'flex-end',
+                width: '100%',
+                height: '100%',
+                paddingVertical: 20,
+              }}>
+              <TouchableOpacity
+                style={{height: '100%'}}
+                onPress={() =>
+                  console.log('delete action triggered', plan, index)
+                }>
+                <View
+                  style={{
+                    height: '100%',
+                    width: 100,
+                    backgroundColor: 'red',
+                    paddingHorizontal: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderTopRightRadius: 10,
+                    borderBottomRightRadius: 10,
+                  }}>
+                  <Label>Delete It</Label>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.doctorDetailWrapper}>
+              <View key={index} style={styles.doctorDetailContainer}>
                 <DoctorDetails
                   title={plan.name}
                   specialization={plan.specialization}
@@ -222,10 +252,10 @@ const DailyTourPlan = () => {
                   visitData={plan.visitData}
                   swiped={swipedLeft}
                 />
-              </GestureRecognizer>
+              </View>
+              {swipedLeft && renderButton()}
             </View>
-            {swipedLeft && renderButton()}
-          </View>
+          </SwipeRow>
         ))}
       </View>
     );
