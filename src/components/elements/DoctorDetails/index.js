@@ -92,16 +92,19 @@ const DoctorDetails = ({
                 title={specialization.map(spec => spec).join(', ')}
                 style={customStyle && customStyle.specialization}
               />
-              <Label
-                size={customStyle ? customStyle.subTitleSize : 18}
-                title={'|'}
-                style={styles.seperator}
-              />
+
               {location && (
-                <Label
-                  size={customStyle ? customStyle.subTitleSize : 18}
-                  title={location}
-                />
+                <>
+                  <Label
+                    size={customStyle ? customStyle.subTitleSize : 18}
+                    title={'|'}
+                    style={styles.seperator}
+                  />
+                  <Label
+                    size={customStyle ? customStyle.subTitleSize : 18}
+                    title={location}
+                  />
+                </>
               )}
             </View>
           </View>

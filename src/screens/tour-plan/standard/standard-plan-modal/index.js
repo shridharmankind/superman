@@ -46,13 +46,16 @@ const data = [
  * @param {Function} handleSliderIndex to handle left/right movement of week
  */
 
-const StandardPlanModal = ({handleSliderIndex}) => {
+const StandardPlanModal = ({handleSliderIndex, navigation}) => {
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [patches, setPatches] = useState();
   const [patchSelected, setPatchSelected] = useState();
+  const [partiesList, setPartiesList] = useState([]);
   const [parties, setParties] = useState([]);
+  const [partiesType, setPartiesType] = useState([]);
+  const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
 
   const handleIndex = direction => {
     handleSliderIndex(direction);
@@ -62,7 +65,8 @@ const StandardPlanModal = ({handleSliderIndex}) => {
     const getParty = async () => {
       const result = await NetworkService.get(`/party/${1}`);
       if (result.status === Constants.HTTP_OK) {
-        setParties(result.data);
+        setPartiesList(result.data);
+        filterPartyByType(result.data);
       }
     };
     getParty();
@@ -77,6 +81,17 @@ const StandardPlanModal = ({handleSliderIndex}) => {
     };
     getPatches();
   }, []);
+
+  const filterPartyByType = partyList => {
+    const doctorType = [Strings.all];
+    partyList.map(party => {
+      if (doctorType.indexOf(party.partyType) === -1) {
+        doctorType.push(party.partyType);
+      }
+    });
+    console.log(doctorType);
+    setPartiesType(doctorType);
+  };
 
   useEffect(() => {
     const getAreas = async () => {
@@ -103,6 +118,7 @@ const StandardPlanModal = ({handleSliderIndex}) => {
         areaList.find(area => area.id === val),
       ]);
     }
+    setSelectedDoctorType(Strings.all);
   };
 
   useEffect(() => {
@@ -112,7 +128,22 @@ const StandardPlanModal = ({handleSliderIndex}) => {
         areaSelected.map(area => area.name).join('+');
       setPatchSelected(patchString);
     }
+
+    //setParties(getDoctors);
   }, [areaSelected, patchValue]);
+
+  const getDoctorsByArea = area => {
+    const parties = partiesList.filter(party => {
+      const isArea = party.areas.find(obj => {
+        return obj.id === area;
+      });
+      if (isArea) {
+        return party;
+      }
+    });
+    // setParties(parties);
+    return parties;
+  };
 
   const handleDonePress = async () => {
     await NetworkService.post('/savePatch', {
@@ -130,13 +161,26 @@ const StandardPlanModal = ({handleSliderIndex}) => {
           patchId: 1,
         },
       ],
-    }).then(res => console.log(res.data));
+    }).then(res => {
+      console.log(res.data);
+      navigation.navigate('TourPlan');
+    });
   };
 
   const handleDeletePatch = async () => {
     await NetworkService.get('/deletePatch/1').then(res =>
       console.log(res.data),
     );
+  };
+
+  const handlePartyByType = val => {
+    if (val !== Strings.all) {
+      setParties(parties.filter(party => party.partyType === val));
+      setSelectedDoctorType(val);
+    } else {
+      setParties(parties);
+      setSelectedDoctorType(Strings.all);
+    }
   };
 
   return (
@@ -162,7 +206,7 @@ const StandardPlanModal = ({handleSliderIndex}) => {
         <View
           style={[
             styles.patchInputCotainer,
-            {opacity: !patchValue || !patchSelected ? 0.2 : 1},
+            {opacity: patchValue || patchSelected ? 1 : 0.2},
           ]}>
           <Label
             title={
@@ -201,7 +245,7 @@ const StandardPlanModal = ({handleSliderIndex}) => {
             title={Strings.close}
             uppercase={true}
             contentStyle={styles.closeBtn}
-            onPress={() => {}}
+            onPress={() => navigation.navigate('TourPlan')}
           />
         </View>
       </View>
@@ -233,27 +277,10 @@ const StandardPlanModal = ({handleSliderIndex}) => {
                     />
                   );
                 })}
-                {/* <Area
-                  title={'Noida sec 1'}
-                  value={1}
-                  bgColor={'#524F670D'}
-                  color={'#524F67'}
-                  selectedColor={'#322B7C1A'}
-                  selected={true}
-                  selectedTextColor={themes.colors.primary}
-                  style={{marginRight: 20}}
-                  onPress={handleAreaSelected}
-                />
-                <Area
-                  title={'Noida sec 1'}
-                  bgColor={'#524F670D'}
-                  color={'#524F67'}
-                  value={2}
-                  onPress={handleAreaSelected}
-                /> */}
               </View>
             </View>
           </View>
+
           <View style={styles.doctorDetailsContainer}>
             <View>
               <View style={styles.doctorDetailsHeader}>
@@ -261,68 +288,38 @@ const StandardPlanModal = ({handleSliderIndex}) => {
                   <Label title={Strings.selectVisit} />
                 </View>
                 <View style={styles.categoryFilterContainer}>
-                  <Area
-                    title={'All'}
-                    bgColor={'#524F670D'}
-                    color={'#524F67'}
-                    selectedColor={themes.colors.primary}
-                    selected={true}
-                    selectedTextColor={themes.colors.white}
-                  />
-                  <Area
-                    title={'Doctor'}
-                    bgColor={themes.colors.white}
-                    color={'#524F67'}
-                  />
-                  <Area
-                    title={'Chemist'}
-                    bgColor={themes.colors.white}
-                    color={'#524F67'}
-                  />
+                  {partiesType.map(type => (
+                    <Area
+                      selectedTextColor={themes.colors.white}
+                      selectedColor={themes.colors.primary}
+                      selected={selectedDoctorType === type}
+                      title={type}
+                      value={type}
+                      bgColor={themes.colors.white}
+                      color={'#524F67'}
+                      onPress={handlePartyByType}
+                    />
+                  ))}
                 </View>
               </View>
-            </View>
-            <View style={styles.doctorDetailsContainer}>
-              <View>
-                <View style={styles.doctorDetailsHeader}>
-                  <View>
-                    <Label title={Strings.selectVisit} />
-                  </View>
-                  <View style={styles.categoryFilterContainer}>
-                    <Area
-                      title={'All'}
-                      bgColor={'#524F670D'}
-                      color={'#524F67'}
-                      selectedColor={themes.colors.primary}
-                      selected={true}
-                      selectedTextColor={themes.colors.white}
-                    />
-                    <Area
-                      title={'Doctor'}
-                      bgColor={themes.colors.white}
-                      color={'#524F67'}
-                    />
-                    <Area
-                      title={'Chemist'}
-                      bgColor={themes.colors.white}
-                      color={'#524F67'}
-                    />
-                  </View>
-                </View>
-                <View style={styles.doctorDetailsContainer}>
-                  <Label title={'Noida Sec 1'} />
-                  <View style={styles.doctorDetails}>
-                    {parties.map(party => (
-                      <DoctorDetailsWrapper
-                        title={party.name}
-                        specialization={party.speciality}
-                        category={party.isKyc ? Strings.kyc : party.category}
-                        selected={false}
-                        testID={`card_standard_plan_doctor_${party.id}_test`}
-                      />
-                    ))}
-                  </View>
-                </View>
+
+              <View style={styles.doctorDetailsContainer}>
+                {areaSelected.map(area => (
+                  <>
+                    <Label title={area.name} />
+                    <View style={styles.doctorDetails}>
+                      {getDoctorsByArea(area.id).map(party => (
+                        <DoctorDetailsWrapper
+                          title={party.name}
+                          specialization={party.speciality}
+                          category={party.isKyc ? Strings.kyc : party.category}
+                          selected={false}
+                          testID={`card_standard_plan_doctor_${party.id}_test`}
+                        />
+                      ))}
+                    </View>
+                  </>
+                ))}
               </View>
             </View>
           </View>

@@ -12,10 +12,10 @@ import React from 'react';
 import Schedule from './schedule';
 import {ContentWithSidePanel} from 'components/layouts';
 
-const TourPlanning = () => {
+const TourPlanning = ({navigation}) => {
   return (
     <ContentWithSidePanel>
-      <Schedule />
+      <Schedule navigation={navigation} />
     </ContentWithSidePanel>
   );
 };

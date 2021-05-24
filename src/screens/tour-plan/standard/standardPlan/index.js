@@ -9,7 +9,7 @@ import styles from './styles';
  * This component use SwiperFlatList for swiping the day wise data
  */
 
-const StandardPlan = () => {
+const StandardPlan = ({navigation}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [totelIndex, setTotalIndex] = useState(1);
   const swiperRef = useRef(null);
@@ -37,10 +37,16 @@ const StandardPlan = () => {
       paginationStyleItem={styles.paginationItem}
       paginationStyle={styles.paginationStyle}>
       <View style={{width: width}}>
-        <StandardPlanModal handleSliderIndex={handleSlider} />
+        <StandardPlanModal
+          handleSliderIndex={handleSlider}
+          navigation={navigation}
+        />
       </View>
       <View style={{width: width}}>
-        <StandardPlanModal handleSliderIndex={handleSlider} />
+        <StandardPlanModal
+          handleSliderIndex={handleSlider}
+          navigation={navigation}
+        />
       </View>
     </SwiperFlatList>
   );

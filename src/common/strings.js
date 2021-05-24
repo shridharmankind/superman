@@ -35,6 +35,7 @@ const Strings = {
     holiday: 'Holiday',
   },
   kyc: 'KYC',
+  all: 'All',
 };
 
 export default Strings;

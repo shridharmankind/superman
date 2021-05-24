@@ -2,28 +2,16 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.white,
-    flexDirection: 'row',
-    marginTop: 20,
-    zIndex: 1,
-    width: '50%',
-  },
   detailsContainer: {
-    paddingHorizontal: 32,
-    paddingVertical: 40,
-    borderColor: theme.colors.borderColor,
-    borderRadius: 10,
-    borderWidth: 1,
     justifyContent: 'space-between',
-    // margin: 10,
-    // flex: 1,
-    width: '100%',
+    width: '50%',
+    flexGrow: 1,
     flexDirection: 'row',
   },
   details: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   image: {
     width: 72,
@@ -53,7 +41,7 @@ const styles = StyleSheet.create({
   },
   checkContainer: {
     position: 'absolute',
-    right: -25,
+    right: -21,
     top: -35,
   },
   location: {

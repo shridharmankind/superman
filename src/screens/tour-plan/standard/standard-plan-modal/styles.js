@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'flex-start',
     flexWrap: 'wrap',
+    marginBottom: 20,
   },
   areaFilter: {
     flexDirection: 'row',

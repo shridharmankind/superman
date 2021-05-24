@@ -9,7 +9,7 @@ import {Strings} from 'common';
 /**
  * This file renders the tabs for daily or monthly tour plan and renders corresponding child views
  */
-const Schedule = () => {
+const Schedule = ({navigation}) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const data = [
     {
@@ -63,7 +63,7 @@ const Schedule = () => {
       case 0:
         return <DailyTourPlan />;
       case 1:
-        return <MonthlyTourPlan />;
+        return <MonthlyTourPlan navigation={navigation} />;
       default:
         return <DailyTourPlan />;
     }

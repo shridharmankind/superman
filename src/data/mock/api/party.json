@@ -49,5 +49,22 @@
         "shortName": "Sec 1"
       }
     ]
+  },
+  {
+    "id": 4,
+    "name": "Dr. Mahesh Sharma",
+    "speciality": [],
+    "frequency": 2,
+    "partyType": "Chemist",
+    "category": "A+",
+    "potential": 0.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 2,
+        "name": "Sec 2",
+        "shortName": "Sec 2"
+      }
+    ]
   }
 ]
