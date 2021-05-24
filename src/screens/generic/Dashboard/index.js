@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View, Platform} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
 import {useNavigation} from '@react-navigation/core';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -10,8 +10,9 @@ import {NotificationIcon, SearchIcon} from 'assets';
 import {ROUTE_HOME} from 'navigations/routes';
 import ROUTES_DASHBOARD from './routes';
 
-import styles from './styles';
 import theme from 'themes';
+import {isWeb} from 'helper';
+import styles from './styles';
 
 export const DashboardStack = createStackNavigator();
 
@@ -22,7 +23,7 @@ const Dashboard = () => {
   const onActivePageChanged = route => {
     route && navigation.navigate(route);
     requestAnimationFrame(() => {
-      if (Platform.OS === 'web') {
+      if (isWeb()) {
         window.scrollTo({top: 0, behavior: 'smooth'});
       } else {
         scrollRef && scrollRef.current.scrollTo({x: 0, y: 0, animated: true});

@@ -139,7 +139,7 @@ const MonthlyTourPlan = () => {
           dropDownClickHandler(PLAN_TYPES.TOURPLAN);
         }}>
         <View style={styles.selectedTour}>
-          <View style={styles.selectedTourTextContainer}>
+          <View>
             <Label
               type="bold"
               title={
