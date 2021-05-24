@@ -14,7 +14,7 @@ const DailyTourPlan = () => {
   const dayPlan = [
     {
       name: 'Dr. Manoj Manjhi',
-      specialization: 'Cardiologist',
+      specialization: ['Cardiologist'],
       category: 'KYC',
       location: 'Karol Bagh',
       visitData: [
@@ -37,7 +37,7 @@ const DailyTourPlan = () => {
     },
     {
       name: 'Dr. Manoj Manjhi',
-      specialization: 'Cardiologist',
+      specialization: ['Cardiologist'],
       category: 'a+',
       location: 'Karol Bagh',
       visitData: [
@@ -60,7 +60,7 @@ const DailyTourPlan = () => {
     },
     {
       name: 'Dr. Manoj Manjhi',
-      specialization: 'Cardiologist',
+      specialization: ['Cardiologist'],
       category: 'b',
       location: 'Karol Bagh',
       visitData: [
@@ -78,7 +78,7 @@ const DailyTourPlan = () => {
     },
     {
       name: 'Dr. Manoj Manjhi',
-      specialization: 'Cardiologist',
+      specialization: ['Cardiologist'],
       category: 'KYC',
       location: 'Karol Bagh',
       visitData: [

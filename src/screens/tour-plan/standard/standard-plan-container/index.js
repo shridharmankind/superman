@@ -1,21 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
 import styles from './styles';
-import {StandardPlanModal} from 'screens/tourPlan';
 
 /**
  * Standard Tour Plan container
  */
-const StandardPlanContainer = ({workingDays}) => {
-  const [openModal, setOpenModal] = useState(false);
+const StandardPlanContainer = ({workingDays, navigation}) => {
   /**
    * Handle Week View click  event
    * @param {string} header represemts cell Header
    * @param {string} row represents row clicked
    */
-  const handleOnClickWeekView = (header, row) => setOpenModal(true);
+  const handleOnClickWeekView = (header, row) =>
+    navigation.navigate('StandardPlan'); //setOpenModal(true);
   return (
     <View>
       <WeekView
@@ -23,12 +22,6 @@ const StandardPlanContainer = ({workingDays}) => {
         columnHeader={Strings.week}
         onPressHandler={handleOnClickWeekView}
       />
-      {openModal && (
-        <StandardPlanModal
-          visible={openModal}
-          hideModal={() => setOpenModal(false)}
-        />
-      )}
     </View>
   );
 };

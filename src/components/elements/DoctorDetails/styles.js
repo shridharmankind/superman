@@ -2,24 +2,14 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.white,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    paddingHorizontal: 26,
-    paddingVertical: 28,
-    borderColor: theme.colors.borderColor,
-    borderRadius: 10,
-    position: 'relative',
-    borderWidth: 1,
-    marginTop: 20,
-    flex: 1,
-    minWidth: '45%',
-    marginRight: 20,
-    zIndex: 1,
-  },
   detailsContainer: {
+    justifyContent: 'space-between',
+    width: '50%',
+    flexGrow: 1,
+    flexDirection: 'row',
+  },
+  details: {
+    flex: 1,
     flexDirection: 'row',
   },
   image: {
@@ -39,8 +29,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.orange,
     padding: 10,
     position: 'absolute',
-    top: -40,
-    left: -32,
+    top: -41,
+    left: -33,
     minWidth: 40,
     alignItems: 'center',
     justifyContent: 'center',
@@ -50,8 +40,8 @@ const styles = StyleSheet.create({
   },
   checkContainer: {
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: -21,
+    top: -35,
   },
   location: {
     borderLeftColor: theme.colors.grey[200],

@@ -32,7 +32,7 @@ function usePrevious(value) {
  * This file renders the dropdowns to configure your monthly plan by creating your STP
  * or view your subOrdinates/STP if you are FLM/SLM.
  */
-const MonthlyTourPlan = () => {
+const MonthlyTourPlan = ({navigation}) => {
   const {colors} = useTheme();
 
   const [workingDays, setworkingDays] = useState();
@@ -298,7 +298,10 @@ const MonthlyTourPlan = () => {
       case 1:
         return workingDays ? (
           <>
-            <StandardPlanContainer workingDays={workingDays} />
+            <StandardPlanContainer
+              workingDays={workingDays}
+              navigation={navigation}
+            />
             <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
           </>
         ) : null;

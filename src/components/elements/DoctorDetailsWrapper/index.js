@@ -7,7 +7,7 @@ import {DoctorDetails} from 'components/elements';
 /**
  * Wrapper component of doctor details giving the click event over the detail box
  * @param {String} title text of the chip
- * @param {String} specialization doctor specialization eg. Cardiologist, Neurologist
+ * @param {Array} specialization doctor specialization eg. Cardiologist, Neurologist
  * @param {String} image doctor image
  * @param {Boolean} selected doctor is selected or not
  * @param {String} category category of doctor eg: KYC, AA, A+
@@ -51,7 +51,7 @@ DoctorDetailsWrapper.defaultProps = {
 
 DoctorDetailsWrapper.propTypes = {
   title: PropTypes.string.isRequired,
-  specialization: PropTypes.string,
+  specialization: PropTypes.array,
   category: PropTypes.string,
   image: PropTypes.string,
   location: PropTypes.string,
