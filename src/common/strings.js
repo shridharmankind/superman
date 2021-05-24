@@ -25,7 +25,7 @@ const Strings = {
   visits: 'visits',
 
   Legends: {
-    kycDoctor: 'kyc Doctors',
+    kycDoctor: 'KYC Doctors',
     visitSchedule: 'High number of visits scheduled',
     events: 'Events',
     leave: 'Leave',
