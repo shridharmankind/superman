@@ -5,11 +5,7 @@ import {Platform} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
-<<<<<<< HEAD
-import SplashScreen from 'react-native-splash-screen';
-import {Login,LocalAuthorization} from 'screens/generic';
-=======
->>>>>>> develop
+
 
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
@@ -20,7 +16,7 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const isLoggedIn = true;
-  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
+  const initialRoute = isLoggedIn ? 'Authorization' : ROUTE_LOGIN;
 
   useEffect(() => {
     if (Platform.OS !== 'web') {

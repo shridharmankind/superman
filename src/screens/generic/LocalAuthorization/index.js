@@ -40,7 +40,7 @@ class LocalAuthorization extends React.Component {
   }
 
   render() {
-    return <View />;
+    return <View style={{flex:1,backgroundColor:'red'}}/>;
   }
 
   // ...

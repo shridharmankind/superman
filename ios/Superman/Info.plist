@@ -62,14 +62,14 @@
 	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
-	<dict>
-		<key>CFBundleURLName</key>
-		<string>com.superman</string>
-		<key>CFBundleURLSchemes</key>
-		<array>
+		<dict>
+			<key>CFBundleURLName</key>
 			<string>com.superman</string>
-		</array>
-	</dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.superman</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>
