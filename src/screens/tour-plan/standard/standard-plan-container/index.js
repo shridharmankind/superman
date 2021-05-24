@@ -1,8 +1,6 @@
 import React from 'react';
-import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
-import styles from './styles';
 
 /**
  * Standard Tour Plan container
@@ -16,13 +14,11 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
   const handleOnClickWeekView = (header, row) =>
     navigation.navigate('StandardPlan'); //setOpenModal(true);
   return (
-    <View>
-      <WeekView
-        workingDays={workingDays}
-        columnHeader={Strings.week}
-        onPressHandler={handleOnClickWeekView}
-      />
-    </View>
+    <WeekView
+      workingDays={workingDays}
+      columnHeader={Strings.week}
+      onPressHandler={handleOnClickWeekView}
+    />
   );
 };
 
