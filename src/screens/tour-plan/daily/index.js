@@ -203,13 +203,13 @@ const DailyTourPlan = () => {
       <View style={styles.contentView}>
         {sortedDayPlan.map((plan, index) => (
           <SwipeRow
+            style={{marginTop: 20}}
             key={index}
             closeOnRowPress
             disableRightSwipe
             preview={index === 0}
             rightOpenValue={-90}
             rightActivationValue={-90}
-            stopLeftSwipe={0}
             stopRightSwipe={-90}
             initialRightActionState={true}>
             <View
@@ -217,10 +217,13 @@ const DailyTourPlan = () => {
                 alignItems: 'flex-end',
                 width: '100%',
                 height: '100%',
-                paddingVertical: 20,
               }}>
               <TouchableOpacity
-                style={{height: '100%'}}
+                style={{
+                  height: '100%',
+                  paddingBottom: 20,
+                  justifyContent: 'center',
+                }}
                 onPress={() =>
                   console.log('delete action triggered', plan, index)
                 }>

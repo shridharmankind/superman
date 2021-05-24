@@ -15,10 +15,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderColor: theme.colors.grey[500],
     borderRadius: 10,
-    position: 'relative',
     borderWidth: 1,
-    marginTop: 20,
-    zIndex: 1,
     width: '100%',
   },
   heading: {
