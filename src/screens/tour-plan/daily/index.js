@@ -201,65 +201,71 @@ const DailyTourPlan = () => {
     const sortedDayPlan = dayPlan.sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
-        {sortedDayPlan.map((plan, index) => (
-          <SwipeRow
-            style={{marginTop: 20}}
-            key={index}
-            closeOnRowPress
-            disableRightSwipe
-            preview={index === 0}
-            rightOpenValue={-90}
-            rightActivationValue={-90}
-            stopRightSwipe={-90}
-            initialRightActionState={true}>
-            <View
-              style={{
-                alignItems: 'flex-end',
-                width: '100%',
-                height: '100%',
-              }}>
-              <TouchableOpacity
+        {sortedDayPlan.map((plan, index) => {
+          let closeRow;
+
+          return (
+            <SwipeRow
+              style={{marginTop: 20}}
+              key={index}
+              closeOnRowPress
+              disableRightSwipe
+              preview={index === 0}
+              rightOpenValue={-90}
+              rightActivationValue={-90}
+              stopRightSwipe={-90}
+              getCloseRow={closeRowRef => (closeRow = closeRowRef)}
+              initialRightActionState={true}>
+              <View
                 style={{
+                  alignItems: 'flex-end',
+                  width: '100%',
                   height: '100%',
-                  paddingBottom: 20,
-                  justifyContent: 'center',
-                }}
-                onPress={() =>
-                  console.log('delete action triggered', plan, index)
-                }>
-                <View
+                }}>
+                <TouchableOpacity
                   style={{
                     height: '100%',
-                    width: 100,
-                    backgroundColor: 'red',
-                    paddingHorizontal: 30,
+                    paddingBottom: 20,
                     justifyContent: 'center',
-                    alignItems: 'center',
-                    borderTopRightRadius: 10,
-                    borderBottomRightRadius: 10,
+                  }}
+                  onPress={() => {
+                    closeRow && closeRow();
+                    console.log('delete action triggered', plan, index);
                   }}>
-                  <Label>Delete It</Label>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.doctorDetailWrapper}>
-              <View key={index} style={styles.doctorDetailContainer}>
-                <DoctorDetails
-                  title={plan.name}
-                  specialization={plan.specialization}
-                  category={plan.category}
-                  location={plan.location}
-                  customStyle={doctorDetailStyleObject}
-                  showFrequencyChiclet={false}
-                  showVisitPlan={true}
-                  visitData={plan.visitData}
-                  swiped={swipedLeft}
-                />
+                  <View
+                    style={{
+                      height: '100%',
+                      width: 100,
+                      backgroundColor: 'red',
+                      paddingHorizontal: 30,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderTopRightRadius: 10,
+                      borderBottomRightRadius: 10,
+                    }}>
+                    <Label>Delete It</Label>
+                  </View>
+                </TouchableOpacity>
               </View>
-              {swipedLeft && renderButton()}
-            </View>
-          </SwipeRow>
-        ))}
+              <View style={styles.doctorDetailWrapper}>
+                <View key={index} style={styles.doctorDetailContainer}>
+                  <DoctorDetails
+                    title={plan.name}
+                    specialization={plan.specialization}
+                    category={plan.category}
+                    location={plan.location}
+                    customStyle={doctorDetailStyleObject}
+                    showFrequencyChiclet={false}
+                    showVisitPlan={true}
+                    visitData={plan.visitData}
+                    swiped={swipedLeft}
+                  />
+                </View>
+                {swipedLeft && renderButton()}
+              </View>
+            </SwipeRow>
+          );
+        })}
       </View>
     );
   };

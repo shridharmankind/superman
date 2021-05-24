@@ -170,6 +170,11 @@ class SwipeRow extends Component {
     }
   }
 
+  componentDidMount() {
+    const {getCloseRow} = this.props;
+    getCloseRow && getCloseRow(this.closeRow.bind(this));
+  }
+
   componentWillUnmount() {
     clearTimeout(this._ensureScrollEnabledTimer);
     this._translateX.removeAllListeners();
