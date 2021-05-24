@@ -6,7 +6,7 @@ import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
-import {returnDateWithOrdinal} from 'utils/dateTimeHelper';
+import {getFormatDate} from 'utils/dateTimeHelper';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -116,7 +116,7 @@ const DailyTourPlan = () => {
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
-    return `${Strings.today}, ${returnDateWithOrdinal()}`;
+    return `${Strings.today}, ${getFormatDate({format: 'Do MMM YYYY'})}`;
   };
 
   /**

@@ -33,16 +33,6 @@ export const getMonthList = short => {
 };
 
 /**
- * Return date with ordinal - 23rd May 2001
- * @param {Object} param object containing date and format
- * @returns string date ex. 23rd May 2001
- */
-export const returnDateWithOrdinal = param => {
-  const {date = new Date(), format = 'Do MMM YYYY'} = param || {};
-  return dayjs(date).format(format);
-};
-
-/**
  * return  Date in provided format , can be used to get month only
  * Ref :https://day.js.org/docs/en/display/format
  * @param {Object} param

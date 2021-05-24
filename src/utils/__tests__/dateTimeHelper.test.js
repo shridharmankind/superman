@@ -1,9 +1,5 @@
 import 'react-native';
-import {
-  getMonthList,
-  returnDateWithOrdinal,
-  getFormatDate,
-} from 'utils/dateTimeHelper';
+import {getMonthList, getFormatDate} from 'utils/dateTimeHelper';
 
 it('monthList', () => {
   const result = getMonthList();
@@ -13,13 +9,6 @@ it('monthList', () => {
 it('monthList short', () => {
   const result = getMonthList(true);
   expect(result[0]).toEqual('Jan');
-});
-
-it('returnDateWithOrdinal', () => {
-  const result = returnDateWithOrdinal({
-    date: new Date('2011-02-11T10:20:30Z'),
-  });
-  expect(result).toEqual('11th Feb 2011');
 });
 
 it('getFormatDate - get full date', () => {
