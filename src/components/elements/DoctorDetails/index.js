@@ -11,7 +11,7 @@ import {DoctorVisitStates} from 'components/widgets';
  * Custom doctor details component using Chip from react-native-paper.
  * This serves the purpose to make the use of doctor details consistent throughtout the app
  * @param {String} title text of the chip
- * @param {String} specialization doctor specialization eg. Cardiologist, Neurologist
+ * @param {Array} specialization doctor specialization eg. Cardiologist, Neurologist
  * @param {String} image doctor image
  * @param {Boolean} selected doctor is selected or not
  * @param {String} category category of doctor eg: KYC, AA, A+
