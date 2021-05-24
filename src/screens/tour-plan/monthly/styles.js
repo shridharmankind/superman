@@ -18,12 +18,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   iconContainer: {
-    marginRight: 20,
+    marginLeft: 20,
     marginTop: 2,
-  },
-  selectedTourTextContainer: {
-    minWidth: 180,
-    width: 180,
   },
   mySelectedTourTextContainer: {
     minWidth: 80,
@@ -45,7 +41,7 @@ const styles = StyleSheet.create({
   },
   modalPosition: {
     marginTop: '12%',
-    marginLeft: '14%',
+    marginLeft: '20%',
   },
 });
 

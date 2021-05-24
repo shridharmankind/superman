@@ -9,24 +9,9 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
     textAlign: 'center',
   },
-  focusedTab: {
-    borderBottomWidth: 3,
-    borderBottomColor: theme.colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  focusedTabText: {
-    fontFamily: theme.fonts.fontBold,
-  },
-  tabWrapper: {
-    width: 110,
-    height: 25,
-  },
   tabBarContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingTop: 20,
-    width: 200,
+    width: 190,
   },
 });
 

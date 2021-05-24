@@ -14,7 +14,7 @@ export default StyleSheet.create({
     borderRadius: 16,
   },
   contentContainer: {
-    padding: 40,
+    padding: 25,
   },
   contentContainerHeader: {
     padding: 0,

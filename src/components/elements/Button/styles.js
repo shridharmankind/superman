@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontFamily: theme.fonts.fontSemiBold,
     color: theme.colors.white,
   },
   buttonContained: {

@@ -3,15 +3,20 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   radioButtonTextContainer: {
-    flex: 5,
-    height: 35,
+    flex: 7,
+    height: 30,
     justifyContent: 'center',
-    paddingLeft: 10,
   },
   checkedButton: {
     borderBottomColor: theme.colors.primary,
     borderBottomWidth: 4,
     borderRadius: 0,
+  },
+  tabNotSelectedText: {
+    fontFamily: theme.fonts.fontRegular,
+  },
+  tabSelectedText: {
+    fontFamily: theme.fonts.fontBold,
   },
 });
 

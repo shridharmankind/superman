@@ -106,8 +106,8 @@ const DailyTourPlan = () => {
     specialization: styles.specialization,
     divisionContainerCustom: styles.divisionContainer,
     imageCustom: styles.image,
-    titleSize: 32,
-    subTitleSize: 21,
+    titleSize: 21,
+    subTitleSize: 14,
     divisionSize: 10,
   };
 
