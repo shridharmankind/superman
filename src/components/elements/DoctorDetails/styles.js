@@ -18,9 +18,11 @@ const styles = StyleSheet.create({
     minWidth: '45%',
     marginRight: 20,
     zIndex: 1,
+    // width: '80%',
   },
   detailsContainer: {
     flexDirection: 'row',
+    width: '80%',
   },
   image: {
     width: 72,
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     alignSelf: 'center',
+    width: '60%',
   },
   divisionContainer: {
     borderTopLeftRadius: 10,
@@ -63,7 +66,8 @@ const styles = StyleSheet.create({
   },
   visitContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    
   },
   seperator: {
     paddingRight: 10,

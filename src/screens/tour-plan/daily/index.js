@@ -182,11 +182,10 @@ const DailyTourPlan = () => {
   const renderButton = () => {
     console.log('here');
     return (
-      <View>
+      <View style={{width: '20%', height: 90}}>
         <Button
           title={'remove'}
           mode="contained"
-          contentStyle={{width: '20%', height: 90}}
         />
       </View>
     );
@@ -209,7 +208,6 @@ const DailyTourPlan = () => {
                 config={config}
                 style={{
                   flex: 1,
-                  backgroundColor: 'red',
                 }}>
                 <DoctorDetails
                   title={plan.name}
