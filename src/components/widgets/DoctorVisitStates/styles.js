@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.softRed,
   },
   today: {
-    borderColor: theme.colors.blackShades[100],
+    borderColor: theme.colors.grey[200],
   },
 });
 

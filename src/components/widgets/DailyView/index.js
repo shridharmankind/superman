@@ -46,7 +46,7 @@ const DailyView = ({props, selectedMonth, workingDays}) => {
           <Label
             testID={'label_dailyView_date_test'}
             size={16}
-            type={isSameDate(props.date.dateString) ? 'bold' : 'regular'}
+            type={isSameDate(props.date.dateString) ? 'bold' : 'semiBold'}
             style={[
               styles.activeText,
               isSameDate(props.date.dateString) && styles.currentDate,

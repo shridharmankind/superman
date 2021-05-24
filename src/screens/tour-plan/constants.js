@@ -30,3 +30,8 @@ export const MONTH_ARRAY = [
   'November',
   'December',
 ];
+
+export const TOUR_PLAN_TYPE = {
+  STANDARD: 'STANDARD',
+  MONTHLY: 'MONTHLY',
+};

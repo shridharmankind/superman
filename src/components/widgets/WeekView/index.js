@@ -161,4 +161,4 @@ WeekView.propTypes = {
   onPressHandler: PropTypes.func,
 };
 
-export default WeekView;
+export default React.memo(WeekView);

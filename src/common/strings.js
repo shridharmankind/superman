@@ -23,6 +23,15 @@ const Strings = {
   and: 'and',
   numberOfChemist: '6 chemist',
   visits: 'visits',
+
+  Legends: {
+    kycDoctor: 'KYC Doctors',
+    visitSchedule: 'High number of visits scheduled',
+    events: 'Events',
+    leave: 'Leave',
+    today: 'Today',
+    holiday: 'Holiday',
+  },
 };
 
 export default Strings;

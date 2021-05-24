@@ -6,12 +6,16 @@ import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {MonthlyView} from 'components/widgets';
+import {MonthlyView, Legends} from 'components/widgets';
 import {
   getTourPlanScheduleMonths,
   getSelectedMonthIndex,
 } from 'screens/tourPlan/helper';
-import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
+import {
+  PLAN_TYPES,
+  STAFF_CODES,
+  TOUR_PLAN_TYPE,
+} from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
 
 /**
@@ -33,7 +37,7 @@ function usePrevious(value) {
 const MonthlyTourPlan = () => {
   const {colors} = useTheme();
 
-  const [workingDays, setworkingDays] = useState([]);
+  const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
@@ -95,7 +99,7 @@ const MonthlyTourPlan = () => {
   //Effect to get working Days from API on load of page
   useEffect(() => {
     const fetchData = async () => {
-      const result = await NetworkService.get('/api/workingDays');
+      const result = await NetworkService.get('Stp/workingDay/1');
       if (result.status === Constants.HTTP_OK) {
         setworkingDays(result.data);
       }
@@ -281,14 +285,24 @@ const MonthlyTourPlan = () => {
     }
     switch (selectedTourPlan?.id) {
       case 1:
-        return <StandardPlanContainer workingDays={workingDays} />;
+        return workingDays ? (
+          <>
+            <StandardPlanContainer workingDays={workingDays} />
+            <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
+          </>
+        ) : null;
+
       default: {
         return selectedMonth ? (
-          <MonthlyView
-            workingDays={workingDays}
-            monthSelected={monthSelected}
-            previousMonthSelected={previousMonthSelected}
-          />
+          <>
+            <MonthlyView
+              workingDays={workingDays}
+              monthSelected={monthSelected}
+              previousMonthSelected={previousMonthSelected}
+            />
+
+            <Legends />
+          </>
         ) : null;
       }
     }
