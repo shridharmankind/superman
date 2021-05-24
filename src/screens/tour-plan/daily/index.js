@@ -4,7 +4,7 @@ import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label} from 'components/elements';
-import {DoctorDetails} from 'components/elements';
+import {DoctorDetails, Button} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
@@ -107,9 +107,11 @@ const DailyTourPlan = () => {
     directionalOffsetThreshold: 80,
   };
   const [gestureName, setGestureName] = useState('none');
+  const [swipedLeft, setSwipedLeft] = useState(false);
 
   const onSwipeLeft = gestureState => {
     console.log('swipted');
+    setSwipedLeft(true);
     // this.setState({myText: 'You swiped left!'});
   };
 
@@ -177,6 +179,19 @@ const DailyTourPlan = () => {
     return <Text style={styles.dailyTitle}>{result}</Text>;
   };
 
+  const renderButton = () => {
+    console.log('here');
+    return (
+      <View>
+        <Button
+          title={'remove'}
+          mode="contained"
+          contentStyle={{width: '20%', height: 90}}
+        />
+      </View>
+    );
+  };
+
   /**
    * function to render the list of doctor's planned visits
    * @returns list of doctors planned for current day visit
@@ -186,26 +201,30 @@ const DailyTourPlan = () => {
     return (
       <View style={styles.contentView}>
         {sortedDayPlan.map((plan, index) => (
-          <View key={index} style={styles.doctorDetailContainer}>
-            <GestureRecognizer
-              onSwipe={(direction, state) => onSwipe(direction, state)}
-              onSwipeLeft={state => onSwipeLeft(state)}
-              config={config}
-              style={{
-                flex: 1,
-                backgroundColor: 'red',
-              }}>
-              <DoctorDetails
-                title={plan.name}
-                specialization={plan.specialization}
-                category={plan.category}
-                location={plan.location}
-                customStyle={doctorDetailStyleObject}
-                showFrequencyChiclet={false}
-                showVisitPlan={true}
-                visitData={plan.visitData}
-              />
-            </GestureRecognizer>
+          <View style={styles.doctorDetailWrapper}>
+            <View key={index} style={styles.doctorDetailContainer}>
+              <GestureRecognizer
+                onSwipe={(direction, state) => onSwipe(direction, state)}
+                onSwipeLeft={state => onSwipeLeft(state)}
+                config={config}
+                style={{
+                  flex: 1,
+                  backgroundColor: 'red',
+                }}>
+                <DoctorDetails
+                  title={plan.name}
+                  specialization={plan.specialization}
+                  category={plan.category}
+                  location={plan.location}
+                  customStyle={doctorDetailStyleObject}
+                  showFrequencyChiclet={false}
+                  showVisitPlan={true}
+                  visitData={plan.visitData}
+                  swiped={swipedLeft}
+                />
+              </GestureRecognizer>
+            </View>
+            {swipedLeft && renderButton()}
           </View>
         ))}
       </View>

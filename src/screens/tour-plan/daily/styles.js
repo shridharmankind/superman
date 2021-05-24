@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
+  doctorDetailWrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
   doctorDetailContainer: {
     backgroundColor: theme.colors.white,
     alignItems: 'center',
@@ -16,6 +20,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginRight: 20,
     zIndex: 1,
+    width: '80%',
   },
   heading: {
     paddingTop: 20,
