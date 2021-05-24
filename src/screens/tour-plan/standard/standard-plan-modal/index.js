@@ -89,7 +89,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
         doctorType.push(party.partyType);
       }
     });
-    console.log(doctorType);
     setPartiesType(doctorType);
   };
 
@@ -128,8 +127,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
         areaSelected.map(area => area.name).join('+');
       setPatchSelected(patchString);
     }
-
-    //setParties(getDoctors);
   }, [areaSelected, patchValue]);
 
   const getDoctorsByArea = area => {
@@ -141,7 +138,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
         return party;
       }
     });
-    // setParties(parties);
     return parties;
   };
 
@@ -257,7 +253,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
             </View>
             <View style={styles.areaFilterContainer}>
               <Dropdown
-                valueSelcted={val => setPatchValue(val)}
+                valueSelected={val => setPatchValue(val)}
                 data={getPatchesDropdownData(patches)}
                 defaultLabel={Strings.selectPatch}
               />

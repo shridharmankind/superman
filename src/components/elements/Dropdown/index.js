@@ -12,11 +12,11 @@ import {Label} from 'components/elements';
  * This serves the purpose to make the use of Dropdown throughout the app
  * @param {String} defaultLabel defaultLable for the dropdown
  * @param {Array} data pass data as an array eg: [{value: test}]
- * @param {Function} valueSelcted value to pass to parent component
+ * @param {Function} valueSelected value to pass to parent component
  * @param {String} testID testID to pass
  */
 
-const Dropdown = ({defaultLabel, valueSelcted, testID, data}) => {
+const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
   const [value, setValue] = useState();
   const [togglePicker, setTogglePicker] = useState(false);
   const [dropDowndata, setDropDownData] = useState(data);
@@ -30,8 +30,8 @@ const Dropdown = ({defaultLabel, valueSelcted, testID, data}) => {
   };
 
   useEffect(() => {
-    valueSelcted(value);
-  }, [value, valueSelcted]);
+    valueSelected(value);
+  }, [value, valueSelected]);
 
   const handleDropdownFocus = () => {
     setDropdownText('');

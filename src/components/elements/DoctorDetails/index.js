@@ -56,10 +56,6 @@ const DoctorDetails = ({
     );
   };
 
-  // useEffect(() => {
-  //   onPress(select);
-  // }, [select, onPress]);
-
   return (
     <>
       <View style={styles.detailsContainer}>

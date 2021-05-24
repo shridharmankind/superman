@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   details: {
     flex: 1,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
   },
   image: {
     width: 72,
