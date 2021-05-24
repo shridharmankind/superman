@@ -2,39 +2,54 @@ import React from 'react';
 import {View} from 'react-native';
 import {Label} from 'components/elements';
 import styles from './styles';
-const currentDate = new Date();
+import {isSameDate, getFormatDate} from 'utils/dateTimeHelper';
 
-const isDisabled = month => month !== currentDate.getMonth() + 1;
+/**
+ *
+ * @param {number} month
+ * @param {number} selectedMonth
+ * @returns  boolean for different months
+ */
+const isDisabled = (month, selectedMonth) => month != selectedMonth;
 
-//TO DO: will move to utility once finalise time lib
-const isCurrent = date =>
-  date.day === currentDate.getDate() &&
-  date.month === currentDate.getMonth() + 1;
+/**
+ * Returns true for workingDay
+ * @param {Date} date
+ * @param {Array} workingDays
+ * @returns  Boolean
+ */
+const isWorkingDay = (date, workingDays) => {
+  const dayName = getFormatDate({date: date.dateString, format: 'dddd'});
+  return workingDays.includes(dayName);
+};
 
 /**
  * Render Daily Container
  * @param {Object} props
  */
 
-const DailyView = ({props}) => {
+const DailyView = ({props, selectedMonth, workingDays}) => {
   return (
-    <View style={[styles.dailyViewContainer]}>
+    <View
+      style={[
+        styles.dailyViewContainer,
+        isDisabled(props.date.month, selectedMonth) && styles.disabled,
+        !isWorkingDay(props.date, workingDays) && styles.weekendContainer,
+      ]}>
       <View
         style={[
           styles.innerContainer,
-          isCurrent(props.date) && styles.currentDailyContainer,
+          isSameDate(props.date.dateString) && styles.currentDailyContainer,
         ]}>
         <View style={styles.headerContent}>
-          <Label size={16} title={''} />
-
+          <Label testID={'label_dailyView_leftContent_test'} title={''} />
           <Label
+            testID={'label_dailyView_date_test'}
             size={16}
-            type={isCurrent(props.date) ? 'bold' : 'regular'}
+            type={isSameDate(props.date.dateString) ? 'bold' : 'semiBold'}
             style={[
-              isDisabled(props.date.month)
-                ? styles.disabledText
-                : styles.activeText,
-              isCurrent(props.date) && styles.currentDate,
+              styles.activeText,
+              isSameDate(props.date.dateString) && styles.currentDate,
             ]}
             title={props.date.day}
           />

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   image: {
     width: 72,
     height: 72,
-    borderRadius: 72 / 2,
+    borderRadius: 36,
     marginRight: 32,
   },
   nameContainer: {
@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -41,
     left: -33,
+    minWidth: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   divisionText: {
     color: theme.colors.white,
@@ -54,12 +57,19 @@ const styles = StyleSheet.create({
     top: -35,
   },
   location: {
-    borderLeftColor: '#1C1939',
+    borderLeftColor: theme.colors.grey[200],
     borderLeftWidth: 1,
     paddingHorizontal: 10,
   },
   frequecyContainer: {
     flexDirection: 'row',
+  },
+  visitContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  seperator: {
+    paddingRight: 10,
   },
 });
 

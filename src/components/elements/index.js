@@ -1,9 +1,8 @@
-export {default as Header} from './Header';
 export {default as Label} from './Label';
 export {default as Button} from './Button';
 export {default as Area} from './AreaChip';
+export {default as DoctorDetailsWrapper} from './DoctorDetailsWrapper';
 export {default as DoctorDetails} from './DoctorDetails';
-export {default as Frequecy} from './Frequency';
-export {default as TabBar} from './TabBar';
+export {default as Frequency} from './Frequency';
 export {default as Modal} from './Modal';
 export {default as Dropdown} from './Dropdown';

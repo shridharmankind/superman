@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
-import {Frequecy, Label} from 'components/elements';
+import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
-import {useEffect} from 'react';
+import {DoctorVisitStates} from 'components/widgets';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -17,9 +16,11 @@ import {useEffect} from 'react';
  * @param {Boolean} selected doctor is selected or not
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
- * @param {Function} onPress click event
- * @param {String} testID date test id
- * @param {Boolean} fullWidth set width of card to fullWidth
+ * @param {Object} customStyle style object passed fro consumer component
+ * @param {Boolean} showFrequencyChiclet flag to show/hide frequency chiclet
+ * @param {Boolean} showVisitPlan flag to show/hide doctor's daily visit plan
+ * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
+ * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
  */
 
 const DoctorDetails = ({
@@ -29,54 +30,90 @@ const DoctorDetails = ({
   category,
   selected,
   location,
-  fullWidth,
-  onPress,
+  customStyle,
+  showFrequencyChiclet,
+  showVisitPlan,
+  visitData,
+  isTicked,
   ...props
 }) => {
-  const [select, setSelect] = useState(selected);
+  /**
+   * Function to render the visits planned - upcoming, today, missed, completed
+   * @returns the list of visits metadata
+   */
+  const renderVisitData = () => {
+    return (
+      <View style={styles.visitContainer}>
+        {(visitData || []).map((visit, index) => (
+          <DoctorVisitStates
+            key={index}
+            visitDate={visit.date}
+            visitMonth={visit.month}
+            visitState={visit.state}
+          />
+        ))}
+      </View>
+    );
+  };
 
   // useEffect(() => {
   //   onPress(select);
   // }, [select, onPress]);
 
   return (
-    <TouchableOpacity
-      onPress={() => setSelect(!select)}
-      style={[styles.container]}
-      activeOpacity={1}>
+    <>
       <View style={styles.detailsContainer}>
         <View style={styles.details}>
           <View
             style={[
               styles.divisionContainer,
+              customStyle && customStyle.divisionContainerCustom,
               {backgroundColor: getDivisionColor(category)},
             ]}>
             <Label
               style={styles.divisionText}
-              title={category}
-              size={14}
+              title={category && category.toUpperCase()}
+              size={customStyle ? customStyle.divisionSize : 14}
               type={'bold'}
             />
           </View>
           <Image
-            style={styles.image}
+            style={[styles.image, customStyle && customStyle.imageCustom]}
             source={require('../../../assets/images/logo.png')}
           />
           <View style={styles.nameContainer}>
-            <Label title={title} size={26} />
-            <View>
-              <Label title={specialization.map(spec => spec).join(', ')} />
-              {location && <Label title={location} style={styles.location} />}
+            <Label
+              title={title}
+              size={customStyle ? customStyle.titleSize : 26}
+            />
+            <View style={customStyle && customStyle.nameContainerCustom}>
+              <Label
+                size={customStyle ? customStyle.subTitleSize : 18}
+                title={specialization.map(spec => spec).join(', ')}
+                style={customStyle && customStyle.specialization}
+              />
+              <Label
+                size={customStyle ? customStyle.subTitleSize : 18}
+                title={'|'}
+                style={styles.seperator}
+              />
+              {location && (
+                <Label
+                  size={customStyle ? customStyle.subTitleSize : 18}
+                  title={location}
+                />
+              )}
             </View>
           </View>
         </View>
-
-        <View style={styles.frequecyContainer}>
-          <Frequecy visited={true} />
-          <Frequecy />
-          <Frequecy />
-        </View>
-        {select && (
+        {showFrequencyChiclet && (
+          <View style={styles.frequecyContainer}>
+            <Frequency visited={true} />
+            <Frequency />
+            <Frequency />
+          </View>
+        )}
+        {isTicked && (
           <View style={styles.checkContainer}>
             <Icon
               name="check-circle"
@@ -85,8 +122,9 @@ const DoctorDetails = ({
             />
           </View>
         )}
+        {showVisitPlan && renderVisitData()}
       </View>
-    </TouchableOpacity>
+    </>
   );
 };
 
@@ -104,19 +142,25 @@ const getDivisionColor = division => {
 };
 
 DoctorDetails.defaultProps = {
+  showFrequencyChiclet: true,
+  showVisitPlan: false,
   selected: false,
   division: '',
 };
 
 DoctorDetails.propTypes = {
   title: PropTypes.string.isRequired,
-  specialization: PropTypes.string,
+  specialization: PropTypes.array,
   category: PropTypes.string,
   image: PropTypes.string,
   location: PropTypes.string,
   selected: PropTypes.bool,
   testID: PropTypes.string,
   onPress: PropTypes.func,
+  customStyle: PropTypes.object,
+  showFrequencyChiclet: PropTypes.bool,
+  showVisitPlan: PropTypes.bool,
+  isTicked: PropTypes.bool,
 };
 
 export default DoctorDetails;

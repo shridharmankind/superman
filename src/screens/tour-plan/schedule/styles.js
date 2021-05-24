@@ -2,9 +2,6 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     backgroundColor: theme.colors.lightGrayishBlue,
@@ -20,12 +17,6 @@ const styles = StyleSheet.create({
   },
   mainPanel: {
     flex: 1,
-    flexGrow: 7,
-    backgroundColor: theme.colors.white,
-    borderRadius: 20,
-    height: '100%',
-    paddingVertical: 5,
-    paddingHorizontal: 30,
   },
   header: {
     backgroundColor: theme.colors.grayishBlue,
@@ -41,6 +32,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  leftTabContainer: {
+    width: '54%',
+  },
+  rightTabContainer: {
+    justifyContent: 'flex-end',
+    marginTop: 25,
+  },
+  buttonTabBar: {
+    width: 200,
+    marginHorizontal: 8,
+    height: 45,
   },
 });
 

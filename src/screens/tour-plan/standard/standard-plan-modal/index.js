@@ -11,10 +11,10 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Area,
-  DoctorDetails,
   Label,
   Button,
   Dropdown,
+  DoctorDetailsWrapper,
 } from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
@@ -281,18 +281,47 @@ const StandardPlanModal = ({handleSliderIndex}) => {
                   />
                 </View>
               </View>
-              <View style={styles.doctorDetailsContainer}>
-                <Label title={'Noida Sec 1'} />
-                <View style={styles.doctorDetails}>
-                  {parties.map(party => (
-                    <DoctorDetails
-                      title={party.name}
-                      specialization={party.speciality}
-                      category={party.isKyc ? Strings.kyc : party.category}
-                      selected={false}
-                      testID={`card_standard_plan_doctor_${party.id}_test`}
+            </View>
+            <View style={styles.doctorDetailsContainer}>
+              <View>
+                <View style={styles.doctorDetailsHeader}>
+                  <View>
+                    <Label title={Strings.selectVisit} />
+                  </View>
+                  <View style={styles.categoryFilterContainer}>
+                    <Area
+                      title={'All'}
+                      bgColor={'#524F670D'}
+                      color={'#524F67'}
+                      selectedColor={themes.colors.primary}
+                      selected={true}
+                      selectedTextColor={themes.colors.white}
                     />
-                  ))}
+                    <Area
+                      title={'Doctor'}
+                      bgColor={themes.colors.white}
+                      color={'#524F67'}
+                    />
+                    <Area
+                      title={'Chemist'}
+                      bgColor={themes.colors.white}
+                      color={'#524F67'}
+                    />
+                  </View>
+                </View>
+                <View style={styles.doctorDetailsContainer}>
+                  <Label title={'Noida Sec 1'} />
+                  <View style={styles.doctorDetails}>
+                    {parties.map(party => (
+                      <DoctorDetailsWrapper
+                        title={party.name}
+                        specialization={party.speciality}
+                        category={party.isKyc ? Strings.kyc : party.category}
+                        selected={false}
+                        testID={`card_standard_plan_doctor_${party.id}_test`}
+                      />
+                    ))}
+                  </View>
                 </View>
               </View>
             </View>
