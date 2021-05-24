@@ -70,7 +70,7 @@ const Schedule = () => {
   };
 
   return (
-    <View style={styles.mainPanel}>
+    <View>
       {myTabNavigator()}
       {renderChildView()}
     </View>

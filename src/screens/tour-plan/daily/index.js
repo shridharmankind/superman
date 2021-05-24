@@ -169,7 +169,7 @@ const DailyTourPlan = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}
