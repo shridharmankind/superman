@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
@@ -16,7 +16,6 @@ const StandardPlanContainer = ({workingDays}) => {
    * @param {string} row represents row clicked
    */
   const handleOnClickWeekView = (header, row) => setOpenModal(true);
-
   return (
     <View style={styles.container}>
       <WeekView
@@ -34,4 +33,4 @@ const StandardPlanContainer = ({workingDays}) => {
   );
 };
 
-export default StandardPlanContainer;
+export default React.memo(StandardPlanContainer);

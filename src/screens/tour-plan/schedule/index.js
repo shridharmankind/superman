@@ -70,13 +70,9 @@ const Schedule = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.leftPanel} />
-      <SafeAreaView style={styles.mainPanel}>
-        {myTabNavigator()}
-        {renderChildView()}
-      </SafeAreaView>
-      <View style={styles.rightPanel} />
+    <View style={styles.mainPanel}>
+      {myTabNavigator()}
+      {renderChildView()}
     </View>
   );
 };

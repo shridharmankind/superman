@@ -26,6 +26,14 @@ const Strings = {
   visits: 'visits',
   reviewDCR: 'Review DCR',
   addToTodayPlan: "Add to Today's Plan",
+  Legends: {
+    kycDoctor: 'KYC Doctors',
+    visitSchedule: 'High number of visits scheduled',
+    events: 'Events',
+    leave: 'Leave',
+    today: 'Today',
+    holiday: 'Holiday',
+  },
 };
 
 export default Strings;
