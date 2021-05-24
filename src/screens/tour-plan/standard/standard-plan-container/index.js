@@ -17,7 +17,7 @@ const StandardPlanContainer = ({workingDays}) => {
    */
   const handleOnClickWeekView = (header, row) => setOpenModal(true);
   return (
-    <View style={styles.container}>
+    <View>
       <WeekView
         workingDays={workingDays}
         columnHeader={Strings.week}
