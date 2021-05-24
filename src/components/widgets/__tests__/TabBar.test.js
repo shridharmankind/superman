@@ -1,0 +1,35 @@
+import 'react-native';
+import React from 'react';
+import {TabBar} from 'components/widgets';
+import {withTheme, fireEvent} from 'utils/testHelpers';
+import {Strings} from 'common';
+
+function renderComponent(props) {
+  return withTheme(<TabBar {...props} />);
+}
+
+const props = {
+  values: [
+    {
+      text: `${Strings.dailyPlan}`,
+    },
+    {
+      text: `${Strings.tourPlan}`,
+    },
+  ],
+  onPress: jest.fn(),
+};
+
+it('renders tab bar with expected name', () => {
+  const {getByText} = renderComponent(props);
+  expect(getByText(`${Strings.dailyPlan}`)).toBeTruthy();
+});
+
+it('click rendered tab', () => {
+  const {getByText} = renderComponent(props);
+  const button = getByText(`${Strings.dailyPlan}`);
+
+  expect(button).toBeTruthy();
+  fireEvent.press(button);
+  expect(props.onPress).toHaveBeenCalled();
+});

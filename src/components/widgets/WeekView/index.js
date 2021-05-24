@@ -67,7 +67,7 @@ const WeekView = ({
       <TouchableOpacity
         testID="button_weekView_cell_test"
         onPress={onPress}
-        style={[styles.flexFullSpace, styles.flexSpaceBetweenView]}>
+        style={styles.flexSpaceBetweenView}>
         {renderCellData(getCellData(weekData, header, rowHeader))}
       </TouchableOpacity>
     </View>
@@ -161,4 +161,4 @@ WeekView.propTypes = {
   onPressHandler: PropTypes.func,
 };
 
-export default WeekView;
+export default React.memo(WeekView);

@@ -1,30 +1,84 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, SafeAreaView} from 'react-native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import styles from './styles';
-import {TabBar} from 'components/elements';
-import {MonthlyTourPlan} from 'screens/tourPlan';
+import {Button} from 'components/elements';
+import {TabBar} from 'components/widgets';
+import {DailyTourPlan, MonthlyTourPlan} from 'screens/tourPlan';
 import {Strings} from 'common';
 
-const Tab = createMaterialTopTabNavigator();
-
+/**
+ * This file renders the tabs for daily or monthly tour plan and renders corresponding child views
+ */
 const Schedule = () => {
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const data = [
+    {
+      text: `${Strings.dailyPlan}`,
+    },
+    {
+      text: `${Strings.tourPlan}`,
+    },
+  ];
+  const [showButtons, setShowButtons] = useState(false);
+
+  /**
+   * function to render tabs and buttons
+   * @retuns tabs view
+   */
   const myTabNavigator = () => {
     return (
-      <SafeAreaView style={styles.safeAreaContainer}>
-        <Tab.Navigator tabBar={props => <TabBar {...props} />}>
-          <Tab.Screen name={Strings.dailyPlan} component={MonthlyTourPlan} />
-          <Tab.Screen name={Strings.tourPlan} component={MonthlyTourPlan} />
-        </Tab.Navigator>
-      </SafeAreaView>
+      <View style={styles.tabContainer}>
+        <View style={styles.leftTabContainer}>
+          <TabBar values={data} onPress={onTabPress} />
+        </View>
+        {showButtons && (
+          <View style={[styles.tabContainer, styles.rightTabContainer]}>
+            <Button
+              title={Strings.reviewDCR}
+              mode="outlined"
+              contentStyle={styles.buttonTabBar}
+              labelStyle={styles.buttonTabBarText}
+            />
+            <Button
+              title={Strings.addToTodayPlan}
+              mode="contained"
+              contentStyle={styles.buttonTabBar}
+              labelStyle={styles.buttonTabBarText}
+            />
+          </View>
+        )}
+      </View>
     );
   };
 
+  /**
+   * click handler of tab
+   * @param {Number} itemIdx index of tab clicked
+   */
+  const onTabPress = itemIdx => {
+    setSelectedTabIndex(itemIdx);
+    setShowButtons(itemIdx === 0);
+  };
+
+  /**
+   * renders the view based on selected tab
+   * @returns child view
+   */
+  const renderChildView = () => {
+    switch (selectedTabIndex) {
+      case 0:
+        return <DailyTourPlan />;
+      case 1:
+        return <MonthlyTourPlan />;
+      default:
+        return <DailyTourPlan />;
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.leftPanel} />
-      <SafeAreaView style={styles.mainPanel}>{myTabNavigator()}</SafeAreaView>
-      <View style={styles.rightPanel} />
+    <View>
+      {myTabNavigator()}
+      {renderChildView()}
     </View>
   );
 };

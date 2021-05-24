@@ -18,7 +18,7 @@ const Label = ({
   testID,
   style,
   size = 18,
-  textColor = theme.colors.blackShades[100],
+  textColor = theme.colors.grey[200],
   isUpperCase = false,
   type,
   ...props
@@ -55,7 +55,7 @@ const getFontFamily = type => {
 };
 Label.propTypes = {
   type: PropTypes.oneOf(['bold', 'regular', 'semiBold']),
-  title: PropTypes.string,
+  title: PropTypes.any,
   size: PropTypes.number,
   testID: PropTypes.string,
 };

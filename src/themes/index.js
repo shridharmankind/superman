@@ -4,6 +4,7 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
+    background: '#F5F8F9',
     accent: '#ff7171',
     black: '#000',
     disabled: '#E4E4E4',
@@ -16,15 +17,18 @@ const theme = {
     borderColor: '#979797',
     darkBlue: '#5920B7',
     lightBlue: '#0852C5',
+    limeGreen: '#00B637',
     checkCircleBlue: '#0095d1',
-    blackShades: {
-      100: '#1C1939',
-    },
+    softRed: '#E36565',
     grey: {
       100: '#BEBEBF',
       200: '#1C1939',
       300: '#e3e3e3',
+      400: '#e2e2e2',
+      500: '#6D7278',
     },
+    blueShades: {100: '#32C5FF14'},
+    pink: {100: '#FF71E7'},
   },
   fonts: {
     fontRegular: 'Poppins-Regular',
