@@ -1,13 +1,31 @@
-import { updateTodoDataActions, fetchStatusSliceActions } from 'reducers';
+import { takeEvery } from 'redux-saga/effects';
+import { updateTodoDataActions, fetchStatusSliceActions, fetchTodoActionTypeName } from './todoSlice';
 import { call, put, select } from "redux-saga/effects";
-import { todoSelector } from 'selectors';
-import { FetchEnumStatus } from 'states';
+import { todoSelector } from './todoSelector';
+import { FetchEnumStatus } from 'reducers';
 import axios from 'axios';
+
+/**
+ * takeEvery: allows multiple worker instances to be started CONCURRENTLY.
+ * takeLatest: cancel pending when there is a new one.
+ * throttle: type ahead stuff.
+ * /
+
+/**
+ * Register Watcher
+ */
+
+export function* fetchTodoWatcher() {
+    yield takeEvery(
+        fetchTodoActionTypeName,
+        fetchTodoWorker
+    )
+}
 
 /**
  * a worker (generator)
  */
-export function* fetchTodoWorker(action){
+ export function* fetchTodoWorker(action){
     /**
      * get Start Index for this fetching
      */

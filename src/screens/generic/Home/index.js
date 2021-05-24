@@ -11,24 +11,13 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import {KeyChain} from 'helper';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodoActionCreator, updateTodoDataActions } from 'reducers';
-import { todoSelector, appSelector } from 'selectors';
+
 
 const Separator = () => <View style={styles.separator} />;
 
 const Home = ({navigation}) => {
-  const dispatch = useDispatch();
-  const todos1 = useSelector(todoSelector.makeGetPagedTodos());
-  const selectedValue = useSelector(todoSelector.makeGetTodoSelectedState());
-  const fetchState = useSelector(appSelector.makeGetAppFetch())
-  useEffect(() => {
-    dispatch(fetchTodoActionCreator());
-  }, []);
-
-  if(fetchState == 'FETCHING'){
-    return <Text>Loading...</Text>
-  }
+ 
+  
   const handleLogOff = async () => {
     try {
       await KeyChain.resetPassword();
@@ -51,14 +40,6 @@ const Home = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <View>
         <Text>Home Screen</Text>
-        <Text>List of Bundles - {JSON.stringify(fetchState)}</Text>
-        {(todos1) && todos1.map(todo => (
-          <View key={todo.id}>
-            <Text onPress={() => dispatch(updateTodoDataActions.update(todo.id))}>{todo.title}</Text>
-          </View>
-          
-        ))}
-        <Text>Now Select one is :::: {selectedValue} </Text>
       </View>
       <View>
         <Button title="Exit App" onPress={() => handleExitApp()} />

@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { FetchEnumStatus } from 'states'
+
+export const FetchEnumStatus = {
+    INITIAL: "INITIAL",
+    FETCHING: "FETCHING",
+    FAILED: "FAILED",
+    SUCCESS: "SUCCESS",
+}
 
 export const fetchStatusActionType = FetchEnumStatus;
 

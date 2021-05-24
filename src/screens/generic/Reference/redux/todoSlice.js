@@ -3,7 +3,16 @@ import {
     createSlice
 } from '@reduxjs/toolkit';
 import { merge } from 'lodash';
-import {todoState} from 'states';
+
+export const todoState = {
+    todos: {
+        data: [],
+        page: 0,
+        perPage: 5,
+        selected : 0
+    }
+}
+
 
 /**
  *  redux-saga actions
