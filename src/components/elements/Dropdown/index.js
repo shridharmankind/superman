@@ -69,7 +69,7 @@ const Dropdown = ({defaultLabel, valueSelcted, testID, data}) => {
           setTogglePicker(false);
         }
       }}>
-      {dropDowndata.length < 6 ? (
+      {dropDowndata.length > 6 ? (
         <TextInput
           testID={testID}
           style={styles.selectContainer}
@@ -100,7 +100,7 @@ const Dropdown = ({defaultLabel, valueSelcted, testID, data}) => {
               component._children[0] &&
               component._children[0]._children.map(el => el._nativeTag);
           }}>
-          {dropDowndata.map(option => (
+          {data.map(option => (
             <TouchableOpacity
               key={option.value}
               style={styles.pickerLabel}

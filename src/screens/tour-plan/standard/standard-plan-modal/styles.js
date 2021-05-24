@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   doctorDetails: {
+    // flex: 1,
     flexDirection: 'row',
     alignContent: 'flex-start',
     flexWrap: 'wrap',

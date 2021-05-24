@@ -2,6 +2,8 @@ import MockAdapter from 'axios-mock-adapter';
 import userMock from './api/doctors.json';
 import stpMock from './api/standardTourPlan.json';
 import patchesMock from './api/patches.json';
+import areaList from './api/areaList.json';
+import party from './api/party.json';
 
 const getMock = axios => {
   const mock = new MockAdapter(axios);
@@ -18,6 +20,8 @@ const getMock = axios => {
   mock
     .onPut('/updatePatch', patchesMock.updatePatch)
     .reply(200, patchesMock.updatePatch);
+  mock.onGet('/area/1').reply(200, areaList);
+  mock.onGet('/party/1').reply(200, party);
 };
 
 export default getMock;

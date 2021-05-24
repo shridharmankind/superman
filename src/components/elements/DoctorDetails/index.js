@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {Frequecy, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
+import {useEffect} from 'react';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -18,6 +19,7 @@ import styles from './styles';
  * @param {String} location location of the doctor
  * @param {Function} onPress click event
  * @param {String} testID date test id
+ * @param {Boolean} fullWidth set width of card to fullWidth
  */
 
 const DoctorDetails = ({
@@ -27,54 +29,63 @@ const DoctorDetails = ({
   category,
   selected,
   location,
+  fullWidth,
+  onPress,
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
 
+  // useEffect(() => {
+  //   onPress(select);
+  // }, [select, onPress]);
+
   return (
     <TouchableOpacity
       onPress={() => setSelect(!select)}
-      style={styles.container}
+      style={[styles.container]}
       activeOpacity={1}>
       <View style={styles.detailsContainer}>
-        <View
-          style={[
-            styles.divisionContainer,
-            {backgroundColor: getDivisionColor(category)},
-          ]}>
-          <Label
-            style={styles.divisionText}
-            title={category}
-            size={14}
-            type={'bold'}
+        <View style={styles.details}>
+          <View
+            style={[
+              styles.divisionContainer,
+              {backgroundColor: getDivisionColor(category)},
+            ]}>
+            <Label
+              style={styles.divisionText}
+              title={category}
+              size={14}
+              type={'bold'}
+            />
+          </View>
+          <Image
+            style={styles.image}
+            source={require('../../../assets/images/logo.png')}
           />
-        </View>
-        <Image
-          style={styles.image}
-          source={require('../../../assets/images/logo.png')}
-        />
-        <View style={styles.nameContainer}>
-          <Label title={title} size={26} />
-          <View>
-            <Label title={specialization} />
-            {location && <Label title={location} style={styles.location} />}
+          <View style={styles.nameContainer}>
+            <Label title={title} size={26} />
+            <View>
+              <Label title={specialization.map(spec => spec).join(', ')} />
+              {location && <Label title={location} style={styles.location} />}
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.frequecyContainer}>
-        <Frequecy visited={true} />
-        <Frequecy />
-        <Frequecy />
-      </View>
-      {select && (
-        <View style={styles.checkContainer}>
-          <Icon
-            name="check-circle"
-            size={32}
-            color={themes.colors.checkCircleBlue}
-          />
+
+        <View style={styles.frequecyContainer}>
+          <Frequecy visited={true} />
+          <Frequecy />
+          <Frequecy />
         </View>
-      )}
+        {select && (
+          <View style={styles.checkContainer}>
+            <Icon
+              name="check-circle"
+              size={32}
+              color={themes.colors.checkCircleBlue}
+            />
+          </View>
+        )}
+      </View>
     </TouchableOpacity>
   );
 };

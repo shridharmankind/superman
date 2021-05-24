@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Harish Kumar",
+    "speciality": ["Cardiologist", "Orthopaedic"],
+    "frequency": 3,
+    "partyType": "Doctor",
+    "category": null,
+    "potential": 20000.0,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Dr. Brijesh Agarwal",
+    "speciality": ["Cardiologist"],
+    "frequency": 3,
+    "partyType": "Doctor",
+    "category": "A+",
+    "potential": 1000000.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 2,
+        "name": "Sec 2",
+        "shortName": "Sec 2"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Dr. Mahesh Sharma",
+    "speciality": [],
+    "frequency": 2,
+    "partyType": "Chemist",
+    "category": null,
+    "potential": 0.0,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  }
+]

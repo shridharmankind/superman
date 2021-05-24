@@ -4,23 +4,26 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.white,
-    alignItems: 'center',
-    justifyContent: 'space-between',
     flexDirection: 'row',
+    marginTop: 20,
+    zIndex: 1,
+    width: '50%',
+  },
+  detailsContainer: {
     paddingHorizontal: 32,
     paddingVertical: 40,
     borderColor: theme.colors.borderColor,
     borderRadius: 10,
-    position: 'relative',
     borderWidth: 1,
-    marginTop: 20,
+    justifyContent: 'space-between',
+    // margin: 10,
     // flex: 1,
-    minWidth: '45%',
-    marginRight: 20,
-    zIndex: 1,
-  },
-  detailsContainer: {
+    width: '100%',
     flexDirection: 'row',
+  },
+  details: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   image: {
     width: 72,
@@ -39,16 +42,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.orange,
     padding: 10,
     position: 'absolute',
-    top: -40,
-    left: -32,
+    top: -41,
+    left: -33,
   },
   divisionText: {
     color: theme.colors.white,
   },
   checkContainer: {
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: -25,
+    top: -35,
   },
   location: {
     borderLeftColor: '#1C1939',
