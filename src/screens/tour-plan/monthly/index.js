@@ -4,7 +4,6 @@ import {View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends} from 'components/widgets';
@@ -15,6 +14,7 @@ import {
   TOUR_PLAN_TYPE,
 } from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
+import {DropdownIcon} from 'assets';
 
 /**
  * TODO::chane with API Integration hence keeping here
@@ -152,7 +152,7 @@ const MonthlyTourPlan = ({navigation}) => {
             />
           </View>
           <View style={styles.iconContainer}>
-            <Icon name="caret-down" size={20} color={colors.primary} />
+            <DropdownIcon width={20} height={20} />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -179,7 +179,7 @@ const MonthlyTourPlan = ({navigation}) => {
             />
           </View>
           <View style={styles.iconContainer}>
-            <Icon name="caret-down" size={20} color={colors.primary} />
+            <DropdownIcon width={20} height={20} />
           </View>
         </View>
       </TouchableWithoutFeedback>

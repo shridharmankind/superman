@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal, View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {CloseIcon} from 'assets';
 import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
 import styles from './styles';
@@ -54,12 +54,7 @@ const CustomModal = ({
                   style={styles.close}
                   onPress={onClose}
                   testID={closeTestId}>
-                  <Icon
-                    name="close"
-                    size={30}
-                    color={colors.black}
-                    style={styles.closeIcon}
-                  />
+                  <CloseIcon width={32} height={32} />
                 </TouchableWithoutFeedback>
               )}
             </View>
