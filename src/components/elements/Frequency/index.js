@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/*todo*/
 import React from 'react';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,7 +14,7 @@ import styles from './styles';
  * @param {String} testID date test id
  */
 
-const Frequecy = ({visited, testID, ...props}) => {
+const Frequency = ({visited, testID, ...props}) => {
   const isVisited = visited
     ? {
       /* eslint-disable */
@@ -31,13 +33,13 @@ const Frequecy = ({visited, testID, ...props}) => {
   );
 };
 
-Frequecy.defaultProps = {
+Frequency.defaultProps = {
   visited: false,
 };
 
-Frequecy.propsTypes = {
+Frequency.propsTypes = {
   testID: PropTypes.string,
   visited: PropTypes.bool,
 };
 
-export default Frequecy;
+export default Frequency;

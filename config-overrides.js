@@ -9,7 +9,10 @@ const {
 
 module.exports = override(
   removeModuleScopePlugin(),
-  ...addBabelPlugins('@babel/plugin-proposal-class-properties'),
+  ...addBabelPlugins(
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-transform-modules-commonjs',
+  ),
   addBabelPlugin([
     'module-resolver',
     {
@@ -26,6 +29,7 @@ module.exports = override(
         utils: './src/utils',
         common: './src/common',
         database: './src/database',
+        helper: './src/helper',
       },
     },
   ]),
@@ -33,7 +37,9 @@ module.exports = override(
     path.resolve(__dirname, 'node_modules/react-native-elements'),
     path.resolve(__dirname, 'node_modules/react-native-vector-icons'),
     path.resolve(__dirname, 'node_modules/react-native-ratings'),
-    path.resolve(__dirname, 'src'),
     path.resolve(__dirname, 'node_modules/react-native-reanimated'),
+    path.resolve(__dirname, 'node_modules/react-native-calendars'),
+    path.resolve(__dirname, 'node_modules/react-native-swipe-gestures'),
+    path.resolve(__dirname, 'src'),
   ]),
 );

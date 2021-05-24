@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
   },
   tabBarContainer: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     paddingTop: 20,
+    width: 200,
   },
 });
 

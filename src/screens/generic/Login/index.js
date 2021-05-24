@@ -107,12 +107,12 @@ const Login = ({navigation}) => {
         contentStyle={styles.loginBtn}
         onPress={() => setOpenModal(true)}
       />
-      <Button
+      {/* <Button
         title="Login!"
         disabled={!request}
         onPress={() => promptAsync({useProxy})}
       />
-      {result && <Text>{JSON.stringify(result, null, 2)}</Text>}
+      {result && <Text>{JSON.stringify(result, null, 2)}</Text>} */}
       {openModal && (
         <StandardPlanModal
           visible={openModal}
