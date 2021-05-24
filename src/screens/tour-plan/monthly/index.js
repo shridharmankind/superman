@@ -15,9 +15,9 @@ import {
   TOUR_PLAN_TYPE,
 } from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
+import {isEqual} from 'lodash';
 
 /**
- * TODO::chane with API Integration hence keeping here
  * @param {String} value
  * @returns ref value
  */
@@ -43,7 +43,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [user, setUser] = useState({});
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
-  const [monthSelected, setMonthSelected] = useState(5);
+  const [monthSelected, setMonthSelected] = useState();
   const previousMonthSelected = usePrevious(monthSelected);
   //effects
   useEffect(() => {
@@ -289,10 +289,8 @@ const MonthlyTourPlan = ({navigation}) => {
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
       return schedule.text.indexOf(selectedTourPlan.text) > -1;
     });
-    if (monthFound) {
-      if (monthFound.month !== monthSelected) {
-        setMonthSelected(monthFound.month);
-      }
+    if (monthFound && !isEqual(monthFound, monthSelected)) {
+      setMonthSelected(monthFound);
     }
     switch (selectedTourPlan?.id) {
       case 1:
@@ -307,14 +305,13 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthFound?.month ? (
+        return monthFound && workingDays ? (
           <>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
             />
-
             <Legends />
           </>
         ) : null;
