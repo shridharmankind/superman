@@ -100,24 +100,25 @@ const DoctorDetails = ({
             )}
           </View>
         </View>
+
+        {showFrequencyChiclet && (
+          <View style={styles.frequecyContainer}>
+            <Frequency visited={true} />
+            <Frequency />
+            <Frequency />
+          </View>
+        )}
+        {isTicked && (
+          <View style={styles.checkContainer}>
+            <Icon
+              name="check-circle"
+              size={32}
+              color={themes.colors.checkCircleBlue}
+            />
+          </View>
+        )}
+        {showVisitPlan && renderVisitData()}
       </View>
-      {showFrequencyChiclet && (
-        <View style={styles.frequecyContainer}>
-          <Frequency visited={true} />
-          <Frequency />
-          <Frequency />
-        </View>
-      )}
-      {isTicked && (
-        <View style={styles.checkContainer}>
-          <Icon
-            name="check-circle"
-            size={32}
-            color={themes.colors.checkCircleBlue}
-          />
-        </View>
-      )}
-      {showVisitPlan && renderVisitData()}
     </>
   );
 };

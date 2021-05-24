@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     flexDirection: 'row',
+    minWidth: 350,
   },
   specialization: {
     paddingRight: 10,
