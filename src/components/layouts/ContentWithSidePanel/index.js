@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 
-const ContentWithSidePanel = ({children, header = null, sidePanel = null}) => {
+const ContentWithSidePanel = ({
+  children = null,
+  header = null,
+  sidePanel = null,
+}) => {
   const renderSidePanel = () => (
     <View style={styles.sidePanelContainer}>{sidePanel}</View>
   );
