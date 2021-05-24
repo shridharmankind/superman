@@ -10,9 +10,11 @@ import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
 import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
 import {useEffect} from 'react';
+import {getStore} from './store/getStore';
+import {Provider} from 'react-redux';
 
 const Stack = createStackNavigator();
-
+const store = getStore();
 const App = () => {
   const isLoggedIn = true;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
@@ -24,22 +26,24 @@ const App = () => {
   }, []);
 
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={initialRoute}>
-          {ROUTES.map(route => (
-            <Stack.Screen
-              key={route.name}
-              name={route.name}
-              component={route.component}
-              options={{
-                headerShown: false,
-              }}
-            />
-          ))}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName={initialRoute}>
+            {ROUTES.map(route => (
+              <Stack.Screen
+                key={route.name}
+                name={route.name}
+                component={route.component}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 };
 
