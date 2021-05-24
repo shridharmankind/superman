@@ -1,21 +1,51 @@
-import React, {useState, useEffect} from 'react';
+/* eslint-disable indent */
+import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
+import {MonthlyView, Legends} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
-import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
+import {
+  PLAN_TYPES,
+  STAFF_CODES,
+  TOUR_PLAN_TYPE,
+} from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
 
+/**
+ * TODO::chane with API Integration hence keeping here
+ * @param {String} value
+ * @returns ref value
+ */
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 /**
  * This file renders the dropdowns to configure your monthly plan by creating your STP
  * or view your subOrdinates/STP if you are FLM/SLM.
  */
-const MonthlyTourPlan = () => {
+const MonthlyTourPlan = ({navigation}) => {
   const {colors} = useTheme();
+
+  const [workingDays, setworkingDays] = useState();
+  const [planOptions, setPlanOptions] = useState([]);
+  const [selectedTourPlan, setSelectedTourPlan] = useState({});
+  const [selectedMyPlan, setSelectedMyPlan] = useState({});
+  const [visible, setVisible] = useState(false);
+  const [myPlanOptions, setMyPlanOptions] = useState([]);
+  const [user, setUser] = useState({});
+  const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
+  const [monthSelected, setMonthSelected] = useState(5);
+  const previousMonthSelected = usePrevious(monthSelected);
+  //effects
   useEffect(() => {
     const fetchData = async () => {
       const result = await NetworkService.get('/single-user');
@@ -23,21 +53,30 @@ const MonthlyTourPlan = () => {
         setUser(result.data);
         let schedule = getTourPlanScheduleMonths();
         if (result.data.staffPositions[0].staffCode === STAFF_CODES.MR) {
-          schedule = [Strings.stp, ...schedule];
+          schedule = [
+            {
+              text: Strings.stpWithAbbreviation,
+              month: 0,
+              year: 0,
+            },
+            ...schedule,
+          ];
         }
         let newSchedule = schedule.map((option, index) => {
           return {
             id: index + 1,
-            text: option,
-            selected: index === 0,
+            text: option.text,
+            selected: index === 1,
+            month: option.month,
+            year: option.year,
           };
         });
         setPlanOptions(newSchedule);
-        setSelectedTourPlan(newSchedule[0]);
+        setSelectedTourPlan(newSchedule[1]);
       }
     };
     fetchData();
-  }, [planOptions, user]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,13 +103,16 @@ const MonthlyTourPlan = () => {
     fetchData();
   }, []);
 
-  const [planOptions, setPlanOptions] = useState([]);
-  const [selectedTourPlan, setSelectedTourPlan] = useState({});
-  const [selectedMyPlan, setSelectedMyPlan] = useState({});
-  const [visible, setVisible] = useState(false);
-  const [myPlanOptions, setMyPlanOptions] = useState([]);
-  const [user, setUser] = useState({});
-  const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
+  //Effect to get working Days from API on load of page
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await NetworkService.get('Stp/workingDay/1');
+      if (result.status === Constants.HTTP_OK) {
+        setworkingDays(result.data);
+      }
+    };
+    fetchData();
+  }, []);
 
   /**
    * toggles modal
@@ -97,10 +139,14 @@ const MonthlyTourPlan = () => {
           dropDownClickHandler(PLAN_TYPES.TOURPLAN);
         }}>
         <View style={styles.selectedTour}>
-          <View style={styles.selectedTourTextContainer}>
+          <View>
             <Label
               type="bold"
-              title={selectedTourPlan?.text}
+              title={
+                selectedTourPlan.id === 1
+                  ? `${Strings.stp}`
+                  : (selectedTourPlan?.text || '').split(' ').join(', ')
+              }
               size={16}
               style={styles.selectedTourText}
             />
@@ -228,6 +274,7 @@ const MonthlyTourPlan = () => {
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
+        customModalPosition={styles.modalPosition}
       />
     );
   };
@@ -236,16 +283,47 @@ const MonthlyTourPlan = () => {
    *  Renders View on basis of selected tour plan
    * @returns view selected
    */
+
   const renderView = () => {
+    //TO DO:: as per current JSON - might change after actual api
+    const monthFound = getTourPlanScheduleMonths().find(schedule => {
+      return schedule.text.indexOf(selectedTourPlan.text) > -1;
+    });
+    if (monthFound) {
+      if (monthFound.month !== monthSelected) {
+        setMonthSelected(monthFound.month);
+      }
+    }
     switch (selectedTourPlan?.id) {
       case 1:
-        return <StandardPlanContainer />;
-      default:
-        return null;
+        return workingDays ? (
+          <>
+            <StandardPlanContainer
+              workingDays={workingDays}
+              navigation={navigation}
+            />
+            <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
+          </>
+        ) : null;
+
+      default: {
+        return monthFound?.month ? (
+          <>
+            <MonthlyView
+              workingDays={workingDays}
+              monthSelected={monthSelected}
+              previousMonthSelected={previousMonthSelected}
+            />
+
+            <Legends />
+          </>
+        ) : null;
+      }
     }
   };
+
   return (
-    <View style={styles.container}>
+    <View>
       <View style={styles.dropDownsContainer}>
         <View style={styles.tourPlanContainer}>{tourPlanDropDown()}</View>
         {user?.staffPositions &&

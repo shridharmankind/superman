@@ -36,11 +36,7 @@ const TabBar = ({values, onPress}) => {
       );
     });
   };
-  return (
-    <View>
-      <View style={styles.tabBarContainer}>{renderRadioButtons()}</View>
-    </View>
-  );
+  return <View style={styles.tabBarContainer}>{renderRadioButtons()}</View>;
 };
 
 TabBar.propTypes = {

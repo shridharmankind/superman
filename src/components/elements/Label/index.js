@@ -18,7 +18,7 @@ const Label = ({
   testID,
   style,
   size = 18,
-  textColor = theme.colors.blackShades[100],
+  textColor = theme.colors.grey[200],
   isUpperCase = false,
   type,
   ...props

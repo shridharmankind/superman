@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
@@ -11,7 +11,7 @@ import {DoctorVisitStates} from 'components/widgets';
  * Custom doctor details component using Chip from react-native-paper.
  * This serves the purpose to make the use of doctor details consistent throughtout the app
  * @param {String} title text of the chip
- * @param {String} specialization doctor specialization eg. Cardiologist, Neurologist
+ * @param {Array} specialization doctor specialization eg. Cardiologist, Neurologist
  * @param {String} image doctor image
  * @param {Boolean} selected doctor is selected or not
  * @param {String} category category of doctor eg: KYC, AA, A+
@@ -59,61 +59,70 @@ const DoctorDetails = ({
   return (
     <>
       <View style={styles.detailsContainer}>
-        <View
-          style={[
-            styles.divisionContainer,
-            customStyle && customStyle.divisionContainerCustom,
-            {backgroundColor: getDivisionColor(category)},
-          ]}>
-          <Label
-            style={styles.divisionText}
-            title={category && category.toUpperCase()}
-            size={customStyle ? customStyle.divisionSize : 14}
-            type={'bold'}
-          />
-        </View>
-        <Image
-          style={[styles.image, customStyle && customStyle.imageCustom]}
-          source={require('../../../assets/images/logo.png')}
-        />
-        <View style={styles.nameContainer}>
-          <Label
-            title={title}
-            size={customStyle ? customStyle.titleSize : 26}
-          />
-          <View style={customStyle && customStyle.nameContainerCustom}>
+        <View style={styles.details}>
+          <View
+            style={[
+              styles.divisionContainer,
+              customStyle && customStyle.divisionContainerCustom,
+              {backgroundColor: getDivisionColor(category)},
+            ]}>
             <Label
-              size={customStyle ? customStyle.titleSize : 18}
-              title={specialization}
-              style={customStyle && customStyle.specialization}
+              style={styles.divisionText}
+              title={category && category.toUpperCase()}
+              size={customStyle ? customStyle.divisionSize : 14}
+              type={'bold'}
             />
-            {location && (
+          </View>
+          <Image
+            style={[styles.image, customStyle && customStyle.imageCustom]}
+            source={require('../../../assets/images/logo.png')}
+          />
+          <View style={styles.nameContainer}>
+            <Label
+              title={title}
+              size={customStyle ? customStyle.titleSize : 26}
+            />
+            <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
-                size={customStyle ? customStyle.titleSize : 18}
-                title={location}
-                style={styles.location}
+                size={customStyle ? customStyle.subTitleSize : 18}
+                title={specialization.map(spec => spec).join(', ')}
+                style={customStyle && customStyle.specialization}
               />
-            )}
+
+              {location && (
+                <>
+                  <Label
+                    size={customStyle ? customStyle.subTitleSize : 18}
+                    title={'|'}
+                    style={styles.seperator}
+                  />
+                  <Label
+                    size={customStyle ? customStyle.subTitleSize : 18}
+                    title={location}
+                  />
+                </>
+              )}
+            </View>
           </View>
         </View>
+        {showFrequencyChiclet && (
+          <View style={styles.frequecyContainer}>
+            <Frequency visited={true} />
+            <Frequency />
+            <Frequency />
+          </View>
+        )}
+        {isTicked && (
+          <View style={styles.checkContainer}>
+            <Icon
+              name="check-circle"
+              size={32}
+              color={themes.colors.checkCircleBlue}
+            />
+          </View>
+        )}
+        {showVisitPlan && renderVisitData()}
       </View>
-      {showFrequencyChiclet && (
-        <View style={styles.frequecyContainer}>
-          <Frequency visited={true} />
-          <Frequency />
-          <Frequency />
-        </View>
-      )}
-      {isTicked && (
-        <View style={styles.checkContainer}>
-          <Icon
-            name="check-circle"
-            size={32}
-            color={themes.colors.checkCircleBlue}
-          />
-        </View>
-      )}
-      {showVisitPlan && renderVisitData()}
     </>
   );
 };
@@ -140,7 +149,7 @@ DoctorDetails.defaultProps = {
 
 DoctorDetails.propTypes = {
   title: PropTypes.string.isRequired,
-  specialization: PropTypes.string,
+  specialization: PropTypes.array,
   category: PropTypes.string,
   image: PropTypes.string,
   location: PropTypes.string,

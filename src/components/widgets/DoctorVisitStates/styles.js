@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
   },
   visitDate: {
     fontFamily: theme.fonts.fontRegular,
-    color: theme.colors.primary,
+    color: theme.colors.grey[200],
   },
   visitMonth: {
     fontFamily: theme.fonts.fontRegular,
     marginTop: -5,
-    color: theme.colors.primary,
+    color: theme.colors.grey[200],
   },
   completed: {
     borderColor: theme.colors.limeGreen,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.softRed,
   },
   today: {
-    borderColor: theme.colors.blackShades[100],
+    borderColor: theme.colors.grey[200],
   },
 });
 

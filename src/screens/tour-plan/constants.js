@@ -15,3 +15,10 @@ export const DOCTOR_VISIT_STATES = {
   TODAY: 'TODAY',
   MISSED: 'MISSED',
 };
+
+export const CATEGORY_SORTING_ORDER = ['adopted', 'kyc', 'a+', 'a', 'b', 'c'];
+
+export const TOUR_PLAN_TYPE = {
+  STANDARD: 'STANDARD',
+  MONTHLY: 'MONTHLY',
+};

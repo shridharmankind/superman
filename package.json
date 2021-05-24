@@ -5,7 +5,7 @@
   "scripts": {
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "web-start": "react-app-rewired start",
+    "web-start": "yarn env-dev && react-app-rewired start",
     "web-build": "react-app-rewired build",
     "web-test": "react-app-rewired test",
     "test": "jest",
@@ -37,7 +37,9 @@
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.2.0",
+    "react-native-svg": "^12.1.1",
     "react-native-splash-screen": "^3.2.0",
+    "react-native-swiper-flatlist": "^3.0.14",
     "react-native-tab-view": "^2.16.0",
     "react-native-sha512": "^1.0.2",
     "react-native-vector-icons": "^8.1.0",
@@ -115,9 +117,9 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js}": [
-      "prettier src/ --write",
-      "eslint src/ --fix",
+    "src/**/*.js": [
+      "prettier src --write",
+      "eslint src --fix",
       "yarn test"
     ]
   }

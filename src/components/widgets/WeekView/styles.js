@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
     padding: 2,
   },
   headerContainer: {
@@ -17,17 +16,16 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   rowContainer: {
-    flex: 1,
     borderRightWidth: 1,
     borderColor,
   },
   row: {
-    flex: 1,
     alignSelf: 'stretch',
     flexDirection: 'row',
     textAlign: 'center',
   },
   cellContainer: {
+    minHeight: 125,
     borderLeftWidth: 1,
     borderTopWidth: 1,
     flex: 1,
