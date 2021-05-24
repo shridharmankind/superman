@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, View, Text} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
@@ -6,7 +6,8 @@ import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
-import {returnDateWithOrdinal} from 'utils/dateTimeHelper';
+import {returnDateWithOrdinal, getFormatDate} from 'utils/dateTimeHelper';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -101,6 +102,40 @@ const DailyTourPlan = () => {
     },
   ];
 
+  const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 80,
+  };
+  const [gestureName, setGestureName] = useState('none');
+
+  const onSwipeLeft = gestureState => {
+    console.log('swipted');
+    // this.setState({myText: 'You swiped left!'});
+  };
+
+  const onSwipe = (gestureName, gestureState) => {
+    const {SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT} = swipeDirections;
+    setGestureName(gestureName);
+    switch (gestureName) {
+      case SWIPE_UP:
+        console.log('up');
+        // this.setState({backgroundColor: 'red'});
+        break;
+      case SWIPE_DOWN:
+        console.log('down');
+        // this.setState({backgroundColor: 'green'});
+        break;
+      case SWIPE_LEFT:
+        console.log('left');
+        // this.setState({backgroundColor: 'blue'});
+        break;
+      case SWIPE_RIGHT:
+        console.log('right');
+        // this.setState({backgroundColor: 'yellow'});
+        break;
+    }
+  };
+
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
     specialization: styles.specialization,
@@ -116,7 +151,7 @@ const DailyTourPlan = () => {
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
-    return `${Strings.today}, ${returnDateWithOrdinal()}`;
+    return `${Strings.today}, ${getFormatDate({format: 'Do MMM YYYY'})}`;
   };
 
   /**
@@ -152,16 +187,25 @@ const DailyTourPlan = () => {
       <View style={styles.contentView}>
         {sortedDayPlan.map((plan, index) => (
           <View key={index} style={styles.doctorDetailContainer}>
-            <DoctorDetails
-              title={plan.name}
-              specialization={plan.specialization}
-              category={plan.category}
-              location={plan.location}
-              customStyle={doctorDetailStyleObject}
-              showFrequencyChiclet={false}
-              showVisitPlan={true}
-              visitData={plan.visitData}
-            />
+            <GestureRecognizer
+              onSwipe={(direction, state) => onSwipe(direction, state)}
+              onSwipeLeft={state => onSwipeLeft(state)}
+              config={config}
+              style={{
+                flex: 1,
+                backgroundColor: 'red',
+              }}>
+              <DoctorDetails
+                title={plan.name}
+                specialization={plan.specialization}
+                category={plan.category}
+                location={plan.location}
+                customStyle={doctorDetailStyleObject}
+                showFrequencyChiclet={false}
+                showVisitPlan={true}
+                visitData={plan.visitData}
+              />
+            </GestureRecognizer>
           </View>
         ))}
       </View>
