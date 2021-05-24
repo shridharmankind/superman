@@ -67,14 +67,14 @@ export const post = async (url, data = {}, params = {}) => {
 };
 
 export const put = async (url, data = {}, params = {}) => {
-  const authCode = await AsyncStorage.getItem('Auth');
+  const accessToken = await KeyChain.getAccessToken();
   const config = {
     baseURL: env.API_HOST,
     method: 'PUT',
     url,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: authCode,
+      Authorization: `Bearer ${accessToken}`,
     },
     data,
     params,
