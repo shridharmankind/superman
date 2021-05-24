@@ -18,9 +18,9 @@ describe('Legends Test Cases : MTP', () => {
     const {getByText} = renderComponent();
     expect(getByText('Leave')).toBeTruthy();
   });
-  it('should render Legend with text : kyc Doctors', () => {
+  it('should render Legend with text : KYC Doctors', () => {
     const {getByText} = renderComponent();
-    expect(getByText('kyc Doctors')).toBeTruthy();
+    expect(getByText('KYC Doctors')).toBeTruthy();
   });
   it('should render Legend with text : Events', () => {
     const {getByText} = renderComponent();
