@@ -16,20 +16,7 @@ export const DOCTOR_VISIT_STATES = {
   MISSED: 'MISSED',
 };
 
-export const MONTH_ARRAY = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+export const CATEGORY_SORTING_ORDER = ['adopted', 'kyc', 'a+', 'a', 'b', 'c'];
 
 export const TOUR_PLAN_TYPE = {
   STANDARD: 'STANDARD',

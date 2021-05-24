@@ -1,8 +1,10 @@
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/en-in';
 
 dayjs.extend(localeData);
+dayjs.extend(advancedFormat);
 
 /**
  * Utility file to handle Date/Time method
@@ -20,16 +22,6 @@ export const isSameDate = (
   date = new Date(),
   format = DEFAULT_FORMAT,
 ) => selectedDate === dayjs(date).format(format);
-
-/**
- *
- * @param {object} param
- * @returns year of given date
- */
-export const getYear = param => {
-  const {date = new Date(), yearFormat = 'YYYY'} = param || {};
-  return dayjs(date).format(yearFormat);
-};
 
 /**
  *

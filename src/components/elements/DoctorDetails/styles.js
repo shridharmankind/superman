@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
+  seperator: {
+    paddingRight: 10,
+  },
 });
 
 export default styles;

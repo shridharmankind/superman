@@ -19,16 +19,15 @@ const styles = StyleSheet.create({
   },
   selectedTour: {
     flexDirection: 'row',
-    alignItems: 'center',
     marginTop: 20,
   },
   iconContainer: {
-    marginLeft: 10,
     marginRight: 20,
+    marginTop: 2,
   },
   selectedTourTextContainer: {
-    minWidth: 220,
-    width: 220,
+    minWidth: 180,
+    width: 180,
   },
   mySelectedTourTextContainer: {
     minWidth: 80,
@@ -47,6 +46,10 @@ const styles = StyleSheet.create({
   },
   contentView: {
     justifyContent: 'flex-start',
+  },
+  modalPosition: {
+    marginTop: '12%',
+    marginLeft: '14%',
   },
 });
 

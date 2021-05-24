@@ -83,15 +83,19 @@ const DoctorDetails = ({
           />
           <View style={customStyle && customStyle.nameContainerCustom}>
             <Label
-              size={customStyle ? customStyle.titleSize : 18}
+              size={customStyle ? customStyle.subTitleSize : 18}
               title={specialization}
               style={customStyle && customStyle.specialization}
             />
+            <Label
+              size={customStyle ? customStyle.subTitleSize : 18}
+              title={'|'}
+              style={styles.seperator}
+            />
             {location && (
               <Label
-                size={customStyle ? customStyle.titleSize : 18}
+                size={customStyle ? customStyle.subTitleSize : 18}
                 title={location}
-                style={styles.location}
               />
             )}
           </View>
