@@ -33,10 +33,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderColor: themes.colors.grey[100],
+    backgroundColor: 'transparent',
+    alignItems: 'center',
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    height: 60,
   },
   pickerLabel: {
     paddingVertical: 5,
