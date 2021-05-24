@@ -17,12 +17,6 @@ const styles = StyleSheet.create({
   },
   mainPanel: {
     flex: 1,
-    flexGrow: 7,
-    backgroundColor: theme.colors.white,
-    borderRadius: 20,
-    height: '100%',
-    paddingVertical: 5,
-    paddingHorizontal: 30,
   },
   header: {
     backgroundColor: theme.colors.grayishBlue,

@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
