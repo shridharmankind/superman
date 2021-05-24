@@ -320,7 +320,7 @@ const MonthlyTourPlan = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <View style={styles.dropDownsContainer}>
         <View style={styles.tourPlanContainer}>{tourPlanDropDown()}</View>
         {user?.staffPositions &&
