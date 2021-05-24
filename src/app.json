@@ -1,4 +1,13 @@
 {
   "name": "Superman",
-  "displayName": "Superman"
+  "displayName": "Superman",
+  "expo": {
+    "web": {
+      "build": {
+        "babel": {
+          "include": ["static-container"]
+        }
+      }
+    }
+  }
 }

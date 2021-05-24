@@ -15,6 +15,7 @@ import styles from './styles';
 const Frequecy = ({visited, testID, ...props}) => {
   const isVisited = visited
     ? {
+      /* eslint-disable */
         borderColor: themes.colors.grey[200],
         borderWidth: 1,
         backgroundColor: themes.colors.white,
