@@ -108,7 +108,7 @@ const MonthlyTourPlan = ({navigation}) => {
     const fetchData = async () => {
       const result = await NetworkService.get('Stp/workingDay/1');
       if (result.status === Constants.HTTP_OK) {
-        setworkingDays(result.data);
+        setworkingDays(result.data?.workingDay);
       }
     };
     fetchData();
@@ -307,7 +307,7 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthFound?.month ? (
+        return monthFound?.month && workingDays ? (
           <>
             <MonthlyView
               workingDays={workingDays}
