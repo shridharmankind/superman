@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     marginTop: 20,
-    marginRight: 20,
     zIndex: 1,
   },
   heading: {

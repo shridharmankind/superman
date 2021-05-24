@@ -7,16 +7,18 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   leftTabContainer: {
-    width: '38%',
+    width: '52%',
   },
   rightTabContainer: {
     justifyContent: 'flex-end',
-    marginTop: 25,
   },
   buttonTabBar: {
-    width: 200,
+    width: 165,
     marginHorizontal: 8,
-    height: 45,
+    height: 42,
+  },
+  buttonTabBarText: {
+    fontSize: 12,
   },
 });
 

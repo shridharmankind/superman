@@ -19,6 +19,7 @@ const Schedule = ({navigation}) => {
       text: `${Strings.tourPlan}`,
     },
   ];
+  const [showButtons, setShowButtons] = useState(false);
 
   /**
    * function to render tabs and buttons
@@ -30,18 +31,22 @@ const Schedule = ({navigation}) => {
         <View style={styles.leftTabContainer}>
           <TabBar values={data} onPress={onTabPress} />
         </View>
-        <View style={[styles.tabContainer, styles.rightTabContainer]}>
-          <Button
-            title={Strings.reviewDCR}
-            mode="outlined"
-            contentStyle={styles.buttonTabBar}
-          />
-          <Button
-            title={Strings.addToTodayPlan}
-            mode="contained"
-            contentStyle={styles.buttonTabBar}
-          />
-        </View>
+        {showButtons && (
+          <View style={[styles.tabContainer, styles.rightTabContainer]}>
+            <Button
+              title={Strings.reviewDCR}
+              mode="outlined"
+              contentStyle={styles.buttonTabBar}
+              labelStyle={styles.buttonTabBarText}
+            />
+            <Button
+              title={Strings.addToTodayPlan}
+              mode="contained"
+              contentStyle={styles.buttonTabBar}
+              labelStyle={styles.buttonTabBarText}
+            />
+          </View>
+        )}
       </View>
     );
   };
@@ -52,6 +57,7 @@ const Schedule = ({navigation}) => {
    */
   const onTabPress = itemIdx => {
     setSelectedTabIndex(itemIdx);
+    setShowButtons(itemIdx === 0);
   };
 
   /**
