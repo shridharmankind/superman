@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import {createSelector} from '@reduxjs/toolkit';
 
 /**
  * selector function to retrieve data from redux store
@@ -11,45 +11,36 @@ const todosSelector = state => state.todoState.todos.data;
 const requestTracker = state => state.todoState.todos.requestTracker;
 
 const pageStartIndexSelector = createSelector(
-  [getPage,
-  perPageSelector],
-  (page, perPage) => page * perPage
+  [getPage, perPageSelector],
+  (page, perPage) => page * perPage,
 );
 
 const pageEndIndexSelector = createSelector(
-  [pageStartIndexSelector,
-  perPageSelector],
-  (pageStart, perPage) => pageStart + perPage
+  [pageStartIndexSelector, perPageSelector],
+  (pageStart, perPage) => pageStart + perPage,
 );
 
 export const getPagedTodos = createSelector(
-  [pageStartIndexSelector,
-  pageEndIndexSelector,
-  todosSelector],
-  (pageStart, pageEnd, todos) => todos.slice(pageStart, pageEnd) 
+  [pageStartIndexSelector, pageEndIndexSelector, todosSelector],
+  (pageStart, pageEnd, todos) => todos.slice(pageStart, pageEnd),
 );
 
 export const getTodosTotal = createSelector(
   [todosSelector],
-  todos => todos.length
+  todos => todos.length,
 );
 
 export const getTodoSelectedState = createSelector(
   [getTodoSelect],
-  selected => selected
-)
+  selected => selected,
+);
 
- 
 export const todoSelector = {
-
   //request selector
   makeRequestTrackerSelector: () => {
-    return createSelector(
-      [requestTracker],
-      (requestTracker) => {
-        return requestTracker
-      }
-    )
+    return createSelector([requestTracker], requestTracker => {
+      return requestTracker;
+    });
   },
 
   makeGetTodoSelectedState: () => {
@@ -74,6 +65,5 @@ export const todoSelector = {
   //get Todos Total
   makeGetTodosTotal: () => {
     return getTodosTotal;
-  }
-}
-
+  },
+};

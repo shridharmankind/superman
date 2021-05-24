@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Button,
@@ -11,13 +11,9 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import {KeyChain} from 'helper';
 
-
-
 const Separator = () => <View style={styles.separator} />;
 
 const Home = ({navigation}) => {
- 
-  
   const handleLogOff = async () => {
     try {
       await KeyChain.resetPassword();

@@ -1,16 +1,14 @@
-import { createSelector } from "@reduxjs/toolkit";
+import {createSelector} from '@reduxjs/toolkit';
 
 const getFetch = state => state.appState;
 
-const getFetchState = createSelector(
-    [getFetch],
-    (fetch) => fetch === {} ? 'FETCHING' : fetch
+const getFetchState = createSelector([getFetch], fetch =>
+  fetch === {} ? 'FETCHING' : fetch,
 );
 
 export const appSelector = {
-    
-    //App state
-    makeGetAppFetch: () => {
-        return getFetchState;
-    }
-}
+  //App state
+  makeGetAppFetch: () => {
+    return getFetchState;
+  },
+};
