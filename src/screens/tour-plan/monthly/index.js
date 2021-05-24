@@ -9,9 +9,12 @@ import {Strings, Constants} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
-import {PLAN_TYPES, STAFF_CODES, TOUR_PLAN_TYPE} from 'screens/tourPlan/constants';
+import {
+  PLAN_TYPES,
+  STAFF_CODES,
+  TOUR_PLAN_TYPE,
+} from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
-import {getMonthList} from 'utils/dateTimeHelper';
 
 /**
  * TODO::chane with API Integration hence keeping here
@@ -283,13 +286,12 @@ const MonthlyTourPlan = () => {
 
   const renderView = () => {
     //TO DO:: as per current JSON - might change after actual api
-    const MONTH_ARRAY = getMonthList();
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
       return schedule.text.indexOf(selectedTourPlan.text) > -1;
     });
     if (monthFound) {
       if (monthFound.month !== monthSelected) {
-        setMonthSelected(MONTH_ARRAY[selectedTourPlan.month - 1]);
+        setMonthSelected(monthFound.month);
       }
     }
     switch (selectedTourPlan?.id) {
