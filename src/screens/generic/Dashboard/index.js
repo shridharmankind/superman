@@ -1,7 +1,6 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
 
-import {useNavigation} from '@react-navigation/core';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
@@ -16,12 +15,11 @@ import styles from './styles';
 
 export const DashboardStack = createStackNavigator();
 
-const Dashboard = () => {
-  const navigation = useNavigation();
+const Dashboard = ({navigation}) => {
   const scrollRef = React.useRef();
 
   const onActivePageChanged = route => {
-    route && navigation.navigate(route);
+    route && navigation && navigation.navigate(route);
     requestAnimationFrame(() => {
       if (isWeb()) {
         window.scrollTo({top: 0, behavior: 'smooth'});
