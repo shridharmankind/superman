@@ -2,10 +2,6 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
   doctorDetailContainer: {
     backgroundColor: theme.colors.white,
     alignItems: 'center',
@@ -18,7 +14,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     marginTop: 20,
-    marginRight: 20,
     zIndex: 1,
   },
   heading: {
@@ -38,17 +33,18 @@ const styles = StyleSheet.create({
     left: -34,
   },
   image: {
-    width: 40,
-    height: 40,
-    borderRadius: 40 / 2,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    marginTop: 8,
   },
   dailyTitle: {
-    color: theme.colors.primary,
+    color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontRegular,
     fontSize: 16,
   },
   visitText: {
-    color: theme.colors.primary,
+    color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
   },
 });

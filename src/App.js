@@ -1,13 +1,14 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import {Platform} from 'react-native';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 
-import {Login, Home} from 'screens/generic';
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
+import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
 import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
@@ -15,26 +16,30 @@ import {Provider} from 'react-redux';
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
+  const isLoggedIn = true;
+  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
+
   useEffect(() => {
     if (Platform.OS !== 'web') {
       SplashScreen.hide();
     }
   }, []);
+
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Home"
-              component={Home}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{headerShown: false}}
-            />
+          <Stack.Navigator initialRouteName={initialRoute}>
+            {ROUTES.map(route => (
+              <Stack.Screen
+                key={route.name}
+                name={route.name}
+                component={route.component}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            ))}
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

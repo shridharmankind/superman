@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     top: 10,
   },
   location: {
-    borderLeftColor: theme.colors.blackShades[100],
+    borderLeftColor: theme.colors.grey[200],
     borderLeftWidth: 1,
     paddingHorizontal: 10,
   },

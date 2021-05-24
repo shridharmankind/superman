@@ -2,42 +2,23 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.lightGrayishBlue,
-    alignItems: 'center',
-    justifyContent: 'center',
+  tabContainer: {
     flexDirection: 'row',
-    height: '100%',
-    padding: 20,
+    justifyContent: 'flex-start',
   },
-  leftPanel: {
-    flexGrow: 1,
-    height: '100%',
+  leftTabContainer: {
+    width: '52%',
   },
-  mainPanel: {
-    flex: 1,
-    flexGrow: 7,
-    backgroundColor: theme.colors.white,
-    borderRadius: 20,
-    height: '100%',
-    paddingVertical: 5,
-    paddingHorizontal: 30,
+  rightTabContainer: {
+    justifyContent: 'flex-end',
   },
-  header: {
-    backgroundColor: theme.colors.grayishBlue,
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonTabBar: {
+    width: 165,
+    marginHorizontal: 8,
+    height: 42,
   },
-  rightPanel: {
-    flexGrow: 1,
-    height: '100%',
-  },
-  settingScreen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+  buttonTabBarText: {
+    fontSize: 12,
   },
 });
 

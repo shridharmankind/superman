@@ -2,9 +2,11 @@ import React from 'react';
 import {ScrollView, View, Text} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
-import {MONTH_ARRAY, DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
+import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
+import {sortBasedOnCategory} from 'screens/tourPlan/helper';
+import {getFormatDate} from 'utils/dateTimeHelper';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -104,7 +106,8 @@ const DailyTourPlan = () => {
     specialization: styles.specialization,
     divisionContainerCustom: styles.divisionContainer,
     imageCustom: styles.image,
-    titleSize: 14,
+    titleSize: 21,
+    subTitleSize: 14,
     divisionSize: 10,
   };
 
@@ -113,10 +116,7 @@ const DailyTourPlan = () => {
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
-    const currentDate = new Date();
-    return `${Strings.today}, ${currentDate.getDate()} ${
-      MONTH_ARRAY[currentDate.getMonth()]
-    } ${currentDate.getFullYear()}`;
+    return `${Strings.today}, ${getFormatDate({format: 'Do MMM YYYY'})}`;
   };
 
   /**
@@ -147,9 +147,10 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
+    const sortedDayPlan = dayPlan.sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
-        {dayPlan.map((plan, index) => (
+        {sortedDayPlan.map((plan, index) => (
           <View key={index} style={styles.doctorDetailContainer}>
             <DoctorDetails
               title={plan.name}
@@ -168,7 +169,7 @@ const DailyTourPlan = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}

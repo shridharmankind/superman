@@ -11,7 +11,8 @@ const Strings = {
   tourPlan: 'Tour Plan',
   login: 'Login',
   myPlan: 'My Plan',
-  stp: 'Standard Tour Plan(STP)',
+  stpWithAbbreviation: 'Standard Tour Plan(STP)',
+  stp: 'Standard Tour Plan',
   today: 'Today',
   patchName: 'Patch Name',
   selectPatch: 'Select Patch',
@@ -23,6 +24,16 @@ const Strings = {
   and: 'and',
   numberOfChemist: '6 chemist',
   visits: 'visits',
+  reviewDCR: 'Review DCR',
+  addToTodayPlan: "Add to Today's Plan",
+  Legends: {
+    kycDoctor: 'KYC Doctors',
+    visitSchedule: 'High number of visits scheduled',
+    events: 'Events',
+    leave: 'Leave',
+    today: 'Today',
+    holiday: 'Holiday',
+  },
 };
 
 export default Strings;

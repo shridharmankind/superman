@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingHorizontal: 32,
-    paddingVertical: 40,
+    paddingHorizontal: 26,
+    paddingVertical: 28,
     borderColor: theme.colors.borderColor,
     borderRadius: 10,
     position: 'relative',
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
   visitContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+  },
+  seperator: {
+    paddingRight: 10,
   },
 });
 
