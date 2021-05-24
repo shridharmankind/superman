@@ -20,6 +20,10 @@ const Tab = ({isChecked, text, onTabPress}) => {
         styles.radioButtonTextContainer,
         isChecked && styles.checkedButton,
       ]}
+      labelStyle={[
+        styles.tabNotSelectedText,
+        isChecked && styles.tabSelectedText,
+      ]}
     />
   );
 };
