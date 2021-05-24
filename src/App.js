@@ -6,7 +6,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 
-
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
 import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
