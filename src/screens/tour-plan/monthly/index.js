@@ -15,7 +15,8 @@ import {
   TOUR_PLAN_TYPE,
 } from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
-
+//TO DO :: Get from login
+const userId = 1;
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -118,7 +119,7 @@ const MonthlyTourPlan = ({navigation}) => {
   //Effect to get working Days from API on load of page
   useEffect(() => {
     const fetchData = async () => {
-      const result = await NetworkService.get('Stp/workingDay/1');
+      const result = await NetworkService.get(`Stp/workingDay/${userId}`);
       if (result.status === Constants.HTTP_OK) {
         setworkingDays(result.data?.workingDay);
       }
