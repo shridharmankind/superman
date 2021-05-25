@@ -1,7 +1,8 @@
 import React from 'react';
-import {ScrollView, View, Modal, Text, Button} from 'react-native';
+import {ScrollView, View, Modal, Text} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import {BlurView} from '@react-native-community/blur';
 
 import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon} from 'assets';
@@ -12,7 +13,7 @@ import ROUTES_DASHBOARD from './routes';
 import theme from 'themes';
 import {isWeb} from 'helper';
 import styles from './styles';
-import {Label} from 'components/elements';
+import {Button} from 'components/elements';
 
 export const DashboardStack = createStackNavigator();
 
@@ -72,6 +73,8 @@ const Dashboard = ({navigation}) => {
     </DashboardStack.Navigator>
   );
 
+  // https://github.com/Kureev/react-native-blur
+  // for web https://stackoverflow.com/questions/47207510/react-native-blur-in-modal
   return (
     <ScrollView
       ref={scrollRef}
@@ -87,27 +90,35 @@ const Dashboard = ({navigation}) => {
           transparent={true}
           onRequestClose={() => setOpen(false)}
           visible={open}>
-          <View
+          <BlurView
+            blurType="light"
+            blurAmount={1}
+            reducedTransparencyFallbackColor="rgba(100,100,100, 0.5)"
             style={{
               position: 'absolute',
-              width: '100%',
-              height: '100%',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
               justifyContent: 'center',
-              backgroundColor: 'rgba(100,100,100, 0.5)',
               padding: 20,
             }}>
             <View
               style={{
-                width: '70%',
+                width: '60%',
                 alignSelf: 'center',
+                alignItems: 'center',
                 padding: 100,
-                backgroundColor: 'white',
                 borderRadius: 10,
               }}>
-              <Text>Modal with "animationType" of</Text>
-              <Button onPress={() => setOpen(false)} title={'Close Modal'} />
+              <Text>Modal with a sliding animation</Text>
+              <Button
+                contentStyle={{width: '25%', padding: 10, marginTop: 50}}
+                onPress={() => setOpen(false)}
+                title={'Close Modal'}
+              />
             </View>
-          </View>
+          </BlurView>
         </Modal>
       </View>
     </ScrollView>
