@@ -20,6 +20,7 @@ const theme = {
     limeGreen: '#00B637',
     checkCircleBlue: '#0095d1',
     softRed: '#E36565',
+    transparent: '#00000000',
     grey: {
       100: '#BEBEBF',
       200: '#1C1939',

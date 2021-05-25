@@ -13,7 +13,7 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 const DailyTourPlan = () => {
   const dayPlan = [
     {
-      name: 'Dr. Manoj Manjhi',
+      name: 'Dr. Ashish Gulati',
       specialization: ['Cardiologist'],
       category: 'KYC',
       location: 'Karol Bagh',
@@ -24,7 +24,7 @@ const DailyTourPlan = () => {
           state: DOCTOR_VISIT_STATES.COMPLETED,
         },
         {
-          date: '20',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
@@ -36,7 +36,7 @@ const DailyTourPlan = () => {
       ],
     },
     {
-      name: 'Dr. Manoj Manjhi',
+      name: 'Dr. Manish Kumar ',
       specialization: ['Cardiologist'],
       category: 'a+',
       location: 'Karol Bagh',
@@ -47,7 +47,7 @@ const DailyTourPlan = () => {
           state: DOCTOR_VISIT_STATES.MISSED,
         },
         {
-          date: '20',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
@@ -65,12 +65,12 @@ const DailyTourPlan = () => {
       location: 'Karol Bagh',
       visitData: [
         {
-          date: '12',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
         {
-          date: '20',
+          date: '29',
           month: 'May',
           state: DOCTOR_VISIT_STATES.UPCOMING,
         },
@@ -88,12 +88,49 @@ const DailyTourPlan = () => {
           state: DOCTOR_VISIT_STATES.COMPLETED,
         },
         {
-          date: '20',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
         {
           date: '27',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.UPCOMING,
+        },
+      ],
+    },
+    {
+      name: 'Dr. Tanmay Singh',
+      specialization: ['Dermatologist'],
+      category: 'B',
+      location: 'Karol Bagh',
+      visitData: [
+        {
+          date: '13',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.MISSED,
+        },
+        {
+          date: '29',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.UPCOMING,
+        },
+      ],
+    },
+
+    {
+      name: 'Balaji Medicos ',
+      specialization: ['Chemist'],
+      category: '-',
+      location: 'Karol Bagh',
+      visitData: [
+        {
+          date: '24',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.MISSED,
+        },
+        {
+          date: '29',
           month: 'May',
           state: DOCTOR_VISIT_STATES.UPCOMING,
         },
