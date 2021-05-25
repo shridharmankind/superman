@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 import {Label, SwipeRow} from 'components/elements';
-import {DoctorDetails, Button} from 'components/elements';
+import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
 /**
