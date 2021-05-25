@@ -55,7 +55,6 @@ const DoctorDetails = ({
       </View>
     );
   };
-
   return (
     <>
       <View style={styles.detailsContainer}>
@@ -136,7 +135,7 @@ const getDivisionColor = division => {
     case 'b':
       return themes.colors.lightBlue;
     default:
-      return themes.colors.white;
+      return themes.colors.transparent;
   }
 };
 
