@@ -16,7 +16,7 @@
     <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/launch_screen"
+    android:src="@drawable/launch"
     android:layout_gravity="center"
     android:scaleType="fitXY"
     android:adjustViewBounds="true"
