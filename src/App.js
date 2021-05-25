@@ -12,11 +12,13 @@ import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
 import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
+import {MasterDataDownload} from 'screens/generic';
 
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
-  const isLoggedIn = true;
+  console.disableYellowBox = true;
+  const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
 
   useEffect(() => {
@@ -40,6 +42,14 @@ const App = () => {
                 }}
               />
             ))}
+            <Stack.Screen
+              key={'MasterDataDownload'}
+              name={'MasterDataDownload'}
+              component={MasterDataDownload}
+              options={{
+                headerShown: false,
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
