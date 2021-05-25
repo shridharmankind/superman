@@ -51,10 +51,12 @@ const styles = StyleSheet.create({
   },
   frequecyContainer: {
     flexDirection: 'row',
+    alignSelf: 'center',
   },
   visitContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    alignSelf: 'center',
   },
   seperator: {
     paddingRight: 10,
