@@ -133,7 +133,7 @@ const MonthlyTourPlan = ({navigation}) => {
     if (monthFound?.month && !isSameMonthSelected(monthFound, monthSelected)) {
       setMonthSelected(monthFound);
     }
-  }, [selectedTourPlan]);
+  }, [selectedTourPlan, monthSelected]);
   /**
    * toggles modal
    */
