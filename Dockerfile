@@ -1,8 +1,8 @@
 FROM node:12 as build-deps
 WORKDIR /usr/src/app
-COPY package.json yarn.lock .
+COPY package.json yarn.lock ./
 RUN yarn
-COPY . .
+COPY . ./
 RUN yarn web-build
 
 FROM nginx:1.12-alpine
