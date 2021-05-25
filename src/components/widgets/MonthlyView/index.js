@@ -20,13 +20,13 @@ const MonthlyView = ({
   const textInput = React.useRef(null);
   const currentDate = getDateFromMonthYear(monthSelected);
   useEffect(() => {
-    if (monthSelected && previousMonthSelected) {
+    if (currentDate && previousMonthSelected) {
       const previousDate = getDateFromMonthYear(previousMonthSelected);
-      // update calendar when diff is either > or < than 0
+      // update calendar when diff is either > or < than 0.
       getMonthDiff(currentDate, previousDate) !== 0 &&
         textInput.current.addMonth(getMonthDiff(currentDate, previousDate));
     }
-  }, [monthSelected, previousMonthSelected]);
+  }, [currentDate, previousMonthSelected]);
   return (
     <Calendar
       current={currentDate}
