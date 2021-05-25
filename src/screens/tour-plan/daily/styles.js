@@ -50,6 +50,28 @@ const styles = StyleSheet.create({
     color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
   },
+  removeCardButton: {
+    height: '100%',
+    width: 100,
+    backgroundColor: theme.colors.red[200],
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    paddingHorizontal: 15,
+  },
+  removeCardButtonClose: {
+    fontSize: 28,
+  },
+  removeCardButtonText: {
+    color: theme.colors.white,
+    fontFamily: theme.fonts.fontRegular,
+    fontSize: 11,
+    textAlign: 'center',
+  },
+  closeLabel: {
+    paddingBottom: 1,
+  },
 });
 
 export default styles;

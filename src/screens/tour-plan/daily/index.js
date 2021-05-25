@@ -8,7 +8,6 @@ import {Label, SwipeRow} from 'components/elements';
 import {DoctorDetails, Button} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -103,42 +102,6 @@ const DailyTourPlan = () => {
     },
   ];
 
-  const config = {
-    velocityThreshold: 0.3,
-    directionalOffsetThreshold: 80,
-  };
-  const [gestureName, setGestureName] = useState('none');
-  const [swipedLeft, setSwipedLeft] = useState(false);
-
-  const onSwipeLeft = gestureState => {
-    console.log('swipted');
-    setSwipedLeft(true);
-    // this.setState({myText: 'You swiped left!'});
-  };
-
-  const onSwipe = (gestureName, gestureState) => {
-    const {SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT} = swipeDirections;
-    setGestureName(gestureName);
-    switch (gestureName) {
-      case SWIPE_UP:
-        console.log('up');
-        // this.setState({backgroundColor: 'red'});
-        break;
-      case SWIPE_DOWN:
-        console.log('down');
-        // this.setState({backgroundColor: 'green'});
-        break;
-      case SWIPE_LEFT:
-        console.log('left');
-        // this.setState({backgroundColor: 'blue'});
-        break;
-      case SWIPE_RIGHT:
-        console.log('right');
-        // this.setState({backgroundColor: 'yellow'});
-        break;
-    }
-  };
-
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
     specialization: styles.specialization,
@@ -180,19 +143,6 @@ const DailyTourPlan = () => {
     return <Text style={styles.dailyTitle}>{result}</Text>;
   };
 
-  const renderButton = () => {
-    console.log('here');
-    return (
-      <View>
-        <Button
-          title={'remove'}
-          mode="contained"
-          contentStyle={{width: '20%', height: 90}}
-        />
-      </View>
-    );
-  };
-
   /**
    * function to render the list of doctor's planned visits
    * @returns list of doctors planned for current day visit
@@ -220,7 +170,8 @@ const DailyTourPlan = () => {
                 style={{
                   alignItems: 'flex-end',
                   width: '100%',
-                  height: '100%',
+                  height: '110%',
+                  marginTop: 5,
                 }}>
                 <TouchableOpacity
                   style={{
@@ -232,18 +183,20 @@ const DailyTourPlan = () => {
                     closeRow && closeRow();
                     console.log('delete action triggered', plan, index);
                   }}>
-                  <View
-                    style={{
-                      height: '100%',
-                      width: 100,
-                      backgroundColor: 'red',
-                      paddingHorizontal: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderTopRightRadius: 10,
-                      borderBottomRightRadius: 10,
-                    }}>
-                    <Label>Delete It</Label>
+                  <View style={styles.removeCardButton}>
+                    <View style={styles.closeLabel}>
+                      <Label
+                        title={'X'}
+                        style={[
+                          styles.removeCardButtonText,
+                          styles.removeCardButtonClose,
+                        ]}
+                      />
+                    </View>
+                    <Label
+                      title={'Remove from today'}
+                      style={styles.removeCardButtonText}
+                    />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -258,10 +211,8 @@ const DailyTourPlan = () => {
                     showFrequencyChiclet={false}
                     showVisitPlan={true}
                     visitData={plan.visitData}
-                    swiped={swipedLeft}
                   />
                 </View>
-                {swipedLeft && renderButton()}
               </View>
             </SwipeRow>
           );
