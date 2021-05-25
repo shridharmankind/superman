@@ -50,6 +50,17 @@ const styles = StyleSheet.create({
     color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
   },
+  removeCardButtonContainer: {
+    alignItems: 'flex-end',
+    width: '100%',
+    height: '110%',
+    marginTop: 5,
+  },
+  removeCard: {
+    height: '100%',
+    paddingBottom: 20,
+    justifyContent: 'center',
+  },
   removeCardButton: {
     height: '100%',
     width: 100,
@@ -71,6 +82,9 @@ const styles = StyleSheet.create({
   },
   closeLabel: {
     paddingBottom: 1,
+  },
+  swipeRow: {
+    marginTop: 20,
   },
 });
 

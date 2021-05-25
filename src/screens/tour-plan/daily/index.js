@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
@@ -156,7 +155,7 @@ const DailyTourPlan = () => {
 
           return (
             <SwipeRow
-              style={{marginTop: 20}}
+              style={styles.swipeRow}
               key={index}
               closeOnRowPress
               disableRightSwipe
@@ -166,19 +165,9 @@ const DailyTourPlan = () => {
               stopRightSwipe={-90}
               getCloseRow={closeRowRef => (closeRow = closeRowRef)}
               initialRightActionState={true}>
-              <View
-                style={{
-                  alignItems: 'flex-end',
-                  width: '100%',
-                  height: '110%',
-                  marginTop: 5,
-                }}>
+              <View style={styles.removeCardButtonContainer}>
                 <TouchableOpacity
-                  style={{
-                    height: '100%',
-                    paddingBottom: 20,
-                    justifyContent: 'center',
-                  }}
+                  style={styles.removeCard}
                   onPress={() => {
                     closeRow && closeRow();
                     console.log('delete action triggered', plan, index);
