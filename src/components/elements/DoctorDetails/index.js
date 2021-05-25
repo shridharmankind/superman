@@ -74,7 +74,7 @@ const DoctorDetails = ({
           </View>
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/manoj.png')}
+            source={require('../../../assets/images/avtar.png')}
           />
           <View style={styles.nameContainer}>
             <Label
