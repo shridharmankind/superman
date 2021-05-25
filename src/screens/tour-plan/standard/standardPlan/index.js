@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef} from 'react';
 import {View, Text, Dimensions} from 'react-native';
-import {SwiperFlatList} from 'react-native-swiper-flatlist';
+// import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
 import styles from './styles';
 
@@ -29,13 +29,14 @@ const StandardPlan = ({navigation}) => {
   );
 
   return (
-    <SwiperFlatList
-      ref={swiperRef}
-      showPagination
-      index={0}
-      paginationStyleItemActive={styles.activePaginationItem}
-      paginationStyleItem={styles.paginationItem}
-      paginationStyle={styles.paginationStyle}>
+    // <SwiperFlatList
+    //   ref={swiperRef}
+    //   showPagination
+    //   index={0}
+    //   paginationStyleItemActive={styles.activePaginationItem}
+    //   paginationStyleItem={styles.paginationItem}
+    //   paginationStyle={styles.paginationStyle}>
+    <>
       <View style={{width: width}}>
         <StandardPlanModal
           handleSliderIndex={handleSlider}
@@ -48,7 +49,8 @@ const StandardPlan = ({navigation}) => {
           navigation={navigation}
         />
       </View>
-    </SwiperFlatList>
+    </>
+    // </SwiperFlatList>
   );
 };
 

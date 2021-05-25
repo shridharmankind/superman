@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
+import theme from 'themes';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -35,6 +36,8 @@ const DoctorDetails = ({
   showVisitPlan,
   visitData,
   isTicked,
+  showTile = true,
+  onTilePress,
   ...props
 }) => {
   /**
@@ -56,8 +59,32 @@ const DoctorDetails = ({
     );
   };
 
+  const renderTile = () => {
+    return (
+      <View style={styles.doctorTile}>
+        <View style={styles.borderOuterContainer}>
+          <View style={styles.borderInnerContainer} />
+        </View>
+        <View style={styles.tileContainer}>
+          <View style={styles.tileLeft}>
+            <Label title="RSSDI" style={styles.tileText} />
+            <Label
+              title="Samples requested – Telmikind"
+              style={[styles.tileText, styles.titleTextSecondary]}
+            />
+          </View>
+          <View style={styles.tileRight}>
+            <TouchableOpacity onPress={onTilePress}>
+              <Icon name="ellipsis-v" size={15} color={theme.colors.primary} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
-    <>
+    <View style={{flex: 1}}>
       <View style={styles.detailsContainer}>
         <View style={styles.details}>
           <View
@@ -123,7 +150,8 @@ const DoctorDetails = ({
         )}
         {showVisitPlan && renderVisitData()}
       </View>
-    </>
+      {showTile && renderTile()}
+    </View>
   );
 };
 

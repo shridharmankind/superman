@@ -1,9 +1,9 @@
-import React from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
-import {Label} from 'components/elements';
+import {Label, Modal, Button} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
@@ -111,6 +111,8 @@ const DailyTourPlan = () => {
     divisionSize: 10,
   };
 
+  const [visible, setVisible] = useState(false);
+  const [itemPressed, setItemPressed] = useState();
   /**
    * formats current date
    * @returns formatted date
@@ -143,6 +145,59 @@ const DailyTourPlan = () => {
   };
 
   /**
+   * toggles modal
+   */
+  const handleDialog = () => setVisible(!visible);
+
+  /**
+   * configures the modal title
+   * @returns modal title
+   */
+  const getModalTitle = () => {
+    return (
+      <View>
+        <Label
+          type="bold"
+          title={'Do you want to remove'}
+          size={14}
+          // style={styles.modalTitleText}
+        />
+      </View>
+    );
+  };
+
+  /**
+   * renders modal content area
+   * @returns modal content
+   */
+  const getModalContent = () => {
+    return (
+      <View style={styles.contentView}>
+        <Button
+          title={'Proceed'}
+          onPress={() => {
+            console.log(itemPressed);
+            setVisible(false);
+          }}
+        />
+      </View>
+    );
+  };
+
+  const pressTile = () => {
+    console.log(itemPressed);
+    return (
+      <Modal
+        open={visible}
+        onClose={handleDialog}
+        modalTitle={getModalTitle()}
+        modalContent={getModalContent()}
+        customModalPosition={{alignItems: 'center', justifyContent: 'center'}}
+      />
+    );
+  };
+
+  /**
    * function to render the list of doctor's planned visits
    * @returns list of doctors planned for current day visit
    */
@@ -161,6 +216,11 @@ const DailyTourPlan = () => {
               showFrequencyChiclet={false}
               showVisitPlan={true}
               visitData={plan.visitData}
+              showTile={true}
+              onTilePress={() => {
+                setVisible(true);
+                setItemPressed(index);
+              }}
             />
           </View>
         ))}
@@ -180,6 +240,7 @@ const DailyTourPlan = () => {
         {getVisitBifurcationLabel()}
       </View>
       {renderDayPlan()}
+      {pressTile()}
     </ScrollView>
   );
 };
