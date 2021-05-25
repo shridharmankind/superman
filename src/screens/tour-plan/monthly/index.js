@@ -127,6 +127,14 @@ const MonthlyTourPlan = ({navigation}) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const monthFound = getTourPlanScheduleMonths().find(schedule => {
+      return schedule.text.indexOf(selectedTourPlan.text) > -1;
+    });
+    if (monthFound?.month && !isSameMonthSelected(monthFound, monthSelected)) {
+      setMonthSelected(monthFound);
+    }
+  }, [selectedTourPlan, monthSelected]);
   /**
    * toggles modal
    */
@@ -298,13 +306,6 @@ const MonthlyTourPlan = ({navigation}) => {
    */
 
   const renderView = () => {
-    //TO DO:: as per current JSON - might change after actual api
-    const monthFound = getTourPlanScheduleMonths().find(schedule => {
-      return schedule.text.indexOf(selectedTourPlan.text) > -1;
-    });
-    if (monthFound && !isSameMonthSelected(monthFound, monthSelected)) {
-      setMonthSelected(monthFound);
-    }
     switch (selectedTourPlan?.id) {
       case 1:
         return workingDays ? (
@@ -318,7 +319,7 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthFound && workingDays ? (
+        return monthSelected && workingDays ? (
           <>
             <MonthlyView
               workingDays={workingDays}
