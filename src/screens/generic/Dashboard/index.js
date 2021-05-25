@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Modal, Text, Button} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -12,11 +12,19 @@ import ROUTES_DASHBOARD from './routes';
 import theme from 'themes';
 import {isWeb} from 'helper';
 import styles from './styles';
+import {Label} from 'components/elements';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
   const scrollRef = React.useRef();
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setOpen(true);
+    }, 2000);
+  }, []);
 
   const onActivePageChanged = route => {
     route && navigation && navigation.navigate(route);
@@ -74,6 +82,33 @@ const Dashboard = ({navigation}) => {
         {renderSideMenu()}
         {renderNavigator()}
         {renderScreenActions()}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setOpen(false)}
+          visible={open}>
+          <View
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              backgroundColor: 'rgba(100,100,100, 0.5)',
+              padding: 20,
+            }}>
+            <View
+              style={{
+                width: '70%',
+                alignSelf: 'center',
+                padding: 100,
+                backgroundColor: 'white',
+                borderRadius: 10,
+              }}>
+              <Text>Modal with "animationType" of</Text>
+              <Button onPress={() => setOpen(false)} title={'Close Modal'} />
+            </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
