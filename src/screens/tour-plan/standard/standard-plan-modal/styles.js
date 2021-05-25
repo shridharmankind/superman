@@ -3,10 +3,12 @@ import themes from 'themes';
 
 const styles = StyleSheet.create({
   containerStyle: {
+    borderRadius: 50,
     backgroundColor: themes.colors.white,
     padding: 40,
     marginHorizontal: 50,
-    marginVertical: 40,
+    marginTop: 40,
+    marginBottom: 100,
   },
   container: {
     flexDirection: 'column',
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     alignItems: 'center',
-    marginVertical: 40,
+    marginBottom: 40,
   },
   headerButtonGroup: {
     flexDirection: 'row',
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
   leftContent: {
     flex: 0.9,
     flexDirection: 'column',
+    paddingBottom: 40,
   },
   rightContnet: {
     flex: 1,
@@ -66,16 +69,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   doctorDetails: {
+    // flex: 1,
     flexDirection: 'row',
     alignContent: 'flex-start',
     flexWrap: 'wrap',
+    marginBottom: 20,
   },
   areaFilter: {
     flexDirection: 'row',
     flex: 1,
   },
   patchInputCotainer: {
-    flex: 0,
+    flex: 0.4,
     borderColor: themes.colors.borderColor,
     borderRadius: 10,
     borderWidth: 1,
@@ -97,6 +102,19 @@ const styles = StyleSheet.create({
   patchIconContainer: {
     flexDirection: 'row',
     marginLeft: 50,
+  },
+  week: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+  },
+  weekLabel: {
+    marginHorizontal: 20,
+  },
+  weekArrow: {
+    height: 20,
+    marginHorizontal: 5,
   },
 });
 

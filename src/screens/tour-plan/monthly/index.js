@@ -17,7 +17,19 @@ import {
 import {NetworkService} from 'services';
 
 /**
- * TODO::chane with API Integration hence keeping here
+ * Check if same month is selected
+ * @param {Object} monthFound
+ * @param {Object} monthSelected
+ * @returns Boolean
+ */
+
+const isSameMonthSelected = (monthFound, monthSelected) => {
+  return (
+    monthFound?.month === monthSelected?.month &&
+    monthFound?.year === monthSelected?.year
+  );
+};
+/**
  * @param {String} value
  * @returns ref value
  */
@@ -32,7 +44,7 @@ function usePrevious(value) {
  * This file renders the dropdowns to configure your monthly plan by creating your STP
  * or view your subOrdinates/STP if you are FLM/SLM.
  */
-const MonthlyTourPlan = () => {
+const MonthlyTourPlan = ({navigation}) => {
   const {colors} = useTheme();
 
   const [workingDays, setworkingDays] = useState();
@@ -43,7 +55,7 @@ const MonthlyTourPlan = () => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [user, setUser] = useState({});
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
-  const [monthSelected, setMonthSelected] = useState(5);
+  const [monthSelected, setMonthSelected] = useState();
   const previousMonthSelected = usePrevious(monthSelected);
   //effects
   useEffect(() => {
@@ -108,12 +120,20 @@ const MonthlyTourPlan = () => {
     const fetchData = async () => {
       const result = await NetworkService.get('Stp/workingDay/1');
       if (result.status === Constants.HTTP_OK) {
-        setworkingDays(result.data);
+        setworkingDays(result.data?.workingDay);
       }
     };
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const monthFound = getTourPlanScheduleMonths().find(schedule => {
+      return schedule.text.indexOf(selectedTourPlan.text) > -1;
+    });
+    if (monthFound?.month && !isSameMonthSelected(monthFound, monthSelected)) {
+      setMonthSelected(monthFound);
+    }
+  }, [selectedTourPlan, monthSelected]);
   /**
    * toggles modal
    */
@@ -285,33 +305,26 @@ const MonthlyTourPlan = () => {
    */
 
   const renderView = () => {
-    //TO DO:: as per current JSON - might change after actual api
-    const monthFound = getTourPlanScheduleMonths().find(schedule => {
-      return schedule.text.indexOf(selectedTourPlan.text) > -1;
-    });
-    if (monthFound) {
-      if (monthFound.month !== monthSelected) {
-        setMonthSelected(monthFound.month);
-      }
-    }
     switch (selectedTourPlan?.id) {
       case 1:
         return workingDays ? (
           <>
-            <StandardPlanContainer workingDays={workingDays} />
+            <StandardPlanContainer
+              workingDays={workingDays}
+              navigation={navigation}
+            />
             <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
           </>
         ) : null;
 
       default: {
-        return monthFound?.month ? (
+        return monthSelected && workingDays ? (
           <>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
             />
-
             <Legends />
           </>
         ) : null;
