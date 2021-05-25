@@ -4,39 +4,54 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row',
   },
   button: {
-    alignItems: 'center',
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.primary,
     marginTop: 50,
-    width: 354,
-    height: 76,
-    borderRadius: 10,
-    justifyContent: 'center',
-  },
-  image: {
     width: 400,
-    height: 200,
+    height: 86,
+    borderRadius: 10,
   },
-  viewContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   textStyle: {
-    fontSize: 28,
-    lineHeight: 49,
+    fontSize: 22,
+    lineHeight: 27,
     textAlign: 'center',
-    color: theme.colors.black,
+    color: theme.colors.white,
     fontFamily: theme.fonts.fontSemiBold,
   },
   activityIndicator: {
+    alignSelf: 'center',
+    height: 80,
+  },
+
+  image: {
+    width: 750,
+    height: 800,
+    resizeMode: 'cover',
+    justifyContent: 'flex-start',
+  },
+
+  logo: {
+    width: 133,
+    height: 18,
+    marginTop: 70,
+    marginLeft: 50,
+  },
+  loginViewContainer: {
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 80,
+  },
+
+  supermanTextStyle: {
+    justifyContent: 'center',
+    flex: 1,
+  },
+  loginButtonContainer: {
+    position: 'absolute',
+    bottom: 40,
   },
 });
 

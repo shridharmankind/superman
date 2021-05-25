@@ -23,6 +23,8 @@ const theme = {
       100: '#E36565',
       200: '#f45b60',
     },
+    blueBg: '#50478D',
+    softRed: '#E36565',
     grey: {
       100: '#BEBEBF',
       200: '#1C1939',
