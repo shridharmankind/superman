@@ -15,8 +15,20 @@ import {
   TOUR_PLAN_TYPE,
 } from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
-import {isEqual} from 'lodash';
 
+/**
+ * Check if same month is selected
+ * @param {Object} monthFound
+ * @param {Object} monthSelected
+ * @returns Boolean
+ */
+
+const isSameMonthSelected = (monthFound, monthSelected) => {
+  return (
+    monthFound?.month === monthSelected?.month &&
+    monthFound?.year === monthSelected?.year
+  );
+};
 /**
  * @param {String} value
  * @returns ref value
@@ -289,7 +301,7 @@ const MonthlyTourPlan = ({navigation}) => {
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
       return schedule.text.indexOf(selectedTourPlan.text) > -1;
     });
-    if (monthFound && !isEqual(monthFound, monthSelected)) {
+    if (monthFound && !isSameMonthSelected(monthFound, monthSelected)) {
       setMonthSelected(monthFound);
     }
     switch (selectedTourPlan?.id) {
