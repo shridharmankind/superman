@@ -216,12 +216,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
           </View>
         </View>
         <View style={styles.headerButtonGroup}>
-          <Button
+          {/* <Button
             mode="contained"
             title={Strings.saveDraft}
             uppercase={true}
             contentStyle={styles.doneBtn}
-          />
+          /> */}
           <Button
             mode="contained"
             title={Strings.done}
