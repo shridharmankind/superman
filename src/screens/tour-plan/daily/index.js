@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView, View, Text} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
@@ -7,10 +7,13 @@ import {Label} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {fetchDoctorDetailCreator, dailySelector} from './redux';
+import {useSelector, useDispatch} from 'react-redux';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
+  const dispatch = useDispatch();
   const dayPlan = [
     {
       name: 'Dr. Manoj Manjhi',
@@ -100,6 +103,21 @@ const DailyTourPlan = () => {
       ],
     },
   ];
+
+  useEffect(() => {
+    dispatch(
+      fetchDoctorDetailCreator({
+        staffPositionid: 1,
+        day: 21,
+        month: 5,
+        year: 2021,
+      }),
+    );
+  }, [dispatch]);
+
+  const getDailyData = useSelector(dailySelector.allDoctorDetail());
+
+  console.log('test', getDailyData);
 
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,

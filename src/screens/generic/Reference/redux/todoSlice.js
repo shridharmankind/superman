@@ -1,5 +1,5 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
-import {merge} from 'lodash';
+import {merge} from 'lodash.merge';
 
 export const todoState = {
   todos: {
