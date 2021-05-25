@@ -17,7 +17,19 @@ import {
 import {NetworkService} from 'services';
 
 /**
- * TODO::chane with API Integration hence keeping here
+ * Check if same month is selected
+ * @param {Object} monthFound
+ * @param {Object} monthSelected
+ * @returns Boolean
+ */
+
+const isSameMonthSelected = (monthFound, monthSelected) => {
+  return (
+    monthFound?.month === monthSelected?.month &&
+    monthFound?.year === monthSelected?.year
+  );
+};
+/**
  * @param {String} value
  * @returns ref value
  */
@@ -43,7 +55,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [user, setUser] = useState({});
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
-  const [monthSelected, setMonthSelected] = useState(5);
+  const [monthSelected, setMonthSelected] = useState();
   const previousMonthSelected = usePrevious(monthSelected);
   //effects
   useEffect(() => {
@@ -289,10 +301,8 @@ const MonthlyTourPlan = ({navigation}) => {
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
       return schedule.text.indexOf(selectedTourPlan.text) > -1;
     });
-    if (monthFound) {
-      if (monthFound.month !== monthSelected) {
-        setMonthSelected(monthFound.month);
-      }
+    if (monthFound && !isSameMonthSelected(monthFound, monthSelected)) {
+      setMonthSelected(monthFound);
     }
     switch (selectedTourPlan?.id) {
       case 1:
@@ -307,14 +317,13 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthFound?.month && workingDays ? (
+        return monthFound && workingDays ? (
           <>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
             />
-
             <Legends />
           </>
         ) : null;
