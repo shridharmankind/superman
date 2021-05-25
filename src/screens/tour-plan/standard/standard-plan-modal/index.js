@@ -307,9 +307,9 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
             </View>
           </View>
         </View>
-        <View style={styles.rightContent}>
+        {/* <View style={styles.rightContent}>
           <Label title={Strings.planCompliance} />
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );
