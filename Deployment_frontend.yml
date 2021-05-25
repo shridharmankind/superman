@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: docker pull supermandev.azurecr.io/frontend:#{Build.BuildId}#
+        image: supermandev.azurecr.io/frontend:#{Build.BuildId}#
         ports:
         - containerPort: 80
 ---
