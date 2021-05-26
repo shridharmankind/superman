@@ -49,6 +49,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   const [parties, setParties] = useState([]);
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
+  const [doctorsSelected, setDoctorSelected] = useState([]);
 
   const handleIndex = direction => {
     handleSliderIndex(direction);
@@ -114,18 +115,22 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   };
 
   useEffect(() => {
-    if (!patchValue) {
+    if (!patchValue && doctorsSelected.length > 0) {
       const patchString =
         areaSelected.length > 0 &&
         areaSelected.map(area => area.name).join('+');
       setPatchSelected(patchString);
     }
-  }, [areaSelected, patchValue]);
+  }, [areaSelected, patchValue, doctorsSelected]);
 
   const getDoctorsByArea = area => {
     const parties = partiesList.filter(party => {
       const isArea = party.areas.find(obj => {
-        return obj.id === area;
+        return (
+          obj.id === area &&
+          (party.partyType === selectedDoctorType ||
+            selectedDoctorType === Strings.all)
+        );
       });
       if (isArea) {
         return party;
@@ -169,6 +174,15 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
     } else {
       setParties(parties);
       setSelectedDoctorType(Strings.all);
+    }
+  };
+
+  const handleDoctorCardPress = id => {
+    const indexAvailable = doctorsSelected.some(doc => doc.partyId === id);
+    if (indexAvailable) {
+      setDoctorSelected(doctorsSelected.filter(doc => doc.partyId !== id));
+    } else {
+      setDoctorSelected([...doctorsSelected, {partyId: id}]);
     }
   };
 
@@ -267,8 +281,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
           <View style={styles.doctorDetailsContainer}>
             <View>
               <View style={styles.doctorDetailsHeader}>
-                <View>
+                <View style={styles.doctorSelectedContainer}>
                   <Label title={Strings.selectVisit} />
+                  <Label
+                    title={` - ${doctorsSelected.length} selected`}
+                    type={'bold'}
+                  />
                 </View>
                 <View style={styles.categoryFilterContainer}>
                   {partiesType.map(type => (
@@ -293,16 +311,34 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
                     <View style={styles.doctorDetails}>
                       {getDoctorsByArea(area.id).map(party => (
                         <DoctorDetailsWrapper
+                          id={party.id}
                           title={party.name}
                           specialization={party.speciality}
                           category={party.isKyc ? Strings.kyc : party.category}
                           selected={false}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
+                          onPress={handleDoctorCardPress}
                         />
                       ))}
                     </View>
                   </>
                 ))}
+              </View>
+              <View styles={styles.bottom}>
+                <View style={styles.bottomContent}>
+                  <Button
+                    mode="text"
+                    title={Strings.addOtherDoctors}
+                    uppercase={false}
+                    labelStyle={styles.addDoctors}
+                  />
+                  <Button
+                    mode="contained"
+                    title={`${Strings.doctorUniverse} (${partiesList.length})`}
+                    uppercase={false}
+                    contentStyle={styles.doneBtn}
+                  />
+                </View>
               </View>
             </View>
           </View>

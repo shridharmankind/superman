@@ -7,11 +7,13 @@ import {DoctorDetails} from 'components/elements';
 /**
  * Wrapper component of doctor details giving the click event over the detail box
  * @param {String} title text of the chip
+ * @param {String} id unique id of the doctor
  * @param {Array} specialization doctor specialization eg. Cardiologist, Neurologist
  * @param {String} image doctor image
  * @param {Boolean} selected doctor is selected or not
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
+ * @param {Function} onPress doctor card click handled
  */
 
 const DoctorDetailsWrapper = ({
@@ -22,14 +24,21 @@ const DoctorDetailsWrapper = ({
   selected,
   location,
   testID,
+  id,
+  onPress,
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
 
+  const handleDoctorSelection = sel => {
+    setSelect(sel);
+    onPress(id);
+  };
+
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => setSelect(!select)}
+      onPress={() => handleDoctorSelection(!select)}
       style={styles.container}
       activeOpacity={1}>
       <DoctorDetails
