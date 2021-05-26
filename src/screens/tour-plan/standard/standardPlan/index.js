@@ -40,12 +40,14 @@ const StandardPlan = ({navigation}) => {
         <StandardPlanModal
           handleSliderIndex={handleSlider}
           navigation={navigation}
+          weekTitle={'Week 1 - Monday'}
         />
       </View>
       <View style={{width: width}}>
         <StandardPlanModal
           handleSliderIndex={handleSlider}
           navigation={navigation}
+          weekTitle={'Week 1 - Tuesday'}
         />
       </View>
     </SwiperFlatList>

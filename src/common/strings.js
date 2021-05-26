@@ -1,4 +1,5 @@
 const Strings = {
+  superman: 'superman',
   heading: 'Welcome',
   forgotpwd: 'Forgot password',
   week: ['week 1', 'week 2', 'week 3', 'week 4'],
@@ -9,7 +10,7 @@ const Strings = {
   viewTourPlan: 'View Tour Plan for',
   dailyPlan: 'Daily Plan',
   tourPlan: 'Tour Plan',
-  login: 'Login',
+  login: 'Access using OneLogin',
   myPlan: 'My Plan',
   stpWithAbbreviation: 'Standard Tour Plan(STP)',
   stp: 'Standard Tour Plan',
@@ -36,6 +37,8 @@ const Strings = {
   },
   kyc: 'KYC',
   all: 'All',
+  downloadingContent: 'Downloading content from server to your device',
+  downloadingMaster: 'Downloading performance master',
 };
 
 export default Strings;

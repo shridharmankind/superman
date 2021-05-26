@@ -4,14 +4,16 @@ import {sha512} from 'react-native-sha512';
 import {Buffer} from 'buffer';
 import base64js from 'base64-js';
 import Realm from 'realm';
+import {KeyChain} from 'helper';
 const dbPath = 'superman.realm';
 let realm;
 
 /*
  helper function to generarte key based on password/access-token
 */
-export const getDatabaseKey = async credentials => {
-  return sha512(credentials.password).then(hash => {
+export const getDatabaseKey = async () => {
+  const dbKey = await KeyChain.getDatabaseKey();
+  return sha512(dbKey).then(hash => {
     const base64String = Buffer.from(hash, 'hex').toString('base64');
     const key = base64js.toByteArray(base64String);
     return key;
