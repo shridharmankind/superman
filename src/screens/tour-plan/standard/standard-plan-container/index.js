@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 import {WeekView} from 'components/widgets';
 import {Strings} from 'common';
 

@@ -1,12 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  ListVi,
-} from 'react-native';
-import {Modal} from 'react-native-paper';
+import React, {useState, useEffect} from 'react';
+import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -46,7 +39,7 @@ const data = [
  * @param {Function} handleSliderIndex to handle left/right movement of week
  */
 
-const StandardPlanModal = ({handleSliderIndex, navigation}) => {
+const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
@@ -190,7 +183,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
             </TouchableOpacity>
             <Label
               style={styles.weekLabel}
-              title={'Week 1 - Monday'}
+              title={weekTitle}
               size={24}
               type={'bold'}
             />
@@ -223,12 +216,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
           </View>
         </View>
         <View style={styles.headerButtonGroup}>
-          <Button
-            mode="contained"
-            title={Strings.saveDraft}
-            uppercase={true}
-            contentStyle={styles.doneBtn}
-          />
           <Button
             mode="contained"
             title={Strings.done}
@@ -320,9 +307,9 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
             </View>
           </View>
         </View>
-        <View style={styles.rightContent}>
+        {/* <View style={styles.rightContent}>
           <Label title={Strings.planCompliance} />
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );

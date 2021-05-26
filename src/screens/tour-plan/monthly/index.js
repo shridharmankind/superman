@@ -17,7 +17,19 @@ import {
 import {NetworkService} from 'services';
 
 /**
- * TODO::chane with API Integration hence keeping here
+ * Check if same month is selected
+ * @param {Object} monthFound
+ * @param {Object} monthSelected
+ * @returns Boolean
+ */
+
+const isSameMonthSelected = (monthFound, monthSelected) => {
+  return (
+    monthFound?.month === monthSelected?.month &&
+    monthFound?.year === monthSelected?.year
+  );
+};
+/**
  * @param {String} value
  * @returns ref value
  */
@@ -43,7 +55,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [user, setUser] = useState({});
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
-  const [monthSelected, setMonthSelected] = useState(5);
+  const [monthSelected, setMonthSelected] = useState();
   const previousMonthSelected = usePrevious(monthSelected);
   //effects
   useEffect(() => {
@@ -114,6 +126,14 @@ const MonthlyTourPlan = ({navigation}) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const monthFound = getTourPlanScheduleMonths().find(schedule => {
+      return schedule.text.indexOf(selectedTourPlan.text) > -1;
+    });
+    if (monthFound?.month && !isSameMonthSelected(monthFound, monthSelected)) {
+      setMonthSelected(monthFound);
+    }
+  }, [selectedTourPlan, monthSelected]);
   /**
    * toggles modal
    */
@@ -285,15 +305,6 @@ const MonthlyTourPlan = ({navigation}) => {
    */
 
   const renderView = () => {
-    //TO DO:: as per current JSON - might change after actual api
-    const monthFound = getTourPlanScheduleMonths().find(schedule => {
-      return schedule.text.indexOf(selectedTourPlan.text) > -1;
-    });
-    if (monthFound) {
-      if (monthFound.month !== monthSelected) {
-        setMonthSelected(monthFound.month);
-      }
-    }
     switch (selectedTourPlan?.id) {
       case 1:
         return workingDays ? (
@@ -302,19 +313,17 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               navigation={navigation}
             />
-            <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
           </>
         ) : null;
 
       default: {
-        return monthFound?.month && workingDays ? (
+        return monthSelected && workingDays ? (
           <>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
             />
-
             <Legends />
           </>
         ) : null;

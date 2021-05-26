@@ -55,7 +55,6 @@ const DoctorDetails = ({
       </View>
     );
   };
-
   return (
     <>
       <View style={styles.detailsContainer}>
@@ -75,16 +74,16 @@ const DoctorDetails = ({
           </View>
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/logo.png')}
+            source={require('../../../assets/images/avtar.png')}
           />
           <View style={styles.nameContainer}>
             <Label
               title={title}
-              size={customStyle ? customStyle.titleSize : 26}
+              size={customStyle ? customStyle.titleSize : 18}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
-                size={customStyle ? customStyle.subTitleSize : 18}
+                size={customStyle ? customStyle.subTitleSize : 12}
                 title={specialization.map(spec => spec).join(', ')}
                 style={customStyle && customStyle.specialization}
               />
@@ -136,7 +135,7 @@ const getDivisionColor = division => {
     case 'b':
       return themes.colors.lightBlue;
     default:
-      return themes.colors.white;
+      return themes.colors.transparent;
   }
 };
 

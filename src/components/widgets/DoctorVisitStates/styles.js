@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.white,
   },
   missed: {
-    borderColor: theme.colors.softRed,
+    borderColor: theme.colors.red[100],
   },
   today: {
     borderColor: theme.colors.grey[200],

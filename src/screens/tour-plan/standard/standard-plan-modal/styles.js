@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   patchInputCotainer: {
-    flex: 0.4,
     borderColor: themes.colors.borderColor,
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'space-between',
+    marginHorizontal: 50,
   },
   patchIcon: {
     backgroundColor: themes.colors.darkBlue,
