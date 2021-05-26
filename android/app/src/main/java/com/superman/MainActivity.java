@@ -17,7 +17,7 @@ public class MainActivity extends ReactActivity {
   }
   @Override
     protected void onCreate(Bundle savedInstanceState) {
-      SplashScreen.show(this);  
-      super.onCreate(savedInstanceState);
+    SplashScreen.show(this, true); // <- second parameter is true, to hide StatusBar
+    super.onCreate(savedInstanceState);
     }
 }

@@ -314,7 +314,6 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               navigation={navigation}
             />
-            <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
           </>
         ) : null;
 
