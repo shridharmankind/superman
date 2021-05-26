@@ -1,16 +1,29 @@
 import React, {useState, useEffect} from 'react';
-import {View, Image, TextInput} from 'react-native';
+import {View, Image, Text, TextInput} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Button} from 'components/elements';
 import {NetworkService} from 'services';
 import {Constants, Strings} from 'common';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchTodoActionCreator, updateTodoDataActions} from './redux/todoSlice';
+import {todoSelector} from './redux/todoSelector';
+import {appSelector} from 'selectors';
 
 export default function Reference({navigation}) {
   const {colors} = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+  const todos1 = useSelector(todoSelector.makeGetPagedTodos());
+  const selectedValue = useSelector(todoSelector.makeGetTodoSelectedState());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
+
+  useEffect(() => {
+    dispatch(fetchTodoActionCreator());
+  }, [dispatch]);
 
   //Post Request Example
   useEffect(() => {
@@ -43,6 +56,10 @@ export default function Reference({navigation}) {
     fetchData();
   }, []);
 
+  if (fetchState == 'FETCHING') {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <View style={styles.container}>
       <Image
@@ -53,7 +70,19 @@ export default function Reference({navigation}) {
       <View style={styles.iconContainer}>
         <Icon name="rocket" size={30} color="#900" />
       </View>
-
+      <View>
+        <Text>List of Bundles - {JSON.stringify(fetchState)}</Text>
+        {todos1 &&
+          todos1.map(todo => (
+            <View key={todo.id}>
+              <Text
+                onPress={() => dispatch(updateTodoDataActions.update(todo.id))}>
+                {todo.title}
+              </Text>
+            </View>
+          ))}
+        <Text>Now Select one is :::: {selectedValue} </Text>
+      </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}

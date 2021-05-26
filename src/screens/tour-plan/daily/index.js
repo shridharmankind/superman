@@ -3,7 +3,7 @@ import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
-import {Label, Modal, Button} from 'components/elements';
+import {Label, Modal, Button, SwipeRow} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
@@ -13,7 +13,7 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 const DailyTourPlan = () => {
   const dayPlan = [
     {
-      name: 'Dr. Manoj Manjhi',
+      name: 'Dr. Ashish Gulati',
       specialization: ['Cardiologist'],
       category: 'KYC',
       location: 'Karol Bagh',
@@ -24,7 +24,7 @@ const DailyTourPlan = () => {
           state: DOCTOR_VISIT_STATES.COMPLETED,
         },
         {
-          date: '20',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
@@ -36,7 +36,7 @@ const DailyTourPlan = () => {
       ],
     },
     {
-      name: 'Dr. Manoj Manjhi',
+      name: 'Dr. Manish Kumar ',
       specialization: ['Cardiologist'],
       category: 'a+',
       location: 'Karol Bagh',
@@ -47,7 +47,7 @@ const DailyTourPlan = () => {
           state: DOCTOR_VISIT_STATES.MISSED,
         },
         {
-          date: '20',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
@@ -65,12 +65,12 @@ const DailyTourPlan = () => {
       location: 'Karol Bagh',
       visitData: [
         {
-          date: '12',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
         {
-          date: '20',
+          date: '29',
           month: 'May',
           state: DOCTOR_VISIT_STATES.UPCOMING,
         },
@@ -88,12 +88,49 @@ const DailyTourPlan = () => {
           state: DOCTOR_VISIT_STATES.COMPLETED,
         },
         {
-          date: '20',
+          date: '26',
           month: 'May',
           state: DOCTOR_VISIT_STATES.TODAY,
         },
         {
           date: '27',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.UPCOMING,
+        },
+      ],
+    },
+    {
+      name: 'Dr. Tanmay Singh',
+      specialization: ['Dermatologist'],
+      category: 'B',
+      location: 'Karol Bagh',
+      visitData: [
+        {
+          date: '13',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.MISSED,
+        },
+        {
+          date: '29',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.UPCOMING,
+        },
+      ],
+    },
+
+    {
+      name: 'Balaji Medicos ',
+      specialization: ['Chemist'],
+      category: '-',
+      location: 'Karol Bagh',
+      visitData: [
+        {
+          date: '24',
+          month: 'May',
+          state: DOCTOR_VISIT_STATES.MISSED,
+        },
+        {
+          date: '29',
           month: 'May',
           state: DOCTOR_VISIT_STATES.UPCOMING,
         },
@@ -205,25 +242,67 @@ const DailyTourPlan = () => {
     const sortedDayPlan = dayPlan.sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
-        {sortedDayPlan.map((plan, index) => (
-          <View key={index} style={styles.doctorDetailContainer}>
-            <DoctorDetails
-              title={plan.name}
-              specialization={plan.specialization}
-              category={plan.category}
-              location={plan.location}
-              customStyle={doctorDetailStyleObject}
-              showFrequencyChiclet={false}
-              showVisitPlan={true}
-              visitData={plan.visitData}
-              showTile={true}
-              onTilePress={() => {
-                setVisible(true);
-                setItemPressed(index);
-              }}
-            />
-          </View>
-        ))}
+        {sortedDayPlan.map((plan, index) => {
+          let closeRow;
+
+          return (
+            <SwipeRow
+              style={styles.swipeRow}
+              key={index}
+              closeOnRowPress
+              disableRightSwipe
+              preview={index === 0}
+              rightOpenValue={-90}
+              rightActivationValue={-90}
+              stopRightSwipe={-90}
+              getCloseRow={closeRowRef => (closeRow = closeRowRef)}
+              initialRightActionState={true}>
+              <View style={styles.removeCardButtonContainer}>
+                <TouchableOpacity
+                  style={styles.removeCard}
+                  onPress={() => {
+                    closeRow && closeRow();
+                    console.log('delete action triggered', plan, index);
+                  }}>
+                  <View style={styles.removeCardButton}>
+                    <View style={styles.closeLabel}>
+                      <Label
+                        title={'X'}
+                        style={[
+                          styles.removeCardButtonText,
+                          styles.removeCardButtonClose,
+                        ]}
+                      />
+                    </View>
+                    <Label
+                      title={'Remove from today'}
+                      style={styles.removeCardButtonText}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.doctorDetailWrapper}>
+                <View key={index} style={styles.doctorDetailContainer}>
+                  <DoctorDetails
+                    title={plan.name}
+                    specialization={plan.specialization}
+                    category={plan.category}
+                    location={plan.location}
+                    customStyle={doctorDetailStyleObject}
+                    showFrequencyChiclet={false}
+                    showVisitPlan={true}
+                    visitData={plan.visitData}
+                    showTile={true}
+                    onTilePress={() => {
+                      setVisible(true);
+                      setItemPressed(index);
+                    }}
+                  />
+                </View>
+              </View>
+            </SwipeRow>
+          );
+        })}
       </View>
     );
   };

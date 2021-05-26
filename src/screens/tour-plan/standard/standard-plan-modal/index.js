@@ -1,12 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  ListVi,
-} from 'react-native';
-import {Modal} from 'react-native-paper';
+import React, {useState, useEffect} from 'react';
+import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -46,7 +39,7 @@ const data = [
  * @param {Function} handleSliderIndex to handle left/right movement of week
  */
 
-const StandardPlanModal = ({handleSliderIndex, navigation}) => {
+const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
@@ -56,6 +49,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
   const [parties, setParties] = useState([]);
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
+  const [doctorsSelected, setDoctorSelected] = useState([]);
 
   const handleIndex = direction => {
     handleSliderIndex(direction);
@@ -121,18 +115,22 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
   };
 
   useEffect(() => {
-    if (!patchValue) {
+    if (!patchValue && doctorsSelected.length > 0) {
       const patchString =
         areaSelected.length > 0 &&
         areaSelected.map(area => area.name).join('+');
       setPatchSelected(patchString);
     }
-  }, [areaSelected, patchValue]);
+  }, [areaSelected, patchValue, doctorsSelected]);
 
   const getDoctorsByArea = area => {
     const parties = partiesList.filter(party => {
       const isArea = party.areas.find(obj => {
-        return obj.id === area;
+        return (
+          obj.id === area &&
+          (party.partyType === selectedDoctorType ||
+            selectedDoctorType === Strings.all)
+        );
       });
       if (isArea) {
         return party;
@@ -179,6 +177,15 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
     }
   };
 
+  const handleDoctorCardPress = id => {
+    const indexAvailable = doctorsSelected.some(doc => doc.partyId === id);
+    if (indexAvailable) {
+      setDoctorSelected(doctorsSelected.filter(doc => doc.partyId !== id));
+    } else {
+      setDoctorSelected([...doctorsSelected, {partyId: id}]);
+    }
+  };
+
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
@@ -190,7 +197,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
             </TouchableOpacity>
             <Label
               style={styles.weekLabel}
-              title={'Week 1 - Monday'}
+              title={weekTitle}
               size={24}
               type={'bold'}
             />
@@ -223,12 +230,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
           </View>
         </View>
         <View style={styles.headerButtonGroup}>
-          <Button
-            mode="contained"
-            title={Strings.saveDraft}
-            uppercase={true}
-            contentStyle={styles.doneBtn}
-          />
           <Button
             mode="contained"
             title={Strings.done}
@@ -280,8 +281,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
           <View style={styles.doctorDetailsContainer}>
             <View>
               <View style={styles.doctorDetailsHeader}>
-                <View>
+                <View style={styles.doctorSelectedContainer}>
                   <Label title={Strings.selectVisit} />
+                  <Label
+                    title={` - ${doctorsSelected.length} selected`}
+                    type={'bold'}
+                  />
                 </View>
                 <View style={styles.categoryFilterContainer}>
                   {partiesType.map(type => (
@@ -306,23 +311,41 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
                     <View style={styles.doctorDetails}>
                       {getDoctorsByArea(area.id).map(party => (
                         <DoctorDetailsWrapper
+                          id={party.id}
                           title={party.name}
                           specialization={party.speciality}
                           category={party.isKyc ? Strings.kyc : party.category}
                           selected={false}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
+                          onPress={handleDoctorCardPress}
                         />
                       ))}
                     </View>
                   </>
                 ))}
               </View>
+              <View styles={styles.bottom}>
+                <View style={styles.bottomContent}>
+                  <Button
+                    mode="text"
+                    title={Strings.addOtherDoctors}
+                    uppercase={false}
+                    labelStyle={styles.addDoctors}
+                  />
+                  <Button
+                    mode="contained"
+                    title={`${Strings.doctorUniverse} (${partiesList.length})`}
+                    uppercase={false}
+                    contentStyle={styles.doneBtn}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </View>
-        <View style={styles.rightContent}>
+        {/* <View style={styles.rightContent}>
           <Label title={Strings.planCompliance} />
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );

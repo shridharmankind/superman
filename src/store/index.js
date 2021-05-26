@@ -1,5 +1,1 @@
-import {createStore} from 'redux';
-
-export default createStore(() => {
-  return {};
-}, {});
+export {getStore} from './getStore';

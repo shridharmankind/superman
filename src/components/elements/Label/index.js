@@ -36,7 +36,7 @@ const Label = ({
         style,
       ]}
       {...props}>
-      {title}
+      {title || props.children || ''}
     </Text>
   );
 };

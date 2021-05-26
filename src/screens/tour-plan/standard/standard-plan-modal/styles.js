@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 20,
-    borderBottomColor: themes.colors.borderColor,
+    borderBottomColor: themes.colors.grey[100],
     borderBottomWidth: 1,
   },
   doctorDetails: {
@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   patchInputCotainer: {
-    flex: 0.4,
     borderColor: themes.colors.borderColor,
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'space-between',
+    marginHorizontal: 50,
   },
   patchIcon: {
     backgroundColor: themes.colors.darkBlue,
@@ -115,6 +115,27 @@ const styles = StyleSheet.create({
   weekArrow: {
     height: 20,
     marginHorizontal: 5,
+  },
+  doctorSelectedContainer: {
+    flexDirection: 'row',
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  bottomContent: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingVertical: 22,
+    borderTopColor: themes.colors.grey[100],
+    borderTopWidth: 1,
+  },
+  addDoctors: {
+    borderRightColor: themes.colors.grey[100],
+    borderRightWidth: 2,
+
+    paddingRight: 30,
+    marginRight: 20,
   },
 });
 

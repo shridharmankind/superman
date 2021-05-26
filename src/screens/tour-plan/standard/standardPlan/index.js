@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {View, Text, Dimensions} from 'react-native';
-// import {SwiperFlatList} from 'react-native-swiper-flatlist';
+import {View, Dimensions} from 'react-native';
+import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
 import styles from './styles';
 
@@ -41,12 +41,14 @@ const StandardPlan = ({navigation}) => {
         <StandardPlanModal
           handleSliderIndex={handleSlider}
           navigation={navigation}
+          weekTitle={'Week 1 - Monday'}
         />
       </View>
       <View style={{width: width}}>
         <StandardPlanModal
           handleSliderIndex={handleSlider}
           navigation={navigation}
+          weekTitle={'Week 1 - Tuesday'}
         />
       </View>
     </>

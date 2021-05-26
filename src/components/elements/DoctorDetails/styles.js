@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    marginRight: 32,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 20,
   },
   nameContainer: {
     flexDirection: 'column',
@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomRightRadius: 10,
     backgroundColor: theme.colors.orange,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     position: 'absolute',
     top: -41,
     left: -33,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
   },
   frequecyContainer: {
     flexDirection: 'row',
+    alignSelf: 'center',
   },
   visitContainer: {
     flexDirection: 'row',

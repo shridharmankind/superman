@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
+  doctorDetailWrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
   doctorDetailContainer: {
     backgroundColor: theme.colors.white,
     alignItems: 'center',
@@ -11,10 +15,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderColor: theme.colors.grey[500],
     borderRadius: 10,
-    position: 'relative',
     borderWidth: 1,
-    marginTop: 20,
-    zIndex: 1,
+    width: '100%',
   },
   heading: {
     paddingTop: 20,
@@ -22,6 +24,7 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     flexDirection: 'row',
+    minWidth: 350,
   },
   specialization: {
     paddingRight: 10,
@@ -46,6 +49,42 @@ const styles = StyleSheet.create({
   visitText: {
     color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
+  },
+  removeCardButtonContainer: {
+    alignItems: 'flex-end',
+    width: '100%',
+    height: '110%',
+    marginTop: 5,
+  },
+  removeCard: {
+    height: '100%',
+    paddingBottom: 20,
+    justifyContent: 'center',
+  },
+  removeCardButton: {
+    height: '100%',
+    width: 100,
+    backgroundColor: theme.colors.red[200],
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    paddingHorizontal: 15,
+  },
+  removeCardButtonClose: {
+    fontSize: 28,
+  },
+  removeCardButtonText: {
+    color: theme.colors.white,
+    fontFamily: theme.fonts.fontRegular,
+    fontSize: 11,
+    textAlign: 'center',
+  },
+  closeLabel: {
+    paddingBottom: 1,
+  },
+  swipeRow: {
+    marginTop: 20,
   },
 });
 

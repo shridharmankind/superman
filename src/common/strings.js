@@ -1,4 +1,5 @@
 const Strings = {
+  superman: 'superman',
   heading: 'Welcome',
   forgotpwd: 'Forgot password',
   week: ['week 1', 'week 2', 'week 3', 'week 4'],
@@ -9,7 +10,7 @@ const Strings = {
   viewTourPlan: 'View Tour Plan for',
   dailyPlan: 'Daily Plan',
   tourPlan: 'Tour Plan',
-  login: 'Login',
+  login: 'Access using OneLogin',
   myPlan: 'My Plan',
   stpWithAbbreviation: 'Standard Tour Plan(STP)',
   stp: 'Standard Tour Plan',
@@ -20,9 +21,9 @@ const Strings = {
   done: 'Done',
   saveDraft: 'Save Draft',
   youHave: 'You have',
-  numberOfDoctors: '11 doctors',
+  numberOfDoctors: '5 doctors',
   and: 'and',
-  numberOfChemist: '6 chemist',
+  numberOfChemist: '1 chemist',
   visits: 'visits',
   reviewDCR: 'Review DCR',
   addToTodayPlan: "Add to Today's Plan",
@@ -36,6 +37,10 @@ const Strings = {
   },
   kyc: 'KYC',
   all: 'All',
+  downloadingContent: 'Downloading content from server to your device',
+  downloadingMaster: 'Downloading performance master',
+  doctorUniverse: 'Doctor Universe',
+  addOtherDoctors: 'Add other doctors',
 };
 
 export default Strings;

@@ -17,8 +17,10 @@ const NavMenu = ({onNavItemPress}) => {
     onNavItemPress && onNavItemPress(route);
   };
 
-  const NavItem = ({Icon, label, index, isActive = false}) => (
-    <TouchableWithoutFeedback onPress={() => onNavItemSelected(index)}>
+  const NavItem = ({Icon, label, index, isActive}) => (
+    <TouchableWithoutFeedback
+      testID={`button_${label}`}
+      onPress={() => onNavItemSelected(index)}>
       <View style={[styles.navItem, isActive ? styles.navItemActive : '']}>
         <Icon height={32} width={32} />
         <Label
