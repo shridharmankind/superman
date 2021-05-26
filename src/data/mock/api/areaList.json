@@ -8,5 +8,20 @@
     "id": 2,
     "name": "Noida Sec 2-(2)",
     "shortName": "Noida Sec 2-(2)"
-  }
+  },
+  {
+    "id": 3,
+    "name": "Noida Sec 3-(1)",
+    "shortName": "Noida Sec 3-(2)"
+  },
+  {
+    "id": 4,
+    "name": "Noida Sec 4-(2)",
+    "shortName": "Noida Sec 4-(2)"
+  },
+  {
+    "id": 5,
+    "name": "Noida Sec 5-(2)",
+    "shortName": "Noida Sec 5-(2)"
+  }  
 ]

@@ -34,6 +34,7 @@ const AreaChip = ({
 }) => {
   return (
     <Chip
+      key={value}
       testID={testID}
       style={[
         styles.chipContainer,

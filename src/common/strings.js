@@ -39,6 +39,8 @@ const Strings = {
   all: 'All',
   downloadingContent: 'Downloading content from server to your device',
   downloadingMaster: 'Downloading performance master',
+  doctorUniverse: 'Doctor Universe',
+  addOtherDoctors: 'Add other doctors',
 };
 
 export default Strings;
