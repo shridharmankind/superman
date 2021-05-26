@@ -145,9 +145,9 @@ const DailyTourPlan = () => {
     dispatch(
       fetchDoctorDetailCreator({
         staffPositionid: 2,
-        day: 5,
-        month: 5,
-        year: 2021,
+        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
       }),
     );
   }, [dispatch]);
@@ -157,9 +157,8 @@ const DailyTourPlan = () => {
 
   useEffect(() => {
     setDayPlanData(allDoctorDetail);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allDoctorDetail]);
-
-  // console.log('test', getDailyData);
 
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
@@ -207,7 +206,7 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
-    const sortedDayPlan = (dayPlan || []).sort(sortBasedOnCategory);
+    const sortedDayPlan = (dayPlanData || []).sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
         {(sortedDayPlan || []).map((plan, index) => {
@@ -253,13 +252,13 @@ const DailyTourPlan = () => {
                 <View key={index} style={styles.doctorDetailContainer}>
                   <DoctorDetails
                     title={plan.name}
-                    specialization={plan.specialization}
-                    category={plan.category}
-                    location={plan.location}
+                    specialization={dayPlan[index].specialization}
+                    category={dayPlan[index].category}
+                    location={dayPlan[index].location}
                     customStyle={doctorDetailStyleObject}
                     showFrequencyChiclet={false}
                     showVisitPlan={true}
-                    visitData={plan.visitData}
+                    visitData={dayPlan[index].visitData}
                   />
                 </View>
               </View>
