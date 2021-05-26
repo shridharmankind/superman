@@ -87,7 +87,7 @@ const MasterDataDownload = ({navigation}) => {
           showsText={true}
           color={themes.colors.white}
         />
-        <View style={styles.downloadIconContainer}>
+        {/* <View style={styles.downloadIconContainer}>
           <Icon name="cloud-download" size={32} color={themes.colors.white} />
           <Label
             title={Strings.downloadingMaster}
@@ -96,7 +96,7 @@ const MasterDataDownload = ({navigation}) => {
             type="regular"
             style={styles.downloadTextStyle}
           />
-        </View>
+        </View> */}
       </ImageBackground>
     </SafeAreaView>
   );
