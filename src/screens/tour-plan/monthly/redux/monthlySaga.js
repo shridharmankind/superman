@@ -1,5 +1,5 @@
 import {takeEvery, call, put} from 'redux-saga/effects';
-import {getSubordinatesTypeName, subOrdinateActions} from './monthlySlice';
+import {getSubordinatesTypeName, monthlyActions} from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
 import {getSubordinates} from 'screens/tourPlan/apiPath';
@@ -24,7 +24,7 @@ export function* fetchSubOrdinatesWorker(action) {
       `${getSubordinates}/${staffPositionid}`,
     );
     yield put(
-      subOrdinateActions.getSubordinates({
+      monthlyActions.getSubordinates({
         subOrdinates: {
           data: response.data,
         },

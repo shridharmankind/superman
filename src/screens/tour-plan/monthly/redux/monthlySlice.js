@@ -27,5 +27,5 @@ export const getSubordinateSlice = createSlice({
   },
 });
 
-export const subOrdinateReducer = getSubordinateSlice.reducer;
-export const subOrdinateActions = getSubordinateSlice.actions;
+export const monthlyReducer = getSubordinateSlice.reducer;
+export const monthlyActions = getSubordinateSlice.actions;
