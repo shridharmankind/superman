@@ -42,7 +42,10 @@ const AreaChip = ({
           backgroundColor: selected && selectedColor ? selectedColor : bgColor,
         },
       ]}
-      textStyle={{color: selected ? selectedTextColor : color}}
+      textStyle={{
+        color: selected ? selectedTextColor : color,
+        fontWeight: selected ? 'bold' : '500',
+      }}
       type="flat"
       onPress={() => onPress(value)}
       activeOpacity={1}>

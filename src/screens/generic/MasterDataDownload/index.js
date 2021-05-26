@@ -44,14 +44,18 @@ const MasterDataDownload = ({navigation}) => {
 
   const animate = () => {
     let progressStatus = 0;
+
     setProgress(progressStatus);
     setTimeout(() => {
       setIndeterminate(false);
-      setInterval(() => {
+      const interval = setInterval(() => {
         progressStatus += Math.random() / 5;
+
         if (progressStatus > 1) {
           progressStatus = 1;
+
           navigation.navigate('Dashboard');
+          clearInterval(interval);
         }
         setProgress(progressStatus);
       }, 1500);

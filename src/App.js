@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {Platform} from 'react-native';
+import {LogBox} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -13,17 +13,22 @@ import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {MasterDataDownload} from 'screens/generic';
+import {isWeb} from 'helper';
 
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
-  console.disableYellowBox = true;
+  LogBox.ignoreAllLogs();
   const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
 
   useEffect(() => {
-    if (Platform.OS !== 'web') {
-      SplashScreen.hide();
+    if (!isWeb()) {
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          SplashScreen.hide();
+        });
+      }, 2000);
     }
   }, []);
 
