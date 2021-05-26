@@ -29,30 +29,30 @@ const StandardPlan = ({navigation}) => {
   );
 
   return (
-    // <SwiperFlatList
-    //   ref={swiperRef}
-    //   showPagination
-    //   index={0}
-    //   paginationStyleItemActive={styles.activePaginationItem}
-    //   paginationStyleItem={styles.paginationItem}
-    //   paginationStyle={styles.paginationStyle}>
-    <>
-      <View style={{width: width}}>
-        <StandardPlanModal
-          handleSliderIndex={handleSlider}
-          navigation={navigation}
-          weekTitle={'Week 1 - Monday'}
-        />
-      </View>
-      <View style={{width: width}}>
-        <StandardPlanModal
-          handleSliderIndex={handleSlider}
-          navigation={navigation}
-          weekTitle={'Week 1 - Tuesday'}
-        />
-      </View>
-    </>
-    // </SwiperFlatList>
+    <SwiperFlatList
+      ref={swiperRef}
+      showPagination
+      index={0}
+      paginationStyleItemActive={styles.activePaginationItem}
+      paginationStyleItem={styles.paginationItem}
+      paginationStyle={styles.paginationStyle}>
+      <>
+        <View style={{width: width}}>
+          <StandardPlanModal
+            handleSliderIndex={handleSlider}
+            navigation={navigation}
+            weekTitle={'Week 1 - Monday'}
+          />
+        </View>
+        <View style={{width: width}}>
+          <StandardPlanModal
+            handleSliderIndex={handleSlider}
+            navigation={navigation}
+            weekTitle={'Week 1 - Tuesday'}
+          />
+        </View>
+      </>
+    </SwiperFlatList>
   );
 };
 

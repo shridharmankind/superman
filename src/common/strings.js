@@ -41,6 +41,10 @@ const Strings = {
   downloadingMaster: 'Downloading performance master',
   doctorUniverse: 'Doctor Universe',
   addOtherDoctors: 'Add other doctors',
+  labelRssdi: 'RSSDI',
+  dailyPlanTileTitle: 'Samples requested – Telmikind',
+  removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
+  proceed: 'Proceed',
 };
 
 export default Strings;

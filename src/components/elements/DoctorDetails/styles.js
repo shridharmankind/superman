@@ -4,7 +4,7 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   detailsContainer: {
     justifyContent: 'space-between',
-    // width: '50%',
+    width: '100%',
     flexGrow: 1,
     flexDirection: 'row',
   },

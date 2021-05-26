@@ -144,6 +144,7 @@ const DailyTourPlan = () => {
     specialization: styles.specialization,
     divisionContainerCustom: styles.divisionContainer,
     imageCustom: styles.image,
+    detailsContainerCustom: styles.detailsContainer,
     titleSize: 21,
     subTitleSize: 14,
     divisionSize: 10,
@@ -196,7 +197,7 @@ const DailyTourPlan = () => {
       <View style={styles.modalTitle}>
         <Label
           type="bold"
-          title={'Do you want to remove this doctor visit?'}
+          title={Strings.removeDoctorConfirmation}
           size={14}
           style={styles.modalTitleText}
         />
@@ -210,9 +211,9 @@ const DailyTourPlan = () => {
    */
   const getModalContent = () => {
     return (
-      <View style={styles.contentView}>
+      <View style={styles.modalContentView}>
         <Button
-          title={'Proceed'}
+          title={Strings.proceed}
           onPress={() => {
             console.log(itemPressed);
             setVisible(false);
@@ -222,15 +223,18 @@ const DailyTourPlan = () => {
     );
   };
 
+  /**
+   * renders modal to show confirmatiion message to remove doctor from daily plan
+   * @returns modal
+   */
   const pressTile = () => {
-    console.log(itemPressed);
     return (
       <Modal
         open={visible}
         onClose={handleDialog}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
-        customModalPosition={{alignItems: 'center', justifyContent: 'center'}}
+        customModalPosition={styles.modalContent}
         customModalView={styles.modalView}
       />
     );

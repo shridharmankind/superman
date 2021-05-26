@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 200,
   },
-  contentView: {
+  modalContentView: {
     paddingTop: 50,
     paddingBottom: 30,
   },
@@ -100,6 +100,13 @@ const styles = StyleSheet.create({
   },
   modalTitleText: {
     textAlign: 'center',
+    justifyContent: 'center',
+  },
+  detailsContainer: {
+    width: '100%',
+  },
+  modalContent: {
+    alignItems: 'center',
     justifyContent: 'center',
   },
 });

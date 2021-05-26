@@ -7,6 +7,7 @@ import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
+import {Strings} from 'common';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -36,7 +37,7 @@ const DoctorDetails = ({
   showVisitPlan,
   visitData,
   isTicked,
-  showTile = true,
+  showTile,
   onTilePress,
   ...props
 }) => {
@@ -67,9 +68,9 @@ const DoctorDetails = ({
         </View>
         <View style={styles.tileContainer}>
           <View style={styles.tileLeft}>
-            <Label title="RSSDI" style={styles.tileText} />
+            <Label title={Strings.labelRssdi} style={styles.tileText} />
             <Label
-              title="Samples requested – Telmikind"
+              title={Strings.dailyPlanTileTitle}
               style={[styles.tileText, styles.titleTextSecondary]}
             />
           </View>
@@ -85,7 +86,15 @@ const DoctorDetails = ({
 
   return (
     <View style={{flex: 1}}>
-      <View style={styles.detailsContainer}>
+      <View
+
+               style={[
+          
+          styles.detailsContainer,
+         
+          customStyle && customStyle.detailsContainerCustom,
+        ,
+        ]}>
         <View style={styles.details}>
           <View
             style={[
@@ -173,6 +182,7 @@ DoctorDetails.defaultProps = {
   showVisitPlan: false,
   selected: false,
   division: '',
+  showTile: false,
 };
 
 DoctorDetails.propTypes = {
