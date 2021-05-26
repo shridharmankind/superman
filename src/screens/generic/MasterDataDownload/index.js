@@ -1,6 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, View, Image, ImageBackground} from 'react-native';
-import * as Progress from 'react-native-progress';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  SafeAreaView,
+  View,
+  Image,
+  ImageBackground,
+  ActivityIndicator,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Constants, Strings} from 'common';
@@ -8,12 +13,31 @@ import {NetworkService} from 'services';
 import {Label} from 'components/elements';
 import themes from 'themes';
 import {Helper, Operations, Schemas} from 'database';
-import {KeyChain} from 'helper';
+import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 
 const MasterDataDownload = ({navigation}) => {
   const [progress, setProgress] = useState(0);
   const [indeterminate, setIndeterminate] = useState(true);
+
+  const animate = useCallback(() => {
+    let progressStatus = 0;
+
+    setProgress(progressStatus);
+    setTimeout(() => {
+      setIndeterminate(false);
+      const interval = setInterval(() => {
+        progressStatus += Math.random() / 5;
+
+        if (progressStatus > 1) {
+          progressStatus = 1;
+          navigation.navigate('Dashboard');
+          clearInterval(interval);
+        }
+        setProgress(progressStatus);
+      }, 1500);
+    }, 3000);
+  }, [navigation]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +52,7 @@ const MasterDataDownload = ({navigation}) => {
       } */
     };
     fetchData();
-  }, []);
+  }, [animate]);
 
   const initMasterTablesDownloadStatus = async () => {
     const accessToken = await KeyChain.getAccessToken();
@@ -40,26 +64,6 @@ const MasterDataDownload = ({navigation}) => {
         status: 'pending',
       });
     }
-  };
-
-  const animate = () => {
-    let progressStatus = 0;
-
-    setProgress(progressStatus);
-    setTimeout(() => {
-      setIndeterminate(false);
-      const interval = setInterval(() => {
-        progressStatus += Math.random() / 5;
-
-        if (progressStatus > 1) {
-          progressStatus = 1;
-
-          navigation.navigate('Dashboard');
-          clearInterval(interval);
-        }
-        setProgress(progressStatus);
-      }, 1500);
-    }, 3000);
   };
 
   return (
@@ -82,15 +86,19 @@ const MasterDataDownload = ({navigation}) => {
           style={styles.downloadingTextStyle}
         />
 
-        <Progress.Circle
-          style={styles.progress}
-          progress={progress}
-          indeterminate={indeterminate}
-          size={100}
-          thickness={4}
-          showsText={true}
-          color={themes.colors.white}
-        />
+        {isWeb() ? (
+          <ActivityIndicator
+            animating={!indeterminate}
+            color={themes.colors.darkBlue}
+            size="large"
+            style={styles.activityIndicator}
+          />
+        ) : (
+          <CircularProgressBarWithStatus
+            progress={progress}
+            indeterminate={indeterminate}
+          />
+        )}
         <View style={styles.downloadIconContainer}>
           <Icon name="cloud-download" size={32} color={themes.colors.white} />
           <Label
