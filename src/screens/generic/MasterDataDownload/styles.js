@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import theme from 'themes';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,10 +8,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  progress: {
-    marginTop: 40,
-    alignSelf: 'center',
-  },
+
   logo: {
     width: 133,
     height: 32,
