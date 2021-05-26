@@ -43,7 +43,6 @@ Function to handle HTTP POST request
 */
 export const post = async (url, data = {}, params = {}) => {
   const accessToken = await KeyChain.getAccessToken();
-  console.log('access', accessToken);
   const config = {
     baseURL: env.API_HOST,
     method: 'POST',
@@ -58,12 +57,10 @@ export const post = async (url, data = {}, params = {}) => {
 
   return client(config)
     .then(function (response) {
-      console.log('response in n/w', response);
       // handle success
       return response;
     })
     .catch(function (error) {
-      console.log('in errror', error);
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
     });

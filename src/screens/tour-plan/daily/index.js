@@ -157,7 +157,6 @@ const DailyTourPlan = () => {
 
   useEffect(() => {
     setDayPlanData(allDoctorDetail);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allDoctorDetail]);
 
   const doctorDetailStyleObject = {
