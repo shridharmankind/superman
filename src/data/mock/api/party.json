@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "name": "Dr. Harish Kumar",
-    "speciality": ["Cardiologist", "Orthopaedic"],
+    "name": "Dr. Harish",
+    "speciality": ["Cardiologist"],
     "frequency": 3,
     "partyType": "Doctor",
     "category": null,
@@ -18,7 +18,7 @@
   },
   {
     "id": 2,
-    "name": "Dr. Brijesh Agarwal",
+    "name": "Dr. Brijesh",
     "speciality": ["Cardiologist"],
     "frequency": 3,
     "partyType": "Doctor",
@@ -35,8 +35,8 @@
   },
   {
     "id": 3,
-    "name": "Dr. Mahesh Sharma",
-    "speciality": [],
+    "name": "Dr. Mahesh",
+    "speciality": ["Neurologist"],
     "frequency": 2,
     "partyType": "Chemist",
     "category": null,
@@ -52,8 +52,8 @@
   },
   {
     "id": 4,
-    "name": "Dr. Mahesh Sharma",
-    "speciality": [],
+    "name": "Dr. Milan",
+    "speciality": ["Neurologist"],
     "frequency": 2,
     "partyType": "Chemist",
     "category": "A+",
