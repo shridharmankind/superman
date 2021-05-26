@@ -1,8 +1,6 @@
-import {takeEvery} from 'redux-saga/effects';
+import {takeEvery, call, put}} from 'redux-saga/effects';
 import {getSubordinatesTypeName, subOrdinateActions} from './monthlySlice';
-import {fetchStatusSliceActions} from 'reducers';
-import {call, put} from 'redux-saga/effects';
-import {FetchEnumStatus} from 'reducers';
+import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
 import {getSubordinates} from 'screens/tourPlan/apiPath';
 
