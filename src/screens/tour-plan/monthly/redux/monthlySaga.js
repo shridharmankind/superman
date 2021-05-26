@@ -1,4 +1,4 @@
-import {takeEvery, call, put}} from 'redux-saga/effects';
+import {takeEvery, call, put} from 'redux-saga/effects';
 import {getSubordinatesTypeName, subOrdinateActions} from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
