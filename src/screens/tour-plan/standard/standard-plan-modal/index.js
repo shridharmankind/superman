@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,25 +13,6 @@ import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
 import {NetworkService} from 'services';
-
-const data = [
-  {
-    name: 'Noida-Sec-1 (1)',
-    value: 'Noida-Sec-1 (1)',
-  },
-  {
-    name: 'Karol Bagh',
-    value: 'Karol Bagh',
-  },
-  {
-    name: 'Gurgaon',
-    value: 'Gurgaon',
-  },
-  {
-    name: 'Greater Noida',
-    value: 'Greater Noida',
-  },
-];
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -50,6 +31,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
   const [doctorsSelected, setDoctorSelected] = useState([]);
+  const swiperRef = useRef(null);
 
   const handleIndex = direction => {
     handleSliderIndex(direction);
@@ -111,17 +93,59 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
         areaList.find(area => area.id === val),
       ]);
     }
+    removeSelectedDoctorFromArea(val);
     setSelectedDoctorType(Strings.all);
   };
 
+  const removeSelectedDoctorFromArea = useCallback(
+    areaId => {
+      const doctorToRemove = partiesList.find(party =>
+        doctorsSelected.some(
+          obj =>
+            obj.partyId === party.id &&
+            party.areas.some(par => par.id === areaId),
+        ),
+      );
+      if (doctorToRemove) {
+        setDoctorSelected(
+          doctorsSelected.filter(doc => doc.partyId !== doctorToRemove.id),
+        );
+      }
+    },
+    [doctorsSelected, partiesList],
+  );
+
+  const createPatchString = useCallback(() => {
+    const patchString =
+      areaSelected.length > 0 &&
+      areaSelected
+        .filter(area => {
+          const partyData = partiesList.find(party =>
+            doctorsSelected.some(
+              obj =>
+                obj.partyId === party.id &&
+                party.areas.some(par => par.id === area.id),
+            ),
+          );
+
+          return partyData ? true : false;
+        })
+        .map(patch => patch.name)
+        .join(' + ');
+    return patchString;
+  }, [areaSelected, doctorsSelected, partiesList]);
+
   useEffect(() => {
-    if (!patchValue && doctorsSelected.length > 0) {
-      const patchString =
-        areaSelected.length > 0 &&
-        areaSelected.map(area => area.name).join('+');
-      setPatchSelected(patchString);
+    if (!patchValue) {
+      setPatchSelected(createPatchString());
     }
-  }, [areaSelected, patchValue, doctorsSelected]);
+  }, [
+    areaSelected,
+    patchValue,
+    doctorsSelected,
+    partiesList,
+    createPatchString,
+  ]);
 
   const getDoctorsByArea = area => {
     const parties = partiesList.filter(party => {
@@ -184,6 +208,14 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
     } else {
       setDoctorSelected([...doctorsSelected, {partyId: id}]);
     }
+  };
+
+  const handleAreaLeftArrow = () => {
+    swiperRef.current.scrollTo({x: 0, y: 0, animated: true});
+  };
+
+  const handleAreaRightArrow = () => {
+    swiperRef.current.scrollTo({x: 400, y: 0, animated: true});
   };
 
   return (
@@ -259,21 +291,44 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
                 defaultLabel={Strings.selectPatch}
               />
               <View style={styles.areaFilter}>
-                {areaList.map(area => {
-                  return (
-                    <Area
-                      title={area.name}
-                      value={area.id}
-                      bgColor={'#524F670D'}
-                      color={'#524F67'}
-                      selectedColor={'#322B7C1A'}
-                      selected={isAreaSelected(area.id, areaSelected)}
-                      selectedTextColor={themes.colors.primary}
-                      style={{marginRight: 20}}
-                      onPress={handleAreaSelected}
-                    />
-                  );
-                })}
+                <TouchableOpacity
+                  onPress={() => handleAreaLeftArrow()}
+                  style={[styles.swiperArrow, styles.leftArrow]}>
+                  <Icon
+                    name={'chevron-left'}
+                    size={15}
+                    color={themes.colors.grey[200]}
+                  />
+                </TouchableOpacity>
+                <ScrollView
+                  horizontal={true}
+                  ref={swiperRef}
+                  showsHorizontalScrollIndicator={false}>
+                  {areaList.map(area => {
+                    return (
+                      <Area
+                        title={area.name}
+                        value={area.id}
+                        bgColor={'#524F670D'}
+                        color={'#524F67'}
+                        selectedColor={'#322B7C1A'}
+                        selected={isAreaSelected(area.id, areaSelected)}
+                        selectedTextColor={themes.colors.primary}
+                        style={{marginRight: 20}}
+                        onPress={handleAreaSelected}
+                      />
+                    );
+                  })}
+                </ScrollView>
+                <TouchableOpacity
+                  onPress={() => handleAreaRightArrow()}
+                  style={[styles.swiperArrow, styles.rightArrow]}>
+                  <Icon
+                    name={'chevron-right'}
+                    size={15}
+                    color={themes.colors.grey[200]}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
