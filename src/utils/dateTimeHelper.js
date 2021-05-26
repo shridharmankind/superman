@@ -42,3 +42,16 @@ export const getFormatDate = param => {
   const {date = new Date(), format = DEFAULT_FORMAT} = param || {};
   return dayjs(date).format(format);
 };
+
+export const getMonthDiff = (current, previous) => {
+  return dayjs(current).diff(dayjs(previous), 'month');
+};
+
+/**
+ *
+ * @param {Object} accept month , year and date
+ * @returns date from month & year in 'YYYY-MM-DD'
+ */
+export const getDateFromMonthYear = ({month, year, date = '01'}) => {
+  return `${year}-${String(month).padStart(2, '0')}-${date}`;
+};

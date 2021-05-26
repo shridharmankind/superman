@@ -12,6 +12,7 @@ import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
 import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
+import {isWeb} from 'helper';
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -20,8 +21,12 @@ const App = () => {
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
 
   useEffect(() => {
-    if (Platform.OS !== 'web') {
-      SplashScreen.hide();
+    if (!isWeb()) {
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          SplashScreen.hide();
+        });
+      }, 2000);
     }
   }, []);
 

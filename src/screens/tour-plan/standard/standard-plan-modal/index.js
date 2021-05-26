@@ -1,12 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  ListVi,
-} from 'react-native';
-import {Modal} from 'react-native-paper';
+import React, {useState, useEffect} from 'react';
+import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
