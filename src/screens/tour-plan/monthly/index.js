@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import React, {useState, useEffect, useRef} from 'react';
-import {View, TouchableWithoutFeedback} from 'react-native';
+import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
@@ -265,20 +265,22 @@ const MonthlyTourPlan = ({navigation}) => {
   const getModalContent = () => {
     const optionsToIterate = getOptionsToIterateForDropDown();
     return (
-      <View style={styles.contentView}>
-        {optionsToIterate.map((option, index) => (
-          <TouchableWithoutFeedback
-            key={index}
-            onPress={() => selectedTourPlanHandler(option)}>
-            <Label
-              type={option.selected ? 'bold' : 'regular'}
-              title={option.text}
-              size={14}
-              style={styles.modalText}
-            />
-          </TouchableWithoutFeedback>
-        ))}
-      </View>
+      <ScrollView>
+        <View style={styles.contentView}>
+          {optionsToIterate.map((option, index) => (
+            <TouchableWithoutFeedback
+              key={index}
+              onPress={() => selectedTourPlanHandler(option)}>
+              <Label
+                type={option.selected ? 'bold' : 'regular'}
+                title={option.text}
+                size={14}
+                style={styles.modalText}
+              />
+            </TouchableWithoutFeedback>
+          ))}
+        </View>
+      </ScrollView>
     );
   };
 
