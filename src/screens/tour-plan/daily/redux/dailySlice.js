@@ -1,6 +1,10 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
 import merge from 'lodash.merge';
+import {FETCH_DOCTOR_DETAIL} from 'screens/screens/tourPlan/actionConstants'; 
 
+/**
+ * Initial state of doctor details
+ */
 export const doctorDetailState = {
   doctorDetail: {
     data: [],
@@ -9,13 +13,15 @@ export const doctorDetailState = {
 
 /**
  *  redux-saga actions
- *  - use this in index.js at watchers
  */
-export const fetchDoctorDetailCreator = createAction('FETCH_DOCTOR_DETAIL');
+export const fetchDoctorDetailCreator = createAction(FETCH_DOCTOR_DETAIL);
 export const fetchDoctorDetailTypeName = fetchDoctorDetailCreator().type;
 
+/**
+ *  create doctor detail slice defining the intial state, reducers
+ */
 export const doctorDetailSlice = createSlice({
-  name: 'FETCH_DOCTOR_DETAIL',
+  name: FETCH_DOCTOR_DETAIL,
   initialState: doctorDetailState,
   reducers: {
     getDoctorDetail: (state, action) => merge(state, action.payload),
