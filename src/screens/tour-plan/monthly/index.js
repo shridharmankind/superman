@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 import React, {useState, useEffect, useRef} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import styles from './styles';
@@ -15,6 +16,7 @@ import {
   TOUR_PLAN_TYPE,
 } from 'screens/tourPlan/constants';
 import {NetworkService} from 'services';
+import {fetchWMonthlyPlanCreator, monthlyPlanSelector} from './redux';
 
 /**
  * Check if same month is selected
@@ -47,7 +49,9 @@ function usePrevious(value) {
 const MonthlyTourPlan = ({navigation}) => {
   const {colors} = useTheme();
 
-  const [workingDays, setworkingDays] = useState();
+  const [workingDays, setworkingDays] = useState(
+    useSelector(monthlyPlanSelector.allWorkingDay()),
+  );
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
@@ -57,6 +61,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
   const previousMonthSelected = usePrevious(monthSelected);
+  const dispatch = useDispatch();
   //effects
   useEffect(() => {
     const fetchData = async () => {
@@ -117,14 +122,8 @@ const MonthlyTourPlan = ({navigation}) => {
 
   //Effect to get working Days from API on load of page
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await NetworkService.get('Stp/workingDay/1');
-      if (result.status === Constants.HTTP_OK) {
-        setworkingDays(result.data?.workingDay);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(fetchWMonthlyPlanCreator({userId: 1}));
+  }, [dispatch]);
 
   useEffect(() => {
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
