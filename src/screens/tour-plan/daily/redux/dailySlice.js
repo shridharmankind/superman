@@ -1,6 +1,6 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
 import merge from 'lodash.merge';
-import {FETCH_DOCTOR_DETAIL} from 'screens/screens/tourPlan/actionConstants'; 
+import {FETCH_DOCTOR_DETAIL} from 'screens/screens/tourPlan/actionConstants';
 
 /**
  * Initial state of doctor details
