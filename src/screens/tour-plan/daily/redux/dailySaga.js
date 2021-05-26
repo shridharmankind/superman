@@ -20,6 +20,7 @@ export function* fetchDoctorDetailWatcher() {
  */
 export function* fetchDoctorDetailWorker(action) {
   console.log('action', action);
+  const {staffPositionid, day, month, year} = action.payload;
   /**
    * Update status for fetching state
    */
@@ -32,16 +33,11 @@ export function* fetchDoctorDetailWorker(action) {
     let targetUrl = 'http://52.140.117.105:5001/api/Mtp/getParties';
     // let targetUrl = 'https://jsonplaceholder.typicode.com/todos?_limit=10';
 
-    //start Fetching
-    const response = yield call(axios, {
-      method: 'post',
-      url: targetUrl,
-      data: {
-        staffPositionid: 1,
-        day: 21,
-        month: 5,
-        year: 2021,
-      },
+    const response = yield call(NetworkService.post, 'Mtp/getParties', {
+      staffPositionid: staffPositionid,
+      day: day,
+      month: month,
+      year: year,
     });
     console.log('here', response.data);
     /**

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
@@ -144,17 +144,22 @@ const DailyTourPlan = () => {
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 1,
-        day: 21,
+        staffPositionid: 2,
+        day: 5,
         month: 5,
         year: 2021,
       }),
     );
   }, [dispatch]);
 
-  const getDailyData = useSelector(dailySelector.allDoctorDetail());
+  const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
+  const [dayPlanData, setDayPlanData] = useState([]);
 
-  console.log('test', getDailyData);
+  useEffect(() => {
+    setDayPlanData(allDoctorDetail);
+  }, [allDoctorDetail]);
+
+  // console.log('test', getDailyData);
 
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
@@ -202,10 +207,10 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
-    const sortedDayPlan = dayPlan.sort(sortBasedOnCategory);
+    const sortedDayPlan = (dayPlan || []).sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
-        {sortedDayPlan.map((plan, index) => {
+        {(sortedDayPlan || []).map((plan, index) => {
           let closeRow;
 
           return (
