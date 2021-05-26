@@ -1,8 +1,6 @@
-import {takeEvery} from 'redux-saga/effects';
+import {takeEvery, call, put} from 'redux-saga/effects';
 import {fetchDoctorDetailTypeName, doctorDetailActions} from './dailySlice';
-import {fetchStatusSliceActions} from 'reducers';
-import {call, put} from 'redux-saga/effects';
-import {FetchEnumStatus} from 'reducers';
+import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {getParties} from 'screens/tourPlan/apiPath';
 
