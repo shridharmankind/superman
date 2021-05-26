@@ -6,7 +6,7 @@ import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
-import theme from 'themes';
+import {MoreVerticalIcon} from 'assets';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -75,7 +75,7 @@ const DoctorDetails = ({
           </View>
           <View style={styles.tileRight}>
             <TouchableOpacity onPress={onTilePress}>
-              <Icon name="ellipsis-v" size={15} color={theme.colors.primary} />
+              <MoreVerticalIcon width={20} height={20} />
             </TouchableOpacity>
           </View>
         </View>

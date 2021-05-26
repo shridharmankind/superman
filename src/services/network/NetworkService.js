@@ -80,21 +80,21 @@ export const put = async (url, data = {}, params = {}) => {
     params,
   };
 
-//   return client(config)
-//     .then(function (response) {
-//       // handle success
-//       return response;
-//     })
-//     .catch(function (error) {
-//       // handle error, based on different error code different error message can be set here
-//       return error.response || error.message;
-//     });
-// };
+  return client(config)
+    .then(function (response) {
+      // handle success
+      return response;
+    })
+    .catch(function (error) {
+      // handle error, based on different error code different error message can be set here
+      return error.response || error.message;
+    });
+};
 
 const NetworkService = {
   get,
   post,
-  // put,
+  put,
 };
 
 export default NetworkService;

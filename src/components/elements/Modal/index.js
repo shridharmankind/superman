@@ -19,6 +19,7 @@ import styles from './styles';
  * @param {Boolean} closeAction boolean flag to decide whether to show close icon
  * @param {String} closeTestId test id for close icon
  * @param {Object} customModalPosition styling for custom modal position
+ * @param {Object} customModalView styling for custom modal view
  */
 
 const CustomModal = ({
@@ -32,6 +33,7 @@ const CustomModal = ({
   closeAction,
   closeTestId,
   customModalPosition,
+  customModalView,
 }) => {
   const {colors} = useTheme();
   const primaryActionHandler = () => {
@@ -46,7 +48,7 @@ const CustomModal = ({
         visible={open}
         onRequestClose={onClose}>
         <View style={[styles.centeredView, customModalPosition]}>
-          <View style={styles.modalView}>
+          <View style={[styles.modalView, customModalView]}>
             <View style={styles.titleView}>
               <View style={styles.title}>{modalTitle}</View>
               {closeAction && (
@@ -85,6 +87,7 @@ CustomModal.propTypes = {
   closeAction: PropTypes.bool,
   closeTestId: PropTypes.string,
   customModalPosition: PropTypes.object,
+  customModalView: PropTypes.object,
 };
 
 export default CustomModal;

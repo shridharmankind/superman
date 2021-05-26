@@ -7,6 +7,7 @@ import {Label, Modal, Button, SwipeRow} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {isWeb} from 'helper';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -192,12 +193,12 @@ const DailyTourPlan = () => {
    */
   const getModalTitle = () => {
     return (
-      <View>
+      <View style={styles.modalTitle}>
         <Label
           type="bold"
-          title={'Do you want to remove'}
+          title={'Do you want to remove this doctor visit?'}
           size={14}
-          // style={styles.modalTitleText}
+          style={styles.modalTitleText}
         />
       </View>
     );
@@ -230,6 +231,7 @@ const DailyTourPlan = () => {
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
         customModalPosition={{alignItems: 'center', justifyContent: 'center'}}
+        customModalView={styles.modalView}
       />
     );
   };
@@ -294,8 +296,10 @@ const DailyTourPlan = () => {
                     visitData={plan.visitData}
                     showTile={true}
                     onTilePress={() => {
-                      setVisible(true);
-                      setItemPressed(index);
+                      if (isWeb()) {
+                        setVisible(true);
+                        setItemPressed(index);
+                      }
                     }}
                   />
                 </View>

@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   doctorTile: {
-    marginTop: 20,
+    marginTop: 10,
   },
   borderOuterContainer: {
     height: 1,
@@ -71,15 +71,17 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   borderInnerContainer: {
-    height: 2,
-    borderWidth: 1,
+    height: 1,
+    borderWidth: 0.5,
     borderColor: theme.colors.grey[200],
-    borderStyle: 'dotted',
-    borderRadius: 0.0000001,
+    borderStyle: 'dashed',
+    borderRadius: 0.00000001,
   },
   tileContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-start',
+    marginTop: 5,
+    marginRight: 5,
   },
   tileLeft: {
     flexDirection: 'row',
