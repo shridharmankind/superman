@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
@@ -8,10 +8,13 @@ import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
+import {fetchDoctorDetailCreator, dailySelector} from './redux';
+import {useSelector, useDispatch} from 'react-redux';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
+  const dispatch = useDispatch();
   const dayPlan = [
     {
       name: 'Dr. Ashish Gulati',
@@ -139,6 +142,24 @@ const DailyTourPlan = () => {
     },
   ];
 
+  useEffect(() => {
+    dispatch(
+      fetchDoctorDetailCreator({
+        staffPositionid: 2,
+        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+      }),
+    );
+  }, [dispatch]);
+
+  const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
+  const [dayPlanData, setDayPlanData] = useState([]);
+
+  useEffect(() => {
+    setDayPlanData(allDoctorDetail);
+  }, [allDoctorDetail]);
+
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
     specialization: styles.specialization,
@@ -244,10 +265,10 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
-    const sortedDayPlan = dayPlan.sort(sortBasedOnCategory);
+    const sortedDayPlan = (dayPlanData || []).sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
-        {sortedDayPlan.map((plan, index) => {
+        {(sortedDayPlan || []).map((plan, index) => {
           let closeRow;
 
           return (
@@ -289,13 +310,13 @@ const DailyTourPlan = () => {
                 <View key={index} style={styles.doctorDetailContainer}>
                   <DoctorDetails
                     title={plan.name}
-                    specialization={plan.specialization}
-                    category={plan.category}
-                    location={plan.location}
+                    specialization={dayPlan[index].specialization}
+                    category={dayPlan[index].category}
+                    location={dayPlan[index].location}
                     customStyle={doctorDetailStyleObject}
                     showFrequencyChiclet={false}
                     showVisitPlan={true}
-                    visitData={plan.visitData}
+                    visitData={dayPlan[index].visitData}
                     showTile={true}
                     onTilePress={() => {
                       if (isWeb()) {
