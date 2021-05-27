@@ -1,6 +1,7 @@
 import React from 'react';
 import {Chip} from 'react-native-paper';
 import PropTypes from 'prop-types';
+import themes from 'themes';
 import styles from './styles';
 
 /**
@@ -34,7 +35,7 @@ const AreaChip = ({
 }) => {
   const selectedStyle = {
     color: selected ? selectedTextColor : color,
-    fontWeight: selected ? 'bold' : '500',
+    fontWeight: selected ? themes.fontWeight.bold : themes.fontWeight.regular,
   };
 
   return (

@@ -79,12 +79,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   }, []);
 
   useEffect(() => {
-    const patch = patches && patches.filter(val => patchValue === val.name);
+    const patch = (patches || []).filter(val => patchValue === val.name);
     setPatchSelected(patch && patch.length > 0 && patch[0].name);
   }, [patches, patchValue]);
 
   const handleAreaSelected = val => {
-    const index = areaSelected.filter(area => area.id === val);
+    const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
       setAreaSelected(areaSelected.filter(item => item.id !== val));
     } else {
@@ -98,7 +98,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   };
 
   const getPartyCountFromArea = useCallback(() => {
-    const areaData = areaList.map(area => {
+    const areaData = (areaList || []).map(area => {
       return {
         name: area.name,
         id: area.id,
@@ -127,22 +127,20 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   );
 
   const createPatchString = useCallback(() => {
-    let patchString =
-      areaSelected.length > 0 &&
-      areaSelected
-        .filter(area => {
-          const partyData = partiesList.find(party =>
-            doctorsSelected.some(
-              obj =>
-                obj.partyId === party.id &&
-                party.areas.some(par => par.id === area.id),
-            ),
-          );
-          return partyData ? true : false;
-        })
-        .map(patch => patch.name)
-        .join(' + ');
-    const patchCount = patches && patches.filter(p => p.name === patchString);
+    let patchString = (areaSelected || [])
+      .filter(area => {
+        const partyData = partiesList.find(party =>
+          doctorsSelected.some(
+            obj =>
+              obj.partyId === party.id &&
+              party.areas.some(par => par.id === area.id),
+          ),
+        );
+        return partyData ? true : false;
+      })
+      .map(patch => patch.name)
+      .join(' + ');
+    const patchCount = (patches || []).filter(p => p.name === patchString);
     if (patchCount && patchCount.length > 0) {
       patchString = patchString ? patchString + ` (${patchCount.length})` : '';
     }
