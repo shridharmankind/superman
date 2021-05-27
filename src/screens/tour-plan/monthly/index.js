@@ -12,8 +12,12 @@ import {MonthlyView, Legends} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
-import {NetworkService} from 'services';
-import {getSubordinatesCreator, monthlyTourPlanSelector} from './redux';
+
+import {
+  getSubordinatesCreator,
+  monthlyTourPlanSelector,
+  fetchWorkingDayCreator,
+} from './redux';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -47,7 +51,10 @@ const MonthlyTourPlan = ({navigation}) => {
   const {colors} = useTheme();
 
   const user = userMock.users[0];
-  const [workingDays, setworkingDays] = useState();
+
+  const [workingDays, setworkingDays] = useState(
+    useSelector(monthlyTourPlanSelector.allWorkingDay()),
+  );
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
@@ -121,14 +128,8 @@ const MonthlyTourPlan = ({navigation}) => {
 
   //Effect to get working Days from API on load of page
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await NetworkService.get('Stp/workingDay/1');
-      if (result.status === Constants.HTTP_OK) {
-        setworkingDays(result.data?.workingDay);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(fetchWorkingDayCreator({userId: 1}));
+  }, [dispatch]);
 
   useEffect(() => {
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
