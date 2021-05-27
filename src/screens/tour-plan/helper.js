@@ -22,6 +22,10 @@ export const getTourPlanScheduleMonths = inputDate => {
     year: year + 1,
   };
 
+  if (currentDate.month >= 1 && currentDate.month <= 3) {
+    nextFiscalYear.year = year;
+  }
+
   let schedule = {
     month: currentDate.month,
     year: currentDate.year,

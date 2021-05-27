@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   removeCardButtonContainer: {
     alignItems: 'flex-end',
     width: '100%',
-    height: '110%',
+    height: '100%',
     marginTop: 5,
   },
   removeCard: {
@@ -85,6 +85,29 @@ const styles = StyleSheet.create({
   },
   swipeRow: {
     marginTop: 20,
+  },
+  modalView: {
+    width: 300,
+    height: 200,
+  },
+  modalContentView: {
+    paddingTop: 50,
+    paddingBottom: 30,
+  },
+  modalTitle: {
+    paddingTop: 30,
+    justifyContent: 'center',
+  },
+  modalTitleText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
+  detailsContainer: {
+    width: '100%',
+  },
+  modalContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

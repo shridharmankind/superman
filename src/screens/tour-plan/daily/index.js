@@ -1,16 +1,20 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
-import {Label, SwipeRow} from 'components/elements';
+import {Label, Modal, Button, SwipeRow} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {isWeb} from 'helper';
+import {fetchDoctorDetailCreator, dailySelector} from './redux';
+import {useSelector, useDispatch} from 'react-redux';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
+  const dispatch = useDispatch();
   const dayPlan = [
     {
       name: 'Dr. Ashish Gulati',
@@ -138,16 +142,37 @@ const DailyTourPlan = () => {
     },
   ];
 
+  useEffect(() => {
+    dispatch(
+      fetchDoctorDetailCreator({
+        staffPositionid: 2,
+        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+      }),
+    );
+  }, [dispatch]);
+
+  const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
+  const [dayPlanData, setDayPlanData] = useState([]);
+
+  useEffect(() => {
+    setDayPlanData(allDoctorDetail);
+  }, [allDoctorDetail]);
+
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
     specialization: styles.specialization,
     divisionContainerCustom: styles.divisionContainer,
     imageCustom: styles.image,
+    detailsContainerCustom: styles.detailsContainer,
     titleSize: 21,
     subTitleSize: 14,
     divisionSize: 10,
   };
 
+  const [visible, setVisible] = useState(false);
+  const [itemPressed, setItemPressed] = useState();
   /**
    * formats current date
    * @returns formatted date
@@ -180,14 +205,70 @@ const DailyTourPlan = () => {
   };
 
   /**
+   * toggles modal
+   */
+  const handleDialog = () => setVisible(!visible);
+
+  /**
+   * configures the modal title
+   * @returns modal title
+   */
+  const getModalTitle = () => {
+    return (
+      <View style={styles.modalTitle}>
+        <Label
+          type="bold"
+          title={Strings.removeDoctorConfirmation}
+          size={14}
+          style={styles.modalTitleText}
+        />
+      </View>
+    );
+  };
+
+  /**
+   * renders modal content area
+   * @returns modal content
+   */
+  const getModalContent = () => {
+    return (
+      <View style={styles.modalContentView}>
+        <Button
+          title={Strings.proceed}
+          onPress={() => {
+            setVisible(false);
+          }}
+        />
+      </View>
+    );
+  };
+
+  /**
+   * renders modal to show confirmatiion message to remove doctor from daily plan
+   * @returns modal
+   */
+  const pressTile = () => {
+    return (
+      <Modal
+        open={visible}
+        onClose={handleDialog}
+        modalTitle={getModalTitle()}
+        modalContent={getModalContent()}
+        customModalPosition={styles.modalContent}
+        customModalView={styles.modalView}
+      />
+    );
+  };
+
+  /**
    * function to render the list of doctor's planned visits
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
-    const sortedDayPlan = dayPlan.sort(sortBasedOnCategory);
+    const sortedDayPlan = (dayPlanData || []).sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
-        {sortedDayPlan.map((plan, index) => {
+        {(sortedDayPlan || []).map((plan, index) => {
           let closeRow;
 
           return (
@@ -207,7 +288,6 @@ const DailyTourPlan = () => {
                   style={styles.removeCard}
                   onPress={() => {
                     closeRow && closeRow();
-                    console.log('delete action triggered', plan, index);
                   }}>
                   <View style={styles.removeCardButton}>
                     <View style={styles.closeLabel}>
@@ -220,7 +300,7 @@ const DailyTourPlan = () => {
                       />
                     </View>
                     <Label
-                      title={'Remove from today'}
+                      title={Strings.removeFromToday}
                       style={styles.removeCardButtonText}
                     />
                   </View>
@@ -230,13 +310,20 @@ const DailyTourPlan = () => {
                 <View key={index} style={styles.doctorDetailContainer}>
                   <DoctorDetails
                     title={plan.name}
-                    specialization={plan.specialization}
-                    category={plan.category}
-                    location={plan.location}
+                    specialization={dayPlan[index].specialization}
+                    category={dayPlan[index].category}
+                    location={dayPlan[index].location}
                     customStyle={doctorDetailStyleObject}
                     showFrequencyChiclet={false}
                     showVisitPlan={true}
-                    visitData={plan.visitData}
+                    visitData={dayPlan[index].visitData}
+                    showTile={true}
+                    onTilePress={() => {
+                      if (isWeb()) {
+                        setVisible(true);
+                        setItemPressed(index);
+                      }
+                    }}
                   />
                 </View>
               </View>
@@ -259,6 +346,7 @@ const DailyTourPlan = () => {
         {getVisitBifurcationLabel()}
       </View>
       {renderDayPlan()}
+      {pressTile()}
     </ScrollView>
   );
 };

@@ -44,6 +44,13 @@ const Strings = {
   logOffmsg: 'Are you sure you want to Log off?',
   cancel: 'Cancel',
   ok: 'OK',
+  doctorUniverse: 'Doctor Universe',
+  addOtherDoctors: 'Add other doctors',
+  labelRssdi: 'RSSDI',
+  dailyPlanTileTitle: 'Samples requested – Telmikind',
+  removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
+  proceed: 'Proceed',
+  removeFromToday: 'Remove from today',
 };
 
 export default Strings;
