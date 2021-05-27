@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Strings, Constants} from 'common';
+import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
@@ -52,9 +52,7 @@ const MonthlyTourPlan = ({navigation}) => {
 
   const user = userMock.users[0];
 
-  const [workingDays, setworkingDays] = useState(
-    useSelector(monthlyTourPlanSelector.allWorkingDay()),
-  );
+  const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
@@ -64,6 +62,11 @@ const MonthlyTourPlan = ({navigation}) => {
   const [monthSelected, setMonthSelected] = useState();
   const previousMonthSelected = usePrevious(monthSelected);
 
+  const subOrdinatesList = useSelector(
+    monthlyTourPlanSelector.allSubOrdinates(),
+  );
+  const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
+
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
@@ -72,9 +75,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   }, [dispatch]);
 
-  const subOrdinatesList = useSelector(
-    monthlyTourPlanSelector.allSubOrdinates(),
-  );
+  useEffect(() => setworkingDays(workindDay), [workindDay]);
 
   useEffect(() => {
     const myPlan = {
@@ -315,7 +316,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderView = () => {
     switch (selectedTourPlan?.id) {
       case 1:
-        return workingDays ? (
+        return workingDays.length ? (
           <>
             <StandardPlanContainer
               workingDays={workingDays}
@@ -325,7 +326,7 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthSelected && workingDays ? (
+        return monthSelected && workingDays.length ? (
           <>
             <MonthlyView
               workingDays={workingDays}
