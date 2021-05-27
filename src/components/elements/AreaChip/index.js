@@ -32,6 +32,11 @@ const AreaChip = ({
   value,
   onPress,
 }) => {
+  const selectedStyle = {
+    color: selected ? selectedTextColor : color,
+    fontWeight: selected ? 'bold' : '500',
+  };
+
   return (
     <Chip
       key={value}
@@ -43,10 +48,7 @@ const AreaChip = ({
           backgroundColor: selected && selectedColor ? selectedColor : bgColor,
         },
       ]}
-      textStyle={{
-        color: selected ? selectedTextColor : color,
-        fontWeight: selected ? 'bold' : '500',
-      }}
+      textStyle={[selectedStyle, styles.chip]}
       type="flat"
       onPress={() => onPress(value)}
       activeOpacity={1}>
