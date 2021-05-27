@@ -2,4 +2,8 @@ export const resetPassword = () => {};
 
 export const saveAccessToken = () => {};
 
-export const getAccessToken = async () => {};
+export const getAccessToken = () => {};
+
+export const saveDatabaseKey = () => {};
+
+export const getDatabaseKey = () => {};

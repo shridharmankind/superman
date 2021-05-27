@@ -12,7 +12,7 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
    * @param {string} row represents row clicked
    */
   const handleOnClickWeekView = (header, row) =>
-    navigation.navigate('StandardPlan'); //setOpenModal(true);
+    navigation.navigate('StandardPlan', {header, row, workingDays}); //setOpenModal(true);
   return (
     <WeekView
       workingDays={workingDays}

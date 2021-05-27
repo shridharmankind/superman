@@ -26,7 +26,7 @@ const Frequency = ({visited, testID, ...props}) => {
   return (
     <View style={[styles.container, isVisited]} testID={testID}>
       {visited && (
-        <Icon name="circle" size={16} color={themes.colors.grey[200]} />
+        <Icon name="circle" size={10} color={themes.colors.grey[200]} />
       )}
     </View>
   );

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {Platform} from 'react-native';
+import {LogBox} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -17,7 +17,8 @@ import {isWeb} from 'helper';
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
-  const isLoggedIn = true;
+  LogBox.ignoreAllLogs();
+  const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
 
   useEffect(() => {

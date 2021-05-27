@@ -1,2 +1,5 @@
-import * as DatabaseHelper from './DatabaseHelper';
-export {DatabaseHelper};
+import * as Operations from './operations';
+import * as Helper from './helper';
+import * as Schemas from './schemas';
+
+export {Operations, Helper, Schemas};
