@@ -35,7 +35,7 @@ const AreaChip = ({
 }) => {
   const selectedStyle = {
     color: selected ? selectedTextColor : color,
-    fontWeight: selected ? themes.fontWeight.bold : themes.fontWeight.regular,
+    fontFamily: selected ? themes.fonts.fontBold : themes.fonts.fontRegular,
   };
 
   return (

@@ -44,10 +44,6 @@ const theme = {
     fontSemiBold: 'Poppins-SemiBold',
     fontItalic: 'Poppins-Italic',
   },
-  fontWeight: {
-    bold: 'bold',
-    regular: '500',
-  },
   roundness: 10,
 };
 
