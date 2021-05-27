@@ -61,7 +61,7 @@ export default [
     route: DashboardRoutes.ROUTE_SETTINGS,
   },
   {
-    Icon: SettingsIcon,
+    Icon: LogoutIcon,
     label: 'Logout',
     Id: Constants.LOGOUT_ITEM_ID,
   },

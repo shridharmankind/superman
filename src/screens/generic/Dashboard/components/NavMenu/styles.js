@@ -40,6 +40,7 @@ export default StyleSheet.create({
     borderBottomRightRadius: 10,
     marginLeft: 0,
     paddingLeft: 56,
+    width: '80%',
     backgroundColor: theme.colors.primary,
   },
   logoutText: {
