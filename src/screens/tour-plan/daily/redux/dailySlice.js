@@ -11,16 +11,22 @@ export const doctorDetailState = {
 };
 
 /**
- *  redux-saga actions
+ *  Action creator and type to fetch parties list
  */
 export const fetchDoctorDetailCreator = createAction('FETCH_DOCTOR_DETAIL');
 export const fetchDoctorDetailTypeName = fetchDoctorDetailCreator().type;
 
 /**
- *  create doctor detail slice defining the intial state, reducers
+ *  Action creator and type to delete a party
+ */
+export const deletePartyCreator = createAction('REMOVE_PARTY');
+export const deletePartyTypeName = deletePartyCreator().type;
+
+/**
+ *  create daily plan slice defining the intial state, reducers
  */
 export const doctorDetailSlice = createSlice({
-  name: 'FETCH_DOCTOR_DETAIL',
+  name: 'DAILY_PLAN',
   initialState: doctorDetailState,
   reducers: {
     getDoctorDetail: (state, action) => merge(state, action.payload),

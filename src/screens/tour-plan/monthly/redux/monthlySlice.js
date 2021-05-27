@@ -12,7 +12,7 @@ export const monthlyTourPlan = {
 };
 
 /**
- *  redux-saga actions
+ *  Action Creator and type to get sub-ordinates of the logged-in staff
  */
 export const getSubordinatesCreator = createAction('GET_SUBORDINATES');
 export const getSubordinatesTypeName = getSubordinatesCreator().type;
@@ -25,7 +25,7 @@ export const fetchWorkingDayCreatorType = fetchWorkingDayCreator().type;
  *  create subordinate slice defining the intial state, reducers
  */
 export const getMonthlySlice = createSlice({
-  name: 'GET_SUBORDINATES',
+  name: 'MONTHLY_TOUR_PLAN',
   initialState: monthlyTourPlan,
   reducers: {
     getSubordinates: (state, action) => merge(state, action.payload),

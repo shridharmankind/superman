@@ -91,10 +91,36 @@ export const put = async (url, data = {}, params = {}) => {
     });
 };
 
+export const Delete = async (url, data = {}, params = {}) => {
+  const accessToken = await KeyChain.getAccessToken();
+  const config = {
+    baseURL: env.API_HOST,
+    method: 'DELETE',
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    data,
+    params,
+  };
+
+  return client(config)
+    .then(function (response) {
+      // handle success
+      return response;
+    })
+    .catch(function (error) {
+      // handle error, based on different error code different error message can be set here
+      return error.response || error.message;
+    });
+};
+
 const NetworkService = {
   get,
   post,
   put,
+  Delete,
 };
 
 export default NetworkService;

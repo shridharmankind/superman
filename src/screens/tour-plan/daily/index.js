@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity, Alert} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
@@ -8,7 +8,11 @@ import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
-import {fetchDoctorDetailCreator, dailySelector} from './redux';
+import {
+  fetchDoctorDetailCreator,
+  dailySelector,
+  deletePartyCreator,
+} from './redux';
 import {useSelector, useDispatch} from 'react-redux';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
@@ -157,6 +161,7 @@ const DailyTourPlan = () => {
   const [dayPlanData, setDayPlanData] = useState([]);
 
   useEffect(() => {
+    console.log('alldoctordetail', allDoctorDetail);
     setDayPlanData(allDoctorDetail);
   }, [allDoctorDetail]);
 
@@ -260,6 +265,18 @@ const DailyTourPlan = () => {
     );
   };
 
+  const removeParty = partyId => {
+    dispatch(
+      deletePartyCreator({
+        staffPositionid: 2,
+        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+        partyId: partyId,
+      }),
+    );
+  };
+
   /**
    * function to render the list of doctor's planned visits
    * @returns list of doctors planned for current day visit
@@ -287,6 +304,7 @@ const DailyTourPlan = () => {
                 <TouchableOpacity
                   style={styles.removeCard}
                   onPress={() => {
+                    removeParty(plan.id);
                     closeRow && closeRow();
                   }}>
                   <View style={styles.removeCardButton}>
