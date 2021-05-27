@@ -8,6 +8,7 @@ export const monthlyTourPlan = {
   subOrdinates: {
     data: [],
   },
+  workingDay: [],
 };
 
 /**
@@ -16,16 +17,23 @@ export const monthlyTourPlan = {
 export const getSubordinatesCreator = createAction('GET_SUBORDINATES');
 export const getSubordinatesTypeName = getSubordinatesCreator().type;
 
+// Action Creatorand type for Working Day
+export const fetchWorkingDayCreator = createAction('WORKING_DAY_CREATOR');
+export const fetchWorkingDayCreatorType = fetchWorkingDayCreator().type;
+
 /**
  *  create subordinate slice defining the intial state, reducers
  */
-export const getSubordinateSlice = createSlice({
+export const getMonthlySlice = createSlice({
   name: 'GET_SUBORDINATES',
   initialState: monthlyTourPlan,
   reducers: {
     getSubordinates: (state, action) => merge(state, action.payload),
+    getWorkingDay: (state, action) => {
+      return merge(state, action.payload);
+    },
   },
 });
 
-export const subOrdinateReducer = getSubordinateSlice.reducer;
-export const subOrdinateActions = getSubordinateSlice.actions;
+export const monthlyReducer = getMonthlySlice.reducer;
+export const monthlyActions = getMonthlySlice.actions;

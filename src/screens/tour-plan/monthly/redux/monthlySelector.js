@@ -10,9 +10,15 @@ const allSubOrdinatesSelector = createSelector(
   [getSubordinateList],
   data => data,
 );
+const workingDayList = state => state.monthlyState.workingDay;
+
+const workingDaySelector = createSelector([workingDayList], data => data);
 
 export const monthlyTourPlanSelector = {
   allSubOrdinates: () => {
     return allSubOrdinatesSelector;
+  },
+  allWorkingDay: () => {
+    return workingDaySelector;
   },
 };
