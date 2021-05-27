@@ -31,8 +31,7 @@ const StandardPlan = ({navigation, route}) => {
   );
 
   const getIndexOfDay = () => {
-    const index = route.params.workingDays.indexOf(route.params.row);
-    return index;
+    return route.params.workingDays.indexOf(route.params.row);
   };
 
   const renderStandardPlan = () => {
@@ -59,13 +58,6 @@ const StandardPlan = ({navigation, route}) => {
       paginationStyleItem={styles.paginationItem}
       paginationStyle={styles.paginationStyle}>
       {renderStandardPlan()}
-      {/* <View style={{width: width}}>
-        <StandardPlanModal
-          handleSliderIndex={handleSlider}
-          navigation={navigation}
-          weekTitle={'Week 1 - Tuesday'}
-        />
-      </View> */}
     </SwiperFlatList>
   );
 };

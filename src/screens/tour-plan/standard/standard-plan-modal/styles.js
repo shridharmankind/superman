@@ -69,15 +69,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   doctorDetails: {
-    // flex: 1,
     flexDirection: 'row',
     alignContent: 'flex-start',
     flexWrap: 'wrap',
     marginBottom: 20,
   },
   areaFilter: {
-    // flexDirection: 'row',
-    // width: 500,
     flex: 1,
     overflow: 'hidden',
   },
@@ -87,7 +84,6 @@ const styles = StyleSheet.create({
   },
   swiperArrow: {
     borderColor: themes.colors.grey[200],
-    // padding: 5,
     borderWidth: 1,
     borderRadius: 1000,
     width: 30,
@@ -133,7 +129,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: 10,
-    // marginLeft: 50,
   },
   week: {
     flexDirection: 'row',
