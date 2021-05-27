@@ -18,6 +18,8 @@ export default StyleSheet.create({
     paddingHorizontal: 24,
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 32,
+    marginRight: 32,
     ...Platform.select({web: {cursor: 'pointer'}}),
   },
   navItemActive: {
@@ -31,5 +33,16 @@ export default StyleSheet.create({
   },
   navItemLabelActive: {
     fontFamily: theme.fonts.fontSemiBold,
+  },
+  logout: {
+    height: 50,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    marginLeft: 0,
+    paddingLeft: 56,
+    backgroundColor: theme.colors.primary,
+  },
+  logoutText: {
+    color: theme.colors.white,
   },
 });

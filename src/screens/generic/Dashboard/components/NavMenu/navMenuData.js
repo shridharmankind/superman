@@ -8,8 +8,10 @@ import {
   ContentIcon,
   LearnIcon,
   SettingsIcon,
+  LogoutIcon,
 } from 'assets';
 import * as DashboardRoutes from '../../routes';
+import * as Constants from '../../constants';
 
 // TODO move strings to en.json locale file after localization is setup
 export default [
@@ -61,5 +63,6 @@ export default [
   {
     Icon: SettingsIcon,
     label: 'Logout',
+    Id: Constants.LOGOUT_ITEM_ID,
   },
 ];

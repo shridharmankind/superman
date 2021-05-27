@@ -39,6 +39,11 @@ const Strings = {
   all: 'All',
   downloadingContent: 'Downloading content from server to your device',
   downloadingMaster: 'Downloading performance master',
+  error: 'Error',
+  info: 'Info',
+  logOffmsg: 'Are you sure you want to Log off?',
+  cancel: 'Cancel',
+  ok: 'OK',
 };
 
 export default Strings;
