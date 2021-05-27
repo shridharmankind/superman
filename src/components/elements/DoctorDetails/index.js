@@ -1,11 +1,13 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
+import {MoreVerticalIcon} from 'assets';
+import {Strings} from 'common';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -35,6 +37,8 @@ const DoctorDetails = ({
   showVisitPlan,
   visitData,
   isTicked,
+  showTile,
+  onTilePress,
   ...props
 }) => {
   /**
@@ -55,9 +59,38 @@ const DoctorDetails = ({
       </View>
     );
   };
+
+  const renderTile = () => {
+    return (
+      <View style={styles.doctorTile}>
+        <View style={styles.borderOuterContainer}>
+          <View style={styles.borderInnerContainer} />
+        </View>
+        <View style={styles.tileContainer}>
+          <View style={styles.tileLeft}>
+            <Label title={Strings.labelRssdi} style={styles.tileText} />
+            <Label
+              title={Strings.dailyPlanTileTitle}
+              style={[styles.tileText, styles.titleTextSecondary]}
+            />
+          </View>
+          <View style={styles.tileRight}>
+            <TouchableOpacity onPress={onTilePress}>
+              <MoreVerticalIcon width={20} height={20} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
-    <>
-      <View style={styles.detailsContainer}>
+    <View style={styles.container}>
+      <View
+        style={[
+          styles.detailsContainer,
+          customStyle && customStyle.detailsContainerCustom,
+        ]}>
         <View style={styles.details}>
           <View
             style={[
@@ -122,7 +155,8 @@ const DoctorDetails = ({
         )}
         {showVisitPlan && renderVisitData()}
       </View>
-    </>
+      {showTile && renderTile()}
+    </View>
   );
 };
 
@@ -144,6 +178,7 @@ DoctorDetails.defaultProps = {
   showVisitPlan: false,
   selected: false,
   division: '',
+  showTile: false,
 };
 
 DoctorDetails.propTypes = {

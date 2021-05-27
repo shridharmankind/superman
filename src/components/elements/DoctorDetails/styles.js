@@ -4,7 +4,7 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   detailsContainer: {
     justifyContent: 'space-between',
-    width: '50%',
+    width: '100%',
     flexGrow: 1,
     flexDirection: 'row',
   },
@@ -55,11 +55,48 @@ const styles = StyleSheet.create({
   },
   visitContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     alignSelf: 'center',
   },
   seperator: {
     paddingRight: 10,
+  },
+  doctorTile: {
+    marginTop: 10,
+  },
+  borderOuterContainer: {
+    height: 1,
+    overflow: 'hidden',
+    marginTop: 2,
+    paddingBottom: 5,
+  },
+  borderInnerContainer: {
+    height: 1,
+    borderWidth: 0.5,
+    borderColor: theme.colors.grey[200],
+    borderStyle: 'dashed',
+    borderRadius: 0.00000001,
+  },
+  tileContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    marginTop: 5,
+    marginRight: 5,
+  },
+  tileLeft: {
+    flexDirection: 'row',
+    flexGrow: 2,
+    alignItems: 'center',
+  },
+  tileText: {
+    fontSize: 12,
+    color: theme.colors.grey[600],
+  },
+  titleTextSecondary: {
+    marginLeft: 10,
+  },
+  container: {
+    flex: 1,
   },
 });
 

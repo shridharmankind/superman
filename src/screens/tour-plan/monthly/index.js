@@ -5,14 +5,13 @@ import {useTheme} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
-
+import {DropdownIcon} from 'assets';
 import {
   getSubordinatesCreator,
   monthlyTourPlanSelector,
@@ -179,7 +178,7 @@ const MonthlyTourPlan = ({navigation}) => {
             />
           </View>
           <View style={styles.iconContainer}>
-            <Icon name="caret-down" size={20} color={colors.primary} />
+            <DropdownIcon width={20} height={20} />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -206,7 +205,7 @@ const MonthlyTourPlan = ({navigation}) => {
             />
           </View>
           <View style={styles.iconContainer}>
-            <Icon name="caret-down" size={20} color={colors.primary} />
+            <DropdownIcon width={20} height={20} />
           </View>
         </View>
       </TouchableWithoutFeedback>
