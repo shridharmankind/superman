@@ -12,3 +12,4 @@ export {default as SettingsIcon} from './settings';
 export {default as DropdownIcon} from './dropdown';
 export {default as CloseIcon} from './close';
 export {default as MoreVerticalIcon} from './moreVertical';
+export {default as LogoutIcon} from './logout';

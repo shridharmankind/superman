@@ -8,6 +8,7 @@ import {
   ContentIcon,
   LearnIcon,
   SettingsIcon,
+  LogoutIcon,
 } from 'assets';
 import * as DashboardRoutes from '../../routes';
 
@@ -59,7 +60,7 @@ export default [
     route: DashboardRoutes.ROUTE_SETTINGS,
   },
   {
-    Icon: SettingsIcon,
+    Icon: LogoutIcon,
     label: 'Logout',
   },
 ];
