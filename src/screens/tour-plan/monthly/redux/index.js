@@ -1,7 +1,8 @@
-export {fetchSubOrdinatesWatcher} from './monthlySaga';
+export {fetchSubOrdinatesWatcher, fetchWorkingDayWatcher} from './monthlySaga';
 export {
   getSubordinatesCreator,
-  subOrdinateReducer,
-  subOrdinateActions,
+  fetchWorkingDayCreator,
+  monthlyReducer,
+  monthlyActions,
 } from './monthlySlice';
 export {monthlyTourPlanSelector} from './monthlySelector';
