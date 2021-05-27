@@ -95,6 +95,9 @@ const styles = StyleSheet.create({
   titleTextSecondary: {
     marginLeft: 10,
   },
+  container: {
+    flex: 1,
+  },
 });
 
 export default styles;

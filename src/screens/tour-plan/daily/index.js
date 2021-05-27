@@ -215,7 +215,6 @@ const DailyTourPlan = () => {
         <Button
           title={Strings.proceed}
           onPress={() => {
-            console.log(itemPressed);
             setVisible(false);
           }}
         />
@@ -268,7 +267,6 @@ const DailyTourPlan = () => {
                   style={styles.removeCard}
                   onPress={() => {
                     closeRow && closeRow();
-                    console.log('delete action triggered', plan, index);
                   }}>
                   <View style={styles.removeCardButton}>
                     <View style={styles.closeLabel}>
@@ -281,7 +279,7 @@ const DailyTourPlan = () => {
                       />
                     </View>
                     <Label
-                      title={'Remove from today'}
+                      title={Strings.removeFromToday}
                       style={styles.removeCardButtonText}
                     />
                   </View>

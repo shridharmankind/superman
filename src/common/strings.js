@@ -45,6 +45,7 @@ const Strings = {
   dailyPlanTileTitle: 'Samples requested – Telmikind',
   removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
   proceed: 'Proceed',
+  removeFromToday: 'Remove from today',
 };
 
 export default Strings;

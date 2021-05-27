@@ -85,15 +85,11 @@ const DoctorDetails = ({
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <View
-
-               style={[
-          
+        style={[
           styles.detailsContainer,
-         
           customStyle && customStyle.detailsContainerCustom,
-        ,
         ]}>
         <View style={styles.details}>
           <View
