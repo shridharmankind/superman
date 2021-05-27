@@ -1,5 +1,6 @@
 import {all, call, spawn} from 'redux-saga/effects';
 import {fetchTodoWatcher} from './../../screens/generic/Reference/redux/todoSaga';
+import {fetchDoctorDetailWatcher} from 'screens/tourPlan/daily/redux';
 
 export function* rootSaga() {
   /**
@@ -7,7 +8,7 @@ export function* rootSaga() {
    *  Register watchers
    *
    */
-  const sagas = [fetchTodoWatcher];
+  const sagas = [fetchTodoWatcher, fetchDoctorDetailWatcher];
 
   /**
    * keep everything (e.g., child tasks) alive
