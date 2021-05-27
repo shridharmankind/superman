@@ -6,7 +6,7 @@ import {
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
-import {getSubordinates, workingDay} from 'screens/tourPlan/apiPath';
+import {API_PATH} from 'screens/tourPlan/apiPath';
 
 /**
  * saga watcher to fetch the doctor detail
@@ -29,7 +29,7 @@ export function* fetchSubOrdinatesWorker(action) {
   try {
     const response = yield call(
       NetworkService.get,
-      `${getSubordinates}/${staffPositionid}`,
+      `${API_PATH.GET_SUBORDINATES}/${staffPositionid}`,
     );
     yield put(
       monthlyActions.getSubordinates({
@@ -46,11 +46,14 @@ export function* fetchSubOrdinatesWorker(action) {
 }
 
 export function* fetchWorkingDayWorker(action) {
-  const userId = action.payload.userId || 1;
+  const userId = action.payload.userId;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
-    const response = yield call(NetworkService.get, `${workingDay}/${userId}`);
+    const response = yield call(
+      NetworkService.get,
+      `${API_PATH.WORKING_DAY}/${userId}`,
+    );
     yield put(
       monthlyActions.getWorkingDay({
         workingDay: response.data?.workingDay,
