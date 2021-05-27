@@ -2,9 +2,8 @@ import {combineReducers} from 'redux';
 import {updateTodoDataReducer} from './../../screens/generic/Reference/redux/todoSlice';
 import {fetchStatusSliceReducer} from './appSlice';
 import {doctorDetailReducer} from 'screens/tourPlan/daily/redux';
-import {monthlyReducer} from 'screens/tourPlan/monthly/redux';
+import {monthlyReducer} from 'screens/tourPlan/monthly/redux/monthlySlice';
 
-// ** REFACTOR to new approach **/
 export const rootReducer = combineReducers({
   todoState: updateTodoDataReducer,
   appState: fetchStatusSliceReducer,
