@@ -79,12 +79,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   }, []);
 
   useEffect(() => {
-    const patch = patches && patches.filter(val => patchValue === val.name);
+    const patch = (patches || []).filter(val => patchValue === val.name);
     setPatchSelected(patch && patch.length > 0 && patch[0].name);
   }, [patches, patchValue]);
 
   const handleAreaSelected = val => {
-    const index = areaSelected.filter(area => area.id === val);
+    const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
       setAreaSelected(areaSelected.filter(item => item.id !== val));
     } else {
@@ -96,6 +96,17 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
     removeSelectedDoctorFromArea(val);
     setSelectedDoctorType(Strings.all);
   };
+
+  const getPartyCountFromArea = useCallback(() => {
+    const areaData = (areaList || []).map(area => {
+      return {
+        name: area.name,
+        id: area.id,
+        totalPartiesInArea: getDoctorsByArea(area.id).length,
+      };
+    });
+    return areaData;
+  }, [getDoctorsByArea, areaList]);
 
   const removeSelectedDoctorFromArea = useCallback(
     areaId => {
@@ -116,24 +127,25 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   );
 
   const createPatchString = useCallback(() => {
-    const patchString =
-      areaSelected.length > 0 &&
-      areaSelected
-        .filter(area => {
-          const partyData = partiesList.find(party =>
-            doctorsSelected.some(
-              obj =>
-                obj.partyId === party.id &&
-                party.areas.some(par => par.id === area.id),
-            ),
-          );
-
-          return partyData ? true : false;
-        })
-        .map(patch => patch.name)
-        .join(' + ');
+    let patchString = (areaSelected || [])
+      .filter(area => {
+        const partyData = partiesList.find(party =>
+          doctorsSelected.some(
+            obj =>
+              obj.partyId === party.id &&
+              party.areas.some(par => par.id === area.id),
+          ),
+        );
+        return partyData ? true : false;
+      })
+      .map(patch => patch.name)
+      .join(' + ');
+    const patchCount = (patches || []).filter(p => p.name === patchString);
+    if (patchCount && patchCount.length > 0) {
+      patchString = patchString ? patchString + ` (${patchCount.length})` : '';
+    }
     return patchString;
-  }, [areaSelected, doctorsSelected, partiesList]);
+  }, [areaSelected, doctorsSelected, partiesList, patches]);
 
   useEffect(() => {
     if (!patchValue) {
@@ -147,21 +159,24 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
     createPatchString,
   ]);
 
-  const getDoctorsByArea = area => {
-    const parties = partiesList.filter(party => {
-      const isArea = party.areas.find(obj => {
-        return (
-          obj.id === area &&
-          (party.partyType === selectedDoctorType ||
-            selectedDoctorType === Strings.all)
-        );
+  const getDoctorsByArea = useCallback(
+    area => {
+      const partiesData = partiesList.filter(party => {
+        const isArea = party.areas.find(obj => {
+          return (
+            obj.id === area &&
+            (party.partyType === selectedDoctorType ||
+              selectedDoctorType === Strings.all)
+          );
+        });
+        if (isArea) {
+          return party;
+        }
       });
-      if (isArea) {
-        return party;
-      }
-    });
-    return parties;
-  };
+      return partiesData;
+    },
+    [partiesList, selectedDoctorType],
+  );
 
   const handleDonePress = async () => {
     await NetworkService.post('/savePatch', {
@@ -183,12 +198,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
       console.log(res.data);
       navigation.navigate('TourPlan');
     });
-  };
-
-  const handleDeletePatch = async () => {
-    await NetworkService.get('/deletePatch/1').then(res =>
-      console.log(res.data),
-    );
   };
 
   const handlePartyByType = val => {
@@ -241,16 +250,18 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
         <View
           style={[
             styles.patchInputCotainer,
-            {opacity: patchValue || patchSelected ? 1 : 0.2},
+            patchValue || patchSelected
+              ? styles.opacity_full
+              : styles.opacity_light,
           ]}>
           <Label
             title={
-              patchSelected ||
+              (patchSelected && patchSelected) ||
               (patchValue && patchValue.name) ||
               Strings.patchName
             }
           />
-          <View style={styles.patchIconContainer}>
+          {/* <View style={styles.patchIconContainer}>
             <TouchableOpacity style={[styles.patchIcon]}>
               <Icon name="edit" size={15} color={themes.colors.white} />
             </TouchableOpacity>
@@ -259,7 +270,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
               onPress={() => handleDeletePatch()}>
               <Icon name="trash" size={15} color={themes.colors.white} />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
         <View style={styles.headerButtonGroup}>
           <Button
@@ -304,17 +315,18 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
                   horizontal={true}
                   ref={swiperRef}
                   showsHorizontalScrollIndicator={false}>
-                  {areaList.map(area => {
+                  {getPartyCountFromArea().map(area => {
                     return (
                       <Area
                         title={area.name}
                         value={area.id}
+                        count={area.totalPartiesInArea}
                         bgColor={'#524F670D'}
                         color={'#524F67'}
                         selectedColor={'#322B7C1A'}
                         selected={isAreaSelected(area.id, areaSelected)}
                         selectedTextColor={themes.colors.primary}
-                        style={{marginRight: 20}}
+                        style={styles.areaChip}
                         onPress={handleAreaSelected}
                       />
                     );

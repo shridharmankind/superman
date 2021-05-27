@@ -1,6 +1,7 @@
 import React from 'react';
 import {Chip} from 'react-native-paper';
 import PropTypes from 'prop-types';
+import themes from 'themes';
 import styles from './styles';
 
 /**
@@ -32,6 +33,11 @@ const AreaChip = ({
   value,
   onPress,
 }) => {
+  const selectedStyle = {
+    color: selected ? selectedTextColor : color,
+    fontFamily: selected ? themes.fonts.fontBold : themes.fonts.fontRegular,
+  };
+
   return (
     <Chip
       key={value}
@@ -43,10 +49,7 @@ const AreaChip = ({
           backgroundColor: selected && selectedColor ? selectedColor : bgColor,
         },
       ]}
-      textStyle={{
-        color: selected ? selectedTextColor : color,
-        fontWeight: selected ? 'bold' : '500',
-      }}
+      textStyle={[selectedStyle, styles.chip]}
       type="flat"
       onPress={() => onPress(value)}
       activeOpacity={1}>
