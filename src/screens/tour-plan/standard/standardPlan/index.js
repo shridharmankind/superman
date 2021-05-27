@@ -9,9 +9,11 @@ import styles from './styles';
  * This component use SwiperFlatList for swiping the day wise data
  */
 
-const StandardPlan = ({navigation}) => {
+const StandardPlan = ({navigation, route}) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [totelIndex, setTotalIndex] = useState(1);
+  const [totelIndex, setTotalIndex] = useState(
+    route.params.workingDays.length - 1,
+  );
   const swiperRef = useRef(null);
 
   const handleSlider = useCallback(
@@ -28,30 +30,34 @@ const StandardPlan = ({navigation}) => {
     [activeIndex, totelIndex, swiperRef],
   );
 
+  const getIndexOfDay = () => {
+    return route.params.workingDays.indexOf(route.params.row);
+  };
+
+  const renderStandardPlan = () => {
+    return route.params.workingDays.map(day => {
+      return (
+        <View style={{width: width}}>
+          <StandardPlanModal
+            handleSliderIndex={handleSlider}
+            navigation={navigation}
+            weekTitle={`${route.params.header} - ${day}`}
+          />
+        </View>
+      );
+    });
+  };
+
   return (
     <SwiperFlatList
       ref={swiperRef}
       showPagination
-      index={0}
+      renderAll={false}
+      index={getIndexOfDay()}
       paginationStyleItemActive={styles.activePaginationItem}
       paginationStyleItem={styles.paginationItem}
       paginationStyle={styles.paginationStyle}>
-      <>
-        <View style={{width: width}}>
-          <StandardPlanModal
-            handleSliderIndex={handleSlider}
-            navigation={navigation}
-            weekTitle={'Week 1 - Monday'}
-          />
-        </View>
-        <View style={{width: width}}>
-          <StandardPlanModal
-            handleSliderIndex={handleSlider}
-            navigation={navigation}
-            weekTitle={'Week 1 - Tuesday'}
-          />
-        </View>
-      </>
+      {renderStandardPlan()}
     </SwiperFlatList>
   );
 };

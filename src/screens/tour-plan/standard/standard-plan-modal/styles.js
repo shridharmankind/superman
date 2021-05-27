@@ -69,15 +69,39 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   doctorDetails: {
-    // flex: 1,
     flexDirection: 'row',
     alignContent: 'flex-start',
     flexWrap: 'wrap',
     marginBottom: 20,
   },
   areaFilter: {
-    flexDirection: 'row',
     flex: 1,
+    overflow: 'hidden',
+  },
+  swiper: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  swiperArrow: {
+    borderColor: themes.colors.grey[200],
+    borderWidth: 1,
+    borderRadius: 1000,
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  leftArrow: {
+    position: 'absolute',
+    left: 5,
+    top: 15,
+  },
+  rightArrow: {
+    position: 'absolute',
+    right: 5,
+    top: 15,
   },
   patchInputCotainer: {
     borderColor: themes.colors.borderColor,
@@ -85,6 +109,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     padding: 10,
+    flex: 0.7,
     justifyContent: 'space-between',
     marginHorizontal: 50,
   },
@@ -101,7 +126,9 @@ const styles = StyleSheet.create({
   },
   patchIconContainer: {
     flexDirection: 'row',
-    marginLeft: 50,
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
   week: {
     flexDirection: 'row',
@@ -111,6 +138,7 @@ const styles = StyleSheet.create({
   },
   weekLabel: {
     marginHorizontal: 20,
+    textTransform: 'capitalize',
   },
   weekArrow: {
     height: 20,
@@ -136,6 +164,22 @@ const styles = StyleSheet.create({
 
     paddingRight: 30,
     marginRight: 20,
+  },
+  paginationStyle: {
+    position: 'absolute',
+    bottom: -20,
+  },
+  activePaginationItem: {
+    width: 72,
+    backgroundColor: themes.colors.primary,
+    opacity: 1,
+  },
+  paginationItem: {
+    width: 12,
+    height: 12,
+    borderRadius: 1000,
+    backgroundColor: themes.colors.primary,
+    marginHorizontal: 12,
   },
 });
 
