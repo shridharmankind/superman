@@ -1,32 +1,62 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Alert} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon} from 'assets';
 
-import {ROUTE_HOME} from 'navigations/routes';
+import {Routes} from 'navigations';
 import ROUTES_DASHBOARD from './routes';
 
 import theme from 'themes';
-import {isWeb} from 'helper';
+import {isWeb, KeyChain} from 'helper';
+import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
+import {Strings, Constants} from 'common';
+import {LOGOUT_ITEM_ID} from './constants';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
   const scrollRef = React.useRef();
+  const onActivePageChanged = (route, itemId) => {
+    if (itemId === LOGOUT_ITEM_ID) {
+      showLogOffConfirmationDialog();
+    } else {
+      route && navigation && navigation.navigate(route);
+      requestAnimationFrame(() => {
+        if (isWeb()) {
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        } else {
+          scrollRef && scrollRef.current.scrollTo({x: 0, y: 0, animated: true});
+        }
+      });
+    }
+  };
 
-  const onActivePageChanged = route => {
-    route && navigation && navigation.navigate(route);
-    requestAnimationFrame(() => {
-      if (isWeb()) {
-        window.scrollTo({top: 0, behavior: 'smooth'});
-      } else {
-        scrollRef && scrollRef.current.scrollTo({x: 0, y: 0, animated: true});
-      }
-    });
+  const showLogOffConfirmationDialog = () => {
+    Alert.alert(Strings.info, Strings.logOffmsg, [
+      {
+        text: Strings.cancel,
+        onPress: () => {},
+        style: Strings.cancel,
+      },
+      {
+        text: Strings.ok,
+        onPress: async () => {
+          try {
+            await KeyChain.resetPassword();
+            await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
+            setTimeout(() => {
+              navigation.navigate(Routes.ROUTE_LOGIN);
+            }, 2000);
+          } catch (error) {
+            Alert.alert(Strings.error, error);
+          }
+        },
+      },
+    ]);
   };
 
   const renderSideMenu = () => (
@@ -47,7 +77,7 @@ const Dashboard = ({navigation}) => {
   );
 
   const renderNavigator = () => (
-    <DashboardStack.Navigator initialRouteName={ROUTE_HOME}>
+    <DashboardStack.Navigator initialRouteName={ROUTES_DASHBOARD.ROUTE_HOME}>
       {ROUTES_DASHBOARD.map(route => (
         <DashboardStack.Screen
           key={route.name}

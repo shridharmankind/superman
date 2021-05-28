@@ -7,7 +7,6 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     position: 'relative',
-    marginHorizontal: 32,
     paddingVertical: 40,
   },
   container: {
