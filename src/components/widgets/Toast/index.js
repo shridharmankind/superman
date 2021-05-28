@@ -39,7 +39,34 @@ const CustomToast = () => {
     standard: ({props}) => getToastView(Constants.TOAST_TYPES.STANDARD, props),
     confirm: ({props}) => getToastView(Constants.TOAST_TYPES.CONFIRM, props),
   };
+
   return <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />;
+};
+
+/**
+ * method to show toast notification
+ * @param {Object} props props to show the toast like visibilityTime, autoHide...
+ */
+export const showToast = props => {
+  const {type, visibilityTime} = props;
+  let defaultVisibilityTime = 4000;
+  switch (type) {
+    case Constants.TOAST_TYPES.SUCCESS:
+      defaultVisibilityTime = 1000;
+      break;
+  }
+  Toast.show({
+    type,
+    visibilityTime: visibilityTime || defaultVisibilityTime,
+    ...props,
+  });
+};
+
+/**
+ * method to hide toast notification
+ */
+export const hideToast = () => {
+  Toast.hide();
 };
 
 export default CustomToast;
