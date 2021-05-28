@@ -4,13 +4,14 @@ import {Card} from 'react-native-paper';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {Label} from 'components/elements';
+import { translate } from '../../../locale';
 
 import styles from './styles';
 
 const HomeLanding = ({navigation}) => {
   const renderHeader = () => (
     <View style={styles.header}>
-      <Label type="bold" size={28} title="Good Morning" />
+      <Label type="bold" size={28} title={translate('Good morning')} />
     </View>
   );
 
