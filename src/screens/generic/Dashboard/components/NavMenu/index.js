@@ -22,7 +22,7 @@ const NavMenu = ({onNavItemPress}) => {
       testID={`button_${label}`}
       onPress={() => onNavItemSelected(index)}>
       <View style={[styles.navItem, isActive ? styles.navItemActive : '']}>
-        <Icon height={32} width={32} />
+        <Icon height={21.3} width={21.3} />
         <Label
           title={label}
           style={[

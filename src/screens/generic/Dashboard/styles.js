@@ -1,5 +1,8 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet, Platform, Dimensions} from 'react-native';
 import theme from 'themes';
+
+console.log('Dimensions window', Dimensions.get('window'));
+console.log('Dimensions screen', Dimensions.get('screen'));
 
 export default StyleSheet.create({
   scroll: {
@@ -7,8 +10,8 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     position: 'relative',
-    marginHorizontal: 32,
-    paddingVertical: 40,
+    marginHorizontal: 21.3,
+    paddingVertical: 26.7,
   },
   container: {
     flex: 1,

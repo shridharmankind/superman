@@ -6,19 +6,23 @@ export default StyleSheet.create({
     flex: 1,
   },
   logo: {
-    height: 40,
-    width: 200,
+    height: 32,
+    width: 133,
+    backgroundColor: 'lightblue',
   },
   navItemsContainer: {
-    marginTop: 108,
+    marginTop: theme.spacing(11),
   },
   navItem: {
-    height: 88,
     width: '100%',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
+    marginBottom: 6.7,
+    // paddingVertical: 18.7,
+    height: 58,
     flexDirection: 'row',
     alignItems: 'center',
     ...Platform.select({web: {cursor: 'pointer'}}),
+    backgroundColor: 'lightblue',
   },
   navItemActive: {
     backgroundColor: theme.colors.white,
@@ -26,8 +30,11 @@ export default StyleSheet.create({
     borderBottomLeftRadius: 16,
   },
   navItemLabel: {
-    marginLeft: 20,
+    marginLeft: 13,
     color: theme.colors.primary,
+    fontSize: 12.7,
+    lineHeight: 20,
+    letterSpacing: 0,
   },
   navItemLabelActive: {
     fontFamily: theme.fonts.fontSemiBold,
