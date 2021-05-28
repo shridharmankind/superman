@@ -13,6 +13,10 @@ const theme = {
     const spacingFactor = 8;
     return spacingFactor * space;
   },
+  sizing: size => {
+    const sizingFactor = 8;
+    return sizingFactor * size;
+  },
   typography: {
     ...Typography,
   },
