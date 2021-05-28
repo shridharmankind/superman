@@ -163,7 +163,7 @@ const DoctorDetails = ({
 const getDivisionColor = division => {
   switch (division && division.toLowerCase()) {
     case 'kyc':
-      return themes.colors.orange;
+      return themes.colors.orange[100];
     case 'a+':
       return themes.colors.darkBlue;
     case 'b':
