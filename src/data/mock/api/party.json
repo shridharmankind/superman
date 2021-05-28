@@ -11,8 +11,8 @@
     "areas": [
       {
         "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
+        "name": "Noida Sec-1",
+        "shortName": "Noida Sec-1"
       }
     ]
   },
@@ -28,8 +28,8 @@
     "areas": [
       {
         "id": 2,
-        "name": "Sec 2",
-        "shortName": "Sec 2"
+        "name": "Noida Sec-2",
+        "shortName": "Noida Sec-2"
       }
     ]
   },
@@ -45,8 +45,8 @@
     "areas": [
       {
         "id": 1,
-        "name": "Noida Sec 1",
-        "shortName": "Noida Sec 1"
+        "name": "Noida Sec-1",
+        "shortName": "Noida Sec-1"
       }
     ]
   },
@@ -62,8 +62,8 @@
     "areas": [
       {
         "id": 2,
-        "name": "Noida Sec 2",
-        "shortName": "Noida Sec 2"
+        "name": "Noida Sec-2",
+        "shortName": "Noida Sec-2"
       }
     ]
   },
@@ -79,8 +79,8 @@
     "areas": [
       {
         "id": 3,
-        "name": "Noida Sec 3",
-        "shortName": "Noida Sec 3"
+        "name": "Noida Sec-3",
+        "shortName": "Noida Sec-3"
       }
     ]
   },
@@ -96,8 +96,8 @@
     "areas": [
       {
         "id": 5,
-        "name": "Noida Sec 5",
-        "shortName": "Noida Sec 5"
+        "name": "Noida Sec-5",
+        "shortName": "Noida Sec-5"
       }
     ]
   },
@@ -113,8 +113,8 @@
     "areas": [
       {
         "id": 5,
-        "name": "Noida Sec 5",
-        "shortName": "Noida Sec 5"
+        "name": "Noida Sec-5",
+        "shortName": "Noida Sec-5"
       }
     ]
   },
@@ -130,8 +130,8 @@
     "areas": [
       {
         "id": 4,
-        "name": "Noida Sec 4",
-        "shortName": "Noida Sec 4"
+        "name": "Noida Sec-4",
+        "shortName": "Noida Sec-4"
       }
     ]
   },
@@ -147,8 +147,8 @@
     "areas": [
       {
         "id": 4,
-        "name": "Noida Sec 4",
-        "shortName": "Noida Sec 4"
+        "name": "Noida Sec-4",
+        "shortName": "Noida Sec-4"
       }
     ]
   }

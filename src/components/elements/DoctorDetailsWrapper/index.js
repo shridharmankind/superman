@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -28,17 +28,10 @@ const DoctorDetailsWrapper = ({
   onPress,
   ...props
 }) => {
-  const [select, setSelect] = useState(selected);
-
-  const handleDoctorSelection = sel => {
-    setSelect(sel);
-    onPress(id);
-  };
-
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(!select)}
+      onPress={() => onPress(id)}
       style={styles.container}
       activeOpacity={1}>
       <DoctorDetails
@@ -47,7 +40,7 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={select}
+        isTicked={selected}
         {...props}
       />
     </TouchableOpacity>

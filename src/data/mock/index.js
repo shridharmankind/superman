@@ -16,14 +16,18 @@ const getMock = axios => {
   mock.onGet('/getPatches/1').reply(200, patchesMock.getPatches);
   mock.onGet('/deletePatch/1').reply(200, patchesMock.deletePatch);
   mock
-    .onPost('/savePatch', patchesMock.savePatch.request)
+    .onPost('/patch/1', patchesMock.savePatch.request)
     .reply(200, patchesMock.savePatch.response);
   mock
-    .onPut('/updatePatch', patchesMock.updatePatch)
-    .reply(200, patchesMock.updatePatch);
+    .onPut('/patch/1', patchesMock.updatePatch)
+    .reply(200, patchesMock.savePatch.response);
   mock.onGet('/area/1').reply(200, areaList);
   mock.onGet('/party/1').reply(200, party);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
+  mock
+    .onGet('/party/partybyspid/1/1')
+    .reply(200, patchesMock.getPartyByPatchId);
+  mock.onGet('/patch/validate/1').reply(200, patchesMock.validate.request);
 };
 
 export default getMock;

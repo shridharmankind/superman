@@ -24,7 +24,7 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
   let childrenIds;
 
   const handleValueSelected = val => {
-    setDropdownText(val);
+    setDropdownText(val.value);
     setTogglePicker(false);
     setValue(val);
   };
@@ -65,7 +65,7 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
           if (childrenIds.includes(evt.target)) {
             return;
           }
-          setDropdownText(value);
+          setDropdownText(value.value);
           setTogglePicker(false);
         }
       }}>
@@ -87,7 +87,7 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
           style={styles.selectContainer}
           activeOpacity={1}
           onPress={() => setTogglePicker(!togglePicker)}>
-          <Label title={dropDownText} />
+          <Label title={dropDownText || defaultLabel} />
           <Icon name={'sort-down'} size={20} />
         </TouchableOpacity>
       )}
@@ -104,7 +104,7 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
             <TouchableOpacity
               key={option.value}
               style={styles.pickerLabel}
-              onPress={() => handleValueSelected(option.value)}>
+              onPress={() => handleValueSelected(option)}>
               <Label title={option.value} />
             </TouchableOpacity>
           ))}
