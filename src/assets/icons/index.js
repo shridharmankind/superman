@@ -9,6 +9,7 @@ export {default as HomeIcon} from './home';
 export {default as LearnIcon} from './learn';
 export {default as PerformanceIcon} from './performance';
 export {default as SettingsIcon} from './settings';
+export {default as LogoutIcon} from './logout';
 export {default as DropdownIcon} from './dropdown';
 export {default as CloseIcon} from './close';
 export {default as MoreVerticalIcon} from './moreVertical';
