@@ -1,7 +1,6 @@
 /* eslint-disable indent */
 import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
-import {useTheme} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
 import {Modal, Label} from 'components/elements';
@@ -47,7 +46,6 @@ function usePrevious(value) {
  */
 const MonthlyTourPlan = ({navigation}) => {
   const dispatch = useDispatch();
-  const {colors} = useTheme();
 
   const user = userMock.users[0];
 
