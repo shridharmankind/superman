@@ -13,6 +13,7 @@ import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
+import {Toast} from 'components/widgets';
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -48,6 +49,7 @@ const App = () => {
             ))}
           </Stack.Navigator>
         </NavigationContainer>
+        <Toast />
       </PaperProvider>
     </Provider>
   );

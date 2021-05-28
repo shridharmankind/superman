@@ -4,6 +4,7 @@ import {TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import {Button, Label} from 'components/elements';
 import {CloseIcon} from 'assets';
+import {Constants} from 'common';
 
 /**
  * component to show toast notification
@@ -30,14 +31,14 @@ const CustomToast = () => {
   };
 
   const toastConfig = {
-    success: ({props}) => getToastView('success', props),
-    notification: ({props}) => getToastView('notification', props),
-    warning: ({props}) => getToastView('warning', props),
-    alert: ({props}) => getToastView('alert', props),
-    standard: ({props}) => getToastView('standard', props),
-    confirm: ({props}) => getToastView('confirm', props),
+    success: ({props}) => getToastView(Constants.TOAST_TYPES.SUCCESS, props),
+    notification: ({props}) =>
+      getToastView(Constants.TOAST_TYPES.NOTIFICATION, props),
+    warning: ({props}) => getToastView(Constants.TOAST_TYPES.WARNING, props),
+    alert: ({props}) => getToastView(Constants.TOAST_TYPES.ALERT, props),
+    standard: ({props}) => getToastView(Constants.TOAST_TYPES.STANDARD, props),
+    confirm: ({props}) => getToastView(Constants.TOAST_TYPES.CONFIRM, props),
   };
-
   return <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />;
 };
 
