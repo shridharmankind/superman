@@ -1,4 +1,4 @@
-import {Home, TourPlanning, Performance} from 'screens';
+import {Home, TourPlanning, Performance, Directory} from 'screens';
 
 export const ROUTE_HOME = 'Home';
 export const ROUTE_TOUR_PLAN = 'TourPlan';
@@ -25,7 +25,7 @@ const ROUTES_DASHBOARD = [
   },
   {
     name: ROUTE_DIRECTORY,
-    component: Performance,
+    component: Directory,
   },
   {
     name: ROUTE_GSP,
