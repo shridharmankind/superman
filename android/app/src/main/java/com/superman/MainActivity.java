@@ -24,8 +24,8 @@ public class MainActivity extends ReactActivity {
     getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
   }
 
-  @Override
-  protected void onResume () {
-    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-  }
+  // @Override
+  // protected void onResume () {
+  //   getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+  // }
 }

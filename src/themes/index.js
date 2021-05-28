@@ -10,12 +10,12 @@ const theme = {
      * manage size ratio using the spacing factor
      * ex 8/1.5 scales down everything by 1.5 times
      */
-    const spacingFactor = 8;
-    return spacingFactor * space;
+    const scalingFactor = 1;
+    return space / scalingFactor;
   },
   sizing: size => {
-    const sizingFactor = 8;
-    return sizingFactor * size;
+    const sizingFactor = 1;
+    return size / sizingFactor;
   },
   typography: {
     ...Typography,

@@ -31,6 +31,10 @@ const Typography = {
     fontSize: 24,
     fontFamily: fontFamilies.fontRegular,
   },
+  body: {
+    fontSize: 12.7,
+    fontFamily: fontFamilies.fontRegular,
+  },
 };
 
 export default Typography;

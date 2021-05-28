@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Image, TouchableWithoutFeedback, View} from 'react-native';
 
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import {LogoMankind} from 'assets';
 
 import styles from './styles';
@@ -32,6 +32,7 @@ const NavMenu = ({onNavItemPress}) => {
         <Icon height={21.3} width={21.3} />
         <Label
           title={label}
+          variant={LabelVariant.body}
           style={[
             styles.navItemLabel,
             isActive ? styles.navItemLabelActive : '',

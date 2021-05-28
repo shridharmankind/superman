@@ -68,10 +68,10 @@ const Dashboard = ({navigation}) => {
   const renderScreenActions = () => (
     <View style={styles.actionsContainer}>
       <View style={styles.action}>
-        <SearchIcon height={32} width={32} />
+        <SearchIcon height={21.3} width={21.3} />
       </View>
       <View style={[styles.action, styles.actionPadding]}>
-        <NotificationIcon height={32} width={32} />
+        <NotificationIcon height={21.3} width={21.3} />
       </View>
     </View>
   );

@@ -1,8 +1,5 @@
-import {StyleSheet, Platform, Dimensions} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import theme from 'themes';
-
-console.log('Dimensions window', Dimensions.get('window'));
-console.log('Dimensions screen', Dimensions.get('screen'));
 
 export default StyleSheet.create({
   scroll: {
@@ -10,14 +7,14 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     position: 'relative',
-    paddingVertical: 40,
+    paddingVertical: theme.spacing(26.7),
   },
   container: {
     flex: 1,
     flexDirection: 'row',
   },
   sidemenuContainer: {
-    width: 'auto',
+    width: theme.sizing(181.3),
     height: '100%',
   },
   actionsContainer: {
@@ -28,13 +25,13 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   action: {
-    height: 40,
-    width: 40,
+    height: 26.7,
+    width: 26.7,
     justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({web: {cursor: 'pointer'}}),
   },
   actionPadding: {
-    marginLeft: 24,
+    marginLeft: theme.spacing(26.7),
   },
 });

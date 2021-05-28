@@ -5,7 +5,7 @@ import theme from 'themes';
 import styles from './styles';
 
 /** typography types */
-export const LABEL_VARIABLE = Object.entries(theme.typography).reduce(
+export const LabelVariant = Object.entries(theme.typography).reduce(
   (acc, item) => Object.assign(acc, {[item[0]]: item[0]}),
   {},
 );
