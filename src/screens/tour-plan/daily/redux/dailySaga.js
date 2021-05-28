@@ -36,10 +36,12 @@ export function* fetchDoctorDetailWorker(action) {
       month: month,
       year: year,
     });
+
+    console.log('response', response);
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
-          data: response.data,
+          removePaty: response.data,
         },
       }),
     );
@@ -54,132 +56,6 @@ export function* fetchDoctorDetailWorker(action) {
  * worker function to send the api call to remove a party from the daily plan
  */
 export function* deletePartyWorker(action) {
-  const dayPlan = [
-    {
-      name: 'Dr. Ashish Gulati',
-      specialization: ['Cardiologist'],
-      category: 'KYC',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.COMPLETED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manish Kumar ',
-      specialization: ['Cardiologist'],
-      category: 'a+',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manoj Manjhi',
-      specialization: ['Cardiologist'],
-      category: 'b',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manoj Manjhi',
-      specialization: ['Cardiologist'],
-      category: 'KYC',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.COMPLETED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Tanmay Singh',
-      specialization: ['Dermatologist'],
-      category: 'B',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '13',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-
-    {
-      name: 'Balaji Medicos ',
-      specialization: ['Chemist'],
-      category: '-',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '24',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-  ];
   const {staffPositionid, day, month, year, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   console.log('***************', action);
@@ -195,14 +71,14 @@ export function* deletePartyWorker(action) {
         partyId: partyId,
       },
     );
-    yield put(
-      doctorDetailActions.getDoctorDetail({
-        doctorDetail: {
-          // data: response.data,
-          data: dayPlan,
-        },
-      }),
-    );
+    if (response.data) {
+      yield put(
+        doctorDetailActions.doctorRemoved({
+          id: partyId,
+        }),
+      );
+    }
+
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     console.log(error);

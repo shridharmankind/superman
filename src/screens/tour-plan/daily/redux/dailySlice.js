@@ -30,6 +30,8 @@ export const doctorDetailSlice = createSlice({
   initialState: doctorDetailState,
   reducers: {
     getDoctorDetail: (state, action) => merge(state, action.payload),
+    doctorRemoved: (state, action) =>
+      state.doctorDetail.data.filter(d => d.id === action.id),
   },
 });
 

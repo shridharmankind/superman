@@ -14,6 +14,8 @@ import {
   deletePartyCreator,
 } from './redux';
 import {useSelector, useDispatch} from 'react-redux';
+import {showToast, hideToast} from 'components/widgets/Toast';
+import {Constants} from 'common';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -145,7 +147,6 @@ const DailyTourPlan = () => {
       ],
     },
   ];
-
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
@@ -265,16 +266,32 @@ const DailyTourPlan = () => {
     );
   };
 
-  const removeParty = partyId => {
-    dispatch(
-      deletePartyCreator({
-        staffPositionid: 2,
-        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
-        partyId: partyId,
-      }),
-    );
+  const removeParty = (partyId, closeRow) => {
+    showToast({
+      type: Constants.TOAST_TYPES.ALERT,
+      props: {
+        onPress: () => {
+          hideToast();
+          closeRow && closeRow();
+        },
+        guid: 'guid-id',
+        heading: 'Hello',
+        subHeading: 'This is some something',
+        actionTitle: 'UNDO',
+      },
+      onHide: () => {
+        // dispatch(
+        //   deletePartyCreator({
+        //     staffPositionid: 2,
+        //     day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+        //     month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+        //     year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+        //     partyId: partyId,
+        //   }),
+        // );
+        closeRow && closeRow();
+      },
+    });
   };
 
   /**
@@ -282,7 +299,7 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
-    const sortedDayPlan = (dayPlanData || []).sort(sortBasedOnCategory);
+    const sortedDayPlan = (dayPlan || []).sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
         {(sortedDayPlan || []).map((plan, index) => {
@@ -294,7 +311,7 @@ const DailyTourPlan = () => {
               key={index}
               closeOnRowPress
               disableRightSwipe
-              preview={index === 0}
+              // preview={index === 0}
               rightOpenValue={-90}
               rightActivationValue={-90}
               stopRightSwipe={-90}
@@ -304,8 +321,14 @@ const DailyTourPlan = () => {
                 <TouchableOpacity
                   style={styles.removeCard}
                   onPress={() => {
-                    removeParty(plan.id);
+                    // removeParty(plan.id, closeRow);
                     closeRow && closeRow();
+                    console.log(
+                      'delete action triggered',
+                      plan,
+                      index,
+                      closeRow,
+                    );
                   }}>
                   <View style={styles.removeCardButton}>
                     <View style={styles.closeLabel}>
