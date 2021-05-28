@@ -10,8 +10,7 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     position: 'relative',
-    marginHorizontal: 21.3,
-    paddingVertical: 26.7,
+    paddingVertical: 40,
   },
   container: {
     flex: 1,

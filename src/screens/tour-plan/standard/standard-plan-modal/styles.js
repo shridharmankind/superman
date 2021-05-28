@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: 1,
     borderColor: themes.colors.primary,
-    borderRadius: 20,
+    borderRadius: 1000,
   },
   doctorDetailsHeader: {
     flexDirection: 'row',
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     right: 5,
     top: 15,
   },
+  areaChip: {marginRight: 20},
   patchInputCotainer: {
     borderColor: themes.colors.borderColor,
     borderRadius: 10,
@@ -113,6 +114,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: 50,
   },
+  opacity_light: {opacity: 0.2},
+  opacity_full: {opacity: 1},
   patchIcon: {
     backgroundColor: themes.colors.darkBlue,
     justifyContent: 'center',

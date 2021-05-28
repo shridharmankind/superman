@@ -5,13 +5,13 @@ import patchesMock from './api/patches.json';
 import areaList from './api/areaList.json';
 import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
-
+import {API_PATH} from 'screens/tourPlan/apiPath';
 const getMock = axios => {
   const mock = new MockAdapter(axios);
 
   mock.onGet('/all-users').reply(200, userMock);
   mock.onGet('/single-user').reply(200, userMock.users[0]);
-  mock.onGet('/Stp/workingDay/1').reply(200, stpMock);
+  mock.onGet(`${API_PATH.WORKING_DAY}/1`).reply(200, stpMock);
   mock.onGet('/api/Chemists').reply(200, userMock);
   mock.onGet('/getPatches/1').reply(200, patchesMock.getPatches);
   mock.onGet('/deletePatch/1').reply(200, patchesMock.deletePatch);

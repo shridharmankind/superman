@@ -5,6 +5,7 @@ import {Label} from 'components/elements';
 import {LogoMankind} from 'assets';
 
 import styles from './styles';
+import {LOGOUT_ITEM_ID} from '../../constants';
 
 // TODO - mankind logo not showing on web
 const NavMenu = ({onNavItemPress}) => {
@@ -13,21 +14,28 @@ const NavMenu = ({onNavItemPress}) => {
 
   const onNavItemSelected = index => {
     const route = navMenuData[index].route;
+    const itemId = navMenuData[index].Id;
     route && setActiveItem(index);
-    onNavItemPress && onNavItemPress(route);
+    onNavItemPress && onNavItemPress(route, itemId);
   };
 
   const NavItem = ({Icon, label, index, isActive}) => (
     <TouchableWithoutFeedback
       testID={`button_${label}`}
       onPress={() => onNavItemSelected(index)}>
-      <View style={[styles.navItem, isActive ? styles.navItemActive : '']}>
+      <View
+        style={[
+          styles.navItem,
+          isActive ? styles.navItemActive : '',
+          navMenuData[index].Id === LOGOUT_ITEM_ID && styles.logout,
+        ]}>
         <Icon height={21.3} width={21.3} />
         <Label
           title={label}
           style={[
             styles.navItemLabel,
             isActive ? styles.navItemLabelActive : '',
+            navMenuData[index].Id === LOGOUT_ITEM_ID && styles.logoutText,
           ]}
         />
       </View>

@@ -1,1 +1,3 @@
-//All screens sould be exported under the module
+import * as Routes from './routes';
+
+export {Routes};

@@ -2,7 +2,7 @@ import {takeEvery, call, put} from 'redux-saga/effects';
 import {fetchDoctorDetailTypeName, doctorDetailActions} from './dailySlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
-import {getParties} from 'screens/tourPlan/apiPath';
+import {API_PATH} from 'screens/tourPlan/apiPath';
 
 /**
  * saga watcher to fetch the doctor detail
@@ -19,7 +19,7 @@ export function* fetchDoctorDetailWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
-    const response = yield call(NetworkService.post, getParties, {
+    const response = yield call(NetworkService.post, API_PATH.GET_PARTIES, {
       staffPositionid: staffPositionid,
       day: day,
       month: month,

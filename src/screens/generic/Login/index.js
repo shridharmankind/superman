@@ -5,10 +5,9 @@ import {
   View,
   Alert,
   ActivityIndicator,
-  Text,
   ImageBackground,
 } from 'react-native';
-import {authorize, revoke} from 'react-native-app-auth';
+import {authorize} from 'react-native-app-auth';
 import AsyncStorage from '@react-native-community/async-storage';
 import jwt_decode from 'jwt-decode';
 import styles from './styles';
@@ -33,20 +32,6 @@ const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
-
-  // Check if user is already logged in and Token not expired
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      const isUserLoggedIn = await AsyncStorage.getItem(LOGIN_STATUS);
-      const tokenExpiryTime = await AsyncStorage.getItem(TOKEN_EXPIRY_TIME);
-      const currentTime = Date.now();
-      const diff = currentTime - tokenExpiryTime * 1000;
-      if (isUserLoggedIn && diff <= 0) {
-        navigation.navigate('MasterDataDownload');
-      }
-    };
-    checkLoginStatus();
-  }, [navigation]);
 
   const loginHandler = useCallback(async () => {
     try {
