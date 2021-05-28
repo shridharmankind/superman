@@ -11,7 +11,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   navItemsContainer: {
-    marginTop: theme.spacing(80),
+    marginTop: theme.spacing(64),
   },
   navItem: {
     height: theme.sizing(58.7),
@@ -41,7 +41,7 @@ export default StyleSheet.create({
     height: theme.sizing(46),
     width: '80%',
     marginLeft: 0,
-    paddingLeft: theme.spacing(56),
+    paddingLeft: theme.spacing(40),
     backgroundColor: theme.colors.primary,
     borderTopRightRadius: 10.7,
     borderBottomRightRadius: 10.7,

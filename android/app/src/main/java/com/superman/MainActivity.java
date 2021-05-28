@@ -21,11 +21,20 @@ public class MainActivity extends ReactActivity {
   protected void onCreate(Bundle savedInstanceState) {
     SplashScreen.show(this, true); // <- second parameter is true, to hide StatusBar
     super.onCreate(savedInstanceState);
-    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    hideNavigationBar();
   }
 
-  // @Override
-  // protected void onResume () {
-  //   getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-  // }
+  @Override
+  public void onWindowFocusChanged(boolean hasFocus) {
+    super.onWindowFocusChanged(hasFocus);
+    if (hasFocus) {
+        hideNavigationBar();
+    }
+  }
+
+  private void hideNavigationBar() {
+    getWindow().getDecorView().setSystemUiVisibility(
+        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+  }
 }

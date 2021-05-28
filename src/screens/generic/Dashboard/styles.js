@@ -8,6 +8,7 @@ export default StyleSheet.create({
   scrollContainer: {
     position: 'relative',
     paddingVertical: theme.spacing(26.7),
+    marginRight: theme.spacing(21.3),
   },
   container: {
     flex: 1,
