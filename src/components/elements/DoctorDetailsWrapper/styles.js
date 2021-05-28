@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   divisionContainer: {
     borderTopLeftRadius: 10,
     borderBottomRightRadius: 10,
-    backgroundColor: theme.colors.orange,
+    backgroundColor: theme.colors.orange[100],
     padding: 10,
     position: 'absolute',
     top: -40,

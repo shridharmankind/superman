@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   divisionContainer: {
     borderTopLeftRadius: 10,
     borderBottomRightRadius: 10,
-    backgroundColor: theme.colors.orange,
+    backgroundColor: theme.colors.orange[100],
     paddingHorizontal: 10,
     paddingVertical: 5,
     position: 'absolute',
