@@ -30,12 +30,14 @@ export function* fetchDoctorDetailWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
-    const response = yield call(NetworkService.post, API_PATH.GET_PARTIES, {
-      staffPositionid: staffPositionid,
-      day: day,
-      month: month,
-      year: year,
-    });
+    // const response = yield call(NetworkService.post, API_PATH.GET_PARTIES, {
+    //   staffPositionid: staffPositionid,
+    //   day: day,
+    //   month: month,
+    //   year: year,
+    // });
+
+    const response = yield call(NetworkService.get, API_PATH.GET_PARTIES);
 
     console.log('response', response);
     yield put(
@@ -72,13 +74,11 @@ export function* deletePartyWorker(action) {
         partyId: partyId,
       },
     );
-    if (response.data) {
-      yield put(
-        doctorDetailActions.doctorRemoved({
-          id: partyId,
-        }),
-      );
-    }
+
+    console.log('response', response);
+    // if (response.data) {
+    yield put(doctorDetailActions.doctorRemoved(action.payload));
+    // }
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {

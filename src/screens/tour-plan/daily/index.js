@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity, Alert} from 'react-native';
 import styles from './styles';
@@ -21,133 +22,15 @@ import {Constants} from 'common';
  */
 const DailyTourPlan = () => {
   const dispatch = useDispatch();
-  const dayPlan = [
-    {
-      name: 'Dr. Ashish Gulati',
-      specialization: ['Cardiologist'],
-      category: 'KYC',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.COMPLETED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manish Kumar ',
-      specialization: ['Cardiologist'],
-      category: 'a+',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manoj Manjhi',
-      specialization: ['Cardiologist'],
-      category: 'b',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manoj Manjhi',
-      specialization: ['Cardiologist'],
-      category: 'KYC',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.COMPLETED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Tanmay Singh',
-      specialization: ['Dermatologist'],
-      category: 'B',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '13',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
+  const rowRefs = [];
 
-    {
-      name: 'Balaji Medicos ',
-      specialization: ['Chemist'],
-      category: '-',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '24',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-  ];
+  const collectRowRefs = (ref) => {
+    rowRefs.push(ref);
+  };
+
+  const [undoDeleteAction, setUndoDeleteAction] = useState(false);
   useEffect(() => {
+    console.log('useeffect 1');
     dispatch(
       fetchDoctorDetailCreator({
         staffPositionid: 2,
@@ -187,6 +70,8 @@ const DailyTourPlan = () => {
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
+    console.log('getCurrentDateFormatted');
+
     return `${Strings.today}, ${getFormatDate({format: 'Do MMM YYYY'})}`;
   };
 
@@ -195,6 +80,7 @@ const DailyTourPlan = () => {
    * @returns formatted string
    */
   const getVisitBifurcationLabel = () => {
+    console.log('getVisitBifurcationLabel');
     const sample = {
       sentence: `${Strings.youHave} {0} ${Strings.and} {1} ${Strings.visits}`,
       boldText: [`${Strings.numberOfDoctors}`, `${Strings.numberOfChemist}`],
@@ -269,13 +155,23 @@ const DailyTourPlan = () => {
     );
   };
 
-  const removeParty = (partyId, closeRow) => {
+  // const setUndoAction = useCallback(() => {
+  //   setUndoDeleteAction(true);
+  // }, []);
+
+  const removeParty = (partyId, callback) => {
+    console.log('rowrefs', rowRefs);
+    console.log('removeparty');
+    let undoclicked = false;
+    // setUndoDeleteAction(false);
     showToast({
       type: Constants.TOAST_TYPES.ALERT,
       props: {
         onPress: () => {
+          undoclicked = true;
+          // setUndoDeleteAction(true);
           hideToast();
-          closeRow && closeRow();
+          console.log('undo clicked', undoDeleteAction);
         },
         guid: 'guid-id',
         heading: 'Hello',
@@ -283,18 +179,34 @@ const DailyTourPlan = () => {
         actionTitle: 'UNDO',
       },
       onHide: () => {
-        // dispatch(
-        //   deletePartyCreator({
-        //     staffPositionid: 2,
-        //     day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-        //     month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-        //     year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
-        //     partyId: partyId,
-        //   }),
-        // );
-        closeRow && closeRow();
+        console.log('on hide', undoDeleteAction);
+        if (!undoclicked) {
+          console.log('dispatch call sent');
+          dispatch(
+            deletePartyCreator({
+              staffPositionid: 2,
+              day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+              month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+              year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+              partyId: partyId,
+            }),
+          );
+        }
+        callback();
       },
     });
+  };
+
+  const onRowOpen = (toValue, plan) => {
+    // console.log('row open', rowRefs);
+    // rowRefs.forEach((r, i) => {
+    //   if (i !== plan.id) {
+    //     const closeRow = r.props.getCloseRow;
+    //     window.temp = r;
+    //     console.log('r', r, closeRow);
+    //   }
+    // });
+    rowRefs.push()
   };
 
   /**
@@ -302,6 +214,7 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
+    console.log('dayplandata', dayPlanData);
     let sortedDayPlan = (dayPlanData || []).slice().sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
@@ -310,6 +223,8 @@ const DailyTourPlan = () => {
 
           return (
             <SwipeRow
+              ref={(ref) => collectRowRefs(ref)}
+              onRowOpen={(toValue) => onRowOpen(toValue, plan)}
               style={styles.swipeRow}
               key={index}
               closeOnRowPress
@@ -323,15 +238,18 @@ const DailyTourPlan = () => {
                 <TouchableOpacity
                   style={styles.removeCard}
                   onPress={() => {
-                    // removeParty(plan.id, closeRow);
-                    closeRow && closeRow();
+                    removeParty(plan.id, () => {
+                      closeRow && closeRow();
+                    });
+                    // closeRow && closeRow();
                     console.log(
                       'delete action triggered',
                       plan,
                       index,
                       closeRow,
                     );
-                  }}>
+                  }
+                  }>
                   <View style={styles.removeCardButton}>
                     <View style={styles.closeLabel}>
                       <Label
@@ -353,13 +271,13 @@ const DailyTourPlan = () => {
                 <View key={index} style={styles.doctorDetailContainer}>
                   <DoctorDetails
                     title={plan.name}
-                    specialization={dayPlan[index].specialization}
-                    category={dayPlan[index].category}
-                    location={dayPlan[index].location}
+                    specialization={plan.specialization}
+                    category={plan.category}
+                    location={plan.location}
                     customStyle={doctorDetailStyleObject}
                     showFrequencyChiclet={false}
                     showVisitPlan={true}
-                    visitData={dayPlan[index].visitData}
+                    visitData={plan.visitData}
                     showTile={true}
                     onTilePress={() => {
                       if (isWeb()) {

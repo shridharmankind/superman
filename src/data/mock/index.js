@@ -9,7 +9,6 @@ import partiesMock from './api/parties.json';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 const getMock = axios => {
   const mock = new MockAdapter(axios);
-  console.log(dailyPartiesMock.getParties);
 
   mock.onGet('/all-users').reply(200, userMock);
   mock.onGet('/single-user').reply(200, userMock.users[0]);
@@ -32,6 +31,7 @@ const getMock = axios => {
   mock
     .onGet(`${API_PATH.GET_PARTIES}`)
     .reply(200, partiesMock.getParties.response);
+  mock.onDelete(`${API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN}`).reply(200, true);
 };
 
 export default getMock;

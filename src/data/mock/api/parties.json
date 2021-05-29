@@ -2,6 +2,7 @@
   "getParties": {
     "response": [
       {
+        "id": 1,
         "name": "Dr. Ashish Gulati",
         "specialization": ["Cardiologist"],
         "category": "KYC",
@@ -25,6 +26,7 @@
         ]
       },
       {
+        "id": 2,
         "name": "Dr. Manish Kumar ",
         "specialization": ["Cardiologist"],
         "category": "a+",
@@ -48,6 +50,7 @@
         ]
       },
       {
+        "id": 3,
         "name": "Dr. Manoj Manjhi",
         "specialization": ["Cardiologist"],
         "category": "b",
@@ -66,6 +69,7 @@
         ]
       },
       {
+        "id": 4,
         "name": "Dr. Manoj Manjhi",
         "specialization": ["Cardiologist"],
         "category": "KYC",
@@ -89,6 +93,7 @@
         ]
       },
       {
+        "id": 5,
         "name": "Dr. Tanmay Singh",
         "specialization": ["Dermatologist"],
         "category": "B",
@@ -107,6 +112,7 @@
         ]
       },
       {
+        "id": 6,
         "name": "Balaji Medicos ",
         "specialization": ["Chemist"],
         "category": "-",
