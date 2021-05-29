@@ -154,6 +154,9 @@ const DailyTourPlan = () => {
   }, [dispatch]);
 
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
+  const isDoctorDetailFetched = useSelector(
+    dailySelector.isDoctorDetailReceived(),
+  );
   const [dayPlanData, setDayPlanData] = useState([]);
 
   useEffect(() => {
@@ -265,7 +268,7 @@ const DailyTourPlan = () => {
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
-    const sortedDayPlan = (dayPlanData || []).sort(sortBasedOnCategory);
+    let sortedDayPlan = (dayPlanData || []).slice().sort(sortBasedOnCategory);
     return (
       <View style={styles.contentView}>
         {(sortedDayPlan || []).map((plan, index) => {
@@ -277,7 +280,6 @@ const DailyTourPlan = () => {
               key={index}
               closeOnRowPress
               disableRightSwipe
-              preview={index === 0}
               rightOpenValue={-90}
               rightActivationValue={-90}
               stopRightSwipe={-90}
@@ -345,7 +347,7 @@ const DailyTourPlan = () => {
         />
         {getVisitBifurcationLabel()}
       </View>
-      {renderDayPlan()}
+      {isDoctorDetailFetched && renderDayPlan()}
       {pressTile()}
     </ScrollView>
   );
