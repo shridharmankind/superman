@@ -29,6 +29,7 @@ const DoctorDetailsWrapper = ({
   party,
   ...props
 }) => {
+  //TO DO: not required - remove after team discusssion
   const [select, setSelect] = useState(selected);
   const {frequency, alreadyVisited} = party;
 
@@ -45,7 +46,7 @@ const DoctorDetailsWrapper = ({
     party.selected = !party.selected;
     party.selected
       ? (party.selectedVistedFrequency = alreadyVisited + 1)
-      : (party.selectedVistedFrequency = party.selectedVistedFrequency - 1);
+      : (party.selectedVistedFrequency = party.selectedVistedFrequency - 1); //TO DO :: update code after complete integration
 
     setSelect(party.selected);
     onPress(id);
