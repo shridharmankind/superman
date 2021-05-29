@@ -41,7 +41,8 @@ export function* fetchDoctorDetailWorker(action) {
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
-          removePaty: response.data,
+          data: response.data,
+          fetched: true,
         },
       }),
     );

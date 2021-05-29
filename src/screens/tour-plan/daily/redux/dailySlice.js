@@ -7,6 +7,7 @@ import merge from 'lodash.merge';
 export const doctorDetailState = {
   doctorDetail: {
     data: [],
+    fetched: false,
   },
 };
 
