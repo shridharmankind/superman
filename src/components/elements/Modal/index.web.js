@@ -1,10 +1,10 @@
 import React from 'react';
 import {Modal, View, TouchableWithoutFeedback} from 'react-native';
-import {useTheme} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {CloseIcon} from 'assets';
 import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
-import styles from './styles.web';
+import stylesWeb from './styles.web';
+import styles from './styles';
 
 /**
  * Custom modal component using Modal from react-native.
@@ -33,7 +33,6 @@ const CustomModal = ({
   closeTestId,
   customModalPosition,
 }) => {
-  const {colors} = useTheme();
   const primaryActionHandler = () => {
     primaryAction();
     onClose();
@@ -45,8 +44,8 @@ const CustomModal = ({
         transparent={true}
         visible={open}
         onRequestClose={onClose}>
-        <View style={[styles.centeredView]}>
-          <View style={[styles.modalView, customModalPosition]}>
+        <View style={[stylesWeb.centeredView]}>
+          <View style={[stylesWeb.modalView, customModalPosition]}>
             <View style={styles.titleView}>
               <View style={styles.title}>{modalTitle}</View>
               {closeAction && (
@@ -54,12 +53,7 @@ const CustomModal = ({
                   style={styles.close}
                   onPress={onClose}
                   testID={closeTestId}>
-                  <Icon
-                    name="close"
-                    size={30}
-                    color={colors.black}
-                    style={styles.closeIcon}
-                  />
+                  <CloseIcon width={32} height={32} />
                 </TouchableWithoutFeedback>
               )}
             </View>
@@ -90,6 +84,7 @@ CustomModal.propTypes = {
   closeAction: PropTypes.bool,
   closeTestId: PropTypes.string,
   customModalPosition: PropTypes.object,
+  customModalView: PropTypes.object,
 };
 
 export default CustomModal;

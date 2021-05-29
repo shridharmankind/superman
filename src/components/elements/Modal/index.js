@@ -1,6 +1,5 @@
 import React from 'react';
 import {Modal, View, TouchableWithoutFeedback} from 'react-native';
-import {useTheme} from 'react-native-paper';
 import {CloseIcon} from 'assets';
 import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
@@ -36,7 +35,6 @@ const CustomModal = ({
   customModalPosition,
   customModalView,
 }) => {
-  const {colors} = useTheme();
   const primaryActionHandler = () => {
     primaryAction();
     onClose();
@@ -52,16 +50,7 @@ const CustomModal = ({
           blurType="light"
           blurAmount={9}
           reducedTransparencyFallbackColor="rgba(100,100,100, 0.5)"
-          style={{
-            // flex: 1,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            justifyContent: 'center',
-            padding: 20,
-          }}>
+          style={styles.blurView}>
           <View style={[styles.centeredView]}>
             <View style={[styles.modalView, customModalPosition]}>
               <View style={styles.titleView}>
@@ -71,12 +60,7 @@ const CustomModal = ({
                     style={styles.close}
                     onPress={onClose}
                     testID={closeTestId}>
-                    <Icon
-                      name="close"
-                      size={30}
-                      color={colors.black}
-                      style={styles.closeIcon}
-                    />
+                    <CloseIcon width={32} height={32} />
                   </TouchableWithoutFeedback>
                 )}
               </View>

@@ -36,6 +36,15 @@ const styles = StyleSheet.create({
   closeIcon: {
     fontFamily: theme.fonts.fontRegular,
   },
+  blurView: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    justifyContent: 'center',
+    padding: 20,
+  },
 });
 
 export default styles;
