@@ -1,8 +1,7 @@
 import React from 'react';
-import {ScrollView, View, Modal, Text} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {BlurView} from '@react-native-community/blur';
 
 import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon} from 'assets';
@@ -13,19 +12,11 @@ import ROUTES_DASHBOARD from './routes';
 import theme from 'themes';
 import {isWeb} from 'helper';
 import styles from './styles';
-import {Button} from 'components/elements';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
   const scrollRef = React.useRef();
-  const [open, setOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setOpen(true);
-    }, 2000);
-  }, []);
 
   const onActivePageChanged = route => {
     route && navigation && navigation.navigate(route);
@@ -85,41 +76,6 @@ const Dashboard = ({navigation}) => {
         {renderSideMenu()}
         {renderNavigator()}
         {renderScreenActions()}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          onRequestClose={() => setOpen(false)}
-          visible={open}>
-          <BlurView
-            blurType="light"
-            blurAmount={1}
-            reducedTransparencyFallbackColor="rgba(100,100,100, 0.5)"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              justifyContent: 'center',
-              padding: 20,
-            }}>
-            <View
-              style={{
-                width: '60%',
-                alignSelf: 'center',
-                alignItems: 'center',
-                padding: 100,
-                borderRadius: 10,
-              }}>
-              <Text>Modal with a sliding animation</Text>
-              <Button
-                contentStyle={{width: '25%', padding: 10, marginTop: 50}}
-                onPress={() => setOpen(false)}
-                title={'Close Modal'}
-              />
-            </View>
-          </BlurView>
-        </Modal>
       </View>
     </ScrollView>
   );

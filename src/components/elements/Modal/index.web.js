@@ -4,8 +4,7 @@ import {useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
-import styles from './styles';
-import {BlurView} from '@react-native-community/blur';
+import styles from './styles.web';
 
 /**
  * Custom modal component using Modal from react-native.
@@ -46,50 +45,35 @@ const CustomModal = ({
         transparent={true}
         visible={open}
         onRequestClose={onClose}>
-        <BlurView
-          blurType="light"
-          blurAmount={9}
-          reducedTransparencyFallbackColor="rgba(100,100,100, 0.5)"
-          style={{
-            // flex: 1,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            justifyContent: 'center',
-            padding: 20,
-          }}>
-          <View style={[styles.centeredView]}>
-            <View style={[styles.modalView, customModalPosition]}>
-              <View style={styles.titleView}>
-                <View style={styles.title}>{modalTitle}</View>
-                {closeAction && (
-                  <TouchableWithoutFeedback
-                    style={styles.close}
-                    onPress={onClose}
-                    testID={closeTestId}>
-                    <Icon
-                      name="close"
-                      size={30}
-                      color={colors.black}
-                      style={styles.closeIcon}
-                    />
-                  </TouchableWithoutFeedback>
-                )}
-              </View>
-              {modalContent}
-              {primaryAction && (
-                <Button
-                  testID={primaryActionProps.testID}
-                  title={primaryActionProps.actionTitle}
-                  mode={primaryActionProps.mode}
-                  onPress={primaryActionHandler}
-                />
+        <View style={[styles.centeredView]}>
+          <View style={[styles.modalView, customModalPosition]}>
+            <View style={styles.titleView}>
+              <View style={styles.title}>{modalTitle}</View>
+              {closeAction && (
+                <TouchableWithoutFeedback
+                  style={styles.close}
+                  onPress={onClose}
+                  testID={closeTestId}>
+                  <Icon
+                    name="close"
+                    size={30}
+                    color={colors.black}
+                    style={styles.closeIcon}
+                  />
+                </TouchableWithoutFeedback>
               )}
             </View>
+            {modalContent}
+            {primaryAction && (
+              <Button
+                testID={primaryActionProps.testID}
+                title={primaryActionProps.actionTitle}
+                mode={primaryActionProps.mode}
+                onPress={primaryActionHandler}
+              />
+            )}
           </View>
-        </BlurView>
+        </View>
       </Modal>
     </View>
   );

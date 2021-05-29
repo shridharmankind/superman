@@ -3,8 +3,14 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
-    overflow: 'hidden',
+    // flex: 1,
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(100,100,100, 0.7)',
+    padding: 20,
+    // overflow: 'hidden',
   },
   modalView: {
     backgroundColor: theme.colors.white,
