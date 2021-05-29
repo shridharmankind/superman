@@ -51,6 +51,7 @@ const Strings = {
   removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
   proceed: 'Proceed',
   removeFromToday: 'Remove from today',
+  createNewStp: 'Create a new STP',
 };
 
 export default Strings;

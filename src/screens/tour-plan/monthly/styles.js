@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
   },
   modalText: {
     paddingVertical: 5,
+    color: theme.colors.grey[200],
+  },
+  modalTextSelected: {
+    paddingVertical: 5,
     color: theme.colors.primary,
   },
   modalTitleText: {
@@ -42,6 +46,10 @@ const styles = StyleSheet.create({
   modalPosition: {
     marginTop: '12%',
     marginLeft: '20%',
+  },
+  dropdownLabel: {
+    fontFamily: theme.fonts.fontRegular,
+    color: theme.colors.grey[900],
   },
 });
 
