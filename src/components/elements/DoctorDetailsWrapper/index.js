@@ -42,6 +42,7 @@ const DoctorDetailsWrapper = ({
    * @param {Boolean} sel
    */
   const handleDoctorSelection = sel => {
+    party.selected = sel;
     sel ? addVisit() : party.alreadyVisited--;
     setSelect(sel);
     onPress(id);
@@ -59,7 +60,7 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={select}
+        isTicked={party?.selected || false}
         frequency={party?.frequency}
         alreadyVisited={party?.alreadyVisited}
         {...props}
