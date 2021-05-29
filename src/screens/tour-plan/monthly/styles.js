@@ -1,5 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import theme from 'themes';
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   dropDownsContainer: {
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
   },
   modalPosition: {
     marginTop: '12%',
-    marginLeft: '20%',
+    marginLeft: `${((windowWidth * 0.24) / windowWidth) * 100}%`,
   },
   dropdownLabel: {
     fontFamily: theme.fonts.fontRegular,
