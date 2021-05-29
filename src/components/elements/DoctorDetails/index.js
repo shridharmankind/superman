@@ -41,11 +41,26 @@ const DoctorDetails = ({
   onTilePress,
   alreadyVisited,
   frequency,
+  selectedVistedFrequency,
   ...props
 }) => {
-  const getCount = count => {
-    return new Array(count).fill('');
+  const renderSelectedFrequency = () => {
+    let selectedFrequency = [];
+    for (let i = 0; i < selectedVistedFrequency; i++) {
+      selectedFrequency.push(<Frequency visited />);
+    }
+    return selectedFrequency;
   };
+
+  const renderFrequency = () => {
+    let frequencyArray = [];
+    const length = frequency - selectedVistedFrequency;
+    for (let i = 0; i < length; i++) {
+      frequencyArray.push(<Frequency />);
+    }
+    return frequencyArray;
+  };
+
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -144,12 +159,8 @@ const DoctorDetails = ({
         </View>
         {showFrequencyChiclet && (
           <View style={styles.frequecyContainer}>
-            {getCount(alreadyVisited).map(() => (
-              <Frequency visited />
-            ))}
-            {getCount(frequency - alreadyVisited).map(() => (
-              <Frequency />
-            ))}
+            {renderSelectedFrequency()}
+            {renderFrequency()}
           </View>
         )}
         {isTicked && (

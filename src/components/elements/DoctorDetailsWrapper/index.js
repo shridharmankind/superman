@@ -30,21 +30,24 @@ const DoctorDetailsWrapper = ({
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
+  const {frequency, alreadyVisited} = party;
 
-  const addVisit = () => {
-    if (party.alreadyVisited < party.frequency) {
-      party.alreadyVisited++;
-    }
-  };
   /**
    *  Select and deselect the card ,also
    *  update the frequency count
    * @param {Boolean} sel
    */
   const handleDoctorSelection = sel => {
-    party.selected = sel;
-    sel ? addVisit() : party.alreadyVisited--;
-    setSelect(sel);
+    if (frequency === alreadyVisited) {
+      return;
+    }
+    // toggle if already selected
+    party.selected = !party.selected;
+    party.selected
+      ? (party.selectedVistedFrequency = alreadyVisited + 1)
+      : (party.selectedVistedFrequency = party.selectedVistedFrequency - 1);
+
+    setSelect(party.selected);
     onPress(id);
   };
 
@@ -61,8 +64,12 @@ const DoctorDetailsWrapper = ({
         category={category}
         location={location}
         isTicked={party?.selected || false}
-        frequency={party?.frequency}
-        alreadyVisited={party?.alreadyVisited}
+        selectedVistedFrequency={
+          party.selectedVistedFrequency
+            ? party.selectedVistedFrequency
+            : alreadyVisited
+        }
+        frequency={frequency}
         {...props}
       />
     </TouchableOpacity>
