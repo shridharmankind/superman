@@ -28,11 +28,11 @@ const Schedule = ({navigation}) => {
   const myTabNavigator = () => {
     return (
       <View style={styles.tabContainer}>
-        <View style={styles.leftTabContainer}>
+        <View>
           <TabBar values={data} onPress={onTabPress} />
         </View>
         {showButtons && (
-          <View style={[styles.tabContainer, styles.rightTabContainer]}>
+          <View style={styles.tabContainer}>
             <Button
               title={Strings.reviewDCR}
               mode="outlined"
