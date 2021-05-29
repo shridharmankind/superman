@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,32 +14,13 @@ import {Strings, Constants} from 'common';
 import styles from './styles';
 import {NetworkService} from 'services';
 
-const data = [
-  {
-    name: 'Noida-Sec-1 (1)',
-    value: 'Noida-Sec-1 (1)',
-  },
-  {
-    name: 'Karol Bagh',
-    value: 'Karol Bagh',
-  },
-  {
-    name: 'Gurgaon',
-    value: 'Gurgaon',
-  },
-  {
-    name: 'Greater Noida',
-    value: 'Greater Noida',
-  },
-];
-
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
  * @param {Function} handleSliderIndex to handle left/right movement of week
  */
 
-const StandardPlanModal = ({handleSliderIndex, navigation}) => {
+const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
@@ -49,6 +30,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
   const [parties, setParties] = useState([]);
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
+  const [doctorsSelected, setDoctorSelected] = useState([]);
+  const swiperRef = useRef(null);
 
   const handleIndex = direction => {
     handleSliderIndex(direction);
@@ -96,12 +79,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
   }, []);
 
   useEffect(() => {
-    const patch = patches && patches.filter(val => patchValue === val.name);
+    const patch = (patches || []).filter(val => patchValue === val.name);
     setPatchSelected(patch && patch.length > 0 && patch[0].name);
   }, [patches, patchValue]);
 
   const handleAreaSelected = val => {
-    const index = areaSelected.filter(area => area.id === val);
+    const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
       setAreaSelected(areaSelected.filter(item => item.id !== val));
     } else {
@@ -110,29 +93,90 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
         areaList.find(area => area.id === val),
       ]);
     }
+    removeSelectedDoctorFromArea(val);
     setSelectedDoctorType(Strings.all);
   };
 
+  const getPartyCountFromArea = useCallback(() => {
+    const areaData = (areaList || []).map(area => {
+      return {
+        name: area.name,
+        id: area.id,
+        totalPartiesInArea: getDoctorsByArea(area.id).length,
+      };
+    });
+    return areaData;
+  }, [getDoctorsByArea, areaList]);
+
+  const removeSelectedDoctorFromArea = useCallback(
+    areaId => {
+      const doctorToRemove = partiesList.find(party =>
+        doctorsSelected.some(
+          obj =>
+            obj.partyId === party.id &&
+            party.areas.some(par => par.id === areaId),
+        ),
+      );
+      if (doctorToRemove) {
+        setDoctorSelected(
+          doctorsSelected.filter(doc => doc.partyId !== doctorToRemove.id),
+        );
+      }
+    },
+    [doctorsSelected, partiesList],
+  );
+
+  const createPatchString = useCallback(() => {
+    let patchString = (areaSelected || [])
+      .filter(area => {
+        const partyData = partiesList.find(party =>
+          doctorsSelected.some(
+            obj =>
+              obj.partyId === party.id &&
+              party.areas.some(par => par.id === area.id),
+          ),
+        );
+        return partyData ? true : false;
+      })
+      .map(patch => patch.name)
+      .join(' + ');
+    const patchCount = (patches || []).filter(p => p.name === patchString);
+    if (patchCount && patchCount.length > 0) {
+      patchString = patchString ? patchString + ` (${patchCount.length})` : '';
+    }
+    return patchString;
+  }, [areaSelected, doctorsSelected, partiesList, patches]);
+
   useEffect(() => {
     if (!patchValue) {
-      const patchString =
-        areaSelected.length > 0 &&
-        areaSelected.map(area => area.name).join('+');
-      setPatchSelected(patchString);
+      setPatchSelected(createPatchString());
     }
-  }, [areaSelected, patchValue]);
+  }, [
+    areaSelected,
+    patchValue,
+    doctorsSelected,
+    partiesList,
+    createPatchString,
+  ]);
 
-  const getDoctorsByArea = area => {
-    const parties = partiesList.filter(party => {
-      const isArea = party.areas.find(obj => {
-        return obj.id === area;
+  const getDoctorsByArea = useCallback(
+    area => {
+      const partiesData = partiesList.filter(party => {
+        const isArea = party.areas.find(obj => {
+          return (
+            obj.id === area &&
+            (party.partyType === selectedDoctorType ||
+              selectedDoctorType === Strings.all)
+          );
+        });
+        if (isArea) {
+          return party;
+        }
       });
-      if (isArea) {
-        return party;
-      }
-    });
-    return parties;
-  };
+      return partiesData;
+    },
+    [partiesList, selectedDoctorType],
+  );
 
   const handleDonePress = async () => {
     await NetworkService.post('/savePatch', {
@@ -156,12 +200,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
     });
   };
 
-  const handleDeletePatch = async () => {
-    await NetworkService.get('/deletePatch/1').then(res =>
-      console.log(res.data),
-    );
-  };
-
   const handlePartyByType = val => {
     if (val !== Strings.all) {
       setParties(parties.filter(party => party.partyType === val));
@@ -170,6 +208,23 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
       setParties(parties);
       setSelectedDoctorType(Strings.all);
     }
+  };
+
+  const handleDoctorCardPress = id => {
+    const indexAvailable = doctorsSelected.some(doc => doc.partyId === id);
+    if (indexAvailable) {
+      setDoctorSelected(doctorsSelected.filter(doc => doc.partyId !== id));
+    } else {
+      setDoctorSelected([...doctorsSelected, {partyId: id}]);
+    }
+  };
+
+  const handleAreaLeftArrow = () => {
+    swiperRef.current.scrollTo({x: 0, y: 0, animated: true});
+  };
+
+  const handleAreaRightArrow = () => {
+    swiperRef.current.scrollTo({x: 400, y: 0, animated: true});
   };
 
   return (
@@ -183,7 +238,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
             </TouchableOpacity>
             <Label
               style={styles.weekLabel}
-              title={'Week 1 - Monday'}
+              title={weekTitle}
               size={24}
               type={'bold'}
             />
@@ -195,16 +250,18 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
         <View
           style={[
             styles.patchInputCotainer,
-            {opacity: patchValue || patchSelected ? 1 : 0.2},
+            patchValue || patchSelected
+              ? styles.opacity_full
+              : styles.opacity_light,
           ]}>
           <Label
             title={
-              patchSelected ||
+              (patchSelected && patchSelected) ||
               (patchValue && patchValue.name) ||
               Strings.patchName
             }
           />
-          <View style={styles.patchIconContainer}>
+          {/* <View style={styles.patchIconContainer}>
             <TouchableOpacity style={[styles.patchIcon]}>
               <Icon name="edit" size={15} color={themes.colors.white} />
             </TouchableOpacity>
@@ -213,15 +270,9 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
               onPress={() => handleDeletePatch()}>
               <Icon name="trash" size={15} color={themes.colors.white} />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
         <View style={styles.headerButtonGroup}>
-          <Button
-            mode="contained"
-            title={Strings.saveDraft}
-            uppercase={true}
-            contentStyle={styles.doneBtn}
-          />
           <Button
             mode="contained"
             title={Strings.done}
@@ -251,21 +302,45 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
                 defaultLabel={Strings.selectPatch}
               />
               <View style={styles.areaFilter}>
-                {areaList.map(area => {
-                  return (
-                    <Area
-                      title={area.name}
-                      value={area.id}
-                      bgColor={'#524F670D'}
-                      color={'#524F67'}
-                      selectedColor={'#322B7C1A'}
-                      selected={isAreaSelected(area.id, areaSelected)}
-                      selectedTextColor={themes.colors.primary}
-                      style={{marginRight: 20}}
-                      onPress={handleAreaSelected}
-                    />
-                  );
-                })}
+                <TouchableOpacity
+                  onPress={() => handleAreaLeftArrow()}
+                  style={[styles.swiperArrow, styles.leftArrow]}>
+                  <Icon
+                    name={'chevron-left'}
+                    size={15}
+                    color={themes.colors.grey[200]}
+                  />
+                </TouchableOpacity>
+                <ScrollView
+                  horizontal={true}
+                  ref={swiperRef}
+                  showsHorizontalScrollIndicator={false}>
+                  {getPartyCountFromArea().map(area => {
+                    return (
+                      <Area
+                        title={area.name}
+                        value={area.id}
+                        count={area.totalPartiesInArea}
+                        bgColor={'#524F670D'}
+                        color={'#524F67'}
+                        selectedColor={'#322B7C1A'}
+                        selected={isAreaSelected(area.id, areaSelected)}
+                        selectedTextColor={themes.colors.primary}
+                        style={styles.areaChip}
+                        onPress={handleAreaSelected}
+                      />
+                    );
+                  })}
+                </ScrollView>
+                <TouchableOpacity
+                  onPress={() => handleAreaRightArrow()}
+                  style={[styles.swiperArrow, styles.rightArrow]}>
+                  <Icon
+                    name={'chevron-right'}
+                    size={15}
+                    color={themes.colors.grey[200]}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -273,8 +348,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
           <View style={styles.doctorDetailsContainer}>
             <View>
               <View style={styles.doctorDetailsHeader}>
-                <View>
+                <View style={styles.doctorSelectedContainer}>
                   <Label title={Strings.selectVisit} />
+                  <Label
+                    title={` - ${doctorsSelected.length} selected`}
+                    type={'bold'}
+                  />
                 </View>
                 <View style={styles.categoryFilterContainer}>
                   {partiesType.map(type => (
@@ -299,23 +378,41 @@ const StandardPlanModal = ({handleSliderIndex, navigation}) => {
                     <View style={styles.doctorDetails}>
                       {getDoctorsByArea(area.id).map(party => (
                         <DoctorDetailsWrapper
+                          id={party.id}
                           title={party.name}
                           specialization={party.speciality}
                           category={party.isKyc ? Strings.kyc : party.category}
                           selected={false}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
+                          onPress={handleDoctorCardPress}
                         />
                       ))}
                     </View>
                   </>
                 ))}
               </View>
+              <View styles={styles.bottom}>
+                <View style={styles.bottomContent}>
+                  <Button
+                    mode="text"
+                    title={Strings.addOtherDoctors}
+                    uppercase={false}
+                    labelStyle={styles.addDoctors}
+                  />
+                  <Button
+                    mode="contained"
+                    title={`${Strings.doctorUniverse} (${partiesList.length})`}
+                    uppercase={false}
+                    contentStyle={styles.doneBtn}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </View>
-        <View style={styles.rightContent}>
+        {/* <View style={styles.rightContent}>
           <Label title={Strings.planCompliance} />
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );

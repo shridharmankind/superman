@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal, View, TouchableWithoutFeedback} from 'react-native';
 import {useTheme} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {CloseIcon} from 'assets';
 import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
 import styles from './styles';
@@ -20,6 +20,7 @@ import {BlurView} from '@react-native-community/blur';
  * @param {Boolean} closeAction boolean flag to decide whether to show close icon
  * @param {String} closeTestId test id for close icon
  * @param {Object} customModalPosition styling for custom modal position
+ * @param {Object} customModalView styling for custom modal view
  */
 
 const CustomModal = ({
@@ -33,6 +34,7 @@ const CustomModal = ({
   closeAction,
   closeTestId,
   customModalPosition,
+  customModalView,
 }) => {
   const {colors} = useTheme();
   const primaryActionHandler = () => {
@@ -106,6 +108,7 @@ CustomModal.propTypes = {
   closeAction: PropTypes.bool,
   closeTestId: PropTypes.string,
   customModalPosition: PropTypes.object,
+  customModalView: PropTypes.object,
 };
 
 export default CustomModal;

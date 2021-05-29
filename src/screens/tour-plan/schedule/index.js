@@ -19,7 +19,7 @@ const Schedule = ({navigation}) => {
       text: `${Strings.tourPlan}`,
     },
   ];
-  const [showButtons, setShowButtons] = useState(false);
+  const [showButtons, setShowButtons] = useState(true);
 
   /**
    * function to render tabs and buttons

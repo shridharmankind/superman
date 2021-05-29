@@ -4,7 +4,7 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   detailsContainer: {
     justifyContent: 'space-between',
-    width: '50%',
+    width: '100%',
     flexGrow: 1,
     flexDirection: 'row',
   },
@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    marginRight: 32,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 20,
   },
   nameContainer: {
     flexDirection: 'column',
@@ -26,8 +26,9 @@ const styles = StyleSheet.create({
   divisionContainer: {
     borderTopLeftRadius: 10,
     borderBottomRightRadius: 10,
-    backgroundColor: theme.colors.orange,
-    padding: 10,
+    backgroundColor: theme.colors.orange[100],
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     position: 'absolute',
     top: -41,
     left: -33,
@@ -50,13 +51,52 @@ const styles = StyleSheet.create({
   },
   frequecyContainer: {
     flexDirection: 'row',
+    alignSelf: 'center',
   },
   visitContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   seperator: {
     paddingRight: 10,
+  },
+  doctorTile: {
+    marginTop: 10,
+  },
+  borderOuterContainer: {
+    height: 1,
+    overflow: 'hidden',
+    marginTop: 2,
+    paddingBottom: 5,
+  },
+  borderInnerContainer: {
+    height: 1,
+    borderWidth: 0.5,
+    borderColor: theme.colors.grey[200],
+    borderStyle: 'dashed',
+    borderRadius: 0.00000001,
+  },
+  tileContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    marginTop: 5,
+    marginRight: 5,
+  },
+  tileLeft: {
+    flexDirection: 'row',
+    flexGrow: 2,
+    alignItems: 'center',
+  },
+  tileText: {
+    fontSize: 12,
+    color: theme.colors.grey[600],
+  },
+  titleTextSecondary: {
+    marginLeft: 10,
+  },
+  container: {
+    flex: 1,
   },
 });
 

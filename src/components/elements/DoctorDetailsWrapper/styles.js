@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     flex: 1,
-    minWidth: '45%',
+    minWidth: '48%',
+    maxWidth: '48%',
     marginRight: 20,
     zIndex: 1,
   },
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   divisionContainer: {
     borderTopLeftRadius: 10,
     borderBottomRightRadius: 10,
-    backgroundColor: theme.colors.orange,
+    backgroundColor: theme.colors.orange[100],
     padding: 10,
     position: 'absolute',
     top: -40,
