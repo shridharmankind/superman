@@ -1,11 +1,14 @@
 import React from 'react';
 import {Modal, View, TouchableWithoutFeedback} from 'react-native';
+import {useTheme} from 'react-native-paper';
+import {BlurView} from '@react-native-community/blur';
 import {CloseIcon} from 'assets';
 import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
 import styles from './styles';
-import {BlurView} from '@react-native-community/blur';
 
+// https://github.com/Kureev/react-native-blur
+// for web https://stackoverflow.com/questions/47207510/react-native-blur-in-modal
 /**
  * Custom modal component using Modal from react-native.
  * This serves the purpose to open a dialog box with custom title, content and action buttons
@@ -35,6 +38,7 @@ const CustomModal = ({
   customModalPosition,
   customModalView,
 }) => {
+  const {colors} = useTheme();
   const primaryActionHandler = () => {
     primaryAction();
     onClose();
@@ -49,7 +53,7 @@ const CustomModal = ({
         <BlurView
           blurType="light"
           blurAmount={9}
-          reducedTransparencyFallbackColor="rgba(100,100,100, 0.5)"
+          reducedTransparencyFallbackColor={colors.grey[800]}
           style={styles.blurView}>
           <View style={[styles.centeredView]}>
             <View style={[styles.modalView, customModalPosition]}>

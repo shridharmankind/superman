@@ -94,8 +94,6 @@ const Dashboard = ({navigation}) => {
     </DashboardStack.Navigator>
   );
 
-  // https://github.com/Kureev/react-native-blur
-  // for web https://stackoverflow.com/questions/47207510/react-native-blur-in-modal
   return (
     <ScrollView
       ref={scrollRef}
