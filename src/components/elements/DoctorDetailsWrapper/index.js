@@ -30,13 +30,19 @@ const DoctorDetailsWrapper = ({
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
+
+  const addVisit = () => {
+    if (party.alreadyVisited < party.frequency) {
+      party.alreadyVisited++;
+    }
+  };
   /**
    *  Select and deselect the card ,also
    *  update the frequency count
    * @param {Boolean} sel
    */
   const handleDoctorSelection = sel => {
-    sel ? party.alreadyVisited++ : party.alreadyVisited--;
+    sel ? addVisit() : party.alreadyVisited--;
     setSelect(sel);
     onPress(id);
   };
