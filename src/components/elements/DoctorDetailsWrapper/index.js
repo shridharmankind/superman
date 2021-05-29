@@ -26,11 +26,17 @@ const DoctorDetailsWrapper = ({
   testID,
   id,
   onPress,
+  party,
   ...props
 }) => {
   const [select, setSelect] = useState(selected);
-
+  /**
+   *  Select and deselect the card ,also
+   *  update the frequency count
+   * @param {Boolean} sel
+   */
   const handleDoctorSelection = sel => {
+    sel ? party.alreadyVisited++ : party.alreadyVisited--;
     setSelect(sel);
     onPress(id);
   };
@@ -48,6 +54,8 @@ const DoctorDetailsWrapper = ({
         category={category}
         location={location}
         isTicked={select}
+        frequency={party?.frequency}
+        alreadyVisited={party?.alreadyVisited}
         {...props}
       />
     </TouchableOpacity>

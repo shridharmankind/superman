@@ -210,6 +210,10 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
     }
   };
 
+  /**
+   *  Handles Card click event& accept an id of party
+   * @param {Number} id
+   */
   const handleDoctorCardPress = id => {
     const indexAvailable = doctorsSelected.some(doc => doc.partyId === id);
     if (indexAvailable) {
@@ -384,6 +388,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
                           category={party.isKyc ? Strings.kyc : party.category}
                           selected={false}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
+                          party={party}
                           onPress={handleDoctorCardPress}
                         />
                       ))}

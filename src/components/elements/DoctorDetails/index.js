@@ -39,8 +39,13 @@ const DoctorDetails = ({
   isTicked,
   showTile,
   onTilePress,
+  alreadyVisited,
+  frequency,
   ...props
 }) => {
+  const getCount = count => {
+    return new Array(count).fill('');
+  };
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -139,9 +144,12 @@ const DoctorDetails = ({
         </View>
         {showFrequencyChiclet && (
           <View style={styles.frequecyContainer}>
-            <Frequency visited={true} />
-            <Frequency />
-            <Frequency />
+            {getCount(alreadyVisited).map(() => (
+              <Frequency visited />
+            ))}
+            {getCount(frequency - alreadyVisited).map(() => (
+              <Frequency />
+            ))}
           </View>
         )}
         {isTicked && (
