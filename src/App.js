@@ -15,11 +15,32 @@ import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {Toast} from 'components/widgets';
 
+import * as BackgroundFetch from "expo-background-fetch"
+import * as TaskManager from "expo-task-manager"
+
+const TASK_NAME = "BACKGROUND_TASK"
+BackgroundFetch.setMinimumIntervalAsync(60);
+TaskManager.defineTask(TASK_NAME, () => {
+  try {
+    // fetch data here...
+    const receivedNewData = "Simulated fetch " + Math.random()
+    console.log("My task ", receivedNewData)
+    const newData =  receivedNewData
+      ? BackgroundFetch.Result.NewData
+      : BackgroundFetch.Result.NoData
+    console.log("newData -- ",newData);
+    return newData;  
+  } catch (err) {
+    console.log("err -- ",err);
+    return BackgroundFetch.Result.Failed
+  }
+})
+
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
 
   useEffect(() => {
@@ -29,8 +50,20 @@ const App = () => {
           SplashScreen.hide();
         });
       }, 2000);
+      RegisterBackgroundTask();
     }
   }, []);
+
+  const RegisterBackgroundTask = async () => {
+    try {
+      await BackgroundFetch.registerTaskAsync(TASK_NAME, {
+        minimumInterval: 5, // seconds,
+      })
+      console.log("Task registered")
+    } catch (err) {
+      console.log("Task Register failed:", err)
+    }
+  }
 
   return (
     <Provider store={store}>

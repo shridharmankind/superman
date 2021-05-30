@@ -28,6 +28,8 @@
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.19.0",
     "dayjs": "^1.10.4",
+    "expo-background-fetch": "^9.1.0",
+    "expo-task-manager": "^9.1.0",
     "jwt-decode": "^3.1.2",
     "lodash.merge": "^4.6.2",
     "normalizr": "^3.6.1",
