@@ -44,6 +44,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   const [showPatchError, setShowPatchError] = useState(false);
   const [patchError, setPatchError] = useState();
   const swiperRef = useRef(null);
+  const [hideRightArrow, setHideRightArrow] = useState(false);
+  const [scrollOffset, setScrollOffset] = useState(0);
 
   /**
    * callback function to return direction left/right of day swiper
@@ -241,12 +243,20 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
       week: week.split(' ')[1],
       weekDay,
     };
-    const isValidated = await NetworkService.post('/patch/validate/1', {
-      displayName: patchSelected,
-      defaultName: patchDefaultValue,
-    });
+    const isValidated = await NetworkService.post(
+      `/patch/validate/${patchValue.id}`,
+      {
+        displayName: patchSelected,
+        defaultName: patchDefaultValue,
+      },
+    );
     if (isValidated.status === Constants.HTTP_OK) {
-      const result = await NetworkService.post('/patch/1', obj);
+      let result = null;
+      if (patchValue.defaultName === patchDefaultValue) {
+        result = await NetworkService.put(`/patch/${patchValue.id}`, obj);
+      } else {
+        result = await NetworkService.post(`/patch/${patchValue.id}`, obj);
+      }
       if (result.status === Constants.HTTP_OK) {
         console.log(result.data);
         navigation.navigate('TourPlan');
@@ -291,11 +301,13 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   };
 
   const handleAreaLeftArrow = () => {
-    swiperRef.current.scrollTo({x: 0, y: 0, animated: true});
+    swiperRef.current.scrollTo({x: scrollOffset - 150, y: 0, animated: true});
+    setScrollOffset(scrollOffset - 100);
   };
 
   const handleAreaRightArrow = () => {
-    swiperRef.current.scrollTo({x: 400, y: 0, animated: true});
+    swiperRef.current.scrollTo({x: scrollOffset + 150, y: 0, animated: true});
+    setScrollOffset(scrollOffset + 100);
   };
 
   const handlePatchInputChange = val => {
@@ -344,6 +356,14 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
       obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
     }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
   }, [doctorsSelected, partiesList]);
+
+  const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
+    if (layoutMeasurement.width + contentOffset.x >= contentSize.width) {
+      setHideRightArrow(true);
+    } else {
+      setHideRightArrow(false);
+    }
+  };
 
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
@@ -415,18 +435,26 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                 defaultLabel={Strings.selectPatch}
               />
               <View style={styles.areaFilter}>
-                <TouchableOpacity
-                  onPress={() => handleAreaLeftArrow()}
-                  style={[styles.swiperArrow, styles.leftArrow]}>
-                  <Icon
-                    name={'chevron-left'}
-                    size={10}
-                    color={themes.colors.blue}
-                  />
-                </TouchableOpacity>
+                {scrollOffset > 0 && (
+                  <TouchableOpacity
+                    onPress={() => handleAreaLeftArrow()}
+                    style={[styles.swiperArrow, styles.leftArrow]}>
+                    <Icon
+                      name={'chevron-left'}
+                      size={10}
+                      color={themes.colors.blue}
+                    />
+                  </TouchableOpacity>
+                )}
                 <ScrollView
                   horizontal={true}
                   ref={swiperRef}
+                  onScroll={({nativeEvent}) => {
+                    // if (isAreaViewScrollable(nativeEvent)) {
+                    // enableSomeButton();
+                    hideScrollArrow(nativeEvent);
+                    // }
+                  }}
                   showsHorizontalScrollIndicator={false}>
                   {getPartyCountFromArea().map(area => {
                     return (
@@ -446,15 +474,17 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                     );
                   })}
                 </ScrollView>
-                <TouchableOpacity
-                  onPress={() => handleAreaRightArrow()}
-                  style={[styles.swiperArrow, styles.rightArrow]}>
-                  <Icon
-                    name={'chevron-right'}
-                    size={10}
-                    color={themes.colors.blue}
-                  />
-                </TouchableOpacity>
+                {!hideRightArrow && (
+                  <TouchableOpacity
+                    onPress={() => handleAreaRightArrow()}
+                    style={[styles.swiperArrow, styles.rightArrow]}>
+                    <Icon
+                      name={'chevron-right'}
+                      size={10}
+                      color={themes.colors.blue}
+                    />
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>

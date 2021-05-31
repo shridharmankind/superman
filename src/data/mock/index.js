@@ -20,7 +20,7 @@ const getMock = axios => {
     .onPost('/patch/1', patchesMock.savePatch.request)
     .reply(200, patchesMock.savePatch.response);
   mock
-    .onPut('/patch/1', patchesMock.updatePatch)
+    .onPut('/patch/1', patchesMock.savePatch.request)
     .reply(200, patchesMock.savePatch.response);
   mock.onGet('/area/1').reply(200, areaList);
   mock.onGet('/party/1').reply(200, party);
@@ -30,7 +30,7 @@ const getMock = axios => {
     .reply(200, patchesMock.getPartyByPatchId);
   mock
     .onPost('/patch/validate/1', patchesMock.validate.request)
-    .reply(422, patchesMock.validate.response);
+    .reply(200, patchesMock.validate.response);
   mock
     .onPost(`${API_PATH.GET_PARTIES}`, partiesMock.getParties.request)
     .reply(200, partiesMock.getParties.response);
