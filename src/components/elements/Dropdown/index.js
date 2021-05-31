@@ -24,7 +24,7 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
   let childrenIds;
 
   const handleValueSelected = val => {
-    setDropdownText(val.value);
+    setDropdownText((val && val.value) || defaultLabel);
     setTogglePicker(false);
     setValue(val);
   };

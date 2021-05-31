@@ -185,7 +185,9 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
       p => p.displayName === patchString || p.defaultName === patchString,
     );
     if (patchCount && patchCount.length > 0) {
-      patchString = patchString ? patchString + ` (${patchCount.length})` : '';
+      patchString = patchString
+        ? patchString + ` (${patchCount.length + 1})`
+        : '';
     }
     return patchString;
   }, [areaSelected, doctorsSelected, partiesList, patches]);
@@ -434,6 +436,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                       bgColor={themes.colors.white}
                       color={'#524F67'}
                       onPress={handlePartyByType}
+                      testID={`btn_stp_party_type_${type}_test`}
                     />
                   ))}
                 </View>
@@ -441,8 +444,11 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
 
               <View style={styles.doctorDetailsContainer}>
                 {areaSelected.map((area, i) => (
-                  <>
-                    <Label key={i} title={area.name} />
+                  <React.Fragment key={i}>
+                    <Label
+                      title={area.name}
+                      testID={`label_stp_area_${area.id}_test`}
+                    />
                     <View style={styles.doctorDetails}>
                       {getDoctorsByArea(area.id).map(party => (
                         <DoctorDetailsWrapper
@@ -459,7 +465,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                         />
                       ))}
                     </View>
-                  </>
+                  </React.Fragment>
                 ))}
               </View>
               <View styles={styles.bottom}>
