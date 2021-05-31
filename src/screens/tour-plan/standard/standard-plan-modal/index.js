@@ -93,6 +93,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
         areaList.find(area => area.id === val),
       ]);
     }
+
     removeSelectedDoctorFromArea(val);
     setSelectedDoctorType(Strings.all);
   };
@@ -110,14 +111,16 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
 
   const removeSelectedDoctorFromArea = useCallback(
     areaId => {
-      const doctorToRemove = partiesList.find(party =>
-        doctorsSelected.some(
+      const doctorToRemove = partiesList.find(party => {
+        return doctorsSelected.some(
           obj =>
             obj.partyId === party.id &&
             party.areas.some(par => par.id === areaId),
-        ),
-      );
+        );
+      });
       if (doctorToRemove) {
+        doctorToRemove.selected = false;
+        doctorToRemove.selectedVistedFrequency = doctorToRemove.alreadyVisited;
         setDoctorSelected(
           doctorsSelected.filter(doc => doc.partyId !== doctorToRemove.id),
         );
