@@ -141,6 +141,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         areaList.find(area => area.id === val),
       ]);
     }
+
     removeSelectedDoctorFromArea(val);
     setSelectedDoctorType(Strings.all);
   };
@@ -164,6 +165,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         ),
       );
       if (doctorToRemove) {
+        doctorToRemove.selected = false;
+        doctorToRemove.selectedVistedFrequency = doctorToRemove.alreadyVisited;
         setDoctorSelected(
           doctorsSelected.filter(doc => doc !== doctorToRemove.id),
         );
@@ -274,6 +277,10 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     }
   };
 
+  /**
+   *  Handles Card click event& accept an id of party
+   * @param {Number} id
+   */
   const handleDoctorCardPress = id => {
     const indexAvailable = doctorsSelected.some(party => party === id);
     if (indexAvailable) {
@@ -510,6 +517,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                             id => id === party.id,
                           )}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
+                          party={party}
                           onPress={handleDoctorCardPress}
                         />
                       ))}
