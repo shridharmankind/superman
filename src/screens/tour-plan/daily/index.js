@@ -24,6 +24,7 @@ const DailyTourPlan = () => {
   const dispatch = useDispatch();
   const dayPlan = [
     {
+      key: '1',
       name: 'Dr. Ashish Gulati',
       specialization: ['Cardiologist'],
       category: 'KYC',
@@ -47,6 +48,7 @@ const DailyTourPlan = () => {
       ],
     },
     {
+      key: '2',
       name: 'Dr. Manish Kumar ',
       specialization: ['Cardiologist'],
       category: 'a+',
@@ -70,6 +72,7 @@ const DailyTourPlan = () => {
       ],
     },
     {
+      key: '3',
       name: 'Dr. Manoj Manjhi',
       specialization: ['Cardiologist'],
       category: 'b',
@@ -88,6 +91,7 @@ const DailyTourPlan = () => {
       ],
     },
     {
+      key: '4',
       name: 'Dr. Manoj Manjhi',
       specialization: ['Cardiologist'],
       category: 'KYC',
@@ -111,6 +115,7 @@ const DailyTourPlan = () => {
       ],
     },
     {
+      key: '5',
       name: 'Dr. Tanmay Singh',
       specialization: ['Dermatologist'],
       category: 'B',
@@ -130,6 +135,7 @@ const DailyTourPlan = () => {
     },
 
     {
+      key: '6',
       name: 'Balaji Medicos ',
       specialization: ['Chemist'],
       category: '-',
@@ -149,11 +155,13 @@ const DailyTourPlan = () => {
     },
   ];
 
-  const [listData, setListData] = useState(
-    Array(20)
-      .fill('')
-      .map((_, i) => ({key: `${i}`, text: `item #${i}`})),
-  );
+  // const [listData, setListData] = useState(
+  //   Array(20)
+  //     .fill('')
+  //     .map((_, i) => ({key: `${i}`, text: `item #${i}`})),
+  // );
+
+  const [listData, setListData] = useState(dayPlan);
 
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -163,20 +171,21 @@ const DailyTourPlan = () => {
 
   const deleteRow = (rowMap, rowKey) => {
     closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex(item => item.key === rowKey);
+    const newData = [...dayPlan];
+    const prevIndex = dayPlan.findIndex(item => item.key === rowKey);
+    console.log('before', prevIndex, newData);
     newData.splice(prevIndex, 1);
+    console.log('after', newData);
     setListData(newData);
   };
 
   const renderItem = (data, rowMap) => (
     <SwipeRow
       disableRightSwipe={true}
-      disableLeftSwipe={parseInt(data.item.key) % 2 === 0}
       leftOpenValue={20 + Math.random() * 150}
       rightOpenValue={-90}>
       <View style={styles.rowBack}>
-        <Text>Left</Text>
+        {/* <Text>Left</Text> */}
         {/* <TouchableOpacity
           style={[styles.backRightBtn, styles.backRightBtnLeft]}
           onPress={() => closeRow(rowMap, data.item.key)}>
@@ -185,15 +194,45 @@ const DailyTourPlan = () => {
         <TouchableOpacity
           style={[styles.backRightBtn, styles.backRightBtnRight]}
           onPress={() => deleteRow(rowMap, data.item.key)}>
-          <Text style={styles.backTextWhite}>Delete</Text>
+          <View style={styles.closeLabel}>
+            <Label
+              title={'X'}
+              style={[
+                styles.removeCardButtonText,
+                styles.removeCardButtonClose,
+              ]}
+            />
+          </View>
+          <Label
+            title={Strings.removeFromToday}
+            style={styles.removeCardButtonText}
+          />
         </TouchableOpacity>
       </View>
       <TouchableHighlight
-        onPress={() => console.log('You touched me')}
+        onPress={() => console.log('You touched me', data)}
         style={styles.rowFront}
         underlayColor={'#AAA'}>
-        <View>
-          <Text>I am {data.item.text} in a SwipeListView</Text>
+        <View style={styles.doctorDetailWrapper}>
+          <View key={data.item.key} style={styles.doctorDetailContainer}>
+            <DoctorDetails
+              title={data.item.name}
+              specialization={dayPlan[data.index].specialization}
+              category={dayPlan[data.index].category}
+              location={dayPlan[data.index].location}
+              customStyle={doctorDetailStyleObject}
+              showFrequencyChiclet={false}
+              showVisitPlan={true}
+              visitData={dayPlan[data.index].visitData}
+              showTile={true}
+              onTilePress={() => {
+                if (isWeb()) {
+                  setVisible(true);
+                  setItemPressed(data.index);
+                }
+              }}
+            />
+          </View>
         </View>
       </TouchableHighlight>
     </SwipeRow>
@@ -329,8 +368,6 @@ const DailyTourPlan = () => {
     return (
       <View style={styles.contentView}>
         {(sortedDayPlan || []).map((plan, index) => {
-          let closeRow;
-
           return (
             <SwipeRow
               style={styles.swipeRow}
@@ -394,7 +431,7 @@ const DailyTourPlan = () => {
   };
 
   return (
-    <ScrollView>
+    <>
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}
@@ -405,9 +442,9 @@ const DailyTourPlan = () => {
         {getVisitBifurcationLabel()}
       </View>
       <SwipeListView data={listData} renderItem={renderItem} />
-      {/* {isDoctorDetailFetched && renderDayPlan()} */}
+
       {pressTile()}
-    </ScrollView>
+    </>
   );
 };
 
