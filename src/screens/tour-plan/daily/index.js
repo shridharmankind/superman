@@ -33,7 +33,7 @@ const DailyTourPlan = () => {
     console.log('useeffect 1');
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 2,
+        staffPositionid: 3,
         day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
         month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
         year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
@@ -163,24 +163,23 @@ const DailyTourPlan = () => {
     console.log('rowrefs', rowRefs);
     console.log('removeparty');
     let undoclicked = false;
-    // setUndoDeleteAction(false);
     showToast({
       type: Constants.TOAST_TYPES.ALERT,
       props: {
         onPress: () => {
           undoclicked = true;
-          // setUndoDeleteAction(true);
+          // callback();
           hideToast();
           console.log('undo clicked', undoDeleteAction);
         },
-        guid: 'guid-id',
-        heading: 'Hello',
-        subHeading: 'This is some something',
-        actionTitle: 'UNDO',
+        heading: `${Strings.removed}!`,
+        subHeading: `${Strings.removedDoctor}`,
+        actionTitle: `${Strings.undo}`,
       },
       onHide: () => {
         console.log('on hide', undoDeleteAction);
         if (!undoclicked) {
+          callback();
           console.log('dispatch call sent');
           dispatch(
             deletePartyCreator({

@@ -30,14 +30,16 @@ export function* fetchDoctorDetailWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
-    // const response = yield call(NetworkService.post, API_PATH.GET_PARTIES, {
-    //   staffPositionid: staffPositionid,
-    //   day: day,
-    //   month: month,
-    //   year: year,
-    // });
+    const response = yield call(NetworkService.post, API_PATH.GET_PARTIES, {
+      staffPositionid: staffPositionid,
+      day: day,
+      month: month,
+      year: year,
+    });
 
-    const response = yield call(NetworkService.get, API_PATH.GET_PARTIES);
+    console.log('response from api', response);
+
+    // const response = yield call(NetworkService.get, API_PATH.GET_PARTIES);
 
     console.log('response', response);
     yield put(

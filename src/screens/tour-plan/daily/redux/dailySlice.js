@@ -32,10 +32,11 @@ export const doctorDetailSlice = createSlice({
   reducers: {
     getDoctorDetail: (state, action) => merge(state, action.payload),
     doctorRemoved: (state, action) => {
-      console.log('state, action', state, state.doctorDetail, action);
-      return state.dailyState.doctorDetail.data.filter(
-        d => d.id === action.payload.partyId,
-      );
+      const findIndex = state.doctorDetail.data.findIndex(d => {
+        return d.id === action.payload.partyId;
+      });
+      state.doctorDetail.data.splice(findIndex, 1);
+      return state;
     },
   },
 });

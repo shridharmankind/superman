@@ -51,6 +51,9 @@ const Strings = {
   removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
   proceed: 'Proceed',
   removeFromToday: 'Remove from today',
+  removed: 'Removed',
+  removedDoctor: "You have removed a doctor from today's visit",
+  undo: 'UNDO',
 };
 
 export default Strings;
