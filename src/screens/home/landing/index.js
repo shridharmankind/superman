@@ -1,16 +1,32 @@
-import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import React, { useEffect } from 'react';
+import {TouchableOpacity, View, Button} from 'react-native';
 import {Card} from 'react-native-paper';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {Label} from 'components/elements';
-
+import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
 
+const syncInterval = 60; // 1 minute
+const syncFlexTime = 15; // 15 seconds
+
 const HomeLanding = ({navigation}) => {
+
+  useEffect(() => {
+    
+  },[]);
+
+  const onSyncPress = () => {
+    SyncAdapter.syncImmediately({
+      syncInterval,
+      syncFlexTime,
+    });
+  };
+
   const renderHeader = () => (
     <View style={styles.header}>
       <Label type="bold" size={28} title="Good Morning" />
+      <Button onPress={() => onSyncPress()} title="Sync now" />
     </View>
   );
 

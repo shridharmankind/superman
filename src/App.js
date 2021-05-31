@@ -14,27 +14,16 @@ import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {Toast} from 'components/widgets';
-
+import SyncAdapter from 'react-native-sync-adapter';
+import {TASK_NAME,syncFlexTime,syncInterval} from './utils/backgroundTask';
 import * as BackgroundFetch from "expo-background-fetch"
-import * as TaskManager from "expo-task-manager"
+import * as TaskManager from "expo-task-manager";
+import AsyncStorage from '@react-native-community/async-storage';
 
-const TASK_NAME = "BACKGROUND_TASK"
+
+
 BackgroundFetch.setMinimumIntervalAsync(60);
-TaskManager.defineTask(TASK_NAME, () => {
-  try {
-    // fetch data here...
-    const receivedNewData = "Simulated fetch " + Math.random()
-    console.log("My task ", receivedNewData)
-    const newData =  receivedNewData
-      ? BackgroundFetch.Result.NewData
-      : BackgroundFetch.Result.NoData
-    console.log("newData -- ",newData);
-    return newData;  
-  } catch (err) {
-    console.log("err -- ",err);
-    return BackgroundFetch.Result.Failed
-  }
-})
+
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -50,8 +39,23 @@ const App = () => {
           SplashScreen.hide();
         });
       }, 2000);
+      AsyncStorage.setItem("BACKGROUND_TASK","NOT_RUNNING");
+      SyncAdapter.syncImmediately({
+        syncInterval,
+        syncFlexTime,
+      });
+      SyncAdapter.init({
+        syncInterval,
+        syncFlexTime,
+      });
       RegisterBackgroundTask();
     }
+
+    return () => {
+      console.log("Unmount task in working");
+      AsyncStorage.removeItem("BACKGROUND_TASK");
+    }
+  
   }, []);
 
   const RegisterBackgroundTask = async () => {

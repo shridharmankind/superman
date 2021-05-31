@@ -12205,6 +12205,11 @@ react-native-swiper-flatlist@^3.0.14:
   resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-3.0.14.tgz#6c1b5f150af910656a64c5bf15c6bc66c2b80a30"
   integrity sha512-t41ZlktJnG0D6sva/xL06mDDIkglMwnWIKhRPC2Ll6iP4fUVqv4bXtxMP1HhHwQmlT6B9FQMU1/RF+VqpK3a1A==
 
+react-native-sync-adapter@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-sync-adapter/-/react-native-sync-adapter-3.0.0.tgz#61574e1bab4518096ba01b8717a1db9cae2a0e99"
+  integrity sha512-i5KnVRUzNwg+UosykxKxBTewZjEUgoLu5N+qkWEd/0vocTcgJv1pRpwUb9Z5197eIP3o/8TDm5ecAGKpZMxVng==
+
 react-native-tab-view@^2.16.0:
   version "2.16.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.16.0.tgz#cae72c7084394bd328fac5fefb86cd966df37a86"
