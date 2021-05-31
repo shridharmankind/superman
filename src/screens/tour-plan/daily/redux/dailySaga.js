@@ -29,6 +29,7 @@ export function* fetchDoctorDetailWorker(action) {
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
           data: response.data,
+          fetched: true,
         },
       }),
     );
