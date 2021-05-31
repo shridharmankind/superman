@@ -284,7 +284,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   };
 
   const handlePatchInputChange = val => {
-    if (val.length < 64) {
+    const regex = /^[ A-Za-z0-9-+&()]*$/;
+    if (val.length < 64 && regex.test(val)) {
       setPatchSelected(val);
     }
   };
