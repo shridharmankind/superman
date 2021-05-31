@@ -53,7 +53,7 @@ const DoctorDetails = ({
   const renderFrequencyChicklets = (Component, length) => {
     let frequencyComp = [];
     for (let i = 0; i < length; i++) {
-      frequency.push(Component);
+      frequencyComp.push(Component);
     }
     return frequencyComp;
   };
