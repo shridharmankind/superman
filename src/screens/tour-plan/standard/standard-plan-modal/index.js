@@ -45,6 +45,10 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   const [patchError, setPatchError] = useState();
   const swiperRef = useRef(null);
 
+  /**
+   * callback function to return direction left/right of day swiper
+   * @param {String} direction
+   */
   const handleIndex = direction => {
     handleSliderIndex(direction);
   };
