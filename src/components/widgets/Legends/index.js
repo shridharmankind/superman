@@ -26,7 +26,7 @@ const LegendWrapper = props => {
  */
 const renderKycVisit = () => (
   <LegendWrapper title={legends.kycDoctor}>
-    <Icon name={'star'} size={14} color={theme.colors.orange} />
+    <Icon name={'star'} size={14} color={theme.colors.orange[100]} />
   </LegendWrapper>
 );
 
