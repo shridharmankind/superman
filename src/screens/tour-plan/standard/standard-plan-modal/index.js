@@ -513,9 +513,18 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                           title={party.name}
                           specialization={party.speciality}
                           category={party.isKyc ? Strings.kyc : party.category}
-                          selected={(doctorsSelected || []).some(
-                            id => id === party.id,
-                          )}
+                          selected={(doctorsSelected || []).some(id => {
+                            if (id === party.id) {
+                              //  on patch selection add the frequency vist and set select
+                              if (party.alreadyVisited !== party.frequency) {
+                                party.selectedVistedFrequency =
+                                  party.alreadyVisited + 1;
+                                party.selected = true;
+                              }
+
+                              return true;
+                            }
+                          })}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
                           party={party}
                           onPress={handleDoctorCardPress}

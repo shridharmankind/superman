@@ -62,7 +62,7 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={party?.selected || selected}
+        isTicked={party?.selected || false}
         selectedVistedFrequency={
           party.selectedVistedFrequency
             ? party.selectedVistedFrequency
