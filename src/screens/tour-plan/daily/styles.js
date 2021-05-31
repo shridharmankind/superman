@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 15,
-    marginTop: 8,
+    marginTop: 6,
     marginBottom: 20,
   },
   backRightBtn: {
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     top: 0,
-    width: 95,
+    width: 100,
   },
   backRightBtnLeft: {
     backgroundColor: 'blue',

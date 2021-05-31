@@ -93,7 +93,7 @@ const DailyTourPlan = () => {
           <View style={styles.doctorDetailWrapper}>
             <View key={data.item.key} style={styles.doctorDetailContainer}>
               <DoctorDetails
-                title={data.item.text}
+                title={data.item.name}
                 specialization={data.item.specialization}
                 category={data.item.category}
                 location={data.item.location}
