@@ -44,21 +44,18 @@ const DoctorDetails = ({
   selectedVistedFrequency,
   ...props
 }) => {
-  const renderSelectedFrequency = () => {
-    let selectedFrequency = [];
-    for (let i = 0; i < selectedVistedFrequency; i++) {
-      selectedFrequency.push(<Frequency visited />);
-    }
-    return selectedFrequency;
-  };
-
-  const renderFrequency = () => {
-    let frequencyArray = [];
-    const length = frequency - selectedVistedFrequency;
+  /**
+   *  Renders Visited or non visited frequency CHicklet
+   * @param {JSX} Component
+   * @param {Number} length
+   * @returns Component
+   */
+  const renderFrequencyChicklets = (Component, length) => {
+    let frequencyComp = [];
     for (let i = 0; i < length; i++) {
-      frequencyArray.push(<Frequency />);
+      frequency.push(Component);
     }
-    return frequencyArray;
+    return frequencyComp;
   };
 
   /**
@@ -159,8 +156,14 @@ const DoctorDetails = ({
         </View>
         {showFrequencyChiclet && (
           <View style={styles.frequecyContainer}>
-            {renderSelectedFrequency()}
-            {renderFrequency()}
+            {renderFrequencyChicklets(
+              <Frequency visited />,
+              selectedVistedFrequency,
+            )}
+            {renderFrequencyChicklets(
+              <Frequency />,
+              frequency - selectedVistedFrequency,
+            )}
           </View>
         )}
         {isTicked && (
