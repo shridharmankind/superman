@@ -350,13 +350,11 @@ const MonthlyTourPlan = ({navigation}) => {
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
         selectedTourPlan.id === 1 && (
-          <View>
-            <Label
-              title={Strings.createNewStp}
-              size={10}
-              style={styles.dropdownLabel}
-            />
-          </View>
+          <Label
+            title={Strings.createNewStp}
+            size={10}
+            style={styles.dropdownLabel}
+          />
         )}
       {openTourPlanDropDown()}
       {renderView()}
