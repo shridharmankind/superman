@@ -46,7 +46,7 @@ const DoctorDetailsWrapper = ({
     party.selected = !party.selected;
     party.selected
       ? (party.selectedVistedFrequency = alreadyVisited + 1)
-      : (party.selectedVistedFrequency = party.selectedVistedFrequency - 1); //TO DO :: update code after complete integration
+      : (party.selectedVistedFrequency = alreadyVisited); //TO DO :: update code after complete integration
 
     setSelect(party.selected);
     onPress(id);
