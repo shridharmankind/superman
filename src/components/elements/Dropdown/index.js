@@ -65,7 +65,7 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
           if (childrenIds.includes(evt.target)) {
             return;
           }
-          setDropdownText(value.value);
+          setDropdownText((value && value.value) || defaultLabel);
           setTogglePicker(false);
         }
       }}>
@@ -105,7 +105,7 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
               key={option.value}
               style={styles.pickerLabel}
               onPress={() => handleValueSelected(option)}>
-              <Label title={option.value} />
+              <Label title={option.value} size={14} />
             </TouchableOpacity>
           ))}
         </View>

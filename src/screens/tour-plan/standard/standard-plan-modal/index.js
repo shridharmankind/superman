@@ -188,9 +188,10 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     const patchCount = (patches || []).filter(
       p => p.displayName === patchString || p.defaultName === patchString,
     );
-    if (patchCount && patchCount.length > 0) {
+    if (patchCount) {
       patchString = patchString
-        ? patchString + ` (${patchCount.length + 1})`
+        ? patchString +
+          ` (${patchCount.length === 0 ? 1 : patchCount.length + 1})`
         : '';
     }
     return patchString;
@@ -237,7 +238,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
       week: week.split(' ')[1],
       weekDay,
     };
-    const isValidated = await NetworkService.get('/patch/validate/1', {
+    const isValidated = await NetworkService.post('/patch/validate/1', {
       displayName: patchSelected,
       defaultName: patchDefaultValue,
     });
@@ -247,8 +248,11 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         console.log(result.data);
         navigation.navigate('TourPlan');
       }
-    } else if (isValidated.status === Constants.HTTP_PATCH_VALIDATED) {
-      if (isValidated.data.errorCode === 2) {
+    } else if (isValidated.status === Constants.HTTP_PATCH_CODE.VALIDATED) {
+      if (
+        isValidated.data.details[0].code ===
+        Constants.HTTP_PATCH_CODE.ALREADY_EXITS
+      ) {
         setPatchError(Strings.patchAlreadyExists);
       } else {
         setPatchError(Strings.already30PatchesCreated);
@@ -294,38 +298,67 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     }
   };
 
-  const handleDropDownValue = useCallback(
-    val => {
-      if (val && !patchSelected) {
-        setPatchValue(val);
-        setPatchSelected(val.value);
-        setPatchDefaultValue(val.defaultName);
+  const handleDropDownValue = useCallback(val => {
+    if (val) {
+      setPatchValue(val);
+      setPatchSelected(val.value);
+      setPatchDefaultValue(val.defaultName);
+    }
+  }, []);
+
+  const getSelectedPartyByArea = id => {
+    let count = 0;
+    getDoctorsByArea(id).map(party => {
+      if (doctorsSelected.filter(doc => doc === party.id).length > 0) {
+        count = count + 1;
       }
-    },
-    [patchSelected],
-  );
+    });
+    return count;
+  };
+
+  const getSelectedPartyByType = useCallback(() => {
+    const obj = {doctors: 0, chemist: 0};
+    partiesList.map(party => {
+      if (doctorsSelected.some(id => id === party.id)) {
+        if (party.partyType === 'Doctor') {
+          obj.doctors = obj.doctors + 1;
+        } else {
+          obj.chemist = obj.chemist + 1;
+        }
+      }
+    });
+    return `${
+      doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
+    }${
+      obj.doctors > 0
+        ? `${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
+        : ''
+    }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
+      obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
+    }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
+  }, [doctorsSelected, partiesList]);
 
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
         <View>
-          <Label title={Strings.selectDoctorAndChemist} />
+          <Label title={Strings.selectDoctorAndChemist} size={18.7} />
           <View style={styles.week}>
             <TouchableOpacity onPress={() => handleIndex('left')}>
-              <Icon iconStyle={styles.weekArrow} name="angle-left" size={30} />
+              <Icon iconStyle={styles.weekArrow} name="angle-left" size={24} />
             </TouchableOpacity>
             <Label
               style={styles.weekLabel}
               title={`${week} - ${weekDay}`}
-              size={24}
+              size={18.7}
               type={'bold'}
             />
             <TouchableOpacity onPress={() => handleIndex('right')}>
-              <Icon iconStyle={styles.weekArrow} name="angle-right" size={30} />
+              <Icon iconStyle={styles.weekArrow} name="angle-right" size={24} />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={[styles.patchCotainer]}>
+        <View style={[styles.patchContainer]}>
           <View style={styles.patchInputCotainer}>
             <TextInput
               value={patchSelected}
@@ -366,7 +399,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         <View style={styles.leftContent}>
           <View style={styles.selectAreaContainer}>
             <View>
-              <Label title={Strings.selectArea} />
+              <Label title={Strings.selectArea} size={14} />
             </View>
             <View style={styles.areaFilterContainer}>
               <Dropdown
@@ -380,8 +413,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                   style={[styles.swiperArrow, styles.leftArrow]}>
                   <Icon
                     name={'chevron-left'}
-                    size={15}
-                    color={themes.colors.grey[200]}
+                    size={10}
+                    color={themes.colors.blue}
                   />
                 </TouchableOpacity>
                 <ScrollView
@@ -411,8 +444,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                   style={[styles.swiperArrow, styles.rightArrow]}>
                   <Icon
                     name={'chevron-right'}
-                    size={15}
-                    color={themes.colors.grey[200]}
+                    size={10}
+                    color={themes.colors.blue}
                   />
                 </TouchableOpacity>
               </View>
@@ -423,10 +456,11 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
             <View>
               <View style={styles.doctorDetailsHeader}>
                 <View style={styles.doctorSelectedContainer}>
-                  <Label title={Strings.selectVisit} />
+                  <Label title={Strings.selectVisit} size={14} />
                   <Label
-                    title={` - ${doctorsSelected.length} selected`}
+                    title={getSelectedPartyByType()}
                     type={'bold'}
+                    size={14}
                   />
                 </View>
                 <View style={styles.categoryFilterContainer}>
@@ -442,6 +476,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                       color={'#524F67'}
                       onPress={handlePartyByType}
                       testID={`btn_stp_party_type_${type}_test`}
+                      textStyle={styles.areaType}
                     />
                   ))}
                 </View>
@@ -450,10 +485,19 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
               <View style={styles.doctorDetailsContainer}>
                 {areaSelected.map((area, i) => (
                   <React.Fragment key={i}>
-                    <Label
-                      title={area.name}
-                      testID={`label_stp_area_${area.id}_test`}
-                    />
+                    <View style={styles.doctorSelectedContainer}>
+                      <Label
+                        title={area.name}
+                        testID={`label_stp_area_${area.id}_test`}
+                        size={14}
+                      />
+                      <Label
+                        title={` (${getSelectedPartyByArea(area.id)})`}
+                        type={'bold'}
+                        size={14}
+                      />
+                    </View>
+
                     <View style={styles.doctorDetails}>
                       {getDoctorsByArea(area.id).map(party => (
                         <DoctorDetailsWrapper

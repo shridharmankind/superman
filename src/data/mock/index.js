@@ -27,7 +27,9 @@ const getMock = axios => {
   mock
     .onGet('/party/partybyspid/1/1')
     .reply(200, patchesMock.getPartyByPatchId);
-  mock.onGet('/patch/validate/1').reply(200, patchesMock.validate.request);
+  mock
+    .onPost('/patch/validate/1', patchesMock.validate.request)
+    .reply(422, patchesMock.validate.response);
 };
 
 export default getMock;

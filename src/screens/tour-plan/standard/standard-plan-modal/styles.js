@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   headerButtonGroup: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginRight: 5,
   },
   doneBtn: {
     paddingVertical: 10,
@@ -83,11 +84,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   swiperArrow: {
-    borderColor: themes.colors.grey[200],
+    borderColor: themes.colors.blue,
     borderWidth: 1,
     borderRadius: 1000,
-    width: 30,
-    height: 30,
+    width: 26,
+    height: 26,
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
@@ -103,24 +104,33 @@ const styles = StyleSheet.create({
     right: 5,
     top: 15,
   },
-  areaChip: {marginRight: 20},
-  patchCotainer: {
-    flex: 0.7,
+  areaChip: {marginRight: 14},
+  areaType: {
+    paddingHorizontal: 34,
+    paddingVertical: 6,
+  },
+  patchContainer: {
+    flex: 0.5,
     flexDirection: 'column',
     alignItems: 'flex-start',
     alignContent: 'center',
+    alignSelf: 'flex-end',
   },
   patchInputCotainer: {
     borderColor: themes.colors.borderColor,
-    borderRadius: 10,
+    borderRadius: 7,
     borderWidth: 1,
-    flexDirection: 'row',
+    //flexDirection: 'row',
     padding: 5,
-    flex: 1,
+    // flex: 1,
+    // height: 40,
     width: '100%',
   },
   patchInput: {
-    fontSize: 18,
+    fontSize: 14,
+    height: 40,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
   },
   patchIcon: {
     backgroundColor: themes.colors.darkBlue,
@@ -146,6 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   weekLabel: {
+    color: themes.colors.grey[200],
     marginHorizontal: 20,
     textTransform: 'capitalize',
   },
