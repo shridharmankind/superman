@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     width: '100%',
+    marginBottom: 15,
   },
   heading: {
     paddingTop: 20,
@@ -108,6 +109,43 @@ const styles = StyleSheet.create({
   modalContent: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  backTextWhite: {
+    color: '#FFF',
+  },
+  rowFront: {
+    backgroundColor: 'white',
+  },
+  rowBack: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+    marginTop: 8,
+    marginBottom: 20,
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    width: 95,
+  },
+  backRightBtnLeft: {
+    backgroundColor: 'blue',
+    right: 75,
+  },
+  backRightBtnRight: {
+    backgroundColor: theme.colors.red[200],
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    paddingHorizontal: 15,
+    right: 0,
   },
 });
 
