@@ -1,15 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
-import {Label, Modal, Button, SwipeRow} from 'components/elements';
+import {Label, Modal, Button} from 'components/elements';
 import {DoctorDetails} from 'components/elements';
 import {sortBasedOnCategory} from 'screens/tourPlan/helper';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
 import {fetchDoctorDetailCreator, dailySelector} from './redux';
 import {useSelector, useDispatch} from 'react-redux';
+import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -141,6 +148,56 @@ const DailyTourPlan = () => {
       ],
     },
   ];
+
+  const [listData, setListData] = useState(
+    Array(20)
+      .fill('')
+      .map((_, i) => ({key: `${i}`, text: `item #${i}`})),
+  );
+
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+
+  const deleteRow = (rowMap, rowKey) => {
+    closeRow(rowMap, rowKey);
+    const newData = [...listData];
+    const prevIndex = listData.findIndex(item => item.key === rowKey);
+    newData.splice(prevIndex, 1);
+    setListData(newData);
+  };
+
+  const renderItem = (data, rowMap) => (
+    <SwipeRow
+      disableRightSwipe={true}
+      disableLeftSwipe={parseInt(data.item.key) % 2 === 0}
+      leftOpenValue={20 + Math.random() * 150}
+      rightOpenValue={-90}>
+      <View style={styles.rowBack}>
+        <Text>Left</Text>
+        {/* <TouchableOpacity
+          style={[styles.backRightBtn, styles.backRightBtnLeft]}
+          onPress={() => closeRow(rowMap, data.item.key)}>
+          <Text style={styles.backTextWhite}>Close</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          style={[styles.backRightBtn, styles.backRightBtnRight]}
+          onPress={() => deleteRow(rowMap, data.item.key)}>
+          <Text style={styles.backTextWhite}>Delete</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableHighlight
+        onPress={() => console.log('You touched me')}
+        style={styles.rowFront}
+        underlayColor={'#AAA'}>
+        <View>
+          <Text>I am {data.item.text} in a SwipeListView</Text>
+        </View>
+      </TouchableHighlight>
+    </SwipeRow>
+  );
 
   useEffect(() => {
     dispatch(
@@ -347,7 +404,8 @@ const DailyTourPlan = () => {
         />
         {getVisitBifurcationLabel()}
       </View>
-      {isDoctorDetailFetched && renderDayPlan()}
+      <SwipeListView data={listData} renderItem={renderItem} />
+      {/* {isDoctorDetailFetched && renderDayPlan()} */}
       {pressTile()}
     </ScrollView>
   );
