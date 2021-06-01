@@ -19,6 +19,7 @@ import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
 import {NetworkService} from 'services';
+import {PARTY_TYPE} from 'screens/tourPlan/constants';
 import {API_PATH} from 'screens/tour-plan/apiPath';
 
 /**
@@ -47,7 +48,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   const swiperRef = useRef(null);
   const [hideRightArrow, setHideRightArrow] = useState(false);
   const [scrollOffset, setScrollOffset] = useState(0);
-
+  const [isPatchedData, setIsPatchedData] = useState(false);
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -135,6 +136,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   }, []);
 
   const handleAreaSelected = val => {
+    setIsPatchedData(false);
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
       setAreaSelected(areaSelected.filter(item => item.id !== val));
@@ -319,6 +321,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   };
 
   const handleDropDownValue = useCallback(val => {
+    setIsPatchedData(true);
     if (val) {
       setPatchValue(val);
       setPatchSelected(val.value);
@@ -336,6 +339,11 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     return count;
   };
 
+  /**
+   * Returns formatted string to display selected string count
+   */
+  const getFormattedString = partyCount => partyCount > 0 && ` - ${partyCount}`;
+
   const getSelectedPartyByType = useCallback(() => {
     const obj = {doctors: 0, chemist: 0};
     partiesList.map(party => {
@@ -347,6 +355,12 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         }
       }
     });
+
+    if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
+      return getFormattedString(obj.chemist);
+    } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
+      return getFormattedString(obj.doctors);
+    }
     return `${
       doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
     }${
@@ -356,7 +370,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
       obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
     }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
-  }, [doctorsSelected, partiesList]);
+  }, [doctorsSelected, partiesList, selectedDoctorType]);
 
   const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
     if (layoutMeasurement.width + contentOffset.x >= contentSize.width) {
@@ -558,6 +572,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                           })}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
                           party={party}
+                          isPatchedData={isPatchedData}
                           onPress={handleDoctorCardPress}
                         />
                       ))}
