@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: theme.colors.disabled,
+    opacity: 0.3,
   },
 });
 
