@@ -55,6 +55,7 @@ const theme = {
     fontBold: 'Poppins-Bold',
     fontLight: 'Poppins-Light',
     fontSemiBold: 'Poppins-SemiBold',
+    fontMedium: 'Poppins-Medium',
     fontItalic: 'Poppins-Italic',
   },
   roundness: 10,

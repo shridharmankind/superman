@@ -1,5 +1,11 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -13,33 +19,46 @@ import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
 import {NetworkService} from 'services';
+import {API_PATH} from 'screens/tour-plan/apiPath';
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
  * @param {Function} handleSliderIndex to handle left/right movement of week
+ * @param {Object} navigation contains react navigation method
+ * @param {String} week week has been passed from parent component
+ * @param {String} weekDay weekDay has been passed from parent component
  */
 
-const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
+const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [patches, setPatches] = useState();
   const [patchSelected, setPatchSelected] = useState();
+  const [patchDefaultValue, setPatchDefaultValue] = useState();
   const [partiesList, setPartiesList] = useState([]);
   const [parties, setParties] = useState([]);
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
   const [doctorsSelected, setDoctorSelected] = useState([]);
+  const [showPatchError, setShowPatchError] = useState(false);
+  const [patchError, setPatchError] = useState();
   const swiperRef = useRef(null);
+  const [hideRightArrow, setHideRightArrow] = useState(false);
+  const [scrollOffset, setScrollOffset] = useState(0);
 
+  /**
+   * callback function to return direction left/right of day swiper
+   * @param {String} direction
+   */
   const handleIndex = direction => {
     handleSliderIndex(direction);
   };
 
   useEffect(() => {
     const getParty = async () => {
-      const result = await NetworkService.get(`/party/${1}`);
+      const result = await NetworkService.get(API_PATH.PARTY_BY_SPID + 1);
       if (result.status === Constants.HTTP_OK) {
         setPartiesList(result.data);
         filterPartyByType(result.data);
@@ -49,8 +68,45 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   }, []);
 
   useEffect(() => {
+    const getPartyByPatchId = async () => {
+      if (patchValue) {
+        const result = await NetworkService.get(
+          `${API_PATH.PARTY_BY_PATCH}1/${patchValue.id}`,
+        );
+        if (result.status === Constants.HTTP_OK) {
+          setDoctorSelected(result.data.partyIds);
+          getSelectedArea(result.data.partyIds);
+        }
+      }
+    };
+    getPartyByPatchId();
+  }, [patchValue, getSelectedArea]);
+
+  const getSelectedArea = useCallback(
+    ids => {
+      if (ids.length > 0) {
+        let patchAreaList = [];
+        (partiesList || []).map(party => {
+          if (ids.some(id => id === party.id)) {
+            party.areas.map(area => {
+              if (patchAreaList.indexOf(area.id) === -1) {
+                patchAreaList.push(area.id);
+              }
+            });
+          }
+        });
+        const a = areaList.filter(
+          area => patchAreaList.indexOf(area.id) !== -1,
+        );
+        setAreaSelected(a);
+      }
+    },
+    [partiesList, areaList],
+  );
+
+  useEffect(() => {
     const getPatches = async () => {
-      const result = await NetworkService.get(`/getPatches/${1}`);
+      const result = await NetworkService.get(API_PATH.PATCH + 1);
       if (result.status === Constants.HTTP_OK) {
         setPatches(result.data);
       }
@@ -70,18 +126,13 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
 
   useEffect(() => {
     const getAreas = async () => {
-      const result = await NetworkService.get(`/area/${1}`);
+      const result = await NetworkService.get(API_PATH.AREA_BY_SPID + 1);
       if (result.status === Constants.HTTP_OK) {
         setAreaList(result.data);
       }
     };
     getAreas();
   }, []);
-
-  useEffect(() => {
-    const patch = (patches || []).filter(val => patchValue === val.name);
-    setPatchSelected(patch && patch.length > 0 && patch[0].name);
-  }, [patches, patchValue]);
 
   const handleAreaSelected = val => {
     const index = (areaSelected || []).filter(area => area.id === val);
@@ -111,18 +162,16 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
 
   const removeSelectedDoctorFromArea = useCallback(
     areaId => {
-      const doctorToRemove = partiesList.find(party => {
-        return doctorsSelected.some(
-          obj =>
-            obj.partyId === party.id &&
-            party.areas.some(par => par.id === areaId),
-        );
-      });
+      const doctorToRemove = partiesList.find(party =>
+        doctorsSelected.some(
+          obj => obj === party.id && party.areas.some(par => par.id === areaId),
+        ),
+      );
       if (doctorToRemove) {
         doctorToRemove.selected = false;
         doctorToRemove.selectedVistedFrequency = doctorToRemove.alreadyVisited;
         setDoctorSelected(
-          doctorsSelected.filter(doc => doc.partyId !== doctorToRemove.id),
+          doctorsSelected.filter(doc => doc !== doctorToRemove.id),
         );
       }
     },
@@ -135,24 +184,30 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
         const partyData = partiesList.find(party =>
           doctorsSelected.some(
             obj =>
-              obj.partyId === party.id &&
-              party.areas.some(par => par.id === area.id),
+              obj === party.id && party.areas.some(par => par.id === area.id),
           ),
         );
         return partyData ? true : false;
       })
       .map(patch => patch.name)
       .join(' + ');
-    const patchCount = (patches || []).filter(p => p.name === patchString);
-    if (patchCount && patchCount.length > 0) {
-      patchString = patchString ? patchString + ` (${patchCount.length})` : '';
+    const patchCount = (patches || []).filter(
+      p => p.displayName === patchString || p.defaultName === patchString,
+    );
+    if (patchCount) {
+      patchString = patchString
+        ? patchString +
+          ` (${patchCount.length === 0 ? 1 : patchCount.length + 1})`
+        : '';
     }
     return patchString;
   }, [areaSelected, doctorsSelected, partiesList, patches]);
 
   useEffect(() => {
     if (!patchValue) {
-      setPatchSelected(createPatchString());
+      const string = createPatchString();
+      setPatchSelected(string);
+      setPatchDefaultValue(string);
     }
   }, [
     areaSelected,
@@ -182,25 +237,45 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
   );
 
   const handleDonePress = async () => {
-    await NetworkService.post('/savePatch', {
-      id: 0,
-      name: 'Test_Internal_123',
-      staffPositionId: 1,
-      createdOn: '2021-05-21T05:04:39.746Z',
-      createdBy: 1,
-      modifiedOn: '2021-05-21T05:04:39.746Z',
-      modifiedBy: 0,
-      patchPartyMaps: [
-        {
-          id: 0,
-          partyId: 1,
-          patchId: 1,
-        },
-      ],
-    }).then(res => {
-      console.log(res.data);
-      navigation.navigate('TourPlan');
-    });
+    const obj = {
+      displayName: patchSelected,
+      defaultName: patchDefaultValue,
+      partyIds: doctorsSelected,
+      week: week.split(' ')[1],
+      weekDay,
+    };
+    const isValidated = await NetworkService.post(
+      `${API_PATH.PATCH}/validate/${patchValue.id}`,
+      {
+        displayName: patchSelected,
+        defaultName: patchDefaultValue,
+      },
+    );
+    if (isValidated.status === Constants.HTTP_OK) {
+      let result = null;
+      if (patchValue.defaultName === patchDefaultValue) {
+        result = await NetworkService.put(API_PATH.PATCH + patchValue.id, obj);
+      } else {
+        result = await NetworkService.post(API_PATH.PATCH + patchValue.id, obj);
+      }
+      if (result.status === Constants.HTTP_OK) {
+        console.log(result.data);
+        navigation.navigate('TourPlan');
+      }
+    } else if (isValidated.status === Constants.HTTP_PATCH_CODE.VALIDATED) {
+      if (
+        isValidated.data.details[0].code ===
+        Constants.HTTP_PATCH_CODE.ALREADY_EXITS
+      ) {
+        setPatchError(Strings.patchAlreadyExists);
+      } else {
+        setPatchError(Strings.already30PatchesCreated);
+      }
+      setShowPatchError(true);
+    } else {
+      setPatchError(Strings.somethingWentWrong);
+      setShowPatchError(true);
+    }
   };
 
   const handlePartyByType = val => {
@@ -218,72 +293,124 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
    * @param {Number} id
    */
   const handleDoctorCardPress = id => {
-    const indexAvailable = doctorsSelected.some(doc => doc.partyId === id);
+    const indexAvailable = doctorsSelected.some(party => party === id);
     if (indexAvailable) {
-      setDoctorSelected(doctorsSelected.filter(doc => doc.partyId !== id));
+      setDoctorSelected(doctorsSelected.filter(party => party !== id));
     } else {
-      setDoctorSelected([...doctorsSelected, {partyId: id}]);
+      setDoctorSelected([...doctorsSelected, id]);
     }
   };
 
   const handleAreaLeftArrow = () => {
-    swiperRef.current.scrollTo({x: 0, y: 0, animated: true});
+    swiperRef.current.scrollTo({x: scrollOffset - 150, y: 0, animated: true});
+    setScrollOffset(scrollOffset - 100);
   };
 
   const handleAreaRightArrow = () => {
-    swiperRef.current.scrollTo({x: 400, y: 0, animated: true});
+    swiperRef.current.scrollTo({x: scrollOffset + 150, y: 0, animated: true});
+    setScrollOffset(scrollOffset + 100);
+  };
+
+  const handlePatchInputChange = val => {
+    const regex = /^[ A-Za-z0-9-+&()]*$/;
+    if (val.length < 64 && regex.test(val)) {
+      setPatchSelected(val);
+    }
+  };
+
+  const handleDropDownValue = useCallback(val => {
+    if (val) {
+      setPatchValue(val);
+      setPatchSelected(val.value);
+      setPatchDefaultValue(val.defaultName);
+    }
+  }, []);
+
+  const getSelectedPartyByArea = id => {
+    let count = 0;
+    getDoctorsByArea(id).map(party => {
+      if (doctorsSelected.filter(doc => doc === party.id).length > 0) {
+        count = count + 1;
+      }
+    });
+    return count;
+  };
+
+  const getSelectedPartyByType = useCallback(() => {
+    const obj = {doctors: 0, chemist: 0};
+    partiesList.map(party => {
+      if (doctorsSelected.some(id => id === party.id)) {
+        if (party.partyType === 'Doctor') {
+          obj.doctors = obj.doctors + 1;
+        } else {
+          obj.chemist = obj.chemist + 1;
+        }
+      }
+    });
+    return `${
+      doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
+    }${
+      obj.doctors > 0
+        ? `${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
+        : ''
+    }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
+      obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
+    }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
+  }, [doctorsSelected, partiesList]);
+
+  const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
+    if (layoutMeasurement.width + contentOffset.x >= contentSize.width) {
+      setHideRightArrow(true);
+    } else {
+      setHideRightArrow(false);
+    }
   };
 
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
         <View>
-          <Label title={Strings.selectDoctorAndChemist} />
+          <Label title={Strings.selectDoctorAndChemist} size={18.7} />
           <View style={styles.week}>
             <TouchableOpacity onPress={() => handleIndex('left')}>
-              <Icon iconStyle={styles.weekArrow} name="angle-left" size={30} />
+              <Icon iconStyle={styles.weekArrow} name="angle-left" size={24} />
             </TouchableOpacity>
             <Label
               style={styles.weekLabel}
-              title={weekTitle}
-              size={24}
+              title={`${week} - ${weekDay}`}
+              size={18.7}
               type={'bold'}
             />
             <TouchableOpacity onPress={() => handleIndex('right')}>
-              <Icon iconStyle={styles.weekArrow} name="angle-right" size={30} />
+              <Icon iconStyle={styles.weekArrow} name="angle-right" size={24} />
             </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={[
-            styles.patchInputCotainer,
-            patchValue || patchSelected
-              ? styles.opacity_full
-              : styles.opacity_light,
-          ]}>
-          <Label
-            title={
-              (patchSelected && patchSelected) ||
-              (patchValue && patchValue.name) ||
-              Strings.patchName
-            }
-          />
-          {/* <View style={styles.patchIconContainer}>
-            <TouchableOpacity style={[styles.patchIcon]}>
-              <Icon name="edit" size={15} color={themes.colors.white} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.patchIcon}
-              onPress={() => handleDeletePatch()}>
-              <Icon name="trash" size={15} color={themes.colors.white} />
-            </TouchableOpacity>
-          </View> */}
+        <View style={[styles.patchContainer]}>
+          <View style={styles.patchInputCotainer}>
+            <TextInput
+              value={patchSelected}
+              placeholder={Strings.patchName}
+              style={styles.patchInput}
+              editable={!patchValue && !patchSelected ? false : true}
+              onChangeText={val => handlePatchInputChange(val)}
+              maxLength={64}
+            />
+          </View>
+          {showPatchError && (
+            <Label
+              size={14}
+              title={patchError}
+              textColor={themes.colors.red[100]}
+            />
+          )}
         </View>
         <View style={styles.headerButtonGroup}>
           <Button
             mode="contained"
             title={Strings.done}
             uppercase={true}
+            disabled={!patchSelected || false}
             contentStyle={styles.doneBtn}
             onPress={() => handleDonePress()}
           />
@@ -300,31 +427,40 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
         <View style={styles.leftContent}>
           <View style={styles.selectAreaContainer}>
             <View>
-              <Label title={Strings.selectArea} />
+              <Label title={Strings.selectArea} size={14} />
             </View>
             <View style={styles.areaFilterContainer}>
               <Dropdown
-                valueSelected={val => setPatchValue(val)}
+                valueSelected={handleDropDownValue}
                 data={getPatchesDropdownData(patches)}
                 defaultLabel={Strings.selectPatch}
               />
               <View style={styles.areaFilter}>
-                <TouchableOpacity
-                  onPress={() => handleAreaLeftArrow()}
-                  style={[styles.swiperArrow, styles.leftArrow]}>
-                  <Icon
-                    name={'chevron-left'}
-                    size={15}
-                    color={themes.colors.grey[200]}
-                  />
-                </TouchableOpacity>
+                {scrollOffset > 0 && (
+                  <TouchableOpacity
+                    onPress={() => handleAreaLeftArrow()}
+                    style={[styles.swiperArrow, styles.leftArrow]}>
+                    <Icon
+                      name={'chevron-left'}
+                      size={10}
+                      color={themes.colors.blue}
+                    />
+                  </TouchableOpacity>
+                )}
                 <ScrollView
                   horizontal={true}
                   ref={swiperRef}
+                  onScroll={({nativeEvent}) => {
+                    // if (isAreaViewScrollable(nativeEvent)) {
+                    // enableSomeButton();
+                    hideScrollArrow(nativeEvent);
+                    // }
+                  }}
                   showsHorizontalScrollIndicator={false}>
                   {getPartyCountFromArea().map(area => {
                     return (
                       <Area
+                        key={area.id}
                         title={area.name}
                         value={area.id}
                         count={area.totalPartiesInArea}
@@ -339,15 +475,17 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
                     );
                   })}
                 </ScrollView>
-                <TouchableOpacity
-                  onPress={() => handleAreaRightArrow()}
-                  style={[styles.swiperArrow, styles.rightArrow]}>
-                  <Icon
-                    name={'chevron-right'}
-                    size={15}
-                    color={themes.colors.grey[200]}
-                  />
-                </TouchableOpacity>
+                {!hideRightArrow && (
+                  <TouchableOpacity
+                    onPress={() => handleAreaRightArrow()}
+                    style={[styles.swiperArrow, styles.rightArrow]}>
+                    <Icon
+                      name={'chevron-right'}
+                      size={10}
+                      color={themes.colors.blue}
+                    />
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>
@@ -356,15 +494,17 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
             <View>
               <View style={styles.doctorDetailsHeader}>
                 <View style={styles.doctorSelectedContainer}>
-                  <Label title={Strings.selectVisit} />
+                  <Label title={Strings.selectVisit} size={14} />
                   <Label
-                    title={` - ${doctorsSelected.length} selected`}
+                    title={getSelectedPartyByType()}
                     type={'bold'}
+                    size={14}
                   />
                 </View>
                 <View style={styles.categoryFilterContainer}>
-                  {partiesType.map(type => (
+                  {partiesType.map((type, i) => (
                     <Area
+                      key={i}
                       selectedTextColor={themes.colors.white}
                       selectedColor={themes.colors.primary}
                       selected={selectedDoctorType === type}
@@ -373,30 +513,56 @@ const StandardPlanModal = ({handleSliderIndex, navigation, weekTitle}) => {
                       bgColor={themes.colors.white}
                       color={'#524F67'}
                       onPress={handlePartyByType}
+                      testID={`btn_stp_party_type_${type}_test`}
+                      textStyle={styles.areaType}
                     />
                   ))}
                 </View>
               </View>
 
               <View style={styles.doctorDetailsContainer}>
-                {areaSelected.map(area => (
-                  <>
-                    <Label title={area.name} />
+                {areaSelected.map((area, i) => (
+                  <React.Fragment key={i}>
+                    <View style={styles.doctorSelectedContainer}>
+                      <Label
+                        title={area.name}
+                        testID={`label_stp_area_${area.id}_test`}
+                        size={14}
+                      />
+                      <Label
+                        title={` (${getSelectedPartyByArea(area.id)})`}
+                        type={'bold'}
+                        size={14}
+                      />
+                    </View>
+
                     <View style={styles.doctorDetails}>
                       {getDoctorsByArea(area.id).map(party => (
                         <DoctorDetailsWrapper
+                          key={party.id}
                           id={party.id}
                           title={party.name}
                           specialization={party.speciality}
                           category={party.isKyc ? Strings.kyc : party.category}
-                          selected={false}
+                          selected={(doctorsSelected || []).some(id => {
+                            if (id === party.id) {
+                              //  on patch selection add the frequency vist and set select
+                              if (party.alreadyVisited !== party.frequency) {
+                                party.selectedVistedFrequency =
+                                  party.alreadyVisited + 1;
+                                party.selected = true;
+                              }
+
+                              return true;
+                            }
+                          })}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
                           party={party}
                           onPress={handleDoctorCardPress}
                         />
                       ))}
                     </View>
-                  </>
+                  </React.Fragment>
                 ))}
               </View>
               <View styles={styles.bottom}>
@@ -434,7 +600,14 @@ const isAreaSelected = (area, areaList) => {
 
 const getPatchesDropdownData = patches => {
   let patchData = [];
-  patches && patches.map(patch => patchData.push({value: patch.name}));
+  patches &&
+    patches.map(patch =>
+      patchData.push({
+        id: patch.id,
+        value: patch.displayName,
+        defaultName: patch.defaultName,
+      }),
+    );
   return patchData;
 };
 
