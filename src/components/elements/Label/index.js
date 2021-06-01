@@ -40,6 +40,7 @@ const Label = ({
           color: textColor,
         },
         variant && {...theme.typography[variant]},
+        textColor && {color: textColor},
         isUpperCase && styles.upperCase,
         style,
       ]}

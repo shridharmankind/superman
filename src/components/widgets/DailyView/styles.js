@@ -40,16 +40,14 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
   },
   currentDate: {
-    minWidth: 28,
-    minHeight: 28,
-    borderRadius: 14,
+    width: 18.7,
+    height: 18.7,
+    borderRadius: 9.35,
     textAlign: 'center',
     backgroundColor: theme.colors.primary,
-    alignContent: 'center',
     color: theme.colors.white,
-    display: 'flex', // for web  flex support
-    justifyContent: 'center',
-    alignItems: 'center',
+    letterSpacing: -0.16,
+    fontFamily: theme.fonts.fontBold,
   },
 
   weekendContainer: {
