@@ -19,6 +19,7 @@ import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
 import {NetworkService} from 'services';
+import {API_PATH} from 'screens/tour-plan/apiPath';
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -57,7 +58,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
 
   useEffect(() => {
     const getParty = async () => {
-      const result = await NetworkService.get(`/party/${1}`);
+      const result = await NetworkService.get(API_PATH.PARTY_BY_SPID + 1);
       if (result.status === Constants.HTTP_OK) {
         setPartiesList(result.data);
         filterPartyByType(result.data);
@@ -70,7 +71,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     const getPartyByPatchId = async () => {
       if (patchValue) {
         const result = await NetworkService.get(
-          `/party/partybyspid/${1}/${patchValue.id}`,
+          `${API_PATH.PARTY_BY_PATCH}1/${patchValue.id}`,
         );
         if (result.status === Constants.HTTP_OK) {
           setDoctorSelected(result.data.partyIds);
@@ -105,7 +106,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
 
   useEffect(() => {
     const getPatches = async () => {
-      const result = await NetworkService.get(`/getPatches/${1}`);
+      const result = await NetworkService.get(API_PATH.PATCH + 1);
       if (result.status === Constants.HTTP_OK) {
         setPatches(result.data);
       }
@@ -125,7 +126,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
 
   useEffect(() => {
     const getAreas = async () => {
-      const result = await NetworkService.get(`/area/${1}`);
+      const result = await NetworkService.get(API_PATH.AREA_BY_SPID + 1);
       if (result.status === Constants.HTTP_OK) {
         setAreaList(result.data);
       }
@@ -244,7 +245,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
       weekDay,
     };
     const isValidated = await NetworkService.post(
-      `/patch/validate/${patchValue.id}`,
+      `${API_PATH.PATCH}/validate/${patchValue.id}`,
       {
         displayName: patchSelected,
         defaultName: patchDefaultValue,
@@ -253,9 +254,9 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     if (isValidated.status === Constants.HTTP_OK) {
       let result = null;
       if (patchValue.defaultName === patchDefaultValue) {
-        result = await NetworkService.put(`/patch/${patchValue.id}`, obj);
+        result = await NetworkService.put(API_PATH.PATCH + patchValue.id, obj);
       } else {
-        result = await NetworkService.post(`/patch/${patchValue.id}`, obj);
+        result = await NetworkService.post(API_PATH.PATCH + patchValue.id, obj);
       }
       if (result.status === Constants.HTTP_OK) {
         console.log(result.data);
