@@ -47,7 +47,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   const swiperRef = useRef(null);
   const [hideRightArrow, setHideRightArrow] = useState(false);
   const [scrollOffset, setScrollOffset] = useState(0);
-
+  const [isPatchedData, setIsPatchedData] = useState(false);
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -135,6 +135,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   }, []);
 
   const handleAreaSelected = val => {
+    setIsPatchedData(false);
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
       setAreaSelected(areaSelected.filter(item => item.id !== val));
@@ -319,6 +320,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   };
 
   const handleDropDownValue = useCallback(val => {
+    setIsPatchedData(true);
     if (val) {
       setPatchValue(val);
       setPatchSelected(val.value);
@@ -569,6 +571,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                           })}
                           testID={`card_standard_plan_doctor_${party.id}_test`}
                           party={party}
+                          isPatchedData={isPatchedData}
                           onPress={handleDoctorCardPress}
                         />
                       ))}
