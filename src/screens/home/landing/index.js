@@ -17,6 +17,7 @@ const HomeLanding = ({navigation}) => {
   },[]);
 
   const onSyncPress = () => {
+    console.log("[EVENT_GENERATED_FOREGROUND_TASK] ");
     SyncAdapter.syncImmediately({
       syncInterval,
       syncFlexTime,

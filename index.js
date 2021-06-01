@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const TASK_ID = 'TASK_SYNC_ADAPTER';
 const TestTask = async () => {
     const getCurrentAsyncStorage = await AsyncStorage.getItem("BACKGROUND_TASK");
-    console.log(" define Headless async Task - ",getCurrentAsyncStorage);
+    console.log("[FOREGROUND_TASK] ",getCurrentAsyncStorage);
     if(getCurrentAsyncStorage === 'NOT_RUNNING'){
     await setWorkingAsyncStorage();
     await runTask();

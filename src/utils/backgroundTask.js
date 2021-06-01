@@ -25,17 +25,16 @@ export const setExitAsyncStorage = async () => {
 TaskManager.defineTask(TASK_NAME, async () => {
     try {
       const getCurrentAsyncStorage = await AsyncStorage.getItem("BACKGROUND_TASK");
-      console.log(" define Task async - ",getCurrentAsyncStorage);
+      console.log("[BACKGROUND_TASK] :  ",getCurrentAsyncStorage);
       if(getCurrentAsyncStorage === 'NOT_RUNNING'){
         await setWorkingAsyncStorage();
               // fetch data here...
         const receivedNewData = "Simulated fetch " + Math.random()
-        console.log("My task ", receivedNewData)
+        console.log("[BACKGROUND_TASK] : Timing ", receivedNewData)
         await runTask();
         const newData =  receivedNewData
             ? BackgroundFetch.Result.NewData
             : BackgroundFetch.Result.NoData
-        console.log("newData -- ",newData);
         await setExitAsyncStorage();
       }
       else{
@@ -51,27 +50,15 @@ export const runTask = async () => {
     const responseResult = await axios.get('https://api.github.com/users/mapbox')
     .then(async (response) => {
         await runTask1();
-        console.log("Api fetched -- ");
+        console.log("First API Successfully Fetched ");
         return response;
     });
     return responseResult;
 }
 export const runTask1 = async () => {
     const responseResult = await axios.get('https://api.github.com/users/mapbox')
-    .then(async (response) => {
-        for(let i=0;i<100;i++){
-            await runTask2();
-        }
-        
-        console.log("Api fetched1 -- ");
-        return response;
-    });
-    return responseResult;
-}
-export const runTask2 = async () => {
-    const responseResult = await axios.get('https://api.github.com/users/mapbox')
-    .then(async (response) => {
-        console.log("Api fetched2 -- ");
+    .then(async (response) => { 
+        console.log("Second API Successfully Fetched");
         return response;
     });
     return responseResult;
