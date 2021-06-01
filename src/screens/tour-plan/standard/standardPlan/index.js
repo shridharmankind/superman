@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {View, Dimensions} from 'react-native';
+import {View, Dimensions, TouchableOpacity} from 'react-native';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
 import styles from './styles';
@@ -11,7 +11,9 @@ import styles from './styles';
 
 const StandardPlan = ({navigation, route}) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const totelIndex = route.params.workingDays.length - 1;
+  const totalIndex = route.params.workingDays.length - 1;
+  const [showLeftSwiper, setShowLeftSwiper] = useState(true);
+  const [showRightSwiper, setShowRightSwiper] = useState(true);
   const swiperRef = useRef(null);
 
   const handleSlider = useCallback(
@@ -19,13 +21,18 @@ const StandardPlan = ({navigation, route}) => {
       let index = activeIndex;
       if (direction === 'left') {
         index = index !== 0 ? activeIndex - 1 : activeIndex;
+        setShowLeftSwiper(!(index === 0));
+        setShowRightSwiper(true);
       } else {
-        index = activeIndex !== totelIndex ? activeIndex + 1 : activeIndex;
+        index = activeIndex !== totalIndex ? activeIndex + 1 : activeIndex;
+        setShowLeftSwiper(true);
+
+        setShowRightSwiper(index !== totalIndex);
       }
       setActiveIndex(index);
       swiperRef.current.scrollToIndex({index});
     },
-    [activeIndex, totelIndex, swiperRef],
+    [activeIndex, totalIndex, swiperRef],
   );
 
   const getIndexOfDay = () => {
@@ -48,16 +55,30 @@ const StandardPlan = ({navigation, route}) => {
   };
 
   return (
-    <SwiperFlatList
-      ref={swiperRef}
-      showPagination
-      renderAll={false}
-      index={getIndexOfDay()}
-      paginationStyleItemActive={styles.activePaginationItem}
-      paginationStyleItem={styles.paginationItem}
-      paginationStyle={styles.paginationStyle}>
-      {renderStandardPlan()}
-    </SwiperFlatList>
+    <>
+      {showLeftSwiper && (
+        <TouchableOpacity
+          style={[styles.swipe, styles.leftSwipe]}
+          onPress={() => handleSlider('left')}
+        />
+      )}
+      <SwiperFlatList
+        ref={swiperRef}
+        showPagination
+        renderAll={false}
+        index={getIndexOfDay()}
+        paginationStyleItemActive={styles.activePaginationItem}
+        paginationStyleItem={styles.paginationItem}
+        paginationStyle={styles.paginationStyle}>
+        {renderStandardPlan()}
+      </SwiperFlatList>
+      {showRightSwiper && (
+        <TouchableOpacity
+          style={[styles.swipe, styles.rightSwipe]}
+          onPress={() => handleSlider('right')}
+        />
+      )}
+    </>
   );
 };
 
