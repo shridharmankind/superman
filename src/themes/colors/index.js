@@ -8,8 +8,14 @@ const Colors = {
   primary: '#322b7c',
   veryPaleRed: '#FFC0CB',
   white: '#fff',
-  orange: '#FFA088',
+  orange: {
+    100: '#FFA088',
+    200: '#c43500',
+  },
   borderColor: '#979797',
+  blue: {
+    100: '#2293cb',
+  },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',
   limeGreen: '#00B637',
@@ -28,9 +34,14 @@ const Colors = {
     400: '#e2e2e2',
     500: '#6D7278',
     600: '#464A53',
+    700: '#c9ccd2',
   },
   blueShades: {100: '#32C5FF14'},
   pink: {100: '#FF71E7'},
+  yellow: {
+    100: '#f5ad00',
+    200: '#f5ad00',
+  },
 };
 
 export default Colors;

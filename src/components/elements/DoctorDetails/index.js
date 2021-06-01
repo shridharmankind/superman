@@ -39,8 +39,25 @@ const DoctorDetails = ({
   isTicked,
   showTile,
   onTilePress,
+  alreadyVisited,
+  frequency,
+  selectedVistedFrequency,
   ...props
 }) => {
+  /**
+   *  Renders Visited or non visited frequency CHicklet
+   * @param {JSX} Component
+   * @param {Number} length
+   * @returns Component
+   */
+  const renderFrequencyChicklets = (Component, length) => {
+    let frequencyComp = [];
+    for (let i = 0; i < length; i++) {
+      frequencyComp.push(Component);
+    }
+    return frequencyComp;
+  };
+
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -139,9 +156,14 @@ const DoctorDetails = ({
         </View>
         {showFrequencyChiclet && (
           <View style={styles.frequecyContainer}>
-            <Frequency visited={true} />
-            <Frequency />
-            <Frequency />
+            {renderFrequencyChicklets(
+              <Frequency visited />,
+              selectedVistedFrequency,
+            )}
+            {renderFrequencyChicklets(
+              <Frequency />,
+              frequency - selectedVistedFrequency,
+            )}
           </View>
         )}
         {isTicked && (
@@ -163,7 +185,7 @@ const DoctorDetails = ({
 const getDivisionColor = division => {
   switch (division && division.toLowerCase()) {
     case 'kyc':
-      return themes.colors.orange;
+      return themes.colors.orange[100];
     case 'a+':
       return themes.colors.darkBlue;
     case 'b':
