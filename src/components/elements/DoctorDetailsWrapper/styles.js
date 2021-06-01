@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
   frequecyContainer: {
     flexDirection: 'row',
   },
+  disabled: {
+    backgroundColor: theme.colors.disabled,
+  },
 });
 
 export default styles;
