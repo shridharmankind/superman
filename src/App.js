@@ -14,9 +14,6 @@ import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {Toast} from 'components/widgets';
-import {Constants} from 'react-native-unimodules';
-
-//import LocalAuthComp from './screens/LocalAuthentication';
 
 const Stack = createStackNavigator();
 const store = getStore();
