@@ -14,22 +14,22 @@ const getMock = axios => {
   mock.onGet('/single-user').reply(200, userMock.users[0]);
   mock.onGet(`${API_PATH.WORKING_DAY}/1`).reply(200, stpMock);
   mock.onGet('/api/Chemists').reply(200, userMock);
-  mock.onGet('/getPatches/1').reply(200, patchesMock.getPatches);
+  mock.onGet(`${API_PATH.PATCH}1`).reply(200, patchesMock.getPatches);
   mock.onGet('/deletePatch/1').reply(200, patchesMock.deletePatch);
   mock
-    .onPost('/patch/1', patchesMock.savePatch.request)
+    .onPost(`${API_PATH.PATCH}1`, patchesMock.savePatch.request)
     .reply(200, patchesMock.savePatch.response);
   mock
-    .onPut('/patch/1', patchesMock.savePatch.request)
+    .onPut(`${API_PATH.PATCH}1`, patchesMock.savePatch.request)
     .reply(200, patchesMock.savePatch.response);
-  mock.onGet('/area/1').reply(200, areaList);
-  mock.onGet('/party/1').reply(200, party);
+  mock.onGet(`${API_PATH.AREA_BY_SPID}1`).reply(200, areaList);
+  mock.onGet(`${API_PATH.PARTY_BY_SPID}1`).reply(200, party);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
   mock
-    .onGet('/party/partybyspid/1/1')
+    .onGet(`${API_PATH.PARTY_BY_PATCH}1/1`)
     .reply(200, patchesMock.getPartyByPatchId);
   mock
-    .onPost('/patch/validate/1', patchesMock.validate.request)
+    .onPost(`${API_PATH.PATCH}/validate/1`, patchesMock.validate.request)
     .reply(200, patchesMock.validate.response);
   mock
     .onPost(`${API_PATH.GET_PARTIES}`, partiesMock.getParties.request)
