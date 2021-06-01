@@ -3,7 +3,7 @@ import theme from 'themes';
 
 export default StyleSheet.create({
   header: {
-    height: theme.sizing(98.7),
+    height: 98.7,
     justifyContent: 'center',
     paddingHorizontal: theme.spacing(32),
     borderRadius: 26.7,

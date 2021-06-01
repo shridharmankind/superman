@@ -2,26 +2,22 @@ import {StyleSheet, Platform} from 'react-native';
 import theme from 'themes';
 
 export default StyleSheet.create({
-  scroll: {
-    backgroundColor: theme.colors.background,
-  },
-  scrollContainer: {
-    position: 'relative',
-    paddingVertical: theme.spacing(26.7),
-    marginRight: theme.spacing(21.3),
-  },
   container: {
     flex: 1,
     flexDirection: 'row',
+    position: 'relative',
+    paddingVertical: theme.spacing(26.7),
+    paddingRight: theme.spacing(21.3),
+    backgroundColor: theme.colors.background,
   },
   sidemenuContainer: {
-    width: theme.sizing(181.3),
+    width: 181.3,
     height: '100%',
   },
   actionsContainer: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: theme.spacing(26.7),
+    right: theme.spacing(21.3),
     display: 'flex',
     flexDirection: 'row',
   },

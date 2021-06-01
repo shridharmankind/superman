@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, TouchableWithoutFeedback, View} from 'react-native';
+import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
 
 import {Label, LabelVariant} from 'components/elements';
 import {LogoMankind} from 'assets';
@@ -47,11 +47,20 @@ const NavMenu = ({onNavItemPress}) => {
     <View style={styles.container}>
       <Image source={LogoMankind} style={styles.logo} resizeMode="contain" />
       <View style={styles.navItemsContainer}>
-        {navMenuData.map((item, index) => (
-          <React.Fragment key={item.route || index}>
-            <NavItem index={index} isActive={index === activeItem} {...item} />
-          </React.Fragment>
-        ))}
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={navMenuData}
+          keyExtractor={(item, index) => item.route || index}
+          renderItem={({item, index}) => (
+            <React.Fragment key={item.route || index}>
+              <NavItem
+                index={index}
+                isActive={index === activeItem}
+                {...item}
+              />
+            </React.Fragment>
+          )}
+        />
       </View>
     </View>
   );

@@ -6,15 +6,15 @@ export default StyleSheet.create({
     flex: 1,
   },
   logo: {
-    height: theme.sizing(32),
-    width: theme.sizing(133),
+    height: 32,
+    width: 133,
     alignSelf: 'center',
   },
   navItemsContainer: {
     marginTop: theme.spacing(64),
   },
   navItem: {
-    height: theme.sizing(58.7),
+    height: 58.7,
     width: '100%',
     paddingHorizontal: theme.spacing(16),
     marginBottom: theme.spacing(6.7),
@@ -38,7 +38,7 @@ export default StyleSheet.create({
     fontFamily: theme.fonts.fontSemiBold,
   },
   logout: {
-    height: theme.sizing(46),
+    height: 46,
     width: '80%',
     marginLeft: 0,
     paddingLeft: theme.spacing(40),
