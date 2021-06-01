@@ -9,12 +9,12 @@ export default StyleSheet.create({
   },
   centerPanelContainer: {
     flex: 1,
-    width: '75%',
+    width: 902.7,
     backgroundColor: theme.colors.white,
-    borderRadius: 16,
+    borderRadius: 26.7,
   },
   contentContainer: {
-    padding: 25,
+    padding: 26.7,
   },
   contentContainerHeader: {
     padding: 0,
@@ -23,8 +23,8 @@ export default StyleSheet.create({
     marginBottom: 8,
   },
   sidePanelContainer: {
-    width: '25%',
-    marginTop: 64,
-    paddingLeft: 32,
+    width: 206.7,
+    marginTop: theme.spacing(66.7),
+    marginLeft: theme.spacing(21.3),
   },
 });
