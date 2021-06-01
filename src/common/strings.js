@@ -51,6 +51,10 @@ const Strings = {
   removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
   proceed: 'Proceed',
   removeFromToday: 'Remove from today',
+  eDetailing: 'eDetailing',
+  startPresentation: 'Start Presentation',
+  priorityProducts: 'Priority Products',
+  otherProducts: 'Other Products',
 };
 
 export default Strings;

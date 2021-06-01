@@ -1,13 +1,43 @@
 import React from 'react';
-import { Label } from 'components/elements';
-import { ContentWithSidePanel } from 'components/layouts';
+import {Label} from 'components/elements';
+import {ContentWithSidePanel} from 'components/layouts';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {Button} from 'components/elements';
+import styles from './e-detailing.styles';
+import {TouchableOpacity, View} from 'react-native';
+import {Strings} from 'common';
 
-const EDetailing = () => {
-    return (
-        <ContentWithSidePanel>
-            <Label title="Coming soon ***" />
-        </ContentWithSidePanel>
-    );
+const renderHeader = ({navigation}) => (
+  <View style={[styles.eDetailingHead]}>
+    <View style={[styles.eDetailingHead__Col]}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Icon name="angle-left" size={24} />
+      </TouchableOpacity>
+    </View>
+    <View style={[styles.eDetailingHead__Col]}>
+      <Label title={Strings.eDetailing} size={23} />
+    </View>
+    <View style={[styles.eDetailing__Start]}>
+      <Button
+        title={Strings.startPresentation}
+        mode="contained"
+        contentStyle={styles.eDetailing__Start__Content}
+        labelStyle={styles.eDetailing__Start__Text}
+      />
+    </View>
+  </View>
+);
+
+const EDetailing = ({navigation}) => {
+  return (
+    <ContentWithSidePanel header={renderHeader({navigation})}>
+      <View style={[styles.eDetailing__PriorityProducts]}>
+        <Label title={Strings.priorityProducts} size={16} />
+        <View style={[styles.eDetailing__PriorityProducts__List]} />
+      </View>
+      <Label title={Strings.otherProducts} size={16} />
+    </ContentWithSidePanel>
+  );
 };
 
 export default EDetailing;
