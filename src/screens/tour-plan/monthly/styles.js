@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     marginTop: '12%',
     marginLeft: '20%',
   },
-  monthyContainer: {
-    marginTop: theme.spacing(12.3),
+  tourPlanViewContainer: {
+    marginTop: theme.spacing(15.5),
   },
 });
 
