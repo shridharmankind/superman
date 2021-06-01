@@ -33,8 +33,7 @@ const DoctorDetailsWrapper = ({
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
 
-  const isDisabled = () =>
-    isPatchedData && party.frequency === party.alreadyVisited;
+  const isDisabled = isPatchedData && party.frequency === party.alreadyVisited;
 
   /**
    *  Select and deselect the card ,also
@@ -61,8 +60,8 @@ const DoctorDetailsWrapper = ({
     <TouchableOpacity
       testID={testID}
       onPress={() => handleDoctorSelection(id)}
-      style={[styles.container, isDisabled() && styles.disabled]}
-      disabled={isDisabled()}
+      style={[styles.container, isDisabled && styles.disabled]}
+      disabled={isDisabled}
       activeOpacity={1}>
       <DoctorDetails
         title={title}
