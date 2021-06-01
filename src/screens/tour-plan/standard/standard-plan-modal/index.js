@@ -578,13 +578,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                           category={party.isKyc ? Strings.kyc : party.category}
                           selected={(doctorsSelected || []).some(id => {
                             if (id === party.id) {
-                              //  on patch selection add the frequency vist and set select
-                              if (party.alreadyVisited !== party.frequency) {
-                                party.selectedVistedFrequency =
-                                  party.alreadyVisited + 1;
-                                party.selected = true;
-                              }
-
                               return true;
                             }
                           })}
