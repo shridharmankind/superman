@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -21,6 +22,13 @@ import styles from './styles';
 import {NetworkService} from 'services';
 import {PARTY_TYPE} from 'screens/tourPlan/constants';
 import {API_PATH} from 'screens/tour-plan/apiPath';
+import {
+  fetchPartiesCreator,
+  fetchAreasCreator,
+  fetchPatchesCreator,
+  fetchPartiesByPatchIdCreator,
+  standardTourPlanSelector,
+} from '../redux';
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -32,6 +40,7 @@ import {API_PATH} from 'screens/tour-plan/apiPath';
  */
 
 const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
+  const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
@@ -57,31 +66,51 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     handleSliderIndex(direction);
   };
 
-  useEffect(() => {
-    const getParty = async () => {
-      const result = await NetworkService.get(API_PATH.PARTY_BY_SPID + 1);
-      if (result.status === Constants.HTTP_OK) {
-        setPartiesList(result.data);
-        filterPartyByType(result.data);
-      }
-    };
-    getParty();
-  }, []);
+  const allParties = useSelector(standardTourPlanSelector.getParties());
+  const allAreas = useSelector(standardTourPlanSelector.getAreas());
+  const allPatches = useSelector(standardTourPlanSelector.getPatches());
 
   useEffect(() => {
-    const getPartyByPatchId = async () => {
-      if (patchValue) {
-        const result = await NetworkService.get(
-          `${API_PATH.PARTY_BY_PATCH}1/${patchValue.id}`,
-        );
-        if (result.status === Constants.HTTP_OK) {
-          setDoctorSelected(result.data.partyIds);
-          getSelectedArea(result.data.partyIds);
-        }
-      }
-    };
-    getPartyByPatchId();
-  }, [patchValue, getSelectedArea]);
+    dispatch(
+      fetchPartiesCreator({
+        staffPositionid: 1,
+      }),
+    );
+    dispatch(
+      fetchAreasCreator({
+        staffPositionid: 1,
+      }),
+    );
+    dispatch(
+      fetchPatchesCreator({
+        staffPositionid: 1,
+      }),
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    setPartiesList(allParties);
+    filterPartyByType(allParties);
+  }, [allParties]);
+
+  useEffect(() => {
+    setAreaList(allAreas);
+  }, [allAreas]);
+
+  useEffect(() => {
+    setPatches(allPatches);
+  }, [allPatches]);
+
+  const allPartiesByPatchID = useSelector(
+    standardTourPlanSelector.getPartiesByPatchID(),
+  );
+
+  useEffect(() => {
+    if (allPartiesByPatchID) {
+      setDoctorSelected(allPartiesByPatchID.partyIds);
+      getSelectedArea(allPartiesByPatchID.partyIds);
+    }
+  }, [getSelectedArea, allPartiesByPatchID, patchValue]);
 
   const getSelectedArea = useCallback(
     ids => {
@@ -105,16 +134,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     [partiesList, areaList],
   );
 
-  useEffect(() => {
-    const getPatches = async () => {
-      const result = await NetworkService.get(API_PATH.PATCH + 1);
-      if (result.status === Constants.HTTP_OK) {
-        setPatches(result.data);
-      }
-    };
-    getPatches();
-  }, []);
-
   const filterPartyByType = partyList => {
     const doctorType = [Strings.all];
     partyList.map(party => {
@@ -124,16 +143,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     });
     setPartiesType(doctorType);
   };
-
-  useEffect(() => {
-    const getAreas = async () => {
-      const result = await NetworkService.get(API_PATH.AREA_BY_SPID + 1);
-      if (result.status === Constants.HTTP_OK) {
-        setAreaList(result.data);
-      }
-    };
-    getAreas();
-  }, []);
 
   const handleAreaSelected = val => {
     setIsPatchedData(false);
@@ -320,14 +329,23 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     }
   };
 
-  const handleDropDownValue = useCallback(val => {
-    setIsPatchedData(true);
-    if (val) {
-      setPatchValue(val);
-      setPatchSelected(val.value);
-      setPatchDefaultValue(val.defaultName);
-    }
-  }, []);
+  const handleDropDownValue = useCallback(
+    val => {
+      setIsPatchedData(true);
+      if (val) {
+        setPatchValue(val);
+        setPatchSelected(val.value);
+        setPatchDefaultValue(val.defaultName);
+        dispatch(
+          fetchPartiesByPatchIdCreator({
+            staffPositionid: 1,
+            patchID: val.id,
+          }),
+        );
+      }
+    },
+    [dispatch],
+  );
 
   const getSelectedPartyByArea = id => {
     let count = 0;
