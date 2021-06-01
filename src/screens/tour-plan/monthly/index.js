@@ -324,14 +324,15 @@ const MonthlyTourPlan = ({navigation}) => {
 
       default: {
         return monthSelected && workingDays.length ? (
-          <>
+          <View style={styles.monthyContainer}>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
             />
+
             <Legends />
-          </>
+          </View>
         ) : null;
       }
     }

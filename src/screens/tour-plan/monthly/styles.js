@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
     marginTop: '12%',
     marginLeft: '20%',
   },
+  monthyContainer: {
+    marginTop: theme.spacing(12.3),
+  },
 });
 
 export default styles;
