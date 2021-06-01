@@ -11,7 +11,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   navItemsContainer: {
-    marginTop: theme.spacing(64),
+    marginTop: theme.spacing(88),
   },
   navItem: {
     height: 58.7,

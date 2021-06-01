@@ -35,6 +35,9 @@ const Colors = {
     600: '#464A53',
     700: '#c9ccd2',
   },
+  green: {
+    100: '#34b53a',
+  },
   blueShades: {100: '#32C5FF14'},
   pink: {100: '#FF71E7'},
   yellow: {
