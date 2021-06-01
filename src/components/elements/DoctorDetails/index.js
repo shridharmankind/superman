@@ -118,7 +118,7 @@ const DoctorDetails = ({
             <Label
               style={styles.divisionText}
               title={category && category.toUpperCase()}
-              size={customStyle ? customStyle.divisionSize : 14}
+              size={customStyle ? customStyle.divisionSize : 9}
               type={'bold'}
             />
           </View>
@@ -129,7 +129,8 @@ const DoctorDetails = ({
           <View style={styles.nameContainer}>
             <Label
               title={title}
-              size={customStyle ? customStyle.titleSize : 18}
+              size={customStyle ? customStyle.titleSize : 17}
+              type={'medium'}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
@@ -170,7 +171,7 @@ const DoctorDetails = ({
           <View style={styles.checkContainer}>
             <Icon
               name="check-circle"
-              size={32}
+              size={16}
               color={themes.colors.checkCircleBlue}
             />
           </View>

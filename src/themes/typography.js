@@ -3,6 +3,7 @@ export const fontFamilies = {
   fontBold: 'Poppins-Bold',
   fontLight: 'Poppins-Light',
   fontSemiBold: 'Poppins-SemiBold',
+  fontMedium: 'Poppins-Medium',
   fontItalic: 'Poppins-Italic',
 };
 

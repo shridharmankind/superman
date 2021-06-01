@@ -9,3 +9,8 @@ export const TOAST_TYPES = {
   STANDARD: 'standard',
   CONFIRM: 'confirm',
 };
+
+export const HTTP_PATCH_CODE = {
+  VALIDATED: 422,
+  ALREADY_EXITS: '103',
+};

@@ -57,6 +57,8 @@ const getFontFamily = type => {
       return theme.fonts.fontRegular;
     case 'semiBold':
       return theme.fonts.fontSemiBold;
+    case 'medium':
+      return theme.fonts.fontMedium;
     default:
       return theme.fonts.fontRegular;
   }
