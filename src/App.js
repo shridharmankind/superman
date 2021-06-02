@@ -19,7 +19,7 @@ import {TASK_NAME,syncFlexTime,syncInterval} from './utils/backgroundTask';
 import * as BackgroundFetch from "expo-background-fetch"
 import * as TaskManager from "expo-task-manager";
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {userActions} from './database/realm/index';
 
 
 BackgroundFetch.setMinimumIntervalAsync(60);
@@ -39,15 +39,9 @@ const App = () => {
           SplashScreen.hide();
         });
       }, 2000);
+      saveUserAndFetchFromRealm();
       AsyncStorage.setItem("BACKGROUND_TASK","NOT_RUNNING");
-      SyncAdapter.syncImmediately({
-        syncInterval,
-        syncFlexTime,
-      });
-      SyncAdapter.init({
-        syncInterval,
-        syncFlexTime,
-      });
+      syncBackgroundTaskOnStart();
       RegisterBackgroundTask();
     }
 
@@ -57,6 +51,28 @@ const App = () => {
     }
   
   }, []);
+
+  const saveUserAndFetchFromRealm = () => {
+    userActions.saveUser({
+      userId: 1,
+      userName: 'Vinod Chauhan',
+      address: 'Patiala, Punjab',
+      userImageAddress: 'http:///blahhh',
+    });
+    const userDetails = userActions.retrieveAllUser();
+    console.log('userDetails', userDetails);
+  }
+
+  const syncBackgroundTaskOnStart = () => {
+    SyncAdapter.syncImmediately({
+      syncInterval,
+      syncFlexTime,
+    });
+    // SyncAdapter.init({
+    //   syncInterval,
+    //   syncFlexTime,
+    // });
+  }
 
   const RegisterBackgroundTask = async () => {
     try {

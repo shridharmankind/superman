@@ -49,17 +49,12 @@ TaskManager.defineTask(TASK_NAME, async () => {
 export const runTask = async () => {
     const responseResult = await axios.get('https://api.github.com/users/mapbox')
     .then(async (response) => {
-        await runTask1();
         console.log("First API Successfully Fetched ");
         return response;
+    })
+    .catch(err => {
+        console.log(err);
     });
     return responseResult;
 }
-export const runTask1 = async () => {
-    const responseResult = await axios.get('https://api.github.com/users/mapbox')
-    .then(async (response) => { 
-        console.log("Second API Successfully Fetched");
-        return response;
-    });
-    return responseResult;
-}
+
