@@ -10,17 +10,24 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
 import {fetchDoctorDetailCreator, dailySelector} from './redux';
 import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const dayPlan = [
     {
       name: 'Dr. Ashish Gulati',
       specialization: ['Cardiologist'],
       category: 'KYC',
       location: 'Karol Bagh',
+      birthday: '2021-05-19T18:25:11',
+      anniversary: '2021-05-19T18:25:11',
+      selfDispensing: true,
+      engagement: [{startDate: '2020-01-19T00:00:00', endDate: null}],
       visitData: [
         {
           date: '12',
@@ -44,6 +51,10 @@ const DailyTourPlan = () => {
       specialization: ['Cardiologist'],
       category: 'a+',
       location: 'Karol Bagh',
+      birthday: '2021-05-19T18:25:11',
+      anniversary: '2021-05-19T18:25:11',
+      selfDispensing: false,
+      engagement: [{startDate: '2020-01-19T00:00:00', endDate: null}],
       visitData: [
         {
           date: '12',
@@ -67,6 +78,10 @@ const DailyTourPlan = () => {
       specialization: ['Cardiologist'],
       category: 'b',
       location: 'Karol Bagh',
+      birthday: '2021-05-19T18:25:11',
+      anniversary: '2021-05-19T18:25:11',
+      selfDispensing: false,
+      engagement: [{startDate: '2020-01-19T00:00:00', endDate: null}],
       visitData: [
         {
           date: '26',
@@ -83,6 +98,10 @@ const DailyTourPlan = () => {
     {
       name: 'Dr. Manoj Manjhi',
       specialization: ['Cardiologist'],
+      birthday: '2021-05-19T18:25:11',
+      anniversary: '2021-05-19T18:25:11',
+      selfDispensing: false,
+      engagement: [{startDate: '2020-01-19T00:00:00', endDate: null}],
       category: 'KYC',
       location: 'Karol Bagh',
       visitData: [
@@ -108,6 +127,10 @@ const DailyTourPlan = () => {
       specialization: ['Dermatologist'],
       category: 'B',
       location: 'Karol Bagh',
+      birthday: '2021-05-19T18:25:11',
+      anniversary: '2021-05-19T18:25:11',
+      selfDispensing: false,
+      engagement: [{startDate: '2020-01-19T00:00:00', endDate: null}],
       visitData: [
         {
           date: '13',
@@ -127,6 +150,10 @@ const DailyTourPlan = () => {
       specialization: ['Chemist'],
       category: '-',
       location: 'Karol Bagh',
+      birthday: '2021-05-19T18:25:11',
+      anniversary: '2021-05-19T18:25:11',
+      selfDispensing: false,
+      engagement: [{startDate: '2020-01-19T00:00:00', endDate: null}],
       visitData: [
         {
           date: '24',
@@ -260,6 +287,13 @@ const DailyTourPlan = () => {
     );
   };
 
+  const onTileNameHandler = data => {
+    navigation.navigate('Directory', {
+      navigate: 'detail',
+      doctorObject: data,
+    });
+  };
+
   /**
    * function to render the list of doctor's planned visits
    * @returns list of doctors planned for current day visit
@@ -318,6 +352,9 @@ const DailyTourPlan = () => {
                     showVisitPlan={true}
                     visitData={dayPlan[index].visitData}
                     showTile={true}
+                    onTileNamePress={() => {
+                      onTileNameHandler(dayPlan[index]);
+                    }}
                     onTilePress={() => {
                       if (isWeb()) {
                         setVisible(true);

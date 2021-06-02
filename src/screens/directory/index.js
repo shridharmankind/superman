@@ -2,19 +2,30 @@ import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import theme from 'themes';
+import {Strings} from 'common';
 
 const DirectoryStack = createStackNavigator();
 
-const Directory = () => {
-  const {ROUTES_DIRECTORY} = require('./routes');
+const Directory = ({route}) => {
+  const {
+    ROUTES_DIRECTORY,
+    ROUTE_DIRECTORY_LANDING,
+    ROUTE_DIRECTORY_PROFILE,
+  } = require('./routes');
+  const initialParams = route?.params?.doctorObject || '';
+  const initialRoute =
+    route?.params?.navigate === Strings.detail
+      ? ROUTE_DIRECTORY_PROFILE
+      : ROUTE_DIRECTORY_LANDING;
 
   return (
-    <DirectoryStack.Navigator>
-      {ROUTES_DIRECTORY.map(route => (
+    <DirectoryStack.Navigator initialRouteName={initialRoute}>
+      {ROUTES_DIRECTORY.map(routes => (
         <DirectoryStack.Screen
-          key={route.name}
-          name={route.name}
-          component={route.component}
+          initialParams={{data: initialParams}}
+          key={routes.name}
+          name={routes.name}
+          component={routes.component}
           options={{
             headerShown: false,
             cardStyle: {

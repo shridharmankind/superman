@@ -39,6 +39,7 @@ const DoctorDetails = ({
   isTicked,
   showTile,
   onTilePress,
+  onTileNamePress,
   ...props
 }) => {
   /**
@@ -113,6 +114,9 @@ const DoctorDetails = ({
             <Label
               title={title}
               size={customStyle ? customStyle.titleSize : 18}
+              onPress={() => {
+                onTileNamePress && onTileNamePress();
+              }}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
@@ -194,6 +198,7 @@ DoctorDetails.propTypes = {
   showFrequencyChiclet: PropTypes.bool,
   showVisitPlan: PropTypes.bool,
   isTicked: PropTypes.bool,
+  onTileNamePress: PropTypes.func,
 };
 
 export default DoctorDetails;

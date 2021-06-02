@@ -51,6 +51,29 @@ const Strings = {
   removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
   proceed: 'Proceed',
   removeFromToday: 'Remove from today',
+  doctorProfileTab: {
+    prepSheet: 'Prep Sheet',
+    doctor360: 'Doctor 360',
+    performance: 'Performance',
+    contentStudio: 'Content Studio',
+    engagement: 'Engagement',
+    tasks: 'Tasks',
+    surveys: 'Surveys',
+  },
+  doctorProfile: 'Doctor Profile',
+  priorityProductCard: {
+    header: 'Priority Products',
+    amlokindAt: 'Amlokind AT',
+    one: '1',
+    p1: 'p1',
+    description: 'Detailed on 3 March, 2021',
+    progressNumber: '45/80',
+    nine: '9%',
+    tabDes: 'Mankind’s Prescription/TOtal prescription',
+  },
+  captureDcr: 'Capture DCR',
+  startEdetail: 'Start eDetailing',
+  detail: 'detail',
 };
 
 export default Strings;
