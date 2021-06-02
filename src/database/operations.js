@@ -29,7 +29,7 @@ export const getDatabaseKey = async () => {
 Open/Create DB Schema
 @schemaName - Scheama Name
 */
-export const openSchema = async schemaName => {
+export const openSchema = async () => {
   try {
     //const key = await getDatabaseKey();
     realm = await Realm.open({
@@ -37,10 +37,11 @@ export const openSchema = async schemaName => {
       schema: [
         Schemas.masterTablesDownLoadStatus,
         Schemas.userInfo,
-        Schemas.partyMaster,
         Schemas.staffPositions,
-        Schemas.speciality,
+        Schemas.partyMaster,
+        Schemas.specialities,
         Schemas.areas,
+        Schemas.qualifications,
       ],
       schemaVersion: 0,
     });
@@ -137,10 +138,10 @@ export const createUserInfoRecord = async (schema, data) => {
 export const createPartyMasterRecord = async (schema, data) => {
   try {
     await openSchema();
-    let specialization, area;
+    let specialization, area, qualification;
     await realm.write(() => {
       data.forEach(object => {
-        let parent = realm.create(
+        let partyMaster = realm.create(
           schema[0].name,
           {
             id: object.id,
@@ -153,13 +154,17 @@ export const createPartyMasterRecord = async (schema, data) => {
           },
           true,
         );
-        /*  object.speciality.forEach(obj => {
+        object.specialities.forEach(obj => {
           specialization = realm.create(schema[1].name, obj, true);
-          parent.speciality.push(specialization);
-        }); */
+          partyMaster.specialities.push(specialization);
+        });
         object.areas.forEach(obj => {
           area = realm.create(schema[2].name, obj, true);
-          parent.areas.push(area);
+          partyMaster.areas.push(area);
+        });
+        object.qualifications.forEach(obj => {
+          qualification = realm.create(schema[3].name, obj, true);
+          partyMaster.qualifications.push(qualification);
         });
       });
     });

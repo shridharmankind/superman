@@ -61,7 +61,7 @@ const MasterDataDownload = ({navigation}) => {
           const response = await NetworkService.get(item.apiPath);
 
           if (response.status === Constants.HTTP_OK) {
-            let data = await JSON.stringify(response.data);
+            const data = await JSON.stringify(response.data);
             if (item.name === DBConstants.MASTER_TABLE_USER_INFO) {
               await Operations.createUserInfoRecord(
                 item.schema,
