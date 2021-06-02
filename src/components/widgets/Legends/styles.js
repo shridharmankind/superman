@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: theme.spacing(14.7),
   },
   Monthlycontainer: {
     justifyContent: 'flex-end',
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
   },
   legendsContainer: {
     flexDirection: 'row',
-    margin: 5,
+    margin: theme.spacing(1.3),
     alignItems: 'center',
   },
 

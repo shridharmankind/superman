@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
     marginTop: '12%',
     marginLeft: '20%',
   },
+  tourPlanViewContainer: {
+    marginTop: theme.spacing(15.5),
+  },
 });
 
 export default styles;

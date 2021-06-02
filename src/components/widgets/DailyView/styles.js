@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderColor: theme.colors.grey[100],
     minHeight: 93.3,
-    minWidth: 80,
+    minWidth: 100,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
   },
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   innerContainer: {
-    paddingHorizontal: 8,
-    paddingVertical: 6,
+    paddingHorizontal: theme.spacing(8),
+    paddingVertical: theme.spacing(6),
   },
   headerContent: {
     flexDirection: 'row',
