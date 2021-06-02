@@ -16,7 +16,7 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
       header,
       row,
       workingDays,
-      year: new Date().getFullYear(), //need current year
+      year: new Date().getFullYear(), //as of now need current year
     });
   return (
     <WeekView
