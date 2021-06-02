@@ -27,7 +27,11 @@ const DailyTourPlan = () => {
       birthday: '2021-05-19T18:25:11',
       anniversary: '2021-05-19T18:25:11',
       selfDispensing: true,
-      engagement: [{startDate: '2020-01-19T00:00:00', endDate: null}],
+      engagement: [
+        {startDate: '2020-01-19T00:00:00', endDate: null},
+        {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
+        {startDate: '2020-07-25T00:00:00', endDate: '2020-12-17T00:00:00'},
+      ],
       visitData: [
         {
           date: '12',
@@ -292,8 +296,8 @@ const DailyTourPlan = () => {
 
   const onTileNameHandler = data => {
     navigation.navigate('Directory', {
-      navigate: 'detail',
-      doctorObject: data,
+      screen: 'DirectoryDoctorProfile',
+      params: {data: data},
     });
   };
 

@@ -161,6 +161,23 @@ const DoctorProfile = ({route}) => {
     }
   };
 
+  const formatEngment = dataValue => {
+    const startMonth = getFormatDate({
+      date: dataValue.startDate,
+      format: 'MMM',
+    });
+    const startYear = getFormatDate({date: dataValue.startDate, format: 'YY'});
+    let startText = `${startMonth + ' ' + startYear}`;
+    let endText = Strings.tillDate;
+    if (dataValue.endDate) {
+      const endMonth = getFormatDate({date: dataValue.endDate, format: 'MMM'});
+      const endYear = getFormatDate({date: dataValue.endDate, format: 'YY'});
+      endText = `${endMonth + ' ' + endYear}`;
+    }
+
+    return `${startText + ' - ' + endText}`;
+  };
+
   const renderDoctorCard = () => {
     return (
       <View style={styles.mainContainer}>
@@ -271,7 +288,18 @@ const DoctorProfile = ({route}) => {
             </View>
           </View>
           <View style={styles.engment}>
-            <Label style={styles.dateClass} title={''} />
+            {doctorData.engagement.map((dataItem, index) => {
+              return (
+                <View style={styles.engmentContainer} key={index}>
+                  <Anniversary width={25} height={25} />
+                  <Label
+                    variant={LabelVariant.bodySmall}
+                    style={styles.dateClass}
+                    title={formatEngment(dataItem)}
+                  />
+                </View>
+              );
+            })}
           </View>
         </View>
         <View style={styles.mainTabContainer}>

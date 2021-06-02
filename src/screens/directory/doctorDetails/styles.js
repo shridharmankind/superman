@@ -150,6 +150,9 @@ const styles = StyleSheet.create({
     borderStartWidth: 0.4,
     paddingLeft: theme.spacing(10),
   },
+  engmentContainer: {
+    flexDirection: 'row',
+  },
   cardHeader: {
     flexDirection: 'row',
   },

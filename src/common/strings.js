@@ -77,6 +77,7 @@ const Strings = {
   patchAlreadyExists: '*The patch name entered already exist',
   already30PatchesCreated: '*Already 30 patches created',
   somethingWentWrong: 'Something went wrong. Please try again!',
+  tillDate: 'Till Date',
 };
 
 export default Strings;
