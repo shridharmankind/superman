@@ -52,11 +52,11 @@ export const partyMaster = {
     category: 'string',
     potential: 'float',
     isKyc: 'bool',
-    areas: {
+    areas: [{
       type: 'list',
       objectType: Constants.MASTER_TABLE_AREAS,
-    },
-    speciality: {type: 'string?[]'},
+    }],
+    speciality: [{type: 'string?[]'}],
   },
   primaryKey: 'id',
 };

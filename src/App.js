@@ -39,7 +39,7 @@ const App = () => {
           SplashScreen.hide();
         });
       }, 2000);
-      saveUserAndFetchFromRealm();
+      //saveUserAndFetchFromRealm();
       AsyncStorage.setItem("BACKGROUND_TASK","NOT_RUNNING");
       syncBackgroundTaskOnStart();
       RegisterBackgroundTask();

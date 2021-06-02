@@ -1,0 +1,47 @@
+[
+    {
+       "id":1,
+       "name":"Party1",
+       "speciality":[
+          
+       ],
+       "qualification":null,
+       "frequency":3,
+       "partyType":"Doctor",
+       "category":"A+",
+       "potential":6000000.0,
+       "isKyc":true,
+       "areas":[
+          {
+             "id":1,
+             "name":"Sec 1",
+             "shortName":"Sec 1"
+          },
+          {
+             "id":2,
+             "name":"Sec 2",
+             "shortName":"Sec 2"
+          }
+       ]
+    },
+    {
+       "id":2,
+       "name":"Party2",
+       "speciality":[
+          "Cardiologist"
+       ],
+       "qualification":null,
+       "frequency":3,
+       "partyType":"Doctor",
+       "category":"A+",
+       "potential":6000000.0,
+       "isKyc":false,
+       "areas":[
+          {
+             "id":2,
+             "name":"Sec 2",
+             "shortName":"Sec 2"
+          }
+       ]
+    }
+ ]

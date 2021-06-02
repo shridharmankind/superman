@@ -136,10 +136,13 @@ export const createUserInfoRecord = async (schema, data) => {
 
 export const createPartyMasterRecord = async (schema, data) => {
   try {
+    console.log("Started wokring 1");
     await openSchema();
+    console.log("Started wokring 2");
     let specialization, area;
     await realm.write(() => {
       data.forEach(object => {
+        console.log("Object --- ",object)
         let parent = realm.create(
           schema[0].name,
           {
