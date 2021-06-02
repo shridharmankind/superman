@@ -78,6 +78,7 @@ const Strings = {
   already30PatchesCreated: '*Already 30 patches created',
   somethingWentWrong: 'Something went wrong. Please try again!',
   tillDate: 'Till Date',
+  comingSoon: 'Coming soon ***',
 };
 
 export default Strings;
