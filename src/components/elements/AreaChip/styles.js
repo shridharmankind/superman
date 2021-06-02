@@ -7,10 +7,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 1000,
+    height: 42,
   },
   chip: {
     paddingHorizontal: 24,
-    paddingVertical: 11,
+    paddingVertical: 7,
   },
 });
 

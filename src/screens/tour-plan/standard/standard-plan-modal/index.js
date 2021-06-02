@@ -19,15 +19,14 @@ import {
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {NetworkService} from 'services';
 import {PARTY_TYPE} from 'screens/tourPlan/constants';
-import {API_PATH} from 'screens/tour-plan/apiPath';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
   fetchPatchesCreator,
   fetchPartiesByPatchIdCreator,
   standardTourPlanSelector,
+  savePatchCreator,
 } from '../redux';
 
 /**
@@ -58,17 +57,32 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   const [hideRightArrow, setHideRightArrow] = useState(false);
   const [scrollOffset, setScrollOffset] = useState(0);
   const [isPatchedData, setIsPatchedData] = useState(false);
+  const [patchEdited, setPatchEdited] = useState(false);
+
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
-  const handleIndex = direction => {
+  const handleIndex = async direction => {
     handleSliderIndex(direction);
+  };
+
+  const resetState = () => {
+    setAreaSelected([]);
+    setDoctorSelected([]);
+    setIsPatchedData(false);
+    setPatchEdited(false);
+    setShowPatchError(false);
+    setPatchError();
+    setPatchSelected();
+    setPatchDefaultValue();
+    setPatchValue();
   };
 
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
+  const savePatchRes = useSelector(standardTourPlanSelector.savePatch());
 
   useEffect(() => {
     dispatch(
@@ -100,6 +114,11 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   useEffect(() => {
     setPatches(allPatches);
   }, [allPatches]);
+
+  useEffect(() => {
+    // setSavePatchResponse(savePatchRes);
+    validateSaveResponse();
+  }, [savePatchRes, validateSaveResponse]);
 
   const allPartiesByPatchID = useSelector(
     standardTourPlanSelector.getPartiesByPatchID(),
@@ -145,7 +164,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   };
 
   const handleAreaSelected = val => {
-    setIsPatchedData(false);
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
       setAreaSelected(areaSelected.filter(item => item.id !== val));
@@ -155,7 +173,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         areaList.find(area => area.id === val),
       ]);
     }
-
+    setIsPatchedData(false);
     removeSelectedDoctorFromArea(val);
     setSelectedDoctorType(Strings.all);
   };
@@ -179,8 +197,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         ),
       );
       if (doctorToRemove) {
-        doctorToRemove.selected = false;
-        doctorToRemove.selectedVistedFrequency = doctorToRemove.alreadyVisited;
+        // doctorToRemove.selected = false;
+        // doctorToRemove.selectedVistedFrequency = doctorToRemove.alreadyVisited;
         setDoctorSelected(
           doctorsSelected.filter(doc => doc !== doctorToRemove.id),
         );
@@ -215,17 +233,20 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   }, [areaSelected, doctorsSelected, partiesList, patches]);
 
   useEffect(() => {
-    if (!patchValue) {
+    if (!isPatchedData) {
       const string = createPatchString();
-      setPatchSelected(string);
+      if (!patchEdited) {
+        setPatchSelected(string);
+      }
       setPatchDefaultValue(string);
     }
   }, [
     areaSelected,
-    patchValue,
+    isPatchedData,
     doctorsSelected,
     partiesList,
     createPatchString,
+    patchEdited,
   ]);
 
   const getDoctorsByArea = useCallback(
@@ -247,6 +268,28 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     [partiesList, selectedDoctorType],
   );
 
+  const validateSaveResponse = useCallback(() => {
+    if (savePatchRes) {
+      if (savePatchRes?.status === Constants.HTTP_OK) {
+        console.log(savePatchRes);
+        navigation.navigate('TourPlan');
+      } else if (savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED) {
+        if (
+          savePatchRes.details[0].code ===
+          Constants.HTTP_PATCH_CODE.ALREADY_EXITS
+        ) {
+          setPatchError(Strings.patchAlreadyExists);
+        } else {
+          setPatchError(Strings.already30PatchesCreated);
+        }
+        setShowPatchError(true);
+      } else {
+        setPatchError(Strings.somethingWentWrong);
+        setShowPatchError(true);
+      }
+    }
+  }, [savePatchRes, navigation]);
+
   const handleDonePress = async () => {
     const obj = {
       displayName: patchSelected,
@@ -254,38 +297,14 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
       partyIds: doctorsSelected,
       week: week.split(' ')[1],
       weekDay,
+      year: 2021,
+      patchId: patchValue?.id,
     };
-    const isValidated = await NetworkService.post(
-      `${API_PATH.PATCH}/validate/${patchValue.id}`,
-      {
-        displayName: patchSelected,
-        defaultName: patchDefaultValue,
-      },
-    );
-    if (isValidated.status === Constants.HTTP_OK) {
-      let result = null;
-      if (patchValue.defaultName === patchDefaultValue) {
-        result = await NetworkService.put(API_PATH.PATCH + patchValue.id, obj);
-      } else {
-        result = await NetworkService.post(API_PATH.PATCH + patchValue.id, obj);
-      }
-      if (result.status === Constants.HTTP_OK) {
-        console.log(result.data);
-        navigation.navigate('TourPlan');
-      }
-    } else if (isValidated.status === Constants.HTTP_PATCH_CODE.VALIDATED) {
-      if (
-        isValidated.data.details[0].code ===
-        Constants.HTTP_PATCH_CODE.ALREADY_EXITS
-      ) {
-        setPatchError(Strings.patchAlreadyExists);
-      } else {
-        setPatchError(Strings.already30PatchesCreated);
-      }
-      setShowPatchError(true);
+
+    if (!patchValue) {
+      dispatch(savePatchCreator({obj, type: 'post', staffPositionid: 1}));
     } else {
-      setPatchError(Strings.somethingWentWrong);
-      setShowPatchError(true);
+      dispatch(savePatchCreator({obj, type: 'put', staffPositionid: 1}));
     }
   };
 
@@ -326,6 +345,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     const regex = /^[ A-Za-z0-9-+&()]*$/;
     if (val.length < 64 && regex.test(val)) {
       setPatchSelected(val);
+      setPatchEdited(true);
     }
   };
 
@@ -338,7 +358,6 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
         setPatchDefaultValue(val.defaultName);
         dispatch(
           fetchPartiesByPatchIdCreator({
-            staffPositionid: 1,
             patchID: val.id,
           }),
         );
@@ -424,7 +443,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
               value={patchSelected}
               placeholder={Strings.patchName}
               style={styles.patchInput}
-              editable={!patchValue && !patchSelected ? false : true}
+              editable={!patchValue && !patchDefaultValue ? false : true}
               onChangeText={val => handlePatchInputChange(val)}
               maxLength={64}
             />
@@ -466,6 +485,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
                 valueSelected={handleDropDownValue}
                 data={getPatchesDropdownData(patches)}
                 defaultLabel={Strings.selectPatch}
+                isPatchedData={isPatchedData}
               />
               <View style={styles.areaFilter}>
                 {scrollOffset > 0 && (
@@ -610,9 +630,9 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
             </View>
           </View>
         </View>
-        {/* <View style={styles.rightContent}>
+        <View style={styles.rightContent}>
           <Label title={Strings.planCompliance} />
-        </View> */}
+        </View>
       </View>
     </ScrollView>
   );

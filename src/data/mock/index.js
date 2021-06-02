@@ -26,7 +26,7 @@ const getMock = axios => {
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
   mock
-    .onGet(`${API_PATH.PARTY_BY_SPID}/1/1`)
+    .onGet(`${API_PATH.PATCH}/1/parties`)
     .reply(200, patchesMock.getPartyByPatchId);
   mock
     .onPost(`${API_PATH.PATCH}/validate/1`, patchesMock.validate.request)

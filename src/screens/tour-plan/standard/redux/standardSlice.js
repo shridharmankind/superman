@@ -36,6 +36,10 @@ export const fetchPartiesByPatchIdCreator = createAction(
 export const fetchPartiesByPatchIdCreatorType =
   fetchPartiesByPatchIdCreator().type;
 
+// Action Creator and type for Parties by patch ID
+export const savePatchCreator = createAction('SAVE_PATCH_CREATOR');
+export const savePatchCreatorType = savePatchCreator().type;
+
 /**
  *  create subordinate slice defining the intial state, reducers
  */
@@ -53,6 +57,9 @@ export const getStandardPlanSlice = createSlice({
       return merge(state, action.payload);
     },
     getPartiesByPatchID: (state, action) => {
+      return merge(state, action.payload);
+    },
+    savePatch: (state, action) => {
       return merge(state, action.payload);
     },
   },

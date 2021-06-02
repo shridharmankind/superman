@@ -3,6 +3,7 @@ export {
   fetchAreasWatcher,
   fetchPatchesWatcher,
   fetchPartiesByPatchIdWatcher,
+  savePatchWatcher,
 } from './standardSaga';
 export {
   getStandardPlanCreator,
@@ -10,6 +11,7 @@ export {
   fetchAreasCreator,
   fetchPatchesCreator,
   fetchPartiesByPatchIdCreator,
+  savePatchCreator,
   standardPlanActions,
   standardPlanReducer,
 } from './standardSlice';

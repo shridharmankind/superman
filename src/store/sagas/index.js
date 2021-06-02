@@ -10,6 +10,7 @@ import {
   fetchAreasWatcher,
   fetchPatchesWatcher,
   fetchPartiesByPatchIdWatcher,
+  savePatchWatcher,
 } from 'screens/tourPlan/standard/redux';
 
 export function* rootSaga() {
@@ -27,6 +28,7 @@ export function* rootSaga() {
     fetchAreasWatcher,
     fetchPatchesWatcher,
     fetchPartiesByPatchIdWatcher,
+    savePatchWatcher,
   ];
 
   /**

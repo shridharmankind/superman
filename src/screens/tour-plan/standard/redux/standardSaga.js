@@ -5,6 +5,7 @@ import {
   fetchPartiesCreatorType,
   fetchPatchesCreatorType,
   fetchPartiesByPatchIdCreatorType,
+  savePatchCreatorType,
 } from './standardSlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
@@ -30,6 +31,10 @@ export function* fetchPartiesByPatchIdWatcher() {
     fetchPartiesByPatchIdCreatorType,
     fetchPartiesByPatchIdWorker,
   );
+}
+
+export function* savePatchWatcher() {
+  yield takeEvery(savePatchCreatorType, savePatchWorker);
 }
 
 /**
@@ -111,17 +116,41 @@ export function* fetchPatchesWorker(action) {
  */
 
 export function* fetchPartiesByPatchIdWorker(action) {
-  const {staffPositionid, patchID} = action.payload;
+  const {patchID} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.PARTY_BY_SPID}/${staffPositionid}/${patchID}`,
+      `${API_PATH.PATCH}/${patchID}/parties`,
     );
     yield put(
       standardPlanActions.getPartiesByPatchID({
         partyByPatchID: response.data,
+      }),
+    );
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    console.log(error);
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+export function* savePatchWorker(action) {
+  const {obj, type, staffPositionid} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+
+  const callType = type === 'post' ? NetworkService.post : NetworkService.put;
+
+  try {
+    const response = yield call(
+      callType,
+      `${API_PATH.PATCH}/${staffPositionid}`,
+      obj,
+    );
+    yield put(
+      standardPlanActions.savePatch({
+        savePatch: response,
       }),
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
