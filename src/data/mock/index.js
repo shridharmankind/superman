@@ -5,6 +5,9 @@ import patchesMock from './api/patches.json';
 import areaList from './api/areaList.json';
 import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
+import {workingDay} from 'screens/tourPlan/apiPath';
+import userInfo from './api/userInfo.json';
+
 import partiesMock from './api/parties.json';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 const getMock = axios => {
@@ -25,6 +28,8 @@ const getMock = axios => {
   mock.onGet(`${API_PATH.AREA_BY_SPID}1`).reply(200, areaList);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}1`).reply(200, party);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
+  mock.onGet('user/me').reply(200, userInfo);
+  mock.onGet('Party/partyBySpId/1').reply(200, party);
   mock
     .onGet(`${API_PATH.PARTY_BY_PATCH}1/1`)
     .reply(200, patchesMock.getPartyByPatchId);
