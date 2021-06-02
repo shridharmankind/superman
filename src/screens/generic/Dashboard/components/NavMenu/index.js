@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {Image, TouchableWithoutFeedback, View} from 'react-native';
+import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
 
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import {LogoMankind} from 'assets';
 
 import styles from './styles';
-import theme from 'themes';
 import {LOGOUT_ITEM_ID} from '../../constants';
 
 // TODO - mankind logo not showing on web
@@ -30,9 +29,10 @@ const NavMenu = ({onNavItemPress}) => {
           isActive ? styles.navItemActive : '',
           navMenuData[index].Id === LOGOUT_ITEM_ID && styles.logout,
         ]}>
-        <Icon height={32} width={32} />
+        <Icon height={21.3} width={21.3} />
         <Label
           title={label}
+          variant={LabelVariant.body}
           style={[
             styles.navItemLabel,
             isActive ? styles.navItemLabelActive : '',
@@ -47,11 +47,20 @@ const NavMenu = ({onNavItemPress}) => {
     <View style={styles.container}>
       <Image source={LogoMankind} style={styles.logo} resizeMode="contain" />
       <View style={styles.navItemsContainer}>
-        {navMenuData.map((item, index) => (
-          <React.Fragment key={item.route || index}>
-            <NavItem index={index} isActive={index === activeItem} {...item} />
-          </React.Fragment>
-        ))}
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={navMenuData}
+          keyExtractor={(item, index) => item.route || index}
+          renderItem={({item, index}) => (
+            <React.Fragment key={item.route || index}>
+              <NavItem
+                index={index}
+                isActive={index === activeItem}
+                {...item}
+              />
+            </React.Fragment>
+          )}
+        />
       </View>
     </View>
   );

@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     borderColor: theme.colors.grey[100],
-    minHeight: 125,
-    minWidth: 80,
+    minHeight: 93.3,
+    minWidth: 100,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
   },
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   innerContainer: {
-    paddingHorizontal: 8,
-    paddingVertical: 6,
+    paddingHorizontal: theme.spacing(8),
+    paddingVertical: theme.spacing(6),
   },
   headerContent: {
     flexDirection: 'row',
@@ -40,16 +40,14 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
   },
   currentDate: {
-    minWidth: 28,
-    minHeight: 28,
-    borderRadius: 14,
+    width: 18.7,
+    height: 18.7,
+    borderRadius: 9.35,
     textAlign: 'center',
     backgroundColor: theme.colors.primary,
-    alignContent: 'center',
     color: theme.colors.white,
-    display: 'flex', // for web  flex support
-    justifyContent: 'center',
-    alignItems: 'center',
+    letterSpacing: -0.16,
+    fontFamily: theme.fonts.fontBold,
   },
 
   weekendContainer: {

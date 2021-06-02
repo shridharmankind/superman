@@ -28,6 +28,29 @@ import {
   standardTourPlanSelector,
   savePatchCreator,
 } from '../redux';
+import {Toast} from 'components/widgets';
+
+const toastConfig = {
+  type: 'notification',
+  props: {
+    onPress: () => {
+      console.log('props press');
+    },
+    heading: 'Hello',
+    subHeading: 'This is some something',
+    actionLeftTitle: 'Yes',
+    actionRightTitle: 'No',
+  },
+  onShow: () => {
+    console.log('on show');
+  },
+  onHide: () => {
+    console.log('on hide');
+  },
+  onPress: () => {
+    console.log('on press');
+  },
+};
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -38,7 +61,13 @@ import {
  * @param {String} weekDay weekDay has been passed from parent component
  */
 
-const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
+const StandardPlanModal = ({
+  handleSliderIndex,
+  navigation,
+  week,
+  weekDay,
+  year,
+}) => {
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
@@ -58,6 +87,8 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [isPatchedData, setIsPatchedData] = useState(false);
   const [patchEdited, setPatchEdited] = useState(false);
+  const [patchOverideNotification, setPatchOverideNotification] =
+    useState(false);
 
   /**
    * callback function to return direction left/right of day swiper
@@ -291,21 +322,34 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   }, [savePatchRes, navigation]);
 
   const handleDonePress = async () => {
+    const weekNum = parseInt(week.split(' ')[1], 2);
     const obj = {
       displayName: patchSelected,
       defaultName: patchDefaultValue,
       partyIds: doctorsSelected,
-      week: week.split(' ')[1],
+      week: weekNum,
       weekDay,
-      year: 2021,
+      year: year,
       patchId: patchValue?.id,
     };
 
+    const isPatchOfSameDay =
+      weekNum === patchValue.week &&
+      weekDay === patchValue.weekDay &&
+      year === patchValue.year;
+
     if (!patchValue) {
       dispatch(savePatchCreator({obj, type: 'post', staffPositionid: 1}));
-    } else {
-      dispatch(savePatchCreator({obj, type: 'put', staffPositionid: 1}));
+    } else if (patchValue && isPatchOfSameDay) {
+      //setPatchOverideNotification(true);
+      showOverrideNotificatoin();
+      //dispatch(savePatchCreator({obj, type: 'put', staffPositionid: 1}));
     }
+  };
+
+  const showOverrideNotificatoin = () => {
+    // console.log(Toast());
+    // Toast.getToastView({type: 'notificatoin'});
   };
 
   const handlePartyByType = val => {
@@ -377,9 +421,11 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   };
 
   /**
-   * Returns formatted string to display selected string count
+   *  Handle singular & plural
+   * @param {Number} count
+   * @returns string
    */
-  const getFormattedString = partyCount => partyCount > 0 && ` - ${partyCount}`;
+  const getSuffix = count => (count > 1 ? 's' : '');
 
   const getSelectedPartyByType = useCallback(() => {
     const obj = {doctors: 0, chemist: 0};
@@ -394,9 +440,21 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     });
 
     if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
-      return getFormattedString(obj.chemist);
+      let partyCount = obj.chemist;
+      return (
+        partyCount > 0 &&
+        ` - ${partyCount} ${PARTY_TYPE.CHEMIST.toLowerCase()}${getSuffix(
+          partyCount,
+        )}`
+      );
     } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
-      return getFormattedString(obj.doctors);
+      let partyCount = obj.doctors;
+      return (
+        partyCount > 0 &&
+        ` - ${partyCount} ${PARTY_TYPE.DOCTOR.toLowerCase()}${getSuffix(
+          partyCount,
+        )}`
+      );
     }
     return `${
       doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
@@ -634,6 +692,7 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
           <Label title={Strings.planCompliance} />
         </View>
       </View>
+      {/* <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} /> */}
     </ScrollView>
   );
 };
@@ -649,9 +708,8 @@ const getPatchesDropdownData = patches => {
   patches &&
     patches.map(patch =>
       patchData.push({
-        id: patch.id,
         value: patch.displayName,
-        defaultName: patch.defaultName,
+        ...patch,
       }),
     );
   return patchData;

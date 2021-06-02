@@ -14,6 +14,7 @@ const StandardPlan = ({navigation, route}) => {
   const totalIndex = route.params.workingDays.length - 1;
   const [showLeftSwiper, setShowLeftSwiper] = useState(true);
   const [showRightSwiper, setShowRightSwiper] = useState(true);
+  const year = route.params.year;
   const swiperRef = useRef(null);
 
   const handleSlider = useCallback(
@@ -48,6 +49,7 @@ const StandardPlan = ({navigation, route}) => {
             navigation={navigation}
             week={route.params.header}
             weekDay={day}
+            year={year}
           />
         </View>
       );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
@@ -21,7 +21,9 @@ const ContentWithSidePanel = ({
     <View style={styles.container}>
       <View style={styles.centerPanelContainer}>
         {renderHeader()}
-        <View style={styles.contentContainer}>{children}</View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.contentContainer}>{children}</View>
+        </ScrollView>
       </View>
       {renderSidePanel()}
     </View>

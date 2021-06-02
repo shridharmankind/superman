@@ -1,27 +1,33 @@
 import {StyleSheet} from 'react-native';
+import theme from 'themes';
 
 export default StyleSheet.create({
   header: {
-    paddingHorizontal: 48,
-    paddingVertical: 34,
-    borderRadius: 16,
+    height: 98.7,
+    justifyContent: 'center',
+    paddingHorizontal: theme.spacing(32),
+    borderRadius: 26.7,
     width: '100%',
     backgroundColor: '#D5E2E7',
+  },
+  headerLabel: {
+    fontSize: 18.7,
+    color: theme.colors.primary,
   },
   sidePanel: {
     flex: 1,
   },
   descContainer: {
-    marginBottom: 16,
+    marginBottom: theme.spacing(10.6),
   },
   desc: {
-    marginTop: 30,
+    marginTop: theme.spacing(20),
   },
   card: {
     backgroundColor: 'white',
-    borderRadius: 8,
-    marginTop: 4,
-    paddingHorizontal: 16,
-    paddingVertical: 18,
+    borderRadius: 6.7,
+    marginTop: theme.spacing(2.7),
+    paddingHorizontal: theme.spacing(10.7),
+    paddingVertical: theme.spacing(12),
   },
 });
