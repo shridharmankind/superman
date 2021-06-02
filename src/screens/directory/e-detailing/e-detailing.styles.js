@@ -1,9 +1,12 @@
 import {StyleSheet} from 'react-native';
+import themes from 'themes';
 
 const styles = StyleSheet.create({
   eDetailingHead: {
     flexDirection: 'row',
     padding: 30,
+    backgroundColor: themes.colors.grayishBlue,
+    borderRadius: 16,
   },
   eDetailingHead__Col: {
     flexDirection: 'column',
@@ -11,7 +14,7 @@ const styles = StyleSheet.create({
   eDetailing__Start: {
     position: 'absolute',
     right: 20,
-    top: 20,
+    top: 26,
   },
   eDetailing__Start__Content: {
     width: 165,

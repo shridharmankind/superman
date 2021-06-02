@@ -10,15 +10,18 @@ import {Strings} from 'common';
 const renderHeader = ({navigation}) => (
   <View style={[styles.eDetailingHead]}>
     <View style={[styles.eDetailingHead__Col]}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      <TouchableOpacity
+        testID="eDeatil-back"
+        onPress={() => navigation.goBack()}>
         <Icon name="angle-left" size={24} />
       </TouchableOpacity>
     </View>
     <View style={[styles.eDetailingHead__Col]}>
-      <Label title={Strings.eDetailing} size={23} />
+      <Label testID="eDetail-title" title={Strings.eDetailing} size={23} />
     </View>
     <View style={[styles.eDetailing__Start]}>
       <Button
+        testID="eDeatil-start-presentation"
         title={Strings.startPresentation}
         mode="contained"
         contentStyle={styles.eDetailing__Start__Content}
@@ -32,10 +35,18 @@ const EDetailing = ({navigation}) => {
   return (
     <ContentWithSidePanel header={renderHeader({navigation})}>
       <View style={[styles.eDetailing__PriorityProducts]}>
-        <Label title={Strings.priorityProducts} size={16} />
+        <Label
+          testID="eDetail-priority-products"
+          title={Strings.priorityProducts}
+          size={16}
+        />
         <View style={[styles.eDetailing__PriorityProducts__List]} />
       </View>
-      <Label title={Strings.otherProducts} size={16} />
+      <Label
+        testID="eDetail-priority-other-products"
+        title={Strings.otherProducts}
+        size={16}
+      />
     </ContentWithSidePanel>
   );
 };

@@ -48,7 +48,7 @@ const CustomButton = ({
       ]}
       disabled={disabled}
       onPress={onPress}
-      testId={testID}
+      testID={testID}
       {...rest}>
       <Text
         style={[
