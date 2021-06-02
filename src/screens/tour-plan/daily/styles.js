@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     width: '100%',
-    marginBottom: 15,
+    marginBottom: theme.spacing(15),
   },
   heading: {
     paddingTop: 20,
