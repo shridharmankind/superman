@@ -40,8 +40,25 @@ const DoctorDetails = ({
   showTile,
   onTilePress,
   onTileNamePress,
+  alreadyVisited,
+  frequency,
+  selectedVistedFrequency,
   ...props
 }) => {
+  /**
+   *  Renders Visited or non visited frequency CHicklet
+   * @param {JSX} Component
+   * @param {Number} length
+   * @returns Component
+   */
+  const renderFrequencyChicklets = (Component, length) => {
+    let frequencyComp = [];
+    for (let i = 0; i < length; i++) {
+      frequencyComp.push(Component);
+    }
+    return frequencyComp;
+  };
+
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -102,7 +119,7 @@ const DoctorDetails = ({
             <Label
               style={styles.divisionText}
               title={category && category.toUpperCase()}
-              size={customStyle ? customStyle.divisionSize : 14}
+              size={customStyle ? customStyle.divisionSize : 9}
               type={'bold'}
             />
           </View>
@@ -113,10 +130,11 @@ const DoctorDetails = ({
           <View style={styles.nameContainer}>
             <Label
               title={title}
-              size={customStyle ? customStyle.titleSize : 18}
+              size={customStyle ? customStyle.titleSize : 17}
               onPress={() => {
                 onTileNamePress && onTileNamePress();
               }}
+              type={'medium'}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
@@ -143,16 +161,21 @@ const DoctorDetails = ({
         </View>
         {showFrequencyChiclet && (
           <View style={styles.frequecyContainer}>
-            <Frequency visited={true} />
-            <Frequency />
-            <Frequency />
+            {renderFrequencyChicklets(
+              <Frequency visited />,
+              selectedVistedFrequency,
+            )}
+            {renderFrequencyChicklets(
+              <Frequency />,
+              frequency - selectedVistedFrequency,
+            )}
           </View>
         )}
         {isTicked && (
           <View style={styles.checkContainer}>
             <Icon
               name="check-circle"
-              size={32}
+              size={16}
               color={themes.colors.checkCircleBlue}
             />
           </View>

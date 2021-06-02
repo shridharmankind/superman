@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
 import {isSameDate, getFormatDate} from 'utils/dateTimeHelper';
 
@@ -45,8 +45,7 @@ const DailyView = ({props, selectedMonth, workingDays}) => {
           <Label testID={'label_dailyView_leftContent_test'} title={''} />
           <Label
             testID={'label_dailyView_date_test'}
-            size={16}
-            type={isSameDate(props.date.dateString) ? 'bold' : 'semiBold'}
+            variant={LabelVariant.h6}
             style={[
               styles.activeText,
               isSameDate(props.date.dateString) && styles.currentDate,

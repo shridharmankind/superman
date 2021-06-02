@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: themes.colors.white,
     zIndex: 2,
-    padding: 20,
+    padding: 15,
     alignContent: 'center',
     borderColor: themes.colors.grey[100],
     borderWidth: 1,
@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     position: 'relative',
     zIndex: 2,
+    borderBottomColor: themes.colors.grey[300],
+    borderBottomWidth: 1,
   },
 });
 

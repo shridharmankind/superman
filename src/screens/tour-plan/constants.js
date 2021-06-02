@@ -30,3 +30,9 @@ export const TOUR_PLAN_TYPE = {
   STANDARD: 'STANDARD',
   MONTHLY: 'MONTHLY',
 };
+
+export const PARTY_TYPE = {
+  ALL: 'All',
+  DOCTOR: 'Doctor',
+  CHEMIST: 'Chemist',
+};

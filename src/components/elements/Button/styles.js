@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: theme.fonts.fontSemiBold,
     color: theme.colors.white,
   },

@@ -10,37 +10,42 @@ import styles from './styles';
 const HomeLanding = ({navigation}) => {
   const renderHeader = () => (
     <View style={styles.header}>
-      <Label type="bold" size={28} title="Good Morning" />
+      <Label style={styles.headerLabel} title="Hi Praveen," />
+      <Label style={styles.headerLabel} type="semiBold" title="Good Morning!" />
     </View>
   );
 
   const renderSidePanel = () => (
     <View style={styles.sidePanel}>
       <View style={styles.descContainer}>
-        <Label type="bold" size={21} title="Upcoming Events" />
-        <Label style={styles.desc} title="Birthdays & Anniversaries" />
+        <Label type="bold" size={14} title="Upcoming Events" />
+        <Label
+          size={12}
+          style={styles.desc}
+          title="Birthdays & Anniversaries"
+        />
       </View>
       <Card style={styles.card}>
-        <Label title="Dr. Brijesh Agarwal" />
+        <Label size={12.7} title="Dr. Brijesh Agarwal" />
       </Card>
       <Card style={styles.card}>
-        <Label title="Dr. Radhika Rao" />
+        <Label size={12.7} title="Dr. Radhika Rao" />
       </Card>
       <Card style={styles.card}>
-        <Label title="Dr. Priya Singh" />
+        <Label size={12.7} title="Dr. Priya Singh" />
       </Card>
       <Card style={styles.card}>
-        <Label title="Dr. Rajesh Chouhan" />
+        <Label size={12.7} title="Dr. Rajesh Chouhan" />
       </Card>
     </View>
   );
 
   return (
     <ContentWithSidePanel header={renderHeader()} sidePanel={renderSidePanel()}>
-      <Label title="Welcome to our beautiful Home Page" />
+      <Label size={12.7} title="Welcome to our beautiful Home Page" />
       <TouchableOpacity
         onPress={() => navigation.navigate('HomeLandingSecondary')}>
-        <Label title="route to secondary landing" />
+        <Label size={12.7} title="route to secondary landing" />
       </TouchableOpacity>
     </ContentWithSidePanel>
   );
