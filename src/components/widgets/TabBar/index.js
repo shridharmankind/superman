@@ -37,7 +37,7 @@ const TabBar = ({values, onPress, customStyle}) => {
     });
   };
   return (
-    <View style={customStyle ? customStyle : styles.tabBarContainer}>
+    <View style={customStyle || styles.tabBarContainer}>
       {renderRadioButtons()}
     </View>
   );

@@ -15,6 +15,7 @@ const Colors = {
   borderColor: '#979797',
   blue: {
     100: '#2293cb',
+    200: '#2394cc',
   },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',

@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
-import {Label} from 'components/elements';
+import {Label, LabelVariant, Button} from 'components/elements';
 import {Bar} from 'react-native-progress';
 import themes from 'themes';
 import styles from './styles';
 import {ArrowBack, Birthday, Anniversary, ArrowUp} from 'assets';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {ContentWithSidePanel} from 'components/layouts';
-import {Button} from 'components/elements';
 import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
+import theme from 'themes';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -60,11 +60,11 @@ const DoctorProfile = ({route}) => {
 
   const getDivisionColor = division => {
     switch (division && division.toLowerCase()) {
-      case 'kyc':
+      case Constants.DIVISION_COLOR.KYC:
         return themes.colors.orange[100];
-      case 'a+':
+      case Constants.DIVISION_COLOR.A_PLUS:
         return themes.colors.darkBlue;
-      case 'b':
+      case Constants.DIVISION_COLOR.B:
         return themes.colors.lightBlue;
       default:
         return themes.colors.transparent;
@@ -72,7 +72,7 @@ const DoctorProfile = ({route}) => {
   };
 
   const handleBackClick = () => {
-    navigation.navigate('TourPlan');
+    navigation.navigate(Constants.TOUR_PLAN);
   };
   const onTabPress = itemIdx => {
     setSelectedTabIndex(itemIdx);
@@ -84,10 +84,12 @@ const DoctorProfile = ({route}) => {
         <View style={styles.productMainContainer}>
           <View style={styles.headerProduct}>
             <Label
+              variant={LabelVariant.h3}
               style={styles.mainHeader}
               title={Strings.priorityProductCard.header}
             />
             <Label
+              variant={LabelVariant.bodySmall}
               style={styles.count}
               title={Strings.priorityProductCard.one}
             />
@@ -96,12 +98,14 @@ const DoctorProfile = ({route}) => {
             <View style={styles.cardHeader}>
               <View style={styles.cardHeaderTitle}>
                 <Label
+                  variant={LabelVariant.subtitleSmall}
                   style={styles.labelTitle}
                   title={Strings.priorityProductCard.amlokindAt}
                 />
               </View>
               <View style={styles.cardHeaderRightTitle}>
                 <Label
+                  variant={LabelVariant.label}
                   style={styles.labelSubTitle}
                   title={Strings.priorityProductCard.p1}
                 />
@@ -109,6 +113,8 @@ const DoctorProfile = ({route}) => {
             </View>
             <View style={styles.cardDetail}>
               <Label
+                variant={LabelVariant.bodySmall}
+                textColor={theme.colors.primary}
                 style={styles.labelSubHeader}
                 title={Strings.priorityProductCard.description}
               />
@@ -124,11 +130,13 @@ const DoctorProfile = ({route}) => {
                 title={Strings.priorityProductCard.nine}
               />
             </View>
-            <View style={styles.progreeBar}>
-              <Bar progress={0.6} width={200} color={'#2394cc'} />
+            <View style={styles.progreesBar}>
+              <Bar progress={0.6} width={200} color={theme.colors.blue[200]} />
             </View>
             <View>
               <Label
+                variant={LabelVariant.label}
+                textColor={theme.colors.grey[900]}
                 style={styles.descriptionText}
                 title={Strings.priorityProductCard.tabDes}
               />
@@ -165,10 +173,10 @@ const DoctorProfile = ({route}) => {
               },
             ]}>
             <Label
+              variant={LabelVariant.h6}
+              textColor={theme.colors.white}
               style={styles.divisionText}
               title={doctorData.category?.toUpperCase()}
-              size={10}
-              type={'bold'}
             />
           </View>
           <View
@@ -221,22 +229,25 @@ const DoctorProfile = ({route}) => {
             <View style={styles.container}>
               <Image
                 style={[styles.image]}
-                source={require('../../../assets/images/avtar.png')}
+                source={require('assets/images/avtar.png')}
               />
               <View style={styles.nameContainer}>
                 <Label
+                  variant={LabelVariant.subtitleLarge}
                   title={doctorData.name}
-                  size={16}
                   style={styles.doctorName}
                 />
                 <View style={styles.location}>
                   <Label
-                    size={12}
+                    variant={LabelVariant.bodySmall}
                     title={doctorData.specialization
                       .map(spec => spec)
                       .join(', ')}
                   />
-                  <Label size={12} title={',' + doctorData.location} />
+                  <Label
+                    variant={LabelVariant.bodySmall}
+                    title={',' + doctorData.location}
+                  />
                 </View>
               </View>
             </View>
@@ -245,7 +256,7 @@ const DoctorProfile = ({route}) => {
             <View style={styles.birthdayClass}>
               <Birthday width={15} height={15} />
               <Label
-                size={10}
+                variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
                 title={dateFormate(doctorData.birthday)}
               />
@@ -253,14 +264,14 @@ const DoctorProfile = ({route}) => {
             <View style={styles.birthdayClass}>
               <Anniversary width={15} height={15} />
               <Label
-                size={10}
+                variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
                 title={dateFormate(doctorData.anniversary)}
               />
             </View>
           </View>
           <View style={styles.engment}>
-            <Label size={12} style={styles.dateClass} title={''} />
+            <Label style={styles.dateClass} title={''} />
           </View>
         </View>
         <View style={styles.mainTabContainer}>
