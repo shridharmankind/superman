@@ -5,8 +5,7 @@ import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from './styles';
 import {Strings} from 'common';
-import {Label, Modal, Button} from 'components/elements';
-import {DoctorDetails} from 'components/elements';
+import {Label, Modal, Button, DoctorDetails} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
 import {
