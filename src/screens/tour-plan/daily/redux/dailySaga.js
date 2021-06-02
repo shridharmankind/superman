@@ -37,11 +37,9 @@ export function* fetchDoctorDetailWorker(action) {
       year: year,
     });
 
-    console.log('response from api', response);
-
+    // TODO: remove this after mock API is fixed for POST call
     // const response = yield call(NetworkService.get, API_PATH.GET_PARTIES);
 
-    console.log('response', response);
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
