@@ -6,6 +6,8 @@ import areaList from './api/areaList.json';
 import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
 import {workingDay} from 'screens/tourPlan/apiPath';
+import userInfo from './api/userInfo.json';
+
 const getMock = axios => {
   const mock = new MockAdapter(axios);
 
@@ -24,6 +26,8 @@ const getMock = axios => {
   mock.onGet('/area/1').reply(200, areaList);
   mock.onGet('/party/1').reply(200, party);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
+  mock.onGet('user/me').reply(200, userInfo);
+  mock.onGet('Party/partyBySpId/1').reply(200, party);
 };
 
 export default getMock;

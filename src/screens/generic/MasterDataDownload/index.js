@@ -12,9 +12,14 @@ import {Constants, Strings} from 'common';
 import {NetworkService} from 'services';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Operations, Schemas} from 'database';
+import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
+
+const downloadStatus = Object.freeze({
+  DOWNLOADED: 'DOWNLOADED',
+  PENDING: 'PENDING',
+});
 
 const MasterDataDownload = ({navigation}) => {
   const [progress, setProgress] = useState(0);
@@ -31,38 +36,74 @@ const MasterDataDownload = ({navigation}) => {
 
         if (progressStatus > 1) {
           progressStatus = 1;
-          navigation.navigate('Dashboard');
+          //navigation.navigate('Dashboard');
           clearInterval(interval);
         }
         setProgress(progressStatus);
       }, 1500);
     }, 3000);
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       animate();
-      /* await initMasterTablesDownloadStatus();
-      const result = await NetworkService.get('Party/partyBySpId/1');
-      if (result.status === Constants.HTTP_OK) {
-        console.log('success', result.data);
+      try {
+        await initMasterTablesDownloadStatus();
+
+        Helper.MASTER_TABLES_DETAILS.forEach(async item => {
+          const record = await Operations.getRecord(
+            Schemas.masterTablesDownLoadStatus,
+            item.name,
+          );
+          if (record?.status === downloadStatus.DOWNLOADED) {
+            return;
+          }
+          const response = await NetworkService.get(item.apiPath);
+          console.log('response:', response);
+
+          if (response.status === Constants.HTTP_OK) {
+            let data = await JSON.stringify(response.data);
+            if (item.name === DBConstants.MASTER_TABLE_USER_INFO) {
+              await Operations.createUserInfoRecord(
+                item.schema,
+                JSON.parse(data),
+              );
+            } else if (item.name === DBConstants.MASTER_TABLE_PARTY) {
+              await Operations.createPartyMasterRecord(
+                item.schema,
+                JSON.parse(data),
+              );
+            }
+            await Operations.updateRecord(
+              Schemas.masterTablesDownLoadStatus,
+              downloadStatus.DOWNLOADED,
+              item.name,
+            );
+          } else {
+            console.log('error', response);
+          }
+        });
+        console.log('Manoj');
         navigation.navigate('Dashboard');
-      } else {
-        console.log('error', result.statusText);
-      } */
+      } catch (error) {
+        console.log('useEffect', error);
+      }
     };
     fetchData();
-  }, [animate]);
+  }, [animate, navigation]);
 
   const initMasterTablesDownloadStatus = async () => {
-    const accessToken = await KeyChain.getAccessToken();
-    await KeyChain.saveDatabaseKey(accessToken);
-    await Operations.openSchema(Schemas.masterTablesDownLoadStatus);
-    for (let item in Helper.MASTER_TABLES_DETAILS) {
-      Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
-        name: item,
-        status: 'pending',
+    try {
+      const accessToken = await KeyChain.getAccessToken();
+      await KeyChain.saveDatabaseKey(accessToken);
+      Helper.MASTER_TABLES_DETAILS.forEach(async item => {
+        await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
+          name: item.name,
+          status: downloadStatus.PENDING,
+        });
       });
+    } catch (error) {
+      console.log('initMasterTablesDownloadStatus', error);
     }
   };
 
