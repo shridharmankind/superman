@@ -1,5 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import theme from 'themes';
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   dropDownsContainer: {
@@ -30,6 +32,10 @@ const styles = StyleSheet.create({
   },
   modalText: {
     paddingVertical: 5,
+    color: theme.colors.grey[200],
+  },
+  modalTextSelected: {
+    paddingVertical: 5,
     color: theme.colors.primary,
   },
   modalTitleText: {
@@ -41,7 +47,14 @@ const styles = StyleSheet.create({
   },
   modalPosition: {
     marginTop: '12%',
-    marginLeft: '20%',
+    marginLeft: `${((windowWidth * 0.24) / windowWidth) * 100}%`,
+  },
+  dropdownLabel: {
+    fontFamily: theme.fonts.fontRegular,
+    color: theme.colors.grey[900],
+  },
+  tourPlanViewContainer: {
+    marginTop: theme.spacing(15.5),
   },
 });
 

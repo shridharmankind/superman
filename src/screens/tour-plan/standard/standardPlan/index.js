@@ -11,6 +11,7 @@ import styles from './styles';
 
 const StandardPlan = ({navigation, route}) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const year = route.params.year;
   const totelIndex = route.params.workingDays.length - 1;
   const swiperRef = useRef(null);
 
@@ -41,6 +42,7 @@ const StandardPlan = ({navigation, route}) => {
             navigation={navigation}
             week={route.params.header}
             weekDay={day}
+            year={year}
           />
         </View>
       );

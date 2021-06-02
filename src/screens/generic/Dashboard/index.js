@@ -10,7 +10,7 @@ import {Routes} from 'navigations';
 import ROUTES_DASHBOARD from './routes';
 
 import theme from 'themes';
-import {isWeb, KeyChain} from 'helper';
+import {KeyChain} from 'helper';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {Strings, Constants} from 'common';

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cellContainer: {
-    minHeight: 88.7,
+    height: 88.7,
     borderLeftWidth: 1,
     borderTopWidth: 1,
     flex: 1,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   verticalHeader: {
-    flex: 0.2,
+    flex: 0.25,
     minWidth: 18,
   },
   flexCenterView: {
