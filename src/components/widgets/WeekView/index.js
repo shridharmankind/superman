@@ -1,8 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import {View, TouchableOpacity} from 'react-native';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
+import theme from 'themes';
 
 const maxDaysLength = 3;
 /** Render Week View
@@ -99,6 +100,8 @@ const WeekView = ({
     <View style={[styles.verticalHeader, styles.flexCenterView]}>
       <Label
         testID="label_weekView_verticalHeader_test"
+        variant={LabelVariant.body}
+        textColor={theme.colors.grey[200]}
         isUpperCase={true}
         style={[styles.textAlignStart]}
         title={label.substring(0, maxDaysLength)}
@@ -131,6 +134,8 @@ const WeekView = ({
       return (
         <Label
           key={index}
+          variant={LabelVariant.body}
+          textColor={theme.colors.grey[200]}
           testID="label_weekView_header_test"
           isUpperCase={true}
           title={value}

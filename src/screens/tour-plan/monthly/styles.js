@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.fontRegular,
     color: theme.colors.grey[900],
   },
+  tourPlanViewContainer: {
+    marginTop: theme.spacing(15.5),
+  },
 });
 
 export default styles;

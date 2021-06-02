@@ -18,6 +18,7 @@ import styles from './styles';
  * @param {String} bgColor default background color of chip
  * @param {Function} onPress click event
  * @param {String} testID date test id
+ * @param {Object} textStyle custom style to be passed from consuming component for the text
  */
 
 const AreaChip = ({
@@ -31,6 +32,7 @@ const AreaChip = ({
   testID,
   style,
   value,
+  textStyle,
   onPress,
 }) => {
   const selectedStyle = {
@@ -49,7 +51,7 @@ const AreaChip = ({
           backgroundColor: selected && selectedColor ? selectedColor : bgColor,
         },
       ]}
-      textStyle={[selectedStyle, styles.chip]}
+      textStyle={[selectedStyle, styles.chip, textStyle]}
       type="flat"
       onPress={() => onPress(value)}
       activeOpacity={1}>

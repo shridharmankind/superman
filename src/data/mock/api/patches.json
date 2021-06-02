@@ -2,70 +2,51 @@
   "getPatches": [
     {
       "id": 1,
-      "name": "Noida Sec-1",
-      "staffPositionId": 0,
-      "createdOn": "2021-05-21T04:44:44.954Z",
-      "createdBy": 0,
-      "modifiedOn": "2021-05-21T04:44:44.954Z",
-      "modifiedBy": 0,
-      "patchPartyMaps": [
-        {
-          "id": 0,
-          "partyId": 0,
-          "patchId": 0
-        }
-      ]
+      "displayName": "Party1",
+      "defaultName": "Noida Sec-1"
+    },
+    {
+      "id": 2,
+      "displayName": "Party3",
+      "defaultName": "Noida Sec-2"
     }
   ],
-  "savePatch": {
-    "response": {
-      "id": 0,
-      "name": "string",
-      "staffPositionId": 0,
-      "createdOn": "2021-05-21T04:46:55.831Z",
-      "createdBy": 0,
-      "modifiedOn": "2021-05-21T04:46:55.831Z",
-      "modifiedBy": 0,
-      "patchPartyMaps": [
-        {
-          "id": 0,
-          "partyId": 0,
-          "patchId": 0
-        }
-      ]
-    },
+  "validate": {
     "request": {
-      "id": 0,
-      "name": "Test_Internal_123",
-      "staffPositionId": 1,
-      "createdOn": "2021-05-21T05:04:39.746Z",
-      "createdBy": 1,
-      "modifiedOn": "2021-05-21T05:04:39.746Z",
-      "modifiedBy": 0,
-      "patchPartyMaps": [
+      "displayName": "Noida Sec-1",
+      "defaultName": "Noida Sec-1"
+    },
+    "response": {
+      "errorCode": null,
+      "description": "One or more validation error occured. For more detail please check ErrorList",
+      "details": [
         {
-          "id": 0,
-          "partyId": 1,
-          "patchId": 1
+          "code": "103",
+          "message": " is Already Exists.",
+          "params": null
         }
       ]
     }
   },
+  "savePatch": {
+    "response": true,
+    "request": {
+      "displayName": "Noida Sec-1",
+      "defaultName": "Noida Sec-1",
+      "partyIds": [1, 2, 3],
+      "week": 1,
+      "weekDay": "Monday"
+    }
+  },
   "deletePatch": true,
   "updatePatch": {
-    "id": 0,
-    "name": "string",
-    "staffPositionId": 0,
-    "createdOn": "2021-05-21T04:48:15.159Z",
-    "createdBy": 0,
-    "modifiedOn": "2021-05-21T04:48:15.159Z",
-    "modifiedBy": 0,
-    "patchPartyMaps": [
-      {
-        "id": 0,
-        "partyId": 0,
-        "patchId": 0
-      }
-    ]
+    "displayName": "Noida Sec-1",
+    "defaultName": "Noida Sec-1",
+    "partyIds": [1, 2, 3],
+    "week": 1,
+    "weekDay": "Monday"
+  },
+  "getPartyByPatchId": {
+    "partyIds": [1, 2, 3]
   }
 }
