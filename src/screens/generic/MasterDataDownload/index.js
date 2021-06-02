@@ -59,7 +59,6 @@ const MasterDataDownload = ({navigation}) => {
             return;
           }
           const response = await NetworkService.get(item.apiPath);
-          console.log('response:', response);
 
           if (response.status === Constants.HTTP_OK) {
             let data = await JSON.stringify(response.data);
@@ -83,7 +82,6 @@ const MasterDataDownload = ({navigation}) => {
             console.log('error', response);
           }
         });
-        console.log('Manoj');
         navigation.navigate('Dashboard');
       } catch (error) {
         console.log('useEffect', error);
