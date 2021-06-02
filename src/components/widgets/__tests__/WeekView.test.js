@@ -4,7 +4,7 @@ import {WeekView} from 'components/widgets';
 import {withTheme, cleanup, fireEvent} from 'utils/testHelpers';
 
 afterEach(cleanup);
-
+const onPressHandler = jest.fn();
 const workingDays = [
   'Monday',
   'Tuesday',
@@ -20,6 +20,7 @@ function renderComponent({...props}) {
     <WeekView
       workingDays={props.workingDays ?? workingDays}
       columnHeader={props.columnHeader ?? columnHeader}
+      onPressHandler={props.onPressHandler ?? onPressHandler}
       {...props}
     />,
   );
