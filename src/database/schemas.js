@@ -48,7 +48,6 @@ export const partyMaster = {
     name: 'string',
     qualification: 'string?',
     frequency: 'int',
-    partyType: 'string?',
     category: 'string',
     potential: 'float',
     isKyc: 'bool',
@@ -56,21 +55,40 @@ export const partyMaster = {
       type: 'list',
       objectType: Constants.MASTER_TABLE_AREAS,
     }],
-    speciality: [{type: 'string?[]'}],
+    specialities: {
+      type: 'list',
+      objectType: Constants.MASTER_TABLE_SPECIALITY,
+    },
+    qualifications: {
+      type: 'list',
+      objectType: Constants.MASTER_TABLE_QUALIFICATIONS,
+    },
   },
   primaryKey: 'id',
 };
 
-export const speciality = {
+export const specialities = {
   name: Constants.MASTER_TABLE_SPECIALITY,
   properties: {
+    id: 'int',
     name: 'string',
+    shortName: 'string',
   },
-  primaryKey: 'name',
+  primaryKey: 'id',
 };
 
 export const areas = {
   name: Constants.MASTER_TABLE_AREAS,
+  properties: {
+    id: 'int',
+    name: 'string',
+    shortName: 'string',
+  },
+  primaryKey: 'id',
+};
+
+export const qualifications = {
+  name: Constants.MASTER_TABLE_QUALIFICATIONS,
   properties: {
     id: 'int',
     name: 'string',
