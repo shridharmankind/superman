@@ -31,7 +31,13 @@ import {API_PATH} from 'screens/tour-plan/apiPath';
  * @param {String} weekDay weekDay has been passed from parent component
  */
 
-const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
+const StandardPlanModal = ({
+  handleSliderIndex,
+  navigation,
+  week,
+  weekDay,
+  year,
+}) => {
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
