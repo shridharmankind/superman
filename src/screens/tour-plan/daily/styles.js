@@ -110,15 +110,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backTextWhite: {
-    color: '#FFF',
-  },
   rowFront: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.white,
   },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: theme.colors.transparent,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -133,10 +130,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: 100,
-  },
-  backRightBtnLeft: {
-    backgroundColor: 'blue',
-    right: 75,
   },
   backRightBtnRight: {
     backgroundColor: theme.colors.red[200],

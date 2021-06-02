@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {useTheme} from 'react-native-paper';
+import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from './styles';
 import {Strings} from 'common';
 import {Label, Modal, Button} from 'components/elements';
@@ -15,20 +17,31 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
-import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
+  const {colors} = useTheme();
   const dispatch = useDispatch();
   const [dayPlanData, setDayPlanData] = useState([]);
 
+  /**
+   * Function to close the swipe
+   * @param {Object} rowMap object containing mapping of rows
+   * @param {Object} rowKey object containing the swiped row and props
+   */
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
 
+  /**
+   * Function to delete the swiped row
+   *@param {Object} rowMap object containing mapping of rows
+   * @param {Object} rowKey object containing the swiped row and props
+   * @param {Object} item daily plan object for a party
+   */
   const deleteRow = (rowMap, rowKey, item) => {
     let undoclicked = false;
     showToast({
@@ -61,6 +74,11 @@ const DailyTourPlan = () => {
     });
   };
 
+  /**
+   * Function to render parties list in swipe list view
+   * @param {Object} data party data
+   * @param {Object} rowMap object containing mapping of rows
+   */
   const renderItem = (data, rowMap) => {
     return (
       <SwipeRow
@@ -87,9 +105,9 @@ const DailyTourPlan = () => {
           </TouchableOpacity>
         </View>
         <TouchableHighlight
-          onPress={() => console.log('You touched me')}
+          onPress={() => console.log('click event')}
           style={styles.rowFront}
-          underlayColor={'transparent'}>
+          underlayColor={colors.transparent}>
           <View style={styles.doctorDetailWrapper}>
             <View key={data.item.key} style={styles.doctorDetailContainer}>
               <DoctorDetails
@@ -116,6 +134,9 @@ const DailyTourPlan = () => {
     );
   };
 
+  /**
+   * Fetch parties list
+   */
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
@@ -129,6 +150,9 @@ const DailyTourPlan = () => {
 
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
 
+  /**
+   * set parties list in state
+   */
   useEffect(() => {
     if (Array.isArray(allDoctorDetail) && allDoctorDetail.length > 0) {
       setDayPlanData(allDoctorDetail);
@@ -148,6 +172,7 @@ const DailyTourPlan = () => {
 
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();
+  
   /**
    * formats current date
    * @returns formatted date

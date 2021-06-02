@@ -66,6 +66,12 @@ export const post = async (url, data = {}, params = {}) => {
     });
 };
 
+/**
+ * Handle HTTP PUT request
+ * @param {string} url http url of api
+ * @param {object} data data to pass in body
+ * @param {object} params params to pass in api call
+ */
 export const put = async (url, data = {}, params = {}) => {
   const accessToken = await KeyChain.getAccessToken();
   const config = {
@@ -91,6 +97,12 @@ export const put = async (url, data = {}, params = {}) => {
     });
 };
 
+/**
+ * Handle HTTP DELETE request
+ * @param {string} url http url of api
+ * @param {object} data data to pass in body
+ * @param {object} params params to pass in api call
+ */
 export const Delete = async (url, data = {}, params = {}) => {
   const accessToken = await KeyChain.getAccessToken();
   const config = {
