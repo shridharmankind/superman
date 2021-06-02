@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View, Alert} from 'react-native';
+import {View, Alert} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -19,19 +19,11 @@ import {LOGOUT_ITEM_ID} from './constants';
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
-  const scrollRef = React.useRef();
   const onActivePageChanged = (route, itemId) => {
     if (itemId === LOGOUT_ITEM_ID) {
       showLogOffConfirmationDialog();
     } else {
       route && navigation && navigation.navigate(route);
-      requestAnimationFrame(() => {
-        if (isWeb()) {
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        } else {
-          scrollRef && scrollRef.current.scrollTo({x: 0, y: 0, animated: true});
-        }
-      });
     }
   };
 
@@ -68,10 +60,10 @@ const Dashboard = ({navigation}) => {
   const renderScreenActions = () => (
     <View style={styles.actionsContainer}>
       <View style={styles.action}>
-        <SearchIcon height={32} width={32} />
+        <SearchIcon height={21.3} width={21.3} />
       </View>
       <View style={[styles.action, styles.actionPadding]}>
-        <NotificationIcon height={32} width={32} />
+        <NotificationIcon height={21.3} width={21.3} />
       </View>
     </View>
   );
@@ -95,17 +87,11 @@ const Dashboard = ({navigation}) => {
   );
 
   return (
-    <ScrollView
-      ref={scrollRef}
-      showsVerticalScrollIndicator={false}
-      style={styles.scroll}
-      contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.container}>
-        {renderSideMenu()}
-        {renderNavigator()}
-        {renderScreenActions()}
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      {renderSideMenu()}
+      {renderNavigator()}
+      {renderScreenActions()}
+    </View>
   );
 };
 

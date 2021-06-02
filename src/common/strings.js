@@ -54,6 +54,9 @@ const Strings = {
   removed: 'Removed',
   removedDoctor: "You have removed a doctor from today's visit",
   undo: 'UNDO',
+  patchAlreadyExists: '*The patch name entered already exist',
+  already30PatchesCreated: '*Already 30 patches created',
+  somethingWentWrong: 'Something went wrong. Please try again!',
 };
 
 export default Strings;

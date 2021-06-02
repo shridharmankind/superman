@@ -7,13 +7,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingHorizontal: 32,
-    paddingVertical: 40,
+    paddingHorizontal: 21,
+    paddingVertical: 26,
     borderColor: theme.colors.borderColor,
-    borderRadius: 10,
+    borderRadius: 7,
     position: 'relative',
     borderWidth: 1,
-    marginTop: 20,
+    marginTop: 14,
     flex: 1,
     minWidth: '48%',
     maxWidth: '48%',
@@ -58,6 +58,9 @@ const styles = StyleSheet.create({
   },
   frequecyContainer: {
     flexDirection: 'row',
+  },
+  disabled: {
+    backgroundColor: theme.colors.disabled,
   },
 });
 

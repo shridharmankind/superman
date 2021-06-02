@@ -1,4 +1,5 @@
 export {default as Label} from './Label';
+export {LabelVariant} from './Label';
 export {default as Button} from './Button';
 export {default as Area} from './AreaChip';
 export {default as DoctorDetailsWrapper} from './DoctorDetailsWrapper';
