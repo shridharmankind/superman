@@ -3,13 +3,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  leftTabContainer: {
-    width: '52%',
-  },
-  rightTabContainer: {
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   buttonTabBar: {
     width: 165,

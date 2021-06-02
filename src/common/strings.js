@@ -51,6 +51,7 @@ const Strings = {
   removeDoctorConfirmation: 'Do you want to remove this doctor visit?',
   proceed: 'Proceed',
   removeFromToday: 'Remove from today',
+  createNewStp: 'Create a new STP',
   patchAlreadyExists: '*The patch name entered already exist',
   already30PatchesCreated: '*Already 30 patches created',
   somethingWentWrong: 'Something went wrong. Please try again!',
