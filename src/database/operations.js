@@ -42,6 +42,8 @@ export const openSchema = async () => {
         Schemas.specialities,
         Schemas.areas,
         Schemas.qualifications,
+        Schemas.partyTypes,
+        Schemas.partyTypeGroup,
       ],
       schemaVersion: 0,
     });
@@ -55,16 +57,16 @@ export const createRecord = async (schema, record) => {
   try {
     await openSchema();
 
-    let isRecordExists = await realm.objectForPrimaryKey(
+    /*  let isRecordExists = await realm.objectForPrimaryKey(
       schema.name,
       record.name,
     );
 
     if (isRecordExists) {
       return;
-    }
+    } */
     await realm.write(() => {
-      realm.create(schema.name, record);
+      realm.create(schema.name, record, 'modified');
     });
   } catch (error) {
     console.log('createRecord', error);
@@ -123,10 +125,10 @@ export const createUserInfoRecord = async (schema, data) => {
           ssoUserId: data.ssoUserId,
           designation: data.designation,
         },
-        true,
+        'modified',
       );
       data.staffPositions.forEach(obj => {
-        child = realm.create(schema[1].name, obj, true);
+        child = realm.create(schema[1].name, obj, 'modified');
         parent.staffPositions.push(child);
       });
     });
@@ -138,9 +140,20 @@ export const createUserInfoRecord = async (schema, data) => {
 export const createPartyMasterRecord = async (schema, data) => {
   try {
     await openSchema();
-    let specialization, area, qualification;
+    let specialization, area, qualification, partyTypes, partyTypeGroup;
     await realm.write(() => {
       data.forEach(object => {
+        partyTypeGroup = realm.create(
+          schema[4].name,
+          object.partyTypes?.partyTypeGroup,
+          'modified',
+        );
+        partyTypes = realm.create(
+          schema[5].name,
+          {...object.partyTypes, ...partyTypeGroup},
+          'modified',
+        );
+
         let partyMaster = realm.create(
           schema[0].name,
           {
@@ -151,19 +164,20 @@ export const createPartyMasterRecord = async (schema, data) => {
             category: object.category,
             potential: object.potential,
             isKyc: object.isKyc,
+            partyTypes: partyTypes,
           },
-          true,
+          'modified',
         );
         object.specialities.forEach(obj => {
-          specialization = realm.create(schema[1].name, obj, true);
+          specialization = realm.create(schema[1].name, obj, 'modified');
           partyMaster.specialities.push(specialization);
         });
         object.areas.forEach(obj => {
-          area = realm.create(schema[2].name, obj, true);
+          area = realm.create(schema[2].name, obj, 'modified');
           partyMaster.areas.push(area);
         });
         object.qualifications.forEach(obj => {
-          qualification = realm.create(schema[3].name, obj, true);
+          qualification = realm.create(schema[3].name, obj, 'modified');
           partyMaster.qualifications.push(qualification);
         });
       });
