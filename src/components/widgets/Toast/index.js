@@ -2,7 +2,7 @@ import React from 'react';
 import Toast from 'react-native-toast-message';
 import {TouchableOpacity, View} from 'react-native';
 import styles from './styles';
-import {Button, Label} from 'components/elements';
+import {Button, Label, LabelVariant} from 'components/elements';
 import {CloseIcon} from 'assets';
 import {Constants} from 'common';
 
@@ -17,8 +17,12 @@ const CustomToast = () => {
         <TouchableOpacity style={styles.closeIcon} onPress={props.onClose}>
           <CloseIcon width={24} height={24} />
         </TouchableOpacity>
-        <Label title={props.heading} style={styles.toastText} size={12} />
-        <Label title={props.subHeading} style={styles.toastText} size={12} />
+        <Label
+          title={props.heading}
+          style={styles.toastText}
+          variant={LabelVariant.subtitleSmall}
+        />
+        <Label title={props.subHeading} style={styles.toastText} size={11} />
         <Button
           title={props.actionTitle}
           mode="text"
