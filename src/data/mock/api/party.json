@@ -5,6 +5,7 @@
     "speciality": [],
     "qualification": null,
     "frequency": 3,
+    "alreadyVisited": 1,
     "partyType": "Doctor",
     "category": "A+",
     "potential": 6000000.0,
@@ -12,13 +13,8 @@
     "areas": [
       {
         "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      },
-      {
-        "id": 2,
-        "name": "Sec 2",
-        "shortName": "Sec 2"
+        "name": "Noida Sec-1",
+        "shortName": "Noida Sec-1"
       }
     ]
   },
@@ -28,6 +24,7 @@
     "speciality": ["Cardiologist"],
     "qualification": null,
     "frequency": 3,
+    "alreadyVisited": 2,
     "partyType": "Doctor",
     "category": "A+",
     "potential": 6000000.0,
@@ -35,8 +32,134 @@
     "areas": [
       {
         "id": 2,
-        "name": "Sec 2",
-        "shortName": "Sec 2"
+        "name": "Noida Sec-2",
+        "shortName": "Noida Sec-2"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Dr. Mahesh",
+    "speciality": ["Neurologist"],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyType": "Chemist",
+    "category": null,
+    "potential": 0.0,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Noida Sec-1",
+        "shortName": "Noida Sec-1"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Dr. Milan",
+    "speciality": ["Neurologist"],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyType": "Chemist",
+    "category": "A+",
+    "potential": 0.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 2,
+        "name": "Noida Sec-2",
+        "shortName": "Noida Sec-2"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Dr. Rahul",
+    "speciality": [],
+    "frequency": 2,
+    "alreadyVisited": 2,
+    "partyType": "Chemist",
+    "category": "A+",
+    "potential": 0.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 3,
+        "name": "Noida Sec-3",
+        "shortName": "Noida Sec-3"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Dr. Amit",
+    "speciality": ["Neurologist"],
+    "frequency": 2,
+    "alreadyVisited": 1,
+    "partyType": "Chemist",
+    "category": "A+",
+    "potential": 0.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 5,
+        "name": "Noida Sec-5",
+        "shortName": "Noida Sec-5"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Dr. Vishwas",
+    "speciality": ["Neurologist"],
+    "frequency": 2,
+    "alreadyVisited": 1,
+    "partyType": "Chemist",
+    "category": "A+",
+    "potential": 0.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 5,
+        "name": "Noida Sec-5",
+        "shortName": "Noida Sec-5"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Dr. Tanmay",
+    "speciality": ["Neurologist"],
+    "frequency": 2,
+    "alreadyVisited": 1,
+    "partyType": "Doctor",
+    "category": "A+",
+    "potential": 0.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 4,
+        "name": "Noida Sec-4",
+        "shortName": "Noida Sec-4"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Dr. Kuldeep",
+    "speciality": ["Cardiologist"],
+    "frequency": 2,
+    "alreadyVisited": 2,
+    "partyType": "Doctor",
+    "category": "A+",
+    "potential": 0.0,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 4,
+        "name": "Noida Sec-4",
+        "shortName": "Noida Sec-4"
       }
     ]
   }

@@ -1,27 +1,37 @@
 [
   {
     "id": 1,
-    "name": "Noida Sec 1-(2)",
-    "shortName": "Noida Sec 1-(2)1"
+    "name": "Noida Sec-1",
+    "shortName": "Noida Sec-1"
   },
   {
     "id": 2,
-    "name": "Noida Sec 2-(2)",
-    "shortName": "Noida Sec 2-(2)"
+    "name": "Noida Sec-2",
+    "shortName": "Noida Sec-2"
   },
   {
     "id": 3,
-    "name": "Noida Sec 3-(1)",
-    "shortName": "Noida Sec 3-(2)"
+    "name": "Noida Sec-3",
+    "shortName": "Noida Sec-3"
   },
   {
     "id": 4,
-    "name": "Noida Sec 4-(2)",
-    "shortName": "Noida Sec 4-(2)"
+    "name": "Noida Sec-4",
+    "shortName": "Noida Sec-4"
   },
   {
     "id": 5,
-    "name": "Noida Sec 5-(2)",
-    "shortName": "Noida Sec 5-(2)"
+    "name": "Noida Sec-5",
+    "shortName": "Noida Sec-5"
+  },
+  {
+    "id": 6,
+    "name": "Noida Sec-6",
+    "shortName": "Noida Sec-6"
+  },
+  {
+    "id": 7,
+    "name": "Noida Sec-7",
+    "shortName": "Noida Sec-7"
   }
 ]
