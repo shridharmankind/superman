@@ -51,11 +51,10 @@ const DoctorProfile = ({route}) => {
    * @returns date format like 21 May
    */
 
-  const dateFormate = date => {
-    const day = getFormatDate({date: date, format: 'DD'});
-    const month = getFormatDate({date: date, format: 'MMMM'});
+  const dateFormat = date => {
+    const dayMonth = getFormatDate({date: date, format: 'DD MMM'});
 
-    return `${day + ' ' + month}`;
+    return `${dayMonth}`;
   };
 
   const getDivisionColor = division => {
@@ -162,20 +161,20 @@ const DoctorProfile = ({route}) => {
   };
 
   const formatEngment = dataValue => {
-    const startMonth = getFormatDate({
+    const startDate = getFormatDate({
       date: dataValue.startDate,
-      format: 'MMM',
+      format: 'MMM YY',
     });
-    const startYear = getFormatDate({date: dataValue.startDate, format: 'YY'});
-    let startText = `${startMonth + ' ' + startYear}`;
     let endText = Strings.tillDate;
     if (dataValue.endDate) {
-      const endMonth = getFormatDate({date: dataValue.endDate, format: 'MMM'});
-      const endYear = getFormatDate({date: dataValue.endDate, format: 'YY'});
-      endText = `${endMonth + ' ' + endYear}`;
+      const endMonth = getFormatDate({
+        date: dataValue.endDate,
+        format: 'MMM YY',
+      });
+      endText = `${endMonth}`;
     }
 
-    return `${startText + ' - ' + endText}`;
+    return `${startDate + ' - ' + endText}`;
   };
 
   const renderDoctorCard = () => {
@@ -275,7 +274,7 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormate(doctorData.birthday)}
+                title={dateFormat(doctorData.birthday)}
               />
             </View>
             <View style={styles.birthdayClass}>
@@ -283,7 +282,7 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormate(doctorData.anniversary)}
+                title={dateFormat(doctorData.anniversary)}
               />
             </View>
           </View>
