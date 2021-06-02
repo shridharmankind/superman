@@ -7,7 +7,6 @@ import merge from 'lodash.merge';
 export const doctorDetailState = {
   doctorDetail: {
     data: [],
-    fetched: false,
   },
 };
 
@@ -32,10 +31,10 @@ export const doctorDetailSlice = createSlice({
   reducers: {
     getDoctorDetail: (state, action) => merge(state, action.payload),
     doctorRemoved: (state, action) => {
-      const findIndex = state.doctorDetail.data.findIndex(d => {
+      const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
         return d.id === action.payload.partyId;
       });
-      state.doctorDetail.data.splice(findIndex, 1);
+      state.doctorDetail.data.splice(itemIndexToRemove, 1);
       return state;
     },
   },

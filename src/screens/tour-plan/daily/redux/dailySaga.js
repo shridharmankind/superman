@@ -7,7 +7,6 @@ import {
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
-import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -44,7 +43,6 @@ export function* fetchDoctorDetailWorker(action) {
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
           data: response.data,
-          fetched: true,
         },
       }),
     );
@@ -61,7 +59,6 @@ export function* fetchDoctorDetailWorker(action) {
 export function* deletePartyWorker(action) {
   const {staffPositionid, day, month, year, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
-  console.log('***************', action);
   try {
     const response = yield call(
       NetworkService.Delete,
@@ -75,10 +72,9 @@ export function* deletePartyWorker(action) {
       },
     );
 
-    console.log('response', response);
-    // if (response.data) {
-    yield put(doctorDetailActions.doctorRemoved(action.payload));
-    // }
+    if (response.data) {
+      yield put(doctorDetailActions.doctorRemoved(action.payload));
+    }
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {

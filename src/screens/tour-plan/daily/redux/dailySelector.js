@@ -6,22 +6,13 @@ import {sortBasedOnCategory} from 'screens/tourPlan/helper';
  **/
 
 const getDoctorDetailList = state => state.dailyState.doctorDetail.data;
-const isDoctorDetailFetched = state => state.dailyState.doctorDetail.fetched;
 
 const allDoctorDetailSelector = createSelector([getDoctorDetailList], data =>
   (data || []).slice().sort(sortBasedOnCategory),
 );
 
-const isDoctorDetailReceived = createSelector(
-  [isDoctorDetailFetched],
-  isFetched => isFetched,
-);
-
 export const dailySelector = {
   allDoctorDetail: () => {
     return allDoctorDetailSelector;
-  },
-  isDoctorDetailReceived: () => {
-    return isDoctorDetailReceived;
   },
 };
