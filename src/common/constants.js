@@ -22,3 +22,4 @@ export const DIVISION_COLOR = {
 };
 
 export const TOUR_PLAN = 'TourPlan';
+export const ROUTE_EDETAILING = 'E-Detailing';

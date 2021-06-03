@@ -1,23 +1,33 @@
 import React from 'react';
 import {Label} from 'components/elements';
 import {ContentWithSidePanel} from 'components/layouts';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {Button} from 'components/elements';
+import {Button, LabelVariant} from 'components/elements';
 import styles from './e-detailing.styles';
 import {TouchableOpacity, View} from 'react-native';
 import {Strings} from 'common';
+import {ArrowBack} from 'assets';
 
+/**
+ * Render header
+ *
+ * @param {*} {navigation}
+ */
 const renderHeader = ({navigation}) => (
   <View style={[styles.eDetailingHead]}>
     <View style={[styles.eDetailingHead__Col]}>
       <TouchableOpacity
         testID="eDeatil-back"
+        style={styles.eDetailingHead__Back}
         onPress={() => navigation.goBack()}>
-        <Icon name="angle-left" size={24} />
+        <ArrowBack width={24} height={24} />
       </TouchableOpacity>
     </View>
     <View style={[styles.eDetailingHead__Col]}>
-      <Label testID="eDetail-title" title={Strings.eDetailing} size={23} />
+      <Label
+        testID="eDetail-title"
+        variant={LabelVariant.h2}
+        title={Strings.eDetailing}
+      />
     </View>
     <View style={[styles.eDetailing__Start]}>
       <Button
@@ -31,21 +41,27 @@ const renderHeader = ({navigation}) => (
   </View>
 );
 
+/**
+ * E detailing component
+ *
+ * @param {*} {navigation}
+ * @return {*}
+ */
 const EDetailing = ({navigation}) => {
   return (
     <ContentWithSidePanel header={renderHeader({navigation})}>
       <View style={[styles.eDetailing__PriorityProducts]}>
         <Label
           testID="eDetail-priority-products"
+          variant={LabelVariant.subtitleLarge}
           title={Strings.priorityProducts}
-          size={16}
         />
         <View style={[styles.eDetailing__PriorityProducts__List]} />
       </View>
       <Label
         testID="eDetail-priority-other-products"
+        variant={LabelVariant.subtitleLarge}
         title={Strings.otherProducts}
-        size={16}
       />
     </ContentWithSidePanel>
   );
