@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
   },
   toastText: {
     color: theme.colors.white,
-    fontFamily: theme.fonts.fontRegular,
   },
   success: {backgroundColor: theme.colors.green[100]},
   notification: {backgroundColor: theme.colors.blue[100]},

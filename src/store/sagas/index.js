@@ -1,6 +1,9 @@
 import {all, call, spawn} from 'redux-saga/effects';
 import {fetchTodoWatcher} from './../../screens/generic/Reference/redux/todoSaga';
-import {fetchDoctorDetailWatcher} from 'screens/tourPlan/daily/redux';
+import {
+  fetchDoctorDetailWatcher,
+  deletePartyWatcher,
+} from 'screens/tourPlan/daily/redux';
 import {
   fetchSubOrdinatesWatcher,
   fetchWorkingDayWatcher,
@@ -29,6 +32,7 @@ export function* rootSaga() {
     fetchPatchesWatcher,
     fetchPartiesByPatchIdWatcher,
     savePatchWatcher,
+    deletePartyWatcher,
   ];
 
   /**

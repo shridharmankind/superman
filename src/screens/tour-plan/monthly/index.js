@@ -279,7 +279,9 @@ const MonthlyTourPlan = ({navigation}) => {
                 type={option.selected ? 'bold' : 'regular'}
                 title={option.text}
                 size={14}
-                style={styles.modalText}
+                style={
+                  option.selected ? styles.modalTextSelected : styles.modalText
+                }
               />
             </TouchableWithoutFeedback>
           ))}
@@ -347,6 +349,14 @@ const MonthlyTourPlan = ({navigation}) => {
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
       </View>
+      {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
+        selectedTourPlan.id === 1 && (
+          <Label
+            title={Strings.createNewStp}
+            size={10}
+            style={styles.dropdownLabel}
+          />
+        )}
       {openTourPlanDropDown()}
       {renderView()}
     </View>
