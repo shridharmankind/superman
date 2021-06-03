@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
-import {Label, Modal, Button} from 'components/elements';
+import {Label, Modal, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
 import {
@@ -48,7 +48,7 @@ const DailyTourPlan = () => {
    * set parties list in state
    */
   useEffect(() => {
-    if (Array.isArray(allDoctorDetail) && allDoctorDetail.length > 0) {
+    if (Array.isArray(allDoctorDetail) && allDoctorDetail?.length > 0) {
       setDayPlanData(allDoctorDetail);
     }
   }, [allDoctorDetail]);
@@ -61,7 +61,7 @@ const DailyTourPlan = () => {
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
-    return `${Strings.today}, ${getFormatDate({format: 'Do MMM YYYY'})}`;
+    return `${Strings.today}, ${getFormatDate({format: 'Do MMMM YYYY'})}`;
   };
 
   /**
@@ -79,12 +79,12 @@ const DailyTourPlan = () => {
       result.splice(
         ++numberOfItemsAdded + i,
         0,
-        <Text key={i} style={styles.visitText}>
+        <Label key={i} style={styles.visitText}>
           {boldText}
-        </Text>,
+        </Label>,
       );
     });
-    return <Text style={styles.dailyTitle}>{result}</Text>;
+    return <Label style={styles.dailyTitle}>{result}</Label>;
   };
 
   /**
@@ -102,7 +102,7 @@ const DailyTourPlan = () => {
         <Label
           type="bold"
           title={Strings.removeDoctorConfirmation}
-          size={14}
+          variant={LabelVariant.h4}
           style={styles.modalTitleText}
         />
       </View>
@@ -158,8 +158,7 @@ const DailyTourPlan = () => {
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}
-          type="regular"
-          size={16}
+          variant={LabelVariant.subtitleLarge}
           style={styles.dailyTitle}
         />
         {getVisitBifurcationLabel()}
