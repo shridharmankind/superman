@@ -30,9 +30,6 @@ const getMock = axios => {
   mock
     .onPost(`${API_PATH.GET_PARTIES}`)
     .reply(200, partiesMock.getParties.response);
-  mock
-    .onGet(`${API_PATH.GET_PARTIES}`)
-    .reply(200, partiesMock.getParties.response);
   mock.onDelete(`${API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN}`).reply(200, true);
 };
 

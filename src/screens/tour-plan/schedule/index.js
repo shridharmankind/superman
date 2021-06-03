@@ -28,7 +28,7 @@ const Schedule = ({navigation}) => {
   const myTabNavigator = () => {
     return (
       <View style={styles.tabContainer}>
-          <TabBar values={data} onPress={onTabPress} />
+        <TabBar values={data} onPress={onTabPress} />
         {showButtons && (
           <View style={styles.tabContainer}>
             <Button

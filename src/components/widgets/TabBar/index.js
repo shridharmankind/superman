@@ -9,10 +9,11 @@ import {Tab} from 'components/widgets';
  * This serves the purpose show top tab bars
  * @param {Array} values  array of radio buttons
  * @param {Function} onPress click event on tab
+ * @param {Object} customStyle custom style for tab
  * @retuns tab bar view
  */
 
-const TabBar = ({values, onPress}) => {
+const TabBar = ({values, onPress, customStyle}) => {
   const [currentSelectedItem, setCurrentSelectedItem] = useState(0);
 
   const onTabPress = idx => {
@@ -36,12 +37,17 @@ const TabBar = ({values, onPress}) => {
       );
     });
   };
-  return <View style={styles.tabBarContainer}>{renderRadioButtons()}</View>;
+  return (
+    <View style={customStyle || styles.tabBarContainer}>
+      {renderRadioButtons()}
+    </View>
+  );
 };
 
 TabBar.propTypes = {
   values: PropTypes.array.isRequired,
   onPress: PropTypes.func,
+  customStyle: PropTypes.object,
 };
 
 export default TabBar;
