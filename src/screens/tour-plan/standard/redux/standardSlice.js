@@ -57,9 +57,7 @@ export const getStandardPlanSlice = createSlice({
       return merge(state, action.payload);
     },
     resetPartiesByPatchID: state => {
-      console.log(state.partyByPatchID);
       state.partyByPatchID = null;
-      console.log('íd', state.partyByPatchID);
     },
   },
 });
