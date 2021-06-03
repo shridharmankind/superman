@@ -5,7 +5,7 @@ import {TextInput} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import themes from 'themes';
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
@@ -102,11 +102,7 @@ const Dropdown = ({
           onPress={() => setTogglePicker(!togglePicker)}>
           <Label
             title={dropDownText || defaultLabel}
-            size={14}
-            // style={{opacity: !isPatchedData ? 0 : 1}}
-            textColor={{
-              color: themes.colors.grey[200],
-            }}
+            variant={LabelVariant.subtitleSmall}
           />
           <Icon name={'sort-down'} size={20} style={styles.sortDown} />
         </TouchableOpacity>
@@ -128,7 +124,10 @@ const Dropdown = ({
                 data.length === i + 1 ? styles.noBorder : null,
               ]}
               onPress={() => handleValueSelected(option)}>
-              <Label title={option.value} size={14} />
+              <Label
+                title={option.value}
+                variant={LabelVariant.subtitleSmall}
+              />
             </TouchableOpacity>
           ))}
         </View>

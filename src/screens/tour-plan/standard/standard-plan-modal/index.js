@@ -145,6 +145,7 @@ const StandardPlanModal = ({
     }
   }, [getSelectedArea, allPartiesByPatchID, patchValue]);
 
+  /** function to set area selected on chip click and update areaSelected state*/
   const getSelectedArea = useCallback(
     ids => {
       if (ids.length > 0) {
@@ -167,6 +168,9 @@ const StandardPlanModal = ({
     [partiesList, areaList],
   );
 
+  /** function to filter party by type and update partiesType
+   * @param {Array} partyList list of parties passed
+   */
   const filterPartyByType = partyList => {
     const doctorType = [Strings.all];
     partyList.map(party => {
@@ -177,6 +181,9 @@ const StandardPlanModal = ({
     setPartiesType(doctorType);
   };
 
+  /** function to handle and update state with area selected
+   * @param {Number} val area id passed
+   */
   const handleAreaSelected = val => {
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
@@ -191,6 +198,7 @@ const StandardPlanModal = ({
     setSelectedDoctorType(Strings.all);
   };
 
+  /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
     const areaData = (areaList || []).map(area => {
       return {
@@ -202,6 +210,9 @@ const StandardPlanModal = ({
     return areaData;
   }, [getDoctorsByArea, areaList]);
 
+  /** function to removed doctors from specific area on press
+   * @param {Number} areaId area id passed
+   */
   const removeSelectedDoctorFromArea = useCallback(
     areaId => {
       const doctorToRemove = partiesList.find(party =>
@@ -218,6 +229,7 @@ const StandardPlanModal = ({
     [doctorsSelected, partiesList],
   );
 
+  /** function to create patch string to be put in patch input field*/
   const createPatchString = useCallback(() => {
     let patchString = (areaSelected || [])
       .filter(area => {
@@ -260,6 +272,9 @@ const StandardPlanModal = ({
     patchEdited,
   ]);
 
+  /** function to filter parties by area selected from area chiklets
+   * @param {Number} area area id passed as number
+   */
   const getDoctorsByArea = useCallback(
     area => {
       const partiesData = partiesList.filter(party => {
@@ -279,6 +294,7 @@ const StandardPlanModal = ({
     [partiesList, selectedDoctorType],
   );
 
+  /** function to validate the response from endpoint in case of save and updating the patch */
   const validateSaveResponse = useCallback(async () => {
     if (savePatchRes) {
       if (savePatchRes?.status === Constants.HTTP_OK) {
@@ -300,6 +316,7 @@ const StandardPlanModal = ({
     }
   }, [savePatchRes]);
 
+  /** function to save the patch */
   const handleDonePress = async () => {
     const obj = {
       displayName: patchSelected,
@@ -321,6 +338,9 @@ const StandardPlanModal = ({
     }
   };
 
+  /** function to show notification in case of updating the patch
+   * @param {Object} obj patch request has been passed as object
+   */
   const showOverrideNotificatoin = obj => {
     showToast({
       type: Constants.TOAST_TYPES.NOTIFICATION,
@@ -341,6 +361,9 @@ const StandardPlanModal = ({
     });
   };
 
+  /** function to update patch
+   * @param {Object} obj patch request has been passed as object
+   */
   const updatePatch = obj => {
     dispatch(
       savePatchCreator({
@@ -352,6 +375,9 @@ const StandardPlanModal = ({
     hideToast();
   };
 
+  /** function to filter parties by doctors, chemist, all
+   * @param {Object} obj patch request has been passed as object
+   */
   const handlePartyByType = val => {
     if (val !== Strings.all) {
       setParties(parties.filter(party => party.partyType === val));
@@ -364,7 +390,7 @@ const StandardPlanModal = ({
 
   /**
    *  Handles Card click event& accept an id of party
-   * @param {Number} id
+   * @param {Number} id party id passed as int
    */
   const handleDoctorCardPress = id => {
     const indexAvailable = doctorsSelected.some(party => party === id);
@@ -378,16 +404,21 @@ const StandardPlanModal = ({
     }
   };
 
+  /** function to handle area left swipe*/
   const handleAreaLeftArrow = () => {
     swiperRef.current.scrollTo({x: scrollOffset - 150, y: 0, animated: true});
     setScrollOffset(scrollOffset - 100);
   };
 
+  /** function to handle area right swipe*/
   const handleAreaRightArrow = () => {
     swiperRef.current.scrollTo({x: scrollOffset + 150, y: 0, animated: true});
     setScrollOffset(scrollOffset + 100);
   };
 
+  /** function to handle value of patch input field and check validation on string
+   * @param {String} val string passed from input field
+   */
   const handlePatchInputChange = val => {
     const regex = /^[ A-Za-z0-9-+&()]*$/;
     if (val.length < 64 && regex.test(val)) {
@@ -396,6 +427,9 @@ const StandardPlanModal = ({
     }
   };
 
+  /** handle value of dropdown if patch selected
+   * @param {Object} val passed from dropdown
+   */
   const handleDropDownValue = useCallback(
     val => {
       if (val) {
@@ -413,6 +447,9 @@ const StandardPlanModal = ({
     [dispatch],
   );
 
+  /** function to filter parties by area selected
+   * @param {Number} id area id passed from party object
+   */
   const getSelectedPartyByArea = id => {
     let count = 0;
     getDoctorsByArea(id).map(party => {
@@ -430,6 +467,7 @@ const StandardPlanModal = ({
    */
   const getSuffix = count => (count > 1 ? 's' : '');
 
+  /** function to filter parties by party type eg. doctors,chemist and all*/
   const getSelectedPartyByType = useCallback(() => {
     const obj = {doctors: 0, chemist: 0};
     partiesList.map(party => {
@@ -470,6 +508,9 @@ const StandardPlanModal = ({
     }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
   }, [doctorsSelected, partiesList, selectedDoctorType]);
 
+  /** function toh hide/show right arrow of area scroll
+   * @param {Object} nativeEvent native events of scrollView passed
+   */
   const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
     if (layoutMeasurement.width + contentOffset.x >= contentSize.width) {
       setHideRightArrow(true);
