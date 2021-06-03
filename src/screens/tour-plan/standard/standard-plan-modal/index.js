@@ -125,7 +125,6 @@ const StandardPlanModal = ({
   }, [allPatches]);
 
   useEffect(() => {
-    // setSavePatchResponse(savePatchRes);
     validateSaveResponse();
   }, [savePatchRes, validateSaveResponse]);
 
@@ -278,7 +277,6 @@ const StandardPlanModal = ({
     if (savePatchRes) {
       if (savePatchRes?.status === Constants.HTTP_OK) {
         console.log(savePatchRes);
-        // navigation.navigate('TourPlan');
         await resetState();
       } else if (savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED) {
         if (
@@ -298,7 +296,6 @@ const StandardPlanModal = ({
   }, [savePatchRes, resetState]);
 
   const handleDonePress = async () => {
-    // const weekNum = parseInt(week.split(' ')[1], 2);
     const obj = {
       displayName: patchSelected,
       defaultName: patchDefaultValue,
@@ -693,7 +690,6 @@ const StandardPlanModal = ({
           <Label title={Strings.planCompliance} />
         </View>
       </View>
-      {/* <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} /> */}
     </ScrollView>
   );
 };
