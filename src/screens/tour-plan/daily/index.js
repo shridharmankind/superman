@@ -165,13 +165,9 @@ const DailyTourPlan = () => {
         {getVisitBifurcationLabel()}
       </View>
       <PartyList
-
         dayPlanData={dayPlanData}
-
         onTileNamePress={onTileNameHandler}
-
         onTilePress={onTilePressHandler}
-
       />
       {pressTile()}
     </>
