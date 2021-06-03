@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   rightContent: {
-    marginLeft: themes.spacing(36),
+    paddingLeft: themes.spacing(36),
   },
 });
 
