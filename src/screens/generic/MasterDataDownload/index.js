@@ -5,6 +5,7 @@ import {
   Image,
   ImageBackground,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
@@ -36,7 +37,6 @@ const MasterDataDownload = ({navigation}) => {
 
         if (progressStatus > 1) {
           progressStatus = 1;
-          //navigation.navigate('Dashboard');
           clearInterval(interval);
         }
         setProgress(progressStatus);
@@ -62,16 +62,20 @@ const MasterDataDownload = ({navigation}) => {
 
           if (response.status === Constants.HTTP_OK) {
             const data = await JSON.stringify(response.data);
-            if (item.name === DBConstants.MASTER_TABLE_USER_INFO) {
-              await Operations.createUserInfoRecord(
-                item.schema,
-                JSON.parse(data),
-              );
-            } else if (item.name === DBConstants.MASTER_TABLE_PARTY) {
-              await Operations.createPartyMasterRecord(
-                item.schema,
-                JSON.parse(data),
-              );
+            switch (item.name) {
+              case DBConstants.MASTER_TABLE_USER_INFO:
+                await Operations.createUserInfoRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                break;
+
+              case DBConstants.MASTER_TABLE_PARTY:
+                await Operations.createPartyMasterRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                break;
             }
             await Operations.updateRecord(
               Schemas.masterTablesDownLoadStatus,
@@ -79,12 +83,12 @@ const MasterDataDownload = ({navigation}) => {
               item.name,
             );
           } else {
-            console.log('error', response);
+            Alert.alert(Strings.info, response);
           }
         });
         navigation.navigate('Dashboard');
       } catch (error) {
-        console.log('useEffect', error);
+        Alert.alert(Strings.info, error);
       }
     };
     fetchData();

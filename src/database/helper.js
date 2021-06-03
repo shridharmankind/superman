@@ -1,5 +1,6 @@
 import * as Constants from './constants';
 import * as Schemas from './schemas';
+import * as Operations from './operations';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -20,3 +21,10 @@ export const MASTER_TABLES_DETAILS = [
     schema: [Schemas.userInfo, Schemas.staffPositions],
   },
 ];
+
+export const getUserFirstName = async () => {
+  try {
+    const record = await Operations.getRecord(Schemas.userInfo, 1);
+    return record.firstName;
+  } catch (error) {}
+};
