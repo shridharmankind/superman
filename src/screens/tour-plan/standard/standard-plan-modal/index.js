@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Area,
   Label,
+  LabelVariant,
   Button,
   Dropdown,
   DoctorDetailsWrapper,
@@ -693,7 +694,7 @@ const StandardPlanModal = ({
           </View>
         </View>
         <View style={styles.rightContent}>
-          <Label title={Strings.planCompliance} />
+          <Label variant={LabelVariant.h4} title={Strings.planCompliance} />
         </View>
       </View>
     </ScrollView>

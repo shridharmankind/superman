@@ -120,10 +120,7 @@ const styles = StyleSheet.create({
     borderColor: themes.colors.borderColor,
     borderRadius: 7,
     borderWidth: 1,
-    //flexDirection: 'row',
     padding: 5,
-    // flex: 1,
-    // height: 40,
     width: '100%',
   },
   patchInput: {
@@ -200,6 +197,9 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     backgroundColor: themes.colors.primary,
     marginHorizontal: 12,
+  },
+  rightContent: {
+    marginLeft: themes.spacing(36),
   },
 });
 
