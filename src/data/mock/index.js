@@ -32,7 +32,7 @@ const getMock = axios => {
     .onPost(`${API_PATH.PATCH}/validate/1`, patchesMock.validate.request)
     .reply(200, patchesMock.validate.response);
   mock
-    .onPost(`${API_PATH.GET_PARTIES}`, partiesMock.getParties.request)
+    .onPost(`${API_PATH.GET_PARTIES}`)
     .reply(200, partiesMock.getParties.response);
   mock
     .onGet(`${API_PATH.GET_PARTIES}`)
