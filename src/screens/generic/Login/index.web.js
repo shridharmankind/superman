@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -7,6 +7,9 @@ import {
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
+import {stringify, parse} from 'query-string';
+import {nanoid} from 'nanoid';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import {authorize} from 'react-native-app-auth';
 import AsyncStorage from '@react-native-community/async-storage';
 import jwt_decode from 'jwt-decode';
@@ -17,12 +20,17 @@ import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
 
+const state = nanoid(32);
+const nonce = nanoid(32);
+
 const config = {
-  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
-  redirectUrl: 'com.superman://callback',
-  scopes: ['openid', 'profile'],
-  additionalParameters: {prompt: 'login'},
+  authority: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
+  client_id: '9dcc6560-9a92-0139-202d-0a8697f39ec7186786',
+  redirect_uri: 'http://localhost:3000/home',
+  state,
+  nonce,
+  response_type: 'id_token',
+  scope: 'openid profile',
 };
 
 const TOKEN_EXPIRY_TIME = 'token_expiry_time';
@@ -30,25 +38,21 @@ const USER_ID = 'USER_ID';
 const LOGIN_STATUS = 'loginStatus';
 const AlertTitle = 'Info';
 
-const Login = ({navigation}) => {
+const Login = () => {
   const [animating, setAnimating] = useState(false);
 
   const loginHandler = useCallback(async () => {
     try {
+      console.log('inside');
       setAnimating(true);
-      const newAuthState = await authorize(config);
-      await KeyChain.saveAccessToken(newAuthState.accessToken);
-      const decoded = jwt_decode(newAuthState.accessToken);
-      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
-      AsyncStorage.setItem(USER_ID, decoded.sub);
-      AsyncStorage.setItem(LOGIN_STATUS, 'true');
-      setAnimating(false);
-      navigation.navigate('MasterDataDownload');
+      const params = stringify(config);
+      const authUrl = `${config.authority}/auth?${params}`;
+      console.log(authUrl, 'test');
+      window.location.assign(authUrl);
     } catch (error) {
       setAnimating(false);
-      Alert.alert(AlertTitle, error.message);
     }
-  }, [navigation]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,5 +90,37 @@ const Login = ({navigation}) => {
     </SafeAreaView>
   );
 };
+const AuthComp = ({navigation}) => {
+  useEffect(() => {
+    if (window.location.hash) {
+      const hash = window.location.hash;
+      const response = parse(hash);
+      console.log('response', response);
+      const decoded = jwt_decode(response.id_token);
+      console.log('decoded', decoded);
+      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
+      AsyncStorage.setItem(USER_ID, decoded.sub);
+      AsyncStorage.setItem(LOGIN_STATUS, 'true');
+      window.location.assign('http://localhost:3000/home');
+    }
+    navigation.navigate('MasterDataDownload');
+  }, [navigation]);
+  return null;
+};
+const WebRouterComp = ({navigation}) => {
+  console.log('navigation', navigation);
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Login />
+        </Route>
+        <Route path="/home" exact>
+          <AuthComp navigation={navigation} />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
 
-export default Login;
+export default WebRouterComp;
