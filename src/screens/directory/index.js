@@ -10,11 +10,11 @@ const Directory = () => {
 
   return (
     <DirectoryStack.Navigator>
-      {ROUTES_DIRECTORY.map(route => (
+      {ROUTES_DIRECTORY.map(routes => (
         <DirectoryStack.Screen
-          key={route.name}
-          name={route.name}
-          component={route.component}
+          key={routes?.name}
+          name={routes?.name}
+          component={routes?.component}
           options={{
             headerShown: false,
             cardStyle: {

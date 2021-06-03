@@ -6,10 +6,10 @@ const styles = StyleSheet.create({
     borderRadius: theme.roundness,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
+    height: theme.spacing(50),
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: theme.fonts.fontSemiBold,
     color: theme.colors.white,
   },

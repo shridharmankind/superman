@@ -9,3 +9,16 @@ export const TOAST_TYPES = {
   STANDARD: 'standard',
   CONFIRM: 'confirm',
 };
+
+export const HTTP_PATCH_CODE = {
+  VALIDATED: 422,
+  ALREADY_EXITS: '103',
+};
+
+export const DIVISION_COLOR = {
+  KYC: 'kyc',
+  A_PLUS: 'a+',
+  B: 'b',
+};
+
+export const TOUR_PLAN = 'TourPlan';

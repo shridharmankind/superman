@@ -23,5 +23,15 @@
     "id": 5,
     "name": "Noida Sec-5",
     "shortName": "Noida Sec-5"
+  },
+  {
+    "id": 6,
+    "name": "Noida Sec-6",
+    "shortName": "Noida Sec-6"
+  },
+  {
+    "id": 7,
+    "name": "Noida Sec-7",
+    "shortName": "Noida Sec-7"
   }
 ]

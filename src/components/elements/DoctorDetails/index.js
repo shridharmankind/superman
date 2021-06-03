@@ -23,6 +23,7 @@ import {Strings} from 'common';
  * @param {Boolean} showVisitPlan flag to show/hide doctor's daily visit plan
  * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
  * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
+ * @param {Function} onTileNamePress Fire when click on tile name
  */
 
 const DoctorDetails = ({
@@ -39,6 +40,7 @@ const DoctorDetails = ({
   isTicked,
   showTile,
   onTilePress,
+  onTileNamePress,
   alreadyVisited,
   frequency,
   selectedVistedFrequency,
@@ -118,18 +120,22 @@ const DoctorDetails = ({
             <Label
               style={styles.divisionText}
               title={category && category.toUpperCase()}
-              size={customStyle ? customStyle.divisionSize : 14}
+              size={customStyle ? customStyle.divisionSize : 9}
               type={'bold'}
             />
           </View>
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/avtar.png')}
+            source={require('../../../assets/images/avatar.png')}
           />
           <View style={styles.nameContainer}>
             <Label
               title={title}
-              size={customStyle ? customStyle.titleSize : 18}
+              size={customStyle ? customStyle.titleSize : 17}
+              onPress={() => {
+                onTileNamePress && onTileNamePress();
+              }}
+              type={'medium'}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
@@ -170,7 +176,7 @@ const DoctorDetails = ({
           <View style={styles.checkContainer}>
             <Icon
               name="check-circle"
-              size={32}
+              size={16}
               color={themes.colors.checkCircleBlue}
             />
           </View>
@@ -216,6 +222,7 @@ DoctorDetails.propTypes = {
   showFrequencyChiclet: PropTypes.bool,
   showVisitPlan: PropTypes.bool,
   isTicked: PropTypes.bool,
+  onTileNamePress: PropTypes.func,
 };
 
 export default DoctorDetails;
