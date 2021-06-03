@@ -10,6 +10,8 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.specialities,
       Schemas.areas,
       Schemas.qualifications,
+      Schemas.partyTypeGroup,
+      Schemas.partyTypes,
     ],
   },
   {

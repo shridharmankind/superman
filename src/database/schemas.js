@@ -55,7 +55,6 @@ export const partyMaster = {
   properties: {
     id: 'int',
     name: 'string',
-    qualification: 'string?',
     frequency: 'int',
     category: 'string',
     potential: 'float',
@@ -67,6 +66,7 @@ export const partyMaster = {
     isDelete: 'bool',
     errorInSync: 'bool',
     errorDetails: errorDetails,
+    partyTypes: Constants.MASTER_TABLE_PARTY_TYPES,
     areas: {
       type: 'list',
       objectType: Constants.MASTER_TABLE_AREAS,
@@ -105,6 +105,27 @@ export const areas = {
 
 export const qualifications = {
   name: Constants.MASTER_TABLE_QUALIFICATIONS,
+  properties: {
+    id: 'int',
+    name: 'string',
+    shortName: 'string',
+  },
+  primaryKey: 'id',
+};
+
+export const partyTypes = {
+  name: Constants.MASTER_TABLE_PARTY_TYPES,
+  properties: {
+    id: 'int',
+    name: 'string',
+    shortName: 'string',
+    partyTypeGroup: Constants.MASTER_TABLE_PARTY_TYPE_GROUP,
+  },
+  primaryKey: 'id',
+};
+
+export const partyTypeGroup = {
+  name: Constants.MASTER_TABLE_PARTY_TYPE_GROUP,
   properties: {
     id: 'int',
     name: 'string',
