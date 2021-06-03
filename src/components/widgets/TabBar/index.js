@@ -9,6 +9,7 @@ import {Tab} from 'components/widgets';
  * This serves the purpose show top tab bars
  * @param {Array} values  array of radio buttons
  * @param {Function} onPress click event on tab
+ * @param {Object} customStyle custom style for tab
  * @retuns tab bar view
  */
 

@@ -2,10 +2,20 @@
   "getParties": {
     "response": [
       {
+        "key": 1,
+        "id": 1,
         "name": "Dr. Ashish Gulati",
         "specialization": ["Cardiologist"],
         "category": "KYC",
         "location": "Karol Bagh",
+        "birthday": "2021-05-19T18:25:11",
+        "anniversary": "2021-05-19T18:25:11",
+        "selfDispensing": false,
+        "engagement": [
+          {"startDate": "2020-01-19T00:00:00", "endDate": null},
+          {"startDate": "2020-05-20T00:00:00", "endDate": "2020-06-21T00:00:00"},
+          {"startDate": "2020-07-25T00:00:00", "endDate": "2020-12-17T00:00:00"}
+        ],
         "visitData": [
           {
             "date": "12",
@@ -25,10 +35,20 @@
         ]
       },
       {
+        "key": 2,
+        "id": 2,
         "name": "Dr. Manish Kumar ",
         "specialization": ["Cardiologist"],
         "category": "a+",
         "location": "Karol Bagh",
+        "birthday": "2021-05-19T18:25:11",
+        "anniversary": "2021-05-19T18:25:11",
+        "selfDispensing": false,
+        "engagement": [
+          {"startDate": "2020-01-19T00:00:00", "endDate": null},
+          {"startDate": "2020-05-20T00:00:00", "endDate": "2020-06-21T00:00:00"},
+          {"startDate": "2020-07-25T00:00:00", "endDate": "2020-12-17T00:00:00"}
+        ],
         "visitData": [
           {
             "date": "12",
@@ -48,10 +68,20 @@
         ]
       },
       {
+        "key": 3,
+        "id": 3,
         "name": "Dr. Manoj Manjhi",
         "specialization": ["Cardiologist"],
         "category": "b",
         "location": "Karol Bagh",
+        "birthday": "2021-05-19T18:25:11",
+        "anniversary": "2021-05-19T18:25:11",
+        "selfDispensing": true,
+        "engagement": [
+          {"startDate": "2020-01-19T00:00:00", "endDate": null},
+          {"startDate": "2020-05-20T00:00:00", "endDate": "2020-06-21T00:00:00"},
+          {"startDate": "2020-07-25T00:00:00", "endDate": "2020-12-17T00:00:00"}
+        ],
         "visitData": [
           {
             "date": "26",
@@ -66,10 +96,20 @@
         ]
       },
       {
+        "key": 4,
+        "id": 4,
         "name": "Dr. Manoj Manjhi",
         "specialization": ["Cardiologist"],
         "category": "KYC",
         "location": "Karol Bagh",
+        "birthday": "2021-05-19T18:25:11",
+        "anniversary": "2021-05-19T18:25:11",
+        "selfDispensing": false,
+        "engagement": [
+          {"startDate": "2020-01-19T00:00:00", "endDate": null},
+          {"startDate": "2020-05-20T00:00:00", "endDate": "2020-06-21T00:00:00"},
+          {"startDate": "2020-07-25T00:00:00", "endDate": "2020-12-17T00:00:00"}
+        ],
         "visitData": [
           {
             "date": "12",
@@ -89,8 +129,18 @@
         ]
       },
       {
+        "key": 5,
+        "id": 5,
         "name": "Dr. Tanmay Singh",
         "specialization": ["Dermatologist"],
+        "birthday": "2021-05-19T18:25:11",
+        "anniversary": "2021-05-19T18:25:11",
+        "selfDispensing": false,
+        "engagement": [
+          {"startDate": "2020-01-19T00:00:00", "endDate": null},
+          {"startDate": "2020-05-20T00:00:00", "endDate": "2020-06-21T00:00:00"},
+          {"startDate": "2020-07-25T00:00:00", "endDate": "2020-12-17T00:00:00"}
+        ],
         "category": "B",
         "location": "Karol Bagh",
         "visitData": [
@@ -107,8 +157,18 @@
         ]
       },
       {
+        "key": 6,
+        "id": 6,
         "name": "Balaji Medicos ",
         "specialization": ["Chemist"],
+        "birthday": "2021-05-19T18:25:11",
+        "anniversary": "2021-05-19T18:25:11",
+        "selfDispensing": false,
+        "engagement": [
+          {"startDate": "2020-01-19T00:00:00", "endDate": null},
+          {"startDate": "2020-05-20T00:00:00", "endDate": "2020-06-21T00:00:00"},
+          {"startDate": "2020-07-25T00:00:00", "endDate": "2020-12-17T00:00:00"}
+        ],
         "category": "-",
         "location": "Karol Bagh",
         "visitData": [

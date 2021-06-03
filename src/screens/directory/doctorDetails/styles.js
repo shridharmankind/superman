@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   count: {
     fontStyle: 'normal',
-    backgroundColor: theme.colors.grey[800],
+    backgroundColor: theme.colors.grey[1000],
     borderRadius: 50,
     paddingTop: theme.spacing(2),
     borderWidth: 0.3,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   labelSubTitle: {
     fontStyle: 'normal',
-    backgroundColor: theme.colors.grey[800],
+    backgroundColor: theme.colors.grey[1000],
     borderRadius: 50,
     borderWidth: 0.3,
     borderStyle: 'solid',

@@ -57,6 +57,10 @@ const DoctorProfile = ({route}) => {
     return `${dayMonth}`;
   };
 
+  /**
+   * Function to display category color
+   * @returns color behalf of category
+   */
   const getDivisionColor = division => {
     switch (division && division.toLowerCase()) {
       case Constants.DIVISION_COLOR.KYC:
@@ -70,13 +74,24 @@ const DoctorProfile = ({route}) => {
     }
   };
 
+  /**
+   * Function to navigate Doctor Profile screen
+   */
   const handleBackClick = () => {
     navigation.navigate(Constants.TOUR_PLAN);
   };
+
+  /**
+   * Function to set the state of Tab
+   */
   const onTabPress = itemIdx => {
     setSelectedTabIndex(itemIdx);
   };
 
+  /**
+   * Function to render the Product Card
+   * @returns a Card with Product Detail
+   */
   const firstTab = () => {
     return (
       <View style={styles.tabMainContainer}>
@@ -135,7 +150,7 @@ const DoctorProfile = ({route}) => {
             <View>
               <Label
                 variant={LabelVariant.label}
-                textColor={theme.colors.grey[900]}
+                textColor={theme.colors.grey[1100]}
                 style={styles.descriptionText}
                 title={Strings.priorityProductCard.tabDes}
               />
@@ -160,6 +175,10 @@ const DoctorProfile = ({route}) => {
     }
   };
 
+  /**
+   * Set the Format of Start and End Date Engagement
+   * @returns date formated Value Like : May 21 - Jun 22
+   */
   const formatEngment = dataValue => {
     const startDate = getFormatDate({
       date: dataValue.startDate,
@@ -177,6 +196,10 @@ const DoctorProfile = ({route}) => {
     return `${startDate + ' - ' + endText}`;
   };
 
+  /**
+   * Function to render the Docotr Card
+   * @returns a Card with Doctor Details - Anniversary, Birthday
+   */
   const renderDoctorCard = () => {
     return (
       <View style={styles.mainContainer}>
@@ -245,7 +268,7 @@ const DoctorProfile = ({route}) => {
             <View style={styles.container}>
               <Image
                 style={[styles.image]}
-                source={require('assets/images/avtar.png')}
+                source={require('assets/images/avatar.png')}
               />
               <View style={styles.nameContainer}>
                 <Label
@@ -287,7 +310,7 @@ const DoctorProfile = ({route}) => {
             </View>
           </View>
           <View style={styles.engment}>
-            {doctorData.engagement.map((dataItem, index) => {
+            {(doctorData?.engagement || []).map((dataItem, index) => {
               return (
                 <View style={styles.engmentContainer} key={index}>
                   <Anniversary width={25} height={25} />

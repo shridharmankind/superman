@@ -31,7 +31,13 @@ import {API_PATH} from 'screens/tour-plan/apiPath';
  * @param {String} weekDay weekDay has been passed from parent component
  */
 
-const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
+const StandardPlanModal = ({
+  handleSliderIndex,
+  navigation,
+  week,
+  weekDay,
+  year,
+}) => {
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
   const [areaList, setAreaList] = useState([]);
@@ -340,9 +346,11 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
   };
 
   /**
-   * Returns formatted string to display selected string count
+   *  Handle singular & plural
+   * @param {Number} count
+   * @returns string
    */
-  const getFormattedString = partyCount => partyCount > 0 && ` - ${partyCount}`;
+  const getSuffix = count => (count > 1 ? 's' : '');
 
   const getSelectedPartyByType = useCallback(() => {
     const obj = {doctors: 0, chemist: 0};
@@ -357,9 +365,21 @@ const StandardPlanModal = ({handleSliderIndex, navigation, week, weekDay}) => {
     });
 
     if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
-      return getFormattedString(obj.chemist);
+      let partyCount = obj.chemist;
+      return (
+        partyCount > 0 &&
+        ` - ${partyCount} ${PARTY_TYPE.CHEMIST.toLowerCase()}${getSuffix(
+          partyCount,
+        )}`
+      );
     } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
-      return getFormattedString(obj.doctors);
+      let partyCount = obj.doctors;
+      return (
+        partyCount > 0 &&
+        ` - ${partyCount} ${PARTY_TYPE.DOCTOR.toLowerCase()}${getSuffix(
+          partyCount,
+        )}`
+      );
     }
     return `${
       doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
