@@ -3,8 +3,12 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
-    overflow: 'hidden',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(100,100,100, 0.7)',
+    padding: 20,
   },
   modalView: {
     backgroundColor: theme.colors.white,
@@ -21,29 +25,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: 500,
     height: 500,
-  },
-  titleView: {
-    flexDirection: 'row',
-  },
-  title: {
-    width: '95%',
-  },
-  close: {
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    width: '5%',
-  },
-  closeIcon: {
-    fontFamily: theme.fonts.fontRegular,
-  },
-  blurView: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    justifyContent: 'center',
-    padding: 20,
   },
 });
 

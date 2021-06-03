@@ -7,24 +7,36 @@ import merge from 'lodash.merge';
 export const doctorDetailState = {
   doctorDetail: {
     data: [],
-    fetched: false,
   },
 };
 
 /**
- *  redux-saga actions
+ *  Action creator and type to fetch parties list
  */
 export const fetchDoctorDetailCreator = createAction('FETCH_DOCTOR_DETAIL');
 export const fetchDoctorDetailTypeName = fetchDoctorDetailCreator().type;
 
 /**
- *  create doctor detail slice defining the intial state, reducers
+ *  Action creator and type to delete a party
+ */
+export const deletePartyCreator = createAction('REMOVE_PARTY');
+export const deletePartyTypeName = deletePartyCreator().type;
+
+/**
+ *  create daily plan slice defining the intial state, reducers
  */
 export const doctorDetailSlice = createSlice({
-  name: 'FETCH_DOCTOR_DETAIL',
+  name: 'DAILY_PLAN',
   initialState: doctorDetailState,
   reducers: {
     getDoctorDetail: (state, action) => merge(state, action.payload),
+    doctorRemoved: (state, action) => {
+      const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
+        return d.id === action.payload.partyId;
+      });
+      state.doctorDetail.data.splice(itemIndexToRemove, 1);
+      return state;
+    },
   },
 });
 

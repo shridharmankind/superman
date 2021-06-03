@@ -1,14 +1,11 @@
 import React from 'react';
 import {Modal, View, TouchableWithoutFeedback} from 'react-native';
-import {useTheme} from 'react-native-paper';
-import {BlurView} from '@react-native-community/blur';
 import {CloseIcon} from 'assets';
 import PropTypes from 'prop-types';
 import {Button} from 'components/elements';
+import stylesWeb from './styles.web';
 import styles from './styles';
 
-// https://github.com/Kureev/react-native-blur
-// for web https://stackoverflow.com/questions/47207510/react-native-blur-in-modal
 /**
  * Custom modal component using Modal from react-native.
  * This serves the purpose to open a dialog box with custom title, content and action buttons
@@ -22,7 +19,6 @@ import styles from './styles';
  * @param {Boolean} closeAction boolean flag to decide whether to show close icon
  * @param {String} closeTestId test id for close icon
  * @param {Object} customModalPosition styling for custom modal position
- * @param {Boolean} blurView flag to show blur background or not
  */
 
 const CustomModal = ({
@@ -36,43 +32,11 @@ const CustomModal = ({
   closeAction,
   closeTestId,
   customModalPosition,
-  blurView,
 }) => {
-  const {colors} = useTheme();
   const primaryActionHandler = () => {
     primaryAction();
     onClose();
   };
-
-  const renderModal = () => {
-    return (
-      <View style={[styles.centeredView]}>
-        <View style={[styles.modalView, customModalPosition]}>
-          <View style={styles.titleView}>
-            <View style={styles.title}>{modalTitle}</View>
-            {closeAction && (
-              <TouchableWithoutFeedback
-                style={styles.close}
-                onPress={onClose}
-                testID={closeTestId}>
-                <CloseIcon width={32} height={32} />
-              </TouchableWithoutFeedback>
-            )}
-          </View>
-          {modalContent}
-          {primaryAction && (
-            <Button
-              testID={primaryActionProps.testID}
-              title={primaryActionProps.actionTitle}
-              mode={primaryActionProps.mode}
-              onPress={primaryActionHandler}
-            />
-          )}
-        </View>
-      </View>
-    );
-  };
-
   return (
     <View>
       <Modal
@@ -80,23 +44,33 @@ const CustomModal = ({
         transparent={true}
         visible={open}
         onRequestClose={onClose}>
-        {blurView && (
-          <BlurView
-            blurType="light"
-            blurAmount={1}
-            reducedTransparencyFallbackColor={colors.grey[800]}
-            style={styles.blurView}>
-            {renderModal()}
-          </BlurView>
-        )}
-        {!blurView && renderModal()}
+        <View style={[stylesWeb.centeredView]}>
+          <View style={[stylesWeb.modalView, customModalPosition]}>
+            <View style={styles.titleView}>
+              <View style={styles.title}>{modalTitle}</View>
+              {closeAction && (
+                <TouchableWithoutFeedback
+                  style={styles.close}
+                  onPress={onClose}
+                  testID={closeTestId}>
+                  <CloseIcon width={32} height={32} />
+                </TouchableWithoutFeedback>
+              )}
+            </View>
+            {modalContent}
+            {primaryAction && (
+              <Button
+                testID={primaryActionProps.testID}
+                title={primaryActionProps.actionTitle}
+                mode={primaryActionProps.mode}
+                onPress={primaryActionHandler}
+              />
+            )}
+          </View>
+        </View>
       </Modal>
     </View>
   );
-};
-
-CustomModal.defaultProps = {
-  blurView: true,
 };
 
 CustomModal.propTypes = {
@@ -110,7 +84,7 @@ CustomModal.propTypes = {
   closeAction: PropTypes.bool,
   closeTestId: PropTypes.string,
   customModalPosition: PropTypes.object,
-  blurView: PropTypes.bool,
+  customModalView: PropTypes.object,
 };
 
 export default CustomModal;
