@@ -16,12 +16,8 @@ const getMock = axios => {
   mock.onGet('/api/Chemists').reply(200, userMock);
   mock.onGet(`${API_PATH.PATCH}/1`).reply(200, patchesMock.getPatches);
   mock.onGet('/deletePatch/1').reply(200, patchesMock.deletePatch);
-  mock
-    .onPost(`${API_PATH.PATCH}/1`, patchesMock.savePatch.request)
-    .reply(200, patchesMock.savePatch.response);
-  mock
-    .onPut(`${API_PATH.PATCH}/1`, patchesMock.savePatch.request)
-    .reply(200, patchesMock.savePatch.response);
+  mock.onPost(`${API_PATH.PATCH}/1`).reply(200, patchesMock.savePatch.response);
+  mock.onPut(`${API_PATH.PATCH}/1`).reply(200, patchesMock.savePatch.response);
   mock.onGet(`${API_PATH.AREA_BY_SPID}/1`).reply(200, areaList);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
@@ -29,14 +25,10 @@ const getMock = axios => {
     .onGet(`${API_PATH.PATCH}/1/parties`)
     .reply(200, patchesMock.getPartyByPatchId);
   mock
-    .onPost(`${API_PATH.PATCH}/validate/1`, patchesMock.validate.request)
+    .onPost(`${API_PATH.PATCH}/validate/1`)
     .reply(200, patchesMock.validate.response);
-  mock
-    .onPost(`${API_PATH.GET_PARTIES}`, partiesMock.getParties.request)
-    .reply(200, partiesMock.getParties.response);
-  mock
-    .onGet(`${API_PATH.GET_PARTIES}`)
-    .reply(200, partiesMock.getParties.response);
+  mock.onPost(API_PATH.GET_PARTIES).reply(200, partiesMock.getParties.response);
+  mock.onGet(API_PATH.GET_PARTIES).reply(200, partiesMock.getParties.response);
 };
 
 export default getMock;

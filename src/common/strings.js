@@ -54,6 +54,11 @@ const Strings = {
   patchAlreadyExists: '*The patch name entered already exist',
   already30PatchesCreated: '*Already 30 patches created',
   somethingWentWrong: 'Something went wrong. Please try again!',
+  confirmation: 'Confirmation',
+  patchUsedForOtherWeekDay:
+    'This patch is used for other Week>days. Do you want to make changes in all the days?',
+  yes: 'Yes',
+  no: 'No',
 };
 
 export default Strings;

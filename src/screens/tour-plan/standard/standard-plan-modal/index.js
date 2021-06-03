@@ -27,30 +27,9 @@ import {
   fetchPartiesByPatchIdCreator,
   standardTourPlanSelector,
   savePatchCreator,
+  standardPlanActions,
 } from '../redux';
-import {Toast} from 'components/widgets';
-
-const toastConfig = {
-  type: 'notification',
-  props: {
-    onPress: () => {
-      console.log('props press');
-    },
-    heading: 'Hello',
-    subHeading: 'This is some something',
-    actionLeftTitle: 'Yes',
-    actionRightTitle: 'No',
-  },
-  onShow: () => {
-    console.log('on show');
-  },
-  onHide: () => {
-    console.log('on hide');
-  },
-  onPress: () => {
-    console.log('on press');
-  },
-};
+import {showToast, hideToast} from 'components/widgets/Toast';
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -87,9 +66,7 @@ const StandardPlanModal = ({
   const [scrollOffset, setScrollOffset] = useState(0);
   const [isPatchedData, setIsPatchedData] = useState(false);
   const [patchEdited, setPatchEdited] = useState(false);
-  const [patchOverideNotification, setPatchOverideNotification] =
-    useState(false);
-
+  const weekNum = parseInt(week.split(' ')[1], 2);
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -98,7 +75,7 @@ const StandardPlanModal = ({
     handleSliderIndex(direction);
   };
 
-  const resetState = () => {
+  const resetState = useCallback(() => {
     setAreaSelected([]);
     setDoctorSelected([]);
     setIsPatchedData(false);
@@ -107,8 +84,9 @@ const StandardPlanModal = ({
     setPatchError();
     setPatchSelected();
     setPatchDefaultValue();
-    setPatchValue();
-  };
+    setPatchValue(null);
+    dispatch(standardPlanActions.resetPartiesByPatchID());
+  }, [dispatch]);
 
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
@@ -204,7 +182,6 @@ const StandardPlanModal = ({
         areaList.find(area => area.id === val),
       ]);
     }
-    setIsPatchedData(false);
     removeSelectedDoctorFromArea(val);
     setSelectedDoctorType(Strings.all);
   };
@@ -228,8 +205,6 @@ const StandardPlanModal = ({
         ),
       );
       if (doctorToRemove) {
-        // doctorToRemove.selected = false;
-        // doctorToRemove.selectedVistedFrequency = doctorToRemove.alreadyVisited;
         setDoctorSelected(
           doctorsSelected.filter(doc => doc !== doctorToRemove.id),
         );
@@ -299,11 +274,12 @@ const StandardPlanModal = ({
     [partiesList, selectedDoctorType],
   );
 
-  const validateSaveResponse = useCallback(() => {
+  const validateSaveResponse = useCallback(async () => {
     if (savePatchRes) {
       if (savePatchRes?.status === Constants.HTTP_OK) {
         console.log(savePatchRes);
-        navigation.navigate('TourPlan');
+        // navigation.navigate('TourPlan');
+        await resetState();
       } else if (savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED) {
         if (
           savePatchRes.details[0].code ===
@@ -319,10 +295,10 @@ const StandardPlanModal = ({
         setShowPatchError(true);
       }
     }
-  }, [savePatchRes, navigation]);
+  }, [savePatchRes, resetState]);
 
   const handleDonePress = async () => {
-    const weekNum = parseInt(week.split(' ')[1], 2);
+    // const weekNum = parseInt(week.split(' ')[1], 2);
     const obj = {
       displayName: patchSelected,
       defaultName: patchDefaultValue,
@@ -330,26 +306,48 @@ const StandardPlanModal = ({
       week: weekNum,
       weekDay,
       year: year,
-      patchId: patchValue?.id,
     };
 
-    const isPatchOfSameDay =
-      weekNum === patchValue.week &&
-      weekDay === patchValue.weekDay &&
-      year === patchValue.year;
+    const isPatchOfSameDay = isSameDayPatch(patchValue, weekNum, weekDay, year);
 
     if (!patchValue) {
       dispatch(savePatchCreator({obj, type: 'post', staffPositionid: 1}));
     } else if (patchValue && isPatchOfSameDay) {
-      //setPatchOverideNotification(true);
-      showOverrideNotificatoin();
-      //dispatch(savePatchCreator({obj, type: 'put', staffPositionid: 1}));
+      showOverrideNotificatoin(obj);
+    } else if (patchValue && !isPatchOfSameDay) {
+      dispatch(savePatchCreator({obj, type: 'post', staffPositionid: 1}));
     }
   };
 
-  const showOverrideNotificatoin = () => {
-    // console.log(Toast());
-    // Toast.getToastView({type: 'notificatoin'});
+  const showOverrideNotificatoin = obj => {
+    showToast({
+      type: Constants.TOAST_TYPES.NOTIFICATION,
+      autoHide: false,
+      props: {
+        onPress: () => {
+          hideToast();
+        },
+        onClose: () => hideToast(),
+        heading: Strings.confirmation,
+        subHeading: Strings.patchUsedForOtherWeekDay,
+        actionLeftTitle: Strings.yes,
+        actionRightTitle: Strings.no,
+        onPressLeftBtn: () => updatePatch(obj),
+        onPressRightBtn: () => {},
+      },
+      onHide: () => {},
+    });
+  };
+
+  const updatePatch = obj => {
+    dispatch(
+      savePatchCreator({
+        obj: {...obj, patchId: patchValue.id},
+        type: 'put',
+        staffPositionid: 1,
+      }),
+    );
+    hideToast();
   };
 
   const handlePartyByType = val => {
@@ -373,6 +371,9 @@ const StandardPlanModal = ({
     } else {
       setDoctorSelected([...doctorsSelected, id]);
     }
+    if (!isSameDayPatch(patchValue, weekNum, weekDay, year)) {
+      setIsPatchedData(false);
+    }
   };
 
   const handleAreaLeftArrow = () => {
@@ -395,8 +396,8 @@ const StandardPlanModal = ({
 
   const handleDropDownValue = useCallback(
     val => {
-      setIsPatchedData(true);
       if (val) {
+        setIsPatchedData(true);
         setPatchValue(val);
         setPatchSelected(val.value);
         setPatchDefaultValue(val.defaultName);
@@ -701,6 +702,10 @@ const {height} = Dimensions.get('window');
 
 const isAreaSelected = (area, areaList) => {
   return areaList.filter(val => val.id === area).length > 0;
+};
+
+const isSameDayPatch = (patch, week, day, year) => {
+  return week === patch?.week && day === patch?.weekDay && year === patch?.year;
 };
 
 const getPatchesDropdownData = patches => {
