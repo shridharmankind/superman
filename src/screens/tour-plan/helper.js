@@ -55,8 +55,8 @@ export const getTourPlanScheduleMonths = inputDate => {
 
 export const sortBasedOnCategory = (a, b) => {
   return (
-    CATEGORY_SORTING_ORDER.indexOf(a.category.toLowerCase()) -
-    CATEGORY_SORTING_ORDER.indexOf(b.category.toLowerCase())
+    CATEGORY_SORTING_ORDER.indexOf((a.category || '').toLowerCase()) -
+    CATEGORY_SORTING_ORDER.indexOf((b.category || '').toLowerCase())
   );
 };
 

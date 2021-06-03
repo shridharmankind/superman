@@ -1,147 +1,31 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, TouchableHighlight} from 'react-native';
-import {useTheme} from 'react-native-paper';
-import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
+import {View, Text} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
-import {Label, Modal, Button, DoctorDetails} from 'components/elements';
+import {Label, Modal, Button} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
 import {
   fetchDoctorDetailCreator,
   dailySelector,
-  deletePartyCreator,
 } from './redux';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {showToast, hideToast} from 'components/widgets/Toast';
-import {Constants} from 'common';
+import PartyList from 'screens/tourPlan/daily/doctorListing';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
-  const {colors} = useTheme();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [dayPlanData, setDayPlanData] = useState([]);
-
-  /**
-   * Function to close the swipe
-   * @param {Object} rowMap object containing mapping of rows
-   * @param {Object} rowKey object containing the swiped row and props
-   */
-  const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  };
-
-  /**
-   * Function to delete the swiped row
-   *@param {Object} rowMap object containing mapping of rows
-   * @param {Object} rowKey object containing the swiped row and props
-   * @param {Object} item daily plan object for a party
-   */
-  const deleteRow = (rowMap, rowKey, item) => {
-    let undoclicked = false;
-    showToast({
-      type: Constants.TOAST_TYPES.ALERT,
-      props: {
-        onPress: () => {
-          undoclicked = true;
-          hideToast();
-          closeRow(rowMap, rowKey);
-        },
-        heading: `${Strings.removed}!`,
-        subHeading: `${Strings.removedDoctor}`,
-        actionTitle: `${Strings.undo}`,
-      },
-      onHide: () => {
-        closeRow(rowMap, rowKey);
-
-        if (!undoclicked) {
-          dispatch(
-            deletePartyCreator({
-              staffPositionid: 3,
-              day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-              month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-              year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
-              partyId: item.id,
-            }),
-          );
-        }
-      },
-    });
-  };
 
   const onTileNameHandler = data => {
     navigation.navigate('Directory', {
       screen: 'DirectoryDoctorProfile',
       params: {data: data},
     });
-  };
-  /**
-   * Function to render parties list in swipe list view
-   * @param {Object} data party data
-   * @param {Object} rowMap object containing mapping of rows
-   */
-  const renderItem = (data, rowMap) => {
-    return (
-      <SwipeRow
-        disableRightSwipe={true}
-        leftOpenValue={20 + Math.random() * 150}
-        rightOpenValue={-90}>
-        <View style={styles.rowBack}>
-          <TouchableOpacity
-            style={[styles.backRightBtn, styles.backRightBtnRight]}
-            onPress={() => deleteRow(rowMap, data.item.id, data.item)}>
-            <View style={styles.closeLabel}>
-              <Label
-                title={'X'}
-                style={[
-                  styles.removeCardButtonText,
-                  styles.removeCardButtonClose,
-                ]}
-              />
-            </View>
-            <Label
-              title={Strings.removeFromToday}
-              style={styles.removeCardButtonText}
-            />
-          </TouchableOpacity>
-        </View>
-        <TouchableHighlight
-          onPress={() => console.log('click event')}
-          style={styles.rowFront}
-          underlayColor={colors.transparent}>
-          <View style={styles.doctorDetailWrapper}>
-            <View key={data.item.key} style={styles.doctorDetailContainer}>
-              <DoctorDetails
-                title={data.item.name}
-                specialization={data.item.specialization}
-                category={data.item.category}
-                location={data.item.location}
-                customStyle={doctorDetailStyleObject}
-                showFrequencyChiclet={false}
-                showVisitPlan={true}
-                visitData={data.item.visitData}
-                showTile={true}
-                onTileNamePress={() => {
-                  onTileNameHandler(data.item);
-                }}
-                onTilePress={() => {
-                  if (isWeb()) {
-                    setVisible(true);
-                    setItemPressed(data.index);
-                  }
-                }}
-              />
-            </View>
-          </View>
-        </TouchableHighlight>
-      </SwipeRow>
-    );
   };
 
   /**
@@ -169,20 +53,9 @@ const DailyTourPlan = () => {
     }
   }, [allDoctorDetail]);
 
-  const doctorDetailStyleObject = {
-    nameContainerCustom: styles.nameContainer,
-    specialization: styles.specialization,
-    divisionContainerCustom: styles.divisionContainer,
-    imageCustom: styles.image,
-    detailsContainerCustom: styles.detailsContainer,
-    titleSize: 21,
-    subTitleSize: 14,
-    divisionSize: 10,
-  };
-
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();
-  
+
   /**
    * formats current date
    * @returns formatted date
@@ -270,6 +143,16 @@ const DailyTourPlan = () => {
     );
   };
 
+  /**
+   * click event on tile to show modal to delete a party (in web only)
+   */
+  const onTilePressHandler = data => {
+    if (isWeb()) {
+      setVisible(true);
+      setItemPressed(data.index);
+    }
+  };
+
   return (
     <>
       <View style={styles.heading}>
@@ -281,7 +164,15 @@ const DailyTourPlan = () => {
         />
         {getVisitBifurcationLabel()}
       </View>
-      <SwipeListView data={dayPlanData} renderItem={renderItem} />
+      <PartyList
+
+        dayPlanData={dayPlanData}
+
+        onTileNamePress={onTileNameHandler}
+
+        onTilePress={onTilePressHandler}
+
+      />
       {pressTile()}
     </>
   );
