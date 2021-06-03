@@ -1,5 +1,3 @@
 {
-    "hello": "Hallo!",
-    "Good morning": "Goedemorgen",
-    "Currency": "EUR"
-   }
+    "goodMorning": "Goedemorgen"
+}
