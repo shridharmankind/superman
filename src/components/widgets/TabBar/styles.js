@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   tabBarContainer: {
     flexDirection: 'row',
-    width: 190,
+    width: theme.spacing(190),
   },
 });
 
