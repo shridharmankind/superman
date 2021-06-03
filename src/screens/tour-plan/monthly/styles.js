@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing(2),
   },
   mySelectedTourTextContainer: {
-    minWidth: theme.spacing(80),
-    width: theme.spacing(80),
+    minWidth: 80,
+    width: 80,
   },
   selectedTourText: {
     color: theme.colors.black,

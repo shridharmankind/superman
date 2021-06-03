@@ -7,9 +7,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   buttonTabBar: {
-    width: theme.spacing(165),
+    width: 165,
     marginHorizontal: theme.spacing(8),
-    height: theme.spacing(42),
+    height: 42,
   },
   buttonTabBarText: {
     fontSize: 12,
