@@ -9,6 +9,7 @@ import {deletePartyCreator} from '../redux';
 import {useDispatch} from 'react-redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
+import {CloseIcon} from 'assets';
 
 /**
  * render list of doctors
@@ -101,13 +102,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
             style={[styles.backRightBtn, styles.backRightBtnRight]}
             onPress={() => deleteRow(rowMap, data.item.id, data.item)}>
             <View style={styles.closeLabel}>
-              <Label
-                title={'X'}
-                style={[
-                  styles.removeCardButtonText,
-                  styles.removeCardButtonClose,
-                ]}
-              />
+              <CloseIcon width={32} height={32} fill={colors.white} />
             </View>
             <Label
               title={Strings.removeFromToday}
