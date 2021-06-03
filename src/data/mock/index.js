@@ -5,7 +5,7 @@ import patchesMock from './api/patches.json';
 import areaList from './api/areaList.json';
 import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
-import partiesMock from './api/parties.json';
+import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 const getMock = axios => {
   const mock = new MockAdapter(axios);
