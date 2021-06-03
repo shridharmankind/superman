@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import theme from 'themes';
 
 const styles = StyleSheet.create({
   tabContainer: {
@@ -6,9 +7,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   buttonTabBar: {
-    width: 165,
-    marginHorizontal: 8,
-    height: 42,
+    width: theme.spacing(165),
+    marginHorizontal: theme.spacing(8),
+    height: theme.spacing(42),
   },
   buttonTabBarText: {
     fontSize: 12,

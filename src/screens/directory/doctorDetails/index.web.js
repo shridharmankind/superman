@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
 import {Label, LabelVariant, Button} from 'components/elements';
-import {Bar} from 'react-native-progress';
 import themes from 'themes';
 import styles from './styles';
 import {ArrowBack, Birthday, Anniversary, ArrowUp} from 'assets';
@@ -9,18 +8,15 @@ import {Strings, Constants} from 'common';
 import {ContentWithSidePanel} from 'components/layouts';
 import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {useNavigation} from '@react-navigation/native';
 import theme from 'themes';
-
 /**
  * Custom doctor details component render after click on doctor list.
  * This serves the purpose to make the use of doctor details consistent throughtout the app
  * @param {Object} route route to navigate
  */
 
-const DoctorProfile = ({route}) => {
+const DoctorProfile = ({route, navigation}) => {
   const doctorData = route.params?.data || '';
-  const navigation = useNavigation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const data = [
     {
@@ -145,7 +141,13 @@ const DoctorProfile = ({route}) => {
               />
             </View>
             <View style={styles.progreesBar}>
-              <Bar progress={0.6} width={200} color={theme.colors.blue[200]} />
+              {/* {!isWeb() && (
+                <Bar
+                  progress={0.6}
+                  width={200}
+                  color={theme.colors.blue[200]}
+                />
+              )} */}
             </View>
             <View>
               <Label
