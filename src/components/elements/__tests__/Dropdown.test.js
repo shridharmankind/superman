@@ -10,7 +10,10 @@ const dropdownProps = {
   defaultLabel: 'label',
   valueSelected: valueSelectedHandler,
   testID: 'testID',
-  data: [{option: 'A', value: 1}],
+  data: [
+    {option: 'A', value: 1},
+    {option: 'B', value: 2},
+  ],
 };
 function renderComponent(props) {
   return withTheme(<Dropdown {...props} />);
