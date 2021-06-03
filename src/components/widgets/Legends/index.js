@@ -1,5 +1,5 @@
 import React from 'react';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from 'themes';
@@ -15,7 +15,11 @@ const LegendWrapper = props => {
     <View style={styles.legendsContainer} testID={testID}>
       {props.children}
       {style && <View style={style} />}
-      <Label style={[styles.contentBasicStyle]} title={title} size={14} />
+      <Label
+        variant={LabelVariant.label}
+        style={[styles.contentBasicStyle]}
+        title={title}
+      />
     </View>
   );
 };
@@ -26,7 +30,7 @@ const LegendWrapper = props => {
  */
 const renderKycVisit = () => (
   <LegendWrapper title={legends.kycDoctor}>
-    <Icon name={'star'} size={14} color={theme.colors.orange} />
+    <Icon name={'star'} size={14} color={theme.colors.orange[100]} />
   </LegendWrapper>
 );
 

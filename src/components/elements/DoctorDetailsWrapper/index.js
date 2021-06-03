@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -26,20 +26,42 @@ const DoctorDetailsWrapper = ({
   testID,
   id,
   onPress,
+  party,
+  isPatchedData,
   ...props
 }) => {
-  const [select, setSelect] = useState(selected);
+  //TO DO: not required - remove after team discusssion
+  const {frequency, alreadyVisited} = party;
 
+  const isDisabled = isPatchedData && party.frequency === party.alreadyVisited;
+
+  /**
+   *  Select and deselect the card ,also
+   *  update the frequency count
+   * @param {Boolean} sel
+   */
   const handleDoctorSelection = sel => {
-    setSelect(sel);
+    if (frequency === alreadyVisited) {
+      return;
+    }
+    // toggle if already selected
+    party.selected = !party.selected;
+    party.selected
+      ? (party.selectedVistedFrequency = alreadyVisited + 1)
+      : (party.selectedVistedFrequency = alreadyVisited); //TO DO :: update code after complete integration
+
     onPress(id);
   };
+  if (!isPatchedData && party.frequency === party.alreadyVisited) {
+    return null;
+  }
 
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(!select)}
-      style={styles.container}
+      onPress={() => handleDoctorSelection(id)}
+      style={[styles.container, isDisabled && styles.disabled]}
+      disabled={isDisabled}
       activeOpacity={1}>
       <DoctorDetails
         title={title}
@@ -47,7 +69,13 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={select}
+        isTicked={party?.selected || false}
+        selectedVistedFrequency={
+          party.selectedVistedFrequency
+            ? party.selectedVistedFrequency
+            : alreadyVisited
+        }
+        frequency={frequency}
         {...props}
       />
     </TouchableOpacity>

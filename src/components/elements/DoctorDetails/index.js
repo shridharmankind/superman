@@ -39,8 +39,25 @@ const DoctorDetails = ({
   isTicked,
   showTile,
   onTilePress,
+  alreadyVisited,
+  frequency,
+  selectedVistedFrequency,
   ...props
 }) => {
+  /**
+   *  Renders Visited or non visited frequency CHicklet
+   * @param {JSX} Component
+   * @param {Number} length
+   * @returns Component
+   */
+  const renderFrequencyChicklets = (Component, length) => {
+    let frequencyComp = [];
+    for (let i = 0; i < length; i++) {
+      frequencyComp.push(Component);
+    }
+    return frequencyComp;
+  };
+
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -101,18 +118,19 @@ const DoctorDetails = ({
             <Label
               style={styles.divisionText}
               title={category && category.toUpperCase()}
-              size={customStyle ? customStyle.divisionSize : 14}
+              size={customStyle ? customStyle.divisionSize : 9}
               type={'bold'}
             />
           </View>
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/avtar.png')}
+            source={require('../../../assets/images/avatar.png')}
           />
           <View style={styles.nameContainer}>
             <Label
               title={title}
-              size={customStyle ? customStyle.titleSize : 18}
+              size={customStyle ? customStyle.titleSize : 17}
+              type={'medium'}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
@@ -139,16 +157,21 @@ const DoctorDetails = ({
         </View>
         {showFrequencyChiclet && (
           <View style={styles.frequecyContainer}>
-            <Frequency visited={true} />
-            <Frequency />
-            <Frequency />
+            {renderFrequencyChicklets(
+              <Frequency visited />,
+              selectedVistedFrequency,
+            )}
+            {renderFrequencyChicklets(
+              <Frequency />,
+              frequency - selectedVistedFrequency,
+            )}
           </View>
         )}
         {isTicked && (
           <View style={styles.checkContainer}>
             <Icon
               name="check-circle"
-              size={32}
+              size={16}
               color={themes.colors.checkCircleBlue}
             />
           </View>
@@ -163,7 +186,7 @@ const DoctorDetails = ({
 const getDivisionColor = division => {
   switch (division && division.toLowerCase()) {
     case 'kyc':
-      return themes.colors.orange;
+      return themes.colors.orange[100];
     case 'a+':
       return themes.colors.darkBlue;
     case 'b':

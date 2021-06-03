@@ -13,7 +13,8 @@ import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
-import { setI18nConfig } from './locale'
+import {setI18nConfig} from './locale';
+import {Toast} from 'components/widgets';
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -21,7 +22,7 @@ const App = () => {
   LogBox.ignoreAllLogs();
   const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
-  setI18nConfig()
+  setI18nConfig();
   useEffect(() => {
     if (!isWeb()) {
       setTimeout(() => {
@@ -49,6 +50,7 @@ const App = () => {
             ))}
           </Stack.Navigator>
         </NavigationContainer>
+        <Toast />
       </PaperProvider>
     </Provider>
   );

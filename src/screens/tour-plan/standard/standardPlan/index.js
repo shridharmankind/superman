@@ -11,9 +11,8 @@ import styles from './styles';
 
 const StandardPlan = ({navigation, route}) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [totelIndex, setTotalIndex] = useState(
-    route.params.workingDays.length - 1,
-  );
+  const year = route.params.year;
+  const totelIndex = route.params.workingDays.length - 1;
   const swiperRef = useRef(null);
 
   const handleSlider = useCallback(
@@ -35,13 +34,15 @@ const StandardPlan = ({navigation, route}) => {
   };
 
   const renderStandardPlan = () => {
-    return route.params.workingDays.map(day => {
+    return route.params.workingDays.map((day, i) => {
       return (
-        <View style={{width: width}}>
+        <View style={{width: width}} key={i}>
           <StandardPlanModal
             handleSliderIndex={handleSlider}
             navigation={navigation}
-            weekTitle={`${route.params.header} - ${day}`}
+            week={route.params.header}
+            weekDay={day}
+            year={year}
           />
         </View>
       );

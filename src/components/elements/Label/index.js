@@ -4,6 +4,12 @@ import {Text} from 'react-native';
 import theme from 'themes';
 import styles from './styles';
 
+/** typography types */
+export const LabelVariant = Object.entries(theme.typography).reduce(
+  (acc, item) => Object.assign(acc, {[item[0]]: item[0]}),
+  {},
+);
+
 /**
  * Label component using Text from react-native.
  * This serves the purpose to make the use of text consistent throughtout the app
@@ -21,17 +27,18 @@ const Label = ({
   textColor = theme.colors.grey[200],
   isUpperCase = false,
   type,
+  variant,
   ...props
 }) => {
   return (
     <Text
       testID={testID}
       style={[
-        {
-          fontFamily: getFontFamily(type),
-          fontSize: size,
-          color: textColor,
-        },
+        size && {fontSize: size},
+        type && {fontFamily: getFontFamily(type)},
+
+        variant && {...theme.typography[variant]},
+        textColor && {color: textColor},
         isUpperCase && styles.upperCase,
         style,
       ]}
@@ -49,15 +56,16 @@ const getFontFamily = type => {
       return theme.fonts.fontRegular;
     case 'semiBold':
       return theme.fonts.fontSemiBold;
+    case 'medium':
+      return theme.fonts.fontMedium;
     default:
       return theme.fonts.fontRegular;
   }
 };
 Label.propTypes = {
-  type: PropTypes.oneOf(['bold', 'regular', 'semiBold']),
+  type: PropTypes.oneOf(['bold', 'regular', 'semiBold', 'medium']),
   title: PropTypes.any,
   size: PropTypes.number,
   testID: PropTypes.string,
 };
-
 export default Label;

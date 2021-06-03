@@ -4,6 +4,7 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
+    overflow: 'hidden',
   },
   modalView: {
     backgroundColor: theme.colors.white,
@@ -34,6 +35,15 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontFamily: theme.fonts.fontRegular,
+  },
+  blurView: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    justifyContent: 'center',
+    padding: 20,
   },
 });
 
