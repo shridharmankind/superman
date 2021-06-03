@@ -55,7 +55,7 @@ const DoctorDetails = ({
   const renderFrequencyChicklets = (Component, length) => {
     let frequencyComp = [];
     for (let i = 0; i < length; i++) {
-      frequencyComp.push(Component);
+      frequencyComp.push(<React.Fragment key={i}>{Component}</React.Fragment>);
     }
     return frequencyComp;
   };
