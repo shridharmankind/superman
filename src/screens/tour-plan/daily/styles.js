@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: theme.spacing(32),
     paddingVertical: theme.spacing(20),
-    borderColor: theme.colors.grey[500],
+    borderColor: theme.colors.grey[400],
     borderRadius: 10,
     borderWidth: 1,
     width: '100%',

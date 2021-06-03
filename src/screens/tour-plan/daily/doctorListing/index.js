@@ -59,6 +59,10 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           hideToast();
           closeRow(rowMap, rowKey);
         },
+        onClose: () => {
+          hideToast();
+          closeRow(rowMap, rowKey);
+        },
         heading: `${Strings.removed}!`,
         subHeading: `${Strings.removedDoctor}`,
         actionTitle: `${Strings.undo}`,
