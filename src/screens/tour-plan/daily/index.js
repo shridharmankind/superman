@@ -14,6 +14,7 @@ import {
   deletePartyCreator,
 } from './redux';
 import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 /**
@@ -22,6 +23,7 @@ import {Constants} from 'common';
 const DailyTourPlan = () => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [dayPlanData, setDayPlanData] = useState([]);
 
   /**
@@ -73,6 +75,12 @@ const DailyTourPlan = () => {
     });
   };
 
+  const onTileNameHandler = data => {
+    navigation.navigate('Directory', {
+      screen: 'DirectoryDoctorProfile',
+      params: {data: data},
+    });
+  };
   /**
    * Function to render parties list in swipe list view
    * @param {Object} data party data
@@ -119,6 +127,9 @@ const DailyTourPlan = () => {
                 showVisitPlan={true}
                 visitData={data.item.visitData}
                 showTile={true}
+                onTileNamePress={() => {
+                  onTileNameHandler(data.item);
+                }}
                 onTilePress={() => {
                   if (isWeb()) {
                     setVisible(true);
