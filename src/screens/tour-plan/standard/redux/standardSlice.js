@@ -11,12 +11,6 @@ export const standardTourPlan = {
   partyByPatchID: null,
 };
 
-/**
- *  redux-saga actions
- */
-// export const getStandardPlanCreator = createAction('GET_STANDARDPLAN');
-// export const getStandardPlanTypeName = getStandardPlanCreator().type;
-
 // Action Creator and type for Parties
 export const fetchPartiesCreator = createAction('PARTIES_CREATOR');
 export const fetchPartiesCreatorType = fetchPartiesCreator().type;
@@ -63,7 +57,9 @@ export const getStandardPlanSlice = createSlice({
       return merge(state, action.payload);
     },
     resetPartiesByPatchID: state => {
+      console.log(state.partyByPatchID);
       state.partyByPatchID = null;
+      console.log('íd', state.partyByPatchID);
     },
   },
 });

@@ -41,13 +41,13 @@ export function* savePatchWatcher() {
  * worker function to send the api call to get all parties list
  */
 export function* fetchPartiesWorker(action) {
-  const {staffPositionid} = action.payload;
+  const {staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.PARTY_BY_SPID}/${staffPositionid}`,
+      `${API_PATH.PARTY_BY_SPID}/${staffPositionId}`,
     );
     yield put(
       standardPlanActions.getParties({
@@ -66,13 +66,13 @@ export function* fetchPartiesWorker(action) {
  */
 
 export function* fetchAreasWorker(action) {
-  const {staffPositionid} = action.payload;
+  const {staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.AREA_BY_SPID}/${staffPositionid}`,
+      `${API_PATH.AREA_BY_SPID}/${staffPositionId}`,
     );
     yield put(
       standardPlanActions.getAreas({
@@ -91,13 +91,13 @@ export function* fetchAreasWorker(action) {
  */
 
 export function* fetchPatchesWorker(action) {
-  const {staffPositionid} = action.payload;
+  const {staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.PATCH}/${staffPositionid}`,
+      `${API_PATH.PATCH}/${staffPositionId}`,
     );
     yield put(
       standardPlanActions.getPatches({
@@ -137,7 +137,7 @@ export function* fetchPartiesByPatchIdWorker(action) {
 }
 
 export function* savePatchWorker(action) {
-  const {obj, type, staffPositionid} = action.payload;
+  const {obj, type, staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   const callType = type === 'post' ? NetworkService.post : NetworkService.put;
@@ -145,7 +145,7 @@ export function* savePatchWorker(action) {
   try {
     const response = yield call(
       callType,
-      `${API_PATH.PATCH}/${staffPositionid}`,
+      `${API_PATH.PATCH}/${staffPositionId}`,
       obj,
     );
     yield put(

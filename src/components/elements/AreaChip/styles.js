@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import themes from 'themes';
 
 const styles = StyleSheet.create({
   chipContainer: {
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     height: 42,
   },
   chip: {
-    paddingHorizontal: 24,
+    paddingHorizontal: themes.spacing(24), //24,
     paddingVertical: 7,
   },
 });

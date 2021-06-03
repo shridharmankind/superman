@@ -14,6 +14,7 @@ const StandardPlan = ({navigation, route}) => {
   const totalIndex = route.params.workingDays.length - 1;
   const [showLeftSwiper, setShowLeftSwiper] = useState(true);
   const [showRightSwiper, setShowRightSwiper] = useState(true);
+  const [visitedDays, setVisitedDays] = useState([route.params.row]);
   const year = route.params.year;
   const swiperRef = useRef(null);
 
@@ -31,9 +32,21 @@ const StandardPlan = ({navigation, route}) => {
         setShowRightSwiper(index !== totalIndex);
       }
       setActiveIndex(index);
+      visitedDayIndex(index);
       swiperRef.current.scrollToIndex({index});
     },
-    [activeIndex, totalIndex, swiperRef],
+    [activeIndex, totalIndex, swiperRef, visitedDayIndex],
+  );
+
+  const visitedDayIndex = useCallback(
+    i => {
+      const day = route.params.workingDays[i];
+      const index = visitedDays.some(day => day === i);
+      if (!index) {
+        setVisitedDays([...visitedDays, day]);
+      }
+    },
+    [visitedDays, route.params.workingDays],
   );
 
   const getIndexOfDay = () => {
@@ -43,14 +56,16 @@ const StandardPlan = ({navigation, route}) => {
   const renderStandardPlan = () => {
     return route.params.workingDays.map((day, i) => {
       return (
-        <View style={{width: width}} key={i}>
-          <StandardPlanModal
-            handleSliderIndex={handleSlider}
-            navigation={navigation}
-            week={route.params.header}
-            weekDay={day}
-            year={year}
-          />
+        <View style={{width: width}} key={day}>
+          {visitedDays.indexOf(day) !== -1 && (
+            <StandardPlanModal
+              handleSliderIndex={handleSlider}
+              navigation={navigation}
+              week={route.params.header}
+              weekDay={day}
+              year={year}
+            />
+          )}
         </View>
       );
     });
@@ -69,6 +84,7 @@ const StandardPlan = ({navigation, route}) => {
         showPagination
         renderAll={false}
         index={getIndexOfDay()}
+        onChangeIndex={({index}) => visitedDayIndex(index)}
         paginationStyleItemActive={styles.activePaginationItem}
         paginationStyleItem={styles.paginationItem}
         paginationStyle={styles.paginationStyle}>

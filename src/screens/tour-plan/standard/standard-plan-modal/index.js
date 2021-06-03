@@ -67,15 +67,19 @@ const StandardPlanModal = ({
   const [isPatchedData, setIsPatchedData] = useState(false);
   const [patchEdited, setPatchEdited] = useState(false);
   const weekNum = parseInt(week.split(' ')[1], 2);
+  const staffPositionId = 1;
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
-  const handleIndex = async direction => {
+  const handleIndex = direction => {
+    if (!patchSelected) {
+      resetState();
+    }
     handleSliderIndex(direction);
   };
 
-  const resetState = useCallback(() => {
+  const resetState = async () => {
     setAreaSelected([]);
     setDoctorSelected([]);
     setIsPatchedData(false);
@@ -85,8 +89,8 @@ const StandardPlanModal = ({
     setPatchSelected();
     setPatchDefaultValue();
     setPatchValue(null);
-    dispatch(standardPlanActions.resetPartiesByPatchID());
-  }, [dispatch]);
+    await dispatch(standardPlanActions.resetPartiesByPatchID());
+  };
 
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
@@ -96,17 +100,17 @@ const StandardPlanModal = ({
   useEffect(() => {
     dispatch(
       fetchPartiesCreator({
-        staffPositionid: 1,
+        staffPositionId,
       }),
     );
     dispatch(
       fetchAreasCreator({
-        staffPositionid: 1,
+        staffPositionId,
       }),
     );
     dispatch(
       fetchPatchesCreator({
-        staffPositionid: 1,
+        staffPositionId,
       }),
     );
   }, [dispatch]);
@@ -134,6 +138,7 @@ const StandardPlanModal = ({
 
   useEffect(() => {
     if (allPartiesByPatchID) {
+      console.log(allPartiesByPatchID);
       setDoctorSelected(allPartiesByPatchID.partyIds);
       getSelectedArea(allPartiesByPatchID.partyIds);
     }
@@ -276,11 +281,10 @@ const StandardPlanModal = ({
   const validateSaveResponse = useCallback(async () => {
     if (savePatchRes) {
       if (savePatchRes?.status === Constants.HTTP_OK) {
-        console.log(savePatchRes);
-        await resetState();
+        //await resetState();
       } else if (savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED) {
         if (
-          savePatchRes.details[0].code ===
+          savePatchRes?.details[0]?.code ===
           Constants.HTTP_PATCH_CODE.ALREADY_EXITS
         ) {
           setPatchError(Strings.patchAlreadyExists);
@@ -293,7 +297,7 @@ const StandardPlanModal = ({
         setShowPatchError(true);
       }
     }
-  }, [savePatchRes, resetState]);
+  }, [savePatchRes]);
 
   const handleDonePress = async () => {
     const obj = {
@@ -308,11 +312,11 @@ const StandardPlanModal = ({
     const isPatchOfSameDay = isSameDayPatch(patchValue, weekNum, weekDay, year);
 
     if (!patchValue) {
-      dispatch(savePatchCreator({obj, type: 'post', staffPositionid: 1}));
+      dispatch(savePatchCreator({obj, type: 'post', staffPositionId}));
     } else if (patchValue && isPatchOfSameDay) {
       showOverrideNotificatoin(obj);
     } else if (patchValue && !isPatchOfSameDay) {
-      dispatch(savePatchCreator({obj, type: 'post', staffPositionid: 1}));
+      dispatch(savePatchCreator({obj, type: 'post', staffPositionId}));
     }
   };
 
@@ -341,7 +345,7 @@ const StandardPlanModal = ({
       savePatchCreator({
         obj: {...obj, patchId: patchValue.id},
         type: 'put',
-        staffPositionid: 1,
+        staffPositionId,
       }),
     );
     hideToast();
@@ -479,7 +483,8 @@ const StandardPlanModal = ({
         <View>
           <Label title={Strings.selectDoctorAndChemist} size={18.7} />
           <View style={styles.week}>
-            <TouchableOpacity onPress={() => handleIndex('left')}>
+            <TouchableOpacity
+              onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
               <Icon iconStyle={styles.weekArrow} name="angle-left" size={24} />
             </TouchableOpacity>
             <Label
@@ -488,7 +493,8 @@ const StandardPlanModal = ({
               size={18.7}
               type={'bold'}
             />
-            <TouchableOpacity onPress={() => handleIndex('right')}>
+            <TouchableOpacity
+              onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
               <Icon iconStyle={styles.weekArrow} name="angle-right" size={24} />
             </TouchableOpacity>
           </View>

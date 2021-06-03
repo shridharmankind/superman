@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   swipe: {
     position: 'absolute',
-    padding: 15,
+    padding: themes.spacing(15),
     backgroundColor: themes.colors.white,
     height: height / 1.5,
     alignItems: 'center',
