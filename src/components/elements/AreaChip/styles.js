@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     height: 42,
   },
   chip: {
-    paddingHorizontal: themes.spacing(24), //24,
-    paddingVertical: 7,
+    paddingHorizontal: themes.spacing(24),
+    paddingVertical: themes.spacing(7),
   },
 });
 
