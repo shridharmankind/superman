@@ -9,7 +9,6 @@ import {Strings, Constants} from 'common';
 import {ContentWithSidePanel} from 'components/layouts';
 import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {useNavigation} from '@react-navigation/native';
 import theme from 'themes';
 
 /**
@@ -18,9 +17,8 @@ import theme from 'themes';
  * @param {Object} route route to navigate
  */
 
-const DoctorProfile = ({route}) => {
+const DoctorProfile = ({route, navigation}) => {
   const doctorData = route.params?.data || '';
-  const navigation = useNavigation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const data = [
     {
