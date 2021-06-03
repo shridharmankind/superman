@@ -3,15 +3,15 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   toastStyleBase: {
-    minHeight: 100,
-    maxWidth: 300,
-    minWidth: 300,
+    minHeight: theme.spacing(100),
+    maxWidth: theme.spacing(300),
+    minWidth: theme.spacing(300),
     borderRadius: 13,
     backgroundColor: theme.colors.grey[700],
     justifyContent: 'flex-start',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 10,
+    paddingHorizontal: theme.spacing(16),
+    paddingTop: theme.spacing(16),
+    paddingBottom: theme.spacing(10),
     position: 'relative',
   },
   toastText: {
@@ -27,9 +27,9 @@ const styles = StyleSheet.create({
   standard: {backgroundColor: theme.colors.grey[700]},
   confirm: {backgroundColor: theme.colors.yellow[200]},
   button: {
-    height: 20,
+    height: theme.spacing(20),
     alignItems: 'flex-start',
-    paddingTop: 4,
+    paddingTop: theme.spacing(4),
   },
   buttonText: {
     color: theme.colors.white,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   closeIcon: {
     width: 32,
     height: 32,
-    borderRadius: 26,
+    borderRadius: theme.spacing(26),
     backgroundColor: theme.colors.white,
     shadowColor: theme.colors.black,
     shadowOffset: {

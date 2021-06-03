@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     backgroundColor: 'rgba(100,100,100, 0.7)',
-    padding: 20,
+    padding: theme.spacing(20),
   },
   modalView: {
     backgroundColor: theme.colors.white,
@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: 500,
-    height: 500,
+    width: theme.spacing(500),
+    height: theme.spacing(500),
   },
 });
 
