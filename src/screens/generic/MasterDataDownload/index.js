@@ -73,11 +73,13 @@ const MasterDataDownload = ({navigation}) => {
                 JSON.parse(data),
               );
             }
+            console.log("working")
             await Operations.updateRecord(
               Schemas.masterTablesDownLoadStatus,
               downloadStatus.DOWNLOADED,
               item.name,
             );
+            console.log("working 1")
           } else {
             console.log('error', response);
           }

@@ -24,7 +24,6 @@ export const get = async (url, params = {}) => {
     headers: {Authorization: `Bearer ${accessToken}`},
     params,
   };
-
   return client(config)
     .then(function (response) {
       // handle success

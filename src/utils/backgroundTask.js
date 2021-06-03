@@ -1,8 +1,10 @@
 import * as BackgroundFetch from "expo-background-fetch"
 import * as TaskManager from "expo-task-manager";
 import AsyncStorage from '@react-native-community/async-storage';
-import axios from "axios";
 import {fetchPreviouslyUpdatedData } from './../database/realmTransactions/partyTableTransaction';
+import {KeyChain} from 'helper';
+
+
 export const TASK_NAME = "BACKGROUND_TASK";
 export const syncInterval = 60; // 1 minute
 export const syncFlexTime = 15; // 15 seconds
@@ -25,41 +27,42 @@ export const setExitAsyncStorage = async () => {
 
 TaskManager.defineTask(TASK_NAME, async () => {
     try {
+      const accessToken = await KeyChain.getAccessToken();  
       const getCurrentAsyncStorage = await AsyncStorage.getItem("BACKGROUND_TASK");
+      console.log("[SYNC ACTIVITY] STARTED");
       console.log("[BACKGROUND_TASK] :  ",getCurrentAsyncStorage);
-      if(getCurrentAsyncStorage === 'NOT_RUNNING'){
+      if(accessToken && getCurrentAsyncStorage === 'NOT_RUNNING'){
         await setWorkingAsyncStorage();
-              // fetch data here...
-        const receivedNewData = "Simulated fetch " + Math.random()
-        console.log("[BACKGROUND_TASK] : Timing ", receivedNewData)
         await runTask();
-        const newData =  receivedNewData
-            ? BackgroundFetch.Result.NewData
-            : BackgroundFetch.Result.NoData
         await setExitAsyncStorage();
       }
       else{
-          console.log("Its already working");
+          console.log("[BACKGROUND_TASK] : ANOTHER_TASK_IS_RUNNING");
       }
     } catch (err) {
       console.log("err -- ",err);
       return BackgroundFetch.Result.Failed
     }
-})
+});
+
+export const TestTask = async () => {
+    const accessToken = await KeyChain.getAccessToken();
+    const getCurrentAsyncStorage = await AsyncStorage.getItem("BACKGROUND_TASK");
+    console.log("[FOREGROUND_TASK] ",getCurrentAsyncStorage);
+    if(accessToken && getCurrentAsyncStorage === 'NOT_RUNNING'){
+      await setWorkingAsyncStorage();
+      await runTask();
+      await setExitAsyncStorage();
+    }
+    else{
+      console.log("[FOREGROUND_TASK] : WILL_NOT_WORK");
+    }
+};
 
 
 
 export const runTask = async () => {
-    // const responseResult = await axios.get('https://api.github.com/users/mapbox')
-    // .then(async (response) => {
-    //     console.log("First API Successfully Fetched ");
-    //     return response;
-    // })
-    // .catch(err => {
-    //     console.log(err);
-    // });
-    // return responseResult;
-    console.log("RUn task running");
-    return await fetchPreviouslyUpdatedData();
+    await fetchPreviouslyUpdatedData();
+    console.log("[SYNC ACTIVITY] COMPLETED");
 }
 

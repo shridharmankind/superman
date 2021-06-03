@@ -13,7 +13,10 @@ const syncFlexTime = 15; // 15 seconds
 const HomeLanding = ({navigation}) => {
 
   useEffect(() => {
-    
+    SyncAdapter.syncImmediately({
+      syncInterval,
+      syncFlexTime,
+    });
   },[]);
 
   const onSyncPress = () => {

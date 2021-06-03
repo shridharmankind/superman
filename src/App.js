@@ -16,11 +16,9 @@ import {isWeb} from 'helper';
 import {Toast} from 'components/widgets';
 import SyncAdapter from 'react-native-sync-adapter';
 import {TASK_NAME,syncFlexTime,syncInterval} from './utils/backgroundTask';
-import * as BackgroundFetch from "expo-background-fetch"
-import * as TaskManager from "expo-task-manager";
+import * as BackgroundFetch from "expo-background-fetch";
 import AsyncStorage from '@react-native-community/async-storage';
-import {userActions} from './database/realm/index';
-
+import {KeyChain} from 'helper';
 
 BackgroundFetch.setMinimumIntervalAsync(60);
 
@@ -39,8 +37,6 @@ const App = () => {
           SplashScreen.hide();
         });
       }, 2000);
-      //saveUserAndFetchFromRealm();
-      AsyncStorage.setItem("BACKGROUND_TASK","NOT_RUNNING");
       syncBackgroundTaskOnStart();
       RegisterBackgroundTask();
     }
@@ -52,34 +48,19 @@ const App = () => {
   
   }, []);
 
-  const saveUserAndFetchFromRealm = () => {
-    userActions.saveUser({
-      userId: 1,
-      userName: 'Vinod Chauhan',
-      address: 'Patiala, Punjab',
-      userImageAddress: 'http:///blahhh',
-    });
-    const userDetails = userActions.retrieveAllUser();
-    console.log('userDetails', userDetails);
-  }
-
   const syncBackgroundTaskOnStart = () => {
-    SyncAdapter.syncImmediately({
+    SyncAdapter.init({
       syncInterval,
       syncFlexTime,
     });
-    // SyncAdapter.init({
-    //   syncInterval,
-    //   syncFlexTime,
-    // });
   }
 
   const RegisterBackgroundTask = async () => {
     try {
+      await AsyncStorage.setItem("BACKGROUND_TASK","NOT_RUNNING");
       await BackgroundFetch.registerTaskAsync(TASK_NAME, {
-        minimumInterval: 5, // seconds,
+        minimumInterval: 30, // seconds,
       })
-      console.log("Task registered")
     } catch (err) {
       console.log("Task Register failed:", err)
     }

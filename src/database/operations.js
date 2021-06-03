@@ -75,6 +75,7 @@ export const getRecord = async (schema, recordId) => {
   await openSchema();
   try {
     const record = await realm.objectForPrimaryKey(schema.name, recordId);
+    console.log("Record found");
     return record;
   } catch (error) {
     console.log('getRecord', error);
@@ -100,7 +101,7 @@ export const getAllRecord = async schema => {
   try {
     await openSchema();
     const records = await realm.objects(schema.name);
-    console.log('success', records);
+    //console.log('success', records);
     return records;
   } catch (error) {
     console.log('getAllRecord', error);
@@ -137,7 +138,6 @@ export const createUserInfoRecord = async (schema, data) => {
 
 export const createPartyMasterRecord = async (schema, data) => {
   try {
-    console.log("Started wokring 1");
     await openSchema();
     let specialization, area, qualification;
     await realm.write(() => {
@@ -152,6 +152,17 @@ export const createPartyMasterRecord = async (schema, data) => {
             category: object.category,
             potential: object.potential,
             isKyc: object.isKyc,
+            device_party_id: null,
+            isActive: true,
+            requireSync: false,
+            lastModifiedOn: new Date().formatUTC(),
+            isDelete: false,
+            errorInSync: false,
+            errorDetails: {
+              errorCode: 'null',
+              message: 'null'
+            },
+            
           },
           true,
         );

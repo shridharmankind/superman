@@ -41,6 +41,15 @@ export const staffPositions = {
   primaryKey: 'id',
 };
 
+export const errorDetails = {
+  name: 'ERROR_DETAILS',
+  embedded: true,
+  properties: {
+    errorCode: 'string',
+    message: 'string'
+  }
+};
+
 export const partyMaster = {
   name: Constants.MASTER_TABLE_PARTY,
   properties: {
@@ -51,10 +60,17 @@ export const partyMaster = {
     category: 'string',
     potential: 'float',
     isKyc: 'bool',
-    areas: [{
+    device_party_id: 'string',
+    isActive: 'bool',
+    requireSync: 'bool',
+    lastModifiedOn: 'string',
+    isDelete: 'bool',
+    errorInSync: 'bool',
+    errorDetails: errorDetails,
+    areas: {
       type: 'list',
       objectType: Constants.MASTER_TABLE_AREAS,
-    }],
+    },
     specialities: {
       type: 'list',
       objectType: Constants.MASTER_TABLE_SPECIALITY,
