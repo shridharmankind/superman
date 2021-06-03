@@ -2,11 +2,13 @@ import {Login, Dashboard, MasterDataDownload} from 'screens/generic';
 import {StandardPlan} from 'screens/tourPlan';
 
 import ROUTES_HOME_ROOT from 'screens/home/routes';
+import DoctorFeedback from '../screens/directory/doctorDetails/doctorFeedback';
 
 export const ROUTE_LOGIN = 'Login';
 export const ROUTE_MASTER_DATA_DOWNLOAD = 'MasterDataDownload';
 export const ROUTE_DASHBOARD = 'Dashboard';
 export const ROUTE_STANDARD_PLAN = 'StandardPlan';
+export const ROUTE_DCR = 'DoctorFeedback';
 
 const ROUTES = [
   {
@@ -24,6 +26,10 @@ const ROUTES = [
   {
     name: ROUTE_STANDARD_PLAN,
     component: StandardPlan,
+  },
+  {
+    name: ROUTE_DCR,
+    component: DoctorFeedback,
   },
   ...ROUTES_HOME_ROOT,
 ];
