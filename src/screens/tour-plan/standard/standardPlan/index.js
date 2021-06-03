@@ -3,6 +3,7 @@ import {View, Dimensions, TouchableOpacity} from 'react-native';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
 import styles from './styles';
+import {Constants} from 'common';
 
 /**
  * Standard Plan screen component for daily standard plan.
@@ -21,7 +22,7 @@ const StandardPlan = ({navigation, route}) => {
   const handleSlider = useCallback(
     direction => {
       let index = activeIndex;
-      if (direction === 'left') {
+      if (direction === Constants.DIRECTION.LEFT) {
         index = index !== 0 ? activeIndex - 1 : activeIndex;
         setShowLeftSwiper(!(index === 0));
         setShowRightSwiper(true);
@@ -76,7 +77,7 @@ const StandardPlan = ({navigation, route}) => {
       {showLeftSwiper && (
         <TouchableOpacity
           style={[styles.swipe, styles.leftSwipe]}
-          onPress={() => handleSlider('left')}
+          onPress={() => handleSlider(Constants.DIRECTION.LEFT)}
         />
       )}
       <SwiperFlatList
@@ -93,7 +94,7 @@ const StandardPlan = ({navigation, route}) => {
       {showRightSwiper && (
         <TouchableOpacity
           style={[styles.swipe, styles.rightSwipe]}
-          onPress={() => handleSlider('right')}
+          onPress={() => handleSlider(Constants.DIRECTION.RIGHT)}
         />
       )}
     </>
