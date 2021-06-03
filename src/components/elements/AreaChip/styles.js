@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import themes from 'themes';
 
 const styles = StyleSheet.create({
   chipContainer: {
@@ -7,10 +8,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 1000,
+    height: 42,
   },
   chip: {
-    paddingHorizontal: 24,
-    paddingVertical: 11,
+    paddingHorizontal: themes.spacing(24),
+    paddingVertical: themes.spacing(7),
   },
 });
 

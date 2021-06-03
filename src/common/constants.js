@@ -15,6 +15,11 @@ export const HTTP_PATCH_CODE = {
   ALREADY_EXITS: '103',
 };
 
+export const DIRECTION = {
+  LEFT: 'left',
+  RIGHT: 'right',
+};
+
 export const DIVISION_COLOR = {
   KYC: 'kyc',
   A_PLUS: 'a+',

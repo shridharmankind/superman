@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     borderRadius: 10,
     position: 'absolute',
-    top: 65,
+    top: 50,
     width: '100%',
     backgroundColor: themes.colors.white,
     zIndex: 2,
@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
   selectContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderColor: themes.colors.grey[100],
+    borderColor: themes.colors.primary,
     backgroundColor: 'transparent',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    height: 60,
+    borderRadius: 7,
+    paddingHorizontal: 15,
+    height: 40,
   },
   pickerLabel: {
     paddingVertical: 5,
@@ -45,6 +45,10 @@ const styles = StyleSheet.create({
     borderBottomColor: themes.colors.grey[300],
     borderBottomWidth: 1,
   },
+  noBorder: {
+    borderBottomWidth: 0,
+  },
+  sortDown: {marginTop: -10},
 });
 
 export default styles;
