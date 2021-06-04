@@ -9,6 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Strings} from 'common';
+import {NetworkService} from 'services';
 import {Label} from 'components/elements';
 import themes from 'themes';
 import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
@@ -61,7 +62,7 @@ const MasterDataDownload = ({navigation}) => {
           console.log("level 1");
           const response = await NetworkService.get(item.apiPath);
           console.log("level 2");
-          if (response.status === Constants.HTTP_OK) {
+          if (response.status === DBConstants.HTTP_OK) {
             const data = await JSON.stringify(response.data);
             console.log("data -- ",data);
             if (item.name === DBConstants.MASTER_TABLE_USER_INFO) {
