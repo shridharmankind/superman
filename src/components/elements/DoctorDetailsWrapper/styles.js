@@ -15,8 +15,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 14,
     flex: 1,
-    minWidth: '48%',
-    maxWidth: '48%',
+    width: '48%',
     marginRight: 20,
     zIndex: 1,
   },
@@ -61,6 +60,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: theme.colors.disabled,
+    opacity: 0.3,
   },
 });
 

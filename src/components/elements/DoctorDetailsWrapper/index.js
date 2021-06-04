@@ -33,7 +33,7 @@ const DoctorDetailsWrapper = ({
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
 
-  const isDisabled = isPatchedData && party.frequency === party.alreadyVisited;
+  const isDisabled = isPatchedData && frequency === alreadyVisited;
 
   /**
    *  Select and deselect the card ,also
@@ -44,22 +44,17 @@ const DoctorDetailsWrapper = ({
     if (frequency === alreadyVisited) {
       return;
     }
-    // toggle if already selected
-    party.selected = !party.selected;
-    party.selected
-      ? (party.selectedVistedFrequency = alreadyVisited + 1)
-      : (party.selectedVistedFrequency = alreadyVisited); //TO DO :: update code after complete integration
-
     onPress(id);
   };
-  if (!isPatchedData && party.frequency === party.alreadyVisited) {
+
+  if (!isPatchedData && frequency === alreadyVisited) {
     return null;
   }
 
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(id)}
+      onPress={() => handleDoctorSelection(party)}
       style={[styles.container, isDisabled && styles.disabled]}
       disabled={isDisabled}
       activeOpacity={1}>
@@ -69,12 +64,8 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={party?.selected || false}
-        selectedVistedFrequency={
-          party.selectedVistedFrequency
-            ? party.selectedVistedFrequency
-            : alreadyVisited
-        }
+        isTicked={selected || false}
+        selectedVistedFrequency={selected ? alreadyVisited + 1 : alreadyVisited}
         frequency={frequency}
         {...props}
       />

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leftContent: {
-    flex: 0.9,
+    flex: 0.8,
     flexDirection: 'column',
     paddingBottom: 40,
   },
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   doctorDetailsHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     paddingBottom: 20,
     borderBottomColor: themes.colors.grey[100],
     borderBottomWidth: 1,
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   swiperArrow: {
+    backgroundColor: themes.colors.white,
     borderColor: themes.colors.blue,
     borderWidth: 1,
     borderRadius: 1000,
@@ -93,16 +94,15 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     zIndex: 1,
+    top: 7,
   },
   leftArrow: {
     position: 'absolute',
-    left: 5,
-    top: 15,
+    left: 0,
   },
   rightArrow: {
     position: 'absolute',
-    right: 5,
-    top: 15,
+    right: 0,
   },
   areaChip: {marginRight: 14},
   areaType: {
@@ -120,10 +120,7 @@ const styles = StyleSheet.create({
     borderColor: themes.colors.borderColor,
     borderRadius: 7,
     borderWidth: 1,
-    //flexDirection: 'row',
     padding: 5,
-    // flex: 1,
-    // height: 40,
     width: '100%',
   },
   patchInput: {
@@ -200,6 +197,9 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     backgroundColor: themes.colors.primary,
     marginHorizontal: 12,
+  },
+  rightContent: {
+    paddingLeft: themes.spacing(36),
   },
 });
 

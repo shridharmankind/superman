@@ -34,11 +34,9 @@ const Label = ({
     <Text
       testID={testID}
       style={[
-        size && {
-          fontFamily: getFontFamily(type),
-          fontSize: size,
-          color: textColor,
-        },
+        size && {fontSize: size},
+        type && {fontFamily: getFontFamily(type)},
+
         variant && {...theme.typography[variant]},
         textColor && {color: textColor},
         isUpperCase && styles.upperCase,
@@ -65,7 +63,7 @@ const getFontFamily = type => {
   }
 };
 Label.propTypes = {
-  type: PropTypes.oneOf(['bold', 'regular', 'semiBold']),
+  type: PropTypes.oneOf(['bold', 'regular', 'semiBold', 'medium']),
   title: PropTypes.any,
   size: PropTypes.number,
   testID: PropTypes.string,

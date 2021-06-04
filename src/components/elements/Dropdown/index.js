@@ -5,8 +5,8 @@ import {TextInput} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
-import {Label} from 'components/elements';
-
+import {Label, LabelVariant} from 'components/elements';
+import themes from 'themes';
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
  * This serves the purpose to make the use of Dropdown throughout the app
@@ -16,7 +16,13 @@ import {Label} from 'components/elements';
  * @param {String} testID testID to pass
  */
 
-const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
+const Dropdown = ({
+  defaultLabel,
+  valueSelected,
+  testID,
+  data,
+  isPatchedData,
+}) => {
   const [value, setValue] = useState();
   const [togglePicker, setTogglePicker] = useState(false);
   const [dropDowndata, setDropDownData] = useState(data);
@@ -28,6 +34,13 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
     setTogglePicker(false);
     setValue(val);
   };
+
+  useEffect(() => {
+    if (!isPatchedData) {
+      setValue(null);
+      setDropdownText(defaultLabel);
+    }
+  }, [isPatchedData, defaultLabel]);
 
   useEffect(() => {
     valueSelected(value);
@@ -87,8 +100,11 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
           style={styles.selectContainer}
           activeOpacity={1}
           onPress={() => setTogglePicker(!togglePicker)}>
-          <Label title={dropDownText || defaultLabel} />
-          <Icon name={'sort-down'} size={20} />
+          <Label
+            title={dropDownText || defaultLabel}
+            variant={LabelVariant.subtitleSmall}
+          />
+          <Icon name={'sort-down'} size={20} style={styles.sortDown} />
         </TouchableOpacity>
       )}
       {togglePicker && (
@@ -100,12 +116,18 @@ const Dropdown = ({defaultLabel, valueSelected, testID, data}) => {
               component._children[0] &&
               component._children[0]._children.map(el => el._nativeTag);
           }}>
-          {data.map(option => (
+          {data.map((option, i) => (
             <TouchableOpacity
               key={option.value}
-              style={styles.pickerLabel}
+              style={[
+                styles.pickerLabel,
+                data.length === i + 1 ? styles.noBorder : null,
+              ]}
               onPress={() => handleValueSelected(option)}>
-              <Label title={option.value} size={14} />
+              <Label
+                title={option.value}
+                variant={LabelVariant.subtitleSmall}
+              />
             </TouchableOpacity>
           ))}
         </View>
