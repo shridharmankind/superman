@@ -82,11 +82,11 @@ const MasterDataDownload = ({navigation}) => {
               downloadStatus.DOWNLOADED,
               item.name,
             );
+            navigation.navigate('Dashboard');
           } else {
             Alert.alert(Strings.info, response);
           }
         });
-        navigation.navigate('Dashboard');
       } catch (error) {
         Alert.alert(Strings.info, error);
       }
