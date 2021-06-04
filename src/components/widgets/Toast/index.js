@@ -23,7 +23,7 @@ const CustomToast = () => {
           variant={LabelVariant.subtitleSmall}
         />
         <Label title={props.subHeading} style={styles.toastText} size={11} />
-        <View style={styles.btnContainer}>
+        <View style={[styles.btnContainer, props.btnContainerStyle]}>
           {props.actionLeftTitle && (
             <Button
               title={props.actionLeftTitle}

@@ -28,18 +28,19 @@ export function* fetchDoctorDetailWorker(action) {
   const {staffPositionid, day, month, year} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
+  let url = 'mtp/2/parties?Month=5&Year=2021&Day=5';
   try {
-    const response = yield call(NetworkService.post, API_PATH.GET_PARTIES, {
-      staffPositionid: staffPositionid,
-      day: day,
-      month: month,
-      year: year,
+    const response = yield call(NetworkService.get, url);
+
+    const formattedResponse = (response.data || []).map((data, idx) => {
+      data.key = idx + 1;
+      return data;
     });
 
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
-          data: response.data,
+          data: formattedResponse,
         },
       }),
     );
@@ -57,17 +58,15 @@ export function* deletePartyWorker(action) {
   const {staffPositionid, day, month, year, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    const response = yield call(
-      NetworkService.Delete,
-      API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN,
-      {
-        staffPositionid: staffPositionid,
-        day: day,
-        month: month,
-        year: year,
-        partyId: partyId,
-      },
-    );
+    let url = `mtp/${staffPositionid}/party/${partyId}`;
+    console.log('url for delete', url);
+    const response = yield call(NetworkService.Delete, url, {
+      day: day,
+      month: month,
+      year: year,
+      partyId: partyId,
+    });
+    console.log('response for delte', response.data);
 
     if (response.data) {
       yield put(doctorDetailActions.doctorRemoved(action.payload));

@@ -140,7 +140,7 @@ const DoctorDetails = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={specialization.map(spec => spec).join(', ')}
+                title={(specialization || []).map(spec => spec).join(', ')}
                 style={customStyle && customStyle.specialization}
               />
 

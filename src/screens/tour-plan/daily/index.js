@@ -9,6 +9,7 @@ import {isWeb} from 'helper';
 import {
   fetchDoctorDetailCreator,
   dailySelector,
+  doctorDetailActions,
 } from './redux';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
@@ -50,8 +51,13 @@ const DailyTourPlan = () => {
   useEffect(() => {
     if (Array.isArray(allDoctorDetail) && allDoctorDetail?.length > 0) {
       setDayPlanData(allDoctorDetail);
+      // const formattedData = allDoctorDetail.map((data, idx) => {
+      //   data.key = idx + 1;
+      //   return data;
+      // });
+      // dispatch(doctorDetailActions.updateDoctorDetail(formattedData));
     }
-  }, [allDoctorDetail]);
+  }, [allDoctorDetail, dispatch]);
 
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();

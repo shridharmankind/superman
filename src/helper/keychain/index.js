@@ -23,8 +23,9 @@ export const saveAccessToken = async accessToken => {
 */
 export const getAccessToken = async () => {
   const credentials = await Keychain.getGenericPassword();
+  // return 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkpSY080bnhzNWpnYzhZZE43STJoTE80Vl9xbDFiZG9pTVhtY1lnSG00SHMifQ.eyJqdGkiOiJiUVJORUF-eTNOWXlKRWpkM2xqUnQiLCJzdWIiOiIxMzU1NDc3OTMiLCJpc3MiOiJodHRwczovL21hbmtpbmRwaGFybWEtc2FuZGJveC5vbmVsb2dpbi5jb20vb2lkYy8yIiwiaWF0IjoxNjIyNzg5MDg1LCJleHAiOjE2MjI3OTI2ODUsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJhdWQiOiI5ZGNjNjU2MC05YTkyLTAxMzktMjAyZC0wYTg2OTdmMzllYzcxODY3ODYifQ.If3hFDTEIi-qKaf8r_q1jkXg_g19h70_C7Oh9biO8Tvpj-5fRCfSlzfX8ARSq_2WZjmA6vZXuWXLjj541mKwiSVKD_wLcYBT082gJGoX1Trk_HYbvJ0qw6rBBn1H8XcKSW_iTaWjCkcM48JHzY5AyaQTJ24iHMaj7bZ7c-n_uw_-76SDoCOni2m8yTd-k36IKT2EAPH4rj2ou6eF24Nc2trjc9LnsHN1CG_r4AEnFFojxjDRf86n1IrtQ-m6MpxwOB8F2evOC4L7EeAPqHIeXfYr-4ZzZ_AFm8tpiygfFYiZ9mVYqm5k4l2fL1a1_enLB4bpnF8z8_9mILbhZeosHQ';
   return credentials?.password;
-};
+};;
 
 /**
 This function is save DB key based on access token

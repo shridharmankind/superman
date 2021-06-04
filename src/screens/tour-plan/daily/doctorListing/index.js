@@ -53,9 +53,9 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     showToast({
       type: Constants.TOAST_TYPES.ALERT,
       autoHide: true,
-      visibilityTime: 4000,
+      visibilityTime: 10000,
       props: {
-        onPress: () => {
+        onPressLeftBtn: () => {
           undoclicked = true;
           hideToast();
           closeRow(rowMap, rowKey);
@@ -66,7 +66,8 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         },
         heading: `${Strings.removed}!`,
         subHeading: `${Strings.removedDoctor}`,
-        actionTitle: `${Strings.undo}`,
+        actionLeftTitle: `${Strings.undo}`,
+        btnContainerStyle: styles.toastBtnContainer,
       },
       onHide: () => {
         closeRow(rowMap, rowKey);
@@ -74,7 +75,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         if (!undoclicked) {
           dispatch(
             deletePartyCreator({
-              staffPositionid: 3,
+              staffPositionid: 2,
               day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
               month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
               year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),

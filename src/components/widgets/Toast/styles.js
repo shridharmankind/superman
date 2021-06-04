@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     height: theme.spacing(20),
     alignItems: 'flex-start',
     paddingTop: theme.spacing(4),
+    justifyContent: 'flex-start',
   },
   buttonText: {
     color: theme.colors.white,

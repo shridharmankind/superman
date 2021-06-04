@@ -34,6 +34,11 @@ export const doctorDetailSlice = createSlice({
       const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
         return d.id === action.payload.partyId;
       });
+      console.log(
+        'delete operation',
+        itemIndexToRemove,
+        state.doctorDetail.data,
+      );
       state.doctorDetail.data.splice(itemIndexToRemove, 1);
       return state;
     },
