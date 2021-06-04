@@ -1,3 +1,6 @@
+//Common
+export const USER_PRIMARY_KEY = 1;
+
 //ONLY Table Names
 export const MASTER_TABLES_DOWNLOAD_STATUS = 'MASTER_TABLES_DOWNLOAD_STATUS';
 

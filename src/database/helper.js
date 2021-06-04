@@ -24,7 +24,27 @@ export const MASTER_TABLES_DETAILS = [
 
 export const getUserFirstName = async () => {
   try {
-    const record = await Operations.getRecord(Schemas.userInfo, 1);
+    const record = await Operations.getRecord(
+      Schemas.userInfo,
+      Constants.USER_PRIMARY_KEY,
+    );
     return record.firstName;
+  } catch (error) {}
+};
+
+export const getStaffPositionId = async () => {
+  try {
+    const record = await Operations.getRecord(
+      Schemas.userInfo,
+      Constants.USER_PRIMARY_KEY,
+    );
+
+    let staffPositionId;
+    record.staffPositions.forEach(obj => {
+      if (obj?.isPrimary) {
+        staffPositionId = obj.id;
+      }
+    });
+    return staffPositionId;
   } catch (error) {}
 };
