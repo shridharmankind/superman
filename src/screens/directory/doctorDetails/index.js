@@ -226,12 +226,7 @@ const DoctorProfile = ({route}) => {
               title={doctorData.category?.toUpperCase()}
             />
           </View>
-          <View
-            style={
-              doctorData.selfDispensing
-                ? styles.dispinsingContainer
-                : styles.leftTabContainer
-            }>
+          <View style={styles.leftTabContainer}>
             <ArrowBack
               style={styles.arrowBack}
               width={24}

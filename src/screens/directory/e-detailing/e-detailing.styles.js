@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: theme.spacing(30),
     backgroundColor: theme.colors.grayishBlue,
-    borderRadius: theme.spacing(16),
+    borderRadius: 16,
   },
   eDetailingHead__Col: {
     flexDirection: 'column',
@@ -21,19 +21,19 @@ const styles = StyleSheet.create({
     top: theme.spacing(26),
   },
   eDetailing__Start__Content: {
-    width: theme.spacing(165),
+    width: 165,
     marginHorizontal: theme.spacing(8),
-    height: theme.spacing(42),
+    height: 42,
   },
   eDetailing__Start__Text: {
-    fontSize: theme.spacing(12),
+    fontSize: 12,
   },
   eDetailing__PriorityProducts: {
     marginBottom: 0,
   },
   eDetailing__PriorityProducts__List: {
     paddingTop: theme.spacing(13),
-    height: theme.spacing(246),
+    height: 246,
   },
 });
 
