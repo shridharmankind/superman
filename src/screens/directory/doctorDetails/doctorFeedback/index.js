@@ -1,10 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Dimensions, Image} from 'react-native';
-import dcrStyles from './styles';
+import styles from './styles';
 import {Label, Button, LabelVariant} from 'components/elements';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import {singleAvtar, jointAvtar} from 'assets';
+import {SingleAvtar, JointAvtar} from 'assets';
 import dayjs from 'dayjs';
 import themes from 'themes';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -29,22 +28,22 @@ const DoctorFeedback = ({route}) => {
 
   const renderSlide = index => {
     return (
-      <View style={[{width: width - 300}, dcrStyles.slideStyle]}>
-        <View style={dcrStyles.questionSection}>
-          <Text style={dcrStyles.question}>
+      <View style={[{width: width - 300}, styles.slideStyle]}>
+        <View style={styles.questionSection}>
+          <Text style={styles.question}>
             {index + 1}. {`${Strings.doctorDetail.dcr.what} `}
             <Text style={{fontFamily: themes.fonts.fontBold}}>
               {`${Strings.doctorDetail.dcr.kindOfVisit} `}
-            </Text>{' '}
+            </Text>
             {`${Strings.doctorDetail.dcr.wasIt}`}
           </Text>
         </View>
-        <View style={dcrStyles.answerSection}>
-          <View style={dcrStyles.leftAlign}>
-            <View style={dcrStyles.imgContainer}>
-              <Image source={singleAvtar} style={dcrStyles.avtarStyle} />
+        <View style={styles.answerSection}>
+          <View style={styles.leftAlign}>
+            <View style={styles.imgContainer}>
+              <Image source={SingleAvtar} style={styles.avtarStyle} />
             </View>
-            <View style={dcrStyles.heading}>
+            <View style={styles.heading}>
               <Label variant={LabelVariant.subtitleLarge}>
                 {Strings.doctorDetail.dcr.regVisit}
               </Label>
@@ -54,11 +53,11 @@ const DoctorFeedback = ({route}) => {
             </View>
           </View>
 
-          <View style={dcrStyles.rightAlign}>
-            <View style={dcrStyles.imgContainer}>
-              <Image source={jointAvtar} style={dcrStyles.jointavtarStyle} />
+          <View style={styles.rightAlign}>
+            <View style={styles.imgContainer}>
+              <Image source={JointAvtar} style={styles.jointavtarStyle} />
             </View>
-            <View style={dcrStyles.heading}>
+            <View style={styles.heading}>
               <Label variant={LabelVariant.subtitleLarge}>
                 {Strings.doctorDetail.dcr.jointVisit}
               </Label>
@@ -68,7 +67,7 @@ const DoctorFeedback = ({route}) => {
             </View>
           </View>
         </View>
-        <View style={dcrStyles.footerSection}>
+        <View style={styles.footerSection}>
           <Label
             style={{
               color: themes.colors.primary,
@@ -81,13 +80,11 @@ const DoctorFeedback = ({route}) => {
     );
   };
   return (
-    <View style={dcrStyles.container}>
-      <View style={dcrStyles.header}>
+    <View style={styles.container}>
+      <View style={styles.header}>
         <View>
-          <View style={dcrStyles.headerDataStyle}>
-            <TouchableOpacity
-              style={dcrStyles.backArrow}
-              onPress={closeFeedback}>
+          <View style={styles.headerDataStyle}>
+            <TouchableOpacity style={styles.backArrow} onPress={closeFeedback}>
               <Icon
                 name={'chevron-left'}
                 size={15}
@@ -102,7 +99,7 @@ const DoctorFeedback = ({route}) => {
           </View>
           <View>
             <Label
-              style={dcrStyles.dateStyling}
+              style={styles.dateStyling}
               title={getFormatDate({date: dayjs(), format: 'DD MMM YYYY'})}
             />
           </View>
@@ -110,18 +107,18 @@ const DoctorFeedback = ({route}) => {
         <Button
           title={Strings.doctorDetail.dcr.btnDone}
           disabled={true}
-          contentStyle={dcrStyles.button}
+          contentStyle={styles.button}
         />
       </View>
-      <View style={dcrStyles.section}>
+      <View style={styles.section}>
         <SwiperFlatList
           data={items}
           renderAll={false}
           showPagination
-          paginationStyleItemActive={dcrStyles.activePaginationItem}
-          paginationStyleItem={dcrStyles.paginationItem}
-          paginationStyle={dcrStyles.paginationStyle}
-          style={dcrStyles.swiperListStyle}
+          paginationStyleItemActive={styles.activePaginationItem}
+          paginationStyleItem={styles.paginationItem}
+          paginationStyle={styles.paginationStyle}
+          style={styles.swiperListStyle}
           renderItem={({index}) => renderSlide(index)}
         />
       </View>

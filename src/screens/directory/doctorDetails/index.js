@@ -12,7 +12,6 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
 import theme from 'themes';
 import {OpenTask} from 'screens/directory';
-import {ROUTE_DCR} from '../../../../src/navigations/routes';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -199,7 +198,7 @@ const DoctorProfile = ({route}) => {
   };
 
   const openDoctorFeedback = () => {
-    navigation.navigate(ROUTE_DCR, {data: doctorData});
+    navigation.navigate('DoctorFeedback', {data: doctorData});
   };
 
   /**

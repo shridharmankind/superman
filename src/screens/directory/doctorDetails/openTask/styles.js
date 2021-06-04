@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import themes from 'themes';
 
-const taskStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18.7,
     color: themes.colors.grey[200],
@@ -81,4 +81,4 @@ const taskStyles = StyleSheet.create({
   },
 });
 
-export default taskStyles;
+export default styles;

@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import themes from 'themes';
 
-const dcrStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 32,
     paddingBottom: themes.spacing(66.7),
@@ -120,4 +120,4 @@ const dcrStyles = StyleSheet.create({
   },
 });
 
-export default dcrStyles;
+export default styles;

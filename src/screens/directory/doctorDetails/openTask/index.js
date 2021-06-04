@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {View, Text, FlatList, TouchableOpacity} from 'react-native';
-import taskStyles from './styles.js';
+import styles from './styles.js';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import dayjs from 'dayjs';
@@ -156,22 +156,22 @@ const OpenTask = () => {
   // To differntiate upcoming task and other due tasks
   const findUpcomingTask = item => {
     if (upcomingTask.findIndex(ele => ele === item.id) === -1) {
-      return {backgroundColor: theme.colors.standard};
+      return {backgroundColor: theme.colors.grey[700]};
     } else {
-      return {backgroundColor: theme.colors.warning};
+      return {backgroundColor: theme.colors.yellow[100]};
     }
   };
 
   return (
-    <View style={taskStyles.taskList}>
-      <View style={taskStyles.header}>
-        <View style={taskStyles.leftAlign}>
+    <View style={styles.taskList}>
+      <View style={styles.header}>
+        <View style={styles.leftAlign}>
           <Label
             variant={LabelVariant.h3}
             title={Strings.doctorDetail.openTasks.openTask}
             testID="label_opentasks_header_test"
           />
-          <View style={taskStyles.count}>
+          <View style={styles.count}>
             <Label variant={LabelVariant.bodySmall} title={taskData.length} />
           </View>
         </View>
@@ -187,7 +187,7 @@ const OpenTask = () => {
               />
             </View> */}
       </View>
-      <View style={taskStyles.section}>
+      <View style={styles.section}>
         <FlatList
           keyExtractor={item => item.id}
           data={taskData}
@@ -199,15 +199,15 @@ const OpenTask = () => {
             } else {
               return (
                 <TouchableOpacity
-                  style={taskStyles.taskContainer}
+                  style={styles.taskContainer}
                   onPress={() => expandTask(item.id)}>
-                  <View style={taskStyles.taskHeader}>
-                    <Text style={taskStyles.taskTitle}>{item.type}</Text>
+                  <View style={styles.taskHeader}>
+                    <Text style={styles.taskTitle}>{item.type}</Text>
                     <View
                       style={[
-                        taskStyles.taskDueDate,
+                        styles.taskDueDate,
                         isOverDue(item.dueOn, item.id)
-                          ? {backgroundColor: theme.colors.alert}
+                          ? {backgroundColor: theme.colors.orange[200]}
                           : findUpcomingTask(item),
                       ]}>
                       <Label
@@ -224,7 +224,7 @@ const OpenTask = () => {
                   </View>
                   <View>
                     <Text
-                      style={taskStyles.taskDesc}
+                      style={styles.taskDesc}
                       numberOfLines={noOfLinesCal(item.id)}>
                       {item.description}
                     </Text>
@@ -238,10 +238,7 @@ const OpenTask = () => {
       {taskData.length > 3 && (
         <View>
           <Label
-            style={[
-              taskStyles.footer,
-              !isViewAll ? null : taskStyles.footerMargin,
-            ]}
+            style={[styles.footer, !isViewAll ? null : styles.footerMargin]}
             variant={LabelVariant.h5}
             onPress={viewAllTask}>
             {!isViewAll
