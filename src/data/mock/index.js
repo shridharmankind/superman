@@ -7,6 +7,39 @@ import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tourPlan/apiPath';
+
+const getPartiesUrl = () => {
+  const valueMap = {
+    staffpositionid: 2,
+    monthVal: 5,
+    yearVal: 2021,
+    dayVal: 5,
+  };
+  let url = API_PATH.GET_PARTIES;
+  url = url.replace(
+    /\b(?:staffpositionid|monthVal|yearVal|dayVal)\b/gi,
+    matched => valueMap[matched],
+  );
+  console.log('url in mock', url);
+
+  return url;
+};
+
+const getDeletePartyUrl = () => {
+  const valueMap = {
+    staffpositionid: 2,
+    partyid: 1,
+  };
+  let url = API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN;
+  url = url.replace(
+    /\b(?:staffpositionid|partyid)\b/gi,
+    matched => valueMap[matched],
+  );
+  console.log('url in mock delete4', url);
+
+  return url;
+};
+
 const getMock = axios => {
   const mock = new MockAdapter(axios);
 
@@ -27,10 +60,8 @@ const getMock = axios => {
   mock
     .onPost(`${API_PATH.PATCH}/validate/1`)
     .reply(200, patchesMock.validate.response);
-  mock
-    .onPost(`${API_PATH.GET_PARTIES}`)
-    .reply(200, partiesMock.getParties.response);
-  mock.onDelete(`${API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN}`).reply(200, true);
+  mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
+  mock.onDelete(getDeletePartyUrl()).reply(200, true);
 };
 
 export default getMock;

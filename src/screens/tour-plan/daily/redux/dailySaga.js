@@ -26,9 +26,21 @@ export function* deletePartyWatcher() {
  */
 export function* fetchDoctorDetailWorker(action) {
   const {staffPositionid, day, month, year} = action.payload;
+  const valueMap = {
+    staffpositionid: staffPositionid,
+    monthVal: month,
+    yearVal: year,
+    dayVal: day,
+  };
+  let url = API_PATH.GET_PARTIES;
+  url = url.replace(
+    /\b(?:staffpositionid|monthVal|yearVal|dayVal)\b/gi,
+    matched => valueMap[matched],
+  );
+
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
-  let url = 'mtp/2/parties?Month=5&Year=2021&Day=5';
+  // let url = 'mtp/2/parties?Month=5&Year=2021&Day=5';
   try {
     const response = yield call(NetworkService.get, url);
 
@@ -58,13 +70,20 @@ export function* deletePartyWorker(action) {
   const {staffPositionid, day, month, year, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    let url = `mtp/${staffPositionid}/party/${partyId}`;
-    console.log('url for delete', url);
+    const valueMap = {
+      staffpositionid: staffPositionid,
+      partyid: partyId,
+    };
+    let url = API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN;
+    url = url.replace(
+      /\b(?:staffpositionid|partyid)\b/gi,
+      matched => valueMap[matched],
+    );
+
     const response = yield call(NetworkService.Delete, url, {
       day: day,
       month: month,
       year: year,
-      partyId: partyId,
     });
     console.log('response for delte', response.data);
 

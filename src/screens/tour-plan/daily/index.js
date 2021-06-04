@@ -35,7 +35,7 @@ const DailyTourPlan = () => {
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 3,
+        staffPositionid: 2,
         day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
         month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
         year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
