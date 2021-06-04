@@ -153,6 +153,15 @@ const OpenTask = () => {
     updateTaskData([...taskData, ...moreData]);
   };
 
+  // To differntiate upcoming task and other due tasks
+  const findUpcomingTask = item => {
+    if (upcomingTask.findIndex(ele => ele === item.id) === -1) {
+      return {backgroundColor: theme.colors.standard};
+    } else {
+      return {backgroundColor: theme.colors.warning};
+    }
+  };
+
   return (
     <View style={taskStyles.taskList}>
       <View style={taskStyles.header}>
@@ -199,10 +208,7 @@ const OpenTask = () => {
                         taskStyles.taskDueDate,
                         isOverDue(item.dueOn, item.id)
                           ? {backgroundColor: theme.colors.alert}
-                          : upcomingTask.findIndex(ele => ele === item.id) ===
-                            -1
-                          ? {backgroundColor: theme.colors.standard}
-                          : {backgroundColor: theme.colors.warning},
+                          : findUpcomingTask(item),
                       ]}>
                       <Label
                         style={[

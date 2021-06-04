@@ -104,8 +104,8 @@ const Strings = {
       jointVisit: 'Joint Visit',
       posts: 'FLM/SLM/TLM',
       addDoctor: 'ADD A DOCTOR',
-      btnDone:'Done',
-      feedback:'Feedback',
+      btnDone: 'Done',
+      feedback: 'Feedback',
     },
   },
 };
