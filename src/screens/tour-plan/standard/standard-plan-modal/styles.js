@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: themes.colors.primary,
     borderRadius: 1000,
-    padding: -10,
   },
   doctorDetailsHeader: {
     flexDirection: 'row',

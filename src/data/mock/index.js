@@ -20,7 +20,6 @@ const getPartiesUrl = () => {
     /\b(?:staffpositionid|monthVal|yearVal|dayVal)\b/gi,
     matched => valueMap[matched],
   );
-  console.log('url in mock', url);
 
   return url;
 };
@@ -35,7 +34,6 @@ const getDeletePartyUrl = () => {
     /\b(?:staffpositionid|partyid)\b/gi,
     matched => valueMap[matched],
   );
-  console.log('url in mock delete4', url);
 
   return url;
 };

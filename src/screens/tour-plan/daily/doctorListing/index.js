@@ -55,8 +55,6 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     setIsDeleteOperationInProgress(true);
     showToast({
       type: Constants.TOAST_TYPES.ALERT,
-      autoHide: true,
-      visibilityTime: 10000,
       props: {
         onPressLeftBtn: () => {
           undoclicked = true;

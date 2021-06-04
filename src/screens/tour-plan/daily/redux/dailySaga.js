@@ -41,7 +41,6 @@ export function* fetchDoctorDetailWorker(action) {
 
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
-  // let url = 'mtp/2/parties?Month=5&Year=2021&Day=5';
   try {
     const response = yield call(NetworkService.get, url);
     let formattedResponse = [];

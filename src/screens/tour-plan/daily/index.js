@@ -51,13 +51,8 @@ const DailyTourPlan = () => {
   useEffect(() => {
     if (Array.isArray(allDoctorDetail) && allDoctorDetail?.length > 0) {
       setDayPlanData(allDoctorDetail);
-      // const formattedData = allDoctorDetail.map((data, idx) => {
-      //   data.key = idx + 1;
-      //   return data;
-      // });
-      // dispatch(doctorDetailActions.updateDoctorDetail(formattedData));
     }
-  }, [allDoctorDetail, dispatch]);
+  }, [allDoctorDetail]);
 
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();
