@@ -35,7 +35,17 @@
     }
   },
   "savePatch": {
-    "response": true,
+    "response": {
+      "errorCode": null,
+      "description": "One or more validation error occured. For more detail please check ErrorList",
+      "details": [
+        {
+          "code": "107",
+          "message": "patch exist for other day.",
+          "params": null
+        }
+      ]
+    },
     "request": {
       "displayName": "Noida Sec-1",
       "defaultName": "Noida Sec-1",

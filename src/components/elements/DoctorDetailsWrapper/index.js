@@ -28,6 +28,7 @@ const DoctorDetailsWrapper = ({
   onPress,
   party,
   isPatchedData,
+  isKyc,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
@@ -67,6 +68,8 @@ const DoctorDetailsWrapper = ({
         isTicked={selected || false}
         selectedVistedFrequency={selected ? alreadyVisited + 1 : alreadyVisited}
         frequency={frequency}
+        partyType={party.partyTypes.name}
+        isKyc={isKyc}
         {...props}
       />
     </TouchableOpacity>

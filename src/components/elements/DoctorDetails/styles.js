@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import theme from 'themes';
+import themes from 'themes';
 
 const styles = StyleSheet.create({
   detailsContainer: {
@@ -20,24 +20,29 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    alignContent: 'center',
     alignSelf: 'center',
   },
   divisionContainer: {
-    borderTopLeftRadius: 7,
-    borderBottomRightRadius: 7,
-    backgroundColor: theme.colors.orange[100],
-    paddingHorizontal: 9,
-    paddingVertical: 4,
     position: 'absolute',
     top: -27,
     left: -22,
-    minWidth: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  divisionItem: {
+    borderTopLeftRadius: 7,
+    borderBottomRightRadius: 7,
+    backgroundColor: themes.colors.orange[100],
+    paddingHorizontal: themes.spacing(10),
+    paddingVertical: 4,
+    marginRight: 5,
   },
   divisionText: {
-    color: theme.colors.white,
+    color: themes.colors.white,
   },
   checkContainer: {
     position: 'absolute',
@@ -45,7 +50,7 @@ const styles = StyleSheet.create({
     top: -17,
   },
   location: {
-    borderLeftColor: theme.colors.grey[200],
+    borderLeftColor: themes.colors.grey[200],
     borderLeftWidth: 1,
     paddingHorizontal: 10,
   },
@@ -73,7 +78,7 @@ const styles = StyleSheet.create({
   borderInnerContainer: {
     height: 1,
     borderWidth: 0.5,
-    borderColor: theme.colors.grey[200],
+    borderColor: themes.colors.grey[200],
     borderStyle: 'dashed',
     borderRadius: 0.00000001,
   },
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
   },
   tileText: {
     fontSize: 12,
-    color: theme.colors.grey[600],
+    color: themes.colors.grey[600],
   },
   titleTextSecondary: {
     marginLeft: 10,

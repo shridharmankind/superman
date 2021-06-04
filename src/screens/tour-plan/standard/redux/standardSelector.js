@@ -1,4 +1,5 @@
 import {createSelector} from '@reduxjs/toolkit';
+import {sortBasedOnCategory, sortByCategory} from 'screens/tourPlan/helper';
 
 /**
  * selector function to retrieve data from redux store
@@ -6,7 +7,9 @@ import {createSelector} from '@reduxjs/toolkit';
 
 /** Selector function to retrieve all parties */
 const getPartiesList = state => state.standardPlan.parties;
-const getPartiesSelector = createSelector([getPartiesList], data => data);
+const getPartiesSelector = createSelector([getPartiesList], data =>
+  sortByCategory(data),
+);
 
 /** Selector function to retrieve all areas */
 const getAreasList = state => state.standardPlan.areas;

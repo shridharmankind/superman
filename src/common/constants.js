@@ -11,8 +11,9 @@ export const TOAST_TYPES = {
 };
 
 export const HTTP_PATCH_CODE = {
-  VALIDATED: 422,
+  VALIDATED: 400,
   ALREADY_EXITS: '103',
+  PATCH_EXITS_FOR_OTHER_DAY: '107',
 };
 
 export const DIRECTION = {

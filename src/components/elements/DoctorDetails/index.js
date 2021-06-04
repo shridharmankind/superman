@@ -44,6 +44,8 @@ const DoctorDetails = ({
   alreadyVisited,
   frequency,
   selectedVistedFrequency,
+  partyType,
+  isKyc,
   ...props
 }) => {
   /**
@@ -111,26 +113,49 @@ const DoctorDetails = ({
           customStyle && customStyle.detailsContainerCustom,
         ]}>
         <View style={styles.details}>
-          <View
-            style={[
-              styles.divisionContainer,
-              customStyle && customStyle.divisionContainerCustom,
-              {backgroundColor: getDivisionColor(category)},
-            ]}>
-            <Label
-              style={styles.divisionText}
-              title={category && category.toUpperCase()}
-              size={customStyle ? customStyle.divisionSize : 9}
-              type={'bold'}
-            />
-          </View>
+          {partyType === 'Doctor' && (
+            <View
+              style={[
+                styles.divisionContainer,
+                customStyle && customStyle.divisionContainerCustom,
+              ]}>
+              {isKyc && (
+                <View
+                  style={[
+                    styles.divisionItem,
+                    {backgroundColor: getDivisionColor('kyc')},
+                  ]}>
+                  <Label
+                    style={styles.divisionText}
+                    title={Strings.kyc}
+                    size={customStyle ? customStyle.divisionSize : 9}
+                    type={'bold'}
+                  />
+                </View>
+              )}
+              {category && (
+                <View
+                  style={[
+                    styles.divisionItem,
+                    {backgroundColor: getDivisionColor(category)},
+                  ]}>
+                  <Label
+                    style={styles.divisionText}
+                    title={category}
+                    size={customStyle ? customStyle.divisionSize : 9}
+                    type={'bold'}
+                  />
+                </View>
+              )}
+            </View>
+          )}
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
             source={require('../../../assets/images/avatar.png')}
           />
           <View style={styles.nameContainer}>
             <Label
-              title={title}
+              title={partyType === 'Doctor' ? `Dr. ${title}` : title}
               size={customStyle ? customStyle.titleSize : 17}
               onPress={() => {
                 onTileNamePress && onTileNamePress();
@@ -140,7 +165,9 @@ const DoctorDetails = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={specialization.map(spec => spec).join(', ')}
+                title={(specialization || [])
+                  .map(spec => spec?.name || spec)
+                  .join(', ')}
                 style={customStyle && customStyle.specialization}
               />
 
@@ -194,8 +221,12 @@ const getDivisionColor = division => {
       return themes.colors.orange[100];
     case 'a+':
       return themes.colors.darkBlue;
+    case 'a':
+      return themes.colors.yellow[300];
     case 'b':
       return themes.colors.lightBlue;
+    case 'c':
+      return themes.colors.grey[1200];
     default:
       return themes.colors.transparent;
   }
