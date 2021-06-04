@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing(2),
   },
   mySelectedTourTextContainer: {
-    minWidth: theme.spacing(80),
-    width: theme.spacing(80),
+    minWidth: 80,
+    width: 80,
   },
   selectedTourText: {
     color: theme.colors.black,
   },
   modalText: {
-    paddingVertical: theme.spacing(5),
+    paddingVertical: theme.spacing(8),
     color: theme.colors.grey[200],
   },
   modalTextSelected: {
@@ -46,6 +46,8 @@ const styles = StyleSheet.create({
   modalPosition: {
     marginTop: '12%',
     marginLeft: '16%',
+    width: 333.3,
+    height: 590.7,
   },
   dropdownLabel: {
     fontFamily: theme.fonts.fontRegular,
