@@ -22,6 +22,10 @@ export const MASTER_TABLES_DETAILS = [
   },
 ];
 
+/**
+ * This function is get logged in user first name
+ * @returns user first name
+ */
 export const getUserFirstName = async () => {
   try {
     const record = await Operations.getRecord(
@@ -32,6 +36,10 @@ export const getUserFirstName = async () => {
   } catch (error) {}
 };
 
+/**
+ * This function provides logged in user staff position Id
+ * @returns staff position Id
+ */
 export const getStaffPositionId = async () => {
   try {
     const record = await Operations.getRecord(
@@ -39,7 +47,7 @@ export const getStaffPositionId = async () => {
       Constants.USER_PRIMARY_KEY,
     );
     let staffPositionId;
-    record.staffPositions.forEach(obj => {
+    record?.staffPositions.forEach(obj => {
       if (obj?.isPrimary) {
         staffPositionId = obj.id;
       }

@@ -118,7 +118,7 @@ export const createUserInfoRecord = async (schema, data) => {
         },
         'modified',
       );
-      data.staffPositions.forEach(obj => {
+      data?.staffPositions.forEach(obj => {
         child = realm.create(schema[1].name, obj, 'modified');
         parent.staffPositions.push(child);
       });
