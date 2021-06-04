@@ -202,10 +202,7 @@ const styles = StyleSheet.create({
     paddingLeft: themes.spacing(36),
   },
   left: {
-    marginRight: 7,
-  },
-  right: {
-    marginLeft: 7,
+    marginRight: 14,
   },
 });
 

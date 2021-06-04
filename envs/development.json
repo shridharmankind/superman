@@ -1,5 +1,5 @@
 {
   "ENVIRONMENT": "DEVELOPMENT",
-  "API_HOST": "http://520.204.11.63/api/",
+  "API_HOST": "http://20.204.11.63/api/",
   "MOCK_REQUESTS": "NO"
 }

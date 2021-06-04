@@ -120,14 +120,17 @@ const StandardPlanModal = ({
   useEffect(() => {
     setPartiesList(allParties);
     filterPartyByType(allParties);
+    console.log('parites', allParties);
   }, [allParties]);
 
   useEffect(() => {
     setAreaList(allAreas);
+    console.log('allAreas', allAreas);
   }, [allAreas]);
 
   useEffect(() => {
     setPatches(allPatches);
+    console.log('allPatches', allPatches);
   }, [allPatches]);
 
   useEffect(() => {
@@ -142,15 +145,15 @@ const StandardPlanModal = ({
 
   useEffect(() => {
     if (allPartiesByPatchID) {
-      setDoctorSelected(allPartiesByPatchID.partyIds);
-      getSelectedArea(allPartiesByPatchID.partyIds);
+      setDoctorSelected(allPartiesByPatchID);
+      getSelectedArea(allPartiesByPatchID);
     }
   }, [getSelectedArea, allPartiesByPatchID, patchValue]);
 
   /** function to set area selected on chip click and update areaSelected state*/
   const getSelectedArea = useCallback(
     ids => {
-      if (ids.length > 0) {
+      if (ids?.length > 0) {
         let patchAreaList = [];
         (partiesList || []).map(party => {
           if (ids.some(id => id === party.id)) {
@@ -511,7 +514,7 @@ const StandardPlanModal = ({
   const getSelectedPartyByType = useCallback(() => {
     const obj = {doctors: 0, chemist: 0};
     partiesList.map(party => {
-      if (doctorsSelected.some(id => id === party.id)) {
+      if (doctorsSelected?.some(id => id === party.id)) {
         if (party.partyTypes.name === 'Doctor') {
           obj.doctors = obj.doctors + 1;
         } else {
@@ -750,9 +753,7 @@ const StandardPlanModal = ({
                           party={party}
                           isPatchedData={isPatchedData}
                           onPress={handleDoctorCardPress}
-                          containerStyle={
-                            index % 2 === 0 ? styles.left : styles.right
-                          }
+                          containerStyle={index % 2 === 0 ? styles.left : {}}
                         />
                       ))}
                     </View>
