@@ -3,19 +3,16 @@ import {
   SafeAreaView,
   Image,
   View,
-  Alert,
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
 import {stringify, parse} from 'query-string';
 import {nanoid} from 'nanoid';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import {authorize} from 'react-native-app-auth';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import AsyncStorage from '@react-native-community/async-storage';
 import jwt_decode from 'jwt-decode';
 import styles from './styles';
 import theme from 'themes';
-import {KeyChain} from 'helper';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
@@ -36,7 +33,6 @@ const config = {
 const TOKEN_EXPIRY_TIME = 'token_expiry_time';
 const USER_ID = 'USER_ID';
 const LOGIN_STATUS = 'loginStatus';
-const AlertTitle = 'Info';
 
 const Login = () => {
   const [animating, setAnimating] = useState(false);
