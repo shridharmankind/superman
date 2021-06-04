@@ -4,6 +4,11 @@ import * as Operations from './operations';
 
 export const MASTER_TABLES_DETAILS = [
   {
+    name: Constants.MASTER_TABLE_USER_INFO,
+    apiPath: Constants.MASTER_TABLE_USER_INFO_API_PATH,
+    schema: [Schemas.userInfo, Schemas.staffPositions],
+  },
+  {
     name: Constants.MASTER_TABLE_PARTY,
     apiPath: Constants.MASTER_TABLE_PARTY_API_PATH,
     schema: [
@@ -14,11 +19,6 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.partyTypeGroup,
       Schemas.partyTypes,
     ],
-  },
-  {
-    name: Constants.MASTER_TABLE_USER_INFO,
-    apiPath: Constants.MASTER_TABLE_USER_INFO_API_PATH,
-    schema: [Schemas.userInfo, Schemas.staffPositions],
   },
 ];
 
@@ -38,7 +38,6 @@ export const getStaffPositionId = async () => {
       Schemas.userInfo,
       Constants.USER_PRIMARY_KEY,
     );
-
     let staffPositionId;
     record.staffPositions.forEach(obj => {
       if (obj?.isPrimary) {

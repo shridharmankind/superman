@@ -5,7 +5,7 @@ export const USER_PRIMARY_KEY = 1;
 export const MASTER_TABLES_DOWNLOAD_STATUS = 'MASTER_TABLES_DOWNLOAD_STATUS';
 
 // API Path and Master tables part of that API
-export const MASTER_TABLE_PARTY_API_PATH = 'Party/partyBySpId/1';
+export const MASTER_TABLE_PARTY_API_PATH = 'Party/partyBySpId/';
 export const MASTER_TABLE_PARTY = 'PARTY';
 export const MASTER_TABLE_SPECIALITY = 'SPECIALITY';
 export const MASTER_TABLE_AREAS = 'AREAS';
