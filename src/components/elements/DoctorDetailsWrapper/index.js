@@ -29,6 +29,7 @@ const DoctorDetailsWrapper = ({
   party,
   isPatchedData,
   isKyc,
+  containerStyle,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
@@ -56,7 +57,7 @@ const DoctorDetailsWrapper = ({
     <TouchableOpacity
       testID={testID}
       onPress={() => handleDoctorSelection(party)}
-      style={[styles.container, isDisabled && styles.disabled]}
+      style={[styles.container, containerStyle, isDisabled && styles.disabled]}
       disabled={isDisabled}
       activeOpacity={1}>
       <DoctorDetails

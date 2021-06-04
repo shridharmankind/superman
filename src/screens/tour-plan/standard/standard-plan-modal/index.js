@@ -733,7 +733,7 @@ const StandardPlanModal = ({
                     </View>
 
                     <View style={styles.doctorDetails}>
-                      {getDoctorsByArea(area.id).map(party => (
+                      {getDoctorsByArea(area.id).map((party, index) => (
                         <DoctorDetailsWrapper
                           key={party.id}
                           id={party.id}
@@ -750,6 +750,9 @@ const StandardPlanModal = ({
                           party={party}
                           isPatchedData={isPatchedData}
                           onPress={handleDoctorCardPress}
+                          containerStyle={
+                            index % 2 === 0 ? styles.left : styles.right
+                          }
                         />
                       ))}
                     </View>

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leftContent: {
-    flex: 0.8,
+    flex: 0.9,
     flexDirection: 'column',
     paddingBottom: 40,
   },
@@ -200,6 +200,12 @@ const styles = StyleSheet.create({
   },
   rightContent: {
     paddingLeft: themes.spacing(36),
+  },
+  left: {
+    marginRight: 7,
+  },
+  right: {
+    marginLeft: 7,
   },
 });
 

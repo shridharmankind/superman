@@ -14,10 +14,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     marginTop: 14,
-    minWidth: '45%',
     width: '48%',
-    maxWidth: '48%',
-    marginRight: 20,
     zIndex: 1,
   },
   detailsContainer: {
