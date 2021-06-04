@@ -7,6 +7,7 @@ import {
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
+import {Constants} from 'common';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -43,11 +44,18 @@ export function* fetchDoctorDetailWorker(action) {
   // let url = 'mtp/2/parties?Month=5&Year=2021&Day=5';
   try {
     const response = yield call(NetworkService.get, url);
+    let formattedResponse = [];
 
-    const formattedResponse = (response.data || []).map((data, idx) => {
-      data.key = idx + 1;
-      return data;
-    });
+    if (
+      response.data &&
+      Array.isArray(response.data) &&
+      response.data.length > 0
+    ) {
+      formattedResponse = (response.data || []).map((data, idx) => {
+        data.key = idx + 1;
+        return data;
+      });
+    }
 
     yield put(
       doctorDetailActions.getDoctorDetail({
@@ -85,9 +93,8 @@ export function* deletePartyWorker(action) {
       month: month,
       year: year,
     });
-    console.log('response for delte', response.data);
 
-    if (response.data) {
+    if (response.status === Constants.HTTP_OK) {
       yield put(doctorDetailActions.doctorRemoved(action.payload));
     }
 

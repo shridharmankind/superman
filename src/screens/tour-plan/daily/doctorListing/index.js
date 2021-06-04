@@ -101,7 +101,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         <View style={styles.rowBack}>
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnRight]}
-            onPress={() => deleteRow(rowMap, data.item.id, data.item)}>
+            onPress={() => deleteRow(rowMap, data.item.key, data.item)}>
             <View style={styles.closeLabel}>
               <CloseIcon width={32} height={32} fill={colors.white} />
             </View>
