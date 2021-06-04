@@ -6,8 +6,7 @@ import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import dayjs from 'dayjs';
 import theme from 'themes';
-var utc = require('dayjs/plugin/utc');
-dayjs.extend(utc);
+import {getFormatDate} from 'utils/dateTimeHelper';
 
 const OpenTask = () => {
   // toggling View All/View Less
@@ -130,8 +129,7 @@ const OpenTask = () => {
 
   /* Function to check if the task date is overdue or due or upcoming(next 2 immediate due tasks)*/
   const isOverDue = (dueDate, itemId) => {
-    const currentDate = dayjs.utc().format();
-    let result = dayjs(currentDate).diff(dayjs(dueDate));
+    let result = dayjs().diff(dayjs(dueDate));
     if (result > 0) {
       return true; // overdue
     } else {
@@ -144,12 +142,7 @@ const OpenTask = () => {
 
   /* Function to format the date as per the design requirement */
   const formatDate = dueDate => {
-    return dayjs(dueDate).format('DD MMM YYYY').toUpperCase();
-  };
-
-  const handlePressOut = () => {
-    setTask([]);
-    return;
+    return getFormatDate({date: dueDate, format: 'DD MMM YYYY'}).toUpperCase();
   };
 
   /* To deal with infinite scrolling*/
@@ -185,7 +178,7 @@ const OpenTask = () => {
               />
             </View> */}
       </View>
-      <View style={taskStyles.section} onResponderRelease={handlePressOut}>
+      <View style={taskStyles.section}>
         <FlatList
           keyExtractor={item => item.id}
           data={taskData}
@@ -211,17 +204,16 @@ const OpenTask = () => {
                           ? {backgroundColor: theme.colors.standard}
                           : {backgroundColor: theme.colors.warning},
                       ]}>
-                      <Text
+                      <Label
                         style={[
                           {fontSize: 8},
                           isOverDue(item.dueOn)
                             ? {color: theme.colors.white}
                             : {color: theme.colors.grey[200]},
                         ]}>
-                        {' '}
                         {Strings.doctorDetail.openTasks.due} :{' '}
                         {formatDate(item.dueOn)}
-                      </Text>
+                      </Label>
                     </View>
                   </View>
                   <View>
@@ -240,7 +232,10 @@ const OpenTask = () => {
       {taskData.length > 3 && (
         <View>
           <Label
-            style={[taskStyles.footer, !isViewAll ? null : {marginTop: 13.3}]}
+            style={[
+              taskStyles.footer,
+              !isViewAll ? null : taskStyles.footerMargin,
+            ]}
             variant={LabelVariant.h5}
             onPress={viewAllTask}>
             {!isViewAll

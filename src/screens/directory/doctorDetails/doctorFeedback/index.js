@@ -11,9 +11,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {Strings} from 'common';
+import {getFormatDate} from 'utils/dateTimeHelper';
 
 const DoctorFeedback = ({route}) => {
-  const doctorData = route.params ? route.params.data : null;
+  const doctorData = route?.params?.data || null;
   const navigation = useNavigation();
   const items = [
     {name: 'question1', key: 1},
@@ -102,7 +103,7 @@ const DoctorFeedback = ({route}) => {
           <View>
             <Label
               style={dcrStyles.dateStyling}
-              title={dayjs().format('DD MMM YYYY')}
+              title={getFormatDate({date: dayjs(), format: 'DD MMM YYYY'})}
             />
           </View>
         </View>
@@ -120,8 +121,8 @@ const DoctorFeedback = ({route}) => {
           paginationStyleItemActive={dcrStyles.activePaginationItem}
           paginationStyleItem={dcrStyles.paginationItem}
           paginationStyle={dcrStyles.paginationStyle}
-          style={{overflow: 'visible'}}
-          renderItem={({item, index}) => renderSlide(index)}
+          style={dcrStyles.swiperListStyle}
+          renderItem={({index}) => renderSlide(index)}
         />
       </View>
     </View>

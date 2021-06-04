@@ -11,7 +11,7 @@ import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
 import theme from 'themes';
-import OpenTask from './openTask';
+import {OpenTask} from 'screens/directory';
 import {ROUTE_DCR} from '../../../../src/navigations/routes';
 
 /**

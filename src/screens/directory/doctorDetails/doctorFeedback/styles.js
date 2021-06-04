@@ -25,7 +25,7 @@ const dcrStyles = StyleSheet.create({
     backgroundColor: themes.colors.white,
     borderRadius: 13.3,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: themes.colors.grey[1000],
   },
   header: {
     flexDirection: 'row',
@@ -114,6 +114,9 @@ const dcrStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: themes.spacing(8),
+  },
+  swiperListStyle: {
+    overflow: 'visible',
   },
 });
 

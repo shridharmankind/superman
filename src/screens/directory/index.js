@@ -2,7 +2,8 @@ import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import theme from 'themes';
-
+export {default as DoctorFeedback} from './doctorDetails/doctorFeedback';
+export {default as OpenTask} from './doctorDetails/openTask';
 const DirectoryStack = createStackNavigator();
 
 const Directory = () => {

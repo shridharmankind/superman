@@ -76,6 +76,9 @@ const taskStyles = StyleSheet.create({
     fontFamily: themes.fonts.fontSemiBold,
     color: themes.colors.primary,
   },
+  footerMargin: {
+    marginTop: themes.spacing(13.3),
+  },
 });
 
 export default taskStyles;
