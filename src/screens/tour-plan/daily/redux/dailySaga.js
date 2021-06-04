@@ -1,14 +1,24 @@
 import {takeEvery, call, put} from 'redux-saga/effects';
-import {fetchDoctorDetailTypeName, doctorDetailActions} from './dailySlice';
+import {
+  fetchDoctorDetailTypeName,
+  doctorDetailActions,
+  deletePartyTypeName,
+} from './dailySlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
-
 /**
  * saga watcher to fetch the doctor detail
  */
 export function* fetchDoctorDetailWatcher() {
   yield takeEvery(fetchDoctorDetailTypeName, fetchDoctorDetailWorker);
+}
+
+/**
+ * saga watcher to remove a party
+ */
+export function* deletePartyWatcher() {
+  yield takeEvery(deletePartyTypeName, deletePartyWorker);
 }
 
 /**
@@ -25,14 +35,44 @@ export function* fetchDoctorDetailWorker(action) {
       month: month,
       year: year,
     });
+
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
           data: response.data,
-          fetched: true,
         },
       }),
     );
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    console.log(error);
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+/**
+ * worker function to send the api call to remove a party from the daily plan
+ */
+export function* deletePartyWorker(action) {
+  const {staffPositionid, day, month, year, partyId} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  try {
+    const response = yield call(
+      NetworkService.Delete,
+      API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN,
+      {
+        staffPositionid: staffPositionid,
+        day: day,
+        month: month,
+        year: year,
+        partyId: partyId,
+      },
+    );
+
+    if (response.data) {
+      yield put(doctorDetailActions.doctorRemoved(action.payload));
+    }
+
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     console.log(error);

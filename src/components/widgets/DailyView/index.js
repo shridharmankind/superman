@@ -20,7 +20,7 @@ const isDisabled = (month, selectedMonth) => month != selectedMonth;
  */
 const isWorkingDay = (date, workingDays) => {
   const dayName = getFormatDate({date: date.dateString, format: 'dddd'});
-  return workingDays.includes(dayName);
+  return workingDays?.includes(dayName);
 };
 
 /**

@@ -58,8 +58,9 @@ const WeekView = ({
    * @param {Boolean} isLast
    * @param {string} header
    */
-  const Cell = ({rowHeader, onPress, isLast, header}) => (
+  const Cell = ({rowHeader, onPress, isLast, header, testID}) => (
     <View
+      testID={testID}
       style={[
         styles.cellContainer,
         styles.flexCenterView,
@@ -84,6 +85,7 @@ const WeekView = ({
   const Row = ({isLast, rowHeader}) =>
     columnHeader.map((header, index) => (
       <Cell
+        testID={`${header}-${index}-test`}
         header={header}
         key={index}
         isLast={isLast}

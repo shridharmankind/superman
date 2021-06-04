@@ -3,7 +3,7 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: 10,
+    marginRight: theme.spacing(10),
     borderRadius: 16,
     borderWidth: 1,
     borderColor: theme.colors.primary,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   visitMonth: {
     fontFamily: theme.fonts.fontRegular,
-    marginTop: -5,
+    marginTop: theme.spacing(-5),
     color: theme.colors.grey[200],
   },
   completed: {
