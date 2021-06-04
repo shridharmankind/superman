@@ -67,7 +67,7 @@ export const sortByCategory = array => {
 export const sortBasedOnCategory = (a, b) => {
   return b?.potential > a?.potential
     ? 0
-    : a.partyTypes.name !== 'Chemist'
+    : a?.partyTypes?.name !== 'Chemist'
     ? -1
     : 1;
 };
