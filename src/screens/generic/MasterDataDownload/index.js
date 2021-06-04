@@ -15,6 +15,8 @@ import themes from 'themes';
 import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
+import {Constants} from 'common';
+import {NetworkService} from 'services';
 
 const downloadStatus = Object.freeze({
   DOWNLOADED: 'DOWNLOADED',
@@ -33,7 +35,6 @@ const MasterDataDownload = ({navigation}) => {
       setIndeterminate(false);
       const interval = setInterval(() => {
         progressStatus += Math.random() / 5;
-
         if (progressStatus > 1) {
           progressStatus = 1;
           clearInterval(interval);

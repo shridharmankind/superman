@@ -56,15 +56,6 @@ export const openSchema = async () => {
 export const createRecord = async (schema, record) => {
   try {
     await openSchema();
-
-    /*  let isRecordExists = await realm.objectForPrimaryKey(
-      schema.name,
-      record.name,
-    );
-
-    if (isRecordExists) {
-      return;
-    } */
     await realm.write(() => {
       realm.create(schema.name, record, 'modified');
     });
