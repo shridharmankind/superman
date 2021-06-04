@@ -120,17 +120,14 @@ const StandardPlanModal = ({
   useEffect(() => {
     setPartiesList(allParties);
     filterPartyByType(allParties);
-    console.log('parites', allParties);
   }, [allParties]);
 
   useEffect(() => {
     setAreaList(allAreas);
-    console.log('allAreas', allAreas);
   }, [allAreas]);
 
   useEffect(() => {
     setPatches(allPatches);
-    console.log('allPatches', allPatches);
   }, [allPatches]);
 
   useEffect(() => {
