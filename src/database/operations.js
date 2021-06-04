@@ -8,7 +8,7 @@ import {KeyChain} from 'helper';
 import * as Schemas from './schemas';
 const dbPath = 'superman.realm';
 let realm;
-
+const { UUID } = Realm.BSON;
 /*
  helper function to generarte key based on password/access-token
 */
@@ -77,7 +77,7 @@ export const getRecord = async (schema, recordId) => {
   await openSchema();
   try {
     const record = await realm.objectForPrimaryKey(schema.name, recordId);
-    console.log("Record found");
+    console.log("Record found ",record);
     return record;
   } catch (error) {
     console.log('getRecord', error);
@@ -165,10 +165,10 @@ export const createPartyMasterRecord = async (schema, data) => {
             category: object.category,
             potential: object.potential,
             isKyc: object.isKyc,
-            device_party_id: null,
+            device_party_id: 'null',
             isActive: true,
             requireSync: false,
-            lastModifiedOn: new Date().formatUTC(),
+            lastModifiedOn: new Date(),
             isDelete: false,
             errorInSync: false,
             errorDetails: {

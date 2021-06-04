@@ -41,9 +41,8 @@ export const staffPositions = {
   primaryKey: 'id',
 };
 
-export const errorDetails = {
-  name: 'ERROR_DETAILS',
-  embedded: true,
+export const errorDetailsObject = {
+  name: 'errorDetailsObject',
   properties: {
     errorCode: 'string',
     message: 'string'
@@ -62,10 +61,10 @@ export const partyMaster = {
     device_party_id: 'string',
     isActive: 'bool',
     requireSync: 'bool',
-    lastModifiedOn: 'string',
+    lastModifiedOn: 'date',
     isDelete: 'bool',
     errorInSync: 'bool',
-    errorDetails: errorDetails,
+    errorDetails: 'string',
     partyTypes: Constants.MASTER_TABLE_PARTY_TYPES,
     areas: {
       type: 'list',

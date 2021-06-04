@@ -56,12 +56,15 @@ const MasterDataDownload = ({navigation}) => {
             item.name,
           );
           if (record?.status === downloadStatus.DOWNLOADED) {
-            return;
+            console.log("returning master table");
+            //return;
           }
+          console.log("level 1");
           const response = await NetworkService.get(item.apiPath);
-
+          console.log("level 2");
           if (response.status === Constants.HTTP_OK) {
             const data = await JSON.stringify(response.data);
+            console.log("data -- ",data);
             if (item.name === DBConstants.MASTER_TABLE_USER_INFO) {
               await Operations.createUserInfoRecord(
                 item.schema,

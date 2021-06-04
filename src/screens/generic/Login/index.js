@@ -37,6 +37,7 @@ const Login = ({navigation}) => {
     try {
       setAnimating(true);
       const newAuthState = await authorize(config);
+      console.log(newAuthState.accessToken);
       await KeyChain.saveAccessToken(newAuthState.accessToken);
       const decoded = jwt_decode(newAuthState.accessToken);
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
