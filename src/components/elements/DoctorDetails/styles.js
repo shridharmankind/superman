@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   tileContainer: {
     flexDirection: 'row',
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-end',
     marginTop: 5,
     marginRight: 5,
   },

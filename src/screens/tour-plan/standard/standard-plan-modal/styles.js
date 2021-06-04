@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   categoryFilterContainer: {
     flexDirection: 'row',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: themes.colors.primary,
     borderRadius: 1000,
   },

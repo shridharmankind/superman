@@ -4,6 +4,8 @@ import {getMonthList, getFormatDate} from 'utils/dateTimeHelper';
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
  * Ex: let today is May 2021. So, I will get [May 2021, June 2021, ..... February 2022, March 2022]
+ * @param {Date} inputDate date input
+ * @returns array of objects containing the tour plan months
  */
 export const getTourPlanScheduleMonths = inputDate => {
   const MONTH_RANGE = 13;

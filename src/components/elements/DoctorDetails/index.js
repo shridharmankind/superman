@@ -88,13 +88,13 @@ const DoctorDetails = ({
           <View style={styles.borderInnerContainer} />
         </View>
         <View style={styles.tileContainer}>
-          <View style={styles.tileLeft}>
+          {/* <View style={styles.tileLeft}>
             <Label title={Strings.labelRssdi} style={styles.tileText} />
             <Label
               title={Strings.dailyPlanTileTitle}
               style={[styles.tileText, styles.titleTextSecondary]}
             />
-          </View>
+          </View> */}
           <View style={styles.tileRight}>
             <TouchableOpacity onPress={onTilePress}>
               <MoreVerticalIcon width={20} height={20} />
