@@ -56,7 +56,7 @@ export const getTourPlanScheduleMonths = inputDate => {
 };
 
 export const sortByCategory = array => {
-  const byCategory = array.slice().sort(sortBasedOnCategory);
+  const byCategory = (array || []).slice().sort(sortBasedOnCategory);
   const byPotentials = byCategory
     .slice()
     .sort((a, b) => (a.isKyc === b.isKyc ? 0 : a.isKyc ? -1 : 1));
