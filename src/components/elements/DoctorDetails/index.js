@@ -23,6 +23,7 @@ import {Strings} from 'common';
  * @param {Boolean} showVisitPlan flag to show/hide doctor's daily visit plan
  * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
  * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
+ * @param {Function} onTileNamePress Fire when click on tile name
  */
 
 const DoctorDetails = ({
@@ -39,6 +40,7 @@ const DoctorDetails = ({
   isTicked,
   showTile,
   onTilePress,
+  onTileNamePress,
   alreadyVisited,
   frequency,
   selectedVistedFrequency,
@@ -53,7 +55,7 @@ const DoctorDetails = ({
   const renderFrequencyChicklets = (Component, length) => {
     let frequencyComp = [];
     for (let i = 0; i < length; i++) {
-      frequencyComp.push(Component);
+      frequencyComp.push(<React.Fragment key={i}>{Component}</React.Fragment>);
     }
     return frequencyComp;
   };
@@ -124,12 +126,15 @@ const DoctorDetails = ({
           </View>
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/avtar.png')}
+            source={require('../../../assets/images/avatar.png')}
           />
           <View style={styles.nameContainer}>
             <Label
               title={title}
               size={customStyle ? customStyle.titleSize : 17}
+              onPress={() => {
+                onTileNamePress && onTileNamePress();
+              }}
               type={'medium'}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
@@ -217,6 +222,7 @@ DoctorDetails.propTypes = {
   showFrequencyChiclet: PropTypes.bool,
   showVisitPlan: PropTypes.bool,
   isTicked: PropTypes.bool,
+  onTileNamePress: PropTypes.func,
 };
 
 export default DoctorDetails;

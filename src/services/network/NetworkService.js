@@ -65,6 +65,12 @@ export const post = async (url, data = {}, params = {}) => {
     });
 };
 
+/**
+ * Handle HTTP PUT request
+ * @param {string} url http url of api
+ * @param {object} data data to pass in body
+ * @param {object} params params to pass in api call
+ */
 export const put = async (url, data = {}, params = {}) => {
   const accessToken = await KeyChain.getAccessToken();
   const config = {
@@ -90,10 +96,42 @@ export const put = async (url, data = {}, params = {}) => {
     });
 };
 
+/**
+ * Handle HTTP DELETE request
+ * @param {string} url http url of api
+ * @param {object} data data to pass in body
+ * @param {object} params params to pass in api call
+ */
+export const Delete = async (url, data = {}, params = {}) => {
+  const accessToken = await KeyChain.getAccessToken();
+  const config = {
+    baseURL: env.API_HOST,
+    method: 'DELETE',
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    data,
+    params,
+  };
+
+  return client(config)
+    .then(function (response) {
+      // handle success
+      return response;
+    })
+    .catch(function (error) {
+      // handle error, based on different error code different error message can be set here
+      return error.response || error.message;
+    });
+};
+
 const NetworkService = {
   get,
   post,
   put,
+  Delete,
 };
 
 export default NetworkService;

@@ -218,47 +218,10 @@
     "specialities": [],
     "qualifications": [],
     "frequency": 2,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
-    },
-    "category": "A",
-    "potential": 4000000,
-    "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ]
-  },
-  {
-    "id": 11,
-    "name": "ANAND SINGH SAINI",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
-    },
-    "category": "D",
-    "potential": 30000,
+    "alreadyVisited": 2,
+    "partyType": "Chemist",
+    "category": "A+",
+    "potential": 0.0,
     "isKyc": false,
     "areas": [
       {

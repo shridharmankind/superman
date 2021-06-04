@@ -4,12 +4,13 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
+    overflow: 'hidden',
   },
   modalView: {
     backgroundColor: theme.colors.white,
     borderRadius: theme.roundness,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: theme.spacing(20),
+    paddingVertical: theme.spacing(10),
     shadowColor: theme.colors.black,
     shadowOffset: {
       width: 0,
@@ -18,8 +19,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: 500,
-    height: 500,
+    width: theme.spacing(500),
+    height: theme.spacing(500),
   },
   titleView: {
     flexDirection: 'row',
@@ -34,6 +35,15 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontFamily: theme.fonts.fontRegular,
+  },
+  blurView: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    justifyContent: 'center',
+    padding: theme.spacing(20),
   },
 });
 

@@ -32,6 +32,7 @@ const MonthlyView = ({
       current={currentDate}
       ref={textInput}
       hideArrows={true}
+      testID={'calendar-monthly-view-test'}
       style={{backgroundColor: theme.colors.white}}
       theme={{
         textMonthFontSize: 18,

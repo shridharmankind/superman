@@ -8,8 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
-import {Constants, Strings} from 'common';
-import {NetworkService} from 'services';
+import {Strings} from 'common';
 import {Label} from 'components/elements';
 import themes from 'themes';
 import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
