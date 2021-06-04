@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, TouchableOpacity, TouchableHighlight} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
@@ -20,6 +20,8 @@ import {CloseIcon} from 'assets';
 const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
+  const [isDeleteOperationInProgress, setIsDeleteOperationInProgress] =
+    useState(false);
 
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
@@ -50,6 +52,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
    */
   const deleteRow = (rowMap, rowKey, item) => {
     let undoclicked = false;
+    setIsDeleteOperationInProgress(true);
     showToast({
       type: Constants.TOAST_TYPES.ALERT,
       autoHide: true,
@@ -71,7 +74,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
       },
       onHide: () => {
         closeRow(rowMap, rowKey);
-
+        setIsDeleteOperationInProgress(false);
         if (!undoclicked) {
           dispatch(
             deletePartyCreator({
@@ -96,6 +99,8 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     return (
       <SwipeRow
         disableRightSwipe={true}
+        stopLeftSwipe={isDeleteOperationInProgress}
+        disableLeftSwipe={isDeleteOperationInProgress}
         leftOpenValue={20 + Math.random() * 150}
         rightOpenValue={-90}>
         <View style={styles.rowBack}>
@@ -140,7 +145,13 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
       </SwipeRow>
     );
   };
-  return <SwipeListView data={dayPlanData} renderItem={renderItem} />;
+  return (
+    <SwipeListView
+      data={dayPlanData}
+      renderItem={renderItem}
+      stopLeftSwipe={isDeleteOperationInProgress}
+    />
+  );
 };
 
 export default PartyList;
