@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.primary,
     backgroundColor: theme.colors.white,
-    width: theme.spacing(50),
-    height: theme.spacing(50),
+    width: 50,
+    height: 50,
     position: 'relative',
     shadowColor: theme.colors.black,
     shadowOffset: {

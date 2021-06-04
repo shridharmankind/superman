@@ -7,4 +7,3 @@ export {default as DoctorDetails} from './DoctorDetails';
 export {default as Frequency} from './Frequency';
 export {default as Modal} from './Modal';
 export {default as Dropdown} from './Dropdown';
-export {default as SwipeRow} from './SwipeRow';

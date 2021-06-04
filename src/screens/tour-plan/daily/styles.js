@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: theme.spacing(32),
     paddingVertical: theme.spacing(20),
-    borderColor: theme.colors.grey[500],
+    borderColor: theme.colors.grey[400],
     borderRadius: 10,
     borderWidth: 1,
     width: '100%',
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     flexDirection: 'row',
-    minWidth: theme.spacing(350),
+    minWidth: 350,
   },
   specialization: {
     paddingRight: theme.spacing(10),
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
     left: theme.spacing(-34),
   },
   image: {
-    width: theme.spacing(64),
-    height: theme.spacing(64),
+    width: 64,
+    height: 64,
     borderRadius: 32,
     marginTop: theme.spacing(8),
   },
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing(20),
   },
   modalView: {
-    width: theme.spacing(300),
-    height: theme.spacing(200),
+    width: 300,
+    height: 200,
   },
   modalContentView: {
     paddingTop: theme.spacing(50),
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     top: 0,
-    width: theme.spacing(100),
+    width: 100,
   },
   backRightBtnRight: {
     backgroundColor: theme.colors.red[200],
