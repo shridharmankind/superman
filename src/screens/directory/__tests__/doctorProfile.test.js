@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import DoctorProfile from '../doctorDetails';
+import DoctorProfile from '../doctorProfile';
 import {withTheme, cleanup} from 'utils/testHelpers';
 
 afterEach(cleanup);

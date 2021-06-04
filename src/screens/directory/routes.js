@@ -1,5 +1,5 @@
 import DirectoryLanding from './landing';
-import DoctorProfile from './doctorDetails';
+import DoctorProfile from './doctorProfile';
 
 export const ROUTE_DIRECTORY_LANDING = 'DirectoryLanding';
 export const ROUTE_DIRECTORY_PROFILE = 'DirectoryDoctorProfile';
