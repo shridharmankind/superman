@@ -93,7 +93,6 @@ export const getAllRecord = async schema => {
   try {
     await openSchema();
     const records = await realm.objects(schema.name);
-    console.log('success', records);
     return records;
   } catch (error) {
     console.log('getAllRecord', error);

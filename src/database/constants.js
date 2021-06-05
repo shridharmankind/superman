@@ -1,5 +1,9 @@
 //Common
 export const USER_PRIMARY_KEY = 1;
+export const downloadStatus = Object.freeze({
+  DOWNLOADED: 'DOWNLOADED',
+  PENDING: 'PENDING',
+});
 
 //ONLY Table Names
 export const MASTER_TABLES_DOWNLOAD_STATUS = 'MASTER_TABLES_DOWNLOAD_STATUS';

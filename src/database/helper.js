@@ -55,3 +55,27 @@ export const getStaffPositionId = async () => {
     return staffPositionId;
   } catch (error) {}
 };
+
+/**
+ * This function to check if any master table is pending to download
+ * @returns true/false
+ */
+export const checkForPendingMasterDataDownload = async () => {
+  try {
+    const record = await Operations.getAllRecord(
+      Schemas.masterTablesDownLoadStatus,
+    );
+
+    if (record && record.length === 0) {
+      return true;
+    }
+
+    let isPending = false;
+    record.forEach(obj => {
+      if (obj.status === Constants.downloadStatus.PENDING) {
+        isPending = true;
+      }
+    });
+    return isPending;
+  } catch (error) {}
+};

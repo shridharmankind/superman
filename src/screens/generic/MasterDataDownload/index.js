@@ -18,11 +18,6 @@ import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
 import {NetworkService} from 'services';
 
-const downloadStatus = Object.freeze({
-  DOWNLOADED: 'DOWNLOADED',
-  PENDING: 'PENDING',
-});
-
 const MasterDataDownload = ({navigation}) => {
   const [progress, setProgress] = useState(0);
   const [indeterminate, setIndeterminate] = useState(true);
@@ -57,7 +52,7 @@ const MasterDataDownload = ({navigation}) => {
             item.name,
           );
 
-          if (record?.status === downloadStatus.DOWNLOADED) {
+          if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
           let response;
@@ -93,7 +88,7 @@ const MasterDataDownload = ({navigation}) => {
             }
             await Operations.updateRecord(
               Schemas.masterTablesDownLoadStatus,
-              downloadStatus.DOWNLOADED,
+              DBConstants.downloadStatus.DOWNLOADED,
               item.name,
             );
           } else {
@@ -115,7 +110,7 @@ const MasterDataDownload = ({navigation}) => {
       Helper.MASTER_TABLES_DETAILS.forEach(async item => {
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
-          status: downloadStatus.PENDING,
+          status: DBConstants.downloadStatus.PENDING,
         });
       });
     } catch (error) {
