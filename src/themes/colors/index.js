@@ -22,9 +22,6 @@ const Colors = {
   limeGreen: '#00B637',
   checkCircleBlue: '#0095d1',
   transparent: '#00000000',
-  alert: '#C43500',
-  warning: '#F5Ad00',
-  standard: '#C9CCD2',
   red: {
     100: '#E36565',
     200: '#f45b60',
