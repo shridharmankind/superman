@@ -176,3 +176,9 @@ export const createPartyMasterRecord = async (schema, data) => {
     console.log('createPartyMasterRecord', error);
   }
 };
+
+export const closeDB = () => {
+  if (realm) {
+    realm.close();
+  }
+};

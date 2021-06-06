@@ -52,6 +52,7 @@ export const getStaffPositionId = async () => {
         staffPositionId = obj.id;
       }
     });
+    Operations.closeDB();
     return staffPositionId;
   } catch (error) {}
 };
@@ -76,6 +77,7 @@ export const checkForPendingMasterDataDownload = async () => {
         isPending = true;
       }
     });
+    Operations.closeDB();
     return isPending;
   } catch (error) {}
 };

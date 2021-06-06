@@ -17,6 +17,7 @@ import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
 import {NetworkService} from 'services';
+import {Routes} from 'navigations';
 
 const MasterDataDownload = ({navigation}) => {
   const [progress, setProgress] = useState(0);
@@ -33,15 +34,18 @@ const MasterDataDownload = ({navigation}) => {
         if (progressStatus > 1) {
           progressStatus = 1;
           clearInterval(interval);
+          navigation.reset({
+            routes: [{name: Routes.ROUTE_DASHBOARD}],
+          });
         }
         setProgress(progressStatus);
       }, 1500);
     }, 3000);
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     const fetchData = async () => {
-      //animate();
+      animate();
       try {
         await initMasterTablesDownloadStatus();
 
@@ -95,7 +99,6 @@ const MasterDataDownload = ({navigation}) => {
             Alert.alert(Strings.info, response);
           }
         }
-        navigation.navigate('Dashboard');
       } catch (error) {
         Alert.alert(Strings.info, error);
       }

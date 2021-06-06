@@ -44,10 +44,17 @@ const Login = ({navigation}) => {
       AsyncStorage.setItem(USER_ID, decoded.sub);
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
       setAnimating(false);
-      const status = await Helper.checkForPendingMasterDataDownload();
-      status
-        ? navigation.navigate(Routes.ROUTE_MASTER_DATA_DOWNLOAD)
-        : navigation.navigate(Routes.ROUTE_DASHBOARD);
+
+      const isPending = await Helper.checkForPendingMasterDataDownload();
+      if (isPending) {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
+        });
+      } else {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
+      }
     } catch (error) {
       setAnimating(false);
       Alert.alert(Strings.info, error.message);
