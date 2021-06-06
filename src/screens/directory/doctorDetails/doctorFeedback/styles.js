@@ -3,7 +3,7 @@ import themes from 'themes';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 32,
+    padding: themes.spacing(32),
     paddingBottom: themes.spacing(66.7),
     flex: 1,
     marginHorizontal: themes.spacing(101),
@@ -53,11 +53,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     width: 92,
     height: 60,
-  },
-  MRStyle: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1,
   },
   imgContainer: {
     width: 160,
