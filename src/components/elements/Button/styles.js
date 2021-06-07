@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     borderRadius: theme.roundness,
     justifyContent: 'center',
     alignItems: 'center',
-    height: theme.spacing(50),
+    height: 50,
   },
   buttonText: {
     fontSize: 12,

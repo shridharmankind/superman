@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: theme.colors.white,
     borderRadius: theme.roundness,
-    paddingHorizontal: theme.spacing(20),
-    paddingVertical: theme.spacing(10),
+    paddingHorizontal: theme.spacing(26.7),
+    paddingVertical: theme.spacing(20),
     shadowColor: theme.colors.black,
     shadowOffset: {
       width: 0,
@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: theme.spacing(500),
-    height: theme.spacing(500),
+    width: 500,
+    height: 500,
   },
   titleView: {
     flexDirection: 'row',
   },
   title: {
-    width: '95%',
+    width: '92%',
   },
   close: {
     alignItems: 'flex-end',

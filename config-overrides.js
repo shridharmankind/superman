@@ -5,10 +5,23 @@ const {
   addBabelPlugin,
   babelInclude,
   removeModuleScopePlugin,
+  addWebpackModuleRule,
 } = require('customize-cra');
+
+const imageLoaderConfiguration = {
+  test: /\.(gif|jpe?g|png|svg)$/,
+  use: {
+    loader: 'url-loader',
+    options: {
+      name: '[name].[ext]',
+      esModule: false,
+    },
+  },
+};
 
 module.exports = override(
   removeModuleScopePlugin(),
+  addWebpackModuleRule(imageLoaderConfiguration),
   ...addBabelPlugins(
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-transform-modules-commonjs',

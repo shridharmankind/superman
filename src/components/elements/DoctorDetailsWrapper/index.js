@@ -14,6 +14,10 @@ import {DoctorDetails} from 'components/elements';
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
  * @param {Function} onPress doctor card click handled
+ * @param {Object} containerStyle contains styles for the main View
+ * @param {Boolean} isKyc boolean value passed for KYC status
+ * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
+ * @param {Object} party party information is passed as an object
  */
 
 const DoctorDetailsWrapper = ({
@@ -28,12 +32,14 @@ const DoctorDetailsWrapper = ({
   onPress,
   party,
   isPatchedData,
+  isKyc,
+  containerStyle,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
 
-  const isDisabled = isPatchedData && party.frequency === party.alreadyVisited;
+  const isDisabled = isPatchedData && frequency === alreadyVisited;
 
   /**
    *  Select and deselect the card ,also
@@ -44,23 +50,18 @@ const DoctorDetailsWrapper = ({
     if (frequency === alreadyVisited) {
       return;
     }
-    // toggle if already selected
-    party.selected = !party.selected;
-    party.selected
-      ? (party.selectedVistedFrequency = alreadyVisited + 1)
-      : (party.selectedVistedFrequency = alreadyVisited); //TO DO :: update code after complete integration
-
     onPress(id);
   };
-  if (!isPatchedData && party.frequency === party.alreadyVisited) {
+
+  if (!isPatchedData && frequency === alreadyVisited) {
     return null;
   }
 
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(id)}
-      style={[styles.container, isDisabled && styles.disabled]}
+      onPress={() => handleDoctorSelection(party)}
+      style={[styles.container, containerStyle, isDisabled && styles.disabled]}
       disabled={isDisabled}
       activeOpacity={1}>
       <DoctorDetails
@@ -69,13 +70,11 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={party?.selected || false}
-        selectedVistedFrequency={
-          party.selectedVistedFrequency
-            ? party.selectedVistedFrequency
-            : alreadyVisited
-        }
+        isTicked={selected || false}
+        selectedVistedFrequency={selected ? alreadyVisited + 1 : alreadyVisited}
         frequency={frequency}
+        partyType={party.partyTypes.name}
+        isKyc={isKyc}
         {...props}
       />
     </TouchableOpacity>

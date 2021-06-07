@@ -14,10 +14,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     marginTop: 14,
-    flex: 1,
-    minWidth: '48%',
-    maxWidth: '48%',
-    marginRight: 20,
+    width: '48%',
     zIndex: 1,
   },
   detailsContainer: {
@@ -61,6 +58,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: theme.colors.disabled,
+    opacity: 0.3,
   },
 });
 
