@@ -29,15 +29,16 @@ TaskManager.defineTask(TASK_NAME, async () => {
     try {
       const accessToken = await KeyChain.getAccessToken();  
       const getCurrentAsyncStorage = await AsyncStorage.getItem("BACKGROUND_TASK");
-      console.log("[SYNC ACTIVITY] STARTED");
-      console.log("[BACKGROUND_TASK] :  ",getCurrentAsyncStorage);
       if(accessToken && getCurrentAsyncStorage === 'NOT_RUNNING'){
+        console.log("[SYNC ACTIVITY] STARTED");
         await setWorkingAsyncStorage();
+        console.log("[BACKGROUND_TASK] :  ",getCurrentAsyncStorage);
         await runTask();
         await setExitAsyncStorage();
+        console.log("[BACKGROUND_TASK] :  ",getCurrentAsyncStorage);
       }
       else{
-          console.log("[BACKGROUND_TASK] : ANOTHER_TASK_IS_RUNNING");
+          console.log("[BACKGROUND_TASK] : NOT_STARTED");
       }
     } catch (err) {
       console.log("err -- ",err);
@@ -46,17 +47,22 @@ TaskManager.defineTask(TASK_NAME, async () => {
 });
 
 export const TestTask = async () => {
-    const accessToken = await KeyChain.getAccessToken();
-    const getCurrentAsyncStorage = await AsyncStorage.getItem("BACKGROUND_TASK");
-    console.log("[FOREGROUND_TASK] ",getCurrentAsyncStorage);
-    if(accessToken && getCurrentAsyncStorage === 'NOT_RUNNING'){
-      await setWorkingAsyncStorage();
-      await runTask();
-      await setExitAsyncStorage();
-    }
-    else{
-      console.log("[FOREGROUND_TASK] : WILL_NOT_WORK");
-    }
+    try{
+        const accessToken = await KeyChain.getAccessToken();
+        const getCurrentAsyncStorage = await AsyncStorage.getItem("BACKGROUND_TASK");
+        if(accessToken && getCurrentAsyncStorage === 'NOT_RUNNING'){
+            console.log("[SYNC ACTIVITY] STARTED");
+            await setWorkingAsyncStorage();
+            console.log("[FOREGROUND_TASK] ",getCurrentAsyncStorage);
+            await runTask();
+            await setExitAsyncStorage();
+        }
+        else{
+        console.log("[FOREGROUND_TASK] : NOT_STARTED");
+        }
+    } catch (err) {
+        console.log("err -- ",err);
+    }   
 };
 
 

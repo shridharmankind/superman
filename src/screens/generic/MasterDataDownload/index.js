@@ -15,6 +15,7 @@ import themes from 'themes';
 import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
+import {Constants} from 'common';
 
 const downloadStatus = Object.freeze({
   DOWNLOADED: 'DOWNLOADED',
@@ -62,7 +63,7 @@ const MasterDataDownload = ({navigation}) => {
           console.log("level 1");
           const response = await NetworkService.get(item.apiPath);
           console.log("level 2");
-          if (response.status === DBConstants.HTTP_OK) {
+          if (response.status === Constants.HTTP_OK) {
             const data = await JSON.stringify(response.data);
             console.log("data -- ",data);
             if (item.name === DBConstants.MASTER_TABLE_USER_INFO) {
@@ -103,6 +104,7 @@ const MasterDataDownload = ({navigation}) => {
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
           status: downloadStatus.PENDING,
+          lastSync: new Date()
         });
       });
     } catch (error) {

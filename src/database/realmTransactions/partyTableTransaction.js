@@ -36,25 +36,31 @@ const fetchData = async () => {
                     Schemas.masterTablesDownLoadStatus,
                     item.name,
                 );
+                console.log("record master : ",record);
                 if (record?.status === downloadStatus.DOWNLOADED) {
+                    const accessToken = await KeyChain.getAccessToken();
+                    //console.log("accessTokenn -- ",accessToken);
                     const partyRecord = await Operations.getAllRecord(item.schema[0]);
-                    console.log("Party Record == ",partyRecord);
-                    //const modifiedData = partyRecord.filtered('action != "SYNC"')
-                    //console.log("Not Sync Data ",modifiedData);
+                    console.log("Party Record == ",JSON.stringify(partyRecord));
+                    // const modifiedData = partyRecord.filtered('syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true')
+                    // console.log("modified -- ",JSON.stringify(modifiedData,null,2));
+                    // let newModifiedArray = Array.from(modifiedData);
+                    // const response = await NetworkService.post('party/sync',newModifiedArray);
+                    // const data = await JSON.stringify(response.data);
+                    // console.log("new Data",JSON.stringify(JSON.parse(data),null,2));
+                    // await Operations.updatePartyMasterRecord(item.schema[0],JSON.parse(data));
+                    // const partyRecord1 = await Operations.getAllRecord(item.schema[0]);
+                    // console.log("Iupdated == ",JSON.stringify(partyRecord1,null,2));
+                    
+                    // await Operations.updateRecord(
+                    //     Schemas.masterTablesDownLoadStatus,
+                    //     downloadStatus.DOWNLOADED,
+                    //     item.name,
+                    // );
+
                     return;
                 }
-                // const response = await NetworkService.get(item.apiPath);
-                // const data = await JSON.stringify(response.data);
-                // await Operations.createPartyMasterRecord(
-                //     item.schema,
-                //     JSON.parse(data),
-                // );
                 
-                // await Operations.updateRecord(
-                //     Schemas.masterTablesDownLoadStatus,
-                //     downloadStatus.DOWNLOADED,
-                //     item.name,
-                // );
                 
             }
         });

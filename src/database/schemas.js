@@ -5,6 +5,7 @@ export const masterTablesDownLoadStatus = {
   properties: {
     name: 'string',
     status: 'string',
+    lastSync: 'date'
   },
   primaryKey: 'name',
 };
@@ -49,22 +50,42 @@ export const errorDetailsObject = {
   }
 };
 
+export const syncErrorDetails = {
+  name: Constants.MASTER_SYNC_ERROR_DETAIL,
+  embedded: true,
+  properties: {
+    conflictType: 'string',
+    errorMessage: 'string'
+  }
+}
+
+export const syncParameters = {
+  name: Constants.MASTER_SYNC_PARAMETERS,
+  embedded: true, // default: false
+  properties: {
+    devicePartyId: 'string',
+    isActive: 'bool',
+    requireSync: 'bool',
+    lastModifiedOn: 'date',
+    isDeleted: 'bool',
+    errorInSync: 'bool',
+    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL
+  }
+};  
+
 export const partyMaster = {
   name: Constants.MASTER_TABLE_PARTY,
   properties: {
     id: 'int',
+    staffPositionId: 'int',
+    partyTypeId: 'int',
+    shortName: 'string',
     name: 'string',
     frequency: 'int',
     category: 'string',
     potential: 'float',
     isKyc: 'bool',
-    device_party_id: 'string',
-    isActive: 'bool',
-    requireSync: 'bool',
-    lastModifiedOn: 'date',
-    isDelete: 'bool',
-    errorInSync: 'bool',
-    errorDetails: 'string',
+    syncParameters : Constants.MASTER_SYNC_PARAMETERS,
     partyTypes: Constants.MASTER_TABLE_PARTY_TYPES,
     areas: {
       type: 'list',
@@ -77,7 +98,7 @@ export const partyMaster = {
     qualifications: {
       type: 'list',
       objectType: Constants.MASTER_TABLE_QUALIFICATIONS,
-    },
+    }
   },
   primaryKey: 'id',
 };
@@ -97,7 +118,7 @@ export const areas = {
   properties: {
     id: 'int',
     name: 'string',
-    shortName: 'string',
+    shortName: 'string'
   },
   primaryKey: 'id',
 };

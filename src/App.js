@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {LogBox} from 'react-native';
+import {LogBox,  Alert} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -18,8 +18,7 @@ import SyncAdapter from 'react-native-sync-adapter';
 import {TASK_NAME,syncFlexTime,syncInterval} from './utils/backgroundTask';
 import * as BackgroundFetch from "expo-background-fetch";
 import AsyncStorage from '@react-native-community/async-storage';
-import {KeyChain} from 'helper';
-
+import NetInfo from "@react-native-community/netinfo";
 BackgroundFetch.setMinimumIntervalAsync(60);
 
 
@@ -31,22 +30,39 @@ const App = () => {
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
 
   useEffect(() => {
+    //const unsubscribe = checkNetworkConnectivity();
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
           SplashScreen.hide();
         });
       }, 2000);
+      
       syncBackgroundTaskOnStart();
       RegisterBackgroundTask();
     }
 
     return () => {
       console.log("Unmount task in working");
+      //unsubscribe();
       AsyncStorage.removeItem("BACKGROUND_TASK");
     }
   
   }, []);
+
+  const checkNetworkConnectivity = () => {
+    try{
+        const netSubscribe = NetInfo.addEventListener(state => {
+          console.log("EventListerner Connection type", state.type);
+          console.log("EventListerner Is connected?", state.isConnected);
+        });
+
+        return netSubscribe;
+      
+    } catch(err){
+        console.log("Network Connectivity Error ",err);
+    }
+  }
 
   const syncBackgroundTaskOnStart = () => {
     SyncAdapter.init({
