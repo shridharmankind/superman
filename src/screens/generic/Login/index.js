@@ -16,6 +16,8 @@ import {KeyChain} from 'helper';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
+import {Helper} from 'database';
+import {Routes} from 'navigations';
 
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
@@ -43,10 +45,20 @@ const Login = ({navigation}) => {
       AsyncStorage.setItem(USER_ID, decoded.sub);
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
       setAnimating(false);
-      navigation.navigate('MasterDataDownload');
+
+      const isPending = await Helper.checkForPendingMasterDataDownload();
+      if (isPending) {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
+        });
+      } else {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
+      }
     } catch (error) {
       setAnimating(false);
-      Alert.alert(AlertTitle, error.message);
+      Alert.alert(Strings.info, error.message);
     }
   }, [navigation]);
 

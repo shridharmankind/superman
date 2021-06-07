@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   verticalHeader: {
-    flex: 0.2,
+    flex: 0.25,
     minWidth: 18,
   },
   flexCenterView: {

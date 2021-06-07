@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
   },
   selectedTour: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: theme.spacing(20),
   },
   iconContainer: {
-    marginLeft: 20,
-    marginTop: 2,
+    marginLeft: theme.spacing(20),
+    marginTop: theme.spacing(2),
   },
   mySelectedTourTextContainer: {
     minWidth: 80,
@@ -29,11 +29,15 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
   },
   modalText: {
-    paddingVertical: 5,
+    paddingVertical: theme.spacing(8),
+    color: theme.colors.grey[200],
+  },
+  modalTextSelected: {
+    paddingVertical: theme.spacing(5),
     color: theme.colors.primary,
   },
   modalTitleText: {
-    paddingVertical: 5,
+    paddingVertical: theme.spacing(5),
     color: theme.colors.black,
   },
   contentView: {
@@ -41,7 +45,16 @@ const styles = StyleSheet.create({
   },
   modalPosition: {
     marginTop: '12%',
-    marginLeft: '20%',
+    marginLeft: '16%',
+    width: 333.3,
+    height: 590.7,
+  },
+  dropdownLabel: {
+    fontFamily: theme.fonts.fontRegular,
+    color: theme.colors.grey[900],
+  },
+  tourPlanViewContainer: {
+    marginTop: theme.spacing(15.5),
   },
 });
 

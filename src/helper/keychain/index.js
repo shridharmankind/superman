@@ -31,21 +31,29 @@ This function is save DB key based on access token
 @ @param {String}- accessToken that will be used to generate DB key.
 */
 export const saveDatabaseKey = async accessToken => {
-  const dbKey = await getDatabaseKey();
-  if (dbKey) {
-    return;
+  try {
+    const dbKey = await getStoredDatabaseKey();
+    if (dbKey) {
+      return;
+    }
+    await Keychain.setInternetCredentials(
+      DATABASE_KEY,
+      DATABASE_KEY,
+      accessToken,
+    );
+  } catch (error) {
+    console.log('saveDatabaseKey', error);
   }
-  await Keychain.setInternetCredentials(
-    DATABASE_KEY,
-    DATABASE_KEY,
-    accessToken,
-  );
 };
 
 /**
  Function to get Database key
 */
-export const getDatabaseKey = async () => {
-  const dbKey = await Keychain.getInternetCredentials(DATABASE_KEY);
-  return dbKey?.password;
+export const getStoredDatabaseKey = async () => {
+  try {
+    const dbKey = await Keychain.getInternetCredentials(DATABASE_KEY);
+    return dbKey?.password;
+  } catch (error) {
+    console.log('getStoredDatabaseKey', error);
+  }
 };

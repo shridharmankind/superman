@@ -7,7 +7,7 @@ import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -23,6 +23,7 @@ import {Strings} from 'common';
  * @param {Boolean} showVisitPlan flag to show/hide doctor's daily visit plan
  * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
  * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
+ * @param {Function} onTileNamePress Fire when click on tile name
  */
 
 const DoctorDetails = ({
@@ -39,9 +40,12 @@ const DoctorDetails = ({
   isTicked,
   showTile,
   onTilePress,
+  onTileNamePress,
   alreadyVisited,
   frequency,
   selectedVistedFrequency,
+  partyType,
+  isKyc,
   ...props
 }) => {
   /**
@@ -53,7 +57,7 @@ const DoctorDetails = ({
   const renderFrequencyChicklets = (Component, length) => {
     let frequencyComp = [];
     for (let i = 0; i < length; i++) {
-      frequencyComp.push(Component);
+      frequencyComp.push(<React.Fragment key={i}>{Component}</React.Fragment>);
     }
     return frequencyComp;
   };
@@ -84,13 +88,6 @@ const DoctorDetails = ({
           <View style={styles.borderInnerContainer} />
         </View>
         <View style={styles.tileContainer}>
-          <View style={styles.tileLeft}>
-            <Label title={Strings.labelRssdi} style={styles.tileText} />
-            <Label
-              title={Strings.dailyPlanTileTitle}
-              style={[styles.tileText, styles.titleTextSecondary]}
-            />
-          </View>
           <View style={styles.tileRight}>
             <TouchableOpacity onPress={onTilePress}>
               <MoreVerticalIcon width={20} height={20} />
@@ -109,33 +106,69 @@ const DoctorDetails = ({
           customStyle && customStyle.detailsContainerCustom,
         ]}>
         <View style={styles.details}>
-          <View
-            style={[
-              styles.divisionContainer,
-              customStyle && customStyle.divisionContainerCustom,
-              {backgroundColor: getDivisionColor(category)},
-            ]}>
-            <Label
-              style={styles.divisionText}
-              title={category && category.toUpperCase()}
-              size={customStyle ? customStyle.divisionSize : 9}
-              type={'bold'}
-            />
-          </View>
+          {partyType === Constants.PARTY_TYPE.DOCTOR && (
+            <View
+              style={[
+                styles.divisionContainer,
+                customStyle && customStyle.divisionContainerCustom,
+              ]}>
+              {isKyc && (
+                <View
+                  style={[
+                    styles.divisionItem,
+                    {
+                      backgroundColor: getDivisionColor(
+                        Constants.DIVISION_COLOR.KYC,
+                      ),
+                    },
+                  ]}>
+                  <Label
+                    style={styles.divisionText}
+                    title={Strings.kyc}
+                    size={customStyle ? customStyle.divisionSize : 9}
+                    type={'bold'}
+                  />
+                </View>
+              )}
+              {category && (
+                <View
+                  style={[
+                    styles.divisionItem,
+                    {backgroundColor: getDivisionColor(category)},
+                  ]}>
+                  <Label
+                    style={styles.divisionText}
+                    title={category}
+                    size={customStyle ? customStyle.divisionSize : 9}
+                    type={'bold'}
+                  />
+                </View>
+              )}
+            </View>
+          )}
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/avtar.png')}
+            source={require('../../../assets/images/avatar.png')}
           />
           <View style={styles.nameContainer}>
             <Label
-              title={title}
+              title={
+                partyType === Constants.PARTY_TYPE.DOCTOR
+                  ? `${Strings.dr} ${title}`
+                  : title
+              }
               size={customStyle ? customStyle.titleSize : 17}
+              onPress={() => {
+                onTileNamePress && onTileNamePress();
+              }}
               type={'medium'}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={specialization.map(spec => spec).join(', ')}
+                title={(specialization || [])
+                  .map(spec => spec?.name || spec)
+                  .join(', ')}
                 style={customStyle && customStyle.specialization}
               />
 
@@ -185,12 +218,16 @@ const DoctorDetails = ({
 
 const getDivisionColor = division => {
   switch (division && division.toLowerCase()) {
-    case 'kyc':
+    case Constants.DIVISION_COLOR.KYC:
       return themes.colors.orange[100];
-    case 'a+':
+    case Constants.DIVISION_COLOR.A_PLUS:
       return themes.colors.darkBlue;
-    case 'b':
+    case Constants.DIVISION_COLOR.A:
+      return themes.colors.yellow[300];
+    case Constants.DIVISION_COLOR.B:
       return themes.colors.lightBlue;
+    case Constants.DIVISION_COLOR.C:
+      return themes.colors.grey[1200];
     default:
       return themes.colors.transparent;
   }
@@ -217,6 +254,7 @@ DoctorDetails.propTypes = {
   showFrequencyChiclet: PropTypes.bool,
   showVisitPlan: PropTypes.bool,
   isTicked: PropTypes.bool,
+  onTileNamePress: PropTypes.func,
 };
 
 export default DoctorDetails;

@@ -1,147 +1,33 @@
+/* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
-import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
-import {Label, Modal, Button, SwipeRow} from 'components/elements';
-import {DoctorDetails} from 'components/elements';
-import {sortBasedOnCategory} from 'screens/tourPlan/helper';
+import {Label, Modal, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
 import {fetchDoctorDetailCreator, dailySelector} from './redux';
 import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import PartyList from 'screens/tourPlan/daily/doctorListing';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
   const dispatch = useDispatch();
-  const dayPlan = [
-    {
-      name: 'Dr. Ashish Gulati',
-      specialization: ['Cardiologist'],
-      category: 'KYC',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.COMPLETED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manish Kumar ',
-      specialization: ['Cardiologist'],
-      category: 'a+',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manoj Manjhi',
-      specialization: ['Cardiologist'],
-      category: 'b',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Manoj Manjhi',
-      specialization: ['Cardiologist'],
-      category: 'KYC',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '12',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.COMPLETED,
-        },
-        {
-          date: '26',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.TODAY,
-        },
-        {
-          date: '27',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-    {
-      name: 'Dr. Tanmay Singh',
-      specialization: ['Dermatologist'],
-      category: 'B',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '13',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
+  const navigation = useNavigation();
+  const [dayPlanData, setDayPlanData] = useState([]);
 
-    {
-      name: 'Balaji Medicos ',
-      specialization: ['Chemist'],
-      category: '-',
-      location: 'Karol Bagh',
-      visitData: [
-        {
-          date: '24',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.MISSED,
-        },
-        {
-          date: '29',
-          month: 'May',
-          state: DOCTOR_VISIT_STATES.UPCOMING,
-        },
-      ],
-    },
-  ];
+  const onTileNameHandler = data => {
+    navigation.navigate('Directory', {
+      screen: 'DirectoryDoctorProfile',
+      params: {data: data},
+    });
+  };
 
+  /**
+   * Fetch parties list
+   */
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
@@ -154,34 +40,25 @@ const DailyTourPlan = () => {
   }, [dispatch]);
 
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
-  const isDoctorDetailFetched = useSelector(
-    dailySelector.isDoctorDetailReceived(),
-  );
-  const [dayPlanData, setDayPlanData] = useState([]);
 
+  /**
+   * set parties list in state
+   */
   useEffect(() => {
-    setDayPlanData(allDoctorDetail);
+    if (Array.isArray(allDoctorDetail) && allDoctorDetail?.length > 0) {
+      setDayPlanData(allDoctorDetail);
+    }
   }, [allDoctorDetail]);
-
-  const doctorDetailStyleObject = {
-    nameContainerCustom: styles.nameContainer,
-    specialization: styles.specialization,
-    divisionContainerCustom: styles.divisionContainer,
-    imageCustom: styles.image,
-    detailsContainerCustom: styles.detailsContainer,
-    titleSize: 21,
-    subTitleSize: 14,
-    divisionSize: 10,
-  };
 
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();
+
   /**
    * formats current date
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
-    return `${Strings.today}, ${getFormatDate({format: 'Do MMM YYYY'})}`;
+    return `${Strings.today}, ${getFormatDate({format: 'Do MMMM YYYY'})}`;
   };
 
   /**
@@ -199,12 +76,12 @@ const DailyTourPlan = () => {
       result.splice(
         ++numberOfItemsAdded + i,
         0,
-        <Text key={i} style={styles.visitText}>
+        <Label key={i} style={styles.visitText}>
           {boldText}
-        </Text>,
+        </Label>,
       );
     });
-    return <Text style={styles.dailyTitle}>{result}</Text>;
+    return <Label style={styles.dailyTitle}>{result}</Label>;
   };
 
   /**
@@ -222,7 +99,7 @@ const DailyTourPlan = () => {
         <Label
           type="bold"
           title={Strings.removeDoctorConfirmation}
-          size={14}
+          variant={LabelVariant.h4}
           style={styles.modalTitleText}
         />
       </View>
@@ -264,92 +141,32 @@ const DailyTourPlan = () => {
   };
 
   /**
-   * function to render the list of doctor's planned visits
-   * @returns list of doctors planned for current day visit
+   * click event on tile to show modal to delete a party (in web only)
    */
-  const renderDayPlan = () => {
-    let sortedDayPlan = (dayPlanData || []).slice().sort(sortBasedOnCategory);
-    return (
-      <View style={styles.contentView}>
-        {(sortedDayPlan || []).map((plan, index) => {
-          let closeRow;
-
-          return (
-            <SwipeRow
-              style={styles.swipeRow}
-              key={index}
-              closeOnRowPress
-              disableRightSwipe
-              rightOpenValue={-90}
-              rightActivationValue={-90}
-              stopRightSwipe={-90}
-              getCloseRow={closeRowRef => (closeRow = closeRowRef)}
-              initialRightActionState={true}>
-              <View style={styles.removeCardButtonContainer}>
-                <TouchableOpacity
-                  style={styles.removeCard}
-                  onPress={() => {
-                    closeRow && closeRow();
-                  }}>
-                  <View style={styles.removeCardButton}>
-                    <View style={styles.closeLabel}>
-                      <Label
-                        title={'X'}
-                        style={[
-                          styles.removeCardButtonText,
-                          styles.removeCardButtonClose,
-                        ]}
-                      />
-                    </View>
-                    <Label
-                      title={Strings.removeFromToday}
-                      style={styles.removeCardButtonText}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.doctorDetailWrapper}>
-                <View key={index} style={styles.doctorDetailContainer}>
-                  <DoctorDetails
-                    title={plan.name}
-                    specialization={dayPlan[index].specialization}
-                    category={dayPlan[index].category}
-                    location={dayPlan[index].location}
-                    customStyle={doctorDetailStyleObject}
-                    showFrequencyChiclet={false}
-                    showVisitPlan={true}
-                    visitData={dayPlan[index].visitData}
-                    showTile={true}
-                    onTilePress={() => {
-                      if (isWeb()) {
-                        setVisible(true);
-                        setItemPressed(index);
-                      }
-                    }}
-                  />
-                </View>
-              </View>
-            </SwipeRow>
-          );
-        })}
-      </View>
-    );
+  const onTilePressHandler = data => {
+    if (isWeb()) {
+      setVisible(true);
+      setItemPressed(data.index);
+    }
   };
 
   return (
-    <ScrollView>
+    <>
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}
-          type="regular"
-          size={16}
+          variant={LabelVariant.subtitleLarge}
           style={styles.dailyTitle}
         />
         {getVisitBifurcationLabel()}
       </View>
-      {isDoctorDetailFetched && renderDayPlan()}
+      <PartyList
+        dayPlanData={dayPlanData}
+        onTileNamePress={onTileNameHandler}
+        onTilePress={onTilePressHandler}
+      />
       {pressTile()}
-    </ScrollView>
+    </>
   );
 };
 

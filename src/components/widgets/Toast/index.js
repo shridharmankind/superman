@@ -2,7 +2,7 @@ import React from 'react';
 import Toast from 'react-native-toast-message';
 import {TouchableOpacity, View} from 'react-native';
 import styles from './styles';
-import {Button, Label} from 'components/elements';
+import {Button, Label, LabelVariant} from 'components/elements';
 import {CloseIcon} from 'assets';
 import {Constants} from 'common';
 
@@ -14,18 +14,35 @@ const CustomToast = () => {
   const getToastView = (type, props) => {
     return (
       <View style={[styles.toastStyleBase, styles[type]]}>
-        <TouchableOpacity style={styles.closeIcon} onPress={props.onClose}>
+        <TouchableOpacity style={styles.closeIcon} onPress={props?.onClose}>
           <CloseIcon width={24} height={24} />
         </TouchableOpacity>
-        <Label title={props.heading} style={styles.toastText} size={12} />
-        <Label title={props.subHeading} style={styles.toastText} size={12} />
-        <Button
-          title={props.actionTitle}
-          mode="text"
-          onPress={props.onPress}
-          contentStyle={styles.button}
-          labelStyle={styles.buttonText}
+        <Label
+          title={props.heading}
+          style={styles.toastText}
+          variant={LabelVariant.subtitleSmall}
         />
+        <Label title={props.subHeading} style={styles.toastText} size={11} />
+        <View style={[styles.btnContainer, props?.btnContainerStyle]}>
+          {props.actionLeftTitle && (
+            <Button
+              title={props.actionLeftTitle}
+              mode="text"
+              onPress={props.onPressLeftBtn}
+              contentStyle={styles.button}
+              labelStyle={styles.buttonText}
+            />
+          )}
+          {props.actionRightTitle && (
+            <Button
+              title={props.actionRightTitle}
+              mode="text"
+              onPress={props.onPressRightBtn}
+              contentStyle={styles.button}
+              labelStyle={styles.buttonText}
+            />
+          )}
+        </View>
       </View>
     );
   };

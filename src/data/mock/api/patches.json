@@ -3,12 +3,18 @@
     {
       "id": 1,
       "displayName": "Party1",
-      "defaultName": "Noida Sec-1"
+      "defaultName": "Noida Sec-1",
+      "year": 2021,
+      "weekDay": "Monday",
+      "week": 1
     },
     {
       "id": 2,
       "displayName": "Party3",
-      "defaultName": "Noida Sec-2"
+      "defaultName": "Noida Sec-2",
+      "year": 2021,
+      "weekDay": "Monday",
+      "week": 2
     }
   ],
   "validate": {
@@ -29,13 +35,24 @@
     }
   },
   "savePatch": {
-    "response": true,
+    "response": {
+      "errorCode": null,
+      "description": "One or more validation error occured. For more detail please check ErrorList",
+      "details": [
+        {
+          "code": "107",
+          "message": "patch exist for other day.",
+          "params": null
+        }
+      ]
+    },
     "request": {
       "displayName": "Noida Sec-1",
       "defaultName": "Noida Sec-1",
       "partyIds": [1, 2, 3],
       "week": 1,
-      "weekDay": "Monday"
+      "weekDay": "Monday",
+      "year": 2021
     }
   },
   "deletePatch": true,
@@ -46,7 +63,5 @@
     "week": 1,
     "weekDay": "Monday"
   },
-  "getPartyByPatchId": {
-    "partyIds": [1, 2, 3]
-  }
+  "getPartyByPatchId": [1, 2, 3]
 }
