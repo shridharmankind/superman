@@ -14,7 +14,7 @@ const HomeLanding = ({navigation}) => {
   useEffect(() => {
     const loadData = async () => {
       const firstName = await Helper.getUserFirstName();
-      setUserName(firstName);
+      firstName ? setUserName(firstName) : setUserName('');
     };
     loadData();
   });
