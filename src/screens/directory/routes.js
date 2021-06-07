@@ -1,4 +1,4 @@
-import EDetailing from './e-detailing/e-detailing.component';
+import EDetailing from './e-detailing';
 import DirectoryLanding from './landing';
 import DoctorProfile from './doctorDetails';
 

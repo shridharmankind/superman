@@ -6,6 +6,7 @@ import styles from './e-detailing.styles';
 import {TouchableOpacity, View} from 'react-native';
 import {Strings} from 'common';
 import {ArrowBack} from 'assets';
+import {isWeb} from 'helper';
 
 /**
  * Render header
@@ -19,7 +20,7 @@ const renderHeader = ({navigation}) => (
         testID="eDetail-back"
         style={styles.eDetailingHead__Back}
         onPress={() => navigation.goBack()}>
-        <ArrowBack width={24} height={24} />
+        {isWeb() ? null : <ArrowBack width={24} height={24} />}
       </TouchableOpacity>
     </View>
     <View style={[styles.eDetailingHead__Col]}>
