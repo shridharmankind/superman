@@ -88,6 +88,8 @@ const Strings = {
   no: 'No',
   tillDate: 'Till Date',
   comingSoon: 'Coming soon ***',
+  moreActions: 'More Actions',
+  beginRCPA: 'Begin RCPA',
 };
 
 export default Strings;

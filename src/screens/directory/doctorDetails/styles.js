@@ -55,6 +55,12 @@ const styles = StyleSheet.create({
   buttonTabBarText: {
     fontSize: 12,
   },
+  buttonMoreText: {
+    width: 135,
+    marginHorizontal: theme.spacing(8),
+    height: 42,
+    backgroundColor: theme.colors.grayishBlue,
+  },
   MainDoctorDetail: {
     flexDirection: 'row',
     marginBottom: theme.spacing(39.7),

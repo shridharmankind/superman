@@ -236,13 +236,13 @@ const DoctorProfile = ({route}) => {
             {doctorData.selfDispensing && (
               <>
                 <Button
-                  title={Strings.captureDcr}
-                  mode="contained"
-                  contentStyle={styles.buttonTabBar}
-                  labelStyle={styles.buttonTabBarText}
+                  title={Strings.moreActions}
+                  mode="outlined"
+                  contentStyle={styles.buttonMoreText}
+                  labelStyle={styles.buttonText}
                 />
                 <Button
-                  title={Strings.captureDcr}
+                  title={Strings.beginRCPA}
                   mode="contained"
                   contentStyle={styles.buttonTabBar}
                   labelStyle={styles.buttonTabBarText}
@@ -252,7 +252,7 @@ const DoctorProfile = ({route}) => {
             <Button
               title={Strings.startEdetail}
               mode="outlined"
-              contentStyle={styles.buttonTabBar}
+              contentStyle={styles.buttonMoreText}
               labelStyle={styles.buttonTabBarText}
             />
             <Button
