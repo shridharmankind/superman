@@ -23,12 +23,7 @@ const NavMenu = ({onNavItemPress}) => {
     <TouchableWithoutFeedback
       testID={`button_${label}`}
       onPress={() => onNavItemSelected(index)}>
-      <View
-        style={[
-          styles.navItem,
-          isActive ? styles.navItemActive : '',
-          navMenuData[index].Id === LOGOUT_ITEM_ID && styles.logout,
-        ]}>
+      <View style={[styles.navItem, isActive ? styles.navItemActive : '']}>
         <Icon height={21.3} width={21.3} />
         <Label
           title={label}
@@ -36,7 +31,6 @@ const NavMenu = ({onNavItemPress}) => {
           style={[
             styles.navItemLabel,
             isActive ? styles.navItemLabelActive : '',
-            navMenuData[index].Id === LOGOUT_ITEM_ID && styles.logoutText,
           ]}
         />
       </View>

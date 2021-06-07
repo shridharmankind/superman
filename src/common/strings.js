@@ -92,6 +92,27 @@ const Strings = {
   startPresentation: 'Start Presentation',
   priorityProducts: 'Priority Products',
   otherProducts: 'Other Products',
+  doctorDetail: {
+    openTasks: {
+      openTask: 'Open Tasks',
+      viewAll: 'View All',
+      viewLess: 'View Less',
+      due: 'DUE',
+    },
+    dcr: {
+      what: 'What',
+      kindOfVisit: 'kind of visit',
+      wasIt: 'was it ?',
+      regVisit: 'Regular Visit',
+      justMe: 'Just Me',
+      jointVisit: 'Joint Visit',
+      posts: 'FLM/SLM/TLM',
+      addDoctor: 'ADD A DOCTOR',
+      btnDone: 'Done',
+      feedback: 'Feedback',
+    },
+  },
+  dr: 'Dr.',
 };
 
 export default Strings;

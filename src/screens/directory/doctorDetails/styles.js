@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   productMainContainer: {
     flexDirection: 'column',
-    width: '65%',
+    width: '63%',
   },
   headerProduct: {
     flexDirection: 'row',
@@ -27,9 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: 9.3,
   },
   openMainTask: {
-    flexDirection: 'column',
-    width: '35%',
-    borderLeftWidth: 0.5,
+    width: '37%',
   },
   tabContainer: {
     flexDirection: 'row',

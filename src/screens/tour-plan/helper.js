@@ -1,5 +1,5 @@
 import {getMonthList, getFormatDate} from 'utils/dateTimeHelper';
-import {CATEGORY_SORTING_ORDER} from 'screens/tourPlan/constants';
+import {PARTY_TYPE} from 'screens/tourPlan/constants';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
@@ -55,17 +55,24 @@ export const getTourPlanScheduleMonths = inputDate => {
   return tourPlanScheduleMonths;
 };
 
-/**
- * function to sort the array based on category (KYC, A+ etc.)
- * @param {Object} a item to compare
- * @param {Object} b item to compare
- * @returns sorted order from a and b
- */
+export const sortByCategory = array => {
+  const byCategory = (array || []).slice().sort(sortBasedOnCategory);
+  const byPotentials = byCategory
+    .slice()
+    .sort((a, b) => (a.isKyc === b.isKyc ? 0 : a.isKyc ? -1 : 1));
+
+  return byPotentials;
+};
+
 export const sortBasedOnCategory = (a, b) => {
-  return (
-    CATEGORY_SORTING_ORDER.indexOf((a.category || '').toLowerCase()) -
-    CATEGORY_SORTING_ORDER.indexOf((b.category || '').toLowerCase())
-  );
+  if (b?.potential > a?.potential) {
+    return 0;
+  } else if (a?.partyTypes?.name !== PARTY_TYPE.CHEMIST) {
+    return -1;
+  } else {
+    return 1;
+  }
+  // return b?.potential > a?.potential ? 0: a?.partyTypes?.name !== PARTY_TYPE.CHEMIST ? -1 : 1;
 };
 
 export const getSelectedMonthIndex = month => {
