@@ -42,7 +42,7 @@ const StandardPlan = ({navigation, route}) => {
   const visitedDayIndex = useCallback(
     i => {
       const day = route.params.workingDays[i];
-      const index = visitedDays.some(day => day === i);
+      const index = visitedDays.some(d => d === i);
       if (!index) {
         setVisitedDays([...visitedDays, day]);
       }

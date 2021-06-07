@@ -123,8 +123,10 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
               <DoctorDetails
                 title={data.item.name}
                 specialization={data.item.specialization}
+                isKyc={data.item.isKyc}
                 category={data.item.category}
                 location={data.item.location}
+                partyType={data.item.partyTypes.name}
                 customStyle={doctorDetailStyleObject}
                 showFrequencyChiclet={false}
                 showVisitPlan={true}
