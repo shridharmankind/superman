@@ -11,7 +11,9 @@ import {Constants} from 'common';
  */
 
 const StandardPlan = ({navigation, route}) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(
+    route.params.workingDays.indexOf(route.params.row),
+  );
   const totalIndex = route.params.workingDays.length - 1;
   const [showLeftSwiper, setShowLeftSwiper] = useState(true);
   const [showRightSwiper, setShowRightSwiper] = useState(true);

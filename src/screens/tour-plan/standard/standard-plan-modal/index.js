@@ -76,12 +76,12 @@ const StandardPlanModal = ({
    * @param {String} direction
    */
   const handleIndex = useCallback(
-    direction => {
+    async direction => {
       if (patchSelected) {
         setSwipeDirection(direction);
         handleDonePress();
       } else {
-        resetState();
+        await resetState();
         handleSliderIndex(direction);
       }
     },
@@ -89,15 +89,15 @@ const StandardPlanModal = ({
   );
 
   const resetState = useCallback(async () => {
-    setAreaSelected([]);
-    setDoctorSelected([]);
-    setIsPatchedData(false);
-    setPatchEdited(false);
-    setShowPatchError(false);
-    setPatchError(null);
-    setPatchSelected(null);
-    setPatchDefaultValue(null);
-    setPatchValue(null);
+    await setAreaSelected([]);
+    await setDoctorSelected([]);
+    await setIsPatchedData(false);
+    await setPatchEdited(false);
+    await setShowPatchError(false);
+    await setPatchError(null);
+    await setPatchSelected(null);
+    await setPatchDefaultValue(null);
+    await setPatchValue(null);
     await dispatch(standardPlanActions.resetPartiesByPatchID());
     await dispatch(standardPlanActions.resetSavePatch());
   }, [dispatch]);
@@ -146,6 +146,7 @@ const StandardPlanModal = ({
       }
     });
     if (ptch) {
+      setIsPatchedData(false);
       handleDropDownValue(ptch);
     }
   }, [allPatches, handleDropDownValue, weekNum, weekDay, year]);
@@ -524,10 +525,10 @@ const StandardPlanModal = ({
   const handleDropDownValue = useCallback(
     val => {
       if (val) {
-        setIsPatchedData(true);
         setPatchValue(val);
         setPatchSelected(val.value);
         setPatchDefaultValue(val.defaultName);
+        setIsPatchedData(true);
         dispatch(
           fetchPartiesByPatchIdCreator({
             patchID: val.id,
@@ -808,9 +809,21 @@ const StandardPlanModal = ({
                           containerStyle={index % 2 === 0 ? styles.left : {}}
                         />
                       ))}
+                      {getDoctorsByArea(area.id).length === 0 && (
+                        <Label
+                          title={Strings.noRecordsForSelection}
+                          variant={LabelVariant.h4}
+                        />
+                      )}
                     </View>
                   </React.Fragment>
                 ))}
+                {areaSelected.length === 0 && (
+                  <Label
+                    title={Strings.noRecordsForSelection}
+                    variant={LabelVariant.h4}
+                  />
+                )}
               </View>
               <View styles={styles.bottom}>
                 <View style={styles.bottomContent}>

@@ -111,6 +111,7 @@ const Strings = {
   dr: 'Dr.',
   success: 'Success',
   patchSaved: 'Patch successfully saved',
+  noRecordsForSelection: 'No records for current selection',
 };
 
 export default Strings;
