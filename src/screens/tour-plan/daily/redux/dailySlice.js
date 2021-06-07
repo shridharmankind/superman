@@ -7,6 +7,7 @@ import merge from 'lodash.merge';
 export const doctorDetailState = {
   doctorDetail: {
     data: [],
+    deletedItem: {},
   },
 };
 
@@ -34,8 +35,22 @@ export const doctorDetailSlice = createSlice({
       const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
         return d.id === action.payload.partyId;
       });
+      state.doctorDetail.deletedItem = {
+        item: state.doctorDetail.data.slice(
+          itemIndexToRemove,
+          itemIndexToRemove + 1,
+        ),
+        index: itemIndexToRemove,
+      };
       state.doctorDetail.data.splice(itemIndexToRemove, 1);
       return state;
+    },
+    addDeletedParty: (state, action) => {
+      state.doctorDetail.data.splice(
+        state.doctorDetail.deletedItem.index,
+        0,
+        state.doctorDetail.deletedItem.item,
+      );
     },
   },
 });

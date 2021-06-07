@@ -143,6 +143,9 @@ const styles = StyleSheet.create({
     flex: 0,
     justifyContent: 'flex-start',
   },
+  hideRow: {
+    display: 'none',
+  },
 });
 
 export default styles;

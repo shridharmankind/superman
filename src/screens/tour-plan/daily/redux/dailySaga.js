@@ -39,12 +39,13 @@ export function* fetchDoctorDetailWorker(action) {
     matched => valueMap[matched],
   );
 
+  console.log('url', url);
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
     const response = yield call(NetworkService.get, url);
     let formattedResponse = [];
-
+    console.log('response', response);
     if (
       response.data &&
       Array.isArray(response.data) &&

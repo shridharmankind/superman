@@ -25,58 +25,58 @@
     "engagement": null,
     "selfDispensing": false
   },
-  {
-    "id": 1,
-    "name": "Party1",
-    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 1,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 6000000,
-    "isKyc": false,
-    "areas": [
-      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
-      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
-    ],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 1,
-    "name": "Party1",
-    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
-    "qualifications": [],
-    "frequency": 2,
-    "alreadyVisited": 1,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 6000000,
-    "isKyc": true,
-    "areas": [
-      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
-      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
-    ],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
+  // {
+  //   "id": 1,
+  //   "name": "Party1",
+  //   "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
+  //   "qualifications": [],
+  //   "frequency": 3,
+  //   "alreadyVisited": 1,
+  //   "partyTypes": {
+  //     "id": 1,
+  //     "name": "Doctor",
+  //     "shortName": "Doc",
+  //     "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+  //   },
+  //   "category": "A+",
+  //   "potential": 6000000,
+  //   "isKyc": false,
+  //   "areas": [
+  //     {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
+  //     {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
+  //   ],
+  //   "shortName": null,
+  //   "birthday": null,
+  //   "anniversary": null,
+  //   "engagement": null,
+  //   "selfDispensing": false
+  // },
+  // {
+  //   "id": 1,
+  //   "name": "Party1",
+  //   "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
+  //   "qualifications": [],
+  //   "frequency": 2,
+  //   "alreadyVisited": 1,
+  //   "partyTypes": {
+  //     "id": 1,
+  //     "name": "Doctor",
+  //     "shortName": "Doc",
+  //     "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+  //   },
+  //   "category": "A+",
+  //   "potential": 6000000,
+  //   "isKyc": true,
+  //   "areas": [
+  //     {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
+  //     {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
+  //   ],
+  //   "shortName": null,
+  //   "birthday": null,
+  //   "anniversary": null,
+  //   "engagement": null,
+  //   "selfDispensing": false
+  // },
   {
     "id": 4,
     "name": "party4",
@@ -146,29 +146,29 @@
     "engagement": null,
     "selfDispensing": false
   },
-  {
-    "id": 7,
-    "name": "BHOLA DUTT TIWARI",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 2,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "C+",
-    "potential": 5000000,
-    "isKyc": true,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
+  // {
+  //   "id": 7,
+  //   "name": "BHOLA DUTT TIWARI",
+  //   "specialities": [],
+  //   "qualifications": [],
+  //   "frequency": 2,
+  //   "alreadyVisited": 0,
+  //   "partyTypes": {
+  //     "id": 1,
+  //     "name": "Doctor",
+  //     "shortName": "Doc",
+  //     "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+  //   },
+  //   "category": "C+",
+  //   "potential": 5000000,
+  //   "isKyc": true,
+  //   "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+  //   "shortName": null,
+  //   "birthday": null,
+  //   "anniversary": null,
+  //   "engagement": null,
+  //   "selfDispensing": false
+  // },
   {
     "id": 9,
     "name": "SATYANDRA SAINI",
