@@ -108,6 +108,7 @@ const Strings = {
       feedback: 'Feedback',
     },
   },
+  dr: 'Dr.',
 };
 
 export default Strings;

@@ -1,0 +1,29 @@
+{
+  "id": 1,
+  "firstName": "Joy",
+  "middleName": "",
+  "lastName": "Smith",
+  "userName": "joy.smith",
+  "ssoUserId": "134093435",
+  "designation": null,
+  "staffPositions": [
+    {
+      "id": 1,
+      "staffCode": 1,
+      "reportingStaffPositionId": 1,
+      "divisionId": 2,
+      "role": 1,
+      "isActive": true,
+      "isPrimary": true
+    },
+    {
+      "id": 2,
+      "staffCode": 2,
+      "reportingStaffPositionId": 2,
+      "divisionId": 3,
+      "role": 1,
+      "isActive": true,
+      "isPrimary": true
+    }
+  ]
+}
