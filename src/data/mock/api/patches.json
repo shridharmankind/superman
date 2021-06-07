@@ -63,7 +63,5 @@
     "week": 1,
     "weekDay": "Monday"
   },
-  "getPartyByPatchId": {
-    "partyIds": [1, 2, 3]
-  }
+  "getPartyByPatchId": [1, 2, 3]
 }

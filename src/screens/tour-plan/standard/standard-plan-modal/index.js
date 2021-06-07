@@ -75,9 +75,10 @@ const StandardPlanModal = ({
    * @param {String} direction
    */
   const handleIndex = direction => {
-    if (!patchSelected) {
-      resetState();
-    }
+    // if (!patchSelected) {
+    //   resetState();
+    // }
+    handleDonePress();
     handleSliderIndex(direction);
   };
 
@@ -218,7 +219,7 @@ const StandardPlanModal = ({
   const removeSelectedDoctorFromArea = useCallback(
     areaId => {
       const doctorToRemove = partiesList.find(party =>
-        doctorsSelected.some(
+        doctorsSelected?.some(
           obj => obj === party.id && party.areas.some(par => par.id === areaId),
         ),
       );
@@ -236,7 +237,7 @@ const StandardPlanModal = ({
     let patchString = (areaSelected || [])
       .filter(area => {
         const partyData = partiesList.find(party =>
-          doctorsSelected.some(
+          doctorsSelected?.some(
             obj =>
               obj === party.id && party.areas.some(par => par.id === area.id),
           ),
@@ -371,7 +372,6 @@ const StandardPlanModal = ({
           onPressLeftBtn: () => updatePatch(obj, id, true),
           onPressRightBtn: () => savePatch(obj),
         },
-        // onHide: () => {},
       });
     },
     [savePatch, updatePatch],
@@ -433,9 +433,9 @@ const StandardPlanModal = ({
    * @param {Number} id party id passed as int
    */
   const handleDoctorCardPress = id => {
-    const indexAvailable = doctorsSelected.some(party => party === id);
+    const indexAvailable = doctorsSelected?.some(party => party === id);
     if (indexAvailable) {
-      setDoctorSelected(doctorsSelected.filter(party => party !== id));
+      setDoctorSelected(doctorsSelected?.filter(party => party !== id));
     } else {
       setDoctorSelected([...doctorsSelected, id]);
     }
@@ -493,7 +493,7 @@ const StandardPlanModal = ({
   const getSelectedPartyByArea = id => {
     let count = 0;
     getDoctorsByArea(id).map(party => {
-      if (doctorsSelected.filter(doc => doc === party.id).length > 0) {
+      if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
         count = count + 1;
       }
     });
@@ -512,7 +512,7 @@ const StandardPlanModal = ({
     const obj = {doctors: 0, chemist: 0};
     partiesList.map(party => {
       if (doctorsSelected?.some(id => id === party.id)) {
-        if (party.partyTypes.name === 'Doctor') {
+        if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
           obj.doctors = obj.doctors + 1;
         } else {
           obj.chemist = obj.chemist + 1;

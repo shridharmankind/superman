@@ -1,5 +1,5 @@
-/* eslint-disable indent */
 import {getMonthList, getFormatDate} from 'utils/dateTimeHelper';
+import {PARTY_TYPE} from 'screens/tourPlan/constants';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
@@ -65,11 +65,14 @@ export const sortByCategory = array => {
 };
 
 export const sortBasedOnCategory = (a, b) => {
-  return b?.potential > a?.potential
-    ? 0
-    : a?.partyTypes?.name !== 'Chemist'
-    ? -1
-    : 1;
+  if (b?.potential > a?.potential) {
+    return 0;
+  } else if (a?.partyTypes?.name !== PARTY_TYPE.CHEMIST) {
+    return -1;
+  } else {
+    return 1;
+  }
+  // return b?.potential > a?.potential ? 0: a?.partyTypes?.name !== PARTY_TYPE.CHEMIST ? -1 : 1;
 };
 
 export const getSelectedMonthIndex = month => {

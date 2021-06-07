@@ -14,6 +14,10 @@ import {DoctorDetails} from 'components/elements';
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
  * @param {Function} onPress doctor card click handled
+ * @param {Object} containerStyle contains styles for the main View
+ * @param {Boolean} isKyc boolean value passed for KYC status
+ * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
+ * @param {Object} party party information is passed as an object
  */
 
 const DoctorDetailsWrapper = ({

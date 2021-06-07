@@ -25,6 +25,14 @@ export const DIVISION_COLOR = {
   KYC: 'kyc',
   A_PLUS: 'a+',
   B: 'b',
+  A: 'a',
+  C: 'c',
 };
 
 export const TOUR_PLAN = 'TourPlan';
+
+export const PARTY_TYPE = {
+  DOCTOR: 'Doctor',
+  CHEMIST: 'Chemist',
+  ALL: 'All',
+};

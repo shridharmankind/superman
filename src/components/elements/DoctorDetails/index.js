@@ -7,7 +7,7 @@ import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -88,13 +88,6 @@ const DoctorDetails = ({
           <View style={styles.borderInnerContainer} />
         </View>
         <View style={styles.tileContainer}>
-          {/* <View style={styles.tileLeft}>
-            <Label title={Strings.labelRssdi} style={styles.tileText} />
-            <Label
-              title={Strings.dailyPlanTileTitle}
-              style={[styles.tileText, styles.titleTextSecondary]}
-            />
-          </View> */}
           <View style={styles.tileRight}>
             <TouchableOpacity onPress={onTilePress}>
               <MoreVerticalIcon width={20} height={20} />
@@ -113,7 +106,7 @@ const DoctorDetails = ({
           customStyle && customStyle.detailsContainerCustom,
         ]}>
         <View style={styles.details}>
-          {partyType === 'Doctor' && (
+          {partyType === Constants.PARTY_TYPE.DOCTOR && (
             <View
               style={[
                 styles.divisionContainer,
@@ -123,7 +116,11 @@ const DoctorDetails = ({
                 <View
                   style={[
                     styles.divisionItem,
-                    {backgroundColor: getDivisionColor('kyc')},
+                    {
+                      backgroundColor: getDivisionColor(
+                        Constants.DIVISION_COLOR.KYC,
+                      ),
+                    },
                   ]}>
                   <Label
                     style={styles.divisionText}
@@ -155,7 +152,11 @@ const DoctorDetails = ({
           />
           <View style={styles.nameContainer}>
             <Label
-              title={partyType === 'Doctor' ? `Dr. ${title}` : title}
+              title={
+                partyType === Constants.PARTY_TYPE.DOCTOR
+                  ? `${Strings.dr} ${title}`
+                  : title
+              }
               size={customStyle ? customStyle.titleSize : 17}
               onPress={() => {
                 onTileNamePress && onTileNamePress();
@@ -217,15 +218,15 @@ const DoctorDetails = ({
 
 const getDivisionColor = division => {
   switch (division && division.toLowerCase()) {
-    case 'kyc':
+    case Constants.DIVISION_COLOR.KYC:
       return themes.colors.orange[100];
-    case 'a+':
+    case Constants.DIVISION_COLOR.A_PLUS:
       return themes.colors.darkBlue;
-    case 'a':
+    case Constants.DIVISION_COLOR.A:
       return themes.colors.yellow[300];
-    case 'b':
+    case Constants.DIVISION_COLOR.B:
       return themes.colors.lightBlue;
-    case 'c':
+    case Constants.DIVISION_COLOR.C:
       return themes.colors.grey[1200];
     default:
       return themes.colors.transparent;

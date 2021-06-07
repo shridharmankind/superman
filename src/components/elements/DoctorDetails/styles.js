@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 7,
     backgroundColor: themes.colors.orange[100],
     paddingHorizontal: themes.spacing(10),
-    paddingVertical: 4,
-    marginRight: 5,
+    paddingVertical: themes.spacing(4),
+    marginRight: themes.spacing(5),
   },
   divisionText: {
     color: themes.colors.white,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   location: {
     borderLeftColor: themes.colors.grey[200],
     borderLeftWidth: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: themes.spacing(10),
   },
   frequecyContainer: {
     flexDirection: 'row',
@@ -64,16 +64,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   seperator: {
-    paddingRight: 10,
+    paddingRight: themes.spacing(10),
   },
   doctorTile: {
-    marginTop: 10,
+    marginTop: themes.spacing(10),
   },
   borderOuterContainer: {
     height: 1,
     overflow: 'hidden',
-    marginTop: 2,
-    paddingBottom: 5,
+    marginTop: themes.spacing(2),
+    paddingBottom: themes.spacing(5),
   },
   borderInnerContainer: {
     height: 1,
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   tileContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
-    marginTop: 5,
-    marginRight: 5,
+    marginTop: themes.spacing(5),
+    marginRight: themes.spacing(5),
   },
   tileLeft: {
     flexDirection: 'row',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     color: themes.colors.grey[600],
   },
   titleTextSecondary: {
-    marginLeft: 10,
+    marginLeft: themes.spacing(10),
   },
   container: {
     flex: 1,

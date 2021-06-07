@@ -1,5 +1,5 @@
 import {createSelector} from '@reduxjs/toolkit';
-import {sortBasedOnCategory, sortByCategory} from 'screens/tourPlan/helper';
+import {sortByCategory} from 'screens/tourPlan/helper';
 
 /**
  * selector function to retrieve data from redux store
