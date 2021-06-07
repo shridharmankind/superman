@@ -4,7 +4,7 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   radioButtonTextContainer: {
     flex: 7,
-    height: theme.spacing(30),
+    height: 30,
     justifyContent: 'center',
   },
   checkedButton: {

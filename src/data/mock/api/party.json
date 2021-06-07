@@ -58,7 +58,7 @@
     "name": "Dr. Milan",
     "speciality": ["Neurologist"],
     "frequency": 2,
-    "alreadyVisited": 0,
+    "alreadyVisited": 2,
     "partyType": "Chemist",
     "category": "A+",
     "potential": 0.0,
