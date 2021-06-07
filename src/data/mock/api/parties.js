@@ -14,7 +14,7 @@ export const partiesMock = {
     response: [
       {
         key: 1,
-        id: 1,
+        id: 4,
         name: 'Ashish Gulati',
         specialization: ['Cardiologist'],
         category: 'a+',
@@ -144,7 +144,7 @@ export const partiesMock = {
       },
       {
         key: 4,
-        id: 4,
+        id: 1,
         name: 'Manoj Manjhi',
         specialization: ['Cardiologist'],
         category: 'A+',

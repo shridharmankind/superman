@@ -109,6 +109,8 @@ const Strings = {
     },
   },
   dr: 'Dr.',
+  errorRemovingParty: 'There is some error removing the party',
+  errorFetchingParties: 'There is some error fetching parties',
 };
 
 export default Strings;
