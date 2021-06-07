@@ -25,10 +25,10 @@ const config = {
   additionalParameters: {prompt: 'login'},
 };
 
-const TOKEN_EXPIRY_TIME = 'token_expiry_time';
-const USER_ID = 'USER_ID';
-const LOGIN_STATUS = 'loginStatus';
-const AlertTitle = 'Info';
+export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
+export const USER_ID = 'USER_ID';
+export const LOGIN_STATUS = 'loginStatus';
+export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);

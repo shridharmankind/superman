@@ -16,6 +16,7 @@ import theme from 'themes';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
+import {TOKEN_EXPIRY_TIME, USER_ID, LOGIN_STATUS} from './index';
 
 const state = nanoid(32);
 const nonce = nanoid(32);
@@ -30,20 +31,14 @@ const config = {
   scope: 'openid profile',
 };
 
-const TOKEN_EXPIRY_TIME = 'token_expiry_time';
-const USER_ID = 'USER_ID';
-const LOGIN_STATUS = 'loginStatus';
-
 const Login = () => {
   const [animating, setAnimating] = useState(false);
 
   const loginHandler = useCallback(async () => {
     try {
-      console.log('inside');
       setAnimating(true);
       const params = stringify(config);
       const authUrl = `${config.authority}/auth?${params}`;
-      console.log(authUrl, 'test');
       window.location.assign(authUrl);
     } catch (error) {
       setAnimating(false);
@@ -91,9 +86,7 @@ const AuthComp = ({navigation}) => {
     if (window.location.hash) {
       const hash = window.location.hash;
       const response = parse(hash);
-      console.log('response', response);
       const decoded = jwt_decode(response.id_token);
-      console.log('decoded', decoded);
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
       AsyncStorage.setItem(USER_ID, decoded.sub);
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
@@ -104,7 +97,6 @@ const AuthComp = ({navigation}) => {
   return null;
 };
 const WebRouterComp = ({navigation}) => {
-  console.log('navigation', navigation);
   return (
     <Router>
       <Switch>
