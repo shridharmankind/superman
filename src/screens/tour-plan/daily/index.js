@@ -6,10 +6,7 @@ import {Strings} from 'common';
 import {Label, Modal, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
-import {
-  fetchDoctorDetailCreator,
-  dailySelector,
-} from './redux';
+import {fetchDoctorDetailCreator, dailySelector} from './redux';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
@@ -34,7 +31,7 @@ const DailyTourPlan = () => {
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 3,
+        staffPositionid: 2,
         day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
         month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
         year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),

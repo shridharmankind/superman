@@ -11,6 +11,7 @@ import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
 import theme from 'themes';
+import {OpenTask} from 'screens/directory';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -157,7 +158,7 @@ const DoctorProfile = ({route}) => {
             </View>
           </View>
         </View>
-        {/* <View style={styles.openMainTask}></View> */}
+        <View style={styles.openMainTask}>{<OpenTask />}</View>
       </View>
     );
   };
@@ -194,6 +195,10 @@ const DoctorProfile = ({route}) => {
     }
 
     return `${startDate + ' - ' + endText}`;
+  };
+
+  const openDoctorFeedback = () => {
+    navigation.navigate('DoctorFeedback', {data: doctorData});
   };
 
   /**
@@ -260,6 +265,7 @@ const DoctorProfile = ({route}) => {
               mode="contained"
               contentStyle={styles.buttonTabBar}
               labelStyle={styles.buttonTabBarText}
+              onPress={openDoctorFeedback}
             />
           </View>
         </View>
