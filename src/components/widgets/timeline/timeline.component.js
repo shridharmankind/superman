@@ -9,17 +9,16 @@ function _renderItem({item, index}) {
         <View style={[styles.timeline__itemInnerContainer]}>
           <View style={[styles.timeline__item]}>
             {this.renderItem(item, index)}
-          </View>
-          <View style={[styles.timeline__date]}>
             {this.renderDate(item, index)}
           </View>
+          {/* <View style={[styles.timeline__line]}></View> */}
         </View>
       ) : (
         <View style={[styles.timeline__itemInnerContainer]}>
-          <View style={[styles.timeline__item]}></View>
-          <View style={[styles.timeline__date]}>
+          <View style={[styles.timeline__item]}>
             {this.renderDate(item, index)}
           </View>
+          {/* <View style={[styles.timeline__line]}></View> */}
           <View style={[styles.timeline__itemRight]}>
             {this.renderItem(item, index)}
           </View>

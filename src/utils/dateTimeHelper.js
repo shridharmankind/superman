@@ -55,3 +55,11 @@ export const getMonthDiff = (current, previous) => {
 export const getDateFromMonthYear = ({month, year, date = '01'}) => {
   return `${year}-${String(month).padStart(2, '0')}-${date}`;
 };
+
+export const isAfter = (date, dateToCompare) => {
+  return dayjs(date).isAfter(dateToCompare);
+};
+
+export const startOf = (date, unit) => {
+  return dayjs(date).startOf(unit);
+};

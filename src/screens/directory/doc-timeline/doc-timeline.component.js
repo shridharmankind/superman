@@ -1,47 +1,109 @@
 import React from 'react';
 import {Timeline} from 'components/widgets';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
+import {Strings} from 'common';
+import {View} from 'react-native';
+import styles from './doc-timeline.styles';
+import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
+import {List} from 'react-native-paper';
 
 function renderItem(item, index) {
-  return <Label testID="eDetail-priority" title={item.title} size={16} />;
+  return (
+    <View style={[styles.timeline__item]}>
+      <List.Accordion
+        title={item.title}
+        titleStyle={[styles.timeline__item__title]}
+        style={[styles.timeline__item__accordion]}
+        left={props => <List.Icon {...props} icon="folder" />}>
+        <Label variant={LabelVariant.bodySmall} title="This is sample" />
+      </List.Accordion>
+    </View>
+  );
 }
 
 function renderDate(item, index) {
   return (
-    <Label
-      testID="eDetail-priority-other-products"
-      title={item.time}
-      size={16}
-    />
+    <View
+      style={
+        item.isMissed
+          ? [
+              styles.timeline__dateContainer,
+              styles.timeline__dateContainer__missed,
+            ]
+          : isCompleted(item)
+          ? [
+              styles.timeline__dateContainer,
+              styles.timeline__dateContainer__completed,
+            ]
+          : [styles.timeline__dateContainer]
+      }>
+      <Label
+        testID="timeline-date"
+        title={getFormatDate({date: item.date, format: 'DD'})}
+        style={[styles.timeline__date]}
+        style={
+          item.isMissed
+            ? [styles.timeline__date, styles.timeline__date__missed]
+            : isCompleted(item)
+            ? [styles.timeline__date, styles.timeline__date__completed]
+            : [styles.timeline__date]
+        }
+      />
+      <Label
+        testID="timeline-month"
+        title={getFormatDate({date: item.date, format: 'MMM'})}
+        style={[styles.timeline__month]}
+        style={
+          item.isMissed
+            ? [styles.timeline__month, styles.timeline__month__missed]
+            : isCompleted(item)
+            ? [styles.timeline__month, styles.timeline__month__completed]
+            : [styles.timeline__month]
+        }
+      />
+    </View>
   );
 }
+
+const isCompleted = item => {
+  const today = startOf(new Date());
+  return isAfter(today, item.date);
+};
 
 const DocTimeline = () => {
   const data = [
     {
-      time: '09:00',
-      title: 'BreakFast',
-      description:
-        'I had breakfast from a wonderful restaurant and the food was super tasty.',
+      id: 4,
+      date: '2021-06-11T05:00:00',
+      isMissed: false,
+      title: 'Upcoming Doctor Visit',
     },
     {
-      time: '11:00',
-      title: 'Tea Break',
-      description:
-        'I made a tea myself and drink it with a packet of biscuits.',
+      id: 4,
+      date: '2021-06-10T05:00:00',
+      isMissed: false,
+      title: 'Upcoming Doctor Visit',
     },
     {
-      time: '13:00',
-      title: 'Lunch',
-      description: 'I ate lunch from nearby hotel but food was just okay.',
+      id: 4,
+      date: '2021-06-07T05:00:00',
+      isMissed: true,
+      title: 'Missed call',
     },
-    {time: '16:00', title: 'Tea Break', description: 'Ate two snacks.'},
     {
-      time: '20:00',
-      title: 'Dinner',
-      description: 'This time I prepared dinner looking a youtube tutorial.',
+      id: 4,
+      date: '2021-06-01T05:00:00',
+      isMissed: false,
+      title: 'Visit for Amlokind AT and Neurokind',
+    },
+    {
+      id: 4,
+      date: '2021-05-30T05:00:00',
+      isMissed: false,
+      title: 'Visit for Amlokind AT and Neurokind',
     },
   ];
+
   return (
     <Timeline data={data} renderItem={renderItem} renderDate={renderDate} />
   );
