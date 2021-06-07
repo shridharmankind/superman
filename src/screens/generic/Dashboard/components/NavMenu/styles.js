@@ -37,16 +37,4 @@ export default StyleSheet.create({
   navItemLabelActive: {
     fontFamily: theme.fonts.fontSemiBold,
   },
-  logout: {
-    height: 46,
-    width: '80%',
-    marginLeft: 0,
-    paddingLeft: theme.spacing(40),
-    backgroundColor: theme.colors.primary,
-    borderTopRightRadius: 10.7,
-    borderBottomRightRadius: 10.7,
-  },
-  logoutText: {
-    color: theme.colors.white,
-  },
 });

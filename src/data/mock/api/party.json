@@ -1,163 +1,541 @@
 [
   {
     "id": 1,
-    "name": "Dr. Harish",
-    "speciality": ["Cardiologist"],
+    "name": "Party1",
+    "specialities": [],
+    "qualifications": [],
     "frequency": 3,
     "alreadyVisited": 1,
-    "partyType": "Doctor",
-    "category": null,
-    "potential": 20000.0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "A+",
+    "potential": 6000000,
     "isKyc": true,
     "areas": [
       {
         "id": 1,
-        "name": "Noida Sec-1",
-        "shortName": "Noida Sec-1"
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      },
+      {
+        "id": 2,
+        "name": "Sec 2",
+        "shortName": "Sec 2"
       }
     ]
   },
   {
     "id": 2,
-    "name": "Dr. Brijesh",
-    "speciality": ["Cardiologist"],
+    "name": "Party2",
+    "specialities": [
+      {
+        "id": 1,
+        "name": "Cardiologist",
+        "shortName": "Cardio"
+      }
+    ],
+    "qualifications": [
+      {
+        "id": 2,
+        "name": "MD",
+        "shortName": "Ortho"
+      }
+    ],
     "frequency": 3,
-    "alreadyVisited": 2,
-    "partyType": "Doctor",
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
     "category": "A+",
-    "potential": 1000000.0,
+    "potential": 6000000,
     "isKyc": false,
     "areas": [
       {
         "id": 2,
-        "name": "Noida Sec-2",
-        "shortName": "Noida Sec-2"
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "name": "Dr. Mahesh",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 0,
-    "partyType": "Chemist",
-    "category": null,
-    "potential": 0.0,
-    "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Noida Sec-1",
-        "shortName": "Noida Sec-1"
+        "name": "Sec 2",
+        "shortName": "Sec 2"
       }
     ]
   },
   {
     "id": 4,
-    "name": "Dr. Milan",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 2,
-    "partyType": "Chemist",
+    "name": "party4",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
     "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
+    "potential": 6000000,
+    "isKyc": true,
     "areas": [
       {
         "id": 2,
-        "name": "Noida Sec-2",
-        "shortName": "Noida Sec-2"
-      }
-    ]
-  },
-  {
-    "id": 5,
-    "name": "Dr. Rahul",
-    "speciality": [],
-    "frequency": 2,
-    "alreadyVisited": 2,
-    "partyType": "Chemist",
-    "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
-    "areas": [
-      {
-        "id": 3,
-        "name": "Noida Sec-3",
-        "shortName": "Noida Sec-3"
+        "name": "Sec 2",
+        "shortName": "Sec 2"
       }
     ]
   },
   {
     "id": 6,
-    "name": "Dr. Amit",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 1,
-    "partyType": "Chemist",
+    "name": "CHANDRA JOSHI",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
     "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
+    "potential": 6000000,
+    "isKyc": true,
     "areas": [
       {
-        "id": 5,
-        "name": "Noida Sec-5",
-        "shortName": "Noida Sec-5"
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
       }
     ]
   },
   {
     "id": 7,
-    "name": "Dr. Vishwas",
-    "speciality": ["Neurologist"],
+    "name": "BHOLA DUTT TIWARI",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "C+",
+    "potential": 300000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "BHOLA DUTT TIWARI",
+    "specialities": [],
+    "qualifications": [],
     "frequency": 2,
-    "alreadyVisited": 1,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "C+",
+    "potential": 5000000,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "SATYANDRA SAINI",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 1,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "B",
+    "potential": 1000000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "KAMAL CHAND ROY",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 2,
     "partyType": "Chemist",
     "category": "A+",
     "potential": 0.0,
     "isKyc": false,
     "areas": [
       {
-        "id": 5,
-        "name": "Noida Sec-5",
-        "shortName": "Noida Sec-5"
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
       }
     ]
   },
   {
-    "id": 8,
-    "name": "Dr. Tanmay",
-    "speciality": ["Neurologist"],
+    "id": 12,
+    "name": "GHULAM MUSTAFA",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "A+",
+    "potential": 7000000,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "SUBHASH SINGH",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "C",
+    "potential": 80000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "ANURAG GARG",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "A+",
+    "potential": 9000001,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "DEVENDRA SINGH",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "D+",
+    "potential": 40000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "RAM MALHOTRA",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "D+",
+    "potential": 50000,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "DHIRENDRA SINGH",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "B",
+    "potential": 600000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "KRISHAN KUMAR RAHEJA",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 1,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "C+",
+    "potential": 200000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "SUCHITRA TAYAL",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "A",
+    "potential": 4000000,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "RAMESH KUMAR KHURANA",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "PartyGroup1",
+        "shortName": "Group1"
+      }
+    },
+    "category": "C+",
+    "potential": 300000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Party3",
+    "specialities": [],
+    "qualifications": [],
     "frequency": 2,
     "alreadyVisited": 1,
-    "partyType": "Doctor",
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "PartyGroup2",
+        "shortName": "Group2"
+      }
+    },
     "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
+    "potential": 6000000,
+    "isKyc": true,
     "areas": [
       {
-        "id": 4,
-        "name": "Noida Sec-4",
-        "shortName": "Noida Sec-4"
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
       }
     ]
   },
   {
-    "id": 9,
-    "name": "Dr. Kuldeep",
-    "speciality": ["Cardiologist"],
+    "id": 5,
+    "name": "party5",
+    "specialities": [],
+    "qualifications": [],
     "frequency": 2,
-    "alreadyVisited": 2,
-    "partyType": "Doctor",
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "PartyGroup2",
+        "shortName": "Group2"
+      }
+    },
     "category": "A+",
-    "potential": 0.0,
+    "potential": 6000000,
     "isKyc": false,
     "areas": [
       {
-        "id": 4,
-        "name": "Noida Sec-4",
-        "shortName": "Noida Sec-4"
+        "id": 1,
+        "name": "Sec 1",
+        "shortName": "Sec 1"
       }
     ]
   }
