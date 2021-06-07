@@ -85,10 +85,10 @@ const StandardPlanModal = ({
         handleSliderIndex(direction);
       }
     },
-    [handleDonePress, patchSelected, handleSliderIndex],
+    [handleDonePress, patchSelected, handleSliderIndex, resetState],
   );
 
-  const resetState = async () => {
+  const resetState = useCallback(async () => {
     setAreaSelected([]);
     setDoctorSelected([]);
     setIsPatchedData(false);
@@ -100,7 +100,7 @@ const StandardPlanModal = ({
     setPatchValue(null);
     await dispatch(standardPlanActions.resetPartiesByPatchID());
     await dispatch(standardPlanActions.resetSavePatch());
-  };
+  }, [dispatch]);
 
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
@@ -139,11 +139,15 @@ const StandardPlanModal = ({
   }, [allPatches]);
 
   useEffect(() => {
+    let ptch = null;
     allPatches?.map(patch => {
       if (isSameDayPatch(patch, weekNum, weekDay, year)) {
-        handleDropDownValue({...patch, value: patch.displayName});
+        ptch = {...patch, value: patch.displayName};
       }
     });
+    if (ptch) {
+      handleDropDownValue(ptch);
+    }
   }, [allPatches, handleDropDownValue, weekNum, weekDay, year]);
 
   useEffect(() => {
@@ -177,7 +181,7 @@ const StandardPlanModal = ({
             });
           }
         });
-        const a = areaList.filter(
+        const a = areaList?.filter(
           area => patchAreaList.indexOf(area.id) !== -1,
         );
         setAreaSelected(a);
@@ -331,7 +335,7 @@ const StandardPlanModal = ({
             },
           });
           if (swiperDirection) {
-            resetState();
+            await resetState();
             handleSliderIndex(swiperDirection);
           }
         } else if (
@@ -362,6 +366,7 @@ const StandardPlanModal = ({
       showOverrideNotification,
       swiperDirection,
       handleSliderIndex,
+      resetState,
     ],
   );
 
@@ -765,7 +770,7 @@ const StandardPlanModal = ({
               </View>
 
               <View style={styles.doctorDetailsContainer}>
-                {areaSelected.map((area, i) => (
+                {areaSelected?.map((area, i) => (
                   <React.Fragment key={i}>
                     <View style={styles.doctorSelectedContainer}>
                       <Label
@@ -835,7 +840,7 @@ const StandardPlanModal = ({
 const {height} = Dimensions.get('window');
 
 const isAreaSelected = (area, areaList) => {
-  return areaList.filter(val => val.id === area).length > 0;
+  return areaList?.filter(val => val.id === area).length > 0;
 };
 
 const isSameDayPatch = (patch, week, day, year) => {
