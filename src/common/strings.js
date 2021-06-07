@@ -109,6 +109,8 @@ const Strings = {
     },
   },
   dr: 'Dr.',
+  success: 'Success',
+  patchSaved: 'Patch successfully saved',
 };
 
 export default Strings;

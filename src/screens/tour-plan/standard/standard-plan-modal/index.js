@@ -68,19 +68,25 @@ const StandardPlanModal = ({
   const [isPatchedData, setIsPatchedData] = useState(false);
   const [patchEdited, setPatchEdited] = useState(false);
   const [patchRequest, setPatchRequest] = useState({});
-  const weekNum = parseInt(week.split(' ')[1], 2);
+  const [swiperDirection, setSwipeDirection] = useState();
+  const weekNum = parseInt(week.split(' ')[1], 3);
   const staffPositionId = 1;
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
-  const handleIndex = direction => {
-    // if (!patchSelected) {
-    //   resetState();
-    // }
-    handleDonePress();
-    handleSliderIndex(direction);
-  };
+  const handleIndex = useCallback(
+    direction => {
+      if (patchSelected) {
+        setSwipeDirection(direction);
+        handleDonePress();
+      } else {
+        resetState();
+        handleSliderIndex(direction);
+      }
+    },
+    [handleDonePress, patchSelected, handleSliderIndex],
+  );
 
   const resetState = async () => {
     setAreaSelected([]);
@@ -88,11 +94,12 @@ const StandardPlanModal = ({
     setIsPatchedData(false);
     setPatchEdited(false);
     setShowPatchError(false);
-    setPatchError();
+    setPatchError('');
     setPatchSelected();
     setPatchDefaultValue();
     setPatchValue(null);
     await dispatch(standardPlanActions.resetPartiesByPatchID());
+    await dispatch(standardPlanActions.resetSavePatch());
   };
 
   const allParties = useSelector(standardTourPlanSelector.getParties());
@@ -130,6 +137,14 @@ const StandardPlanModal = ({
   useEffect(() => {
     setPatches(allPatches);
   }, [allPatches]);
+
+  useEffect(() => {
+    allPatches?.map(patch => {
+      if (isSameDayPatch(patch, weekNum, weekDay, year)) {
+        handleDropDownValue({...patch, value: patch.displayName});
+      }
+    });
+  }, [allPatches, handleDropDownValue, weekNum, weekDay, year]);
 
   useEffect(() => {
     if (savePatchRes) {
@@ -303,6 +318,22 @@ const StandardPlanModal = ({
       if (savePatchRes) {
         if (savePatchRes?.status === Constants.HTTP_OK) {
           //await resetState();
+          showToast({
+            type: Constants.TOAST_TYPES.SUCCESS,
+            autoHide: true,
+            props: {
+              onPress: () => {
+                hideToast();
+              },
+              onClose: () => hideToast(),
+              heading: Strings.success,
+              subHeading: Strings.patchSaved,
+            },
+          });
+          if (swiperDirection) {
+            resetState();
+            handleSliderIndex(swiperDirection);
+          }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
         ) {
@@ -326,11 +357,16 @@ const StandardPlanModal = ({
         }
       }
     },
-    [savePatchRes, showOverrideNotification],
+    [
+      savePatchRes,
+      showOverrideNotification,
+      swiperDirection,
+      handleSliderIndex,
+    ],
   );
 
   /** function to save the patch */
-  const handleDonePress = async () => {
+  const handleDonePress = useCallback(async () => {
     const obj = {
       displayName: patchSelected,
       defaultName: patchDefaultValue,
@@ -350,7 +386,17 @@ const StandardPlanModal = ({
     } else if (patchValue && !isPatchOfSameDay) {
       savePatch(obj);
     }
-  };
+  }, [
+    patchDefaultValue,
+    patchSelected,
+    patchValue,
+    savePatch,
+    updatePatch,
+    weekDay,
+    weekNum,
+    year,
+    doctorsSelected,
+  ]);
 
   /** function to show notification in case of updating the patch
    * @param {Object} obj patch request has been passed as object
@@ -559,6 +605,11 @@ const StandardPlanModal = ({
     }
   };
 
+  const handleClose = () => {
+    resetState();
+    navigation.pop();
+  };
+
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
@@ -614,7 +665,7 @@ const StandardPlanModal = ({
             title={Strings.close}
             uppercase={true}
             contentStyle={styles.closeBtn}
-            onPress={() => navigation.navigate('TourPlan')}
+            onPress={() => handleClose()}
           />
         </View>
       </View>
@@ -626,7 +677,7 @@ const StandardPlanModal = ({
             </View>
             <View style={styles.areaFilterContainer}>
               <Dropdown
-                valueSelected={handleDropDownValue}
+                valueSelected={val => handleDropDownValue(val)}
                 data={getPatchesDropdownData(patches)}
                 defaultLabel={Strings.selectPatch}
                 isPatchedData={isPatchedData}
@@ -647,10 +698,7 @@ const StandardPlanModal = ({
                   horizontal={true}
                   ref={swiperRef}
                   onScroll={({nativeEvent}) => {
-                    // if (isAreaViewScrollable(nativeEvent)) {
-                    // enableSomeButton();
                     hideScrollArrow(nativeEvent);
-                    // }
                   }}
                   showsHorizontalScrollIndicator={false}>
                   {getPartyCountFromArea().map(area => {

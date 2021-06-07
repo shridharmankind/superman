@@ -59,6 +59,9 @@ export const getStandardPlanSlice = createSlice({
     resetPartiesByPatchID: state => {
       state.partyByPatchID = null;
     },
+    resetSavePatch: state => {
+      state.savePatch = null;
+    },
   },
 });
 
