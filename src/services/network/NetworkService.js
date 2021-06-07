@@ -24,15 +24,12 @@ export const get = async (url, params = {}) => {
     headers: {Authorization: `Bearer ${accessToken}`},
     params,
   };
-  console.log("res")
   return client(config)
     .then(function (response) {
       // handle success
-      console.log("Response")
       return response;
     })
     .catch(function (error) {
-      console.log("Error ",error);
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
     });
@@ -56,7 +53,7 @@ export const post = async (url, data = {}, params = {}) => {
     data,
     params,
   };
-
+  
   return client(config)
     .then(function (response) {
       // handle success

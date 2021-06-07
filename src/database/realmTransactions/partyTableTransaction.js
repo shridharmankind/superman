@@ -41,22 +41,28 @@ const fetchData = async () => {
                     const accessToken = await KeyChain.getAccessToken();
                     //console.log("accessTokenn -- ",accessToken);
                     const partyRecord = await Operations.getAllRecord(item.schema[0]);
-                    console.log("Party Record == ",JSON.stringify(partyRecord));
-                    // const modifiedData = partyRecord.filtered('syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true')
-                    // console.log("modified -- ",JSON.stringify(modifiedData,null,2));
-                    // let newModifiedArray = Array.from(modifiedData);
-                    // const response = await NetworkService.post('party/sync',newModifiedArray);
-                    // const data = await JSON.stringify(response.data);
-                    // console.log("new Data",JSON.stringify(JSON.parse(data),null,2));
-                    // await Operations.updatePartyMasterRecord(item.schema[0],JSON.parse(data));
-                    // const partyRecord1 = await Operations.getAllRecord(item.schema[0]);
-                    // console.log("Iupdated == ",JSON.stringify(partyRecord1,null,2));
+                    //console.log("Party Record == ",JSON.stringify(partyRecord));
+                    const modifiedData = partyRecord.filtered('syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true')
+                    console.log("modified -- ",JSON.stringify(modifiedData,null,2));
+                    let newModifiedArray = Array.from(modifiedData);
+                    let pushData = {
+                        staffPositionId : 1,
+                        lastSyncTime : record.lastSync,
+                        syncPartyDtos : newModifiedArray
+                    }
+                    const response = await NetworkService.post('party/sync',pushData);
+                    console.log("response--- ",JSON.parse(response.config.data).syncPartyDtos);
+                    const data = await JSON.parse(response.config.data).syncPartyDtos;
+                    console.log("new Data",JSON.stringify(data,null,2));
+                    await Operations.updatePartyMasterRecord(item.schema[0],data);
+                    const partyRecord1 = await Operations.getAllRecord(item.schema[0]);
+                    console.log("Iupdated == ",JSON.stringify(partyRecord1,null,2));
                     
-                    // await Operations.updateRecord(
-                    //     Schemas.masterTablesDownLoadStatus,
-                    //     downloadStatus.DOWNLOADED,
-                    //     item.name,
-                    // );
+                    await Operations.updateRecord(
+                        Schemas.masterTablesDownLoadStatus,
+                        downloadStatus.DOWNLOADED,
+                        item.name,
+                    );
 
                     return;
                 }

@@ -112,7 +112,7 @@ export const createUserInfoRecord = async (schema, data) => {
         {
           id: data.id,
           firstName: data.firstName,
-          middleName: data.middleName,
+          middleName: `${data.middleName}`,
           lastName: data.lastName,
           userName: data.userName,
           ssoUserId: data.ssoUserId,
@@ -137,20 +137,47 @@ export const updatePartyMasterRecord = async (schema , data) => {
       data.forEach((object) => {
 
         let recordToUpdate = realm.objectForPrimaryKey(schema.name, object.id);
-        //console.log("new Object",recordToUpdate);
-        recordToUpdate = object;
-        if(!object.syncParameters.errorInSync){
-          recordToUpdate.syncParameters.requireSync = false;
-          recordToUpdate.syncParameters.lastModifiedOn = new Date();
+        console.log("0 new Object",JSON.stringify(recordToUpdate));
+        console.log("0 new --- ",JSON.stringify(object));
+        if(recordToUpdate == undefined){
+          console.log("undefined")
+          const findRecord = realm.objects(schema.name).filtered(`name == ${object.name}`);
+          console.log("findRecord ",findRecord);
+          findRecord.id = object.id;
         }
-        if(object.syncParameters.isDeleted || recordToUpdate.syncParameters.isDeleted){
-          for(let i=0;i<recordToUpdate.areas.length;i++ ){
-            realm.delete(recordToUpdate.areas[i])
+        else{
+          console.log("else 1");
+          let updatedObject = object;
+          //recordToUpdate = object;
+          if(object.syncParameters.requireSync || recordToUpdate.syncParameters.requireSync){
+            console.log("set requireSync false")
+            updatedObject.syncParameters.requireSync = false;
+            updatedObject.syncParameters.lastModifiedOn = new Date();
           }
-          realm.delete(recordToUpdate.partyTypes.partyTypeGroup);
-          realm.delete(recordToUpdate.partyTypes);
-          realm.delete(recordToUpdate);
-        }
+          if(object.syncParameters.errorInSync ){
+            console.log("entered 1");
+            updatedObject.syncParameters.requireSync = true;
+            updatedObject.syncParameters.lastModifiedOn = new Date();
+            updatedObject.syncParameters.syncErrorDetails = object.syncParameters.syncErrorDetails;
+            updatedObject.syncParameters.errorInSync = true;
+          }
+          if(object.id != recordToUpdate.id){
+            console.log("entered 2")
+            updatedObject.id = object.id;
+          }
+          if(object.syncParameters.isDeleted || recordToUpdate.syncParameters.isDeleted){
+            console.log("delete new way");
+            let newData = realm.objects(schema.name).filtered(`id == ${object.id}`);
+            console.log("Data going to be delete ",newData);
+            realm.delete(newData);
+            newData = null;
+            recordToUpdate = null;
+          }
+          console.log("update Object",updatedObject);
+          recordToUpdate = (recordToUpdate == null) ? null : updatedObject;
+          console.log("1 new Object",JSON.stringify(recordToUpdate));
+          console.log("1 new --- ",JSON.stringify(object));
+        }  
       })
       return "success";
     });
@@ -166,6 +193,7 @@ export const createPartyMasterRecord = async (schema, data) => {
     let specialization, area, qualification, partyTypes, partyTypeGroup;
     await realm.write(() => {
       data.forEach((object,index) => {
+        console.log("object -- ",object);
         partyTypeGroup = realm.create(
           schema[4].name,
           object.partyTypes?.partyTypeGroup,
@@ -197,7 +225,6 @@ export const createPartyMasterRecord = async (schema, data) => {
           schema[0].name,
           {
             id: object.id,
-            staffPositionId: object.staffPositionId,
             partyTypeId: object.partyTypeId,
             shortName: object.shortName === null ? 'null': object.shortName,
             name: (index % 3 == 0) ? object.name : `MR. ${object.name}`,
@@ -326,7 +353,7 @@ let dummyPartyData = {
     "devicePartyId": "null",
     "isActive": true,
     "requireSync": true,
-    "lastModifiedOn": "2021-06-06T05:18:49.058Z",
+    "lastModifiedOn": new Date(),
     "isDeleted": false,
     "errorInSync": false,
     "syncErrorDetails": {
@@ -335,7 +362,7 @@ let dummyPartyData = {
     }
   },
   "id": 0,
-  "name": "DHINESDRA KUMARSINGH",
+  "name": "RVICK KUMAR",
   "specialities": [],
   "qualifications": [],
   "frequency": 2,

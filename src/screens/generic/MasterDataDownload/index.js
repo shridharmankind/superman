@@ -17,7 +17,6 @@ import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
-import {NetworkService} from 'services';
 import {Routes} from 'navigations';
 
 const MasterDataDownload = ({navigation}) => {
@@ -56,7 +55,7 @@ const MasterDataDownload = ({navigation}) => {
             Schemas.masterTablesDownLoadStatus,
             item.name,
           );
-
+          console.log('level 1')  
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }

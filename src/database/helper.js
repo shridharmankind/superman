@@ -47,11 +47,14 @@ export const getStaffPositionId = async () => {
       Constants.USER_PRIMARY_KEY,
     );
     let staffPositionId;
+    console.log("record--- ",record);
     record?.staffPositions.forEach(obj => {
+      console.log("obj -- ",obj);
       if (obj?.isPrimary) {
         staffPositionId = obj.id;
       }
     });
+    console.log("staffPositionId -- ",staffPositionId)
     Operations.closeDB();
     return staffPositionId;
   } catch (error) {}

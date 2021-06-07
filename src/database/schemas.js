@@ -77,7 +77,6 @@ export const partyMaster = {
   name: Constants.MASTER_TABLE_PARTY,
   properties: {
     id: 'int',
-    staffPositionId: 'int',
     partyTypeId: 'int',
     shortName: 'string',
     name: 'string',
