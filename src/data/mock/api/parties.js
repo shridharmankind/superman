@@ -20,7 +20,7 @@ export const partiesMock = {
         category: 'a+',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-05-19T18:25:11',
+        anniversary: '1990-09-19T18:25:11',
         selfDispensing: false,
         isKyc: true,
         potential: 2253,
@@ -36,8 +36,8 @@ export const partiesMock = {
         },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
-          {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
-          {startDate: '2020-07-25T00:00:00', endDate: '2020-12-17T00:00:00'},
+          {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
+          {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
         visitData: [
           {
@@ -65,7 +65,7 @@ export const partiesMock = {
         category: 'b',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-05-19T18:25:11',
+        anniversary: '1990-09-23T18:25:11',
         selfDispensing: false,
         isKyc: false,
         potential: 22530,
@@ -81,8 +81,8 @@ export const partiesMock = {
         },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
-          {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
-          {startDate: '2020-07-25T00:00:00', endDate: '2020-12-17T00:00:00'},
+          {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
+          {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
         visitData: [
           {
@@ -110,7 +110,7 @@ export const partiesMock = {
         category: 'c',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-05-19T18:25:11',
+        anniversary: '1990-07-23T18:25:11',
         selfDispensing: true,
         isKyc: true,
         potential: 22000,
@@ -126,8 +126,8 @@ export const partiesMock = {
         },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
-          {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
-          {startDate: '2020-07-25T00:00:00', endDate: '2020-12-17T00:00:00'},
+          {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
+          {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
         visitData: [
           {
@@ -150,7 +150,7 @@ export const partiesMock = {
         category: 'A+',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-05-19T18:25:11',
+        anniversary: '2021-06-28T18:25:11',
         selfDispensing: false,
         isKyc: true,
         potential: 100000,
@@ -166,8 +166,8 @@ export const partiesMock = {
         },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
-          {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
-          {startDate: '2020-07-25T00:00:00', endDate: '2020-12-17T00:00:00'},
+          {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
+          {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
         visitData: [
           {
@@ -193,7 +193,7 @@ export const partiesMock = {
         name: 'Tanmay Singh',
         specialization: ['Dermatologist'],
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-05-19T18:25:11',
+        anniversary: '2021-09-26T18:25:11',
         selfDispensing: false,
         isKyc: true,
         potential: 80000,
@@ -209,8 +209,8 @@ export const partiesMock = {
         },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
-          {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
-          {startDate: '2020-07-25T00:00:00', endDate: '2020-12-17T00:00:00'},
+          {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
+          {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
         category: 'B',
         location: 'Karol Bagh',
@@ -238,14 +238,14 @@ export const partiesMock = {
         name: 'Balaji Medicos ',
         specialization: ['Chemist'],
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-05-19T18:25:11',
+        anniversary: '1990-05-27T18:25:11',
         selfDispensing: false,
         isKyc: false,
         potential: 34000,
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
-          {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
-          {startDate: '2020-07-25T00:00:00', endDate: '2020-12-17T00:00:00'},
+          {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
+          {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
         category: '-',
         location: 'Karol Bagh',

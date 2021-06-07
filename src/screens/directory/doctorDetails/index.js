@@ -68,8 +68,12 @@ const DoctorProfile = ({route}) => {
         return themes.colors.orange[100];
       case Constants.DIVISION_COLOR.A_PLUS:
         return themes.colors.darkBlue;
+      case Constants.DIVISION_COLOR.A:
+        return themes.colors.yellow[300];
       case Constants.DIVISION_COLOR.B:
         return themes.colors.lightBlue;
+      case Constants.DIVISION_COLOR.C:
+        return themes.colors.grey[1200];
       default:
         return themes.colors.transparent;
     }
