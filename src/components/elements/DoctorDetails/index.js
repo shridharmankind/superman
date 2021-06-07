@@ -62,6 +62,11 @@ const DoctorDetails = ({
     return frequencyComp;
   };
 
+  const getImageIcon = () => {
+    return Constants.PARTY_TYPE.DOCTOR === partyType
+      ? require('../../../assets/images/avatar.png')
+      : require('../../../assets/images/chemist.png');
+  };
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -146,10 +151,12 @@ const DoctorDetails = ({
               )}
             </View>
           )}
+
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/avatar.png')}
+            source={getImageIcon()}
           />
+
           <View style={styles.nameContainer}>
             <Label
               title={
@@ -158,6 +165,7 @@ const DoctorDetails = ({
                   : title
               }
               size={customStyle ? customStyle.titleSize : 17}
+              style={styles.name}
               onPress={() => {
                 onTileNamePress && onTileNamePress();
               }}
