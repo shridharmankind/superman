@@ -89,6 +89,7 @@ const Strings = {
   tillDate: 'Till Date',
   comingSoon: 'Coming soon ***',
   dr: 'Dr.',
+  errorRemovingParty: 'There is some error removing the party',
 };
 
 export default Strings;

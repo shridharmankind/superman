@@ -8,6 +8,7 @@ export const doctorDetailState = {
   doctorDetail: {
     data: [],
     deletedItem: {},
+    error: '',
   },
 };
 
@@ -59,6 +60,7 @@ export const doctorDetailSlice = createSlice({
       );
       console.log('addDeletedParty', state.doctorDetail.data);
     },
+    deletePartyError: (state, action) => merge(state, action.payload),
   },
 });
 

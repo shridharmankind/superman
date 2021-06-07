@@ -7,7 +7,7 @@ import {
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
-import {Constants} from 'common';
+import {Constants, Strings} from 'common';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -100,6 +100,13 @@ export function* deletePartyWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
+    yield put(
+      doctorDetailActions.deletePartyError({
+        doctorDetail: {
+          error: Strings.errorRemovingParty,
+        },
+      }),
+    );
     console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
