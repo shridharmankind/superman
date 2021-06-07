@@ -21,7 +21,7 @@ const HomeLanding = () => {
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <Label style={styles.headerLabel} title={`Hi ${userName}`} />
+      <Label style={styles.headerLabel} title={`Hi ${userName || ''}`} />
       <Label style={styles.headerLabel} type="semiBold" title="Good Morning!" />
     </View>
   );
