@@ -94,9 +94,9 @@ const StandardPlanModal = ({
     setIsPatchedData(false);
     setPatchEdited(false);
     setShowPatchError(false);
-    setPatchError('');
-    setPatchSelected();
-    setPatchDefaultValue();
+    setPatchError(null);
+    setPatchSelected(null);
+    setPatchDefaultValue(null);
     setPatchValue(null);
     await dispatch(standardPlanActions.resetPartiesByPatchID());
     await dispatch(standardPlanActions.resetSavePatch());
@@ -560,44 +560,46 @@ const StandardPlanModal = ({
 
   /** function to filter parties by party type eg. doctors,chemist and all*/
   const getSelectedPartyByType = useCallback(() => {
-    const obj = {doctors: 0, chemist: 0};
-    partiesList.map(party => {
-      if (doctorsSelected?.some(id => id === party.id)) {
-        if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
-          obj.doctors = obj.doctors + 1;
-        } else {
-          obj.chemist = obj.chemist + 1;
+    if (patchSelected) {
+      const obj = {doctors: 0, chemist: 0};
+      partiesList.map(party => {
+        if (doctorsSelected?.some(id => id === party.id)) {
+          if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
+            obj.doctors = obj.doctors + 1;
+          } else {
+            obj.chemist = obj.chemist + 1;
+          }
         }
-      }
-    });
+      });
 
-    if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
-      let partyCount = obj.chemist;
-      return (
-        partyCount > 0 &&
-        ` - ${partyCount} ${PARTY_TYPE.CHEMIST.toLowerCase()}${getSuffix(
-          partyCount,
-        )}`
-      );
-    } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
-      let partyCount = obj.doctors;
-      return (
-        partyCount > 0 &&
-        ` - ${partyCount} ${PARTY_TYPE.DOCTOR.toLowerCase()}${getSuffix(
-          partyCount,
-        )}`
-      );
+      if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
+        let partyCount = obj.chemist;
+        return (
+          partyCount > 0 &&
+          ` - ${partyCount} ${PARTY_TYPE.CHEMIST.toLowerCase()}${getSuffix(
+            partyCount,
+          )}`
+        );
+      } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
+        let partyCount = obj.doctors;
+        return (
+          partyCount > 0 &&
+          ` - ${partyCount} ${PARTY_TYPE.DOCTOR.toLowerCase()}${getSuffix(
+            partyCount,
+          )}`
+        );
+      }
+      return `${
+        doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
+      }${
+        obj.doctors > 0
+          ? `${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
+          : ''
+      }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
+        obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
+      }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
     }
-    return `${
-      doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
-    }${
-      obj.doctors > 0
-        ? `${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
-        : ''
-    }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
-      obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
-    }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
-  }, [doctorsSelected, partiesList, selectedDoctorType]);
+  }, [doctorsSelected, partiesList, selectedDoctorType, patchSelected]);
 
   /** function toh hide/show right arrow of area scroll
    * @param {Object} nativeEvent native events of scrollView passed
