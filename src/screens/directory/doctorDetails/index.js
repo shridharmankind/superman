@@ -20,7 +20,7 @@ import {OpenTask} from 'screens/directory';
  */
 
 const DoctorProfile = ({route}) => {
-  const doctorData = route.params?.data || '';
+  const doctorData = route.params?.data || {};
   const navigation = useNavigation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const data = [
@@ -275,19 +275,19 @@ const DoctorProfile = ({route}) => {
             style={[
               styles.divisionContainer,
               {
-                backgroundColor: getDivisionColor(doctorData.category),
+                backgroundColor: getDivisionColor(doctorData?.category),
               },
             ]}>
             <Label
               variant={LabelVariant.h6}
               textColor={theme.colors.white}
               style={styles.divisionText}
-              title={doctorData.category?.toUpperCase()}
+              title={doctorData?.category?.toUpperCase()}
             />
           </View>
           <View
             style={
-              doctorData.selfDispensing
+              doctorData?.selfDispensing
                 ? styles.dispinsingContainer
                 : styles.leftTabContainer
             }>
@@ -300,7 +300,7 @@ const DoctorProfile = ({route}) => {
             <Label style={styles.doctorProfile} title={Strings.doctorProfile} />
           </View>
           <View style={[styles.tabContainer, styles.rightTabContainer]}>
-            {doctorData.selfDispensing && (
+            {doctorData?.selfDispensing && (
               <>
                 <Button
                   title={Strings.moreActions}
@@ -341,19 +341,19 @@ const DoctorProfile = ({route}) => {
               <View style={styles.nameContainer}>
                 <Label
                   variant={LabelVariant.subtitleLarge}
-                  title={doctorData.name}
+                  title={doctorData?.name}
                   style={styles.doctorName}
                 />
                 <View style={styles.location}>
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={doctorData.specialization
+                    title={(doctorData?.specialization || [])
                       .map(spec => spec)
                       .join(', ')}
                   />
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={',' + doctorData.location}
+                    title={',' + doctorData?.location}
                   />
                 </View>
               </View>
@@ -377,7 +377,7 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData.anniversary)}
+                title={dateFormat(doctorData?.anniversary)}
               />
             </View>
           </View>
