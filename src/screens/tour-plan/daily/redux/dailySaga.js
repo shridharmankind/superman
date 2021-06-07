@@ -50,7 +50,7 @@ export function* fetchDoctorDetailWorker(action) {
       Array.isArray(response.data) &&
       response.data.length > 0
     ) {
-      formattedResponse = (response.data || []).map((data, idx) => {
+      formattedResponse = response.data.map((data, idx) => {
         data.key = idx + 1;
         return data;
       });

@@ -7,7 +7,6 @@ import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
-import {Strings} from 'common';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.

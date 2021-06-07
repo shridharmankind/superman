@@ -6,11 +6,7 @@ import {Strings} from 'common';
 import {Label, Modal, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
-import {
-  fetchDoctorDetailCreator,
-  dailySelector,
-  doctorDetailActions,
-} from './redux';
+import {fetchDoctorDetailCreator, dailySelector} from './redux';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
