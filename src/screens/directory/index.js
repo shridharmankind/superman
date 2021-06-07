@@ -28,3 +28,6 @@ const Directory = () => {
 };
 
 export default Directory;
+
+export {default as DoctorFeedback} from './doctorDetails/doctorFeedback';
+export {default as OpenTask} from './doctorDetails/openTask';
