@@ -16,7 +16,7 @@ const renderHeader = ({navigation}) => (
   <View style={[styles.eDetailingHead]}>
     <View style={[styles.eDetailingHead__Col]}>
       <TouchableOpacity
-        testID="eDeatil-back"
+        testID="eDetail-back"
         style={styles.eDetailingHead__Back}
         onPress={() => navigation.goBack()}>
         <ArrowBack width={24} height={24} />
@@ -31,7 +31,7 @@ const renderHeader = ({navigation}) => (
     </View>
     <View style={[styles.eDetailing__Start]}>
       <Button
-        testID="eDeatil-start-presentation"
+        testID="eDetail-start-presentation"
         title={Strings.startPresentation}
         mode="contained"
         contentStyle={styles.eDetailing__Start__Content}

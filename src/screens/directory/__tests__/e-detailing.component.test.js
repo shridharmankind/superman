@@ -17,7 +17,7 @@ test('should have title', () => {
 
 test('should have button for starting presentation', () => {
   const {getByTestId} = renderComponent({navigation: {}});
-  const btnPresentation = getByTestId('eDeatil-start-presentation');
+  const btnPresentation = getByTestId('eDetail-start-presentation');
   expect(btnPresentation).toBeTruthy();
 });
 
@@ -35,14 +35,14 @@ test('should have other products title', () => {
 
 test('should have back button', () => {
   const {getByTestId} = renderComponent({navigation: {}});
-  const btnPresentation = getByTestId('eDeatil-back');
+  const btnPresentation = getByTestId('eDetail-back');
   expect(btnPresentation).toBeTruthy();
 });
 
 test('should able to go back using back button', () => {
   const onPressMock = jest.fn();
   const {getByTestId} = renderComponent({navigation: {goBack: onPressMock}});
-  const btnPresentation = getByTestId('eDeatil-back');
+  const btnPresentation = getByTestId('eDetail-back');
   fireEvent.press(btnPresentation);
   expect(onPressMock).toHaveBeenCalled();
 });
