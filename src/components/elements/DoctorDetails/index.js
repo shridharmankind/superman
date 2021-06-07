@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
@@ -48,6 +48,8 @@ const DoctorDetails = ({
   isKyc,
   ...props
 }) => {
+  const [imageSrc, setImageSrc] = useState({uri: image});
+  const [isImageErrror, setIsImageErrror] = useState(false);
   /**
    *  Renders Visited or non visited frequency CHicklet
    * @param {JSX} Component
@@ -62,11 +64,22 @@ const DoctorDetails = ({
     return frequencyComp;
   };
 
-  const getImageIcon = () => {
-    return Constants.PARTY_TYPE.DOCTOR === partyType
-      ? require('../../../assets/images/avatar.png')
-      : require('../../../assets/images/chemist.png');
+  /**
+   *
+   * Handle image error & return default image
+   */
+  const OnErrorHandler = () => {
+    if (!isImageErrror) {
+      const src =
+        Constants.PARTY_TYPE.DOCTOR === partyType
+          ? require('assets/images/avatar.png')
+          : require('assets/images/chemist.png');
+
+      setImageSrc(src);
+      setIsImageErrror(true);
+    }
   };
+
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
@@ -154,7 +167,8 @@ const DoctorDetails = ({
 
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={getImageIcon()}
+            source={imageSrc}
+            onError={OnErrorHandler()}
           />
 
           <View style={styles.nameContainer}>
