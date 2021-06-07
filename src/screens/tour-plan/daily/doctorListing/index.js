@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, TouchableOpacity, TouchableHighlight} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
@@ -20,6 +20,8 @@ import {CloseIcon} from 'assets';
 const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
+  const [isDeleteOperationInProgress, setIsDeleteOperationInProgress] =
+    useState(false);
 
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
@@ -50,12 +52,11 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
    */
   const deleteRow = (rowMap, rowKey, item) => {
     let undoclicked = false;
+    setIsDeleteOperationInProgress(true);
     showToast({
       type: Constants.TOAST_TYPES.ALERT,
-      autoHide: true,
-      visibilityTime: 4000,
       props: {
-        onPress: () => {
+        onPressLeftBtn: () => {
           undoclicked = true;
           hideToast();
           closeRow(rowMap, rowKey);
@@ -66,15 +67,16 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         },
         heading: `${Strings.removed}!`,
         subHeading: `${Strings.removedDoctor}`,
-        actionTitle: `${Strings.undo}`,
+        actionLeftTitle: `${Strings.undo}`,
+        btnContainerStyle: styles.toastBtnContainer,
       },
       onHide: () => {
         closeRow(rowMap, rowKey);
-
+        setIsDeleteOperationInProgress(false);
         if (!undoclicked) {
           dispatch(
             deletePartyCreator({
-              staffPositionid: 3,
+              staffPositionid: 2,
               day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
               month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
               year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
@@ -95,12 +97,14 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     return (
       <SwipeRow
         disableRightSwipe={true}
+        stopLeftSwipe={isDeleteOperationInProgress}
+        disableLeftSwipe={isDeleteOperationInProgress}
         leftOpenValue={20 + Math.random() * 150}
         rightOpenValue={-90}>
         <View style={styles.rowBack}>
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnRight]}
-            onPress={() => deleteRow(rowMap, data.item.id, data.item)}>
+            onPress={() => deleteRow(rowMap, data.item.key, data.item)}>
             <View style={styles.closeLabel}>
               <CloseIcon width={32} height={32} fill={colors.white} />
             </View>
@@ -119,8 +123,10 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
               <DoctorDetails
                 title={data.item.name}
                 specialization={data.item.specialization}
+                isKyc={data.item.isKyc}
                 category={data.item.category}
                 location={data.item.location}
+                partyType={data.item.partyTypes.name}
                 customStyle={doctorDetailStyleObject}
                 showFrequencyChiclet={false}
                 showVisitPlan={true}
@@ -139,7 +145,13 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
       </SwipeRow>
     );
   };
-  return <SwipeListView data={dayPlanData} renderItem={renderItem} />;
+  return (
+    <SwipeListView
+      data={dayPlanData}
+      renderItem={renderItem}
+      stopLeftSwipe={isDeleteOperationInProgress}
+    />
+  );
 };
 
 export default PartyList;

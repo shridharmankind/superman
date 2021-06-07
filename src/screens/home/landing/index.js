@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Card} from 'react-native-paper';
 
@@ -6,11 +6,22 @@ import {ContentWithSidePanel} from 'components/layouts';
 import {Label, LabelVariant} from 'components/elements';
 
 import styles from './styles';
+import {Helper} from 'database';
 
 const HomeLanding = () => {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const loadData = async () => {
+      const firstName = await Helper.getUserFirstName();
+      setUserName(firstName);
+    };
+    loadData();
+  });
+
   const renderHeader = () => (
     <View style={styles.header}>
-      <Label style={styles.headerLabel} title="Hi Praveen," />
+      <Label style={styles.headerLabel} title={`Hi ${userName}`} />
       <Label style={styles.headerLabel} type="semiBold" title="Good Morning!" />
     </View>
   );

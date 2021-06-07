@@ -15,13 +15,25 @@ export const partiesMock = {
       {
         key: 1,
         id: 1,
-        name: 'Dr. Ashish Gulati',
+        name: 'Ashish Gulati',
         specialization: ['Cardiologist'],
-        category: 'KYC',
+        category: 'a+',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
         anniversary: '2021-05-19T18:25:11',
         selfDispensing: false,
+        isKyc: true,
+        potential: 2253,
+        partyTypes: {
+          id: 1,
+          name: 'Doctor',
+          shortName: 'Doc',
+          partyTypeGroup: {
+            id: 1,
+            name: 'PartyGroup1',
+            shortName: 'Group1',
+          },
+        },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
@@ -48,13 +60,25 @@ export const partiesMock = {
       {
         key: 2,
         id: 2,
-        name: 'Dr. Manish Kumar ',
+        name: 'Manish Kumar ',
         specialization: ['Cardiologist'],
-        category: 'a+',
+        category: 'b',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
         anniversary: '2021-05-19T18:25:11',
         selfDispensing: false,
+        isKyc: false,
+        potential: 22530,
+        partyTypes: {
+          id: 1,
+          name: 'Doctor',
+          shortName: 'Doc',
+          partyTypeGroup: {
+            id: 1,
+            name: 'PartyGroup1',
+            shortName: 'Group1',
+          },
+        },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
@@ -81,13 +105,25 @@ export const partiesMock = {
       {
         key: 3,
         id: 3,
-        name: 'Dr. Manoj Manjhi',
+        name: 'Manoj Manjhi',
         specialization: ['Cardiologist'],
-        category: 'b',
+        category: 'c',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
         anniversary: '2021-05-19T18:25:11',
         selfDispensing: true,
+        isKyc: true,
+        potential: 22000,
+        partyTypes: {
+          id: 1,
+          name: 'Doctor',
+          shortName: 'Doc',
+          partyTypeGroup: {
+            id: 1,
+            name: 'PartyGroup1',
+            shortName: 'Group1',
+          },
+        },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
@@ -109,13 +145,25 @@ export const partiesMock = {
       {
         key: 4,
         id: 4,
-        name: 'Dr. Manoj Manjhi',
+        name: 'Manoj Manjhi',
         specialization: ['Cardiologist'],
-        category: 'KYC',
+        category: 'A+',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
         anniversary: '2021-05-19T18:25:11',
         selfDispensing: false,
+        isKyc: true,
+        potential: 100000,
+        partyTypes: {
+          id: 1,
+          name: 'Doctor',
+          shortName: 'Doc',
+          partyTypeGroup: {
+            id: 1,
+            name: 'PartyGroup1',
+            shortName: 'Group1',
+          },
+        },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
@@ -142,11 +190,23 @@ export const partiesMock = {
       {
         key: 5,
         id: 5,
-        name: 'Dr. Tanmay Singh',
+        name: 'Tanmay Singh',
         specialization: ['Dermatologist'],
         birthday: '2021-05-19T18:25:11',
         anniversary: '2021-05-19T18:25:11',
         selfDispensing: false,
+        isKyc: true,
+        potential: 80000,
+        partyTypes: {
+          id: 1,
+          name: 'Doctor',
+          shortName: 'Doc',
+          partyTypeGroup: {
+            id: 1,
+            name: 'PartyGroup1',
+            shortName: 'Group1',
+          },
+        },
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
@@ -180,6 +240,8 @@ export const partiesMock = {
         birthday: '2021-05-19T18:25:11',
         anniversary: '2021-05-19T18:25:11',
         selfDispensing: false,
+        isKyc: false,
+        potential: 34000,
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2020-05-20T00:00:00', endDate: '2020-06-21T00:00:00'},
@@ -187,6 +249,16 @@ export const partiesMock = {
         ],
         category: '-',
         location: 'Karol Bagh',
+        partyTypes: {
+          id: 1,
+          name: 'Chemist',
+          shortName: 'Chemist',
+          partyTypeGroup: {
+            id: 1,
+            name: 'PartyGroup1',
+            shortName: 'Group1',
+          },
+        },
         visitData: [
           {
             date: getDate(0).date,
