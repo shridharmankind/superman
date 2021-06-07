@@ -6,4 +6,4 @@ export const getAccessToken = () => {};
 
 export const saveDatabaseKey = () => {};
 
-export const getDatabaseKey = () => {};
+export const getStoredDatabaseKey = () => {};

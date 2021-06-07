@@ -139,6 +139,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing(15),
     right: 0,
   },
+  toastBtnContainer: {
+    flex: 0,
+    justifyContent: 'flex-start',
+  },
 });
 
 export default styles;

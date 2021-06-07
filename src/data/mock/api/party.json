@@ -2,13 +2,7 @@
   {
     "id": 1,
     "name": "Party1",
-    "specialities": [
-      {
-        "id": 2,
-        "name": "Orthopaedic",
-        "shortName": "Ortho"
-      }
-    ],
+    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
     "qualifications": [],
     "frequency": 3,
     "alreadyVisited": 1,
@@ -16,26 +10,14 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A+",
     "potential": 6000000,
     "isKyc": true,
     "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      },
-      {
-        "id": 2,
-        "name": "Sec 2",
-        "shortName": "Sec 2"
-      }
+      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
+      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
     ],
     "shortName": null,
     "birthday": null,
@@ -46,13 +28,7 @@
   {
     "id": 1,
     "name": "Party1",
-    "specialities": [
-      {
-        "id": 2,
-        "name": "Orthopaedic",
-        "shortName": "Ortho"
-      }
-    ],
+    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
     "qualifications": [],
     "frequency": 3,
     "alreadyVisited": 1,
@@ -60,26 +36,14 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A+",
     "potential": 6000000,
     "isKyc": false,
     "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      },
-      {
-        "id": 2,
-        "name": "Sec 2",
-        "shortName": "Sec 2"
-      }
+      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
+      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
     ],
     "shortName": null,
     "birthday": null,
@@ -90,13 +54,7 @@
   {
     "id": 1,
     "name": "Party1",
-    "specialities": [
-      {
-        "id": 2,
-        "name": "Orthopaedic",
-        "shortName": "Ortho"
-      }
-    ],
+    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
     "qualifications": [],
     "frequency": 2,
     "alreadyVisited": 1,
@@ -104,26 +62,14 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A+",
     "potential": 6000000,
     "isKyc": true,
     "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      },
-      {
-        "id": 2,
-        "name": "Sec 2",
-        "shortName": "Sec 2"
-      }
+      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
+      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
     ],
     "shortName": null,
     "birthday": null,
@@ -142,22 +88,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A+",
     "potential": 6000000,
     "isKyc": true,
-    "areas": [
-      {
-        "id": 2,
-        "name": "Sec 2",
-        "shortName": "Sec 2"
-      }
-    ],
+    "areas": [{"id": 2, "name": "Sec 2", "shortName": "Sec 2"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -175,22 +111,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A+",
     "potential": 6000000,
     "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -208,22 +134,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "C+",
     "potential": 300000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -241,22 +157,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "C+",
     "potential": 5000000,
     "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -274,22 +180,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "B",
     "potential": 1000000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -307,22 +203,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A",
     "potential": 4000000,
     "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -340,22 +226,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "D",
     "potential": 30000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -373,22 +249,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A+",
     "potential": 7000000,
     "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -406,22 +272,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "C",
     "potential": 80000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -439,22 +295,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A+",
     "potential": 9000001,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -472,22 +318,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "D+",
     "potential": 40000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -505,22 +341,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "D+",
     "potential": 50000,
     "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -538,22 +364,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "B",
     "potential": 600000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -571,22 +387,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "C+",
     "potential": 200000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -604,22 +410,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "A",
     "potential": 4000000,
     "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -637,22 +433,12 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {
-        "id": 1,
-        "name": "PartyGroup1",
-        "shortName": "Group1"
-      }
+      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
     },
     "category": "C+",
     "potential": 300000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
@@ -661,7 +447,7 @@
   },
   {
     "id": 5,
-    "name": "Party5",
+    "name": "party5",
     "specialities": [],
     "qualifications": [],
     "frequency": 2,
@@ -670,22 +456,12 @@
       "id": 2,
       "name": "Chemist",
       "shortName": "Che",
-      "partyTypeGroup": {
-        "id": 2,
-        "name": "PartyGroup2",
-        "shortName": "Group2"
-      }
+      "partyTypeGroup": {"id": 2, "name": "PartyGroup2", "shortName": "Group2"}
     },
     "category": "A+",
     "potential": 6000000,
     "isKyc": false,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Sec 1",
-        "shortName": "Sec 1"
-      }
-    ],
+    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
