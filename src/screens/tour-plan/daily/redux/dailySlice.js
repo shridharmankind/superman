@@ -46,10 +46,6 @@ export const doctorDetailSlice = createSlice({
       state.doctorDetail.data.splice(itemIndexToRemove, 1);
     },
     doctorRemoved: (state, action) => {
-      // const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
-      //   return d.id === action.payload.partyId;
-      // });
-      // state.doctorDetail.data.splice(itemIndexToRemove, 1);
       return state;
     },
     addDeletedParty: (state, action) => {
@@ -58,7 +54,6 @@ export const doctorDetailSlice = createSlice({
         0,
         state.doctorDetail.deletedItem.item,
       );
-      console.log('addDeletedParty', state.doctorDetail.data);
     },
     deletePartyError: (state, action) => merge(state, action.payload),
   },

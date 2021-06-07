@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
 
   useEffect(() => {
