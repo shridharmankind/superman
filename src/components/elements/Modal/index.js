@@ -37,6 +37,7 @@ const CustomModal = ({
   closeTestId,
   customModalPosition,
   blurView,
+  ...props
 }) => {
   const {colors} = useTheme();
   const primaryActionHandler = () => {
@@ -46,7 +47,7 @@ const CustomModal = ({
 
   const renderModal = () => {
     return (
-      <View style={[styles.centeredView]}>
+      <View style={[styles.centeredView, props?.customModalCenteredView]}>
         <View style={[styles.modalView, customModalPosition]}>
           <View style={styles.titleView}>
             <View style={styles.title}>{modalTitle}</View>
