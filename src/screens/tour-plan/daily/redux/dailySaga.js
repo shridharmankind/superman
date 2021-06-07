@@ -7,6 +7,7 @@ import {
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
+import {Constants} from 'common';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -26,20 +27,39 @@ export function* deletePartyWatcher() {
  */
 export function* fetchDoctorDetailWorker(action) {
   const {staffPositionid, day, month, year} = action.payload;
+  const valueMap = {
+    staffpositionid: staffPositionid,
+    monthVal: month,
+    yearVal: year,
+    dayVal: day,
+  };
+  let url = API_PATH.GET_PARTIES;
+  url = url.replace(
+    /\b(?:staffpositionid|monthVal|yearVal|dayVal)\b/gi,
+    matched => valueMap[matched],
+  );
+
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
-    const response = yield call(NetworkService.post, API_PATH.GET_PARTIES, {
-      staffPositionid: staffPositionid,
-      day: day,
-      month: month,
-      year: year,
-    });
+    const response = yield call(NetworkService.get, url);
+    let formattedResponse = [];
+
+    if (
+      response.data &&
+      Array.isArray(response.data) &&
+      response.data.length > 0
+    ) {
+      formattedResponse = response.data.map((data, idx) => {
+        data.key = idx + 1;
+        return data;
+      });
+    }
 
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
-          data: response.data,
+          data: formattedResponse,
         },
       }),
     );
@@ -57,19 +77,23 @@ export function* deletePartyWorker(action) {
   const {staffPositionid, day, month, year, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    const response = yield call(
-      NetworkService.Delete,
-      API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN,
-      {
-        staffPositionid: staffPositionid,
-        day: day,
-        month: month,
-        year: year,
-        partyId: partyId,
-      },
+    const valueMap = {
+      staffpositionid: staffPositionid,
+      partyid: partyId,
+    };
+    let url = API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN;
+    url = url.replace(
+      /\b(?:staffpositionid|partyid)\b/gi,
+      matched => valueMap[matched],
     );
 
-    if (response.data) {
+    const response = yield call(NetworkService.Delete, url, {
+      day: day,
+      month: month,
+      year: year,
+    });
+
+    if (response.status === Constants.HTTP_OK) {
       yield put(doctorDetailActions.doctorRemoved(action.payload));
     }
 

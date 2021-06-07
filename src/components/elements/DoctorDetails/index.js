@@ -7,7 +7,6 @@ import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
-import {Strings} from 'common';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -140,7 +139,7 @@ const DoctorDetails = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={specialization.map(spec => spec).join(', ')}
+                title={(specialization || []).map(spec => spec).join(', ')}
                 style={customStyle && customStyle.specialization}
               />
 
