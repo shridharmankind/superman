@@ -82,7 +82,7 @@ const MonthlyTourPlan = ({navigation}) => {
     };
 
     const subOrdinateListNew = [myPlan];
-    subOrdinatesList.forEach((item, index) => {
+    subOrdinatesList?.forEach((item, index) => {
       subOrdinateListNew.push({
         id: index + 2,
         text: `${item.firstName} ${item.middleName} ${item.lastName}`,

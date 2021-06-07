@@ -1,17 +1,27 @@
-import React, { useEffect } from 'react';
-import {TouchableOpacity, View, Button} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import {Card} from 'react-native-paper';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {Label} from 'components/elements';
 import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
+import {Helper} from 'database';
 
 const syncInterval = 60; // 1 minute
 const syncFlexTime = 15; // 15 seconds
 
 const HomeLanding = ({navigation}) => {
+  const [userName, setUserName] = useState('');
 
+  useEffect(() => {
+    const loadData = async () => {
+      const firstName = await Helper.getUserFirstName();
+      setUserName(firstName);
+    };
+    loadData();
+  });
+  
   useEffect(() => {
     SyncAdapter.syncImmediately({
       syncInterval,
@@ -26,10 +36,11 @@ const HomeLanding = ({navigation}) => {
       syncFlexTime,
     });
   };
+  
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <Label style={styles.headerLabel} title="Hi Praveen," />
+      <Label style={styles.headerLabel} title={`Hi ${userName}`} />
       <Label style={styles.headerLabel} type="semiBold" title="Good Morning!" />
       <Button onPress={() => onSyncPress()} title="Sync now" />
     </View>

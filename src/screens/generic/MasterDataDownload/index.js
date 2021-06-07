@@ -5,6 +5,7 @@ import {
   Image,
   ImageBackground,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
@@ -16,11 +17,8 @@ import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
-
-const downloadStatus = Object.freeze({
-  DOWNLOADED: 'DOWNLOADED',
-  PENDING: 'PENDING',
-});
+import {NetworkService} from 'services';
+import {Routes} from 'navigations';
 
 const MasterDataDownload = ({navigation}) => {
   const [progress, setProgress] = useState(0);
@@ -34,16 +32,17 @@ const MasterDataDownload = ({navigation}) => {
       setIndeterminate(false);
       const interval = setInterval(() => {
         progressStatus += Math.random() / 5;
-
         if (progressStatus > 1) {
           progressStatus = 1;
-          //navigation.navigate('Dashboard');
           clearInterval(interval);
+          navigation.reset({
+            routes: [{name: Routes.ROUTE_DASHBOARD}],
+          });
         }
         setProgress(progressStatus);
       }, 1500);
     }, 3000);
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,46 +50,60 @@ const MasterDataDownload = ({navigation}) => {
       try {
         await initMasterTablesDownloadStatus();
 
-        Helper.MASTER_TABLES_DETAILS.forEach(async item => {
+        for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
+          let item = Helper.MASTER_TABLES_DETAILS[i];
           const record = await Operations.getRecord(
             Schemas.masterTablesDownLoadStatus,
             item.name,
           );
-          if (record?.status === downloadStatus.DOWNLOADED) {
-            console.log("returning master table");
-            //return;
+
+          if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
+            return;
           }
-          console.log("level 1");
-          const response = await NetworkService.get(item.apiPath);
-          console.log("level 2");
+          let response;
+          switch (item.name) {
+            case DBConstants.MASTER_TABLE_USER_INFO:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.MASTER_TABLE_PARTY:
+              {
+                const staffPositionId = await Helper.getStaffPositionId();
+                response = await NetworkService.get(
+                  `${item.apiPath}${staffPositionId}`,
+                );
+              }
+              break;
+          }
           if (response.status === Constants.HTTP_OK) {
-            const data = await JSON.stringify(response.data);
-            console.log("data -- ",data);
-            if (item.name === DBConstants.MASTER_TABLE_USER_INFO) {
-              await Operations.createUserInfoRecord(
-                item.schema,
-                JSON.parse(data),
-              );
-            } else if (item.name === DBConstants.MASTER_TABLE_PARTY) {
-              await Operations.createPartyMasterRecord(
-                item.schema,
-                JSON.parse(data),
-              );
+            const data = JSON.stringify(response.data);
+            switch (item.name) {
+              case DBConstants.MASTER_TABLE_USER_INFO:
+                await Operations.createUserInfoRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                break;
+
+              case DBConstants.MASTER_TABLE_PARTY:
+                await Operations.createPartyMasterRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                break;
             }
             console.log("working")
             await Operations.updateRecord(
               Schemas.masterTablesDownLoadStatus,
-              downloadStatus.DOWNLOADED,
+              DBConstants.downloadStatus.DOWNLOADED,
               item.name,
             );
             console.log("working 1")
           } else {
-            console.log('error', response);
+            Alert.alert(Strings.info, response);
           }
-        });
-        navigation.navigate('Dashboard');
+        }
       } catch (error) {
-        console.log('useEffect', error);
+        Alert.alert(Strings.info, error);
       }
     };
     fetchData();
@@ -103,7 +116,7 @@ const MasterDataDownload = ({navigation}) => {
       Helper.MASTER_TABLES_DETAILS.forEach(async item => {
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
-          status: downloadStatus.PENDING,
+          status: DBConstants.downloadStatus.PENDING,
           lastSync: new Date()
         });
       });

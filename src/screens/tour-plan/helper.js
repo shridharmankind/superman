@@ -1,9 +1,11 @@
 import {getMonthList, getFormatDate} from 'utils/dateTimeHelper';
-import {CATEGORY_SORTING_ORDER} from 'screens/tourPlan/constants';
+import {PARTY_TYPE} from 'screens/tourPlan/constants';
 
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
  * Ex: let today is May 2021. So, I will get [May 2021, June 2021, ..... February 2022, March 2022]
+ * @param {Date} inputDate date input
+ * @returns array of objects containing the tour plan months
  */
 export const getTourPlanScheduleMonths = inputDate => {
   const MONTH_RANGE = 13;
@@ -53,11 +55,24 @@ export const getTourPlanScheduleMonths = inputDate => {
   return tourPlanScheduleMonths;
 };
 
+export const sortByCategory = array => {
+  const byCategory = (array || []).slice().sort(sortBasedOnCategory);
+  const byPotentials = byCategory
+    .slice()
+    .sort((a, b) => (a.isKyc === b.isKyc ? 0 : a.isKyc ? -1 : 1));
+
+  return byPotentials;
+};
+
 export const sortBasedOnCategory = (a, b) => {
-  return (
-    CATEGORY_SORTING_ORDER.indexOf(a.category.toLowerCase()) -
-    CATEGORY_SORTING_ORDER.indexOf(b.category.toLowerCase())
-  );
+  if (b?.potential > a?.potential) {
+    return 0;
+  } else if (a?.partyTypes?.name !== PARTY_TYPE.CHEMIST) {
+    return -1;
+  } else {
+    return 1;
+  }
+  // return b?.potential > a?.potential ? 0: a?.partyTypes?.name !== PARTY_TYPE.CHEMIST ? -1 : 1;
 };
 
 export const getSelectedMonthIndex = month => {

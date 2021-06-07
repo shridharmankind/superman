@@ -57,15 +57,6 @@ export const openSchema = async () => {
 export const createRecord = async (schema, record) => {
   try {
     await openSchema();
-
-    /*  let isRecordExists = await realm.objectForPrimaryKey(
-      schema.name,
-      record.name,
-    );
-
-    if (isRecordExists) {
-      return;
-    } */
     await realm.write(() => {
       realm.create(schema.name, record, 'modified');
     });
@@ -105,7 +96,6 @@ export const getAllRecord = async schema => {
   try {
     await openSchema();
     const records = await realm.objects(schema.name);
-    //console.log('success', records);
     return records;
   } catch (error) {
     console.log('getAllRecord', error);
@@ -130,7 +120,7 @@ export const createUserInfoRecord = async (schema, data) => {
         },
         'modified',
       );
-      data.staffPositions.forEach(obj => {
+      data?.staffPositions.forEach(obj => {
         child = realm.create(schema[1].name, obj, 'modified');
         parent.staffPositions.push(child);
       });
@@ -241,6 +231,12 @@ export const createPartyMasterRecord = async (schema, data) => {
 
   } catch (error) {
     console.log('createPartyMasterRecord', error);
+  }
+};
+
+export const closeDB = () => {
+  if (realm) {
+    realm.close();
   }
 };
 

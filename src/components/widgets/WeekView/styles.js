@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cellContainer: {
-    height: 88.7,
+    minHeight: 88.7,
     borderLeftWidth: 1,
     borderTopWidth: 1,
     flex: 1,
