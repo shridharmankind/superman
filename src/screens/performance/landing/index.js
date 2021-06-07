@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {ContentWithSidePanel} from 'components/layouts';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 
 const PerformanceLanding = () => {
   return (
     <ContentWithSidePanel>
-      <Label title="Coming soon  o . o" />
+      <Label variant={LabelVariant.subtitleLarge} title="Coming soon!" />
     </ContentWithSidePanel>
   );
 };
