@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import {View, Alert} from 'react-native';
+import {View} from 'react-native';
 import styles from './styles';
 import {Strings, Constants} from 'common';
 import {Label, Modal, Button, LabelVariant} from 'components/elements';
