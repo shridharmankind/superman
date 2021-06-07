@@ -67,6 +67,13 @@ export function* fetchDoctorDetailWorker(action) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     console.log(error);
+    yield put(
+      doctorDetailActions.deletePartyError({
+        doctorDetail: {
+          error: Strings.errorRemovingParty,
+        },
+      }),
+    );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }

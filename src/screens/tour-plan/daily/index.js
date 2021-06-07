@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import styles from './styles';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {Label, Modal, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
@@ -10,6 +10,7 @@ import {fetchDoctorDetailCreator, dailySelector} from './redux';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
+import {showToast, hideToast} from 'components/widgets/Toast';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -40,6 +41,21 @@ const DailyTourPlan = () => {
   }, [dispatch]);
 
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
+  const doctorRemoveError = useSelector(dailySelector.doctorDetailError());
+
+  useEffect(() => {
+    if (doctorRemoveError !== '') {
+      showToast({
+        type: Constants.TOAST_TYPES.ALERT,
+        props: {
+          onClose: () => {
+            hideToast();
+          },
+          subHeading: doctorRemoveError,
+        },
+      });
+    }
+  }, [doctorRemoveError]);
 
   /**
    * set parties list in state
