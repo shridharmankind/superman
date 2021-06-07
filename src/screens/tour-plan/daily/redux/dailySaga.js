@@ -39,13 +39,11 @@ export function* fetchDoctorDetailWorker(action) {
     matched => valueMap[matched],
   );
 
-  console.log('url', url);
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
     const response = yield call(NetworkService.get, url);
     let formattedResponse = [];
-    console.log('response', response);
     if (
       response.data &&
       Array.isArray(response.data) &&
@@ -70,7 +68,7 @@ export function* fetchDoctorDetailWorker(action) {
     yield put(
       doctorDetailActions.deletePartyError({
         doctorDetail: {
-          error: Strings.errorRemovingParty,
+          error: Strings.errorFetchingParties,
         },
       }),
     );
