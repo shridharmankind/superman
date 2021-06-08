@@ -351,10 +351,12 @@ const DoctorProfile = ({route}) => {
                       .map(spec => spec)
                       .join(', ')}
                   />
-                  <Label
-                    variant={LabelVariant.bodySmall}
-                    title={', ' + (doctorData?.location || '')}
-                  />
+                  {doctorData?.location && (
+                    <Label
+                      variant={LabelVariant.bodySmall}
+                      title={', ' + doctorData?.location}
+                    />
+                  )}
                 </View>
               </View>
             </View>
