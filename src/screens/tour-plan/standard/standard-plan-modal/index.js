@@ -591,7 +591,7 @@ const StandardPlanModal = ({
         );
       }
       return `${
-        doctorsSelected.length > 0 ? ` - ${doctorsSelected.length} (` : ''
+        doctorsSelected.length > 0 ? ` - ${obj.doctors + obj.chemist} (` : ''
       }${
         obj.doctors > 0
           ? `${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
