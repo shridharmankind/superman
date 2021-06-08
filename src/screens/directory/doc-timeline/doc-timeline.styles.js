@@ -2,6 +2,17 @@ import {StyleSheet} from 'react-native';
 import themes from 'themes';
 
 const styles = StyleSheet.create({
+  timeline__wrapper: {
+    borderColor: '#e8e8e8',
+    borderWidth: 1,
+    borderRadius: 20,
+    backgroundColor: '#fcfcfc',
+    paddingVertical: 21,
+  },
+  timeline__year: {
+    textAlign: 'center',
+    marginBottom: 19,
+  },
   timeline__dateContainer: {
     textAlign: 'justify',
     position: 'absolute',

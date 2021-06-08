@@ -7,6 +7,41 @@ import styles from './doc-timeline.styles';
 import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 import {List} from 'react-native-paper';
 
+const isCompleted = item => {
+  const today = startOf(new Date());
+  return isAfter(today, item.date);
+};
+
+const getDateContainerStyle = item => {
+  const style = [styles.timeline__dateContainer];
+  if (item.isMissed) {
+    style.push(styles.timeline__dateContainer__missed);
+  } else if (isCompleted(item)) {
+    style.push(styles.timeline__dateContainer__completed);
+  }
+  return style;
+};
+
+const getDateStyle = item => {
+  const style = [styles.timeline__date];
+  if (item.isMissed) {
+    style.push(styles.timeline__date__missed);
+  } else if (isCompleted(item)) {
+    style.push(styles.timeline__date__completed);
+  }
+  return style;
+};
+
+const getMonthStyle = item => {
+  const style = [styles.timeline__month];
+  if (item.isMissed) {
+    style.push(styles.timeline__month__missed);
+  } else if (isCompleted(item)) {
+    style.push(styles.timeline__month__completed);
+  }
+  return style;
+};
+
 function renderItem(item, index) {
   return (
     <View style={[styles.timeline__item]}>
@@ -23,52 +58,20 @@ function renderItem(item, index) {
 
 function renderDate(item, index) {
   return (
-    <View
-      style={
-        item.isMissed
-          ? [
-              styles.timeline__dateContainer,
-              styles.timeline__dateContainer__missed,
-            ]
-          : isCompleted(item)
-          ? [
-              styles.timeline__dateContainer,
-              styles.timeline__dateContainer__completed,
-            ]
-          : [styles.timeline__dateContainer]
-      }>
+    <View style={getDateContainerStyle(item)}>
       <Label
         testID="timeline-date"
         title={getFormatDate({date: item.date, format: 'DD'})}
-        style={[styles.timeline__date]}
-        style={
-          item.isMissed
-            ? [styles.timeline__date, styles.timeline__date__missed]
-            : isCompleted(item)
-            ? [styles.timeline__date, styles.timeline__date__completed]
-            : [styles.timeline__date]
-        }
+        style={getDateStyle(item)}
       />
       <Label
         testID="timeline-month"
         title={getFormatDate({date: item.date, format: 'MMM'})}
-        style={[styles.timeline__month]}
-        style={
-          item.isMissed
-            ? [styles.timeline__month, styles.timeline__month__missed]
-            : isCompleted(item)
-            ? [styles.timeline__month, styles.timeline__month__completed]
-            : [styles.timeline__month]
-        }
+        style={getMonthStyle(item)}
       />
     </View>
   );
 }
-
-const isCompleted = item => {
-  const today = startOf(new Date());
-  return isAfter(today, item.date);
-};
 
 const DocTimeline = () => {
   const data = [
@@ -105,7 +108,15 @@ const DocTimeline = () => {
   ];
 
   return (
-    <Timeline data={data} renderItem={renderItem} renderDate={renderDate} />
+    <View style={[styles.timeline__wrapper]}>
+      <Label
+        testID="timeline-year"
+        variant={LabelVariant.h4}
+        title={getFormatDate({date: new Date(), format: 'YYYY'})}
+        style={[styles.timeline__year]}
+      />
+      <Timeline data={data} renderItem={renderItem} renderDate={renderDate} />
+    </View>
   );
 };
 
