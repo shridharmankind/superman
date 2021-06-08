@@ -28,7 +28,7 @@ const App = () => {
   LogBox.ignoreAllLogs();
   const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
-
+  const [conn,setConn] = React.useState(false);
   useEffect(() => {
     //const unsubscribe = checkNetworkConnectivity();
     if (!isWeb()) {
@@ -55,6 +55,7 @@ const App = () => {
         const netSubscribe = NetInfo.addEventListener(state => {
           console.log("EventListerner Connection type", state.type);
           console.log("EventListerner Is connected?", state.isConnected);
+          setConn(state.isConnected);
         });
 
         return netSubscribe;
@@ -75,7 +76,7 @@ const App = () => {
     try {
       await AsyncStorage.setItem("BACKGROUND_TASK","NOT_RUNNING");
       await BackgroundFetch.registerTaskAsync(TASK_NAME, {
-        minimumInterval: 30, // seconds,
+        minimumInterval: 10000, // seconds,
       })
     } catch (err) {
       console.log("Task Register failed:", err)
