@@ -134,61 +134,86 @@ export const createUserInfoRecord = async (schema, data) => {
 export const updatePartyMasterRecord = async (schema , data) => {
   try{
     let objectToBeDeleted = [];
+    console.log("updatePartyMasterRecord started")
     await openSchema();
     await realm.write(() => {
       data.forEach(async (object) => {
 
         let recordToUpdate = realm.objectForPrimaryKey(schema[0].name, object.id);
-        //console.log("Existing -- ",JSON.stringify(recordToUpdate));
-        //console.log("From DB --- ",JSON.stringify(object));
-        if(recordToUpdate == undefined){
-          if(object.syncParameters.isDeleted){
-            //console.log("Not required")
+        console.log("Existing -- ",JSON.stringify(recordToUpdate));
+        console.log("From DB --- ",JSON.stringify(object));
+        if(recordToUpdate == undefined || recordToUpdate == null){
+          if(object.syncParameters != null && object.syncParameters.isDeleted){
+            console.log("Not required")
             return;
           }
-          //console.log("undefined")
+          console.log("undefined")
           const findRecord = realm.objects(schema[0].name).filtered(`name == "${object.name}"`);
-          //console.log(findRecord.length,"findRecord ",findRecord);
+          console.log(findRecord.length,"findRecord ",findRecord);
           if(findRecord.length === 0){
             let createNewRecord = [object];
             console.log("Fresh New Record",createNewRecord);
             createPartyMasterRecord(schema,createNewRecord);
-            //console.log("created");
+            console.log("created");
           }
           else
           {
-            findRecord.id = object.id;
-            // realm.create(
-            //   schema[0].name,
-            //   {name: `${object.name}`, id: object.id },
-            //   'modified'
-            // );
+            // findRecord.id = object.id;
+            
             console.log("newObject ID ",findRecord);
+            let updatedObject = object;
+            try{
+              updatedObject.shortName = `${updatedObject.shortName}`
+              updatedObject.syncParameters.syncErrorDetails.conflictType = `${updatedObject.syncParameters.syncErrorDetails.conflictType}`
+              updatedObject.syncParameters.syncErrorDetails.errorMessage = `${updatedObject.syncParameters.syncErrorDetails.errorMessage}`
+              realm.create(
+                schema[0].name,
+                updatedObject,
+                'modified'
+              );
+              let newData = realm.objects(schema[0].name).filtered(`id == ${findRecord.id}`);
+              console.log("Data going to be delete ",newData);
+              if(newData != undefined){
+                realm.delete(newData);
+                newData = null;
+                //recordToUpdate = null;
+                console.log("deleted ",newData);
+              }  
+              return;
+            }
+            catch(err){
+              console.log("delete -",err);
+            }
           }
         }
         else{
-          //console.log("else 1");
+          console.log("else 1");
           let updatedObject = object;
           //recordToUpdate = object;
           //If syncParameters is null then records are successfully updated.
           if(updatedObject.syncParameters == null){
+            console.log("new-----------------")
+            console.log(recordToUpdate)
             updatedObject.syncParameters = recordToUpdate.syncParameters;
-            updatedObject.syncParameters.requireSync = false;
-            updatedObject.syncParameters.lastModifiedOn = new Date();
+            console.log(updatedObject);
+            if(updatedObject.syncParameters != null){
+              updatedObject.syncParameters.requireSync = false;
+              updatedObject.syncParameters.lastModifiedOn = new Date();
+            }
           }
           else{ //If syncParameters are not null then records are not successfully updated
             if(updatedObject.syncParameters.isDeleted && !updatedObject.syncParameters.errorInSync){
               objectToBeDeleted.push(updatedObject.id);
-              //console.log(updatedObject.id,"delete new way",objectToBeDeleted);
+              console.log(updatedObject.id,"delete new way",objectToBeDeleted);
 
               try{
                 let newData = realm.objects(schema[0].name).filtered(`id == ${updatedObject.id}`);
-                //console.log("Data going to be delete ",newData);
+                console.log("Data going to be delete ",newData);
                 if(newData != undefined){
                   realm.delete(newData);
                   newData = null;
                   recordToUpdate = null;
-                  //console.log("deleted ",newData);
+                  console.log("deleted ",newData);
                 }  
               }
               catch(err){
@@ -201,25 +226,28 @@ export const updatePartyMasterRecord = async (schema , data) => {
             }
             
           }
+          if(updatedObject.syncParameters != null && updatedObject.syncParameters.isDeleted){
+            updatedObject = null;
+          }
           
-          updatedObject = updatedObject.syncParameters.isDeleted ? null : updatedObject;
           
 
            recordToUpdate = updatedObject
-           if(updatedObject !== null){
+           if(updatedObject !== null && updatedObject.syncParameters != null){
              updatedObject.shortName = `${updatedObject.shortName}`
              updatedObject.syncParameters.syncErrorDetails.conflictType = `${updatedObject.syncParameters.syncErrorDetails.conflictType}`
              updatedObject.syncParameters.syncErrorDetails.errorMessage = `${updatedObject.syncParameters.syncErrorDetails.errorMessage}`
+             //updatedObject.syncParameters.devicePartyId = `${updatedObject.syncParameters.devicePartyId}`
             realm.create(
               schema[0].name,
               updatedObject,
               'modified'
             );
           }
-          //console.log("update Object",updatedObject);
+          console.log("update Object",updatedObject);
           
           //console.log("1 new Object",JSON.stringify(recordToUpdate));
-          //console.log("1 new --- ",JSON.stringify(object));
+          console.log("1 new --- ",JSON.stringify(object));
         }  
       })
     });
@@ -271,7 +299,7 @@ export const createPartyMasterRecord = async (schema, data) => {
           errorMessage: 'null'
         }
         let syncParametersObject = {
-            devicePartyId: 'null',
+            devicePartyId: null,
             isActive: true,
             requireSync: (index % 3 == 0) ? true : false,
             lastModifiedOn: new Date(),
@@ -422,7 +450,7 @@ let dummyPartyData = {
     }
   },
   "id":-1,
-  "name": "Kumar Sharma",
+  "name": "KESH RAUT",
   "specialities": [],
   "qualifications": [],
   "frequency": 2,

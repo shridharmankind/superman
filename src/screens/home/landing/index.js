@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {View,Button} from 'react-native';
 import {Card} from 'react-native-paper';
 
-import {Label} from 'components/elements';
+import {Label,LabelVariant} from 'components/elements';
 import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
 import {Helper} from 'database';
-import {View} from 'react-native';
-import {Card} from 'react-native-paper';
+
+import {ContentWithSidePanel} from 'components/layouts';
+import {translate} from 'locale';
+
 
 const syncInterval = 60; // 1 minute
 const syncFlexTime = 15; // 15 seconds

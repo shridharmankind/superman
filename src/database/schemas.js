@@ -63,7 +63,7 @@ export const syncParameters = {
   name: Constants.MASTER_SYNC_PARAMETERS,
   embedded: true, // default: false
   properties: {
-    devicePartyId: 'string',
+    devicePartyId: 'string?',
     isActive: 'bool',
     requireSync: 'bool',
     lastModifiedOn: 'date',
