@@ -69,15 +69,16 @@ const StandardPlanModal = ({
   const [patchEdited, setPatchEdited] = useState(false);
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
+  const [dataChanged, setDataChanged] = useState(false);
   const weekNum = parseInt(week.split(' ')[1], 3);
-  const staffPositionId = 1;
+  const staffPositionId = 3;
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
   const handleIndex = useCallback(
     async direction => {
-      if (patchSelected) {
+      if (patchSelected && dataChanged) {
         setSwipeDirection(direction);
         handleDonePress();
       } else {
@@ -85,7 +86,13 @@ const StandardPlanModal = ({
         handleSliderIndex(direction);
       }
     },
-    [handleDonePress, patchSelected, handleSliderIndex, resetState],
+    [
+      handleDonePress,
+      patchSelected,
+      handleSliderIndex,
+      resetState,
+      dataChanged,
+    ],
   );
 
   const resetState = useCallback(async () => {
@@ -147,7 +154,7 @@ const StandardPlanModal = ({
     });
     if (ptch) {
       setIsPatchedData(false);
-      handleDropDownValue(ptch);
+      handleDropDownValue(ptch, true);
     }
   }, [allPatches, handleDropDownValue, weekNum, weekDay, year]);
 
@@ -486,6 +493,7 @@ const StandardPlanModal = ({
    */
   const handleDoctorCardPress = id => {
     const indexAvailable = doctorsSelected?.some(party => party === id);
+
     if (indexAvailable) {
       setDoctorSelected(doctorsSelected?.filter(party => party !== id));
     } else {
@@ -494,6 +502,7 @@ const StandardPlanModal = ({
     if (!isSameDayPatch(patchValue, weekNum, weekDay, year)) {
       setIsPatchedData(false);
     }
+    setDataChanged(true);
   };
 
   /** function to handle area left swipe*/
@@ -523,12 +532,16 @@ const StandardPlanModal = ({
    * @param {Object} val passed from dropdown
    */
   const handleDropDownValue = useCallback(
-    val => {
+    async (val, def) => {
       if (val) {
-        setPatchValue(val);
-        setPatchSelected(val.value);
-        setPatchDefaultValue(val.defaultName);
-        setIsPatchedData(true);
+        await setPatchValue(val);
+        await setPatchSelected(val.value);
+        await setPatchDefaultValue(val.defaultName);
+        if (def) {
+          setIsPatchedData(true);
+        } else {
+          setIsPatchedData(false);
+        }
         dispatch(
           fetchPartiesByPatchIdCreator({
             patchID: val.id,
@@ -591,14 +604,16 @@ const StandardPlanModal = ({
         );
       }
       return `${
-        doctorsSelected.length > 0 ? ` - ${obj.doctors + obj.chemist} (` : ''
+        doctorsSelected.length > 0 ? ` - ${obj.doctors + obj.chemist} ` : ''
       }${
         obj.doctors > 0
-          ? `${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
+          ? `(${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
           : ''
       }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
         obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
-      }${obj.chemist > 0 ? `${obj.chemist} chemist)` : ''}`;
+      }${obj.doctors === 0 && obj.chemist > 0 ? '(' : ''}${
+        obj.chemist > 0 ? `${obj.chemist} chemist)` : ''
+      }`;
     }
   }, [doctorsSelected, partiesList, selectedDoctorType, patchSelected]);
 
@@ -685,7 +700,7 @@ const StandardPlanModal = ({
             </View>
             <View style={styles.areaFilterContainer}>
               <Dropdown
-                valueSelected={val => handleDropDownValue(val)}
+                valueSelected={val => handleDropDownValue(val, false)}
                 data={getPatchesDropdownData(patches)}
                 defaultLabel={Strings.selectPatch}
                 isPatchedData={isPatchedData}
@@ -793,7 +808,7 @@ const StandardPlanModal = ({
                         <DoctorDetailsWrapper
                           key={party.id}
                           id={party.id}
-                          title={party.name}
+                          title={party.shortName || party.name}
                           specialization={party.specialities}
                           category={party.category}
                           isKyc={party.isKyc}
