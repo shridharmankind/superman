@@ -71,6 +71,15 @@ const styles = StyleSheet.create({
     fontSize: 10.7,
     fontFamily: themes.fonts.fontSemiBold,
   },
+  itemDetailsTitle: {
+    fontSize: 12.7,
+    lineHeight: 13.3,
+    color: '#3b3850',
+    fontFamily: themes.fonts.fontMedium,
+  },
+  itemDetailsSection: {
+    marginBottom: 10,
+  },
 });
 
 export default styles;

@@ -42,6 +42,68 @@ const getMonthStyle = item => {
   return style;
 };
 
+function renderItemDetails(item) {
+  if (item.isMissed) {
+    return (
+      <View style={[styles.itemDetailsSection]}>
+        <Label
+          variant={LabelVariant.bodySmall}
+          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        />
+      </View>
+    );
+  } else if (isCompleted(item)) {
+    return (
+      <View>
+        <View style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Samples Given" />
+          <Label
+            variant={LabelVariant.bodySmall}
+            title="Amlokind, Cevakind, Telmekind"
+          />
+        </View>
+        <View style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Samples Requested" />
+          <Label
+            variant={LabelVariant.bodySmall}
+            title="Amlokind AT, Gudacef"
+          />
+        </View>
+        <View style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Items Given" />
+          <Label
+            variant={LabelVariant.bodySmall}
+            title="Booklet, Pens, Diary, Calendar"
+          />
+        </View>
+        <View style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Items Requested" />
+          <Label
+            variant={LabelVariant.bodySmall}
+            title="Faceshields(2), Masks(12), Sanitizer(4)"
+          />
+        </View>
+        <View style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Visit Notes" />
+          <Label
+            variant={LabelVariant.bodySmall}
+            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          />
+        </View>
+      </View>
+    );
+  } else {
+    return (
+      <View style={[styles.itemDetailsSection]}>
+        <Label
+          variant={LabelVariant.bodySmall}
+          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        />
+      </View>
+    );
+  }
+}
+
 function renderItem(item, index) {
   return (
     <View style={[styles.timeline__item]}>
@@ -50,7 +112,7 @@ function renderItem(item, index) {
         titleStyle={[styles.timeline__item__title]}
         style={[styles.timeline__item__accordion]}
         left={props => <List.Icon {...props} icon="folder" />}>
-        <Label variant={LabelVariant.bodySmall} title="This is sample" />
+        {renderItemDetails(item)}
       </List.Accordion>
     </View>
   );
