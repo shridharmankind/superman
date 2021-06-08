@@ -108,6 +108,8 @@ const styles = StyleSheet.create({
   modalContent: {
     alignItems: 'center',
     justifyContent: 'center',
+    width: 300,
+    height: 200,
   },
   rowFront: {
     backgroundColor: theme.colors.white,
@@ -142,6 +144,13 @@ const styles = StyleSheet.create({
   toastBtnContainer: {
     flex: 0,
     justifyContent: 'flex-start',
+  },
+  customModalCenteredView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalButton: {
+    width: 100,
   },
 });
 
