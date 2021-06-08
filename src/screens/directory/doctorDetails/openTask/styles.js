@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   section: {
     marginTop: 14,
-    maxHeight: 390,
+    maxHeight: 380,
   },
   taskList: {
     paddingLeft: 20,
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: themes.colors.white,
     marginLeft: 10,
+    minHeight: 350,
   },
   header: {
     flexDirection: 'row',
@@ -75,9 +76,6 @@ const styles = StyleSheet.create({
     fontSize: 12.7,
     fontFamily: themes.fonts.fontSemiBold,
     color: themes.colors.primary,
-  },
-  footerMargin: {
-    marginTop: themes.spacing(13.3),
   },
 });
 
