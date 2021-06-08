@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: theme.colors.grayishBlue,
     paddingTop: theme.spacing(26.7),
-    paddingRight: theme.spacing(26.7),
-    paddingLeft: theme.spacing(26.7),
+    paddingHorizontal: theme.spacing(26.7),
     borderRadius: 26.7,
   },
   tabMainContainer: {

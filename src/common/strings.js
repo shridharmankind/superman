@@ -94,6 +94,10 @@ const Strings = {
   comingSoon: 'Coming soon ***',
   moreActions: 'More Actions',
   beginRCPA: 'Begin RCPA',
+  eDetailing: 'eDetailing',
+  startPresentation: 'Start Presentation',
+  priorityProducts: 'Priority Products',
+  otherProducts: 'Other Products',
   doctorDetail: {
     openTasks: {
       openTask: 'Open Tasks',
