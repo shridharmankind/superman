@@ -549,9 +549,9 @@ const StandardPlanModal = ({
         await setPatchSelected(val.value);
         await setPatchDefaultValue(val.defaultName);
         if (def) {
-          setIsPatchedData(true);
-        } else {
           setIsPatchedData(false);
+        } else {
+          setIsPatchedData(true);
         }
         dispatch(
           fetchPartiesByPatchIdCreator({
