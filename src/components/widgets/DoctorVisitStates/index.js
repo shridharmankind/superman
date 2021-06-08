@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 /**
  * renders the doctor visit states - upcoming, completed, today, missed etc.
@@ -28,8 +28,16 @@ const DoctorVisitStates = ({
         visitState && styles[DOCTOR_VISIT_STATES[visitState].toLowerCase()],
       ]}>
       <View style={styles.visitContainer}>
-        <Label title={visitDate} size={12} style={styles.visitDate} />
-        <Label title={visitMonth} size={12} style={styles.visitMonth} />
+        <Label
+          title={visitDate}
+          variant={LabelVariant.h4}
+          style={styles.visitDate}
+        />
+        <Label
+          title={visitMonth}
+          variant={LabelVariant.h4}
+          style={styles.visitMonth}
+        />
       </View>
     </View>
   );

@@ -29,6 +29,7 @@ module.exports = {
           sagas: './src/store/sagas',
           selectors: './src/store/selectors',
           states: './src/store/states',
+          locale: './src/locale',
         },
       },
     ],
