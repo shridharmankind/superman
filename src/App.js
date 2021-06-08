@@ -13,6 +13,7 @@ import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
+import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
 import SyncAdapter from 'react-native-sync-adapter';
 import {TASK_NAME,syncFlexTime,syncInterval} from './utils/backgroundTask';
@@ -29,6 +30,7 @@ const App = () => {
   const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
   const [conn,setConn] = React.useState(false);
+  setI18nConfig();
   useEffect(() => {
     //const unsubscribe = checkNetworkConnectivity();
     if (!isWeb()) {

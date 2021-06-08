@@ -32,7 +32,7 @@ export const getUserFirstName = async () => {
       Schemas.userInfo,
       Constants.USER_PRIMARY_KEY,
     );
-    return record.firstName;
+    return record.firstName || '';
   } catch (error) {}
 };
 

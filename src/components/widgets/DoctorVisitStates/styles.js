@@ -4,13 +4,14 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   container: {
     marginRight: theme.spacing(10),
-    borderRadius: 16,
-    borderWidth: 1,
+    borderRadius: 10.7,
+    borderWidth: 1.3,
     borderColor: theme.colors.primary,
     backgroundColor: theme.colors.white,
-    width: 50,
-    height: 50,
-    position: 'relative',
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: theme.colors.black,
     shadowOffset: {
       width: 1,
@@ -23,17 +24,16 @@ const styles = StyleSheet.create({
   visitContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: 8,
-    left: 10,
   },
   visitDate: {
-    fontFamily: theme.fonts.fontRegular,
+    fontFamily: theme.fonts.fontSemiBold,
+    fontSize: 14,
     color: theme.colors.grey[200],
   },
   visitMonth: {
-    fontFamily: theme.fonts.fontRegular,
-    marginTop: theme.spacing(-5),
+    fontFamily: theme.fonts.fontSemiBold,
+    fontSize: 9.3,
+    marginTop: theme.spacing(-7),
     color: theme.colors.grey[200],
   },
   completed: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.white,
   },
   missed: {
-    borderColor: theme.colors.red[100],
+    borderColor: theme.colors.red[300],
   },
   today: {
     borderColor: theme.colors.grey[200],

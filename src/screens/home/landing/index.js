@@ -1,15 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, View,Button} from 'react-native';
+import {View,Button} from 'react-native';
 import {Card} from 'react-native-paper';
 
-import {ContentWithSidePanel} from 'components/layouts';
 import {Label} from 'components/elements';
 import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
 import {Helper} from 'database';
+import {View} from 'react-native';
+import {Card} from 'react-native-paper';
 
 const syncInterval = 60; // 1 minute
 const syncFlexTime = 15; // 15 seconds
+
+
+
 
 const HomeLanding = ({navigation}) => {
   const [userName, setUserName] = useState('');
@@ -17,7 +21,7 @@ const HomeLanding = ({navigation}) => {
   useEffect(() => {
     const loadData = async () => {
       const firstName = await Helper.getUserFirstName();
-      setUserName(firstName);
+      firstName ? setUserName(firstName) : setUserName('');
     };
     loadData();
   });
@@ -40,9 +44,13 @@ const HomeLanding = ({navigation}) => {
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <Label style={styles.headerLabel} title={`Hi ${userName}`} />
-      <Label style={styles.headerLabel} type="semiBold" title="Good Morning!" />
-      <Button onPress={() => onSyncPress()} title="Sync now" />
+      <Label style={styles.headerLabel} title={`Hi ${userName || ''}`} />
+      <Label
+        style={styles.headerLabel}
+        type="semiBold"
+        title={translate('goodMorning')}
+      />
+      {/* <Button onPress={() => onSyncPress()} title="Sync now" /> */}
     </View>
   );
 
@@ -73,11 +81,10 @@ const HomeLanding = ({navigation}) => {
 
   return (
     <ContentWithSidePanel header={renderHeader()} sidePanel={renderSidePanel()}>
-      <Label size={12.7} title="Welcome to our beautiful Home Page" />
-      <TouchableOpacity
-        onPress={() => navigation.navigate('HomeLandingSecondary')}>
-        <Label size={12.7} title="route to secondary landing" />
-      </TouchableOpacity>
+      <Label
+        variant={LabelVariant.subtitleLarge}
+        title="Welcome to our Home Page"
+      />
     </ContentWithSidePanel>
   );
 };

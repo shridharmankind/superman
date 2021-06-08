@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   areaFilter: {
     flex: 1,
     overflow: 'hidden',
+    zIndex: 19,
   },
   swiper: {
     flex: 1,

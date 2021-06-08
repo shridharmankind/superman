@@ -4,13 +4,14 @@ import {Label, LabelVariant, Button} from 'components/elements';
 import {Bar} from 'react-native-progress';
 import themes from 'themes';
 import styles from './styles';
-import {ArrowBack, Birthday, Anniversary, ArrowUp} from 'assets';
+import {ArrowBack, Birthday, Anniversary, ArrowUp, WorkOutline} from 'assets';
 import {Strings, Constants} from 'common';
 import {ContentWithSidePanel} from 'components/layouts';
 import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
 import theme from 'themes';
+import {OpenTask} from 'screens/directory';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -19,7 +20,7 @@ import theme from 'themes';
  */
 
 const DoctorProfile = ({route}) => {
-  const doctorData = route.params?.data || '';
+  const doctorData = route.params?.data || {};
   const navigation = useNavigation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const data = [
@@ -67,8 +68,12 @@ const DoctorProfile = ({route}) => {
         return themes.colors.orange[100];
       case Constants.DIVISION_COLOR.A_PLUS:
         return themes.colors.darkBlue;
+      case Constants.DIVISION_COLOR.A:
+        return themes.colors.yellow[300];
       case Constants.DIVISION_COLOR.B:
         return themes.colors.lightBlue;
+      case Constants.DIVISION_COLOR.C:
+        return themes.colors.grey[1200];
       default:
         return themes.colors.transparent;
     }
@@ -79,6 +84,14 @@ const DoctorProfile = ({route}) => {
    */
   const handleBackClick = () => {
     navigation.navigate(Constants.TOUR_PLAN);
+  };
+
+  /**
+   * Start e-detailing for party
+   *
+   */
+  const startEdetailing = () => {
+    navigation.navigate(Constants.ROUTE_EDETAILING);
   };
 
   /**
@@ -105,59 +118,117 @@ const DoctorProfile = ({route}) => {
             <Label
               variant={LabelVariant.bodySmall}
               style={styles.count}
-              title={Strings.priorityProductCard.one}
+              title={Strings.priorityProductCard.two}
             />
           </View>
-          <View style={styles.cardContainer}>
-            <View style={styles.cardHeader}>
-              <View style={styles.cardHeaderTitle}>
+          <View style={styles.cardMainContainer}>
+            <View style={styles.cardContainer}>
+              <View style={styles.cardHeader}>
+                <View style={styles.cardHeaderTitle}>
+                  <Label
+                    variant={LabelVariant.subtitleSmall}
+                    style={styles.labelTitle}
+                    title={Strings.priorityProductCard.amlokindAt}
+                  />
+                </View>
+                <View style={styles.cardHeaderRightTitle}>
+                  <Label
+                    variant={LabelVariant.label}
+                    style={styles.labelSubTitle}
+                    title={Strings.priorityProductCard.p1}
+                  />
+                </View>
+              </View>
+              <View style={styles.cardDetail}>
                 <Label
-                  variant={LabelVariant.subtitleSmall}
-                  style={styles.labelTitle}
-                  title={Strings.priorityProductCard.amlokindAt}
+                  variant={LabelVariant.bodySmall}
+                  textColor={theme.colors.primary}
+                  style={styles.labelSubHeader}
+                  title={Strings.priorityProductCard.description}
                 />
               </View>
-              <View style={styles.cardHeaderRightTitle}>
+              <View style={styles.cardDetail}>
+                <Label
+                  style={styles.progressText}
+                  title={Strings.priorityProductCard.progressNumber}
+                />
+                <ArrowUp style={styles.arrowUp} width={15} height={15} />
+                <Label
+                  style={styles.percentageText}
+                  title={Strings.priorityProductCard.nine}
+                />
+              </View>
+              <View style={styles.progreesBar}>
+                <Bar
+                  progress={0.6}
+                  width={200}
+                  color={theme.colors.blue[200]}
+                />
+              </View>
+              <View>
                 <Label
                   variant={LabelVariant.label}
-                  style={styles.labelSubTitle}
-                  title={Strings.priorityProductCard.p1}
+                  textColor={theme.colors.grey[1100]}
+                  style={styles.descriptionText}
+                  title={Strings.priorityProductCard.tabDes?.toUpperCase()}
                 />
               </View>
             </View>
-            <View style={styles.cardDetail}>
-              <Label
-                variant={LabelVariant.bodySmall}
-                textColor={theme.colors.primary}
-                style={styles.labelSubHeader}
-                title={Strings.priorityProductCard.description}
-              />
-            </View>
-            <View style={styles.cardDetail}>
-              <Label
-                style={styles.progressText}
-                title={Strings.priorityProductCard.progressNumber}
-              />
-              <ArrowUp style={styles.arrowUp} width={15} height={15} />
-              <Label
-                style={styles.percentageText}
-                title={Strings.priorityProductCard.nine}
-              />
-            </View>
-            <View style={styles.progreesBar}>
-              <Bar progress={0.6} width={200} color={theme.colors.blue[200]} />
-            </View>
-            <View>
-              <Label
-                variant={LabelVariant.label}
-                textColor={theme.colors.grey[1100]}
-                style={styles.descriptionText}
-                title={Strings.priorityProductCard.tabDes}
-              />
+            <View style={styles.cardContainer}>
+              <View style={styles.cardHeader}>
+                <View style={styles.cardHeaderTitle}>
+                  <Label
+                    variant={LabelVariant.subtitleSmall}
+                    style={styles.labelTitle}
+                    title={Strings.priorityProductCard.neurokind}
+                  />
+                </View>
+                <View style={styles.cardHeaderRightTitle}>
+                  <Label
+                    variant={LabelVariant.label}
+                    style={styles.labelSubTitle}
+                    title={Strings.priorityProductCard.p2}
+                  />
+                </View>
+              </View>
+              <View style={styles.cardDetail}>
+                <Label
+                  variant={LabelVariant.bodySmall}
+                  textColor={theme.colors.primary}
+                  style={styles.labelSubHeader}
+                  title={Strings.priorityProductCard.description}
+                />
+              </View>
+              <View style={styles.cardDetail}>
+                <Label
+                  style={styles.progressText}
+                  title={Strings.priorityProductCard.secondProgressbar}
+                />
+                <ArrowUp style={styles.arrowUp} width={15} height={15} />
+                <Label
+                  style={styles.percentageText}
+                  title={Strings.priorityProductCard.ten}
+                />
+              </View>
+              <View style={styles.progreesBar}>
+                <Bar
+                  progress={0.4}
+                  width={200}
+                  color={theme.colors.blue[200]}
+                />
+              </View>
+              <View>
+                <Label
+                  variant={LabelVariant.label}
+                  textColor={theme.colors.grey[1100]}
+                  style={styles.descriptionText}
+                  title={Strings.priorityProductCard.tabDes?.toUpperCase()}
+                />
+              </View>
             </View>
           </View>
         </View>
-        {/* <View style={styles.openMainTask}></View> */}
+        <View style={styles.openMainTask}>{<OpenTask />}</View>
       </View>
     );
   };
@@ -182,18 +253,22 @@ const DoctorProfile = ({route}) => {
   const formatEngment = dataValue => {
     const startDate = getFormatDate({
       date: dataValue.startDate,
-      format: 'MMM YY',
+      format: 'MMM YYYY',
     });
     let endText = Strings.tillDate;
     if (dataValue.endDate) {
       const endMonth = getFormatDate({
         date: dataValue.endDate,
-        format: 'MMM YY',
+        format: 'MMM YYYY',
       });
       endText = `${endMonth}`;
     }
 
     return `${startDate + ' - ' + endText}`;
+  };
+
+  const openDoctorFeedback = () => {
+    navigation.navigate('DoctorFeedback', {data: doctorData});
   };
 
   /**
@@ -208,22 +283,17 @@ const DoctorProfile = ({route}) => {
             style={[
               styles.divisionContainer,
               {
-                backgroundColor: getDivisionColor(doctorData.category),
+                backgroundColor: getDivisionColor(doctorData?.category),
               },
             ]}>
             <Label
               variant={LabelVariant.h6}
               textColor={theme.colors.white}
               style={styles.divisionText}
-              title={doctorData.category?.toUpperCase()}
+              title={doctorData?.category?.toUpperCase()}
             />
           </View>
-          <View
-            style={
-              doctorData.selfDispensing
-                ? styles.dispinsingContainer
-                : styles.leftTabContainer
-            }>
+          <View style={styles.leftTabContainer}>
             <ArrowBack
               style={styles.arrowBack}
               width={24}
@@ -233,16 +303,16 @@ const DoctorProfile = ({route}) => {
             <Label style={styles.doctorProfile} title={Strings.doctorProfile} />
           </View>
           <View style={[styles.tabContainer, styles.rightTabContainer]}>
-            {doctorData.selfDispensing && (
+            {doctorData?.selfDispensing && (
               <>
                 <Button
-                  title={Strings.captureDcr}
-                  mode="contained"
-                  contentStyle={styles.buttonTabBar}
-                  labelStyle={styles.buttonTabBarText}
+                  title={Strings.moreActions}
+                  mode="outlined"
+                  contentStyle={styles.buttonMoreText}
+                  labelStyle={styles.buttonText}
                 />
                 <Button
-                  title={Strings.captureDcr}
+                  title={Strings.beginRCPA}
                   mode="contained"
                   contentStyle={styles.buttonTabBar}
                   labelStyle={styles.buttonTabBarText}
@@ -252,14 +322,16 @@ const DoctorProfile = ({route}) => {
             <Button
               title={Strings.startEdetail}
               mode="outlined"
-              contentStyle={styles.buttonTabBar}
+              contentStyle={styles.buttonMoreText}
               labelStyle={styles.buttonTabBarText}
+              onPress={startEdetailing}
             />
             <Button
               title={Strings.captureDcr}
               mode="contained"
               contentStyle={styles.buttonTabBar}
               labelStyle={styles.buttonTabBarText}
+              onPress={openDoctorFeedback}
             />
           </View>
         </View>
@@ -273,27 +345,29 @@ const DoctorProfile = ({route}) => {
               <View style={styles.nameContainer}>
                 <Label
                   variant={LabelVariant.subtitleLarge}
-                  title={doctorData.name}
+                  title={doctorData?.name}
                   style={styles.doctorName}
                 />
                 <View style={styles.location}>
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={doctorData.specialization
+                    title={(doctorData?.specialization || [])
                       .map(spec => spec)
                       .join(', ')}
                   />
-                  <Label
-                    variant={LabelVariant.bodySmall}
-                    title={',' + doctorData.location}
-                  />
+                  {doctorData?.location && (
+                    <Label
+                      variant={LabelVariant.bodySmall}
+                      title={', ' + doctorData?.location}
+                    />
+                  )}
                 </View>
               </View>
             </View>
           </View>
           <View style={styles.anniversy}>
             <View style={styles.birthdayClass}>
-              <Birthday width={15} height={15} />
+              <Birthday style={styles.birthdayBorder} width={15} height={15} />
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
@@ -301,11 +375,15 @@ const DoctorProfile = ({route}) => {
               />
             </View>
             <View style={styles.birthdayClass}>
-              <Anniversary width={15} height={15} />
+              <Anniversary
+                style={styles.birthdayBorder}
+                width={15}
+                height={15}
+              />
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData.anniversary)}
+                title={dateFormat(doctorData?.anniversary)}
               />
             </View>
           </View>
@@ -313,7 +391,7 @@ const DoctorProfile = ({route}) => {
             {(doctorData?.engagement || []).map((dataItem, index) => {
               return (
                 <View style={styles.engmentContainer} key={index}>
-                  <Anniversary width={25} height={25} />
+                  <WorkOutline width={15} height={15} />
                   <Label
                     variant={LabelVariant.bodySmall}
                     style={styles.dateClass}
