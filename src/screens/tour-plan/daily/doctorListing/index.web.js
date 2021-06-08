@@ -43,7 +43,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                   visitData={plan.visitData}
                   showTile={true}
                   onTileNamePress={() => {
-                    onTileNamePress(plan.item);
+                    onTileNamePress(plan);
                   }}
                   onTilePress={() => {
                     onTilePress(plan);
