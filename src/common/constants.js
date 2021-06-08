@@ -30,6 +30,7 @@ export const DIVISION_COLOR = {
 };
 
 export const TOUR_PLAN = 'TourPlan';
+export const ROUTE_EDETAILING = 'E-Detailing';
 
 export const PARTY_TYPE = {
   DOCTOR: 'Doctor',

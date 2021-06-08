@@ -4,10 +4,10 @@ import themes from 'themes';
 const styles = StyleSheet.create({
   container: {
     minWidth: 250,
-    paddingRight: 20,
+    paddingRight: themes.spacing(20),
     borderRightColor: themes.colors.disabled,
     borderRightWidth: 2,
-    marginRight: 20,
+    marginRight: themes.spacing(20),
     position: 'relative',
     zIndex: 2,
   },
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: themes.colors.white,
     zIndex: 2,
-    padding: 15,
+    padding: themes.spacing(15),
     alignContent: 'center',
     borderColor: themes.colors.grey[100],
     borderWidth: 1,
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 7,
-    paddingHorizontal: 15,
+    paddingHorizontal: themes.spacing(15),
     height: 40,
   },
   pickerLabel: {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   noBorder: {
     borderBottomWidth: 0,
   },
-  sortDown: {marginTop: -10},
+  sortDown: {marginTop: themes.spacing(-10)},
 });
 
 export default styles;

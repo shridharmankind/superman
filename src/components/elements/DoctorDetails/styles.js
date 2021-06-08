@@ -103,6 +103,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  name: {
+    textTransform: 'capitalize',
+  },
 });
 
 export default styles;

@@ -1,13 +1,16 @@
-/* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {Strings, Constants} from 'common';
 import {Label, Modal, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
-import {fetchDoctorDetailCreator, dailySelector} from './redux';
-import {useSelector, useDispatch} from 'react-redux';
+import {
+  fetchDoctorDetailCreator,
+  dailySelector,
+  deletePartyCreator,
+} from './redux';
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
@@ -197,8 +200,18 @@ const DailyTourPlan = () => {
     return (
       <View style={styles.modalContentView}>
         <Button
+          contentStyle={styles.modalButton}
           title={Strings.proceed}
           onPress={() => {
+            dispatch(
+              deletePartyCreator({
+                staffPositionid: 2,
+                day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+                month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+                year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+                partyId: itemPressed.id,
+              }),
+            );
             setVisible(false);
           }}
         />
@@ -219,6 +232,7 @@ const DailyTourPlan = () => {
         modalContent={getModalContent()}
         customModalPosition={styles.modalContent}
         customModalView={styles.modalView}
+        customModalCenteredView={styles.customModalCenteredView}
       />
     );
   };
@@ -229,7 +243,7 @@ const DailyTourPlan = () => {
   const onTilePressHandler = data => {
     if (isWeb()) {
       setVisible(true);
-      setItemPressed(data.index);
+      setItemPressed(data);
     }
   };
 
