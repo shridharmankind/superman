@@ -74,6 +74,12 @@ export const getStandardPlanSlice = createSlice({
         savePatch: null,
       };
     },
+    resetPatches: state => {
+      return {
+        ...state,
+        patches: [],
+      };
+    },
   },
 });
 

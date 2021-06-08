@@ -71,7 +71,7 @@ const StandardPlanModal = ({
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
   const weekNum = parseInt(week.split(' ')[1], 3);
-  const staffPositionId = 3;
+  const staffPositionId = 1;
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -82,17 +82,20 @@ const StandardPlanModal = ({
         setSwipeDirection(direction);
         handleDonePress();
       } else {
-        await resetState();
+        resetandChangePage(direction);
+      }
+    },
+    [handleDonePress, patchSelected, dataChanged, resetandChangePage],
+  );
+
+  const resetandChangePage = useCallback(
+    async direction => {
+      const reset = await resetState();
+      if (reset) {
         handleSliderIndex(direction);
       }
     },
-    [
-      handleDonePress,
-      patchSelected,
-      handleSliderIndex,
-      resetState,
-      dataChanged,
-    ],
+    [handleSliderIndex, resetState],
   );
 
   const resetState = useCallback(async () => {
@@ -105,8 +108,11 @@ const StandardPlanModal = ({
     await setPatchSelected(null);
     await setPatchDefaultValue(null);
     await setPatchValue(null);
+    await setDataChanged(false);
     await dispatch(standardPlanActions.resetPartiesByPatchID());
     await dispatch(standardPlanActions.resetSavePatch());
+    // await dispatch(standardPlanActions.resetPatches());
+    return true;
   }, [dispatch]);
 
   const allParties = useSelector(standardTourPlanSelector.getParties());
@@ -327,7 +333,7 @@ const StandardPlanModal = ({
   /** function to validate the response from endpoint in case of save and updating the patch */
   const validateSaveResponse = useCallback(
     async (obj, id) => {
-      if (savePatchRes) {
+      if (savePatchRes && dataChanged) {
         if (savePatchRes?.status === Constants.HTTP_OK) {
           //await resetState();
           showToast({
@@ -343,8 +349,7 @@ const StandardPlanModal = ({
             },
           });
           if (swiperDirection) {
-            await resetState();
-            handleSliderIndex(swiperDirection);
+            resetandChangePage(swiperDirection);
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
@@ -373,8 +378,8 @@ const StandardPlanModal = ({
       savePatchRes,
       showOverrideNotification,
       swiperDirection,
-      handleSliderIndex,
-      resetState,
+      dataChanged,
+      resetandChangePage,
     ],
   );
 
@@ -604,7 +609,9 @@ const StandardPlanModal = ({
         );
       }
       return `${
-        doctorsSelected.length > 0 ? ` - ${obj.doctors + obj.chemist} ` : ''
+        obj.doctors.length > 0 || obj.chemist > 0
+          ? ` - ${obj.doctors + obj.chemist} `
+          : ''
       }${
         obj.doctors > 0
           ? `(${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`

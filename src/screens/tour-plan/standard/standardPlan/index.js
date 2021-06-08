@@ -46,7 +46,7 @@ const StandardPlan = ({navigation, route}) => {
       const day = route.params.workingDays[i];
       const index = visitedDays.some(d => d === i);
       if (!index) {
-        setVisitedDays([...visitedDays, day]);
+        setVisitedDays([day]);
       }
     },
     [visitedDays, route.params.workingDays],
