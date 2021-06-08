@@ -1,224 +1,104 @@
 [
   {
-    "id": 1,
-    "name": "Party1",
-    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 1,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 6000000,
-    "isKyc": true,
-    "areas": [
-      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
-      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
-    ],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 1,
-    "name": "Party1",
-    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 1,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 6000000,
-    "isKyc": false,
-    "areas": [
-      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
-      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
-    ],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 1,
-    "name": "Party1",
-    "specialities": [{"id": 2, "name": "Orthopaedic", "shortName": "Ortho"}],
-    "qualifications": [],
-    "frequency": 2,
-    "alreadyVisited": 1,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 6000000,
-    "isKyc": true,
-    "areas": [
-      {"id": 1, "name": "Sec 1", "shortName": "Sec 1"},
-      {"id": 2, "name": "Sec 2", "shortName": "Sec 2"}
-    ],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 4,
-    "name": "party4",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 6000000,
-    "isKyc": true,
-    "areas": [{"id": 2, "name": "Sec 2", "shortName": "Sec 2"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 6,
-    "name": "CHANDRA JOSHI",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 6000000,
-    "isKyc": true,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
     "id": 7,
     "name": "BHOLA DUTT TIWARI",
-    "specialities": [],
+    "specialities": [
+      {
+        "id": 4,
+        "name": "GYNAECOLOGIST",
+        "shortName": ""
+      }
+    ],
     "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 0,
+    "frequency": 5,
+    "alreadyVisited": 1,
     "partyTypes": {
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
     },
     "category": "C+",
-    "potential": 300000,
-    "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 7,
-    "name": "BHOLA DUTT TIWARI",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 2,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "C+",
-    "potential": 5000000,
+    "potential": 50001,
     "isKyc": true,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [
+      {
+        "id": 1,
+        "name": "Noida Sector 1",
+        "shortName": "Sec 1"
+      },
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      },
+      {
+        "id": 10,
+        "name": "Noida Sector 9",
+        "shortName": "sec9"
+      }
+    ],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 1
   },
   {
     "id": 9,
     "name": "SATYANDRA SAINI",
     "specialities": [],
-    "qualifications": [],
+    "qualifications": [
+      {
+        "id": 2,
+        "name": "MD",
+        "shortName": "Ortho"
+      }
+    ],
     "frequency": 1,
-    "alreadyVisited": 0,
+    "alreadyVisited": 1,
     "partyTypes": {
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
     },
-    "category": "B",
-    "potential": 1000000,
+    "category": "D+",
+    "potential": 30001,
     "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [
+      {
+        "id": 12,
+        "name": "Noida Sector 11",
+        "shortName": "sec11"
+      }
+    ],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 10,
-    "name": "KAMAL CHAND ROY",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 2,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A",
-    "potential": 4000000,
-    "isKyc": true,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 1
   },
   {
     "id": 11,
-    "name": "ANAND SINGH SAINI",
-    "specialities": [],
+    "name": "MR. ANAND SINGH SAINI",
+    "specialities": [
+      {
+        "id": 2,
+        "name": "Orthopaedic",
+        "shortName": "Ortho"
+      }
+    ],
     "qualifications": [],
     "frequency": 3,
     "alreadyVisited": 0,
@@ -226,228 +106,179 @@
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
     },
     "category": "D",
     "potential": 30000,
     "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      }
+    ],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 12,
-    "name": "GHULAM MUSTAFA",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 2,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "A+",
-    "potential": 7000000,
-    "isKyc": true,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 13,
-    "name": "SUBHASH SINGH",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "C",
-    "potential": 80000,
-    "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 1
   },
   {
     "id": 14,
-    "name": "ANURAG GARG",
+    "name": "MR. MR. ANURAG GARG",
     "specialities": [],
     "qualifications": [],
     "frequency": 2,
-    "alreadyVisited": 0,
+    "alreadyVisited": 1,
     "partyTypes": {
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
     },
     "category": "A+",
     "potential": 9000001,
     "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [
+      {
+        "id": 12,
+        "name": "Noida Sector 11",
+        "shortName": "sec11"
+      }
+    ],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 1
   },
   {
     "id": 15,
-    "name": "DEVENDRA SINGH",
-    "specialities": [],
+    "name": "MR. MR. DEVENDRA SINGH",
+    "specialities": [
+      {
+        "id": 3,
+        "name": "OPTHALMOLOGIST",
+        "shortName": ""
+      }
+    ],
     "qualifications": [],
     "frequency": 3,
-    "alreadyVisited": 0,
+    "alreadyVisited": 1,
     "partyTypes": {
       "id": 1,
       "name": "Doctor",
       "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
     },
     "category": "D+",
     "potential": 40000,
     "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [
+      {
+        "id": 1,
+        "name": "Noida Sector 1",
+        "shortName": "Sec 1"
+      }
+    ],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 1
   },
   {
     "id": 16,
-    "name": "RAM MALHOTRA",
+    "name": "SIR. VIPUL MEDICAL STORE",
     "specialities": [],
     "qualifications": [],
     "frequency": 3,
     "alreadyVisited": 0,
     "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
     },
     "category": "D+",
     "potential": 50000,
     "isKyc": true,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      },
+      {
+        "id": 8,
+        "name": "Noida Sector 7",
+        "shortName": "sec7"
+      }
+    ],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 17,
-    "name": "DHIRENDRA SINGH",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 2,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "B",
-    "potential": 600000,
-    "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 18,
-    "name": "KRISHAN KUMAR RAHEJA",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 1,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "C+",
-    "potential": 200000,
-    "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 2
   },
   {
     "id": 19,
-    "name": "SUCHITRA TAYAL",
+    "name": "RAVI PHARMA",
     "specialities": [],
     "qualifications": [],
     "frequency": 2,
-    "alreadyVisited": 0,
+    "alreadyVisited": 1,
     "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
     },
     "category": "A",
     "potential": 4000000,
     "isKyc": true,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [
+      {
+        "id": 12,
+        "name": "Noida Sector 11",
+        "shortName": "sec11"
+      }
+    ],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 2
   },
   {
-    "id": 20,
-    "name": "RAMESH KUMAR KHURANA",
-    "specialities": [],
-    "qualifications": [],
-    "frequency": 3,
-    "alreadyVisited": 0,
-    "partyTypes": {
-      "id": 1,
-      "name": "Doctor",
-      "shortName": "Doc",
-      "partyTypeGroup": {"id": 1, "name": "PartyGroup1", "shortName": "Group1"}
-    },
-    "category": "C+",
-    "potential": 300000,
-    "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
-    "shortName": null,
-    "birthday": null,
-    "anniversary": null,
-    "engagement": null,
-    "selfDispensing": false
-  },
-  {
-    "id": 5,
-    "name": "party5",
+    "id": 2645,
+    "name": "MR. VICKY KUMAR",
     "specialities": [],
     "qualifications": [],
     "frequency": 2,
@@ -456,16 +287,77 @@
       "id": 2,
       "name": "Chemist",
       "shortName": "Che",
-      "partyTypeGroup": {"id": 2, "name": "PartyGroup2", "shortName": "Group2"}
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
     },
-    "category": "A+",
-    "potential": 6000000,
+    "category": "",
+    "potential": 600000,
     "isKyc": false,
-    "areas": [{"id": 1, "name": "Sec 1", "shortName": "Sec 1"}],
+    "areas": [],
     "shortName": null,
     "birthday": null,
     "anniversary": null,
     "engagement": null,
-    "selfDispensing": false
+    "selfDispensing": false,
+    "partyTypeId": 2
+  },
+  {
+    "id": 2647,
+    "name": "MR. SUMIT KUMAR",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
+    },
+    "category": "",
+    "potential": 600000,
+    "isKyc": false,
+    "areas": [],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 2
+  },
+  {
+    "id": 2648,
+    "name": "MR. KUMAR",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
+    },
+    "category": "",
+    "potential": 600000,
+    "isKyc": false,
+    "areas": [],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 2
   }
 ]
