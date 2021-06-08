@@ -7,7 +7,7 @@ import {
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
-import {Constants} from 'common';
+import {Constants, Strings} from 'common';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -44,7 +44,6 @@ export function* fetchDoctorDetailWorker(action) {
   try {
     const response = yield call(NetworkService.get, url);
     let formattedResponse = [];
-
     if (
       response.data &&
       Array.isArray(response.data) &&
@@ -66,6 +65,13 @@ export function* fetchDoctorDetailWorker(action) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     console.log(error);
+    yield put(
+      doctorDetailActions.deletePartyError({
+        doctorDetail: {
+          error: Strings.errorFetchingParties,
+        },
+      }),
+    );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -99,6 +105,13 @@ export function* deletePartyWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
+    yield put(
+      doctorDetailActions.deletePartyError({
+        doctorDetail: {
+          error: Strings.errorRemovingParty,
+        },
+      }),
+    );
     console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
