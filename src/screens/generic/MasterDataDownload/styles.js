@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
     marginLeft: 59,
   },
   textStyle: {
-    marginTop: 150,
+    marginTop: 200,
     alignSelf: 'center',
   },
   downloadingTextStyle: {
-    marginTop: 70,
+    marginTop: 110,
     alignSelf: 'center',
   },
   downloadTextStyle: {
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     marginLeft: 59,
   },
   imageBg: {
-    width: 1333,
-    height: 800,
+    width: '100%',
+    height: '100%',
   },
 });
 
