@@ -119,6 +119,9 @@ const Strings = {
     },
   },
   dr: 'Dr.',
+  success: 'Success',
+  patchSaved: 'Patch successfully saved',
+  noRecordsForSelection: 'No records for current selection',
   errorRemovingParty: 'There is some error removing the party',
   errorFetchingParties: 'There is some error fetching parties',
 };
