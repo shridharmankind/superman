@@ -3,7 +3,7 @@ import {Timeline} from 'components/widgets';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import {View} from 'react-native';
-import styles from './doc-timeline.styles';
+import styles from './styles';
 import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 import {List} from 'react-native-paper';
 
@@ -13,31 +13,31 @@ const isCompleted = item => {
 };
 
 const getDateContainerStyle = item => {
-  const style = [styles.timeline__dateContainer];
+  const style = [styles.timelineDateContainer];
   if (item.isMissed) {
-    style.push(styles.timeline__dateContainer__missed);
+    style.push(styles.timelineDateContainerMissed);
   } else if (isCompleted(item)) {
-    style.push(styles.timeline__dateContainer__completed);
+    style.push(styles.timelineDateContainerCompleted);
   }
   return style;
 };
 
 const getDateStyle = item => {
-  const style = [styles.timeline__date];
+  const style = [styles.timelineDate];
   if (item.isMissed) {
-    style.push(styles.timeline__date__missed);
+    style.push(styles.timelineDateMissed);
   } else if (isCompleted(item)) {
-    style.push(styles.timeline__date__completed);
+    style.push(styles.timelineDateCompleted);
   }
   return style;
 };
 
 const getMonthStyle = item => {
-  const style = [styles.timeline__month];
+  const style = [styles.timelineMonth];
   if (item.isMissed) {
-    style.push(styles.timeline__month__missed);
+    style.push(styles.timelineMonthMissed);
   } else if (isCompleted(item)) {
-    style.push(styles.timeline__month__completed);
+    style.push(styles.timelineMonthCompleted);
   }
   return style;
 };
@@ -106,11 +106,11 @@ function renderItemDetails(item) {
 
 function renderItem(item, index) {
   return (
-    <View style={[styles.timeline__item]}>
+    <View style={[styles.timelineItem]}>
       <List.Accordion
         title={item.title}
-        titleStyle={[styles.timeline__item__title]}
-        style={[styles.timeline__item__accordion]}
+        titleStyle={[styles.timelineItemTitle]}
+        style={[styles.timelineItemAccordion]}
         left={props => <List.Icon {...props} icon="folder" />}>
         {renderItemDetails(item)}
       </List.Accordion>
@@ -170,14 +170,21 @@ const DocTimeline = () => {
   ];
 
   return (
-    <View style={[styles.timeline__wrapper]}>
+    <View style={[styles.timelineWrapper]}>
       <Label
         testID="timeline-year"
         variant={LabelVariant.h4}
         title={getFormatDate({date: new Date(), format: 'YYYY'})}
-        style={[styles.timeline__year]}
+        style={[styles.timelineYear]}
       />
-      <Timeline data={data} renderItem={renderItem} renderDate={renderDate} />
+      <View style={[styles.timelineScrollContainer]}>
+        <Timeline
+          style={[styles.timeline]}
+          data={data}
+          renderItem={renderItem}
+          renderDate={renderDate}
+        />
+      </View>
     </View>
   );
 };

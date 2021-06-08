@@ -2,18 +2,20 @@ import {StyleSheet} from 'react-native';
 import themes from 'themes';
 
 const styles = StyleSheet.create({
-  timeline__wrapper: {
+  timeline: {},
+  timelineWrapper: {
     borderColor: '#e8e8e8',
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: '#fcfcfc',
     paddingVertical: 21,
   },
-  timeline__year: {
+  timelineYear: {
     textAlign: 'center',
     marginBottom: 19,
   },
-  timeline__dateContainer: {
+  timelineDateContainer: {
+    flex: 1,
     textAlign: 'justify',
     position: 'absolute',
     right: -20,
@@ -23,40 +25,40 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     height: 40,
     width: 40,
-    paddingLeft: 12,
     textAlignVertical: 'center',
     paddingVertical: 5,
     opacity: 1,
+    alignItems: 'center',
   },
-  timeline__dateContainer__missed: {
+  timelineDateContainerMissed: {
     borderColor: '#aa0808',
   },
-  timeline__dateContainer__completed: {
+  timelineDateContainerCompleted: {
     borderColor: themes.colors.green[200],
   },
-  timeline__date: {
+  timelineDate: {
     fontSize: 12,
     lineHeight: 16,
     fontFamily: themes.fonts.fontBold,
   },
-  timeline__date__missed: {
+  timelineDateMissed: {
     color: '#aa0808',
   },
-  timeline__date__completed: {
+  timelineDateCompleted: {
     color: themes.colors.green[200],
   },
-  timeline__month: {
+  timelineMonth: {
     fontSize: 8,
     lineHeight: 14,
     fontFamily: themes.fonts.fontRegular,
   },
-  timeline__month__missed: {
+  timelineMonthMissed: {
     color: '#aa0808',
   },
-  timeline__month__completed: {
+  timelineMonthCompleted: {
     color: themes.colors.green[200],
   },
-  timeline__item: {
+  timelineItem: {
     borderColor: themes.colors.grey[900],
     borderWidth: 0.5,
     borderStyle: 'solid',
@@ -64,10 +66,10 @@ const styles = StyleSheet.create({
     borderRadius: 13.3,
     marginHorizontal: 27,
   },
-  timeline__item__accordion: {
+  timelineItemAccordion: {
     padding: 0,
   },
-  timeline__item__title: {
+  timelineItemTitle: {
     fontSize: 10.7,
     fontFamily: themes.fonts.fontSemiBold,
   },

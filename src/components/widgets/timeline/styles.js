@@ -6,13 +6,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  timeline__list: {
+  timelineList: {
     flex: 1,
   },
-  timeline__itemContainer: {
+  timelineItemContainer: {
     display: 'flex',
   },
-  timeline__item: {
+  timelineItem: {
     alignItems: 'flex-start',
     width: '50%',
     paddingBottom: 20,
@@ -21,15 +21,15 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderColor: themes.colors.grey[200],
   },
-  timeline__itemInnerContainer: {
+  timelineItemInnerContainer: {
     flex: 1,
     flexDirection: 'row',
   },
-  timeline__itemRight: {
+  timelineItemRight: {
     paddingBottom: 20,
     width: '50%',
   },
-  timeline__line: {
+  timelineLine: {
     borderStyle: 'dashed',
     borderRadius: 0.00001,
     borderWidth: 0.5,
