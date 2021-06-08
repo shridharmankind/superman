@@ -8,6 +8,7 @@ import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 import {Constants, Strings} from 'common';
+import {partiesMock} from '../../../../data/mock/api/parties';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -54,6 +55,8 @@ export function* fetchDoctorDetailWorker(action) {
         return data;
       });
     }
+
+    formattedResponse = partiesMock.getParties.response;
 
     yield put(
       doctorDetailActions.getDoctorDetail({
