@@ -353,7 +353,7 @@ const DoctorProfile = ({route}) => {
                   />
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={',' + doctorData?.location}
+                    title={', ' + (doctorData?.location || '')}
                   />
                 </View>
               </View>
