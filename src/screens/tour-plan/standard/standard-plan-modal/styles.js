@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leftContent: {
-    flex: 0.8,
+    flex: 0.9,
     flexDirection: 'column',
     paddingBottom: 40,
   },
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   categoryFilterContainer: {
     flexDirection: 'row',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: themes.colors.primary,
     borderRadius: 1000,
   },
@@ -200,6 +200,9 @@ const styles = StyleSheet.create({
   },
   rightContent: {
     paddingLeft: themes.spacing(36),
+  },
+  left: {
+    marginRight: 14,
   },
 });
 

@@ -3,7 +3,7 @@ module.exports = {
   extends: '@react-native-community',
   plugins: ['import'],
   rules: {
-    indent: ['error', 2, {SwitchCase: 1}],
+    indent: ['error', 2, {SwitchCase: 1, ignoredNodes: ['TemplateLiteral']}],
   },
   settings: {
     'import/resolver': {
@@ -30,6 +30,7 @@ module.exports = {
           sagas: './src/store/sagas',
           selectors: './src/store/selectors',
           states: './src/store/states',
+          locale: './src/locale',
         },
       },
     },
