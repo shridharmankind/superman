@@ -92,7 +92,9 @@ const StandardPlanModal = ({
     async direction => {
       const reset = await resetState();
       if (reset) {
-        handleSliderIndex(direction);
+        setTimeout(() => {
+          handleSliderIndex(direction);
+        }, 1000);
       }
     },
     [handleSliderIndex, resetState],
@@ -253,7 +255,8 @@ const StandardPlanModal = ({
     areaId => {
       const doctorToRemove = partiesList.find(party =>
         doctorsSelected?.some(
-          obj => obj === party.id && party.areas.some(par => par.id === areaId),
+          obj =>
+            obj === party.id && areaSelected.some(par => par.id === areaId),
         ),
       );
       if (doctorToRemove) {
@@ -262,7 +265,7 @@ const StandardPlanModal = ({
         );
       }
     },
-    [doctorsSelected, partiesList],
+    [doctorsSelected, partiesList, areaSelected],
   );
 
   /** function to create patch string to be put in patch input field*/
@@ -335,7 +338,6 @@ const StandardPlanModal = ({
     async (obj, id) => {
       if (savePatchRes && dataChanged) {
         if (savePatchRes?.status === Constants.HTTP_OK) {
-          //await resetState();
           showToast({
             type: Constants.TOAST_TYPES.SUCCESS,
             autoHide: true,
@@ -813,7 +815,7 @@ const StandardPlanModal = ({
                     <View style={styles.doctorDetails}>
                       {getDoctorsByArea(area.id).map((party, index) => (
                         <DoctorDetailsWrapper
-                          key={party.id}
+                          key={party.id + area.id}
                           id={party.id}
                           title={party.shortName || party.name}
                           specialization={party.specialities}
