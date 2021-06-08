@@ -8,30 +8,30 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.grayishBlue,
     borderRadius: 16,
   },
-  eDetailingHead__Col: {
+  eDetailingHeadCol: {
     flexDirection: 'column',
   },
-  eDetailingHead__Back: {
+  eDetailingHeadBack: {
     paddingTop: theme.spacing(5),
     paddingRight: theme.spacing(5),
   },
-  eDetailing__Start: {
+  eDetailingStart: {
     position: 'absolute',
     right: theme.spacing(20),
     top: theme.spacing(26),
   },
-  eDetailing__Start__Content: {
+  eDetailingStartContent: {
     width: 165,
     marginHorizontal: theme.spacing(8),
     height: 42,
   },
-  eDetailing__Start__Text: {
+  eDetailingStartText: {
     fontSize: 12,
   },
-  eDetailing__PriorityProducts: {
+  eDetailingPriorityProducts: {
     marginBottom: 0,
   },
-  eDetailing__PriorityProducts__List: {
+  eDetailingPriorityProductsList: {
     paddingTop: theme.spacing(13),
     height: 246,
   },

@@ -4,7 +4,7 @@ import {Card} from 'react-native-paper';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {Label, LabelVariant} from 'components/elements';
-
+import {translate} from 'locale';
 import styles from './styles';
 import {Helper} from 'database';
 
@@ -14,7 +14,7 @@ const HomeLanding = () => {
   useEffect(() => {
     const loadData = async () => {
       const firstName = await Helper.getUserFirstName();
-      setUserName(firstName);
+      firstName ? setUserName(firstName) : setUserName('');
     };
     loadData();
   });
@@ -22,7 +22,11 @@ const HomeLanding = () => {
   const renderHeader = () => (
     <View style={styles.header}>
       <Label style={styles.headerLabel} title={`Hi ${userName || ''}`} />
-      <Label style={styles.headerLabel} type="semiBold" title="Good Morning!" />
+      <Label
+        style={styles.headerLabel}
+        type="semiBold"
+        title={translate('goodMorning')}
+      />
     </View>
   );
 

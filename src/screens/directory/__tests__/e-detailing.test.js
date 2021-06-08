@@ -1,5 +1,5 @@
 import React from 'react';
-import EDetailing from '../e-detailing/e-detailing.component';
+import EDetailing from '../e-detailing';
 import {withTheme, fireEvent} from 'utils/testHelpers';
 
 const renderComponent = props => withTheme(<EDetailing {...props} />);

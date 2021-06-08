@@ -5,7 +5,7 @@ import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from '../styles';
 import {Strings} from 'common';
 import {Label, DoctorDetails} from 'components/elements';
-import {deletePartyCreator} from '../redux';
+import {deletePartyCreator, doctorDetailActions} from '../redux';
 import {useDispatch} from 'react-redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
@@ -53,6 +53,15 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const deleteRow = (rowMap, rowKey, item) => {
     let undoclicked = false;
     setIsDeleteOperationInProgress(true);
+    dispatch(
+      doctorDetailActions.tempStoreRemovedDoctor({
+        staffPositionid: 2,
+        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
+        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+        partyId: item.id,
+      }),
+    );
     showToast({
       type: Constants.TOAST_TYPES.ALERT,
       props: {
@@ -60,6 +69,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           undoclicked = true;
           hideToast();
           closeRow(rowMap, rowKey);
+          dispatch(doctorDetailActions.addDeletedParty());
         },
         onClose: () => {
           hideToast();
@@ -126,7 +136,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                 isKyc={data.item.isKyc}
                 category={data.item.category}
                 location={data.item.location}
-                partyType={data.item.partyTypes.name}
+                partyType={data?.item?.partyTypes?.name}
                 customStyle={doctorDetailStyleObject}
                 showFrequencyChiclet={false}
                 showVisitPlan={true}
