@@ -83,6 +83,14 @@ const DoctorProfile = ({route}) => {
   };
 
   /**
+   * Start e-detailing for party
+   *
+   */
+  const startEdetailing = () => {
+    navigation.navigate(Constants.ROUTE_EDETAILING);
+  };
+
+  /**
    * Function to set the state of Tab
    */
   const onTabPress = itemIdx => {
@@ -223,12 +231,7 @@ const DoctorProfile = ({route}) => {
               title={doctorData.category?.toUpperCase()}
             />
           </View>
-          <View
-            style={
-              doctorData.selfDispensing
-                ? styles.dispinsingContainer
-                : styles.leftTabContainer
-            }>
+          <View style={styles.leftTabContainer}>
             <ArrowBack
               style={styles.arrowBack}
               width={24}
@@ -259,6 +262,7 @@ const DoctorProfile = ({route}) => {
               mode="outlined"
               contentStyle={styles.buttonTabBar}
               labelStyle={styles.buttonTabBarText}
+              onPress={startEdetailing}
             />
             <Button
               title={Strings.captureDcr}

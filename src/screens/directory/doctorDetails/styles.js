@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: theme.colors.grayishBlue,
     paddingTop: theme.spacing(26.7),
-    paddingRight: theme.spacing(26.7),
-    paddingLeft: theme.spacing(26.7),
+    paddingHorizontal: theme.spacing(26.7),
     borderRadius: 26.7,
   },
   tabMainContainer: {
@@ -35,15 +34,14 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing(20),
   },
   leftTabContainer: {
-    width: '58%',
     flexDirection: 'row',
   },
   dispinsingContainer: {
-    width: '28%',
     flexDirection: 'row',
   },
   rightTabContainer: {
-    justifyContent: 'flex-end',
+    position: 'absolute',
+    right: 0,
   },
   buttonTabBar: {
     width: 135,

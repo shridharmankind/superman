@@ -88,6 +88,10 @@ const Strings = {
   no: 'No',
   tillDate: 'Till Date',
   comingSoon: 'Coming soon ***',
+  eDetailing: 'eDetailing',
+  startPresentation: 'Start Presentation',
+  priorityProducts: 'Priority Products',
+  otherProducts: 'Other Products',
   doctorDetail: {
     openTasks: {
       openTask: 'Open Tasks',
