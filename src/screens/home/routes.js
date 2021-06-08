@@ -1,27 +1,34 @@
 import {HomeDetailsScreen, HomeLandingSecondaryScreen} from 'screens/home';
 import HomeLanding from './landing';
 
-export const ROUTE_HOME_LANDING = 'HomeLanding';
-export const ROUTE_HOME_LANDING_SECONDARY = 'HomeLandingSecondary';
+export const ROUTE_HOME_LANDING = 'Landing';
+export const ROUTE_HOME_LANDING_SECONDARY = 'LandingSecondary';
+
+const PATH_ROOT = 'home/';
 
 export const ROUTES_HOME = [
   {
     name: ROUTE_HOME_LANDING,
     component: HomeLanding,
+    path: '',
   },
   {
     name: ROUTE_HOME_LANDING_SECONDARY,
     component: HomeLandingSecondaryScreen,
+    path: 'secondary',
   },
 ];
 
-export const ROUTE_HOME_DETAILS = 'HomeDetails';
+export const ROUTE_HOME_DETAILS = 'Details';
 
-const ROUTES_HOME_ROOT = [
+export const ROUTES_HOME_ROOT = [
   {
     name: ROUTE_HOME_DETAILS,
     component: HomeDetailsScreen,
+    path: `${PATH_ROOT}/details`,
   },
 ];
 
-export default ROUTES_HOME_ROOT;
+const HomeRoutes = [...ROUTES_HOME, ...ROUTES_HOME_ROOT];
+
+export default HomeRoutes;

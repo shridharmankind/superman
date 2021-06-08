@@ -1,7 +1,7 @@
 import {Login, Dashboard, MasterDataDownload} from 'screens/generic';
 import {StandardPlan} from 'screens/tourPlan';
 
-import ROUTES_HOME_ROOT from 'screens/home/routes';
+import {ROUTES_HOME_ROOT} from 'screens/home/routes';
 import {DoctorFeedback} from 'screens/directory';
 
 export const ROUTE_LOGIN = 'Login';

@@ -14,6 +14,7 @@ const ROUTES_DASHBOARD = [
   {
     name: ROUTE_HOME,
     component: Home,
+    path: 'home/',
   },
   {
     name: ROUTE_TOUR_PLAN,

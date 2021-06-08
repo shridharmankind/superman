@@ -9,6 +9,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
 import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
+import linking from 'navigations/linking';
 import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
@@ -20,7 +21,7 @@ const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
   setI18nConfig();
   useEffect(() => {
@@ -36,7 +37,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <Stack.Navigator initialRouteName={initialRoute}>
             {ROUTES.map(route => (
               <Stack.Screen
