@@ -88,6 +88,10 @@ const StandardPlanModal = ({
     [handleDonePress, patchSelected, dataChanged, resetandChangePage],
   );
 
+  /**
+   * function to reset data
+   * @param {String} direction
+   */
   const resetandChangePage = useCallback(
     async direction => {
       const reset = await resetState();
@@ -113,7 +117,7 @@ const StandardPlanModal = ({
     await setDataChanged(false);
     await dispatch(standardPlanActions.resetPartiesByPatchID());
     await dispatch(standardPlanActions.resetSavePatch());
-    // await dispatch(standardPlanActions.resetPatches());
+    await dispatch(standardPlanActions.resetPatches());
     return true;
   }, [dispatch]);
 
@@ -637,6 +641,9 @@ const StandardPlanModal = ({
     }
   };
 
+  /**
+   * function to close stp page
+   */
   const handleClose = () => {
     resetState();
     navigation.pop();
