@@ -297,7 +297,7 @@ export const createPartyMasterRecord = async (schema, data) => {
           {
             id: object.id,
             partyTypeId: object.partyTypeId,
-            shortName: (index % 3 == 0) ? object.name: object.shortName,
+            shortName: (index % 3 == 0) ? object.name: `${object.shortName}`,
             name: object.name ,
             qualification: object.qualification,
             frequency: object.frequency,

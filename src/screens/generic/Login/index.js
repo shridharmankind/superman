@@ -27,9 +27,10 @@ const config = {
   additionalParameters: {prompt: 'login'},
 };
 
-const TOKEN_EXPIRY_TIME = 'token_expiry_time';
-const USER_ID = 'USER_ID';
-const LOGIN_STATUS = 'loginStatus';
+export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
+export const USER_ID = 'USER_ID';
+export const LOGIN_STATUS = 'loginStatus';
+export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
@@ -38,7 +39,6 @@ const Login = ({navigation}) => {
     try {
       setAnimating(true);
       const newAuthState = await authorize(config);
-      console.log("accctess ",newAuthState.accessToken)
       await KeyChain.saveAccessToken(newAuthState.accessToken);
       const decoded = jwt_decode(newAuthState.accessToken);
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
