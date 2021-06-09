@@ -1,88 +1,40 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles.js';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import dayjs from 'dayjs';
 import theme from 'themes';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {fetchOpenTasksCreator} from './redux/openTaskSlice';
+import {taskSelector} from './redux/openTaskSelector';
 
 const OpenTask = () => {
+  const LIMIT = 4; // limit of tasks to be fetched from server
   // toggling View All/View Less
   const [isViewAll, toggleViewAll] = useState(false);
   // Task ids Expansion list
   const [taskToExpand, setTask] = useState([]);
+  const [skip, setSkip] = useState(0);
+
+  const dispatch = useDispatch();
+  // dispatching the action
+  useEffect(() => {
+    dispatch(
+      fetchOpenTasksCreator({
+        staffPositionID: 1,
+        partyId: 1,
+        skip: 0,
+        limit: LIMIT,
+      }),
+    );
+    setSkip(prev => prev + LIMIT);
+  }, [dispatch]);
+
   let upcomingTask = [];
-  //const user = useSelector(state => state.openTaskState.task);
-
-  const [taskData, updateTaskData] = useState([
-    {
-      id: 1,
-      type: 'Sample Request',
-      description: `Share samples of Crocin requested by doctor Share samples of Crocin requested by doctor Request
-      Share samples of Crocin requested by doctor Share samples of Crocin requested by doctor Share samples 
-      of Crocin requested by docto Share samples of Crocin requested by doctor Share samples of Crocin 
-      requested by doctor`,
-      dueOn: '2021-05-17T22:00:00.000Z',
-    },
-    {
-      id: 2,
-      type: 'Info Request',
-      description: `Share samples of Crocin requested by doctor Share samples of Crocin requested by doctor Request
-      Share samples of Crocin requested by doctor Share samples of Crocin requested by doctor Share samples 
-      of Crocin requested by docto Share samples of Crocin requested by doctor Share samples of Crocin 
-      requested by doctor Share samples of Crocin requested by doctor Share samples of Crocin requested by doctor Request
-      Share samples of Crocin requested by doctor Share samples of Crocin requested by doctor Share samples 
-      of Crocin requested by docto Share samples of Crocin requested by doctor Share samples of Crocin 
-      requested by doctor`,
-      dueOn: '2021-05-17T22:00:00.000Z',
-    },
-    {
-      id: 3,
-      type: 'Sample Request',
-      description: 'Share samples of Crocin requested by doctor',
-      dueOn: '2021-06-17T22:00:00.000Z',
-    },
-    {
-      id: 4,
-      type: 'Sample Request',
-      description: 'Share samples of Crocin requested by doctor',
-      dueOn: '2021-06-17T22:00:00.000Z',
-    },
-  ]);
-
-  const moreData = [
-    {
-      id: 5,
-      type: 'Sample Request',
-      description: 'Share samples of Crocin requested by doctor',
-      dueOn: '2021-06-17T22:00:00.000Z',
-    },
-    {
-      id: 6,
-      type: 'Sample Request',
-      description: 'Share samples of Crocin requested by doctor',
-      dueOn: '2021-06-17T22:00:00.000Z',
-    },
-    {
-      id: 7,
-      type: 'Sample Request',
-      description: 'Share samples of Crocin requested by doctor',
-      dueOn: '2021-06-17T22:00:00.000Z',
-    },
-    {
-      id: 8,
-      type: 'Sample Request',
-      description: 'Share samples of Crocin requested by doctor',
-      dueOn: '2021-06-17T22:00:00.000Z',
-    },
-    {
-      id: 9,
-      type: 'Sample Request',
-      description: 'Share samples of Crocin requested by doctor',
-      dueOn: '2021-06-17T22:00:00.000Z',
-    },
-  ];
+  const task = useSelector(taskSelector.getOpenTasks());
+  const totalTaskCount = useSelector(taskSelector.getTaskCount());
 
   /* Function to toggle View All state.
   Called on click of View All link. When View All is set to true,
@@ -144,12 +96,19 @@ const OpenTask = () => {
     return getFormatDate({date: dueDate, format: 'DD MMM YYYY'}).toUpperCase();
   };
 
-  /* To deal with infinite scrolling*/
+  /* Function To load data on scroll*/
   const handleLoadMore = () => {
-    if (taskData.length === 9) {
-      return;
+    if (skip < totalTaskCount) {
+      dispatch(
+        fetchOpenTasksCreator({
+          staffPositionID: 1,
+          partyId: 1,
+          skip: skip,
+          limit: LIMIT,
+        }),
+      );
+      setSkip(prev => prev + LIMIT);
     }
-    updateTaskData([...taskData, ...moreData]);
   };
 
   // To differntiate upcoming task and other due tasks
@@ -168,76 +127,71 @@ const OpenTask = () => {
           <Label
             variant={LabelVariant.h3}
             title={Strings.doctorDetail.openTasks.openTask}
-            testID="label_opentasks_header_test"
           />
           <View style={styles.count}>
-            <Label variant={LabelVariant.bodySmall} title={taskData.length} />
+            <Label
+              testID="task_count"
+              variant={LabelVariant.bodySmall}
+              title={totalTaskCount}
+            />
           </View>
         </View>
-        {/* To be added later */}
-        {/* <View>
-              <Label
-                style={{
-                  fontSize: 12.7,
-                  color: theme.colors.primary,
-                  fontFamily: themes.fonts.fontSemiBold,
-                }}
-                title="+ New Task"
-              />
-            </View> */}
       </View>
       <View style={styles.section}>
-        <FlatList
-          keyExtractor={item => item.id}
-          data={taskData}
-          onEndReached={!isViewAll ? undefined : handleLoadMore}
-          onEndReachedThreshold={0.5}
-          renderItem={({item, index}) => {
-            if (!isViewAll && index >= 3) {
-              return null;
-            } else {
-              return (
-                <TouchableOpacity
-                  style={styles.taskContainer}
-                  onPress={() => expandTask(item.id)}>
-                  <View style={styles.taskHeader}>
-                    <Text style={styles.taskTitle}>{item.type}</Text>
-                    <View
-                      style={[
-                        styles.taskDueDate,
-                        isOverDue(item.dueOn, item.id)
-                          ? {backgroundColor: theme.colors.orange[200]}
-                          : findUpcomingTask(item),
-                      ]}>
-                      <Label
+        {!!task && (
+          <FlatList
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.scrollPad}
+            data={task}
+            onEndReached={!isViewAll ? undefined : handleLoadMore}
+            onEndReachedThreshold={0.5}
+            renderItem={({item, index}) => {
+              if (!isViewAll && index >= 3) {
+                return null;
+              } else {
+                return (
+                  <TouchableOpacity
+                    style={styles.taskContainer}
+                    onPress={() => expandTask(item.id)}>
+                    <View style={styles.taskHeader}>
+                      <Text style={styles.taskTitle}>{item.type}</Text>
+                      <View
                         style={[
-                          {fontSize: 8},
-                          isOverDue(item.dueOn)
-                            ? {color: theme.colors.white}
-                            : {color: theme.colors.grey[200]},
+                          styles.taskDueDate,
+                          isOverDue(item.dueOn, item.id)
+                            ? {backgroundColor: theme.colors.orange[200]}
+                            : findUpcomingTask(item),
                         ]}>
-                        {Strings.doctorDetail.openTasks.due} :{' '}
-                        {formatDate(item.dueOn)}
-                      </Label>
+                        <Label
+                          style={[
+                            {fontSize: 8},
+                            isOverDue(item.dueOn)
+                              ? {color: theme.colors.white}
+                              : {color: theme.colors.grey[200]},
+                          ]}>
+                          {Strings.doctorDetail.openTasks.due} :{' '}
+                          {formatDate(item.dueOn)}
+                        </Label>
+                      </View>
                     </View>
-                  </View>
-                  <View>
-                    <Text
-                      style={styles.taskDesc}
-                      numberOfLines={noOfLinesCal(item.id)}>
-                      {item.description}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            }
-          }}
-        />
+                    <View>
+                      <Text
+                        style={styles.taskDesc}
+                        numberOfLines={noOfLinesCal(item.id)}>
+                        {item.description}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }
+            }}
+          />
+        )}
       </View>
-      {taskData.length > 3 && (
+      {!!totalTaskCount && totalTaskCount > 3 && (
         <View>
           <Label
-            style={[styles.footer, !isViewAll ? null : styles.footerMargin]}
+            style={styles.footer}
             variant={LabelVariant.h5}
             onPress={viewAllTask}>
             {!isViewAll
