@@ -12,7 +12,8 @@ const downloadStatus = Object.freeze({
 });
 
 export const fetchPreviouslyUpdatedData = async () => {
-    return await fetchData();
+    //return await fetchData();
+    return;
 }
 
 export const initMasterTablesDownloadStatus = async () => {
@@ -40,7 +41,7 @@ const fetchData = async () => {
                 if (record?.status === downloadStatus.DOWNLOADED) {
                     const accessToken = await KeyChain.getAccessToken();
                     //console.log("accessTokenn -- ",accessToken);
-                    //await Operations.insertPartyTableData(Helper.MASTER_TABLES_DETAILS[1].schema)
+                    //await Operations.insertPartyTableData(Helper.MASTER_TABLES_DETAILS[1].schema,-2)
                     const partyRecord = await Operations.getAllRecord(item.schema[0]);
                     //console.log("Party Record == ",JSON.stringify(partyRecord,null,2));
                     const modifiedData = partyRecord.filtered('syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true')
@@ -48,7 +49,6 @@ const fetchData = async () => {
                     
                     let newModifiedArray = Array.from(modifiedData);
                     
-                    console.log("new",newModifiedArray)
                     const staffPositionId = await Helper.getStaffPositionId();
                     let pushData = {
                         staffPositionId : staffPositionId,
@@ -66,8 +66,7 @@ const fetchData = async () => {
                     await Operations.updateRecord(
                         Schemas.masterTablesDownLoadStatus,
                         downloadStatus.DOWNLOADED,
-                        item.name,
-                        JSON.parse(response.config.data).lastSyncTime
+                        item.name
                     );
 
 
@@ -75,7 +74,7 @@ const fetchData = async () => {
                         Schemas.masterTablesDownLoadStatus,
                         item.name,
                     );
-                    console.log("record master : ",record1);
+                    //console.log("record master : ",record1);
                     return;
                 }
                 

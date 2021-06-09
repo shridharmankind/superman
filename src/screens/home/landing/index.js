@@ -5,7 +5,7 @@ import {Card} from 'react-native-paper';
 import {Label,LabelVariant} from 'components/elements';
 import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
-import {Helper} from 'database';
+import {Helper,Constants as DBConstants,Operations,Schemas} from 'database';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {translate} from 'locale';
@@ -19,14 +19,34 @@ const syncFlexTime = 15; // 15 seconds
 
 const HomeLanding = ({navigation}) => {
   const [userName, setUserName] = useState('');
+  const [lastSync, setLastSync] = useState('--:--:--');
 
   useEffect(() => {
     const loadData = async () => {
       const firstName = await Helper.getUserFirstName();
       firstName ? setUserName(firstName) : setUserName('');
     };
+    const fetchSyncTime = async () => {
+      let schemaName = Helper.MASTER_TABLES_DETAILS[1].name;
+      const record = await Operations.getRecord(
+        Schemas.masterTablesDownLoadStatus,
+        schemaName,
+      ); 
+      if (record?.status === DBConstants.downloadStatus.PENDING) {
+        setLastSync(`--:--:--`);
+      }
+      else{
+        setLastSync(record.lastSync)
+      }
+      return;
+    }
     loadData();
-  });
+    fetchSyncTime();
+    setTimeout(() => {
+      fetchSyncTime();
+    },5000);
+    
+  },[]);
   
   useEffect(() => {
     SyncAdapter.syncImmediately({
@@ -52,6 +72,7 @@ const HomeLanding = ({navigation}) => {
         type="semiBold"
         title={translate('goodMorning')}
       />
+      <Label style={styles.headerLabel} title={`Last Sync : ${lastSync}`} />
       {/* <Button onPress={() => onSyncPress()} title="Sync now" /> */}
     </View>
   );

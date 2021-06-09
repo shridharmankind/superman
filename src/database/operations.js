@@ -158,7 +158,7 @@ export const updatePartyMasterRecord = async (schema , data) => {
           }
           else
           {
-            // findRecord.id = object.id;
+            //findRecord.id = object.id;
             
             console.log("newObject ID ",findRecord);
             let updatedObject = object;
@@ -171,10 +171,11 @@ export const updatePartyMasterRecord = async (schema , data) => {
                 updatedObject,
                 'modified'
               );
-              let newData = realm.objects(schema[0].name).filtered(`id == ${findRecord.id}`);
+              console.log("New record add",updatedObject)
+              let newData = realm.objects(schema[0].name).filtered(`id == -1`);
               console.log("Data going to be delete ",newData);
-              if(newData != undefined){
-                realm.delete(newData);
+              if(newData[0].id != undefined){
+                realm.delete(newData[0]);
                 newData = null;
                 //recordToUpdate = null;
                 console.log("deleted ",newData);
@@ -189,13 +190,12 @@ export const updatePartyMasterRecord = async (schema , data) => {
         else{
           console.log("else 1");
           let updatedObject = object;
-          //recordToUpdate = object;
           //If syncParameters is null then records are successfully updated.
           if(updatedObject.syncParameters == null){
-            console.log("new-----------------")
-            console.log(recordToUpdate)
+            //console.log("new-----------------")
+            //console.log(recordToUpdate)
             updatedObject.syncParameters = recordToUpdate.syncParameters;
-            console.log(updatedObject);
+            //console.log(updatedObject);
             if(updatedObject.syncParameters != null){
               updatedObject.syncParameters.requireSync = false;
               updatedObject.syncParameters.lastModifiedOn = new Date();
@@ -208,12 +208,12 @@ export const updatePartyMasterRecord = async (schema , data) => {
 
               try{
                 let newData = realm.objects(schema[0].name).filtered(`id == ${updatedObject.id}`);
-                console.log("Data going to be delete ",newData);
+                //console.log("Data going to be delete ",newData);
                 if(newData != undefined){
                   realm.delete(newData);
                   newData = null;
                   recordToUpdate = null;
-                  console.log("deleted ",newData);
+                  //console.log("deleted ",newData);
                 }  
               }
               catch(err){
@@ -246,30 +246,11 @@ export const updatePartyMasterRecord = async (schema , data) => {
           }
           console.log("update Object",updatedObject);
           
-          //console.log("1 new Object",JSON.stringify(recordToUpdate));
           console.log("1 new --- ",JSON.stringify(object));
         }  
       })
     });
-    //delete
-      // try{
-        
-      //   await objectToBeDeleted.forEach(async (id) => {
-
-      //     console.log("trying delete outside",id);
-      //     await realm.write(async () => {
-      //       let newData = await realm.objects(schema[0].name).filtered(`id == ${id}`);
-      //       console.log("Data going to be delete ",newData);
-      //       await realm.delete(newData);
-      //       newData = null;
-      //       console.log("deleted 1",newData);
-            
-      //     })
-      //   })
-      // }
-      // catch(err){
-      //   console.log("outside delete",err);
-      // }
+    
   }
   catch(error){
     console.log('updatePartyMasterRecord', error);
@@ -280,6 +261,7 @@ export const createPartyMasterRecord = async (schema, data) => {
   try {
     await openSchema();
     let specialization, area, qualification, partyTypes, partyTypeGroup;
+    await insertPartyTableData(schema,-1);
     await realm.write(() => {
       data.forEach((object,index) => {
         //console.log("object -- ",object);
@@ -355,7 +337,7 @@ export const closeDB = () => {
 };
 
 
-export async function insertPartyTableData(schema){
+export async function insertPartyTableData(schema,id){
   let object = dummyPartyData;
   await realm.write(() => {
       partyTypeGroup = realm.create(
@@ -388,10 +370,10 @@ export async function insertPartyTableData(schema){
       let partyMaster = realm.create(
         schema[0].name,
         {
-          id: object.id,
+          id: id,
           staffPositionId: object.staffPositionId,
           partyTypeId: object.partyTypeId,
-          shortName: 'DOC',
+          shortName: `DOC  ${Math.floor(Math.random() * 16)}`,
           name: `MR. ${object.name}`,
           qualification: object.qualification,
           frequency: object.frequency,
@@ -416,7 +398,7 @@ export async function insertPartyTableData(schema){
         qualification = realm.create(schema[3].name, obj, 'modified');
         partyMaster.qualifications.push(qualification);
       });
-    
+    return;
   });
 }
 
@@ -450,7 +432,7 @@ let dummyPartyData = {
     }
   },
   "id":-1,
-  "name": "KESH RAUT",
+  "name": `KESH  ${Math.floor(Math.random() * 16)} RAUT`,
   "specialities": [],
   "qualifications": [],
   "frequency": 2,
