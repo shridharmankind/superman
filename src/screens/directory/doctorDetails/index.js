@@ -152,6 +152,10 @@ const DoctorProfile = ({route}) => {
                   style={styles.progressText}
                   title={Strings.priorityProductCard.progressNumber}
                 />
+                <Label
+                  style={styles.progressLightText}
+                  title={Strings.priorityProductCard.slashNumber}
+                />
                 <ArrowUp style={styles.arrowUp} width={15} height={15} />
                 <Label
                   style={styles.percentageText}
@@ -162,6 +166,8 @@ const DoctorProfile = ({route}) => {
                 <Bar
                   progress={0.6}
                   width={200}
+                  borderWidth={0}
+                  unfilledColor={theme.colors.blue[300]}
                   color={theme.colors.blue[200]}
                 />
               </View>
@@ -204,6 +210,10 @@ const DoctorProfile = ({route}) => {
                   style={styles.progressText}
                   title={Strings.priorityProductCard.secondProgressbar}
                 />
+                <Label
+                  style={styles.progressLightText}
+                  title={Strings.priorityProductCard.slashSecondNumber}
+                />
                 <ArrowUp style={styles.arrowUp} width={15} height={15} />
                 <Label
                   style={styles.percentageText}
@@ -214,6 +224,8 @@ const DoctorProfile = ({route}) => {
                 <Bar
                   progress={0.4}
                   width={200}
+                  borderWidth={0}
+                  unfilledColor={theme.colors.blue[300]}
                   color={theme.colors.blue[200]}
                 />
               </View>
@@ -367,7 +379,7 @@ const DoctorProfile = ({route}) => {
           </View>
           <View style={styles.anniversy}>
             <View style={styles.birthdayClass}>
-              <Birthday style={styles.birthdayBorder} width={15} height={15} />
+              <Birthday style={styles.birthdayBorder} width={20} height={20} />
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
@@ -377,8 +389,8 @@ const DoctorProfile = ({route}) => {
             <View style={styles.birthdayClass}>
               <Anniversary
                 style={styles.birthdayBorder}
-                width={15}
-                height={15}
+                width={20}
+                height={20}
               />
               <Label
                 variant={LabelVariant.bodySmall}
@@ -394,7 +406,7 @@ const DoctorProfile = ({route}) => {
                   <WorkOutline width={15} height={15} />
                   <Label
                     variant={LabelVariant.bodySmall}
-                    style={styles.dateClass}
+                    style={styles.engClass}
                     title={formatEngment(dataItem)}
                   />
                 </View>
