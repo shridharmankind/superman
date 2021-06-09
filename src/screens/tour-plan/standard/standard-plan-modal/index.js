@@ -350,10 +350,13 @@ const StandardPlanModal = ({
           return party;
         }
       });
+      let newPartiesData = partiesData;
       if (!isSameDayPatch(patchValue)) {
-        partiesData?.filter(par => par.frequency !== par.alreadVisited);
+        newPartiesData = partiesData?.filter(
+          par => par.frequency !== par.alreadyVisited,
+        );
       }
-      return partiesData;
+      return newPartiesData;
     },
     [partiesList, selectedDoctorType, isSameDayPatch, patchValue],
   );
@@ -442,6 +445,8 @@ const StandardPlanModal = ({
       updatePatch(obj, patchValue.id, false);
     } else if (patchValue && !isPatchOfSameDay) {
       savePatch(obj);
+    } else if (patchValue && isPatchOfSameDay) {
+      updatePatch(obj, patchValue.id, false);
     }
   }, [
     patchDefaultValue,
