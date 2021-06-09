@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 60,
   },
   content: {
+    flex: 1,
     flexDirection: 'row',
   },
   leftContent: {
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
   areaFilter: {
     flex: 1,
     overflow: 'hidden',
+    zIndex: 19,
   },
   swiper: {
     flex: 1,
@@ -202,7 +204,10 @@ const styles = StyleSheet.create({
     paddingLeft: themes.spacing(36),
   },
   left: {
-    marginRight: 14,
+    marginRight: themes.spacing(7),
+  },
+  right: {
+    marginLeft: themes.spacing(7),
   },
 });
 

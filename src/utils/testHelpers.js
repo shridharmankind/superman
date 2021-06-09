@@ -7,10 +7,12 @@ import {render} from '@testing-library/react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
 import theme from 'themes';
-import store from 'store';
+import {getStore} from 'store';
 
 export const withTheme = component =>
   render(<PaperProvider theme={theme}>{component}</PaperProvider>);
+
+const store = getStore();
 
 export const renderer = (component, mockStore = store) =>
   render(

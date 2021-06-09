@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     backgroundColor: theme.colors.grey[1000],
     borderRadius: 50,
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
     borderWidth: 0.3,
     borderStyle: 'solid',
     textAlign: 'center',
@@ -114,17 +114,21 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
   divisionContainer: {
-    borderTopLeftRadius: 15,
-    borderBottomRightRadius: 10,
-    backgroundColor: theme.colors.orange[100],
-    paddingHorizontal: 10,
-    paddingVertical: 5,
     position: 'absolute',
     top: -30,
     left: -28,
     minWidth: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  divisionItem: {
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    backgroundColor: theme.colors.orange[100],
+    paddingHorizontal: theme.spacing(10),
+    paddingVertical: theme.spacing(4),
+    marginRight: theme.spacing(5),
   },
   divisionText: {
     color: theme.colors.white,
@@ -139,6 +143,7 @@ const styles = StyleSheet.create({
   dateClass: {
     fontStyle: 'normal',
     paddingLeft: theme.spacing(12),
+    paddingTop: theme.spacing(3),
   },
   birthdayClass: {
     flexDirection: 'row',
@@ -148,7 +153,8 @@ const styles = StyleSheet.create({
   birthdayBorder: {
     borderRadius: 50,
     borderColor: theme.colors.grey[100],
-    borderWidth: 0.3,
+    backgroundColor: theme.colors.white,
+    borderWidth: 0.5,
     marginTop: theme.spacing(2),
   },
   location: {
@@ -168,6 +174,10 @@ const styles = StyleSheet.create({
   engmentContainer: {
     flexDirection: 'row',
   },
+  engClass: {
+    fontStyle: 'normal',
+    paddingLeft: theme.spacing(12),
+  },
   cardHeader: {
     flexDirection: 'row',
   },
@@ -181,10 +191,6 @@ const styles = StyleSheet.create({
   labelSubTitle: {
     fontStyle: 'normal',
     paddingTop: theme.spacing(5),
-    backgroundColor: theme.colors.grey[1000],
-    borderRadius: 50,
-    borderWidth: 0.3,
-    borderStyle: 'solid',
     textAlign: 'center',
   },
   labelSubHeader: {
@@ -196,11 +202,18 @@ const styles = StyleSheet.create({
     color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
   },
+  progressLightText: {
+    fontSize: 20,
+    fontStyle: 'normal',
+    color: theme.colors.grey[200],
+    fontFamily: theme.fonts.fontRegular,
+  },
   arrowUp: {
     marginTop: theme.spacing(10),
   },
   percentageText: {
     marginTop: theme.spacing(8),
+    marginLeft: theme.spacing(-2),
     fontSize: 14,
     fontStyle: 'normal',
     color: theme.colors.green[200],
@@ -209,6 +222,10 @@ const styles = StyleSheet.create({
   cardHeaderRightTitle: {
     flexDirection: 'column',
     width: '10%',
+    backgroundColor: theme.colors.grey[1000],
+    borderRadius: 50,
+    borderWidth: 0.3,
+    borderStyle: 'solid',
   },
   cardDetail: {
     flexDirection: 'row',
