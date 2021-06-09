@@ -81,25 +81,90 @@ const DailyTourPlan = () => {
   };
 
   /**
+   * returns string from doctor/chemist count - 5 doctors or 1 chemist
+   * @param {Number} partycount count of doctors/chemist
+   * @param {String} type type of party - doctor/chemist
+   * @returns visit string
+   */
+  const getVisitString = (partycount, type) => {
+    if (partycount === 0) {
+      return '';
+    }
+    if (partycount === 1) {
+      return type === Constants.PARTY_TYPE.DOCTOR
+        ? `${partycount} ${Strings.numberOfDoctors}`
+        : `${partycount} ${Strings.numberOfChemist}`;
+    }
+
+    return type === Constants.PARTY_TYPE.DOCTOR
+      ? `${partycount} ${Strings.numberOfDoctors}s`
+      : `${partycount} ${Strings.numberOfChemist}s`;
+  };
+
+  /**
    * formats the stirng to make some words of text bold
    * @returns formatted string
    */
   const getVisitBifurcationLabel = () => {
-    const sample = {
-      sentence: `${Strings.youHave} {0} ${Strings.and} {1} ${Strings.visits}`,
-      boldText: [`${Strings.numberOfDoctors}`, `${Strings.numberOfChemist}`],
-    };
-    let numberOfItemsAdded = 0;
-    const result = sample.sentence.split(/\{\d+\}/);
-    sample.boldText.forEach((boldText, i) => {
-      result.splice(
-        ++numberOfItemsAdded + i,
-        0,
-        <Label key={i} style={styles.visitText}>
-          {boldText}
-        </Label>,
+    let doctorString = '';
+    let chemistString = '';
+    let result = '';
+    if (dayPlanData?.length > 0) {
+      const doctorCount = dayPlanData?.filter(plan => {
+        return (
+          (plan.partyTypes?.name || '').toLowerCase() ===
+          Constants.PARTY_TYPE.DOCTOR.toLowerCase()
+        );
+      });
+
+      const chemistCount = dayPlanData?.filter(plan => {
+        return (
+          (plan.partyTypes?.name || '').toLowerCase() ===
+          Constants.PARTY_TYPE.CHEMIST.toLowerCase()
+        );
+      });
+
+      doctorString = getVisitString(
+        doctorCount.length,
+        Constants.PARTY_TYPE.DOCTOR,
       );
-    });
+      chemistString = getVisitString(
+        chemistCount.length,
+        Constants.PARTY_TYPE.CHEMIST,
+      );
+
+      let sample = {
+        sentence: `${Strings.youHave} {0} ${Strings.and} {1} ${Strings.visits}`,
+        boldText: [doctorString, chemistString],
+      };
+
+      if (doctorString === '' && chemistString === '') {
+        return '';
+      }
+
+      if (doctorString === '' && chemistString !== '') {
+        sample = {
+          sentence: `${Strings.youHave} {0} ${Strings.visits}`,
+          boldText: [chemistString],
+        };
+      } else if (doctorString !== '' && chemistString === '') {
+        sample = {
+          sentence: `${Strings.youHave} {0} ${Strings.visits}`,
+          boldText: [doctorString],
+        };
+      }
+      let numberOfItemsAdded = 0;
+      result = sample.sentence.split(/\{\d+\}/);
+      sample.boldText.forEach((boldText, i) => {
+        result.splice(
+          ++numberOfItemsAdded + i,
+          0,
+          <Label key={i} style={styles.visitText}>
+            {boldText}
+          </Label>,
+        );
+      });
+    }
     return <Label style={styles.dailyTitle}>{result}</Label>;
   };
 
