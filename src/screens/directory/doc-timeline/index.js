@@ -6,6 +6,7 @@ import {View} from 'react-native';
 import styles from './styles';
 import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 import {List} from 'react-native-paper';
+import {DoctorVisit} from 'assets';
 
 const isCompleted = item => {
   const today = startOf(new Date());
@@ -111,7 +112,13 @@ function renderItem(item, index) {
         title={item.title}
         titleStyle={[styles.timelineItemTitle]}
         style={[styles.timelineItemAccordion]}
-        left={props => <List.Icon {...props} icon="folder" />}>
+        left={props => (
+          <DoctorVisit
+            style={[styles.timelineItemIcon]}
+            height={20}
+            width={20}
+          />
+        )}>
         {renderItemDetails(item)}
       </List.Accordion>
     </View>

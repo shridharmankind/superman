@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
     color: '#3b3850',
     fontFamily: themes.fonts.fontSemiBold,
   },
+  timelineItemIcon: {
+    paddingLeft: 20,
+    marginLeft: 20,
+  },
   itemDetailsSection: {
     marginBottom: 10,
   },
