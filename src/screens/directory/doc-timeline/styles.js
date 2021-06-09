@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 12.7,
     lineHeight: 13.3,
     color: '#3b3850',
-    fontFamily: themes.fonts.fontMedium,
+    fontFamily: themes.fonts.fontSemiBold,
   },
   itemDetailsSection: {
     marginBottom: 10,
