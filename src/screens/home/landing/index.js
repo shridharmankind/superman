@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Card} from 'react-native-paper';
 
 import {ContentWithSidePanel} from 'components/layouts';
-import {Label, LabelVariant} from 'components/elements';
+import {Border, Label, LabelVariant} from 'components/elements';
 import {translate} from 'locale';
 import styles from './styles';
 import {Helper} from 'database';
@@ -57,10 +57,13 @@ const HomeLanding = () => {
 
   return (
     <ContentWithSidePanel header={renderHeader()} sidePanel={renderSidePanel()}>
-      <Label
-        variant={LabelVariant.subtitleLarge}
-        title="Welcome to our Home Page"
-      />
+      <View style={{height: 500}}>
+        <Label
+          variant={LabelVariant.subtitleLarge}
+          title="Welcome to our Home Page"
+        />
+        <Border container={{alignSelf: 'center'}} />
+      </View>
     </ContentWithSidePanel>
   );
 };
