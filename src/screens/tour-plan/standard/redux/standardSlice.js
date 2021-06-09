@@ -74,10 +74,13 @@ export const getStandardPlanSlice = createSlice({
         savePatch: null,
       };
     },
-    resetPatches: state => {
+    resetState: state => {
       return {
         ...state,
+        parties: [],
+        savePatch: null,
         patches: [],
+        partyByPatchID: null,
       };
     },
   },
