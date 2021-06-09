@@ -18,23 +18,86 @@ const OpenTask = () => {
   const [taskToExpand, setTask] = useState([]);
   const [skip, setSkip] = useState(0);
 
-  const dispatch = useDispatch();
-  // dispatching the action
-  useEffect(() => {
-    dispatch(
-      fetchOpenTasksCreator({
-        staffPositionID: 1,
-        partyId: 1,
-        skip: 0,
-        limit: LIMIT,
-      }),
-    );
-    setSkip(prev => prev + LIMIT);
-  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // // dispatching the action
+  // useEffect(() => {
+  //   dispatch(
+  //     fetchOpenTasksCreator({
+  //       staffPositionID: 1,
+  //       partyId: 1,
+  //       skip: 0,
+  //       limit: LIMIT,
+  //     }),
+  //   );
+  //   setSkip(prev => prev + LIMIT);
+  // }, [dispatch]);
 
   let upcomingTask = [];
-  const task = useSelector(taskSelector.getOpenTasks());
-  const totalTaskCount = useSelector(taskSelector.getTaskCount());
+  // const task = useSelector(taskSelector.getOpenTasks());
+  // const totalTaskCount = useSelector(taskSelector.getTaskCount());
+
+  const [taskData, updateTaskData] = useState([
+    {
+      id: 1,
+      type: 'Sample Request',
+      description: 'face shield',
+      dueOn: '2021-05-17T22:00:00.000Z',
+    },
+    {
+      id: 2,
+      type: 'Info Request',
+      description:
+        'ware of the application it processes the DateTime format to convert in specific format. And passes',
+      dueOn: '2021-05-17T22:00:00.000Z',
+    },
+    {
+      id: 3,
+      type: 'Sample Request',
+      description:
+        'ware of the application it processes the DateTime format to convert in specific format. And passes',
+      dueOn: '2021-06-17T22:00:00.000Z',
+    },
+    {
+      id: 4,
+      type: 'Sample Request',
+      description:
+        'ware of the application it processes the DateTime format to convert in specific format. And passes',
+      dueOn: '2021-06-17T22:00:00.000Z',
+    },
+  ]);
+
+  const moreData = [
+    {
+      id: 5,
+      type: 'Sample Request',
+      description: 'Share samples of Crocin requested by doctor',
+      dueOn: '2021-06-17T22:00:00.000Z',
+    },
+    {
+      id: 6,
+      type: 'Sample Request',
+      description: 'Share samples of Crocin requested by doctor',
+      dueOn: '2021-06-17T22:00:00.000Z',
+    },
+    {
+      id: 7,
+      type: 'Sample Request',
+      description: 'Share samples of Crocin requested by doctor',
+      dueOn: '2021-06-17T22:00:00.000Z',
+    },
+    {
+      id: 8,
+      type: 'Sample Request',
+      description: 'Share samples of Crocin requested by doctor',
+      dueOn: '2021-06-17T22:00:00.000Z',
+    },
+    {
+      id: 9,
+      type: 'Sample Request',
+      description: 'Share samples of Crocin requested by doctor',
+      dueOn: '2021-06-17T22:00:00.000Z',
+    },
+  ];
 
   /* Function to toggle View All state.
   Called on click of View All link. When View All is set to true,
@@ -98,17 +161,22 @@ const OpenTask = () => {
 
   /* Function To load data on scroll*/
   const handleLoadMore = () => {
-    if (skip < totalTaskCount) {
-      dispatch(
-        fetchOpenTasksCreator({
-          staffPositionID: 1,
-          partyId: 1,
-          skip: skip,
-          limit: LIMIT,
-        }),
-      );
-      setSkip(prev => prev + LIMIT);
+    // if (skip < totalTaskCount) {
+    //   dispatch(
+    //     fetchOpenTasksCreator({
+    //       staffPositionID: 1,
+    //       partyId: 1,
+    //       skip: skip,
+    //       limit: LIMIT,
+    //     }),
+    //   );
+    //   setSkip(prev => prev + LIMIT);
+    // }
+
+    if (taskData.length === 9) {
+      return;
     }
+    updateTaskData([...taskData, ...moreData]);
   };
 
   // To differntiate upcoming task and other due tasks
@@ -132,17 +200,17 @@ const OpenTask = () => {
             <Label
               testID="task_count"
               variant={LabelVariant.bodySmall}
-              title={totalTaskCount}
+              title="9"
             />
           </View>
         </View>
       </View>
       <View style={styles.section}>
-        {!!task && (
+        {!!taskData && (
           <FlatList
             keyExtractor={item => item.id}
             contentContainerStyle={styles.scrollPad}
-            data={task}
+            data={taskData}
             onEndReached={!isViewAll ? undefined : handleLoadMore}
             onEndReachedThreshold={0.5}
             renderItem={({item, index}) => {
@@ -188,7 +256,7 @@ const OpenTask = () => {
           />
         )}
       </View>
-      {!!totalTaskCount && totalTaskCount > 3 && (
+      {!!taskData && taskData.length > 3 && (
         <View>
           <Label
             style={styles.footer}
