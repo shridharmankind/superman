@@ -141,6 +141,7 @@ const OpenTask = () => {
         {!!task && (
           <FlatList
             keyExtractor={item => item.id}
+            contentContainerStyle={styles.scrollPad}
             data={task}
             onEndReached={!isViewAll ? undefined : handleLoadMore}
             onEndReachedThreshold={0.5}

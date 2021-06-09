@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
     fontFamily: themes.fonts.fontSemiBold,
     color: themes.colors.primary,
   },
+  scrollPad: {
+    paddingRight: themes.spacing(10),
+  },
 });
 
 export default styles;
