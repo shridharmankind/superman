@@ -92,7 +92,7 @@ const AuthComp = ({navigation}) => {
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
       window.location.assign('http://localhost:3000/home');
     }
-    navigation.navigate('MasterDataDownload');
+    navigation.navigate('Dashboard');
   }, [navigation]);
   return null;
 };
