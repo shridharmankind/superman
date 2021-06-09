@@ -29,6 +29,7 @@
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.19.0",
     "dayjs": "^1.10.4",
+    "expo-local-authentication": "^11.0.2",
     "jwt-decode": "^3.1.2",
     "lodash.merge": "^4.6.2",
     "normalizr": "^3.6.1",
