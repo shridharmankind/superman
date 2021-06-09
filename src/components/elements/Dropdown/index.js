@@ -25,7 +25,7 @@ const Dropdown = ({
 }) => {
   const [value, setValue] = useState();
   const [togglePicker, setTogglePicker] = useState(false);
-  const [dropDowndata, setDropDownData] = useState(data);
+  const [dropDownData, setDropDownData] = useState(data);
   const [dropDownText, setDropdownText] = useState(defaultLabel);
   let childrenIds;
 
@@ -82,7 +82,7 @@ const Dropdown = ({
           setTogglePicker(false);
         }
       }}>
-      {dropDowndata.length > 6 ? (
+      {data.length > 6 ? (
         <TextInput
           testID={testID}
           style={styles.selectContainer}
@@ -91,7 +91,11 @@ const Dropdown = ({
           placeholder={defaultLabel}
           onFocus={() => handleDropdownFocus()}
           right={
-            <TextInput.Icon name={() => <Icon name="sort-down" size={20} />} />
+            <TextInput.Icon
+              name={() => (
+                <Icon name="sort-down" size={20} style={styles.sortDown} />
+              )}
+            />
           }
         />
       ) : (
@@ -116,7 +120,7 @@ const Dropdown = ({
               component._children[0] &&
               component._children[0]._children.map(el => el._nativeTag);
           }}>
-          {data.map((option, i) => (
+          {dropDownData.map((option, i) => (
             <TouchableOpacity
               key={option.value}
               style={[
