@@ -71,7 +71,7 @@ const StandardPlanModal = ({
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
   const weekNum = Number(week.split(' ')[1]);
-  const staffPositionId = 3;
+  const staffPositionId = 1;
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -169,12 +169,12 @@ const StandardPlanModal = ({
   useEffect(() => {
     let ptch = null;
     allPatches?.map(patch => {
-      if (isSameDayPatch()) {
+      if (isSameDayPatch(patch)) {
         ptch = {...patch, value: patch.displayName};
       }
     });
     if (ptch) {
-      if (!isSameDayPatch()) {
+      if (!isSameDayPatch(ptch)) {
         setDataChanged(true);
       }
       setIsPatchedData(true);
@@ -348,12 +348,12 @@ const StandardPlanModal = ({
           return party;
         }
       });
-      if (!isSameDayPatch()) {
+      if (!isSameDayPatch(patchValue)) {
         partiesData?.filter(par => par.frequency !== par.alreadVisited);
       }
       return partiesData;
     },
-    [partiesList, selectedDoctorType, isSameDayPatch],
+    [partiesList, selectedDoctorType, isSameDayPatch, patchValue],
   );
 
   /** function to validate the response from endpoint in case of save and updating the patch */
@@ -429,7 +429,7 @@ const StandardPlanModal = ({
     };
     setPatchError(null);
     setPatchRequest(obj);
-    const isPatchOfSameDay = isSameDayPatch();
+    const isPatchOfSameDay = isSameDayPatch(patchValue);
 
     if (!patchValue) {
       savePatch(obj);
@@ -543,7 +543,7 @@ const StandardPlanModal = ({
     } else {
       setDoctorSelected([...doctorsSelected, id]);
     }
-    if (!isSameDayPatch()) {
+    if (!isSameDayPatch(patchValue)) {
       setIsPatchedData(false);
       setDataChanged(true);
     }
@@ -678,13 +678,16 @@ const StandardPlanModal = ({
     navigation.pop();
   };
 
-  const isSameDayPatch = useCallback(() => {
-    return (
-      weekNum === patchValue?.week &&
-      weekDay === patchValue?.weekDay &&
-      year === patchValue?.year
-    );
-  }, [patchValue, weekNum, weekDay, year]);
+  const isSameDayPatch = useCallback(
+    patch => {
+      return (
+        weekNum === patch?.week &&
+        weekDay === patch?.weekDay &&
+        year === patch?.year
+      );
+    },
+    [weekNum, weekDay, year],
+  );
 
   // const getPatchesDropdownData = useCallback(() => {
   //   let patchData = [];
