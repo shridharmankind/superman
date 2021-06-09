@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   timelineWrapper: {
     borderColor: '#e8e8e8',
     borderWidth: 1,
-    borderRadius: 20,
+    borderRadius: 5,
     backgroundColor: '#fcfcfc',
     paddingVertical: 21,
   },
@@ -75,16 +75,19 @@ const styles = StyleSheet.create({
   },
   itemDetailsTitle: {
     fontSize: 12.7,
-    lineHeight: 13.3,
+    lineHeight: 14,
     color: '#3b3850',
     fontFamily: themes.fonts.fontSemiBold,
   },
   timelineItemIcon: {
-    paddingLeft: 20,
-    marginLeft: 20,
+    marginLeft: 18,
   },
   itemDetailsSection: {
     marginBottom: 10,
+  },
+  itemDetailsContainer: {
+    marginLeft: -47,
+    paddingTop: 13,
   },
 });
 
