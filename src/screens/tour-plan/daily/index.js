@@ -109,8 +109,8 @@ const DailyTourPlan = () => {
     let doctorString = '';
     let chemistString = '';
     let result = '';
-    if (dayPlanData.length > 0) {
-      const doctorCount = dayPlanData.filter(plan => {
+    if (dayPlanData?.length > 0) {
+      const doctorCount = dayPlanData?.filter(plan => {
         return (
           (plan.partyTypes?.name || '').toLowerCase() ===
           Constants.PARTY_TYPE.DOCTOR.toLowerCase()
@@ -147,9 +147,7 @@ const DailyTourPlan = () => {
           sentence: `${Strings.youHave} {0} ${Strings.visits}`,
           boldText: [chemistString],
         };
-      }
-
-      if (doctorString !== '' && chemistString === '') {
+      } else if (doctorString !== '' && chemistString === '') {
         sample = {
           sentence: `${Strings.youHave} {0} ${Strings.visits}`,
           boldText: [doctorString],
