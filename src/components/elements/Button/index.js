@@ -1,7 +1,8 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import Label, {LabelVariant} from '../Label';
 
 /**
  * Custom button component using TouchableOpacity from react-native.
@@ -23,6 +24,7 @@ const CustomButton = ({
   onPress,
   testID,
   title,
+  children,
   ...rest
 }) => {
   let buttonStyle = styles.button;
@@ -50,15 +52,16 @@ const CustomButton = ({
       onPress={onPress}
       testID={testID}
       {...rest}>
-      <Text
+      <Label
+        variant={LabelVariant.h5}
         style={[
           styles.buttonText,
           textStyle,
           disabled && styles.disabledButton,
           labelStyle,
         ]}>
-        {title}
-      </Text>
+        {title || children || ''}
+      </Label>
     </TouchableOpacity>
   );
 };
