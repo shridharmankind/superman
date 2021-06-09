@@ -6,11 +6,11 @@ import SwiperFlatList from 'react-native-swiper-flatlist';
 import {SingleAvtar, JointAvtar} from 'assets';
 import dayjs from 'dayjs';
 import themes from 'themes';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {ArrowBack} from 'assets';
 
 const DoctorFeedback = ({route}) => {
   const doctorData = route?.params?.data || null;
@@ -85,11 +85,7 @@ const DoctorFeedback = ({route}) => {
         <View>
           <View style={styles.headerDataStyle}>
             <TouchableOpacity style={styles.backArrow} onPress={closeFeedback}>
-              <Icon
-                name={'chevron-left'}
-                size={15}
-                color={themes.colors.grey[200]}
-              />
+              <ArrowBack width={34.7} height={34.7} />
             </TouchableOpacity>
             <Label
               variant={LabelVariant.h2}
