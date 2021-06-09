@@ -16,6 +16,7 @@ const Colors = {
   blue: {
     100: '#2293cb',
     200: '#2394cc',
+    300: '#e9f4fa',
   },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',
