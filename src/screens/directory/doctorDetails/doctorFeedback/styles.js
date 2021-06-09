@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   leftAlign: {
     flexDirection: 'row',
   },
-  rightAlign: {flexDirection: 'row'},
+  rightAlign: {flexDirection: 'row', marginLeft: themes.spacing(25.7)},
   button: {
     paddingVertical: themes.spacing(12),
     paddingHorizontal: themes.spacing(66),
@@ -101,13 +101,6 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   backArrow: {
-    width: 26.7,
-    height: 26.7,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: themes.colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginRight: themes.spacing(8),
   },
   swiperListStyle: {

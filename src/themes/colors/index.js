@@ -16,6 +16,7 @@ const Colors = {
   blue: {
     100: '#2293cb',
     200: '#2394cc',
+    300: '#e9f4fa',
   },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',
@@ -25,6 +26,7 @@ const Colors = {
   red: {
     100: '#E36565',
     200: '#f45b60',
+    300: '#ff0000',
   },
   blueBg: '#50478D',
   grey: {

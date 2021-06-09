@@ -9,7 +9,7 @@ import {workingDay} from 'screens/tourPlan/apiPath';
 import userInfo from './api/userInfo.json';
 
 import {partiesMock} from './api/parties.js';
-import {API_PATH} from 'screens/tourPlan/apiPath';
+import {API_PATH} from 'screens/tour-plan/apiPath';
 
 const getPartiesUrl = () => {
   const valueMap = {
@@ -53,7 +53,6 @@ const getMock = axios => {
   mock.onPost(`${API_PATH.PATCH}/1`).reply(200, patchesMock.savePatch.response);
   mock.onPut(`${API_PATH.PATCH}/1`).reply(200, patchesMock.savePatch.response);
   mock.onGet(`${API_PATH.AREA_BY_SPID}/1`).reply(200, areaList);
-  mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet('Party/partyBySpId/1').reply(200, party);

@@ -15,15 +15,6 @@
       "role": 1,
       "isActive": true,
       "isPrimary": true
-    },
-    {
-      "id": 2,
-      "staffCode": 2,
-      "reportingStaffPositionId": 2,
-      "divisionId": 3,
-      "role": 1,
-      "isActive": true,
-      "isPrimary": true
     }
   ]
 }

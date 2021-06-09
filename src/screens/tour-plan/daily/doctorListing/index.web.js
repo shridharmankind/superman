@@ -30,7 +30,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
       <View style={styles.contentView}>
         {(dayPlanData || []).map((plan, index) => {
           return (
-            <View style={styles.doctorDetailWrapper}>
+            <View style={styles.doctorDetailWrapper} key={index}>
               <View key={index} style={styles.doctorDetailContainer}>
                 <DoctorDetails
                   title={plan.name}
@@ -43,7 +43,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                   visitData={plan.visitData}
                   showTile={true}
                   onTileNamePress={() => {
-                    onTileNamePress(plan.item);
+                    onTileNamePress(plan);
                   }}
                   onTilePress={() => {
                     onTilePress(plan);

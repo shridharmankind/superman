@@ -32,6 +32,7 @@ const CustomModal = ({
   closeAction,
   closeTestId,
   customModalPosition,
+  ...props
 }) => {
   const primaryActionHandler = () => {
     primaryAction();
@@ -44,7 +45,7 @@ const CustomModal = ({
         transparent={true}
         visible={open}
         onRequestClose={onClose}>
-        <View style={[stylesWeb.centeredView]}>
+        <View style={[stylesWeb.centeredView, props?.customModalCenteredView]}>
           <View style={[stylesWeb.modalView, customModalPosition]}>
             <View style={styles.titleView}>
               <View style={styles.title}>{modalTitle}</View>
