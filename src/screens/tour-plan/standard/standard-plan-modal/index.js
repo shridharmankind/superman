@@ -255,14 +255,16 @@ const StandardPlanModal = ({
 
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
-    const areaData = (areaList || []).map(area => {
-      return {
-        ...area,
-        totalPartiesInArea: getDoctorsByArea(area.id).length,
-      };
-    });
-    return areaData;
-  }, [getDoctorsByArea, areaList]);
+    if (partiesList) {
+      const areaData = (areaList || []).map(area => {
+        return {
+          ...area,
+          totalPartiesInArea: getDoctorsByArea(area.id).length,
+        };
+      });
+      return areaData;
+    }
+  }, [getDoctorsByArea, areaList, partiesList]);
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
@@ -581,7 +583,12 @@ const StandardPlanModal = ({
         await setPatchValue(val);
         await setPatchSelected(val.displayName);
         await setPatchDefaultValue(val.defaultName);
-        setIsPatchedData(def);
+        if (def) {
+          setIsPatchedData(true);
+        } else {
+          setIsPatchedData(false);
+        }
+
         dispatch(
           fetchPartiesByPatchIdCreator({
             patchID: val.id,
