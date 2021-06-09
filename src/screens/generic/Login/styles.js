@@ -27,9 +27,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 750,
-    height: 800,
-    resizeMode: 'cover',
+    width: 810,
+    height: '100%',
     justifyContent: 'flex-start',
   },
 
@@ -43,6 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 60,
   },
 
   supermanTextStyle: {

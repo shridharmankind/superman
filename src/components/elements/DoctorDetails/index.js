@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
@@ -48,6 +48,8 @@ const DoctorDetails = ({
   isKyc,
   ...props
 }) => {
+  const [imageSrc, setImageSrc] = useState({uri: image});
+  const [isImageErrror, setIsImageErrror] = useState(false);
   /**
    *  Renders Visited or non visited frequency CHicklet
    * @param {JSX} Component
@@ -60,6 +62,22 @@ const DoctorDetails = ({
       frequencyComp.push(<React.Fragment key={i}>{Component}</React.Fragment>);
     }
     return frequencyComp;
+  };
+
+  /**
+   *
+   * Handle image error & return default image
+   */
+  const OnErrorHandler = () => {
+    if (!isImageErrror) {
+      const src =
+        Constants.PARTY_TYPE.DOCTOR === partyType
+          ? require('assets/images/avatar.png')
+          : require('assets/images/chemist.png');
+
+      setImageSrc(src);
+      setIsImageErrror(true);
+    }
   };
 
   /**
@@ -146,10 +164,13 @@ const DoctorDetails = ({
               )}
             </View>
           )}
+
           <Image
             style={[styles.image, customStyle && customStyle.imageCustom]}
-            source={require('../../../assets/images/avatar.png')}
+            source={imageSrc}
+            onError={OnErrorHandler()}
           />
+
           <View style={styles.nameContainer}>
             <Label
               title={
@@ -158,6 +179,7 @@ const DoctorDetails = ({
                   : title
               }
               size={customStyle ? customStyle.titleSize : 17}
+              style={styles.name}
               onPress={() => {
                 onTileNamePress && onTileNamePress();
               }}
