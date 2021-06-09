@@ -105,7 +105,7 @@ export const partiesMock = {
       {
         key: 3,
         id: 3,
-        name: 'Manoj Manjhi',
+        name: 'Anmol Yadav',
         specialization: ['Cardiologist'],
         category: 'C',
         location: 'Karol Bagh',

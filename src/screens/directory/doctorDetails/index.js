@@ -291,19 +291,41 @@ const DoctorProfile = ({route}) => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.tabContainer}>
-          <View
-            style={[
-              styles.divisionContainer,
-              {
-                backgroundColor: getDivisionColor(doctorData?.category),
-              },
-            ]}>
-            <Label
-              variant={LabelVariant.h6}
-              textColor={theme.colors.white}
-              style={styles.divisionText}
-              title={doctorData?.category?.toUpperCase()}
-            />
+          <View style={styles.divisionContainer}>
+            {doctorData?.isKyc && (
+              <View
+                style={[
+                  styles.divisionItem,
+                  {
+                    backgroundColor: getDivisionColor(
+                      Constants.DIVISION_COLOR.KYC,
+                    ),
+                  },
+                ]}>
+                <Label
+                  variant={LabelVariant.h6}
+                  textColor={theme.colors.white}
+                  title={Strings.kyc}
+                  type={'bold'}
+                />
+              </View>
+            )}
+            {doctorData?.category && (
+              <View
+                style={[
+                  styles.divisionItem,
+                  {
+                    backgroundColor: getDivisionColor(doctorData?.category),
+                  },
+                ]}>
+                <Label
+                  variant={LabelVariant.h6}
+                  textColor={theme.colors.white}
+                  style={styles.divisionText}
+                  title={doctorData?.category?.toUpperCase()}
+                />
+              </View>
+            )}
           </View>
           <View style={styles.leftTabContainer}>
             <ArrowBack
@@ -357,7 +379,7 @@ const DoctorProfile = ({route}) => {
               <View style={styles.nameContainer}>
                 <Label
                   variant={LabelVariant.subtitleLarge}
-                  title={doctorData?.name}
+                  title={Strings.dr + ' ' + doctorData?.name}
                   style={styles.doctorName}
                 />
                 <View style={styles.location}>
