@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   timelineWrapper: {
     borderColor: '#e8e8e8',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 20,
     backgroundColor: '#fcfcfc',
     paddingVertical: 21,
   },
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderStyle: 'solid',
     width: '87%',
-    borderRadius: 13.3,
+    borderRadius: 10,
     marginHorizontal: 27,
   },
   timelineItemAccordion: {
