@@ -117,7 +117,7 @@ const DailyTourPlan = () => {
         );
       });
 
-      const chemistCount = dayPlanData.filter(plan => {
+      const chemistCount = dayPlanData?.filter(plan => {
         return (
           (plan.partyTypes?.name || '').toLowerCase() ===
           Constants.PARTY_TYPE.CHEMIST.toLowerCase()
