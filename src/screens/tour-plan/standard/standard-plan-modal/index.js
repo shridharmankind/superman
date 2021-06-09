@@ -123,10 +123,7 @@ const StandardPlanModal = ({
     await setPatchDefaultValue(null);
     await setPatchValue(null);
     await setDataChanged(false);
-    // await dispatch(standardPlanActions.resetPartiesByPatchID());
     await dispatch(standardPlanActions.resetState());
-    // await dispatch(standardPlanActions.resetSavePatch());
-    // await dispatch(standardPlanActions.resetPatches());
     return true;
   }, [dispatch]);
 
@@ -690,6 +687,10 @@ const StandardPlanModal = ({
     navigation.pop();
   };
 
+  /**
+   * function to check if patch is of same day
+   * @param {Object} patch selected patch data is passed as an object
+   */
   const isSameDayPatch = useCallback(
     patch => {
       return (
@@ -700,18 +701,6 @@ const StandardPlanModal = ({
     },
     [weekNum, weekDay, year],
   );
-
-  // const getPatchesDropdownData = useCallback(() => {
-  //   let patchData = [];
-  //   patches &&
-  //     patches.map(patch =>
-  //       patchData.push({
-  //         value: patch.displayName,
-  //         ...patch,
-  //       }),
-  //     );
-  //   return patchData;
-  // }, [patches]);
 
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
@@ -954,10 +943,6 @@ const {height} = Dimensions.get('window');
 const isAreaSelected = (area, areaList) => {
   return areaList?.filter(val => val.id === area).length > 0;
 };
-
-// const isSameDayPatch = (patch, week, day, year) => {
-//   return week === patch?.week && day === patch?.weekDay && year === patch?.year;
-// };
 
 StandardPlanModal.defaultProps = {
   handleSliderIndex: () => {},
