@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: themes.colors.grey[200],
     height: '100%',
-    zIndex: 1,
-    elevation: 1,
   },
 });
 
