@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderStyle: 'solid',
     width: '87%',
-    borderRadius: 13.3,
+    borderRadius: 10,
     marginHorizontal: 27,
   },
   timelineItemAccordion: {
@@ -75,12 +75,19 @@ const styles = StyleSheet.create({
   },
   itemDetailsTitle: {
     fontSize: 12.7,
-    lineHeight: 13.3,
+    lineHeight: 14,
     color: '#3b3850',
     fontFamily: themes.fonts.fontSemiBold,
   },
+  timelineItemIcon: {
+    marginLeft: 18,
+  },
   itemDetailsSection: {
     marginBottom: 10,
+  },
+  itemDetailsContainer: {
+    marginLeft: -47,
+    paddingTop: 13,
   },
 });
 

@@ -6,6 +6,7 @@ import {View} from 'react-native';
 import styles from './styles';
 import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 import {List} from 'react-native-paper';
+import {DoctorVisit, MissedVisit} from 'assets';
 
 const isCompleted = item => {
   const today = startOf(new Date());
@@ -45,7 +46,7 @@ const getMonthStyle = item => {
 function renderItemDetails(item) {
   if (item.isMissed) {
     return (
-      <View style={[styles.itemDetailsSection]}>
+      <View style={[styles.itemDetailsSection, styles.itemDetailsContainer]}>
         <Label
           variant={LabelVariant.bodySmall}
           title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -54,7 +55,7 @@ function renderItemDetails(item) {
     );
   } else if (isCompleted(item)) {
     return (
-      <View>
+      <View style={[styles.itemDetailsContainer]}>
         <View style={[styles.itemDetailsSection]}>
           <Label style={[styles.itemDetailsTitle]} title="Samples Given" />
           <Label
@@ -94,7 +95,7 @@ function renderItemDetails(item) {
     );
   } else {
     return (
-      <View style={[styles.itemDetailsSection]}>
+      <View style={[styles.itemDetailsSection, styles.itemDetailsContainer]}>
         <Label
           variant={LabelVariant.bodySmall}
           title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -111,7 +112,24 @@ function renderItem(item, index) {
         title={item.title}
         titleStyle={[styles.timelineItemTitle]}
         style={[styles.timelineItemAccordion]}
-        left={props => <List.Icon {...props} icon="folder" />}>
+        left={props => {
+          if (item.isMissed) {
+            return (
+              <DoctorVisit
+                style={[styles.timelineItemIcon]}
+                height={20}
+                width={20}
+              />
+            );
+          }
+          return (
+            <DoctorVisit
+              style={[styles.timelineItemIcon]}
+              height={20}
+              width={20}
+            />
+          );
+        }}>
         {renderItemDetails(item)}
       </List.Accordion>
     </View>
