@@ -70,7 +70,7 @@ const StandardPlanModal = ({
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
-  const weekNum = parseInt(week.split(' ')[1], 3);
+  const weekNum = Number(week.split(' ')[1]);
   const staffPositionId = 1;
   /**
    * callback function to return direction left/right of day swiper
@@ -78,14 +78,20 @@ const StandardPlanModal = ({
    */
   const handleIndex = useCallback(
     async direction => {
-      if (patchSelected && dataChanged) {
+      if (patchSelected && dataChanged && !savePatchRes) {
         setSwipeDirection(direction);
         handleDonePress();
       } else {
-        resetandChangePage(direction);
+        resetandChangePage(direction, dataChanged);
       }
     },
-    [handleDonePress, patchSelected, dataChanged, resetandChangePage],
+    [
+      handleDonePress,
+      patchSelected,
+      dataChanged,
+      resetandChangePage,
+      savePatchRes,
+    ],
   );
 
   /**
@@ -93,12 +99,14 @@ const StandardPlanModal = ({
    * @param {String} direction
    */
   const resetandChangePage = useCallback(
-    async direction => {
+    async (direction, changed) => {
       const reset = await resetState();
-      if (reset) {
+      if (reset && changed) {
         setTimeout(() => {
           handleSliderIndex(direction);
-        }, 1000);
+        }, 300);
+      } else {
+        handleSliderIndex(direction);
       }
     },
     [handleSliderIndex, resetState],
@@ -115,9 +123,7 @@ const StandardPlanModal = ({
     await setPatchDefaultValue(null);
     await setPatchValue(null);
     await setDataChanged(false);
-    await dispatch(standardPlanActions.resetPartiesByPatchID());
-    await dispatch(standardPlanActions.resetSavePatch());
-    await dispatch(standardPlanActions.resetPatches());
+    await dispatch(standardPlanActions.resetState());
     return true;
   }, [dispatch]);
 
@@ -132,18 +138,18 @@ const StandardPlanModal = ({
         staffPositionId,
       }),
     );
-    dispatch(
-      fetchAreasCreator({
-        staffPositionId,
-      }),
-    );
+
     dispatch(
       fetchPatchesCreator({
         staffPositionId,
       }),
     );
   }, [dispatch]);
-
+  dispatch(
+    fetchAreasCreator({
+      staffPositionId,
+    }),
+  );
   useEffect(() => {
     setPartiesList(allParties);
     filterPartyByType(allParties);
@@ -160,15 +166,19 @@ const StandardPlanModal = ({
   useEffect(() => {
     let ptch = null;
     allPatches?.map(patch => {
-      if (isSameDayPatch(patch, weekNum, weekDay, year)) {
+      if (isSameDayPatch(patch)) {
         ptch = {...patch, value: patch.displayName};
       }
     });
     if (ptch) {
-      setIsPatchedData(false);
-      handleDropDownValue(ptch, true);
+      if (!isSameDayPatch(ptch)) {
+        setDataChanged(true);
+      }
+      setIsPatchedData(true);
+
+      handleDropDownValue(ptch);
     }
-  }, [allPatches, handleDropDownValue, weekNum, weekDay, year]);
+  }, [allPatches, handleDropDownValue, isSameDayPatch]);
 
   useEffect(() => {
     if (savePatchRes) {
@@ -185,7 +195,7 @@ const StandardPlanModal = ({
       setDoctorSelected(allPartiesByPatchID);
       getSelectedArea(allPartiesByPatchID);
     }
-  }, [getSelectedArea, allPartiesByPatchID, patchValue]);
+  }, [getSelectedArea, allPartiesByPatchID]);
 
   /** function to set area selected on chip click and update areaSelected state*/
   const getSelectedArea = useCallback(
@@ -242,15 +252,16 @@ const StandardPlanModal = ({
 
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
-    const areaData = (areaList || []).map(area => {
-      return {
-        name: area.name,
-        id: area.id,
-        totalPartiesInArea: getDoctorsByArea(area.id).length,
-      };
-    });
-    return areaData;
-  }, [getDoctorsByArea, areaList]);
+    if (partiesList) {
+      const areaData = (areaList || []).map(area => {
+        return {
+          ...area,
+          totalPartiesInArea: getDoctorsByArea(area.id).length,
+        };
+      });
+      return areaData;
+    }
+  }, [getDoctorsByArea, areaList, partiesList]);
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
@@ -287,7 +298,9 @@ const StandardPlanModal = ({
       .map(patch => patch.name)
       .join(' + ');
     const patchCount = (patches || []).filter(
-      p => p.displayName === patchString || p.defaultName === patchString,
+      p =>
+        p.displayName === patchString ||
+        p.defaultName.split(' (')[0] === patchString,
     );
     if (patchCount) {
       patchString = patchString
@@ -299,7 +312,7 @@ const StandardPlanModal = ({
   }, [areaSelected, doctorsSelected, partiesList, patches]);
 
   useEffect(() => {
-    if (!isPatchedData) {
+    if (!isPatchedData && dataChanged) {
       const string = createPatchString();
       if (!patchEdited) {
         setPatchSelected(string);
@@ -313,6 +326,8 @@ const StandardPlanModal = ({
     partiesList,
     createPatchString,
     patchEdited,
+    patchValue,
+    dataChanged,
   ]);
 
   /** function to filter parties by area selected from area chiklets
@@ -332,15 +347,21 @@ const StandardPlanModal = ({
           return party;
         }
       });
-      return partiesData;
+      let newPartiesData = partiesData;
+      if (!isSameDayPatch(patchValue)) {
+        newPartiesData = partiesData?.filter(
+          par => par.frequency !== par.alreadyVisited,
+        );
+      }
+      return newPartiesData;
     },
-    [partiesList, selectedDoctorType],
+    [partiesList, selectedDoctorType, isSameDayPatch, patchValue],
   );
 
   /** function to validate the response from endpoint in case of save and updating the patch */
   const validateSaveResponse = useCallback(
     async (obj, id) => {
-      if (savePatchRes && dataChanged) {
+      if (savePatchRes && patchSelected) {
         if (savePatchRes?.status === Constants.HTTP_OK) {
           showToast({
             type: Constants.TOAST_TYPES.SUCCESS,
@@ -351,9 +372,12 @@ const StandardPlanModal = ({
               },
               onClose: () => hideToast(),
               heading: Strings.success,
-              subHeading: Strings.patchSaved,
+              subHeading: swiperDirection
+                ? Strings.patchSaveForPrevDay
+                : Strings.patchSaved,
             },
           });
+          dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
           }
@@ -370,6 +394,11 @@ const StandardPlanModal = ({
             Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY
           ) {
             showOverrideNotification(obj, id);
+          } else if (
+            savePatchRes?.data?.details[0]?.code ===
+            Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED
+          ) {
+            showOverrideNotification(obj, id);
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
@@ -384,8 +413,9 @@ const StandardPlanModal = ({
       savePatchRes,
       showOverrideNotification,
       swiperDirection,
-      dataChanged,
       resetandChangePage,
+      patchSelected,
+      dispatch,
     ],
   );
 
@@ -399,16 +429,21 @@ const StandardPlanModal = ({
       weekDay,
       year: year,
     };
-
+    setPatchError(null);
     setPatchRequest(obj);
-    const isPatchOfSameDay = isSameDayPatch(patchValue, weekNum, weekDay, year);
+    const isPatchOfSameDay = isSameDayPatch(patchValue);
 
     if (!patchValue) {
       savePatch(obj);
-    } else if (patchValue && isPatchOfSameDay) {
+    } else if (
+      (patchValue && isPatchOfSameDay) ||
+      (patchValue && !dataChanged)
+    ) {
       updatePatch(obj, patchValue.id, false);
     } else if (patchValue && !isPatchOfSameDay) {
       savePatch(obj);
+    } else if (patchValue && isPatchOfSameDay) {
+      updatePatch(obj, patchValue.id, false);
     }
   }, [
     patchDefaultValue,
@@ -420,6 +455,8 @@ const StandardPlanModal = ({
     weekNum,
     year,
     doctorsSelected,
+    isSameDayPatch,
+    dataChanged,
   ]);
 
   /** function to show notification in case of updating the patch
@@ -510,10 +547,10 @@ const StandardPlanModal = ({
     } else {
       setDoctorSelected([...doctorsSelected, id]);
     }
-    if (!isSameDayPatch(patchValue, weekNum, weekDay, year)) {
+    if (!isSameDayPatch(patchValue)) {
       setIsPatchedData(false);
+      setDataChanged(true);
     }
-    setDataChanged(true);
   };
 
   /** function to handle area left swipe*/
@@ -546,13 +583,14 @@ const StandardPlanModal = ({
     async (val, def) => {
       if (val) {
         await setPatchValue(val);
-        await setPatchSelected(val.value);
+        await setPatchSelected(val.displayName);
         await setPatchDefaultValue(val.defaultName);
         if (def) {
-          setIsPatchedData(false);
-        } else {
           setIsPatchedData(true);
+        } else {
+          setIsPatchedData(false);
         }
+
         dispatch(
           fetchPartiesByPatchIdCreator({
             patchID: val.id,
@@ -615,7 +653,7 @@ const StandardPlanModal = ({
         );
       }
       return `${
-        obj.doctors.length > 0 || obj.chemist > 0
+        obj.doctors > 0 || obj.chemist > 0
           ? ` - ${obj.doctors + obj.chemist} `
           : ''
       }${
@@ -648,6 +686,21 @@ const StandardPlanModal = ({
     resetState();
     navigation.pop();
   };
+
+  /**
+   * function to check if patch is of same day
+   * @param {Object} patch selected patch data is passed as an object
+   */
+  const isSameDayPatch = useCallback(
+    patch => {
+      return (
+        weekNum === patch?.week &&
+        weekDay === patch?.weekDay &&
+        year === patch?.year
+      );
+    },
+    [weekNum, weekDay, year],
+  );
 
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
@@ -717,7 +770,7 @@ const StandardPlanModal = ({
             <View style={styles.areaFilterContainer}>
               <Dropdown
                 valueSelected={val => handleDropDownValue(val, false)}
-                data={getPatchesDropdownData(patches)}
+                data={allPatches}
                 defaultLabel={Strings.selectPatch}
                 isPatchedData={isPatchedData}
               />
@@ -795,7 +848,7 @@ const StandardPlanModal = ({
                       value={type}
                       bgColor={themes.colors.white}
                       color={'#524F67'}
-                      onPress={handlePartyByType}
+                      onPress={val => handlePartyByType(val)}
                       testID={`btn_stp_party_type_${type}_test`}
                       textStyle={styles.areaType}
                     />
@@ -836,8 +889,10 @@ const StandardPlanModal = ({
                           testID={`card_standard_plan_doctor_${party.id}_test`}
                           party={party}
                           isPatchedData={isPatchedData}
-                          onPress={handleDoctorCardPress}
-                          containerStyle={index % 2 === 0 ? styles.left : {}}
+                          onPress={id => handleDoctorCardPress(id)}
+                          containerStyle={
+                            index % 2 === 0 ? styles.left : styles.right
+                          }
                         />
                       ))}
                       {getDoctorsByArea(area.id).length === 0 && (
@@ -887,22 +942,6 @@ const {height} = Dimensions.get('window');
 
 const isAreaSelected = (area, areaList) => {
   return areaList?.filter(val => val.id === area).length > 0;
-};
-
-const isSameDayPatch = (patch, week, day, year) => {
-  return week === patch?.week && day === patch?.weekDay && year === patch?.year;
-};
-
-const getPatchesDropdownData = patches => {
-  let patchData = [];
-  patches &&
-    patches.map(patch =>
-      patchData.push({
-        value: patch.displayName,
-        ...patch,
-      }),
-    );
-  return patchData;
 };
 
 StandardPlanModal.defaultProps = {

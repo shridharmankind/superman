@@ -39,7 +39,7 @@ const DoctorDetailsWrapper = ({
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
 
-  const isDisabled = isPatchedData && frequency === alreadyVisited;
+  const isDisabled = frequency === alreadyVisited;
 
   /**
    *  Select and deselect the card ,also
@@ -52,10 +52,6 @@ const DoctorDetailsWrapper = ({
     }
     onPress(id);
   };
-
-  if (!isPatchedData && frequency === alreadyVisited) {
-    return null;
-  }
 
   return (
     <TouchableOpacity

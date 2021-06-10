@@ -25,7 +25,7 @@ export const get = async (url, params = {}) => {
     params,
   };
 
-  return client(config)
+  return await client(config)
     .then(function (response) {
       // handle success
       return response;
@@ -55,7 +55,7 @@ export const post = async (url, data = {}, params = {}) => {
     params,
   };
 
-  return client(config)
+  return await client(config)
     .then(function (response) {
       // handle success
       return response;
@@ -86,7 +86,7 @@ export const put = async (url, data = {}, params = {}) => {
     params,
   };
 
-  return client(config)
+  return await client(config)
     .then(function (response) {
       // handle success
       return response;

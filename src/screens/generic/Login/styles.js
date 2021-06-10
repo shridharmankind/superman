@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 40,
   },
+  loginButtonContainerWeb: {
+    bottom: 40,
+  },
 });
 
 export default styles;
