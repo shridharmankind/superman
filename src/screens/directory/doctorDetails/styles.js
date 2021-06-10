@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   tabBarContainer: {
     flexDirection: 'row',
-    width: '100%',
+    width: '15%',
     justifyContent: 'space-between',
     fontSize: 10,
   },
