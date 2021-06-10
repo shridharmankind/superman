@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 7,
     paddingVertical: themes.spacing(4),
     width: 37.3,
+    height: 21.3,
   },
   labelContent: {
     textAlign: 'center',
