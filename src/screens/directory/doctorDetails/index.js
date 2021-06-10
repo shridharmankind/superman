@@ -271,7 +271,11 @@ const DoctorProfile = ({route}) => {
       case 0:
         return firstTab();
       default:
-        return '';
+        return (
+          <View>
+            <Label title={'comin Soon'} />
+          </View>
+        );
     }
   };
 
