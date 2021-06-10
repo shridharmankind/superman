@@ -304,7 +304,7 @@ const MonthlyTourPlan = ({navigation}) => {
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
         customModalPosition={
-          optionsToIterate.length < 7
+          optionsToIterate?.length < 7
             ? [styles.modalPosition, styles.modalHeightHalf]
             : styles.modalPosition
         }
