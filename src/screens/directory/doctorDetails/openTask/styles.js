@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   taskTitle: {
     fontSize: 14,
     color: themes.colors.grey[200],
-    fontFamily: themes.fonts.fontMedium,
+    fontFamily: themes.fonts.fontSemiBold,
   },
   taskContainer: {
     paddingVertical: themes.spacing(13.3),

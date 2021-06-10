@@ -185,6 +185,18 @@ const DocTimeline = () => {
       isMissed: false,
       title: 'Visit for Amlokind AT and Neurokind',
     },
+    {
+      id: 4,
+      date: '2021-05-21T05:00:00',
+      isMissed: true,
+      title: 'Missed call',
+    },
+    {
+      id: 4,
+      date: '2021-05-18T05:00:00',
+      isMissed: false,
+      title: 'Visit for Amlokind AT',
+    },
   ];
 
   return (
