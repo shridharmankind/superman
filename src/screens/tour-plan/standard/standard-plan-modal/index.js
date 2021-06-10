@@ -257,11 +257,18 @@ const StandardPlanModal = ({
         return {
           ...area,
           totalPartiesInArea: getDoctorsByArea(area.id).length,
+          totalUniqueParty: doctorsSelected && getSelectedPartyByArea(area.id),
         };
       });
       return areaData;
     }
-  }, [getDoctorsByArea, areaList, partiesList]);
+  }, [
+    getDoctorsByArea,
+    areaList,
+    partiesList,
+    getSelectedPartyByArea,
+    doctorsSelected,
+  ]);
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
@@ -604,15 +611,18 @@ const StandardPlanModal = ({
   /** function to filter parties by area selected
    * @param {Number} id area id passed from party object
    */
-  const getSelectedPartyByArea = id => {
-    let count = 0;
-    getDoctorsByArea(id).map(party => {
-      if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
-        count = count + 1;
-      }
-    });
-    return count;
-  };
+  const getSelectedPartyByArea = useCallback(
+    id => {
+      let count = 0;
+      getDoctorsByArea(id).map(party => {
+        if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
+          count = count + 1;
+        }
+      });
+      return count;
+    },
+    [doctorsSelected, getDoctorsByArea],
+  );
 
   /**
    *  Handle singular & plural
@@ -807,6 +817,7 @@ const StandardPlanModal = ({
                         selectedTextColor={themes.colors.primary}
                         style={styles.areaChip}
                         onPress={handleAreaSelected}
+                        selectedPartyCount={area.totalUniqueParty}
                       />
                     );
                   })}
