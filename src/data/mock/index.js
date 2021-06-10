@@ -3,6 +3,7 @@ import userMock from './api/doctors.json';
 import stpMock from './api/standardTourPlan.json';
 import patchesMock from './api/patches.json';
 import areaList from './api/areaList.json';
+import taskList from './api/tasks.json';
 import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
 import userInfo from './api/userInfo.json';
@@ -53,6 +54,9 @@ const getMock = axios => {
   mock.onPost(`${API_PATH.PATCH}/1`).reply(200, patchesMock.savePatch.response);
   mock.onPut(`${API_PATH.PATCH}/1`).reply(200, patchesMock.savePatch.response);
   mock.onGet(`${API_PATH.AREA_BY_SPID}/1`).reply(200, areaList);
+  mock
+    .onGet('taskinfo/opentask?StaffPositionId=1&PartyId=1&Skip=0&Limit=4')
+    .reply(200, taskList);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet('Party/partyBySpId/1').reply(200, party);
