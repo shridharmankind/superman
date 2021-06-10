@@ -12,6 +12,9 @@ export default StyleSheet.create({
     width: 902.7,
     backgroundColor: theme.colors.white,
     borderRadius: 26.7,
+    margin: 1,
+    marginTop: 0,
+    elevation: 1,
   },
   contentContainer: {
     padding: 26.7,

@@ -68,3 +68,6 @@ coverage/
 env.json
 
 *.hprof
+node_modules_**
+src_**
+index.android.bundle

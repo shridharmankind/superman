@@ -1,164 +1,363 @@
 [
   {
-    "id": 1,
-    "name": "Dr. Harish",
-    "speciality": ["Cardiologist"],
-    "frequency": 3,
-    "alreadyVisited": 1,
-    "partyType": "Doctor",
-    "category": null,
-    "potential": 20000.0,
-    "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Noida Sec-1",
-        "shortName": "Noida Sec-1"
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "name": "Dr. Brijesh",
-    "speciality": ["Cardiologist"],
-    "frequency": 3,
-    "alreadyVisited": 2,
-    "partyType": "Doctor",
-    "category": "A+",
-    "potential": 1000000.0,
-    "isKyc": false,
-    "areas": [
-      {
-        "id": 2,
-        "name": "Noida Sec-2",
-        "shortName": "Noida Sec-2"
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "name": "Dr. Mahesh",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 0,
-    "partyType": "Chemist",
-    "category": null,
-    "potential": 0.0,
-    "isKyc": true,
-    "areas": [
-      {
-        "id": 1,
-        "name": "Noida Sec-1",
-        "shortName": "Noida Sec-1"
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "name": "Dr. Milan",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 2,
-    "partyType": "Chemist",
-    "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
-    "areas": [
-      {
-        "id": 2,
-        "name": "Noida Sec-2",
-        "shortName": "Noida Sec-2"
-      }
-    ]
-  },
-  {
-    "id": 5,
-    "name": "Dr. Rahul",
-    "speciality": [],
-    "frequency": 2,
-    "alreadyVisited": 2,
-    "partyType": "Chemist",
-    "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
-    "areas": [
-      {
-        "id": 3,
-        "name": "Noida Sec-3",
-        "shortName": "Noida Sec-3"
-      }
-    ]
-  },
-  {
-    "id": 6,
-    "name": "Dr. Amit",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 1,
-    "partyType": "Chemist",
-    "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
-    "areas": [
-      {
-        "id": 5,
-        "name": "Noida Sec-5",
-        "shortName": "Noida Sec-5"
-      }
-    ]
-  },
-  {
     "id": 7,
-    "name": "Dr. Vishwas",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 1,
-    "partyType": "Chemist",
-    "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
-    "areas": [
-      {
-        "id": 5,
-        "name": "Noida Sec-5",
-        "shortName": "Noida Sec-5"
-      }
-    ]
-  },
-  {
-    "id": 8,
-    "name": "Dr. Tanmay",
-    "speciality": ["Neurologist"],
-    "frequency": 2,
-    "alreadyVisited": 1,
-    "partyType": "Doctor",
-    "category": "A+",
-    "potential": 0.0,
-    "isKyc": false,
-    "areas": [
+    "name": "BHOLA DUTT TIWARI",
+    "specialities": [
       {
         "id": 4,
-        "name": "Noida Sec-4",
-        "shortName": "Noida Sec-4"
+        "name": "GYNAECOLOGIST",
+        "shortName": ""
       }
-    ]
+    ],
+    "qualifications": [],
+    "frequency": 5,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
+    },
+    "category": "C+",
+    "potential": 50001,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Noida Sector 1",
+        "shortName": "Sec 1"
+      },
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      },
+      {
+        "id": 10,
+        "name": "Noida Sector 9",
+        "shortName": "sec9"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 1
   },
   {
     "id": 9,
-    "name": "Dr. Kuldeep",
-    "speciality": ["Cardiologist"],
-    "frequency": 2,
-    "alreadyVisited": 2,
-    "partyType": "Doctor",
-    "category": "A+",
-    "potential": 0.0,
+    "name": "SATYANDRA SAINI",
+    "specialities": [],
+    "qualifications": [
+      {
+        "id": 2,
+        "name": "MD",
+        "shortName": "Ortho"
+      }
+    ],
+    "frequency": 1,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
+    },
+    "category": "D+",
+    "potential": 30001,
     "isKyc": false,
     "areas": [
       {
-        "id": 4,
-        "name": "Noida Sec-4",
-        "shortName": "Noida Sec-4"
+        "id": 12,
+        "name": "Noida Sector 11",
+        "shortName": "sec11"
       }
-    ]
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 1
+  },
+  {
+    "id": 11,
+    "name": "MR. ANAND SINGH SAINI",
+    "specialities": [
+      {
+        "id": 2,
+        "name": "Orthopaedic",
+        "shortName": "Ortho"
+      }
+    ],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
+    },
+    "category": "D",
+    "potential": 30000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 1
+  },
+  {
+    "id": 14,
+    "name": "MR. MR. ANURAG GARG",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
+    },
+    "category": "A+",
+    "potential": 9000001,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 12,
+        "name": "Noida Sector 11",
+        "shortName": "sec11"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 1
+  },
+  {
+    "id": 15,
+    "name": "MR. MR. DEVENDRA SINGH",
+    "specialities": [
+      {
+        "id": 3,
+        "name": "OPTHALMOLOGIST",
+        "shortName": ""
+      }
+    ],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
+        "id": 1,
+        "name": "Doctor",
+        "shortName": "Doctor"
+      }
+    },
+    "category": "D+",
+    "potential": 40000,
+    "isKyc": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Noida Sector 1",
+        "shortName": "Sec 1"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 1
+  },
+  {
+    "id": 16,
+    "name": "SIR. VIPUL MEDICAL STORE",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 3,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
+    },
+    "category": "D+",
+    "potential": 50000,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      },
+      {
+        "id": 8,
+        "name": "Noida Sector 7",
+        "shortName": "sec7"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 2
+  },
+  {
+    "id": 19,
+    "name": "RAVI PHARMA",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
+    },
+    "category": "A",
+    "potential": 4000000,
+    "isKyc": true,
+    "areas": [
+      {
+        "id": 12,
+        "name": "Noida Sector 11",
+        "shortName": "sec11"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 2
+  },
+  {
+    "id": 2645,
+    "name": "MR. VICKY KUMAR",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
+    },
+    "category": "",
+    "potential": 600000,
+    "isKyc": false,
+    "areas": [],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 2
+  },
+  {
+    "id": 2647,
+    "name": "MR. SUMIT KUMAR",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
+    },
+    "category": "",
+    "potential": 600000,
+    "isKyc": false,
+    "areas": [],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 2
+  },
+  {
+    "id": 2648,
+    "name": "MR. KUMAR",
+    "specialities": [],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 0,
+    "partyTypes": {
+      "id": 2,
+      "name": "Chemist",
+      "shortName": "Che",
+      "partyTypeGroup": {
+        "id": 2,
+        "name": "Chemist",
+        "shortName": "Chemist"
+      }
+    },
+    "category": "",
+    "potential": 600000,
+    "isKyc": false,
+    "areas": [],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "partyTypeId": 2
   }
 ]

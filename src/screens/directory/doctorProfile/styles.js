@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: theme.colors.grayishBlue,
     paddingTop: theme.spacing(26.7),
-    paddingRight: theme.spacing(26.7),
-    paddingLeft: theme.spacing(26.7),
+    paddingHorizontal: theme.spacing(26.7),
     borderRadius: 26.7,
   },
   tabMainContainer: {
@@ -14,7 +13,10 @@ const styles = StyleSheet.create({
   },
   productMainContainer: {
     flexDirection: 'column',
-    width: '65%',
+    width: '63%',
+  },
+  cardMainContainer: {
+    flexDirection: 'row',
   },
   headerProduct: {
     flexDirection: 'row',
@@ -23,29 +25,27 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: theme.colors.grey[400],
     borderWidth: 1,
-    width: '50%',
+    width: '47%',
     padding: theme.spacing(8.7),
+    marginRight: theme.spacing(13.7),
     borderRadius: 9.3,
   },
   openMainTask: {
-    flexDirection: 'column',
-    width: '35%',
-    borderLeftWidth: 0.5,
+    width: '37%',
   },
   tabContainer: {
     flexDirection: 'row',
-    paddingBottom: theme.spacing(20),
+    paddingBottom: theme.spacing(30),
   },
   leftTabContainer: {
-    width: '58%',
     flexDirection: 'row',
   },
   dispinsingContainer: {
-    width: '28%',
     flexDirection: 'row',
   },
   rightTabContainer: {
-    justifyContent: 'flex-end',
+    position: 'absolute',
+    right: 0,
   },
   buttonTabBar: {
     width: 135,
@@ -55,9 +55,15 @@ const styles = StyleSheet.create({
   buttonTabBarText: {
     fontSize: 12,
   },
+  buttonMoreText: {
+    width: 135,
+    marginHorizontal: theme.spacing(8),
+    height: 42,
+    backgroundColor: theme.colors.grayishBlue,
+  },
   MainDoctorDetail: {
     flexDirection: 'row',
-    marginBottom: theme.spacing(39.7),
+    marginBottom: theme.spacing(30),
   },
   doctorDetail: {
     flexGrow: 1,
@@ -84,7 +90,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     backgroundColor: theme.colors.grey[1000],
     borderRadius: 50,
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
     borderWidth: 0.3,
     borderStyle: 'solid',
     textAlign: 'center',
@@ -108,17 +114,21 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
   divisionContainer: {
-    borderTopLeftRadius: 15,
-    borderBottomRightRadius: 10,
-    backgroundColor: theme.colors.orange[100],
-    paddingHorizontal: 10,
-    paddingVertical: 5,
     position: 'absolute',
     top: -30,
     left: -28,
     minWidth: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  divisionItem: {
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    backgroundColor: theme.colors.orange[100],
+    paddingHorizontal: theme.spacing(10),
+    paddingVertical: theme.spacing(4),
+    marginRight: theme.spacing(5),
   },
   divisionText: {
     color: theme.colors.white,
@@ -127,15 +137,25 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexGrow: 1,
     borderStartWidth: 0.4,
-    paddingLeft: theme.spacing(10),
-    paddingRight: theme.spacing(10),
+    borderStartColor: theme.colors.grey[100],
+    paddingLeft: theme.spacing(21.3),
   },
   dateClass: {
     fontStyle: 'normal',
+    paddingLeft: theme.spacing(12),
+    paddingTop: theme.spacing(3),
   },
   birthdayClass: {
     flexDirection: 'row',
     textAlign: 'center',
+    paddingBottom: theme.spacing(4),
+  },
+  birthdayBorder: {
+    borderRadius: 50,
+    borderColor: theme.colors.grey[100],
+    backgroundColor: theme.colors.white,
+    borderWidth: 0.5,
+    marginTop: theme.spacing(2),
   },
   location: {
     flexDirection: 'row',
@@ -146,12 +166,17 @@ const styles = StyleSheet.create({
   },
   engment: {
     flexDirection: 'column',
-    flexGrow: 2,
+    flexGrow: 6,
     borderStartWidth: 0.4,
+    borderStartColor: theme.colors.grey[100],
     paddingLeft: theme.spacing(10),
   },
   engmentContainer: {
     flexDirection: 'row',
+  },
+  engClass: {
+    fontStyle: 'normal',
+    paddingLeft: theme.spacing(12),
   },
   cardHeader: {
     flexDirection: 'row',
@@ -165,10 +190,7 @@ const styles = StyleSheet.create({
   },
   labelSubTitle: {
     fontStyle: 'normal',
-    backgroundColor: theme.colors.grey[1000],
-    borderRadius: 50,
-    borderWidth: 0.3,
-    borderStyle: 'solid',
+    paddingTop: theme.spacing(5),
     textAlign: 'center',
   },
   labelSubHeader: {
@@ -180,11 +202,18 @@ const styles = StyleSheet.create({
     color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
   },
+  progressLightText: {
+    fontSize: 20,
+    fontStyle: 'normal',
+    color: theme.colors.grey[200],
+    fontFamily: theme.fonts.fontRegular,
+  },
   arrowUp: {
     marginTop: theme.spacing(10),
   },
   percentageText: {
     marginTop: theme.spacing(8),
+    marginLeft: theme.spacing(-2),
     fontSize: 14,
     fontStyle: 'normal',
     color: theme.colors.green[200],
@@ -193,6 +222,10 @@ const styles = StyleSheet.create({
   cardHeaderRightTitle: {
     flexDirection: 'column',
     width: '10%',
+    backgroundColor: theme.colors.grey[1000],
+    borderRadius: 50,
+    borderWidth: 0.3,
+    borderStyle: 'solid',
   },
   cardDetail: {
     flexDirection: 'row',

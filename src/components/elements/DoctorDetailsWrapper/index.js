@@ -14,6 +14,10 @@ import {DoctorDetails} from 'components/elements';
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
  * @param {Function} onPress doctor card click handled
+ * @param {Object} containerStyle contains styles for the main View
+ * @param {Boolean} isKyc boolean value passed for KYC status
+ * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
+ * @param {Object} party party information is passed as an object
  */
 
 const DoctorDetailsWrapper = ({
@@ -28,12 +32,14 @@ const DoctorDetailsWrapper = ({
   onPress,
   party,
   isPatchedData,
+  isKyc,
+  containerStyle,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
 
-  const isDisabled = isPatchedData && frequency === alreadyVisited;
+  const isDisabled = frequency === alreadyVisited;
 
   /**
    *  Select and deselect the card ,also
@@ -47,15 +53,11 @@ const DoctorDetailsWrapper = ({
     onPress(id);
   };
 
-  if (!isPatchedData && frequency === alreadyVisited) {
-    return null;
-  }
-
   return (
     <TouchableOpacity
       testID={testID}
       onPress={() => handleDoctorSelection(party)}
-      style={[styles.container, isDisabled && styles.disabled]}
+      style={[styles.container, containerStyle, isDisabled && styles.disabled]}
       disabled={isDisabled}
       activeOpacity={1}>
       <DoctorDetails
@@ -67,6 +69,8 @@ const DoctorDetailsWrapper = ({
         isTicked={selected || false}
         selectedVistedFrequency={selected ? alreadyVisited + 1 : alreadyVisited}
         frequency={frequency}
+        partyType={party.partyTypes.name}
+        isKyc={isKyc}
         {...props}
       />
     </TouchableOpacity>

@@ -10,7 +10,7 @@ function birthday(props) {
       height="1em"
       viewBox="0 0 24 24"
       {...props}>
-      <Defs></Defs>
+      <Defs />
       <Path id="prefix__Path" fill="none" d="M0 0h24v24H0z" />
       <G id="prefix__Cupcake" transform="translate(-1727.313 -52.424)">
         <Path

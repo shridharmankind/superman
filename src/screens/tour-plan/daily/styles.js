@@ -33,8 +33,7 @@ const styles = StyleSheet.create({
   divisionContainer: {
     paddingVertical: theme.spacing(5),
     paddingHorizontal: theme.spacing(10),
-    top: theme.spacing(-21),
-    left: theme.spacing(-34),
+    left: -43,
   },
   image: {
     width: 64,
@@ -109,6 +108,8 @@ const styles = StyleSheet.create({
   modalContent: {
     alignItems: 'center',
     justifyContent: 'center',
+    width: 300,
+    height: 200,
   },
   rowFront: {
     backgroundColor: theme.colors.white,
@@ -139,6 +140,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     paddingHorizontal: theme.spacing(15),
     right: 0,
+  },
+  toastBtnContainer: {
+    flex: 0,
+    justifyContent: 'flex-start',
+  },
+  customModalCenteredView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalButton: {
+    width: 100,
   },
 });
 

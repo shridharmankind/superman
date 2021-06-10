@@ -11,7 +11,9 @@ import {Constants} from 'common';
  */
 
 const StandardPlan = ({navigation, route}) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(
+    route.params.workingDays.indexOf(route.params.row),
+  );
   const totalIndex = route.params.workingDays.length - 1;
   const [showLeftSwiper, setShowLeftSwiper] = useState(true);
   const [showRightSwiper, setShowRightSwiper] = useState(true);
@@ -42,9 +44,9 @@ const StandardPlan = ({navigation, route}) => {
   const visitedDayIndex = useCallback(
     i => {
       const day = route.params.workingDays[i];
-      const index = visitedDays.some(day => day === i);
+      const index = visitedDays.some(d => d === i);
       if (!index) {
-        setVisitedDays([...visitedDays, day]);
+        setVisitedDays([day]);
       }
     },
     [visitedDays, route.params.workingDays],

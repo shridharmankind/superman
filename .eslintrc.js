@@ -3,7 +3,7 @@ module.exports = {
   extends: '@react-native-community',
   plugins: ['import'],
   rules: {
-    indent: ['error', 2, {SwitchCase: 1}],
+    indent: ['error', 2, {SwitchCase: 1, ignoredNodes: ['TemplateLiteral']}],
   },
   settings: {
     'import/resolver': {
@@ -18,6 +18,7 @@ module.exports = {
           'screens/sales': './src/screens/sales',
           'screens/tourPlan': './src/screens/tour-plan',
           'screens/home': './src/screens/home',
+          'screens/directory': './src/screens/directory',
           screens: './src/screens',
           navigations: './src/navigations',
           services: './src/services',
@@ -30,6 +31,7 @@ module.exports = {
           sagas: './src/store/sagas',
           selectors: './src/store/selectors',
           states: './src/store/states',
+          locale: './src/locale',
         },
       },
     },
