@@ -16,10 +16,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: '50%',
     paddingBottom: 20,
-    borderStyle: 'dashed',
-    borderRadius: 0.00001,
-    borderRightWidth: 0.5,
-    borderColor: themes.colors.grey[200],
   },
   timelineItemInnerContainer: {
     flex: 1,
@@ -29,12 +25,19 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     width: '50%',
   },
-  timelineLine: {
-    borderStyle: 'dashed',
-    borderRadius: 0.00001,
-    borderWidth: 0.5,
-    borderColor: themes.colors.grey[200],
+  borderContainer: {
+    width: 1,
+    overflow: 'hidden',
+    zIndex: -1,
     height: '100%',
+  },
+  border: {
+    width: 3,
+    height: '100%',
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderRadius: 1,
+    borderColor: themes.colors.grey[200],
   },
 });
 
