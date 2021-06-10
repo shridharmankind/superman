@@ -1,12 +1,12 @@
 /* eslint-disable indent */
 import React, {useState, useEffect, useRef} from 'react';
-import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Modal, Label} from 'components/elements';
+import {Modal, Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {MonthlyView, Legends} from 'components/widgets';
+import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
@@ -16,6 +16,8 @@ import {
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
 } from './redux';
+import themes from 'themes';
+
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -340,6 +342,19 @@ const MonthlyTourPlan = ({navigation}) => {
     }
   };
 
+  const renderCongratsContent = () => {
+    return (
+      <View style={styles.congratsContent}>
+        <Label
+          type={'regular'}
+          size={18}
+          textColor={themes.colors.grey[900]}
+          title={Strings.successfullyCreatedSTP}
+        />
+      </View>
+    );
+  };
+
   return (
     <View>
       <View style={styles.dropDownsContainer}>
@@ -359,6 +374,13 @@ const MonthlyTourPlan = ({navigation}) => {
         )}
       {openTourPlanDropDown()}
       {renderView()}
+      <CongratulatoryModal
+        open={false}
+        actionTitle={Strings.takeMeToHome}
+        content={renderCongratsContent()}
+        bottomText={Strings.beginJourney}
+        btnAction={() => {}}
+      />
     </View>
   );
 };

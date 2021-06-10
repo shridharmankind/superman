@@ -128,6 +128,10 @@ const Strings = {
   errorFetchingParties: 'There is some error fetching parties',
   patchSaveForPrevDay: 'Patch for previous day(s) has been saved',
   noPatchFound: 'No patch found',
+  congratulations: 'Congratulations!',
+  takeMeToHome: 'Take me to Home',
+  beginJourney: "Let's begin your journey",
+  successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
 };
 
 export default Strings;

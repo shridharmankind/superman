@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
   tourPlanViewContainer: {
     marginTop: theme.spacing(15.5),
   },
+  congratsContent: {
+    marginVertical: theme.spacing(20),
+  },
 });
 
 export default styles;
