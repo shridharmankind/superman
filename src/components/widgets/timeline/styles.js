@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     width: '50%',
   },
-  borderContainer: {
+  timelineLineContainer: {
     width: 1,
     overflow: 'hidden',
     zIndex: -1,
     height: '100%',
   },
-  border: {
+  timelineLine: {
     width: 3,
     height: '100%',
     borderWidth: 1,

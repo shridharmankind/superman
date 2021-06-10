@@ -4,8 +4,8 @@ import {View, FlatList} from 'react-native';
 
 function _renderItem({item, index}) {
   const renderBorder = () => (
-    <View style={styles.borderContainer}>
-      <View style={styles.border} />
+    <View style={styles.timelineLineContainer}>
+      <View style={styles.timelineLine} />
     </View>
   );
 
