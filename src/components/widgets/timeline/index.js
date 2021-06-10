@@ -2,13 +2,18 @@ import React from 'react';
 import styles from './styles';
 import {View, FlatList} from 'react-native';
 
-function _renderItem({item, index}) {
-  const renderBorder = () => (
+const renderBorder = (index, total) => {
+  if (total === index + 1) {
+    return null;
+  }
+  return (
     <View style={styles.timelineLineContainer}>
       <View style={styles.timelineLine} />
     </View>
   );
+};
 
+function _renderItem({item, index}) {
   return (
     <View style={[styles.timelineItemContainer]} key={index}>
       {index % 2 === 0 ? (
@@ -17,14 +22,14 @@ function _renderItem({item, index}) {
             {this.renderItem(item, index)}
             {this.renderDate(item, index)}
           </View>
-          {renderBorder()}
+          {renderBorder(index, this.data?.length)}
         </View>
       ) : (
         <View style={[styles.timelineItemInnerContainer]}>
           <View style={[styles.timelineItem]}>
             {this.renderDate(item, index)}
           </View>
-          {renderBorder()}
+          {renderBorder(index, this.data?.length)}
           <View style={[styles.timelineItemRight]}>
             {this.renderItem(item, index)}
           </View>
