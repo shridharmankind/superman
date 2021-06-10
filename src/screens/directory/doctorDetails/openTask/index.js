@@ -127,6 +127,7 @@ const OpenTask = () => {
           <Label
             variant={LabelVariant.h3}
             title={Strings.doctorDetail.openTasks.openTask}
+            testID="task_header"
           />
           <View style={styles.count}>
             <Label
@@ -140,6 +141,7 @@ const OpenTask = () => {
       <View style={styles.section}>
         {!!task && (
           <FlatList
+            nestedScrollEnabled
             keyExtractor={item => item.id}
             contentContainerStyle={styles.scrollPad}
             data={task}
@@ -193,11 +195,13 @@ const OpenTask = () => {
           <Label
             style={styles.footer}
             variant={LabelVariant.h5}
-            onPress={viewAllTask}>
-            {!isViewAll
-              ? `${Strings.doctorDetail.openTasks.viewAll}`
-              : `${Strings.doctorDetail.openTasks.viewLess}`}
-          </Label>
+            onPress={viewAllTask}
+            title={
+              !isViewAll
+                ? `${Strings.doctorDetail.openTasks.viewAll}`
+                : `${Strings.doctorDetail.openTasks.viewLess}`
+            }
+          />
         </View>
       )}
     </View>
