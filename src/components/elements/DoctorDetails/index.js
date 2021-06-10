@@ -8,6 +8,7 @@ import styles from './styles';
 import {DoctorVisitStates} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
 import {Strings, Constants} from 'common';
+import {isWeb} from 'helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -233,7 +234,7 @@ const DoctorDetails = ({
         )}
         {showVisitPlan && renderVisitData()}
       </View>
-      {showTile && renderTile()}
+      {isWeb() && showTile && renderTile()}
     </View>
   );
 };
