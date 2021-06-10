@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import theme from 'themes';
+import themes from 'themes';
 
 const styles = StyleSheet.create({
   detailsContainer: {
@@ -20,24 +20,29 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    alignContent: 'center',
     alignSelf: 'center',
   },
   divisionContainer: {
-    borderTopLeftRadius: 7,
-    borderBottomRightRadius: 7,
-    backgroundColor: theme.colors.orange[100],
-    paddingHorizontal: 9,
-    paddingVertical: 4,
     position: 'absolute',
     top: -27,
     left: -22,
-    minWidth: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  divisionItem: {
+    borderTopLeftRadius: 7,
+    borderBottomRightRadius: 7,
+    backgroundColor: themes.colors.orange[100],
+    paddingHorizontal: themes.spacing(10),
+    paddingVertical: themes.spacing(4),
+    marginRight: themes.spacing(5),
   },
   divisionText: {
-    color: theme.colors.white,
+    color: themes.colors.white,
   },
   checkContainer: {
     position: 'absolute',
@@ -45,9 +50,9 @@ const styles = StyleSheet.create({
     top: -17,
   },
   location: {
-    borderLeftColor: theme.colors.grey[200],
+    borderLeftColor: themes.colors.grey[200],
     borderLeftWidth: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: themes.spacing(10),
   },
   frequecyContainer: {
     flexDirection: 'row',
@@ -59,29 +64,29 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   seperator: {
-    paddingRight: 10,
+    paddingRight: themes.spacing(10),
   },
   doctorTile: {
-    marginTop: 10,
+    marginTop: themes.spacing(10),
   },
   borderOuterContainer: {
     height: 1,
     overflow: 'hidden',
-    marginTop: 2,
-    paddingBottom: 5,
+    marginTop: themes.spacing(2),
+    paddingBottom: themes.spacing(5),
   },
   borderInnerContainer: {
     height: 1,
     borderWidth: 0.5,
-    borderColor: theme.colors.grey[200],
+    borderColor: themes.colors.grey[200],
     borderStyle: 'dashed',
     borderRadius: 0.00000001,
   },
   tileContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
-    marginTop: 5,
-    marginRight: 5,
+    marginTop: themes.spacing(5),
+    marginRight: themes.spacing(5),
   },
   tileLeft: {
     flexDirection: 'row',
@@ -90,13 +95,16 @@ const styles = StyleSheet.create({
   },
   tileText: {
     fontSize: 12,
-    color: theme.colors.grey[600],
+    color: themes.colors.grey[600],
   },
   titleTextSecondary: {
-    marginLeft: 10,
+    marginLeft: themes.spacing(10),
   },
   container: {
     flex: 1,
+  },
+  name: {
+    textTransform: 'capitalize',
   },
 });
 

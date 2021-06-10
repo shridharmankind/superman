@@ -14,9 +14,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     marginTop: 14,
-    flex: 1,
     width: '48%',
-    marginRight: 20,
     zIndex: 1,
   },
   detailsContainer: {

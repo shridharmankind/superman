@@ -16,6 +16,7 @@ const Colors = {
   blue: {
     100: '#2293cb',
     200: '#2394cc',
+    300: '#e9f4fa',
   },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',
@@ -25,6 +26,7 @@ const Colors = {
   red: {
     100: '#E36565',
     200: '#f45b60',
+    300: '#ff0000',
   },
   blueBg: '#50478D',
   grey: {
@@ -39,6 +41,7 @@ const Colors = {
     900: '#524f67',
     1000: '#ededed',
     1100: '#494761',
+    1200: '#1a1b1d',
   },
   green: {
     100: '#34b53a',
@@ -49,6 +52,7 @@ const Colors = {
   yellow: {
     100: '#f5ad00',
     200: '#f5ad00',
+    300: '#f8bf04',
   },
 };
 
