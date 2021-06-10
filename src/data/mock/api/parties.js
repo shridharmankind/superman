@@ -193,7 +193,7 @@ export const partiesMock = {
         name: 'Tanmay Singh',
         specialization: ['Dermatologist'],
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-09-26T18:25:11',
+        anniversary: null,
         selfDispensing: false,
         isKyc: true,
         potential: 80000,

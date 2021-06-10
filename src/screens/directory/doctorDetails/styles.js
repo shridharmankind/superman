@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 20,
     marginLeft: theme.spacing(10),
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(-3),
     height: 20,
   },
   arrowBack: {
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
   },
   labelTitle: {
     fontStyle: 'normal',
+    fontFamily: theme.fonts.fontBold,
   },
   labelSubTitle: {
     fontStyle: 'normal',

@@ -254,7 +254,11 @@ const DoctorProfile = ({route}) => {
       case 0:
         return firstTab();
       default:
-        return '';
+        return (
+          <View>
+            <Label title={Strings.comingSoon} />
+          </View>
+        );
     }
   };
 
@@ -417,7 +421,11 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData?.anniversary)}
+                title={
+                  doctorData?.anniversary
+                    ? dateFormat(doctorData?.anniversary)
+                    : ''
+                }
               />
             </View>
           </View>
