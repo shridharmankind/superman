@@ -15,7 +15,7 @@ import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
-import LocalAuth from './screens/generic/LocalAuthentication';
+import LocalAuth from './screens/generic/LocalAuthentication/index';
 
 const Stack = createStackNavigator();
 const store = getStore();
