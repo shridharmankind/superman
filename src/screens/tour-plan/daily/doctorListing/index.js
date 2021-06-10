@@ -57,9 +57,9 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     dispatch(
       doctorDetailActions.tempStoreRemovedDoctor({
         staffPositionid: 2,
-        day: parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-        month: parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-        year: parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+        day: parseInt(getFormatDate({format: 'D'}), 10),
+        month: parseInt(getFormatDate({format: 'M'}), 10),
+        year: parseInt(getFormatDate({format: 'YYYY'}), 10),
         partyId: item.id,
       }),
     );
@@ -88,15 +88,9 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           dispatch(
             deletePartyCreator({
               staffPositionid: 2,
-              day: parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-              month: parseInt(
-                getFormatDate({date: new Date(), format: 'M'}),
-                10,
-              ),
-              year: parseInt(
-                getFormatDate({date: new Date(), format: 'YYYY'}),
-                10,
-              ),
+              day: parseInt(getFormatDate({format: 'D'}), 10),
+              month: parseInt(getFormatDate({format: 'M'}), 10),
+              year: parseInt(getFormatDate({format: 'YYYY'}), 10),
               partyId: item.id,
             }),
           );

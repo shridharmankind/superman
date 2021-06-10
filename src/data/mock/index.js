@@ -14,9 +14,9 @@ import {API_PATH} from 'screens/tour-plan/apiPath';
 const getPartiesUrl = () => {
   const valueMap = {
     staffpositionid: 2,
-    monthVal: parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-    yearVal: parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
-    dayVal: parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
+    monthVal: parseInt(getFormatDate({format: 'M'}), 10),
+    yearVal: parseInt(getFormatDate({format: 'YYYY'}), 10),
+    dayVal: parseInt(getFormatDate({format: 'D'}), 10),
   };
   let url = API_PATH.GET_PARTIES;
   url = url.replace(
