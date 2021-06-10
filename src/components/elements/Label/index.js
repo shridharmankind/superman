@@ -28,11 +28,13 @@ const Label = ({
   isUpperCase = false,
   type,
   variant,
+  numberOfLines,
   ...props
 }) => {
   return (
     <Text
       testID={testID}
+      numberOfLines={numberOfLines}
       style={[
         size && {fontSize: size},
 
@@ -67,5 +69,6 @@ Label.propTypes = {
   title: PropTypes.any,
   size: PropTypes.number,
   testID: PropTypes.string,
+  numberOfLines: PropTypes.number,
 };
 export default Label;
