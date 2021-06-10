@@ -86,6 +86,10 @@ const renderToday = () => (
   <LegendWrapper title={legends.today} style={[styles.today]} />
 );
 
+/**
+ *
+ * @returns location legend
+ */
 const renderLocation = () => (
   <LegendWrapper title={legends.location}>
     <LocationIcon width={16} height={16} />
@@ -104,6 +108,10 @@ const renderMTPLegends = () => {
   );
 };
 
+/**
+ *
+ * @returns render legends for STP
+ */
 const renderSTPLegends = () => {
   return (
     <View style={[styles.container, styles.standardContainer]}>

@@ -35,9 +35,9 @@ const Label = ({
       testID={testID}
       style={[
         size && {fontSize: size},
-        type && {fontFamily: getFontFamily(type)},
 
         variant && {...theme.typography[variant]},
+        type && {fontFamily: getFontFamily(type)},
         textColor && {color: textColor},
         isUpperCase && styles.upperCase,
         style,
