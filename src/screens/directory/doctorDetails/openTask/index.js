@@ -208,6 +208,7 @@ const OpenTask = () => {
       <View style={styles.section}>
         {!!taskData && (
           <FlatList
+            nestedScrollEnabled
             keyExtractor={item => item.id}
             contentContainerStyle={styles.scrollPad}
             data={taskData}
