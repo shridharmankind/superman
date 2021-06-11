@@ -8,21 +8,24 @@ import {Provider as PaperProvider} from 'react-native-paper';
 
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
-import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
+import ROUTES, {
+  ROUTE_DASHBOARD,
+  ROUTE_LOGIN,
+  ROUTE_LOCALAUTHENTICATION,
+} from './navigations/routes';
 import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
-import LocalAuth from './screens/generic/LocalAuthentication/index';
 
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
   const isLoggedIn = false;
-  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
+  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOCALAUTHENTICATION;
   setI18nConfig();
   useEffect(() => {
     if (!isWeb()) {
@@ -33,7 +36,6 @@ const App = () => {
       }, 2000);
     }
   }, []);
-
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
@@ -52,7 +54,6 @@ const App = () => {
           </Stack.Navigator>
         </NavigationContainer>
         <Toast />
-        <LocalAuth />
       </PaperProvider>
     </Provider>
   );
