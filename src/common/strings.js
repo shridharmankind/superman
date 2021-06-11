@@ -34,6 +34,7 @@ const Strings = {
     leave: 'Leave',
     today: 'Today',
     holiday: 'Holiday',
+    location: 'Location',
   },
   kyc: 'KYC',
   all: 'All',

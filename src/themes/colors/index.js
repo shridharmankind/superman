@@ -11,6 +11,7 @@ const Colors = {
   orange: {
     100: '#FFA088',
     200: '#c43500',
+    300: '#ff4500',
   },
   borderColor: '#979797',
   blue: {
