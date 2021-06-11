@@ -22,7 +22,7 @@ import {
 } from './redux';
 
 //TO DO:: TO REMOVE AFTER API INTEGRATION & EXACT CONTRACT DETAILS
-import stpData from '../../../data/mock/api/stpData';
+// import stpData from '../../../data/mock/api/stpData';
 
 /**
  * Check if same month is selected
@@ -333,7 +333,7 @@ const MonthlyTourPlan = ({navigation}) => {
             <StandardPlanContainer
               workingDays={workingDays}
               navigation={navigation}
-              weekDayData={stpData}
+              weekDayData={[]}//stpData TO DO :: for dev 
             />
             <View style={styles.stpLegend}>
               <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
