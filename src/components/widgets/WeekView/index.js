@@ -31,12 +31,7 @@ const maxDaysLength = 3;
  * @param {Array} columnHeader represents the  data for col header
  * @param {Object} weekData Data for all cells
  */
-const WeekView = ({
-  workingDays,
-  columnHeader,
-  onPressHandler,
-  weekData
-}) => {
+const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
   const headerData = ['', ...columnHeader];
 
   /**
@@ -53,12 +48,8 @@ const WeekView = ({
    * @param {string} column column key
    * @param {string} row row key
    */
-  const getCellData = (data, column, row) => {
-    const filterData = data.filter(
-      item => item.week === column && item.weekDay === row,
-    );
-    return filterData?.[0];
-  };
+  const getCellData = (data, column, row) =>
+    data.filter(item => item.week === column && item.weekDay === row)[0];
 
   /**
    *
@@ -68,6 +59,19 @@ const WeekView = ({
    */
   const getCountLabel = (party, partyType) => `${party} ${partyType}`;
 
+  /**
+   *
+   * @param {Object} parties
+   * @returns  party Name with Respectpective suffix
+   */
+  const getPartyTitle = parties => {
+    return [
+      getCountLabel(parties[0].doctor, PARTY_PREFIX.DOCTOR),
+      getCountLabel(parties[0].chemist, PARTY_PREFIX.CHEMIST),
+    ]
+      .filter(Boolean)
+      .join(', ');
+  };
   /**
    * Renders data of each cell
    * @param {cellData} represnt cell info
@@ -83,13 +87,7 @@ const WeekView = ({
         <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
           <View style={styles.flexDirectionRow}>
             <Label
-              title={
-                parties &&
-                `${getCountLabel(
-                  parties[0].doctor,
-                  PARTY_PREFIX.DOCTOR,
-                )}, ${getCountLabel(parties[0].chemist, PARTY_PREFIX.CHEMIST)}`
-              }
+              title={parties && getPartyTitle(parties)}
               variant={LabelVariant.h5}
             />
             {!isCompliant && <ErrorIcon width={16} height={16} />}
@@ -101,7 +99,6 @@ const WeekView = ({
               title={`${noOfKyc} ${DivisionType.KYC}`}
             />
           )}
-
         </View>
 
         <View style={[styles.cellFooter]}>
