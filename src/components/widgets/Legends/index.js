@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {TOUR_PLAN_TYPE} from 'screens/tourPlan/constants';
-import {LocationIcon} from 'assets';
+import {LocationIcon, ErrorIcon} from 'assets';
 const legends = Strings.Legends;
 
 const LegendWrapper = props => {
@@ -88,6 +88,28 @@ const renderToday = () => (
 
 /**
  *
+ * @returns ex station legend
+ */
+const renderExStation = () => (
+  <LegendWrapper title={legends.exStation}>
+    <Label
+      title={legends.exStationTitle}
+      variant={LabelVariant.label}
+      type="bold"
+    />
+  </LegendWrapper>
+);
+/**
+ *
+ * @returns complaince not met legends
+ */
+const renderWarning = () => (
+  <LegendWrapper title={legends.complainceNotMet}>
+    <ErrorIcon width={12} height={16} />
+  </LegendWrapper>
+);
+/**
+ *
  * @returns location legend
  */
 const renderLocation = () => (
@@ -118,6 +140,8 @@ const renderSTPLegends = () => {
       {renderScheduleVisits()}
       {renderKycVisit()}
       {renderLocation()}
+      {renderWarning()}
+      {renderExStation()}
     </View>
   );
 };
