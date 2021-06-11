@@ -55,7 +55,7 @@ const MasterDataDownload = ({navigation}) => {
             Schemas.masterTablesDownLoadStatus,
             item.name,
           );
-          console.log('level 1')  
+          //console.log('level 1')  
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
@@ -90,13 +90,13 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 break;
             }
-            console.log("working")
+            //console.log("working")
             await Operations.updateRecord(
               Schemas.masterTablesDownLoadStatus,
               DBConstants.downloadStatus.DOWNLOADED,
               item.name,
             );
-            console.log("working 1")
+            //console.log("working 1")
           } else {
             Alert.alert(Strings.info, response);
           }

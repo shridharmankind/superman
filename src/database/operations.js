@@ -373,7 +373,7 @@ export async function insertPartyTableData(schema,id){
           id: id,
           staffPositionId: object.staffPositionId,
           partyTypeId: object.partyTypeId,
-          shortName: `DOC -${object.name}`,
+          shortName: `DOC`,
           name: `${object.name}`,
           qualification: object.qualification,
           frequency: object.frequency,

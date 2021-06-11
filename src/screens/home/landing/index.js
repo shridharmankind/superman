@@ -36,7 +36,9 @@ const HomeLanding = ({navigation}) => {
         setLastSync(`--:--:--`);
       }
       else{
-        setLastSync(record.lastSync)
+        dateString = record.lastSync.toUTCString();
+        dateString = dateString.split(' ').slice(0,5).join(' ');
+        setLastSync(dateString)
       }
       return;
     }
