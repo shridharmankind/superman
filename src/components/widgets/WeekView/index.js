@@ -8,9 +8,13 @@ import {DoctorTag, DivisionType} from 'components/widgets';
 import {LocationIcon, ErrorIcon} from 'assets';
 import {Strings} from 'common';
 
+/**
+ * @param {Object} patchData
+ * @returns patch name string
+ */
 const getPatchName = patchData => {
-  const {IsExStation, DisplayName} = patchData;
-  return IsExStation ? `${Strings.exStation} ${DisplayName}` : DisplayName;
+  const {isExStation, displayName} = patchData;
+  return isExStation ? `(${Strings.exStation}) ${displayName}` : displayName;
 };
 
 //Defines prefix for party typa
@@ -18,7 +22,10 @@ const PARTY_PREFIX = {
   DOCTOR: 'D',
   CHEMIST: 'C',
 };
+
+// max number of character for Days to show
 const maxDaysLength = 3;
+
 /** Render Week View
  * @param {Array} workingDays represents the  data for row header
  * @param {Array} columnHeader represents the  data for col header
@@ -32,7 +39,7 @@ const WeekView = ({
   isError,
 }) => {
   const headerData = ['', ...columnHeader];
-  // console.log('weekDayDataweekDayDataweekDayData', weekData);
+
   /**
    * Returns whether the value is last element or not
    * @param {number} length length of array
@@ -54,6 +61,12 @@ const WeekView = ({
     return filterData?.[0];
   };
 
+  /**
+   *
+   * @param {Number} party
+   * @param {String} partyType
+   * @returns
+   */
   const getCountLabel = (party, partyType) => `${party} ${partyType}`;
 
   /**
@@ -64,8 +77,7 @@ const WeekView = ({
     if (!cellData) {
       return;
     }
-    const {parties, noOfKyc, patch} = cellData;
-    const {isNoOfVisitHigh} = patch;
+    const {parties, noOfKyc, patch, isCompliant} = cellData;
     return (
       <View style={styles.cellDataContainer}>
         <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
@@ -80,7 +92,7 @@ const WeekView = ({
               }
               variant={LabelVariant.h5}
             />
-            {isError && <ErrorIcon width={12} height={16} />}
+            {!isCompliant && <ErrorIcon width={12} height={16} />}
           </View>
           {noOfKyc && (
             <DoctorTag
@@ -117,7 +129,13 @@ const WeekView = ({
       <View
         testID={testID}
         style={[styles.cellContainer, isLast && styles.lastCell]}>
-        <TouchableOpacity testID="button_weekView_cell_test" onPress={onPress}>
+        {cellData?.patch?.isNoOfVisitHigh && (
+          <Label style={styles.highVisitBar} title="" />
+        )}
+        <TouchableOpacity
+          style={[styles.cellBorder]}
+          testID="button_weekView_cell_test"
+          onPress={onPress}>
           {renderCellData(cellData)}
         </TouchableOpacity>
       </View>

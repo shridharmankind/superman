@@ -7,13 +7,13 @@ const styles = StyleSheet.create({
   flexFullSpace: {
     flex: 1,
   },
-  container: {
-    padding: 2,
+  cellDataContainer: {
+    justifyContent: 'space-around',
   },
   headerContainer: {
     justifyContent: 'center',
     flexDirection: 'row',
-    paddingVertical: 5,
+    paddingVertical: theme.spacing(5),
   },
   rowContainer: {
     borderRightWidth: 1,
@@ -25,20 +25,30 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cellContainer: {
-    height: 88,
+    height: 89,
     borderLeftWidth: 1,
     borderTopWidth: 1,
     flex: 1,
-    borderColor,
+    borderTopColor: borderColor,
+    borderLeftColor: borderColor,
+    flexDirection: 'row',
+  },
+  cellBorder: {
+    padding: theme.spacing(8),
+    paddingLeft: theme.spacing(9),
+    flex: 1,
+  },
+  highVisitBar: {
+    width: 5,
+    backgroundColor: theme.colors.orange[300],
   },
   cellHeader: {
     flexDirection: 'row',
-    padding: 5,
-    minHeight: 60,
+    height: 60,
   },
   cellFooter: {
     flexDirection: 'row',
-    padding: 5,
+    alignItems: 'center',
   },
   lastCell: {
     borderBottomWidth: 1,
@@ -59,6 +69,14 @@ const styles = StyleSheet.create({
   },
   flexSpaceBetweenView: {
     justifyContent: 'space-between',
+  },
+  locationLabelText: {
+    paddingHorizontal: theme.spacing(2),
+    textAlign: 'center',
+    alignContent: 'center',
+  },
+  flexDirectionRow: {
+    flexDirection: 'row',
   },
 });
 
