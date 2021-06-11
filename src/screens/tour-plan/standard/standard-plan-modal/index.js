@@ -294,7 +294,7 @@ const StandardPlanModal = ({
   }, [areaSelected, doctorsSelected, partiesList, patches]);
 
   useEffect(() => {
-    if (!isPatchedData && dataChanged) {
+    if (!isPatchedData && dataChanged && isSameDayPatch(patchValue) === false) {
       const string = createPatchString();
       if (!patchEdited) {
         setPatchSelected(string);
@@ -310,6 +310,7 @@ const StandardPlanModal = ({
     patchEdited,
     patchValue,
     dataChanged,
+    isSameDayPatch,
   ]);
 
   /** function to filter parties by area selected from area chiklets
@@ -360,6 +361,7 @@ const StandardPlanModal = ({
                 : Strings.patchSaved,
             },
           });
+          setDataChanged(false);
           dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
@@ -418,14 +420,11 @@ const StandardPlanModal = ({
 
     if (!patchValue) {
       savePatch(obj);
-    } else if (
-      (patchValue && isPatchOfSameDay) ||
-      (patchValue && !dataChanged)
-    ) {
+    } else if (patchValue && isPatchOfSameDay && dataChanged) {
       updatePatch(obj, patchValue.id, false);
-    } else if (patchValue && !isPatchOfSameDay) {
+    } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
       savePatch(obj);
-    } else if (patchValue && isPatchOfSameDay) {
+    } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
       updatePatch(obj, patchValue.id, false);
     }
   }, [
@@ -440,6 +439,7 @@ const StandardPlanModal = ({
     doctorsSelected,
     isSameDayPatch,
     dataChanged,
+    isPatchedData,
   ]);
 
   /** function to show notification in case of updating the patch
@@ -532,8 +532,8 @@ const StandardPlanModal = ({
     }
     if (!isSameDayPatch(patchValue)) {
       setIsPatchedData(false);
-      setDataChanged(true);
     }
+    setDataChanged(true);
   };
 
   /** function to handle value of patch input field and check validation on string
@@ -551,15 +551,14 @@ const StandardPlanModal = ({
    * @param {Object} val passed from dropdown
    */
   const handleDropDownValue = useCallback(
-    async (val, def) => {
+    async val => {
       if (val) {
         await setPatchValue(val);
         await setPatchSelected(val.displayName);
         await setPatchDefaultValue(val.defaultName);
-        if (def) {
-          setIsPatchedData(true);
-        } else {
-          setIsPatchedData(false);
+        setIsPatchedData(true);
+        if (!isSameDayPatch(val)) {
+          setDataChanged(true);
         }
 
         dispatch(
@@ -569,7 +568,7 @@ const StandardPlanModal = ({
         );
       }
     },
-    [dispatch],
+    [dispatch, isSameDayPatch],
   );
 
   /** function to filter parties by area selected

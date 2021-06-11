@@ -137,7 +137,7 @@ const Areas = ({
       </View>
       <View style={styles.areaFilterContainer}>
         <Dropdown
-          valueSelected={val => handleDropDownValue(val, false)}
+          valueSelected={val => handleDropDownValue(val)}
           data={allPatches}
           defaultLabel={Strings.selectPatch}
           isPatchedData={isPatchedData}

@@ -45,7 +45,6 @@ const DoctorsByArea = ({
           par => par.frequency !== par.alreadyVisited,
         );
       }
-      //setDoctorsByArea(newPartiesData);
       return newPartiesData;
     },
     [partiesList, selectedDoctorType, isSameDayPatch],
