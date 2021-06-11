@@ -295,6 +295,7 @@ const MonthlyTourPlan = ({navigation}) => {
    * @returns modal
    */
   const openTourPlanDropDown = () => {
+    const optionsToIterate = getOptionsToIterateForDropDown();
     return (
       <Modal
         open={visible}
@@ -302,7 +303,11 @@ const MonthlyTourPlan = ({navigation}) => {
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
-        customModalPosition={styles.modalPosition}
+        customModalPosition={
+          optionsToIterate?.length < 7
+            ? [styles.modalPosition, styles.modalHeightHalf]
+            : styles.modalPosition
+        }
       />
     );
   };

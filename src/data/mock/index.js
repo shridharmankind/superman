@@ -6,8 +6,8 @@ import areaList from './api/areaList.json';
 import taskList from './api/tasks.json';
 import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
-
 import userInfo from './api/userInfo.json';
+import {getFormatDate} from 'utils/dateTimeHelper';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
@@ -15,9 +15,9 @@ import {API_PATH} from 'screens/tour-plan/apiPath';
 const getPartiesUrl = () => {
   const valueMap = {
     staffpositionid: 2,
-    monthVal: 5,
-    yearVal: 2021,
-    dayVal: 5,
+    monthVal: parseInt(getFormatDate({format: 'M'}), 10),
+    yearVal: parseInt(getFormatDate({format: 'YYYY'}), 10),
+    dayVal: parseInt(getFormatDate({format: 'D'}), 10),
   };
   let url = API_PATH.GET_PARTIES;
   url = url.replace(

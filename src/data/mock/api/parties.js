@@ -15,9 +15,9 @@ export const partiesMock = {
       {
         key: 1,
         id: 4,
-        name: 'Ashish Gulati',
+        name: 'ASHISH GULATI',
         specialization: ['Cardiologist'],
-        category: 'A+',
+        category: 'a+',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
         anniversary: '1990-09-19T18:25:11',
@@ -145,7 +145,7 @@ export const partiesMock = {
       {
         key: 4,
         id: 1,
-        name: 'Manoj Manjhi',
+        name: 'MANOJ MANJHI',
         specialization: ['Cardiologist'],
         category: 'A+',
         location: 'Karol Bagh',

@@ -49,6 +49,9 @@ const styles = StyleSheet.create({
     width: 333.3,
     height: 590.7,
   },
+  modalHeightHalf: {
+    height: 295.35,
+  },
   dropdownLabel: {
     fontFamily: theme.fonts.fontRegular,
     color: theme.colors.grey[900],
