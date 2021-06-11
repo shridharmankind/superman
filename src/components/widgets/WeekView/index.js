@@ -92,7 +92,7 @@ const WeekView = ({
               }
               variant={LabelVariant.h5}
             />
-            {!isCompliant && <ErrorIcon width={12} height={16} />}
+            {!isCompliant && <ErrorIcon width={16} height={16} />}
           </View>
 
           {noOfKyc && (
