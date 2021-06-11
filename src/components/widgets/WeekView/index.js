@@ -35,8 +35,7 @@ const WeekView = ({
   workingDays,
   columnHeader,
   onPressHandler,
-  weekData,
-  isError,
+  weekData
 }) => {
   const headerData = ['', ...columnHeader];
 
@@ -78,6 +77,7 @@ const WeekView = ({
       return;
     }
     const {parties, noOfKyc, patch, isCompliant} = cellData;
+
     return (
       <View style={styles.cellDataContainer}>
         <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
@@ -94,12 +94,14 @@ const WeekView = ({
             />
             {!isCompliant && <ErrorIcon width={12} height={16} />}
           </View>
+
           {noOfKyc && (
             <DoctorTag
               division={DivisionType.KYC}
               title={`${noOfKyc} ${DivisionType.KYC}`}
             />
           )}
+
         </View>
 
         <View style={[styles.cellFooter]}>
@@ -109,7 +111,7 @@ const WeekView = ({
             title={getPatchName(patch)}
             numberOfLines={1}
             style={styles.locationLabelText}
-            textColor="#524f67"
+            textColor={theme.colors.grey[900]}
           />
         </View>
       </View>
@@ -117,7 +119,7 @@ const WeekView = ({
   };
 
   /**
-   * @param {*} rowHeader
+   * @param {String} rowHeader
    * @param {fn} onPress
    * @param {Boolean} isLast
    * @param {string} header

@@ -144,7 +144,7 @@ const stpData = [
     patch: {
       Id: 1,
       DefaultName: 'patch1',
-      displayName: 'patch1',
+      displayName: 'patch1 patch1 patch1 patch1 patch1',
       isExStation: true,
       isNoOfVisitHigh: true,
     },
