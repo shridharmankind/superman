@@ -127,6 +127,7 @@ const Strings = {
   noRecordsForSelection: 'No records for current selection',
   errorRemovingParty: 'There is some error removing the party',
   errorFetchingParties: 'There is some error fetching parties',
+  exitConfirmation: 'Are you sure you want to exit Superman?',
   patchSaveForPrevDay: 'Patch for previous day(s) has been saved',
   noPatchFound: 'No patch found',
 };
