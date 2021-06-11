@@ -8,8 +8,6 @@ const styles = StyleSheet.create({
     borderRadius: 6.7,
     minWidth: 196,
     borderWidth: 0.7,
-    // paddingVertical: theme.spacing(16),
-    // paddingHorizontal: theme.spacing(13.3),
   },
   containerPadding: {
     paddingVertical: theme.spacing(16),
@@ -18,10 +16,12 @@ const styles = StyleSheet.create({
   progressContainer: {
     minHeight: 83.3,
     borderRadius: 6.7,
-    ...styles.containerPadding,
+    paddingVertical: theme.spacing(16),
+    paddingHorizontal: theme.spacing(13.3),
   },
   rulesContainer: {
-    ...styles.containerPadding,
+    paddingVertical: theme.spacing(16),
+    paddingHorizontal: theme.spacing(13.3),
   },
   percentage: {
     paddingVertical: theme.spacing(10),
@@ -48,8 +48,12 @@ const styles = StyleSheet.create({
   rulesContainerSub: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     alignSelf: 'flex-start',
+    paddingVertical: theme.spacing(12),
+  },
+  complianceIcon: {
+    paddingRight: theme.spacing(8),
   },
 });
 

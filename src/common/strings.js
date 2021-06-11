@@ -135,6 +135,7 @@ const Strings = {
   maximum: 'maximum',
   doctorVisitsPerDay: 'doctor visits per day',
   chemistVisitsPerDay: 'chemists visits per day',
+  tourPlanRules: 'Monthly tour plan rules',
 };
 
 export default Strings;

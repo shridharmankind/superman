@@ -46,16 +46,20 @@ const PlanCompliance = ({complianceType}) => {
     return (complianceData?.rules || []).map(rule => {
       return (
         <View style={styles.rulesContainerSub}>
-          <View>
+          <View style={styles.complianceIcon}>
             <ErrorIcon width={12} height={12} />
           </View>
-          <View>
-            <Label variant={LabelVariant.label} style={styles.title}>
-              {rule.ruleValue} {rulesMapping[rule.ruleShortName].title}
-            </Label>
-            <Label variant={LabelVariant.label} style={styles.subtitle}>
-              {rulesMapping[rule.ruleShortName].subTitle}
-            </Label>
+          <View style={styles.rule}>
+            <View>
+              <Label variant={LabelVariant.label} style={styles.title}>
+                {rule.ruleValue} {rulesMapping[rule.ruleShortName].title}
+              </Label>
+            </View>
+            <View>
+              <Label variant={LabelVariant.label} style={styles.subtitle}>
+                {rulesMapping[rule.ruleShortName].subTitle}
+              </Label>
+            </View>
           </View>
         </View>
       );
@@ -81,7 +85,7 @@ const PlanCompliance = ({complianceType}) => {
       </View>
       <View style={styles.rulesContainer}>
         <Label variant={LabelVariant.h6} style={styles.rulesTitle}>
-          {complianceData?.totalPercent} %
+          {Strings.tourPlanRules}
         </Label>
         {renderRules()}
       </View>
