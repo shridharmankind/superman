@@ -15,14 +15,12 @@ const styles = StyleSheet.create({
   },
   legendsContainer: {
     flexDirection: 'row',
-    paddingHorizontal: theme.spacing(7),
+    paddingHorizontal: theme.spacing(2),
     alignItems: 'center',
   },
-
   contentBasicStyle: {
-    marginHorizontal: 6,
+    marginHorizontal: theme.spacing(4),
   },
-
   verticalBar: {
     width: 6,
     height: 15,
