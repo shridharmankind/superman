@@ -9,10 +9,6 @@ const styles = StyleSheet.create({
     minWidth: 196,
     borderWidth: 0.7,
   },
-  containerPadding: {
-    paddingVertical: theme.spacing(16),
-    paddingHorizontal: theme.spacing(13.3),
-  },
   progressContainer: {
     minHeight: 83.3,
     borderRadius: 6.7,

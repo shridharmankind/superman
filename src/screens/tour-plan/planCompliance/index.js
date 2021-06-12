@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import {ProgressBar, useTheme} from 'react-native-paper';
 import {View} from 'react-native';
 import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
-import {Constants, Strings} from 'common';
+import {Strings} from 'common';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchPlanComplianceCreator, planComplianceSelector} from './redux';
 import {rulesMapping} from './rulesMapping';
@@ -17,7 +16,8 @@ import {ErrorIcon} from 'assets';
  * @param {Function} onTabPress click event
  * @returns button
  */
-const PlanCompliance = ({complianceType}) => {
+const PlanCompliance = () => {
+  const {colors} = useTheme();
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
   /**
@@ -31,17 +31,24 @@ const PlanCompliance = ({complianceType}) => {
     );
   }, [dispatch]);
 
+  /**
+   * fetch data from selector
+   */
   const complianceRules = useSelector(
     planComplianceSelector.allComplianceRules(),
   );
 
+  /**
+   * effect to set fetched data in state
+   */
   useEffect(() => {
-    console.log('rules', complianceRules);
     setComplianceData(complianceRules);
   }, [complianceRules]);
 
-  const {colors} = useTheme();
-
+  /**
+   * function to render UI of rules
+   * @returns jsx of rules UI
+   */
   const renderRules = () => {
     return (complianceData?.rules || []).map(rule => {
       return (
@@ -80,7 +87,7 @@ const PlanCompliance = ({complianceType}) => {
         </Label>
         <ProgressBar
           progress={complianceData?.totalPercent / 100}
-          color={'white'}
+          color={colors.white}
         />
       </View>
       <View style={styles.rulesContainer}>
@@ -91,12 +98,6 @@ const PlanCompliance = ({complianceType}) => {
       </View>
     </View>
   );
-};
-
-PlanCompliance.propTypes = {
-  isChecked: PropTypes.bool,
-  text: PropTypes.string.isRequired,
-  onTabPress: PropTypes.func,
 };
 
 export default PlanCompliance;

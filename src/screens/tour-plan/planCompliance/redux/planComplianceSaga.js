@@ -21,7 +21,7 @@ export function* fetchPlanComplianceWatcher() {
 export function* fetchPlanComplianceWorker(action) {
   const {staffPositionid} = action.payload;
   const valueMap = {
-    staffPositionId: 2, //staffPositionid,
+    staffPositionId: staffPositionid,
   };
   let url = API_PATH.COMPLAINCE_MONTHLY;
   url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
@@ -30,7 +30,6 @@ export function* fetchPlanComplianceWorker(action) {
 
   try {
     const response = yield call(NetworkService.get, url);
-    console.log('response', url, response);
     if (response.data) {
       yield put(
         planComplianceActions.getComplainceRules({

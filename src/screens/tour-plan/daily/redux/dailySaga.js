@@ -8,7 +8,6 @@ import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 import {Constants, Strings} from 'common';
-import {partiesMock} from '../../../../data/mock/api/parties';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -29,10 +28,10 @@ export function* deletePartyWatcher() {
 export function* fetchDoctorDetailWorker(action) {
   const {staffPositionid, day, month, year} = action.payload;
   const valueMap = {
-    staffpositionid: 2, //staffPositionid,
-    monthVal: 5, //month,
-    yearVal: 2021, //year,
-    dayVal: 2, //day,
+    staffpositionid: staffPositionid,
+    monthVal: month,
+    yearVal: year,
+    dayVal: day,
   };
   let url = API_PATH.GET_PARTIES;
   url = url.replace(
@@ -56,13 +55,10 @@ export function* fetchDoctorDetailWorker(action) {
       });
     }
 
-    // console.log('response', response);
-
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
           data: formattedResponse,
-          // data: partiesMock.getParties.response,
         },
       }),
     );
