@@ -105,6 +105,9 @@ const MasterDataDownload = ({navigation}) => {
       const accessToken = await KeyChain.getAccessToken();
       await KeyChain.saveDatabaseKey(accessToken);
       Helper.MASTER_TABLES_DETAILS.forEach(async item => {
+        if (item?.status === DBConstants.downloadStatus.DOWNLOADED) {
+          return;
+        }
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
           status: DBConstants.downloadStatus.PENDING,
