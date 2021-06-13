@@ -7,4 +7,5 @@ export const API_PATH = {
   PATCH: '/patch',
   AREA_BY_SPID: '/party/areabyspid',
   PARTY_BY_SPID: '/party/partybyspid',
+  STP_CALENDAR_UPDATE: 'calendar/staffPositionId/updates',
 };

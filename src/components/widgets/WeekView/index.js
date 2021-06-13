@@ -199,7 +199,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
    * @param {string} label represents name of label
    */
   const Header = ({label}) =>
-    label.map((value, index) => {
+    label.map((_, index) => {
       return (
         <Label
           key={index}
@@ -231,7 +231,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
 WeekView.propTypes = {
   workingDays: PropTypes.array.isRequired,
   columnHeader: PropTypes.array.isRequired,
-  weekData: PropTypes.object,
+  weekData: PropTypes.array,
   onPressHandler: PropTypes.func,
 };
 

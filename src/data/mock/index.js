@@ -11,7 +11,7 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
-
+import stpData from './api/stpData.js';
 const getPartiesUrl = () => {
   const valueMap = {
     staffpositionid: 2,
@@ -41,6 +41,17 @@ const getDeletePartyUrl = () => {
 
   return url;
 };
+/**
+ * @returns  stp update data
+ */
+const getSTPCalendarUpdateUrl = () => {
+  const valueMap = {
+    staffPositionId: 1,
+  };
+  let url = API_PATH.STP_CALENDAR_UPDATE;
+
+  return url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
+};
 
 const getMock = axios => {
   const mock = new MockAdapter(axios);
@@ -68,6 +79,7 @@ const getMock = axios => {
     .reply(200, patchesMock.validate.response);
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
+  mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
 };
 
 export default getMock;
