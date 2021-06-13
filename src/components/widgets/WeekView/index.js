@@ -30,7 +30,7 @@ const maxDaysLength = 3;
  * @param {Array} workingDays represents the  data for row header
  * @param {Array} columnHeader represents the  data for col header
  * @param {Object} weekData Data for all cells
- * @param {Function} onPressHandler Handles cell click 
+ * @param {Function} onPressHandler Handles cell click
  */
 const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
   const headerData = ['', ...columnHeader];
