@@ -5,22 +5,109 @@ import {withTheme, cleanup, fireEvent} from 'utils/testHelpers';
 
 afterEach(cleanup);
 const onPressHandler = jest.fn();
-const workingDays = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
+const workingDays = ['Monday', 'Tuesday', 'Wednesday'];
+const stpMockData = [
+  {
+    parties: [
+      {
+        partyType: 'Doctor',
+        count: 0,
+      },
+      {
+        partyType: 'Chemist',
+        count: 12,
+      },
+    ],
+    noOfKyc: 7,
+    patch: {
+      Id: 1,
+      DefaultName: 'patch1',
+      displayName: 'patch1',
+      isExStation: true,
+      isNoOfVisitHigh: true,
+    },
+    isCompliant: true,
+    week: 1,
+    weekDay: 'Monday',
+  },
+  {
+    parties: [
+      {
+        partyType: 'Doctor',
+        count: 3,
+      },
+      {
+        partyType: 'Chemist',
+        count: 12,
+      },
+    ],
+    noOfKyc: 7,
+    patch: {
+      Id: 1,
+      DefaultName: 'patch1',
+      displayName: 'patch1',
+      isExStation: false,
+      isNoOfVisitHigh: false,
+    },
+    isCompliant: true,
+    week: 1,
+    weekDay: 'Tuesday',
+  },
+  {
+    parties: [
+      {
+        partyType: 'Doctor',
+        count: 3,
+      },
+      {
+        partyType: 'Chemist',
+        count: 0,
+      },
+    ],
+    noOfKyc: 7,
+    patch: {
+      Id: 1,
+      DefaultName: 'patch1',
+      displayName: 'patch1',
+      isExStation: false,
+      isNoOfVisitHigh: false,
+    },
+    isCompliant: true,
+    week: 1,
+    weekDay: 'Wednesday',
+  },
+  {
+    parties: [
+      {
+        partyType: 'Doctor',
+        count: 0,
+      },
+      {
+        partyType: 'Chemist',
+        count: 0,
+      },
+    ],
+    noOfKyc: 7,
+    patch: {
+      Id: 1,
+      DefaultName: 'patch1',
+      displayName: 'patch1',
+      isExStation: false,
+      isNoOfVisitHigh: false,
+    },
+    isCompliant: false,
+    week: 1,
+    weekDay: 'Thursday',
+  },
 ];
-
-const columnHeader = ['Week 1', 'Week 2', 'Week 3'];
+const columnHeader = [1, 2];
 function renderComponent({...props}) {
   return withTheme(
     <WeekView
       workingDays={props.workingDays ?? workingDays}
       columnHeader={props.columnHeader ?? columnHeader}
       onPressHandler={props.onPressHandler ?? onPressHandler}
+      weekData={stpMockData}
       {...props}
     />,
   );
@@ -29,7 +116,7 @@ function renderComponent({...props}) {
 describe('WeekView Test Cases', () => {
   it('should render Component', () => {
     const {getByText} = renderComponent();
-    expect(getByText('Sat')).toBeTruthy();
+    expect(getByText('Mon')).toBeTruthy();
   });
 
   it('should render Vertical Header', () => {
