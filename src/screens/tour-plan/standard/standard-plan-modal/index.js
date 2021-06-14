@@ -70,8 +70,8 @@ const StandardPlanModal = ({
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
-  const weekNum = Number(week.split(' ')[1]);
-  const staffPositionId = 1;
+  const weekNum = Number(week);
+  const staffPositionId = 3;
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
