@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   },
   specialization: {
     paddingRight: theme.spacing(10),
+    textTransform: 'capitalize',
   },
   divisionContainer: {
     paddingVertical: theme.spacing(5),

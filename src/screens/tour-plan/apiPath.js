@@ -8,4 +8,7 @@ export const API_PATH = {
   AREA_BY_SPID: '/party/areabyspid',
   PARTY_BY_SPID: '/party/partybyspid',
   STP_CALENDAR_UPDATE: 'calendar/staffPositionId/updates',
+  COMPLAINCE_DAILY:
+    '/compliance/standardtourplan/staffPositionId/daily?week=weekVal&weekday=weekdayVal',
+  COMPLAINCE_MONTHLY: '/compliant/standardtourplan/staffPositionId/month',
 };
