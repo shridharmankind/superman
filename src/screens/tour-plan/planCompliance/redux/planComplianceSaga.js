@@ -19,9 +19,9 @@ export function* fetchPlanComplianceWatcher() {
  * worker function to send the api call to get all plan compliance rules
  */
 export function* fetchPlanComplianceWorker(action) {
-  const {staffPositionid} = action.payload;
+  const {staffPositionId} = action.payload;
   const valueMap = {
-    staffPositionId: staffPositionid,
+    staffPositionId: staffPositionId,
   };
   let url = API_PATH.COMPLAINCE_MONTHLY;
   url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
@@ -49,7 +49,6 @@ export function* fetchPlanComplianceWorker(action) {
     }
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(
       planComplianceActions.getComplainceRules({
         doctorDetail: {

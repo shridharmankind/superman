@@ -26,7 +26,7 @@ const PlanCompliance = () => {
   useEffect(() => {
     dispatch(
       fetchPlanComplianceCreator({
-        staffPositionid: 2,
+        staffPositionId: 2,
       }),
     );
   }, [dispatch]);
