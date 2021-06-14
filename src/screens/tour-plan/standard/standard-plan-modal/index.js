@@ -360,10 +360,11 @@ const StandardPlanModal = ({
             },
           });
           setDataChanged(false);
-          setPatchValue(obj);
           dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
+          } else {
+            setPatchValue(obj);
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
