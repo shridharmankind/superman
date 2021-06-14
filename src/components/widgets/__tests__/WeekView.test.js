@@ -49,7 +49,7 @@ const stpMockData = [
       isExStation: false,
       isNoOfVisitHigh: false,
     },
-    isCompliant: true,
+    isCompliant: false,
     week: 1,
     weekDay: 'Tuesday',
   },
