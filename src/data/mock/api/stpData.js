@@ -193,7 +193,7 @@ const stpData = [
         count: 12,
       },
     ],
-    noOfKyc: 7,
+
     patch: {
       Id: 1,
       DefaultName: 'patch1',
