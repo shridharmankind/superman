@@ -8,6 +8,7 @@ import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
 import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import monthlyConpliance from './api/monthlyCompliance.json';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
@@ -42,6 +43,16 @@ const getDeletePartyUrl = () => {
   return url;
 };
 
+const getMonthlyComplainceUrl = () => {
+  const valueMap = {
+    staffPositionId: 2,
+  };
+  let url = API_PATH.COMPLAINCE_MONTHLY;
+  url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
+
+  return url;
+};
+
 const getMock = axios => {
   const mock = new MockAdapter(axios);
 
@@ -68,6 +79,7 @@ const getMock = axios => {
     .reply(200, patchesMock.validate.response);
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
+  mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyConpliance);
 };
 
 export default getMock;

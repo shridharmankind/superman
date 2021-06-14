@@ -134,6 +134,12 @@ const Strings = {
   exitConfirmation: 'Are you sure you want to exit Superman?',
   patchSaveForPrevDay: 'Patch for previous day(s) has been saved',
   noPatchFound: 'No patch found',
+  errorFetchingComplianceRules: 'There is some error in fetching rules',
+  minimum: 'minimum',
+  maximum: 'maximum',
+  doctorVisitsPerDay: 'doctor visits per day',
+  chemistVisitsPerDay: 'chemists visits per day',
+  tourPlanRules: 'Monthly tour plan rules',
   exStation: 'Ex',
 };
 
