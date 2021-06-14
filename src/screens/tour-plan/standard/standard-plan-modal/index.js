@@ -360,6 +360,7 @@ const StandardPlanModal = ({
             },
           });
           setDataChanged(false);
+          setPatchValue(obj);
           dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
@@ -653,7 +654,7 @@ const StandardPlanModal = ({
    */
   const isSameDayPatch = useCallback(
     patch => {
-      return patch?.usedOn.some(
+      return patch?.usedOn?.some(
         pat =>
           weekNum === pat?.week &&
           weekDay === pat?.weekDay &&
