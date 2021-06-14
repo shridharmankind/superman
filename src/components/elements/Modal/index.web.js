@@ -84,8 +84,8 @@ CustomModal.propTypes = {
   primaryActionProps: PropTypes.object,
   closeAction: PropTypes.bool,
   closeTestId: PropTypes.string,
-  customModalPosition: PropTypes.object,
-  customModalView: PropTypes.object,
+  // customModalPosition: PropTypes.object,
+  // customModalView: PropTypes.object,
 };
 
 export default CustomModal;

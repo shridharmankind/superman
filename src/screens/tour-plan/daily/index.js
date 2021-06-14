@@ -14,7 +14,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
-import ToastWeb from 'components/widgets';
+
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -264,15 +264,8 @@ const DailyTourPlan = () => {
           top: 45,
           left: 0,
           right: 0,
-        }}>
-        <ToastWeb
-          key={'message'}
-          message={'toast test'}
-          onHide={() => {
-            console.log('called hide');
-          }}
-        />
-      </View>
+        }}
+      />
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}

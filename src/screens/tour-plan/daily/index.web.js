@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {Strings, Constants} from 'common';
@@ -25,10 +25,11 @@ const DailyTourPlan = () => {
   const [showToastWeb, setShowToastWeb] = useState(false);
 
   useEffect(() => {
-    setInterval(() => {
+    setTimeout(() => {
+      console.log('nldjlfjslfjsf');
       setShowToastWeb(true);
     }, 2000);
-  });
+  }, []);
 
   const onTileNameHandler = data => {
     navigation.navigate('Directory', {
@@ -274,11 +275,13 @@ const DailyTourPlan = () => {
         }}>
         {showToastWeb && (
           <Toast
-            onPressLeftBtn={() => {
+            onHide={() => {
               // undoclicked = true;
               // hideToast();
               // closeRow(rowMap, rowKey);
               // dispatch(doctorDetailActions.addDeletedParty());
+              // Alert.alert('closed');
+              console.log('hide called');
             }}
             onClose={() => {
               // hideToast();
