@@ -1,9 +1,9 @@
 /* eslint-disable indent */
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Modal, Label, LabelVariant} from 'components/elements';
+import {Modal, Label} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
@@ -60,6 +60,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
   const previousMonthSelected = usePrevious(monthSelected);
+  const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
 
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
@@ -375,7 +376,7 @@ const MonthlyTourPlan = ({navigation}) => {
       {openTourPlanDropDown()}
       {renderView()}
       <CongratulatoryModal
-        open={false}
+        open={showCongratsModal}
         actionTitle={Strings.takeMeToHome}
         content={renderCongratsContent()}
         bottomText={Strings.beginJourney}

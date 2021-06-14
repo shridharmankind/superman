@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {View, Image} from 'react-native';
+import {View, Animated} from 'react-native';
 import {Modal, LabelVariant, Label} from 'components/elements';
 import {Strings} from 'common';
 import styles from './styles';
@@ -23,6 +23,14 @@ const CongratulatoryModal = ({
   btnAction,
   open,
 }) => {
+  const opacity = new Animated.Value(0);
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 2000,
+    }).start();
+  });
+
   const renderTitle = () => {
     return (
       <View style={styles.title}>
@@ -40,31 +48,37 @@ const CongratulatoryModal = ({
     return (
       <>
         {content}
+
         <View style={styles.rightImages}>
-          <Image
-            style={[styles.topImage, styles.popImage]}
-            source={require('../../../assets/images/avatar.png')}
+          <Animated.Image
+            opacity={opacity}
+            style={[styles.popImage, styles.topImage]}
+            source={require('../../../assets/images/celebrate_1.png')}
           />
-          <Image
-            style={[styles.topRightImage, styles.popImage]}
-            source={require('../../../assets/images/avatar.png')}
+          <Animated.Image
+            opacity={opacity}
+            style={[styles.popImage, styles.topRightImage]}
+            source={require('../../../assets/images/ribbons.png')}
           />
-          <Image
-            style={[styles.topMiddleImage, styles.popImage]}
-            source={require('../../../assets/images/avatar.png')}
+          <Animated.Image
+            opacity={opacity}
+            style={[styles.popImage, styles.topMiddleImage]}
+            source={require('../../../assets/images/celebrate_2.png')}
           />
-          <Image
-            style={[styles.topBottomImage, styles.popImage]}
-            source={require('../../../assets/images/avatar.png')}
+          <Animated.Image
+            opacity={opacity}
+            style={[styles.popImage, styles.topBottomImage]}
+            source={require('../../../assets/images/ribbons.png')}
           />
         </View>
         <View style={styles.bottomTextContent}>
           <Label title={bottomText} variant={LabelVariant.h3} type={'bold'} />
         </View>
         <View style={styles.leftBottomImage}>
-          <Image
+          <Animated.Image
+            opacity={opacity}
             style={styles.popImage}
-            source={require('../../../assets/images/avatar.png')}
+            source={require('../../../assets/images/celebrate_2.png')}
           />
         </View>
       </>
