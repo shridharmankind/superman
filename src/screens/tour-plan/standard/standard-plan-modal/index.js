@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -9,14 +9,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-  Area,
-  Label,
-  LabelVariant,
-  Button,
-  Dropdown,
-  DoctorDetailsWrapper,
-} from 'components/elements';
+import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
@@ -31,6 +24,8 @@ import {
   standardPlanActions,
 } from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
+import Areas from './areas';
+import DoctorsByArea from './doctorsByArea';
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -62,15 +57,12 @@ const StandardPlanModal = ({
   const [doctorsSelected, setDoctorSelected] = useState([]);
   const [showPatchError, setShowPatchError] = useState(false);
   const [patchError, setPatchError] = useState();
-  const swiperRef = useRef(null);
-  const [hideRightArrow, setHideRightArrow] = useState(false);
-  const [scrollOffset, setScrollOffset] = useState(0);
   const [isPatchedData, setIsPatchedData] = useState(false);
   const [patchEdited, setPatchEdited] = useState(false);
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
-  const weekNum = Number(week.split(' ')[1]);
+  const weekNum = Number(week);
   const staffPositionId = 1;
   /**
    * callback function to return direction left/right of day swiper
@@ -233,23 +225,6 @@ const StandardPlanModal = ({
     setPartiesType(doctorType);
   };
 
-  /** function to handle and update state with area selected
-   * @param {Number} val area id passed
-   */
-  const handleAreaSelected = val => {
-    const index = (areaSelected || []).filter(area => area.id === val);
-    if (index.length > 0) {
-      setAreaSelected(areaSelected.filter(item => item.id !== val));
-    } else {
-      setAreaSelected([
-        ...areaSelected,
-        areaList.find(area => area.id === val),
-      ]);
-    }
-    removeSelectedDoctorFromArea(val);
-    setSelectedDoctorType(Strings.all);
-  };
-
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
     if (partiesList) {
@@ -274,20 +249,19 @@ const StandardPlanModal = ({
    * @param {Number} areaId area id passed
    */
   const removeSelectedDoctorFromArea = useCallback(
-    areaId => {
-      const doctorToRemove = partiesList.find(party =>
-        doctorsSelected?.some(
-          obj =>
-            obj === party.id && areaSelected.some(par => par.id === areaId),
-        ),
-      );
-      if (doctorToRemove) {
-        setDoctorSelected(
-          doctorsSelected.filter(doc => doc !== doctorToRemove.id),
+    async areaId => {
+      let doctorArr = doctorsSelected;
+      partiesList.map(party => {
+        const doctorToRemove = doctorsSelected?.find(
+          obj => obj === party.id && party.areas.some(par => par.id === areaId),
         );
-      }
+        if (doctorToRemove) {
+          doctorArr = doctorArr.filter(doc => doc !== doctorToRemove);
+        }
+      });
+      setDoctorSelected(doctorArr);
     },
-    [doctorsSelected, partiesList, areaSelected],
+    [doctorsSelected, partiesList],
   );
 
   /** function to create patch string to be put in patch input field*/
@@ -319,7 +293,7 @@ const StandardPlanModal = ({
   }, [areaSelected, doctorsSelected, partiesList, patches]);
 
   useEffect(() => {
-    if (!isPatchedData && dataChanged) {
+    if (!isPatchedData && dataChanged && !isSameDayPatch(patchValue)) {
       const string = createPatchString();
       if (!patchEdited) {
         setPatchSelected(string);
@@ -335,6 +309,7 @@ const StandardPlanModal = ({
     patchEdited,
     patchValue,
     dataChanged,
+    isSameDayPatch,
   ]);
 
   /** function to filter parties by area selected from area chiklets
@@ -384,9 +359,12 @@ const StandardPlanModal = ({
                 : Strings.patchSaved,
             },
           });
+          setDataChanged(false);
           dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
+          } else {
+            setPatchValue(obj);
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
@@ -442,14 +420,11 @@ const StandardPlanModal = ({
 
     if (!patchValue) {
       savePatch(obj);
-    } else if (
-      (patchValue && isPatchOfSameDay) ||
-      (patchValue && !dataChanged)
-    ) {
+    } else if (patchValue && isPatchOfSameDay && dataChanged) {
       updatePatch(obj, patchValue.id, false);
-    } else if (patchValue && !isPatchOfSameDay) {
+    } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
       savePatch(obj);
-    } else if (patchValue && isPatchOfSameDay) {
+    } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
       updatePatch(obj, patchValue.id, false);
     }
   }, [
@@ -464,6 +439,7 @@ const StandardPlanModal = ({
     doctorsSelected,
     isSameDayPatch,
     dataChanged,
+    isPatchedData,
   ]);
 
   /** function to show notification in case of updating the patch
@@ -556,20 +532,8 @@ const StandardPlanModal = ({
     }
     if (!isSameDayPatch(patchValue)) {
       setIsPatchedData(false);
-      setDataChanged(true);
     }
-  };
-
-  /** function to handle area left swipe*/
-  const handleAreaLeftArrow = () => {
-    swiperRef.current.scrollTo({x: scrollOffset - 150, y: 0, animated: true});
-    setScrollOffset(scrollOffset - 100);
-  };
-
-  /** function to handle area right swipe*/
-  const handleAreaRightArrow = () => {
-    swiperRef.current.scrollTo({x: scrollOffset + 150, y: 0, animated: true});
-    setScrollOffset(scrollOffset + 100);
+    setDataChanged(true);
   };
 
   /** function to handle value of patch input field and check validation on string
@@ -587,15 +551,14 @@ const StandardPlanModal = ({
    * @param {Object} val passed from dropdown
    */
   const handleDropDownValue = useCallback(
-    async (val, def) => {
+    async val => {
       if (val) {
         await setPatchValue(val);
         await setPatchSelected(val.displayName);
         await setPatchDefaultValue(val.defaultName);
-        if (def) {
-          setIsPatchedData(true);
-        } else {
-          setIsPatchedData(false);
+        setIsPatchedData(true);
+        if (!isSameDayPatch(val)) {
+          setDataChanged(true);
         }
 
         dispatch(
@@ -605,7 +568,7 @@ const StandardPlanModal = ({
         );
       }
     },
-    [dispatch],
+    [dispatch, isSameDayPatch],
   );
 
   /** function to filter parties by area selected
@@ -678,17 +641,6 @@ const StandardPlanModal = ({
     }
   }, [doctorsSelected, partiesList, selectedDoctorType, patchSelected]);
 
-  /** function toh hide/show right arrow of area scroll
-   * @param {Object} nativeEvent native events of scrollView passed
-   */
-  const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
-    if (layoutMeasurement.width + contentOffset.x >= contentSize.width) {
-      setHideRightArrow(true);
-    } else {
-      setHideRightArrow(false);
-    }
-  };
-
   /**
    * function to close stp page
    */
@@ -703,10 +655,11 @@ const StandardPlanModal = ({
    */
   const isSameDayPatch = useCallback(
     patch => {
-      return (
-        weekNum === patch?.week &&
-        weekDay === patch?.weekDay &&
-        year === patch?.year
+      return patch?.usedOn?.some(
+        pat =>
+          weekNum === pat?.week &&
+          weekDay === pat?.weekDay &&
+          year === pat?.year,
       );
     },
     [weekNum, weekDay, year],
@@ -724,7 +677,7 @@ const StandardPlanModal = ({
             </TouchableOpacity>
             <Label
               style={styles.weekLabel}
-              title={`${week} - ${weekDay}`}
+              title={`${Strings.weekText} ${week} - ${weekDay}`}
               variant={LabelVariant.h3}
               type={'bold'}
             />
@@ -773,70 +726,15 @@ const StandardPlanModal = ({
       </View>
       <View style={styles.content}>
         <View style={styles.leftContent}>
-          <View style={styles.selectAreaContainer}>
-            <View>
-              <Label title={Strings.selectArea} size={14} />
-            </View>
-            <View style={styles.areaFilterContainer}>
-              <Dropdown
-                valueSelected={val => handleDropDownValue(val, false)}
-                data={allPatches}
-                defaultLabel={Strings.selectPatch}
-                isPatchedData={isPatchedData}
-              />
-              <View style={styles.areaFilter}>
-                {scrollOffset > 0 && (
-                  <TouchableOpacity
-                    onPress={() => handleAreaLeftArrow()}
-                    style={[styles.swiperArrow, styles.leftArrow]}>
-                    <Icon
-                      name={'chevron-left'}
-                      size={10}
-                      color={themes.colors.blue}
-                    />
-                  </TouchableOpacity>
-                )}
-                <ScrollView
-                  horizontal={true}
-                  ref={swiperRef}
-                  onScroll={({nativeEvent}) => {
-                    hideScrollArrow(nativeEvent);
-                  }}
-                  showsHorizontalScrollIndicator={false}>
-                  {getPartyCountFromArea().map(area => {
-                    return (
-                      <Area
-                        key={area.id}
-                        title={area.name}
-                        value={area.id}
-                        count={area.totalPartiesInArea}
-                        bgColor={'#524F670D'}
-                        color={'#524F67'}
-                        selectedColor={'#322B7C1A'}
-                        selected={isAreaSelected(area.id, areaSelected)}
-                        selectedTextColor={themes.colors.primary}
-                        style={styles.areaChip}
-                        onPress={handleAreaSelected}
-                        selectedPartyCount={area.totalUniqueParty}
-                      />
-                    );
-                  })}
-                </ScrollView>
-                {!hideRightArrow && (
-                  <TouchableOpacity
-                    onPress={() => handleAreaRightArrow()}
-                    style={[styles.swiperArrow, styles.rightArrow]}>
-                    <Icon
-                      name={'chevron-right'}
-                      size={10}
-                      color={themes.colors.blue}
-                    />
-                  </TouchableOpacity>
-                )}
-              </View>
-            </View>
-          </View>
-
+          <Areas
+            areaSelected={areaSelected}
+            setAreaSelected={setAreaSelected}
+            areaList={getPartyCountFromArea()}
+            onPress={val => removeSelectedDoctorFromArea(val)}
+            handleDropDownValue={handleDropDownValue}
+            isPatchedData={isPatchedData}
+            allPatches={allPatches}
+          />
           <View style={styles.doctorDetailsContainer}>
             <View>
               <View style={styles.doctorDetailsHeader}>
@@ -866,62 +764,18 @@ const StandardPlanModal = ({
                   ))}
                 </View>
               </View>
-
-              <View style={styles.doctorDetailsContainer}>
-                {areaSelected?.map((area, i) => (
-                  <React.Fragment key={i}>
-                    <View style={styles.doctorSelectedContainer}>
-                      <Label
-                        title={area.name}
-                        testID={`label_stp_area_${area.id}_test`}
-                        size={14}
-                      />
-                      <Label
-                        title={` (${getSelectedPartyByArea(area.id)})`}
-                        type={'bold'}
-                        size={14}
-                      />
-                    </View>
-
-                    <View style={styles.doctorDetails}>
-                      {getDoctorsByArea(area.id).map((party, index) => (
-                        <DoctorDetailsWrapper
-                          key={party.id + area.id}
-                          id={party.id}
-                          title={party.shortName || party.name}
-                          specialization={party.specialities}
-                          category={party.category}
-                          isKyc={party.isKyc}
-                          selected={(doctorsSelected || []).some(id => {
-                            if (id === party.id) {
-                              return true;
-                            }
-                          })}
-                          testID={`card_standard_plan_doctor_${party.id}_test`}
-                          party={party}
-                          isPatchedData={isPatchedData}
-                          onPress={id => handleDoctorCardPress(id)}
-                          containerStyle={
-                            index % 2 === 0 ? styles.left : styles.right
-                          }
-                        />
-                      ))}
-                      {getDoctorsByArea(area.id).length === 0 && (
-                        <Label
-                          title={Strings.noRecordsForSelection}
-                          variant={LabelVariant.h4}
-                        />
-                      )}
-                    </View>
-                  </React.Fragment>
-                ))}
-                {areaSelected.length === 0 && (
-                  <Label
-                    title={Strings.noRecordsForSelection}
-                    variant={LabelVariant.h4}
-                  />
-                )}
-              </View>
+              <DoctorsByArea
+                areaSelected={areaSelected}
+                doctorsByArea={getDoctorsByArea}
+                doctorsSelected={doctorsSelected}
+                handleDoctorCardPress={handleDoctorCardPress}
+                isPatchedData={isPatchedData}
+                selectedPartyByArea={getSelectedPartyByArea}
+                partiesList={partiesList}
+                selectedDoctorType={selectedDoctorType}
+                patchValue={patchValue}
+                isSameDayPatch={isSameDayPatch(patchValue)}
+              />
               <View styles={styles.bottom}>
                 <View style={styles.bottomContent}>
                   <Button
@@ -950,10 +804,6 @@ const StandardPlanModal = ({
 };
 
 const {height} = Dimensions.get('window');
-
-const isAreaSelected = (area, areaList) => {
-  return areaList?.filter(val => val.id === area).length > 0;
-};
 
 StandardPlanModal.defaultProps = {
   handleSliderIndex: () => {},

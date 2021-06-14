@@ -38,3 +38,8 @@ export const PARTY_TYPE = {
   CHEMIST: 'Chemist',
   ALL: 'All',
 };
+
+export const GENDER = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+};

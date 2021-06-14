@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Alert} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Alert, BackHandler} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -19,12 +19,41 @@ import {LOGOUT_ITEM_ID} from './constants';
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    return function cleanup() {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  });
+
   const onActivePageChanged = (route, itemId) => {
+    BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     if (itemId === LOGOUT_ITEM_ID) {
       showLogOffConfirmationDialog();
     } else {
       route && navigation && navigation.navigate(route);
     }
+  };
+
+  const handleBackButton = () => {
+    Alert.alert(
+      Strings.info,
+      Strings.exitConfirmation,
+      [
+        {
+          text: Strings.cancel,
+          style: Strings.cancel,
+        },
+        {
+          text: Strings.ok,
+          onPress: () => BackHandler.exitApp(),
+        },
+      ],
+      {
+        cancelable: false,
+      },
+    );
+    return true;
   };
 
   const showLogOffConfirmationDialog = () => {

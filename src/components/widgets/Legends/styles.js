@@ -5,30 +5,31 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: theme.spacing(14.7),
+    marginTop: theme.spacing(12.7),
   },
-  Monthlycontainer: {
+  monthlycontainer: {
     justifyContent: 'flex-end',
   },
-  StandardContainer: {
+  standardContainer: {
     justifyContent: 'flex-start',
   },
   legendsContainer: {
     flexDirection: 'row',
-    margin: theme.spacing(1.3),
+    paddingHorizontal: theme.spacing(2),
     alignItems: 'center',
   },
-
   contentBasicStyle: {
-    marginHorizontal: 6,
+    marginHorizontal: theme.spacing(4),
   },
-
   verticalBar: {
     width: 6,
     height: 15,
   },
   scheduleVisits: {
-    backgroundColor: theme.colors.accent,
+    backgroundColor: theme.colors.orange[300],
+  },
+  kyc: {
+    backgroundColor: theme.colors.orange[100],
   },
   events: {
     backgroundColor: theme.colors.pink[100],
@@ -40,10 +41,13 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-
     backgroundColor: theme.colors.primary,
   },
-
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
   barContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -34,7 +34,8 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
               <View key={index} style={styles.doctorDetailContainer}>
                 <DoctorDetails
                   title={plan.name}
-                  specialization={plan.specialization}
+                  gender={plan.gender}
+                  specialization={plan.specialities}
                   category={plan.category}
                   location={plan.location}
                   customStyle={doctorDetailStyleObject}

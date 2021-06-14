@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   },
   divisionText: {
     color: themes.colors.white,
+    textTransform: 'uppercase',
   },
   checkContainer: {
     position: 'absolute',

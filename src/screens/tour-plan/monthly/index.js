@@ -8,7 +8,11 @@ import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
-import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
+import {
+  PLAN_TYPES,
+  STAFF_CODES,
+  TOUR_PLAN_TYPE,
+} from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon} from 'assets';
 import {
@@ -17,6 +21,9 @@ import {
   fetchWorkingDayCreator,
 } from './redux';
 import themes from 'themes';
+
+//TO DO:: TO REMOVE AFTER API INTEGRATION & EXACT CONTRACT DETAILS
+// import stpData from '../../../data/mock/api/stpData';
 
 /**
  * Check if same month is selected
@@ -298,6 +305,7 @@ const MonthlyTourPlan = ({navigation}) => {
    * @returns modal
    */
   const openTourPlanDropDown = () => {
+    const optionsToIterate = getOptionsToIterateForDropDown();
     return (
       <Modal
         open={visible}
@@ -305,7 +313,11 @@ const MonthlyTourPlan = ({navigation}) => {
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
-        customModalPosition={styles.modalPosition}
+        customModalPosition={
+          optionsToIterate?.length < 7
+            ? [styles.modalPosition, styles.modalHeightHalf]
+            : styles.modalPosition
+        }
       />
     );
   };
@@ -323,7 +335,11 @@ const MonthlyTourPlan = ({navigation}) => {
             <StandardPlanContainer
               workingDays={workingDays}
               navigation={navigation}
+              weekDayData={[]} //stpData TO DO :: for dev
             />
+            <View style={styles.stpLegend}>
+              <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
+            </View>
           </View>
         ) : null;
 
