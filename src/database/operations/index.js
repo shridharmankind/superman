@@ -1,15 +1,13 @@
-// All common DB operations should be declared in this file
+// TODO all ops need to be moved into the common ops file // clean this file
 
-import Realm from 'realm';
 import {Buffer} from 'buffer';
 import base64js from 'base64-js';
 import {sha512} from 'react-native-sha512';
 
 import {KeyChain} from 'helper';
-import * as Schemas from '../schemas';
+import {getDBInstance} from 'database';
 
-const dbPath = 'superman.realm';
-let realm;
+let realm = getDBInstance();
 
 /*
  helper function to generarte key based on password/access-token
@@ -31,31 +29,7 @@ export const getDatabaseKey = async () => {
 Open/Create DB Schema
 @schemaName - Scheama Name
 */
-export const openSchema = async () => {
-  try {
-    //const key = await getDatabaseKey();
-    realm = await Realm.open({
-      path: dbPath,
-      schema: [
-        Schemas.masterTablesDownLoadStatus,
-        Schemas.userInfo,
-        Schemas.staffPositions,
-        Schemas.designation,
-        Schemas.partyMaster,
-        Schemas.specialities,
-        Schemas.areas,
-        Schemas.qualifications,
-        Schemas.partyTypes,
-        Schemas.partyTypeGroup,
-        Schemas.engagement,
-      ],
-      schemaVersion: 0,
-    });
-  } catch (error) {
-    console.log('openSchema', error);
-    await realm.close();
-  }
-};
+export const openSchema = async () => {};
 
 export const createRecord = async (schema, record) => {
   try {
@@ -203,3 +177,5 @@ export const closeDB = () => {
     realm.close();
   }
 };
+
+export {default as qualificationOperations} from './qualificationOperations';

@@ -15,7 +15,7 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.partyMaster,
       Schemas.specialities,
       Schemas.areas,
-      Schemas.qualifications,
+      Schemas.Qualifications,
       Schemas.partyTypeGroup,
       Schemas.partyTypes,
       Schemas.engagement,
