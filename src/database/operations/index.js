@@ -1,11 +1,13 @@
 // All common DB operations should be declared in this file
 
-import {sha512} from 'react-native-sha512';
+import Realm from 'realm';
 import {Buffer} from 'buffer';
 import base64js from 'base64-js';
-import Realm from 'realm';
+import {sha512} from 'react-native-sha512';
+
 import {KeyChain} from 'helper';
-import * as Schemas from './schemas';
+import * as Schemas from '../schemas';
+
 const dbPath = 'superman.realm';
 let realm;
 

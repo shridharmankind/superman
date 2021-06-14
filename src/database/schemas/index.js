@@ -1,4 +1,4 @@
-import * as Constants from './constants';
+import * as Constants from '../constants';
 
 export const masterTablesDownLoadStatus = {
   name: Constants.MASTER_TABLES_DOWNLOAD_STATUS,
