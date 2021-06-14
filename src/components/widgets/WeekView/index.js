@@ -6,7 +6,7 @@ import styles from './styles';
 import theme from 'themes';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import {LocationIcon, ErrorIcon} from 'assets';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 
 /**
  * @param {Object} patchData
@@ -54,24 +54,31 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
 
   /**
    *
-   * @param {Number} party
-   * @param {String} partyType
-   * @returns
+   * @param {Object} partyData
+   * @param {String} type
+   * @returns  count for specific party Type
    */
-  const getCountLabel = (party, partyType) => `${party} ${partyType}`;
 
+  const getPartyData = (partyData, type) =>
+    partyData.filter(
+      item => item.partyType.toLowerCase() === type.toLowerCase(),
+    )[0]?.count;
   /**
    *
    * @param {Object} parties
    * @returns  party Name with Respectpective suffix
    */
   const getPartyTitle = parties => {
-    return [
-      getCountLabel(parties[0].doctor, PARTY_PREFIX.DOCTOR),
-      getCountLabel(parties[0].chemist, PARTY_PREFIX.CHEMIST),
-    ]
-      .filter(Boolean)
-      .join(', ');
+    const drCount = getPartyData(parties, Constants.PARTY_TYPE.DOCTOR);
+    const ChemistCount = getPartyData(parties, Constants.PARTY_TYPE.CHEMIST);
+
+    if (drCount && !ChemistCount) {
+      return `${drCount} ${PARTY_PREFIX.DOCTOR} `;
+    } else if (!drCount && ChemistCount) {
+      return `${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+    } else {
+      return `${drCount}  ${PARTY_PREFIX.DOCTOR} , ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+    }
   };
   /**
    * Renders data of each cell
