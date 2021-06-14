@@ -63,10 +63,11 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
     partyData.filter(
       item => item.partyType.toLowerCase() === type.toLowerCase(),
     )[0]?.count;
+
   /**
    *
    * @param {Object} parties
-   * @returns  party Name with Respectpective suffix
+   * @returns  party Name with respectpective suffix
    */
   const getPartyTitle = parties => {
     const drCount = getPartyData(parties, Constants.PARTY_TYPE.DOCTOR);
