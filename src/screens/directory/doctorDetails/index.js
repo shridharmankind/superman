@@ -27,24 +27,6 @@ const DoctorProfile = ({route}) => {
     {
       text: `${Strings.doctorProfileTab.prepSheet}`,
     },
-    {
-      text: `${Strings.doctorProfileTab.doctor360}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.performance}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.contentStudio}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.engagement}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.tasks}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.surveys}`,
-    },
   ];
 
   /**
@@ -254,7 +236,7 @@ const DoctorProfile = ({route}) => {
       case 0:
         return firstTab();
       default:
-        return '';
+        return <Label title={Strings.comingSoon} />;
     }
   };
 
@@ -417,7 +399,11 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData?.anniversary)}
+                title={
+                  doctorData?.anniversary
+                    ? dateFormat(doctorData?.anniversary)
+                    : ''
+                }
               />
             </View>
           </View>
