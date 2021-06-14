@@ -2,7 +2,8 @@ const Strings = {
   superman: 'superman',
   heading: 'Welcome',
   forgotpwd: 'Forgot password',
-  week: ['week 1', 'week 2', 'week 3', 'week 4'],
+  week: [1, 2, 3, 4],
+  weekText: 'Week',
   selectDoctorAndChemist: 'Select doctors and chemist',
   selectArea: 'Select Area',
   selectVisit: 'Selected Visits',
@@ -35,6 +36,9 @@ const Strings = {
     today: 'Today',
     holiday: 'Holiday',
     location: 'Location',
+    complainceNotMet: 'Compliance not met',
+    exStation: 'Ex-station',
+    exStationTitle: 'Ex-',
   },
   kyc: 'KYC',
   all: 'All',
@@ -130,6 +134,7 @@ const Strings = {
   exitConfirmation: 'Are you sure you want to exit Superman?',
   patchSaveForPrevDay: 'Patch for previous day(s) has been saved',
   noPatchFound: 'No patch found',
+  exStation: 'Ex',
 };
 
 export default Strings;

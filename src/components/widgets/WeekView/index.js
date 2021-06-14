@@ -4,19 +4,35 @@ import {View, TouchableOpacity} from 'react-native';
 import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
 import theme from 'themes';
+import {DoctorTag, DivisionType} from 'components/widgets';
+import {LocationIcon, ErrorIcon} from 'assets';
+import {Strings} from 'common';
 
+/**
+ * @param {Object} patchData
+ * @returns patch name string
+ */
+const getPatchName = patchData => {
+  const {isExStation, displayName} = patchData;
+  return isExStation ? `(${Strings.exStation}) ${displayName}` : displayName;
+};
+
+//Defines prefix for party typa
+const PARTY_PREFIX = {
+  DOCTOR: 'D',
+  CHEMIST: 'C',
+};
+
+// max number of character for Days to show
 const maxDaysLength = 3;
+
 /** Render Week View
  * @param {Array} workingDays represents the  data for row header
  * @param {Array} columnHeader represents the  data for col header
  * @param {Object} weekData Data for all cells
+ * @param {Function} onPressHandler Handles cell click
  */
-const WeekView = ({
-  workingDays,
-  columnHeader,
-  onPressHandler,
-  weekData = {},
-}) => {
+const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
   const headerData = ['', ...columnHeader];
 
   /**
@@ -34,46 +50,97 @@ const WeekView = ({
    * @param {string} row row key
    */
   const getCellData = (data, column, row) =>
-    Object.keys(data).length && weekData[column][row];
+    data.filter(item => item.week === column && item.weekDay === row)[0];
 
+  /**
+   *
+   * @param {Number} party
+   * @param {String} partyType
+   * @returns
+   */
+  const getCountLabel = (party, partyType) => `${party} ${partyType}`;
+
+  /**
+   *
+   * @param {Object} parties
+   * @returns  party Name with Respectpective suffix
+   */
+  const getPartyTitle = parties => {
+    return [
+      getCountLabel(parties[0].doctor, PARTY_PREFIX.DOCTOR),
+      getCountLabel(parties[0].chemist, PARTY_PREFIX.CHEMIST),
+    ]
+      .filter(Boolean)
+      .join(', ');
+  };
   /**
    * Renders data of each cell
    * @param {cellData} represnt cell info
    */
-  const renderCellData = cellData => (
-    <>
-      <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
-        <Label title="" />
-      </View>
+  const renderCellData = cellData => {
+    if (!cellData) {
+      return;
+    }
+    const {parties, noOfKyc, patch, isCompliant} = cellData;
 
-      <View style={[styles.cellFooter, styles.flexSpaceBetweenView]}>
-        <Label title="" />
+    return (
+      <View style={styles.cellDataContainer}>
+        <View style={[styles.cellHeader, styles.flexSpaceBetweenView]}>
+          <View style={styles.flexDirectionRow}>
+            <Label
+              title={parties && getPartyTitle(parties)}
+              variant={LabelVariant.h5}
+            />
+            {!isCompliant && <ErrorIcon width={16} height={16} />}
+          </View>
+
+          {noOfKyc && (
+            <DoctorTag
+              division={DivisionType.KYC}
+              title={`${noOfKyc} ${DivisionType.KYC}`}
+            />
+          )}
+        </View>
+
+        <View style={[styles.cellFooter]}>
+          <LocationIcon width={16} height={16} />
+          <Label
+            variant={LabelVariant.label}
+            title={getPatchName(patch)}
+            numberOfLines={1}
+            style={styles.locationLabelText}
+            textColor={theme.colors.grey[900]}
+          />
+        </View>
       </View>
-    </>
-  );
+    );
+  };
 
   /**
-   * @param {*} rowHeader
+   * @param {String} rowHeader
    * @param {fn} onPress
    * @param {Boolean} isLast
    * @param {string} header
    */
-  const Cell = ({rowHeader, onPress, isLast, header, testID}) => (
-    <View
-      testID={testID}
-      style={[
-        styles.cellContainer,
-        styles.flexCenterView,
-        isLast && styles.lastCell,
-      ]}>
-      <TouchableOpacity
-        testID="button_weekView_cell_test"
-        onPress={onPress}
-        style={styles.flexSpaceBetweenView}>
-        {renderCellData(getCellData(weekData, header, rowHeader))}
-      </TouchableOpacity>
-    </View>
-  );
+  const Cell = ({rowHeader, onPress, isLast, header, testID}) => {
+    const cellData = getCellData(weekData, header, rowHeader);
+
+    return (
+      <View
+        testID={testID}
+        style={[styles.cellContainer, isLast && styles.lastCell]}>
+        {cellData?.patch?.isNoOfVisitHigh && (
+          <Label style={styles.highVisitBar} title="" />
+        )}
+        <TouchableOpacity
+          style={[styles.cellBorder]}
+          testID="button_weekView_cell_test"
+          onPress={onPress}>
+          {renderCellData(cellData)}
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   /**
    * Renders individual row content
@@ -140,7 +207,7 @@ const WeekView = ({
           textColor={theme.colors.grey[200]}
           testID="label_weekView_header_test"
           isUpperCase={true}
-          title={value}
+          title={index !== 0 && `${Strings.weekText} ${index}`}
           style={[
             styles.textCenterAlign,
             index === 0 ? styles.verticalHeader : styles.flexFullSpace,
@@ -150,7 +217,7 @@ const WeekView = ({
     });
 
   return (
-    <View style={styles.container}>
+    <View>
       <View style={styles.headerContainer}>
         <Header label={headerData} />
       </View>
