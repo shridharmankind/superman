@@ -428,7 +428,6 @@ const StandardPlanModal = ({
     } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
       updatePatch(obj, patchValue.id, false);
     }
-    updateSTPCalendar();
   }, [
     patchDefaultValue,
     patchSelected,
@@ -441,7 +440,6 @@ const StandardPlanModal = ({
     doctorsSelected,
     isSameDayPatch,
     dataChanged,
-    updateSTPCalendar,
     isPatchedData,
   ]);
 
@@ -663,6 +661,7 @@ const StandardPlanModal = ({
    */
   const handleClose = () => {
     resetState();
+    updateSTPCalendar();
     navigation.pop();
   };
 
