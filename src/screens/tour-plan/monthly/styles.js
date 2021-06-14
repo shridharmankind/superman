@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing(15),
   },
   stpLegend: {
-    paddingLeft: theme.spacing(54),
+    paddingLeft: theme.spacing(56),
   },
 });
 
