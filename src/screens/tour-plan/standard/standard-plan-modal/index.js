@@ -249,20 +249,19 @@ const StandardPlanModal = ({
    * @param {Number} areaId area id passed
    */
   const removeSelectedDoctorFromArea = useCallback(
-    areaId => {
-      const doctorToRemove = partiesList.find(party =>
-        doctorsSelected?.some(
-          obj =>
-            obj === party.id && areaSelected.some(par => par.id === areaId),
-        ),
-      );
-      if (doctorToRemove) {
-        setDoctorSelected(
-          doctorsSelected.filter(doc => doc !== doctorToRemove.id),
+    async areaId => {
+      let doctorArr = doctorsSelected;
+      partiesList.map(party => {
+        const doctorToRemove = doctorsSelected?.find(
+          obj => obj === party.id && party.areas.some(par => par.id === areaId),
         );
-      }
+        if (doctorToRemove) {
+          doctorArr = doctorArr.filter(doc => doc !== doctorToRemove);
+        }
+      });
+      setDoctorSelected(doctorArr);
     },
-    [doctorsSelected, partiesList, areaSelected],
+    [doctorsSelected, partiesList],
   );
 
   /** function to create patch string to be put in patch input field*/
@@ -294,7 +293,7 @@ const StandardPlanModal = ({
   }, [areaSelected, doctorsSelected, partiesList, patches]);
 
   useEffect(() => {
-    if (!isPatchedData && dataChanged && isSameDayPatch(patchValue) === false) {
+    if (!isPatchedData && dataChanged && !isSameDayPatch(patchValue)) {
       const string = createPatchString();
       if (!patchEdited) {
         setPatchSelected(string);
@@ -336,7 +335,6 @@ const StandardPlanModal = ({
           par => par.frequency !== par.alreadyVisited,
         );
       }
-      //setDoctorsByArea(newPartiesData);
       return newPartiesData;
     },
     [partiesList, selectedDoctorType, isSameDayPatch, patchValue],
@@ -655,10 +653,11 @@ const StandardPlanModal = ({
    */
   const isSameDayPatch = useCallback(
     patch => {
-      return (
-        weekNum === patch?.week &&
-        weekDay === patch?.weekDay &&
-        year === patch?.year
+      return patch?.usedOn.some(
+        pat =>
+          weekNum === pat?.week &&
+          weekDay === pat?.weekDay &&
+          year === pat?.year,
       );
     },
     [weekNum, weekDay, year],

@@ -3,7 +3,7 @@ import themes from 'themes';
 
 const styles = StyleSheet.create({
   areaChip: {
-    marginRight: 14,
+    marginRight: themes.spacing(14),
   },
   areaFilter: {
     flex: 1,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   areaFilterContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
+    marginVertical: themes.spacing(20),
   },
 });
 

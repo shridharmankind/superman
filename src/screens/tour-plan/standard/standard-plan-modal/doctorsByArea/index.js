@@ -14,13 +14,16 @@ const DoctorsByArea = ({
   selectedDoctorType,
   isSameDayPatch,
 }) => {
-  const isDoctorSelected = partyId => {
-    return (doctorsSelected || []).some(id => {
-      if (id === partyId) {
-        return true;
-      }
-    });
-  };
+  const isDoctorSelected = useCallback(
+    partyId => {
+      return (doctorsSelected || []).some(id => {
+        if (id === partyId) {
+          return true;
+        }
+      });
+    },
+    [doctorsSelected],
+  );
 
   /** function to filter parties by area selected from area chiklets
    * @param {Number} area area id passed as number
@@ -50,49 +53,47 @@ const DoctorsByArea = ({
     [partiesList, selectedDoctorType, isSameDayPatch],
   );
 
-  const renderDoctors = area => {
-    const doctorInArea = getDoctorsByArea(area?.id);
-    return (
-      <View style={styles.doctorDetails}>
-        {doctorInArea.length > 0 ? (
-          doctorInArea.map((party, index) => (
-            <DoctorDetailsWrapper
-              key={party.id + area.id}
-              id={party.id}
-              title={party.shortName || party.name}
-              specialization={party.specialities}
-              category={party.category}
-              isKyc={party.isKyc}
-              selected={isDoctorSelected(party.id)}
-              testID={`card_standard_plan_doctor_${party.id}_test`}
-              party={party}
-              isPatchedData={isPatchedData}
-              onPress={id => handleDoctorCardPress(id)}
-              containerStyle={index % 2 === 0 ? styles.left : styles.right}
-            />
-          ))
-        ) : (
-          <Label
-            title={Strings.noRecordsForSelection}
-            variant={LabelVariant.h4}
-          />
-        )}
-      </View>
-    );
-  };
+  const renderDoctors = useCallback(
+    area => {
+      const doctorInArea = getDoctorsByArea(area?.id);
+      return (
+        doctorInArea.length > 0 && (
+          <View style={styles.doctorDetails}>
+            {doctorInArea.map((party, index) => (
+              <DoctorDetailsWrapper
+                key={party.id + area.id}
+                id={party.id}
+                title={party.shortName || party.name}
+                specialization={party.specialities}
+                category={party.category}
+                isKyc={party.isKyc}
+                selected={isDoctorSelected(party.id)}
+                testID={`card_standard_plan_doctor_${party.id}_test`}
+                party={party}
+                isPatchedData={isPatchedData}
+                onPress={id => handleDoctorCardPress(id)}
+                containerStyle={index % 2 === 0 ? styles.left : styles.right}
+              />
+            ))}
+          </View>
+        )
+      );
+    },
+    [getDoctorsByArea, handleDoctorCardPress, isDoctorSelected, isPatchedData],
+  );
 
   const renderAreaLabel = area => {
     return (
       <View style={styles.doctorSelectedContainer}>
         <Label
           title={area.name}
+          variant={LabelVariant.subtitleSmall}
           testID={`label_stp_area_${area.id}_test`}
-          size={14}
         />
         <Label
           title={` (${selectedPartyByArea(area.id)})`}
           type={'bold'}
-          size={14}
+          variant={LabelVariant.subtitleSmall}
         />
       </View>
     );
@@ -100,12 +101,20 @@ const DoctorsByArea = ({
 
   return (
     <View style={styles.doctorDetailsContainer}>
-      {areaSelected?.map((area, i) => (
-        <React.Fragment key={i}>
-          {renderAreaLabel(area)}
-          {renderDoctors(area)}
-        </React.Fragment>
-      ))}
+      {areaSelected.length > 0 ? (
+        areaSelected?.map((area, i) => (
+          <React.Fragment key={i}>
+            {renderAreaLabel(area)}
+            {renderDoctors(area)}
+          </React.Fragment>
+        ))
+      ) : (
+        <Label
+          title={Strings.noRecordsForSelection}
+          variant={LabelVariant.h4}
+          type={'bold'}
+        />
+      )}
     </View>
   );
 };

@@ -3,7 +3,7 @@ import themes from 'themes';
 
 const styles = StyleSheet.create({
   doctorDetailsContainer: {
-    marginVertical: 20,
+    marginVertical: themes.spacing(20),
   },
   doctorSelectedContainer: {
     flexDirection: 'row',
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'flex-start',
     flexWrap: 'wrap',
-    marginBottom: 20,
+    marginBottom: themes.spacing(20),
   },
   left: {
     marginRight: themes.spacing(7),

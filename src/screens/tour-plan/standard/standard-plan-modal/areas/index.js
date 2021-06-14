@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Area, Dropdown, Label} from 'components/elements';
+import {Area, Dropdown, Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import themes from 'themes';
 import styles from './styles';
@@ -133,7 +133,10 @@ const Areas = ({
   return (
     <View style={styles.selectAreaContainer}>
       <View>
-        <Label title={Strings.selectArea} size={14} />
+        <Label
+          title={Strings.selectArea}
+          variant={LabelVariant.subtitleSmall}
+        />
       </View>
       <View style={styles.areaFilterContainer}>
         <Dropdown
