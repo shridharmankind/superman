@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
+    marginRight: theme.spacing(4),
   },
   barContainer: {
     flexDirection: 'row',
@@ -58,7 +59,10 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: theme.colors.grey[200],
     transform: [{rotate: '50deg'}],
-    marginRight: 2,
+    marginRight: theme.spacing(2),
+  },
+  exStation: {
+    marginRight: theme.spacing(2),
   },
 });
 

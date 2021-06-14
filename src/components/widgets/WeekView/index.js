@@ -78,7 +78,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
     } else if (!drCount && ChemistCount) {
       return `${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
     } else {
-      return `${drCount}  ${PARTY_PREFIX.DOCTOR} , ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+      return `${drCount}  ${PARTY_PREFIX.DOCTOR}, ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
     }
   };
   /**
@@ -99,7 +99,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
               title={parties && getPartyTitle(parties)}
               variant={LabelVariant.h5}
             />
-            {!isCompliant && <ErrorIcon width={16} height={16} />}
+            {!isCompliant && <ErrorIcon width={18} height={18} />}
           </View>
 
           {noOfKyc && (

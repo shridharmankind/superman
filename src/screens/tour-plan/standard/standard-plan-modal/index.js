@@ -29,6 +29,7 @@ import {
   standardTourPlanSelector,
   savePatchCreator,
   standardPlanActions,
+  fetchSTPCalendarUpdateCreator,
 } from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 
@@ -452,6 +453,7 @@ const StandardPlanModal = ({
     } else if (patchValue && isPatchOfSameDay) {
       updatePatch(obj, patchValue.id, false);
     }
+    updateSTPCalendar();
   }, [
     patchDefaultValue,
     patchSelected,
@@ -464,6 +466,7 @@ const StandardPlanModal = ({
     doctorsSelected,
     isSameDayPatch,
     dataChanged,
+    updateSTPCalendar,
   ]);
 
   /** function to show notification in case of updating the patch
@@ -489,6 +492,20 @@ const StandardPlanModal = ({
       });
     },
     [savePatch, updatePatch],
+  );
+
+  /** function to save patch
+   * @param {Object} obj patch request has been passed as object
+   */
+  const updateSTPCalendar = useCallback(
+    obj => {
+      dispatch(
+        fetchSTPCalendarUpdateCreator({
+          staffPositionId: 1,
+        }),
+      );
+    },
+    [dispatch],
   );
 
   /** function to save patch
