@@ -135,6 +135,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                 title={data.item.name}
                 specialization={data.item.specialization}
                 isKyc={data.item.isKyc}
+                gender={data.item.gender}
                 category={data.item.category}
                 location={data.item.location}
                 partyType={data?.item?.partyTypes?.name}

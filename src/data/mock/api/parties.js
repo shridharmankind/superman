@@ -24,6 +24,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 2253,
+        gender: 'Male',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -69,6 +70,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: false,
         potential: 22530,
+        gender: 'Female',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -114,6 +116,7 @@ export const partiesMock = {
         selfDispensing: true,
         isKyc: true,
         potential: 22000,
+        gender: 'Male',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -154,6 +157,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 100000,
+        gender: 'Female',
         partyTypes: {
           id: 1,
           name: 'Doctor',
