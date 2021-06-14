@@ -51,4 +51,4 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
   );
 };
 
-export default StandardPlanContainer;
+export default React.memo(StandardPlanContainer);
