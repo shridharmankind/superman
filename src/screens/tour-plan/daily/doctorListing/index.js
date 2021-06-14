@@ -133,7 +133,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
             <View key={data.item.key} style={styles.doctorDetailContainer}>
               <DoctorDetails
                 title={data.item.name}
-                specialization={data.item.specialization}
+                specialization={data.item.specialities}
                 isKyc={data.item.isKyc}
                 gender={data.item.gender}
                 category={data.item.category}
