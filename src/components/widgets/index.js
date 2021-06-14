@@ -6,4 +6,6 @@ export {default as Tab} from '../widgets/Tab';
 export {default as TabBar} from '../widgets/TabBar';
 export {default as Legends} from '../widgets/Legends';
 export {default as Toast} from '../widgets/Toast';
+export {default as ToastWeb} from '../widgets/ToastWeb';
+
 export {default as DoctorTag, DivisionType} from '../widgets/DoctorTag';

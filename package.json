@@ -5,7 +5,7 @@
   "scripts": {
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "web-start": "yarn env-dev && react-app-rewired start",
+    "web-start": "yarn env-static && react-app-rewired start",
     "web-build": "react-app-rewired build",
     "web-test": "react-app-rewired test",
     "test": "jest",
