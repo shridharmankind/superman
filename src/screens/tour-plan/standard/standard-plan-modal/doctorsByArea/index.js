@@ -53,6 +53,9 @@ const DoctorsByArea = ({
     [partiesList, selectedDoctorType, isSameDayPatch],
   );
 
+  /** function to render parties by area selected from area chiklets
+   * @param {Object} area area object passed
+   */
   const renderDoctors = useCallback(
     area => {
       const doctorInArea = getDoctorsByArea(area?.id);
@@ -82,6 +85,9 @@ const DoctorsByArea = ({
     [getDoctorsByArea, handleDoctorCardPress, isDoctorSelected, isPatchedData],
   );
 
+  /** function to render area label by area selected from area chiklets
+   * @param {Object} area area object passed
+   */
   const renderAreaLabel = area => {
     return (
       <View style={styles.doctorSelectedContainer}>

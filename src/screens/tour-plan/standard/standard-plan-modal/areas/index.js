@@ -99,7 +99,7 @@ const Areas = ({
     });
   };
 
-  /**function to return renderAreas() with scollable View */
+  /**function to return render Areas with scollable View */
   const scrollableViewWithArea = () => {
     return (
       <View style={styles.areaFilter}>
@@ -107,7 +107,7 @@ const Areas = ({
           <TouchableOpacity
             onPress={() => handleAreaLeftArrow()}
             style={[styles.swiperArrow, styles.leftArrow]}>
-            <Icon name={'chevron-left'} size={10} color={themes.colors.blue} />
+            {renderArrow('chevron-left')}
           </TouchableOpacity>
         )}
         <ScrollView
@@ -123,21 +123,23 @@ const Areas = ({
           <TouchableOpacity
             onPress={() => handleAreaRightArrow()}
             style={[styles.swiperArrow, styles.rightArrow]}>
-            <Icon name={'chevron-right'} size={10} color={themes.colors.blue} />
+            {renderArrow('chevron-right')}
           </TouchableOpacity>
         )}
       </View>
     );
   };
 
+  /**function to return renderAreas() with scollable View
+   * @param {String} icon name of icon to use
+   */
+  const renderArrow = icon => (
+    <Icon name={icon} size={10} color={themes.colors.blue} />
+  );
+
   return (
     <View style={styles.selectAreaContainer}>
-      <View>
-        <Label
-          title={Strings.selectArea}
-          variant={LabelVariant.subtitleSmall}
-        />
-      </View>
+      <Label title={Strings.selectArea} variant={LabelVariant.subtitleSmall} />
       <View style={styles.areaFilterContainer}>
         <Dropdown
           valueSelected={val => handleDropDownValue(val)}
