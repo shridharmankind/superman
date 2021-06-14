@@ -48,11 +48,11 @@ const stpData = [
     parties: [
       {
         partyType: 'Doctor',
-        count: 12,
+        count: 0,
       },
       {
         partyType: 'Chemist',
-        count: 12,
+        count: 0,
       },
     ],
     noOfKyc: 7,

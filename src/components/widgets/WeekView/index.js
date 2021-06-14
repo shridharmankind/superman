@@ -77,8 +77,10 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
       return `${drCount} ${PARTY_PREFIX.DOCTOR} `;
     } else if (!drCount && ChemistCount) {
       return `${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
-    } else {
+    } else if (drCount && ChemistCount) {
       return `${drCount}  ${PARTY_PREFIX.DOCTOR}, ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+    } else {
+      return null;
     }
   };
   /**
