@@ -29,7 +29,10 @@ const config = {
 
 export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
 export const USER_ID = 'USER_ID';
+<<<<<<< HEAD
 export const LOGIN_STATUS = 'loginStatus';
+=======
+>>>>>>> develop
 export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
@@ -43,7 +46,6 @@ const Login = ({navigation}) => {
       const decoded = jwt_decode(newAuthState.accessToken);
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
       AsyncStorage.setItem(USER_ID, decoded.sub);
-      AsyncStorage.setItem(LOGIN_STATUS, 'true');
       setAnimating(false);
 
       const isPending = await Helper.checkForPendingMasterDataDownload();

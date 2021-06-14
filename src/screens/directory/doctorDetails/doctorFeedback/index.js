@@ -6,15 +6,13 @@ import SwiperFlatList from 'react-native-swiper-flatlist';
 import {SingleAvtar, JointAvtar} from 'assets';
 import dayjs from 'dayjs';
 import themes from 'themes';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useNavigation} from '@react-navigation/native';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {ArrowBack} from 'assets';
 
-const DoctorFeedback = ({route}) => {
+const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
-  const navigation = useNavigation();
   const items = [
     {name: 'question1', key: 1},
     {name: 'question2', key: 2},
@@ -69,6 +67,7 @@ const DoctorFeedback = ({route}) => {
         </View>
         <View style={styles.footerSection}>
           <Label
+            testID="Add_Doctor_link"
             style={{
               color: themes.colors.primary,
               fontFamily: themes.fonts.fontSemiBold,
@@ -84,18 +83,21 @@ const DoctorFeedback = ({route}) => {
       <View style={styles.header}>
         <View>
           <View style={styles.headerDataStyle}>
-            <TouchableOpacity style={styles.backArrow} onPress={closeFeedback}>
-              <Icon
-                name={'chevron-left'}
-                size={15}
-                color={themes.colors.grey[200]}
-              />
+            <TouchableOpacity
+              style={styles.backArrow}
+              onPress={closeFeedback}
+              testID="back_btn">
+              <ArrowBack width={34.7} height={34.7} />
             </TouchableOpacity>
             <Label
               variant={LabelVariant.h2}
               title={`${Strings.doctorDetail.dcr.feedback} - `}
             />
-            <Label variant={LabelVariant.h2} title={doctorData.name} />
+            <Label
+              variant={LabelVariant.h2}
+              testID="doctor_name"
+              title={doctorData.name}
+            />
           </View>
           <View>
             <Label

@@ -7,4 +7,7 @@ export const API_PATH = {
   PATCH: '/patch',
   AREA_BY_SPID: '/party/areabyspid',
   PARTY_BY_SPID: '/party/partybyspid',
+  COMPLAINCE_DAILY:
+    '/compliance/standardtourplan/staffPositionId/daily?week=weekVal&weekday=weekdayVal',
+  COMPLAINCE_MONTHLY: '/compliant/standardtourplan/staffPositionId/month',
 };

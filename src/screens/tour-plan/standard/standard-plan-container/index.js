@@ -5,7 +5,7 @@ import {Strings} from 'common';
 /**
  * Standard Tour Plan container
  */
-const StandardPlanContainer = ({workingDays, navigation}) => {
+const StandardPlanContainer = ({workingDays, navigation, weekDayData}) => {
   /**
    * Handle Week View click  event
    * @param {string} header represemts cell Header
@@ -23,6 +23,7 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
       workingDays={workingDays}
       columnHeader={Strings.week}
       onPressHandler={handleOnClickWeekView}
+      weekData={weekDayData}
     />
   );
 };

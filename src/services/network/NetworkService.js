@@ -24,7 +24,8 @@ export const get = async (url, params = {}) => {
     headers: {Authorization: `Bearer ${accessToken}`},
     params,
   };
-  return client(config)
+
+  return await client(config)
     .then(function (response) {
       // handle success
       return response;
@@ -53,8 +54,8 @@ export const post = async (url, data = {}, params = {}) => {
     data,
     params,
   };
-  
-  return client(config)
+
+  return await client(config)
     .then(function (response) {
       // handle success
       return response;
@@ -85,7 +86,7 @@ export const put = async (url, data = {}, params = {}) => {
     params,
   };
 
-  return client(config)
+  return await client(config)
     .then(function (response) {
       // handle success
       return response;

@@ -27,24 +27,6 @@ const DoctorProfile = ({route}) => {
     {
       text: `${Strings.doctorProfileTab.prepSheet}`,
     },
-    {
-      text: `${Strings.doctorProfileTab.doctor360}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.performance}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.contentStudio}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.engagement}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.tasks}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.surveys}`,
-    },
   ];
 
   /**
@@ -152,6 +134,10 @@ const DoctorProfile = ({route}) => {
                   style={styles.progressText}
                   title={Strings.priorityProductCard.progressNumber}
                 />
+                <Label
+                  style={styles.progressLightText}
+                  title={Strings.priorityProductCard.slashNumber}
+                />
                 <ArrowUp style={styles.arrowUp} width={15} height={15} />
                 <Label
                   style={styles.percentageText}
@@ -162,6 +148,8 @@ const DoctorProfile = ({route}) => {
                 <Bar
                   progress={0.6}
                   width={200}
+                  borderWidth={0}
+                  unfilledColor={theme.colors.blue[300]}
                   color={theme.colors.blue[200]}
                 />
               </View>
@@ -204,6 +192,10 @@ const DoctorProfile = ({route}) => {
                   style={styles.progressText}
                   title={Strings.priorityProductCard.secondProgressbar}
                 />
+                <Label
+                  style={styles.progressLightText}
+                  title={Strings.priorityProductCard.slashSecondNumber}
+                />
                 <ArrowUp style={styles.arrowUp} width={15} height={15} />
                 <Label
                   style={styles.percentageText}
@@ -214,6 +206,8 @@ const DoctorProfile = ({route}) => {
                 <Bar
                   progress={0.4}
                   width={200}
+                  borderWidth={0}
+                  unfilledColor={theme.colors.blue[300]}
                   color={theme.colors.blue[200]}
                 />
               </View>
@@ -242,7 +236,7 @@ const DoctorProfile = ({route}) => {
       case 0:
         return firstTab();
       default:
-        return '';
+        return <Label title={Strings.comingSoon} />;
     }
   };
 
@@ -279,19 +273,41 @@ const DoctorProfile = ({route}) => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.tabContainer}>
-          <View
-            style={[
-              styles.divisionContainer,
-              {
-                backgroundColor: getDivisionColor(doctorData?.category),
-              },
-            ]}>
-            <Label
-              variant={LabelVariant.h6}
-              textColor={theme.colors.white}
-              style={styles.divisionText}
-              title={doctorData?.category?.toUpperCase()}
-            />
+          <View style={styles.divisionContainer}>
+            {doctorData?.isKyc && (
+              <View
+                style={[
+                  styles.divisionItem,
+                  {
+                    backgroundColor: getDivisionColor(
+                      Constants.DIVISION_COLOR.KYC,
+                    ),
+                  },
+                ]}>
+                <Label
+                  variant={LabelVariant.h6}
+                  textColor={theme.colors.white}
+                  title={Strings.kyc}
+                  type={'bold'}
+                />
+              </View>
+            )}
+            {doctorData?.category && (
+              <View
+                style={[
+                  styles.divisionItem,
+                  {
+                    backgroundColor: getDivisionColor(doctorData?.category),
+                  },
+                ]}>
+                <Label
+                  variant={LabelVariant.h6}
+                  textColor={theme.colors.white}
+                  style={styles.divisionText}
+                  title={doctorData?.category?.toUpperCase()}
+                />
+              </View>
+            )}
           </View>
           <View style={styles.leftTabContainer}>
             <ArrowBack
@@ -345,7 +361,7 @@ const DoctorProfile = ({route}) => {
               <View style={styles.nameContainer}>
                 <Label
                   variant={LabelVariant.subtitleLarge}
-                  title={doctorData?.name}
+                  title={Strings.dr + ' ' + doctorData?.name}
                   style={styles.doctorName}
                 />
                 <View style={styles.location}>
@@ -367,7 +383,7 @@ const DoctorProfile = ({route}) => {
           </View>
           <View style={styles.anniversy}>
             <View style={styles.birthdayClass}>
-              <Birthday style={styles.birthdayBorder} width={15} height={15} />
+              <Birthday style={styles.birthdayBorder} width={20} height={20} />
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
@@ -377,13 +393,17 @@ const DoctorProfile = ({route}) => {
             <View style={styles.birthdayClass}>
               <Anniversary
                 style={styles.birthdayBorder}
-                width={15}
-                height={15}
+                width={20}
+                height={20}
               />
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData?.anniversary)}
+                title={
+                  doctorData?.anniversary
+                    ? dateFormat(doctorData?.anniversary)
+                    : ''
+                }
               />
             </View>
           </View>
@@ -394,7 +414,7 @@ const DoctorProfile = ({route}) => {
                   <WorkOutline width={15} height={15} />
                   <Label
                     variant={LabelVariant.bodySmall}
-                    style={styles.dateClass}
+                    style={styles.engClass}
                     title={formatEngment(dataItem)}
                   />
                 </View>

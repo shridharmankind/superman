@@ -6,7 +6,7 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_USER_INFO,
     apiPath: Constants.MASTER_TABLE_USER_INFO_API_PATH,
-    schema: [Schemas.userInfo, Schemas.staffPositions],
+    schema: [Schemas.userInfo, Schemas.staffPositions, Schemas.designation],
   },
   {
     name: Constants.MASTER_TABLE_PARTY,
@@ -17,7 +17,8 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.areas,
       Schemas.qualifications,
       Schemas.partyTypeGroup,
-      Schemas.partyTypes
+      Schemas.partyTypes,
+      Schemas.engagement,
     ],
   },
 ];

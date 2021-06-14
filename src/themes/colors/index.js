@@ -11,11 +11,13 @@ const Colors = {
   orange: {
     100: '#FFA088',
     200: '#c43500',
+    300: '#ff4500',
   },
   borderColor: '#979797',
   blue: {
     100: '#2293cb',
     200: '#2394cc',
+    300: '#e9f4fa',
   },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',
@@ -26,6 +28,7 @@ const Colors = {
     100: '#E36565',
     200: '#f45b60',
     300: '#ff0000',
+    400: '#830202',
   },
   blueBg: '#50478D',
   grey: {

@@ -37,6 +37,7 @@ export const openSchema = async () => {
         Schemas.masterTablesDownLoadStatus,
         Schemas.userInfo,
         Schemas.staffPositions,
+        Schemas.designation,
         Schemas.partyMaster,
         Schemas.specialities,
         Schemas.areas,
@@ -45,6 +46,7 @@ export const openSchema = async () => {
         Schemas.partyTypeGroup,
         Schemas.syncParameters,
         Schemas.syncErrorDetails
+        Schemas.engagement,
       ],
       schemaVersion: 0,
     });
@@ -105,9 +107,10 @@ export const getAllRecord = async schema => {
 export const createUserInfoRecord = async (schema, data) => {
   try {
     await openSchema();
-    let child;
-    console.log("data -- ",data);
+    let child, designation;
     await realm.write(() => {
+      designation = realm.create(schema[2].name, data.designation, 'modified');
+
       let parent = realm.create(
         schema[0].name,
         {
@@ -117,7 +120,7 @@ export const createUserInfoRecord = async (schema, data) => {
           lastName: data.lastName,
           userName: data.userName,
           ssoUserId: data.ssoUserId,
-          designation: "data.designation",
+          designation: designation,
         },
         'modified',
       );
@@ -260,8 +263,13 @@ export const updatePartyMasterRecord = async (schema , data) => {
 export const createPartyMasterRecord = async (schema, data) => {
   try {
     await openSchema();
-    let specialization, area, qualification, partyTypes, partyTypeGroup;
-    await insertPartyTableData(schema,-1);
+    let specialization,
+      area,
+      qualification,
+      partyTypes,
+      partyTypeGroup,
+      engagement;
+    await insertPartyTableData(schema,-1);  
     await realm.write(() => {
       data.forEach((object,index) => {
         //console.log("object -- ",object);
@@ -306,21 +314,30 @@ export const createPartyMasterRecord = async (schema, data) => {
             isKyc: object.isKyc,
             syncParameters: syncParametersObject,
             partyTypes: partyTypes,
+            alreadyVisited: object.alreadyVisited,
+            shortName: object.shortName,
+            birthday: object.birthday,
+            anniversary: object.anniversary,
+            selfDispensing: object.selfDispensing,
+            partyTypeId: object.partyTypeId,
           },
           'modified',
         );
-        
-        object.specialities.forEach(obj => {
+        object.specialities?.forEach(obj => {
           specialization = realm.create(schema[1].name, obj, 'modified');
           partyMaster.specialities.push(specialization);
         });
-        object.areas.forEach(obj => {
+        object.areas?.forEach(obj => {
           area = realm.create(schema[2].name, obj, 'modified');
           partyMaster.areas.push(area);
         });
-        object.qualifications.forEach(obj => {
+        object.qualifications?.forEach(obj => {
           qualification = realm.create(schema[3].name, obj, 'modified');
           partyMaster.qualifications.push(qualification);
+        });
+        object.engagement?.forEach(obj => {
+          engagement = realm.create(schema[4].name, obj, 'modified');
+          partyMaster.engagement.push(engagement);
         });
       });
     });
@@ -381,6 +398,7 @@ export async function insertPartyTableData(schema,id){
           potential: object.potential,
           isKyc: object.isKyc,
           syncParameters: syncParametersObject,
+          selfDispensing: object.selfDispensing,
           partyTypes: partyTypes,
         },
         'modified',

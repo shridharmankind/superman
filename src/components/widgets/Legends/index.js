@@ -1,12 +1,10 @@
 import React from 'react';
 import {Label, LabelVariant} from 'components/elements';
 import {View} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import theme from 'themes';
 import styles from './styles';
 import {Strings} from 'common';
 import {TOUR_PLAN_TYPE} from 'screens/tourPlan/constants';
-
+import {LocationIcon, ErrorIcon} from 'assets';
 const legends = Strings.Legends;
 
 const LegendWrapper = props => {
@@ -29,9 +27,7 @@ const LegendWrapper = props => {
  * @returns  kyc visit legend
  */
 const renderKycVisit = () => (
-  <LegendWrapper title={legends.kycDoctor}>
-    <Icon name={'star'} size={14} color={theme.colors.orange[100]} />
-  </LegendWrapper>
+  <LegendWrapper title={legends.kycDoctor} style={[styles.dot, styles.kyc]} />
 );
 
 /**
@@ -41,7 +37,7 @@ const renderKycVisit = () => (
 const renderScheduleVisits = () => (
   <LegendWrapper
     title={[legends.visitSchedule]}
-    style={[styles.verticalBar, styles.scheduleVisits]}
+    style={[styles.dot, styles.scheduleVisits]}
   />
 );
 
@@ -89,9 +85,41 @@ const renderLeaves = () => (
 const renderToday = () => (
   <LegendWrapper title={legends.today} style={[styles.today]} />
 );
+
+/**
+ *
+ * @returns ex station legend
+ */
+const renderExStation = () => (
+  <LegendWrapper title={legends.exStation}>
+    <Label
+      title={legends.exStationTitle}
+      variant={LabelVariant.label}
+      type="bold"
+    />
+  </LegendWrapper>
+);
+/**
+ *
+ * @returns complaince not met legends
+ */
+const renderWarning = () => (
+  <LegendWrapper title={legends.complainceNotMet}>
+    <ErrorIcon width={12} height={16} />
+  </LegendWrapper>
+);
+/**
+ *
+ * @returns location legend
+ */
+const renderLocation = () => (
+  <LegendWrapper title={legends.location}>
+    <LocationIcon width={16} height={16} />
+  </LegendWrapper>
+);
 const renderMTPLegends = () => {
   return (
-    <View style={[styles.container, styles.Monthlycontainer]}>
+    <View style={[styles.container, styles.monthlycontainer]}>
       {renderKycVisit()}
       {renderScheduleVisits()}
       {renderEvents()}
@@ -102,11 +130,18 @@ const renderMTPLegends = () => {
   );
 };
 
+/**
+ *
+ * @returns render legends for STP
+ */
 const renderSTPLegends = () => {
   return (
-    <View style={[styles.container, styles.StandardContainer]}>
+    <View style={[styles.container, styles.standardContainer]}>
       {renderScheduleVisits()}
       {renderKycVisit()}
+      {renderLocation()}
+      {renderWarning()}
+      {renderExStation()}
     </View>
   );
 };
