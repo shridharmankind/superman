@@ -12,8 +12,8 @@ const downloadStatus = Object.freeze({
 });
 
 export const fetchPreviouslyUpdatedData = async () => {
-    //return await fetchData();
-    return;
+    return await fetchData();
+    //return;
 }
 
 export const initMasterTablesDownloadStatus = async () => {

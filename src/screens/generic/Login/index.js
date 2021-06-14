@@ -29,10 +29,6 @@ const config = {
 
 export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
 export const USER_ID = 'USER_ID';
-<<<<<<< HEAD
-export const LOGIN_STATUS = 'loginStatus';
-=======
->>>>>>> develop
 export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {

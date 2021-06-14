@@ -45,7 +45,7 @@ export const openSchema = async () => {
         Schemas.partyTypes,
         Schemas.partyTypeGroup,
         Schemas.syncParameters,
-        Schemas.syncErrorDetails
+        Schemas.syncErrorDetails,
         Schemas.engagement,
       ],
       schemaVersion: 0,
