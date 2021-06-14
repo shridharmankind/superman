@@ -38,7 +38,7 @@ const Strings = {
     location: 'Location',
     complainceNotMet: 'Compliance not met',
     exStation: 'Ex-station',
-    exStationTitle: 'Ex-',
+    exStationTitle: '(Ex)',
   },
   kyc: 'KYC',
   all: 'All',
