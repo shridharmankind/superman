@@ -2,26 +2,30 @@ import {StyleSheet} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
-  tabMainContainer: {
-    flexDirection: 'row',
-  },
-  productMainContainer: {
-    flexDirection: 'column',
-    width: '63%',
-  },
   headerProduct: {
     flexDirection: 'row',
   },
   cardMainContainer: {
     flexDirection: 'row',
+    width: '50%',
+  },
+  cardHeadContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  footer: {
+    fontSize: 12.7,
+    fontFamily: themes.fonts.fontSemiBold,
+    color: themes.colors.primary,
   },
   cardContainer: {
     borderStyle: 'solid',
     borderColor: theme.colors.grey[400],
     borderWidth: 1,
-    width: '47%',
-    padding: theme.spacing(8.7),
     marginRight: theme.spacing(13.7),
+    marginBottom: theme.spacing(10),
+    padding: theme.spacing(8.7),
     borderRadius: 9.3,
   },
   cardHeader: {

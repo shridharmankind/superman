@@ -5,6 +5,7 @@ import {doctorDetailReducer} from 'screens/tourPlan/daily/redux';
 import {monthlyReducer} from 'screens/tourPlan/monthly/redux/monthlySlice';
 import {standardPlanReducer} from 'screens/tourPlan/standard/redux/standardSlice';
 import {openTasksReducer} from 'screens/directory/doctorDetails/openTask/redux';
+import {priorotyProductReducer} from 'screens/directory/priorityProduct/redux';
 
 export const rootReducer = combineReducers({
   todoState: updateTodoDataReducer,
@@ -13,6 +14,7 @@ export const rootReducer = combineReducers({
   monthlyState: monthlyReducer,
   standardPlan: standardPlanReducer,
   openTaskState: openTasksReducer,
+  productListState: priorotyProductReducer,
 });
 
 export {fetchStatusSliceActions, FetchEnumStatus} from './appSlice';

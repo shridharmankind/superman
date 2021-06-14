@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   productMainContainer: {
     flexDirection: 'column',
     width: '63%',
+    minHeight: 350,
   },
   cardMainContainer: {
     flexDirection: 'row',
