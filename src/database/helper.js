@@ -15,7 +15,7 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.partyMaster,
       Schemas.specialities,
       Schemas.areas,
-      Schemas.Qualifications,
+      Schemas.Qualifications.schema,
       Schemas.partyTypeGroup,
       Schemas.partyTypes,
       Schemas.engagement,
@@ -53,7 +53,7 @@ export const getStaffPositionId = async () => {
         staffPositionId = obj.id;
       }
     });
-    Operations.closeDB();
+    // Operations.closeDB();
     return staffPositionId;
   } catch (error) {}
 };
@@ -78,7 +78,7 @@ export const checkForPendingMasterDataDownload = async () => {
         isPending = true;
       }
     });
-    Operations.closeDB();
+    // Operations.closeDB();
     return isPending;
   } catch (error) {}
 };

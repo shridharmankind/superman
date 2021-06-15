@@ -7,7 +7,7 @@ import {sha512} from 'react-native-sha512';
 import {KeyChain} from 'helper';
 import {getDBInstance} from 'database';
 
-let realm = getDBInstance();
+let realm = null;
 
 /*
  helper function to generarte key based on password/access-token
@@ -29,7 +29,9 @@ export const getDatabaseKey = async () => {
 Open/Create DB Schema
 @schemaName - Scheama Name
 */
-export const openSchema = async () => {};
+export const openSchema = async () => {
+  !realm && (realm = getDBInstance());
+};
 
 export const createRecord = async (schema, record) => {
   try {
@@ -45,7 +47,9 @@ export const createRecord = async (schema, record) => {
 export const getRecord = async (schema, recordId) => {
   await openSchema();
   try {
+    console.log('DB get record', schema.name, recordId);
     const record = await realm.objectForPrimaryKey(schema.name, recordId);
+    console.log('DB get record result', record);
     return record;
   } catch (error) {
     console.log('getRecord', error);
