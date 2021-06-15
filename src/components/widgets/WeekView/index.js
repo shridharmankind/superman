@@ -61,7 +61,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
    */
 
   const getPartyData = (partyData, type) =>
-    partyData.filter(
+    partyData?.filter(
       item => item?.partyType.toLowerCase() === type.toLowerCase(),
     )[0]?.count;
 
