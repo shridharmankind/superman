@@ -55,7 +55,6 @@ const MasterDataDownload = ({navigation}) => {
                 response = await NetworkService.get(
                   `${item.apiPath}${staffPositionId}`,
                 );
-                console.log('DB getting party info', staffPositionId, JSON.stringify(response));
               }
               break;
           }
