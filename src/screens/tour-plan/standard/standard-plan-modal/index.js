@@ -22,6 +22,7 @@ import {
   standardTourPlanSelector,
   savePatchCreator,
   standardPlanActions,
+  fetchSTPCalendarUpdateCreator,
 } from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
@@ -470,6 +471,20 @@ const StandardPlanModal = ({
   /** function to save patch
    * @param {Object} obj patch request has been passed as object
    */
+  const updateSTPCalendar = useCallback(
+    obj => {
+      dispatch(
+        fetchSTPCalendarUpdateCreator({
+          staffPositionId: 1,
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  /** function to save patch
+   * @param {Object} obj patch request has been passed as object
+   */
   const savePatch = useCallback(
     obj => {
       dispatch(
@@ -646,6 +661,7 @@ const StandardPlanModal = ({
    */
   const handleClose = () => {
     resetState();
+    updateSTPCalendar();
     navigation.pop();
   };
 

@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   },
   locationLabelText: {
     paddingHorizontal: theme.spacing(2),
-    textAlign: 'center',
     alignContent: 'center',
   },
   flexDirectionRow: {
