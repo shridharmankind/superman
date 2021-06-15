@@ -65,7 +65,6 @@ export function* fetchPartiesWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }

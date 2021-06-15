@@ -210,7 +210,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
    * @param {string} label represents name of label
    */
   const Header = ({label}) =>
-    label.map((_, index) => {
+    label?.map((_, index) => {
       return (
         <Label
           key={index}
