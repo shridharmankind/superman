@@ -10,6 +10,8 @@ import userInfo from './api/userInfo.json';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
+import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
+import visitMockData from './api/timeline.json';
 
 const getPartiesUrl = () => {
   const valueMap = {
@@ -64,6 +66,11 @@ const getMock = axios => {
     .reply(200, patchesMock.validate.response);
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
+  mock
+    .onGet(
+      `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=2&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,
+    )
+    .reply(200, visitMockData);
 };
 
 export default getMock;

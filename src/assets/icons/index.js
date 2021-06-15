@@ -19,3 +19,4 @@ export {default as Anniversary} from './anniversary';
 export {default as ArrowUp} from './arrowUp';
 export {default as WorkOutline} from './workOutline';
 export {default as DoctorVisit} from './doctorVisit';
+export {default as MissedVisit} from './missedVisit';

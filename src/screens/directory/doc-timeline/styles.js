@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
     fontFamily: themes.fonts.fontBold,
+    color: themes.colors.blue[200],
   },
   timelineDateMissed: {
     color: '#aa0808',
@@ -88,6 +89,14 @@ const styles = StyleSheet.create({
   itemDetailsContainer: {
     marginLeft: -47,
     paddingTop: 13,
+  },
+  itemPlain: {
+    paddingVertical: 10,
+    paddingHorizontal: 21.3,
+    flexDirection: 'row',
+  },
+  itemPlainIcon: {
+    marginRight: 10,
   },
 });
 

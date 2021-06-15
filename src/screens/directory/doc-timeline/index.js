@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Timeline} from 'components/widgets';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
@@ -7,6 +8,9 @@ import styles from './styles';
 import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 import {List} from 'react-native-paper';
 import {DoctorVisit, MissedVisit} from 'assets';
+import {fetchTimelineCreator} from './redux/timelineSlice';
+import {timelineSelector} from './redux/timelineSelector';
+import dayjs from 'dayjs';
 
 const isCompleted = item => {
   const today = startOf(new Date());
@@ -46,15 +50,38 @@ const getMonthStyle = item => {
 function renderItemDetails(item) {
   if (item.isMissed) {
     return (
-      <View style={[styles.itemDetailsSection, styles.itemDetailsContainer]}>
-        <Label
-          variant={LabelVariant.bodySmall}
-          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
+      <View style={[styles.itemPlain]}>
+        <MissedVisit style={[styles.itemPlainIcon]} height={20} width={20} />
+        <Label style={[styles.timelineItemTitle]} title="Missed Visit!" />
       </View>
     );
   } else if (isCompleted(item)) {
+    return renderCompletedVisit(item);
+  } else {
     return (
+      <View style={[styles.itemPlain]}>
+        <DoctorVisit style={[styles.itemPlainIcon]} height={20} width={20} />
+        <Label style={[styles.timelineItemTitle]} title="Upcoming Visit" />
+      </View>
+    );
+  }
+}
+
+function renderCompletedVisit(item) {
+  return (
+    <List.Accordion
+      title="Completed Visit"
+      titleStyle={[styles.timelineItemTitle]}
+      style={[styles.timelineItemAccordion]}
+      left={props => {
+        return (
+          <DoctorVisit
+            style={[styles.timelineItemIcon]}
+            height={20}
+            width={20}
+          />
+        );
+      }}>
       <View style={[styles.itemDetailsContainer]}>
         <View style={[styles.itemDetailsSection]}>
           <Label style={[styles.itemDetailsTitle]} title="Samples Given" />
@@ -92,48 +119,12 @@ function renderItemDetails(item) {
           />
         </View>
       </View>
-    );
-  } else {
-    return (
-      <View style={[styles.itemDetailsSection, styles.itemDetailsContainer]}>
-        <Label
-          variant={LabelVariant.bodySmall}
-          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
-      </View>
-    );
-  }
+    </List.Accordion>
+  );
 }
 
 function renderItem(item, index) {
-  return (
-    <View style={[styles.timelineItem]}>
-      <List.Accordion
-        title={item.title}
-        titleStyle={[styles.timelineItemTitle]}
-        style={[styles.timelineItemAccordion]}
-        left={props => {
-          if (item.isMissed) {
-            return (
-              <DoctorVisit
-                style={[styles.timelineItemIcon]}
-                height={20}
-                width={20}
-              />
-            );
-          }
-          return (
-            <DoctorVisit
-              style={[styles.timelineItemIcon]}
-              height={20}
-              width={20}
-            />
-          );
-        }}>
-        {renderItemDetails(item)}
-      </List.Accordion>
-    </View>
-  );
+  return <View style={[styles.timelineItem]}>{renderItemDetails(item)}</View>;
 }
 
 function renderDate(item, index) {
@@ -154,38 +145,25 @@ function renderDate(item, index) {
 }
 
 const DocTimeline = () => {
-  const data = [
-    {
-      id: 4,
-      date: '2021-06-11T05:00:00',
-      isMissed: false,
-      title: 'Upcoming Doctor Visit',
-    },
-    {
-      id: 4,
-      date: '2021-06-10T05:00:00',
-      isMissed: false,
-      title: 'Upcoming Doctor Visit',
-    },
-    {
-      id: 4,
-      date: '2021-06-07T05:00:00',
-      isMissed: true,
-      title: 'Missed call',
-    },
-    {
-      id: 4,
-      date: '2021-06-01T05:00:00',
-      isMissed: false,
-      title: 'Visit for Amlokind AT and Neurokind',
-    },
-    {
-      id: 4,
-      date: '2021-05-30T05:00:00',
-      isMissed: false,
-      title: 'Visit for Amlokind AT and Neurokind',
-    },
-  ];
+  const dispatch = useDispatch();
+  // dispatching the action
+  useEffect(() => {
+    dispatch(
+      fetchTimelineCreator({
+        staffPositionId: 2,
+        partyId: 1,
+        start: getFormatDate({
+          date: dayjs().subtract(2, 'months').startOf('month'),
+          format: 'YYYY-MM-DD',
+        }),
+        end: getFormatDate({
+          date: dayjs().endOf('month'),
+          format: 'YYYY-MM-DD',
+        }),
+      }),
+    );
+  }, [dispatch]);
+  const data = useSelector(timelineSelector.getVisits());
 
   return (
     <View style={[styles.timelineWrapper]}>

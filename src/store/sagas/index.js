@@ -16,6 +16,7 @@ import {
   savePatchWatcher,
 } from 'screens/tourPlan/standard/redux';
 import {fetchTaskWatcher} from 'screens/directory/doctorDetails/openTask/redux';
+import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
 
 export function* rootSaga() {
   /**
@@ -35,6 +36,7 @@ export function* rootSaga() {
     savePatchWatcher,
     deletePartyWatcher,
     fetchTaskWatcher,
+    fetchTimelineWatcher,
   ];
 
   /**
