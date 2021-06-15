@@ -89,7 +89,6 @@ export function* fetchAreasWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -114,7 +113,6 @@ export function* fetchPatchesWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -139,7 +137,6 @@ export function* fetchPartiesByPatchIdWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -163,7 +160,6 @@ export function* savePatchWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -190,7 +186,6 @@ export function* updateSTPCalendarWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
