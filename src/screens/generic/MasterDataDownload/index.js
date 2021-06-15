@@ -33,7 +33,7 @@ const MasterDataDownload = ({navigation}) => {
     const fetchData = async () => {
       try {
         await initMasterTablesDownloadStatus();
-
+        
         for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
           let item = Helper.MASTER_TABLES_DETAILS[i];
           const record = await Operations.getRecord(
@@ -44,38 +44,10 @@ const MasterDataDownload = ({navigation}) => {
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
-          let response;
-          switch (item.name) {
-            case DBConstants.MASTER_TABLE_USER_INFO:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_PARTY:
-              {
-                const staffPositionId = await Helper.getStaffPositionId();
-                response = await NetworkService.get(
-                  `${item.apiPath}${staffPositionId}`,
-                );
-              }
-              break;
-          }
+          let response = await getAPIResponse(item);
           if (response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
-            switch (item.name) {
-              case DBConstants.MASTER_TABLE_USER_INFO:
-                await Operations.createUserInfoRecord(
-                  item.schema,
-                  JSON.parse(data),
-                );
-                break;
-
-              case DBConstants.MASTER_TABLE_PARTY:
-                await Operations.createPartyMasterRecord(
-                  item.schema,
-                  JSON.parse(data),
-                );
-                break;
-            }
-            //console.log("working")
+            await createMasterRecord(item,data);
             await Operations.updateRecord(
               Schemas.masterTablesDownLoadStatus,
               DBConstants.downloadStatus.DOWNLOADED,
@@ -100,6 +72,57 @@ const MasterDataDownload = ({navigation}) => {
       isMounted = false;
     };
   }, [navigation, progressBarSyncParam]);
+
+
+  const createMasterRecord = async (item,data) => {
+    switch (item.name) {
+      case DBConstants.MASTER_TABLE_USER_INFO:
+        await Operations.createUserInfoRecord(
+          item.schema,
+          JSON.parse(data),
+        );
+        break;
+
+      case DBConstants.MASTER_TABLE_PARTY:
+        await Operations.createPartyMasterRecord(
+          item.schema,
+          JSON.parse(data),
+        );
+        break;
+      case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+        console.log("start");
+        await Operations.createMonthlyMasterRecord(
+          item.schema,
+          JSON.parse(data),
+        );
+        break;
+    }
+  }
+  const getAPIResponse = async (item) => {
+    let response;
+    switch (item.name) {
+      case DBConstants.MASTER_TABLE_USER_INFO:
+        response = await NetworkService.get(item.apiPath);
+        break;
+      case DBConstants.MASTER_TABLE_PARTY:
+        {
+          const staffPositionId = await Helper.getStaffPositionId();
+          response = await NetworkService.get(
+            `${item.apiPath}${staffPositionId}`,
+          );
+        }
+        break;
+      case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+        {
+          const staffPositionId = await Helper.getStaffPositionId();
+          response = await NetworkService.get(
+            `${item.apiPath}2`,
+          );
+        } 
+        break;   
+    }
+    return response;
+  }
 
   const initMasterTablesDownloadStatus = async () => {
     try {

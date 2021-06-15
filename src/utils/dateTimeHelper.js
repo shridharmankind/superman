@@ -55,3 +55,26 @@ export const getMonthDiff = (current, previous) => {
 export const getDateFromMonthYear = ({month, year, date = '01'}) => {
   return `${year}-${String(month).padStart(2, '0')}-${date}`;
 };
+
+export const getLocalTimeZone = (date) => {
+  let timeInHours = new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  let newDate = new Date(date.getTime() - date.getTimezoneOffset()*60*1000);
+  dateString = newDate.getUTCDate()+"/"+newDate.getMonth()+"/"+newDate.getFullYear();
+  dateString = dateString+" "+timeInHours+" "+getTimeFormatOnDevice();
+  return dateString;
+}
+
+const getTimeFormatOnDevice = () => {
+  var date, timeType;
+  // Creating Date() function object.
+  date = new Date();
+  hour = date.getHours(); 
+  if(hour <= 11)
+  {
+    timeType = 'AM';
+  }
+  else{
+    timeType = 'PM';
+  }
+  return timeType;
+}

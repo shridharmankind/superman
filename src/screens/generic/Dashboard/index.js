@@ -4,8 +4,8 @@ import {View, Alert, BackHandler} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
-import {NotificationIcon, SearchIcon} from 'assets';
-
+import {NotificationIcon, SearchIcon, RefreshIcon} from 'assets';
+import SyncAdapter from 'react-native-sync-adapter';
 import {Routes} from 'navigations';
 import ROUTES_DASHBOARD from './routes';
 
@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
+import {syncInterval,syncFlexTime} from 'utils/backgroundTask';
 
 export const DashboardStack = createStackNavigator();
 
@@ -25,6 +26,14 @@ const Dashboard = ({navigation}) => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   });
+
+  const onSyncPress = () => {
+    console.log("[EVENT_GENERATED_FOREGROUND_TASK] ");
+    SyncAdapter.syncImmediately({
+      syncInterval,
+      syncFlexTime,
+    });
+  };
 
   const onActivePageChanged = (route, itemId) => {
     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
@@ -93,6 +102,9 @@ const Dashboard = ({navigation}) => {
       </View>
       <View style={[styles.action, styles.actionPadding]}>
         <NotificationIcon height={21.3} width={21.3} />
+      </View>
+      <View style={[styles.action, styles.actionPadding]}>
+        <RefreshIcon height={21.3} width={21.3} onPress={() => onSyncPress()} />
       </View>
     </View>
   );

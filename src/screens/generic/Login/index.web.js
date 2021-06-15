@@ -16,11 +16,7 @@ import theme from 'themes';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
-<<<<<<< HEAD
-import {TOKEN_EXPIRY_TIME, USER_ID, LOGIN_STATUS} from './index';
-=======
 import {TOKEN_EXPIRY_TIME, USER_ID} from './index';
->>>>>>> develop
 
 const state = nanoid(32);
 const nonce = nanoid(32);

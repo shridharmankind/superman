@@ -6,6 +6,7 @@ import base64js from 'base64-js';
 import Realm from 'realm';
 import {KeyChain} from 'helper';
 import * as Schemas from './schemas';
+import * as MonthlyPlanSchema from './schemasFolder/monthlyPlanSchema';
 const dbPath = 'superman.realm';
 let realm;
 /*
@@ -47,6 +48,11 @@ export const openSchema = async () => {
         Schemas.syncParameters,
         Schemas.syncErrorDetails,
         Schemas.engagement,
+        MonthlyPlanSchema.monthlyMaster,
+        MonthlyPlanSchema.dailyMaster,
+        MonthlyPlanSchema.monthlyPlanStatusDetails,
+        MonthlyPlanSchema.dailyPlanNonActivityTypeDto,
+        MonthlyPlanSchema.dailyPlanActivityTypeDto,
       ],
       schemaVersion: 0,
     });
@@ -139,31 +145,31 @@ export const updatePartyMasterRecord = async (schema , data) => {
     let objectToBeDeleted = [];
     console.log("updatePartyMasterRecord started")
     await openSchema();
-    await realm.write(() => {
-      data.forEach(async (object) => {
+    await realm.write(async () => {
+      await data.forEach(async (object) => {
 
         let recordToUpdate = realm.objectForPrimaryKey(schema[0].name, object.id);
         console.log("Existing -- ",JSON.stringify(recordToUpdate));
         console.log("From DB --- ",JSON.stringify(object));
         if(recordToUpdate == undefined || recordToUpdate == null){
           if(object.syncParameters != null && object.syncParameters.isDeleted){
-            console.log("Not required")
+            //console.log("Not required")
             return;
           }
-          console.log("undefined")
+          //console.log("undefined")
           const findRecord = realm.objects(schema[0].name).filtered(`name == "${object.name}"`);
-          console.log(findRecord.length,"findRecord ",findRecord);
+          //console.log(findRecord.length,"findRecord ",findRecord);
           if(findRecord.length === 0){
             let createNewRecord = [object];
-            console.log("Fresh New Record",createNewRecord);
+            //console.log("Fresh New Record",createNewRecord);
             createPartyMasterRecord(schema,createNewRecord);
-            console.log("created");
+            //console.log("created");
           }
           else
           {
             //findRecord.id = object.id;
             
-            console.log("newObject ID ",findRecord);
+            //console.log("newObject ID ",findRecord);
             let updatedObject = object;
             try{
               updatedObject.shortName = `${updatedObject.shortName}`
@@ -174,24 +180,25 @@ export const updatePartyMasterRecord = async (schema , data) => {
                 updatedObject,
                 'modified'
               );
-              console.log("New record add",updatedObject)
+              //console.log("New record add",updatedObject)
               let newData = realm.objects(schema[0].name).filtered(`id == -1`);
-              console.log("Data going to be delete ",newData);
+              //console.log("Data going to be delete ",newData);
               if(newData[0].id != undefined){
                 realm.delete(newData[0]);
                 newData = null;
                 //recordToUpdate = null;
-                console.log("deleted ",newData);
+                //console.log("deleted ",newData);
               }  
               return;
             }
             catch(err){
               console.log("delete -",err);
+              return false;
             }
           }
         }
         else{
-          console.log("else 1");
+          //console.log("else 1");
           let updatedObject = object;
           //If syncParameters is null then records are successfully updated.
           if(updatedObject.syncParameters == null){
@@ -207,7 +214,7 @@ export const updatePartyMasterRecord = async (schema , data) => {
           else{ //If syncParameters are not null then records are not successfully updated
             if(updatedObject.syncParameters.isDeleted && !updatedObject.syncParameters.errorInSync){
               objectToBeDeleted.push(updatedObject.id);
-              console.log(updatedObject.id,"delete new way",objectToBeDeleted);
+              //console.log(updatedObject.id,"delete new way",objectToBeDeleted);
 
               try{
                 let newData = realm.objects(schema[0].name).filtered(`id == ${updatedObject.id}`);
@@ -221,6 +228,7 @@ export const updatePartyMasterRecord = async (schema , data) => {
               }
               catch(err){
                 console.log("delete -",err);
+                return false;
               }
             }
             else{
@@ -247,18 +255,68 @@ export const updatePartyMasterRecord = async (schema , data) => {
               'modified'
             );
           }
-          console.log("update Object",updatedObject);
+          //console.log("update Object",updatedObject);
           
-          console.log("1 new --- ",JSON.stringify(object));
+          //console.log("1 new --- ",JSON.stringify(object));
         }  
       })
     });
-    
+    return true;
   }
   catch(error){
     console.log('updatePartyMasterRecord', error);
+    return false;
   }
 }
+
+export const createMonthlyMasterRecord = async (schema,data) => {
+  try{
+    await openSchema();
+    let dailyPlannedActivity;
+    let syncErrorDetailsObject = {
+      conflictType: 'null',
+      errorMessage: 'null'
+    }
+    let syncParametersObject = {
+        devicePartyId: null,
+        isActive: true,
+        requireSync: false,
+        lastModifiedOn: new Date(),
+        isDeleted: false,
+        errorInSync: false,
+        syncErrorDetails: syncErrorDetailsObject
+    }
+    await realm.write(() => {
+      data.forEach((object) => { 
+        let statusDetail = object.status
+        
+        let monthlyPlan = realm.create(
+          schema[0].name,
+          {
+            id: object.id,
+            staffPositionId: object.staffPositionId,
+            year: object.year,
+            month: object.month,
+            statusId: object.statusId,
+            isLocked: object.isLocked,
+            status: statusDetail,
+            syncParameters: syncParametersObject
+          },
+          'modified'
+        );
+        object.dailyPlannedActivities?.forEach((dailyPlan) => {
+          let obj = { ...dailyPlan, syncParameters: syncParametersObject};
+          dailyPlannedActivity = realm.create(schema[1].name,obj,'modified');
+          monthlyPlan.dailyPlannedActivities.push(dailyPlannedActivity);
+        }); 
+      }); //data.foreach ends here
+    }) //realm.write ends here
+  }
+  catch(err){
+    console.log("createMonthlyMasterRecord ",err);
+  }
+}
+
 
 export const createPartyMasterRecord = async (schema, data) => {
   try {
@@ -356,6 +414,12 @@ export const closeDB = () => {
 
 export async function insertPartyTableData(schema,id){
   let object = dummyPartyData;
+  let specialization,
+      area,
+      qualification,
+      partyTypes,
+      partyTypeGroup,
+      engagement;
   await realm.write(() => {
       partyTypeGroup = realm.create(
         schema[4].name,
@@ -387,19 +451,23 @@ export async function insertPartyTableData(schema,id){
       let partyMaster = realm.create(
         schema[0].name,
         {
-          id: id,
-          staffPositionId: object.staffPositionId,
-          partyTypeId: object.partyTypeId,
-          shortName: `DOC`,
-          name: `${object.name}`,
-          qualification: object.qualification,
-          frequency: object.frequency,
-          category: object.category,
-          potential: object.potential,
-          isKyc: object.isKyc,
-          syncParameters: syncParametersObject,
-          selfDispensing: object.selfDispensing,
-          partyTypes: partyTypes,
+          id: object.id,
+            partyTypeId: object.partyTypeId,
+            shortName: `DOC`,
+            name: object.name ,
+            qualification: object.qualification,
+            frequency: object.frequency,
+            category: object.category,
+            potential: object.potential,
+            isKyc: object.isKyc,
+            syncParameters: syncParametersObject,
+            partyTypes: partyTypes,
+            alreadyVisited: object.alreadyVisited,
+            shortName: object.shortName,
+            birthday: object.birthday,
+            anniversary: object.anniversary,
+            selfDispensing: object.selfDispensing,
+            partyTypeId: object.partyTypeId,
         },
         'modified',
       );

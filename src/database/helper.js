@@ -1,6 +1,7 @@
 import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
+import * as MonthlyPlanSchema from './schemasFolder/monthlyPlanSchema';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -21,7 +22,38 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.engagement,
     ],
   },
+  {
+    name: Constants.MASTER_MONTHLY_TABLE_PLAN,
+    apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
+    schema: [
+      MonthlyPlanSchema.monthlyMaster,
+      MonthlyPlanSchema.dailyMaster,
+    ]
+  }
 ];
+
+export const syncErrorDetails = {
+  name: Constants.MASTER_SYNC_ERROR_DETAIL,
+  embedded: true,
+  properties: {
+    conflictType: 'string',
+    errorMessage: 'string'
+  }
+}
+
+export const syncParameters = {
+  name: Constants.MASTER_SYNC_PARAMETERS,
+  embedded: true, // default: false
+  properties: {
+    devicePartyId: 'string?',
+    isActive: 'bool',
+    requireSync: 'bool',
+    lastModifiedOn: 'date',
+    isDeleted: 'bool',
+    errorInSync: 'bool',
+    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL
+  }
+};
 
 /**
  * This function is get logged in user first name

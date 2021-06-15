@@ -9,12 +9,8 @@ import {Helper,Constants as DBConstants,Operations,Schemas} from 'database';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {translate} from 'locale';
-
-
-const syncInterval = 60; // 1 minute
-const syncFlexTime = 15; // 15 seconds
-
-
+import {getLocalTimeZone} from 'utils/dateTimeHelper';
+import {syncInterval,syncFlexTime} from 'utils/backgroundTask';
 
 
 const HomeLanding = ({navigation}) => {
@@ -35,10 +31,9 @@ const HomeLanding = ({navigation}) => {
       if (record?.status === DBConstants.downloadStatus.PENDING) {
         setLastSync(`--:--:--`);
       }
-      else{
-        dateString = record.lastSync.toUTCString();
-        dateString = dateString.split(' ').slice(0,5).join(' ');
-        setLastSync(dateString)
+      else if(record != undefined){
+        let date = getLocalTimeZone(record.lastSync);
+        setLastSync(date);
       }
       return;
     }
@@ -51,19 +46,12 @@ const HomeLanding = ({navigation}) => {
   },[]);
   
   useEffect(() => {
+    console.log("Landing Screen")
     SyncAdapter.syncImmediately({
       syncInterval,
       syncFlexTime,
     });
   },[]);
-
-  const onSyncPress = () => {
-    console.log("[EVENT_GENERATED_FOREGROUND_TASK] ");
-    SyncAdapter.syncImmediately({
-      syncInterval,
-      syncFlexTime,
-    });
-  };
   
 
   const renderHeader = () => (
@@ -74,15 +62,15 @@ const HomeLanding = ({navigation}) => {
         type="semiBold"
         title={translate('goodMorning')}
       />
-      <Label style={styles.headerLabel} title={`Last Sync : ${lastSync}`} />
-      {/* <Button onPress={() => onSyncPress()} title="Sync now" /> */}
     </View>
   );
 
   const renderSidePanel = () => (
     <View style={styles.sidePanel}>
       <View style={styles.descContainer}>
-        <Label type="bold" size={14} title="Upcoming Events" />
+        <Label type="bold" size={14} title='Last Sync:'/>
+        <Label size={14} title={`${lastSync}`}/>
+        <Label style={styles.desc} type="bold" size={14} title="Upcoming Events" />
         <Label
           size={12}
           style={styles.desc}

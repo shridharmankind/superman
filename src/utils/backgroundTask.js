@@ -1,9 +1,9 @@
 import * as BackgroundFetch from "expo-background-fetch"
 import * as TaskManager from "expo-task-manager";
 import AsyncStorage from '@react-native-community/async-storage';
-import {fetchPreviouslyUpdatedData } from './../database/realmTransactions/partyTableTransaction';
+import {fetchPreviouslyUpdatedData } from './../database/syncActions/syncPartyTable';
 import {KeyChain} from 'helper';
-
+import {showToast, hideToast} from '../components/widgets/Toast';
 
 export const TASK_NAME = "BACKGROUND_TASK";
 export const syncInterval = 60; // 1 minute
@@ -68,7 +68,52 @@ export const TestTask = async () => {
 
 
 export const runTask = async () => {
-    await fetchPreviouslyUpdatedData();
-    console.log("[SYNC ACTIVITY] COMPLETED");
+    try{
+        const result = await fetchPreviouslyUpdatedData();
+        console.log("result",result);
+        if(result){
+            showToast({
+                type: 'success',
+                autoHide: true,
+                props: {
+                onPress: () => {
+                    hideToast();
+                },
+                onClose: () => hideToast(),
+                heading: 'Sync Activity',
+                subHeading: 'Successfully completed Sync.'
+                },
+            });
+        }
+        else{
+            showToast({
+                type: 'warning',
+                autoHide: true,
+                props: {
+                  onPress: () => {
+                    hideToast();
+                  },
+                  onClose: () => hideToast(),
+                  heading: 'Sync Activity',
+                  subHeading: 'Sync Activity Failed'
+                },
+            });
+        }    
+    }
+    catch(err){
+        console.log(err);
+        showToast({
+            type: 'warning',
+            autoHide: true,
+            props: {
+              onPress: () => {
+                hideToast();
+              },
+              onClose: () => hideToast(),
+              heading: 'Sync Activity',
+              subHeading: 'Sync Activity Failed'
+            },
+        });
+    }
 }
 

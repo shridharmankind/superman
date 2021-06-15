@@ -27,7 +27,7 @@ const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
   const [conn,setConn] = React.useState(false);
   setI18nConfig();
@@ -68,6 +68,7 @@ const App = () => {
   }
 
   const syncBackgroundTaskOnStart = () => {
+    console.log("App.js")
     SyncAdapter.init({
       syncInterval,
       syncFlexTime,
