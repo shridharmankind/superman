@@ -1,5 +1,4 @@
 //Common
-export const USER_PRIMARY_KEY = 1;
 export const downloadStatus = Object.freeze({
   DOWNLOADED: 'DOWNLOADED',
   PENDING: 'PENDING',

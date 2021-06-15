@@ -47,9 +47,7 @@ export const createRecord = async (schema, record) => {
 export const getRecord = async (schema, recordId) => {
   await openSchema();
   try {
-    console.log('DB get record', schema.name, recordId);
     const record = await realm.objectForPrimaryKey(schema.name, recordId);
-    console.log('DB get record result', record);
     return record;
   } catch (error) {
     console.log('getRecord', error);
