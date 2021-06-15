@@ -141,6 +141,30 @@ const Strings = {
   chemistVisitsPerDay: 'chemists visits per day',
   tourPlanRules: 'Monthly tour plan rules',
   exStation: 'Ex',
+  directory: {
+    tab: {
+      doctors: 'Doctors',
+      chemists: 'Chemists',
+      stocklists: 'Stocklists',
+    },
+    listHeader: {
+      doctor: 'DOCTOR',
+      speciality: 'SPECIALITY',
+      region: 'REGION',
+    },
+    noResult: 'No Records found',
+  },
+  searchBar: {
+    errors: {
+      validName: 'Please Enter Valid name',
+      partyName: 'Please Enter Party Name',
+      minChar: 'Please Enter atleast 2 characters',
+    },
+    toastBtns: {
+      clear: 'Clear',
+      continue: 'Continue',
+    },
+  },
 };
 
 export default Strings;
