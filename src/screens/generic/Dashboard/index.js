@@ -28,7 +28,7 @@ export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
   const [searchState, toggleSearch] = useState(false);
-  const [searhInput, updateVal] = useState('');
+  const [searhInput, updateVal] = useState(null);
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
@@ -92,13 +92,13 @@ const Dashboard = ({navigation}) => {
 
   // Function to open the search bar
   const openSearchBar = () => {
-    updateVal('');
+    updateVal(null);
     toggleSearch(true);
   };
 
   // Function to clear the input text
   const clearInputSearch = () => {
-    updateVal('');
+    updateVal(null);
   };
 
   // Function to validate the search input
@@ -116,7 +116,7 @@ const Dashboard = ({navigation}) => {
 
   // Function called on the click of search icon
   const navigateAndSearch = () => {
-    if (searhInput === '') {
+    if (searhInput === null) {
       toggleSearch(false);
       return;
     }
