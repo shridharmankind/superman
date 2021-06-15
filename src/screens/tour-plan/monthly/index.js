@@ -333,7 +333,7 @@ const MonthlyTourPlan = ({navigation}) => {
             <StandardPlanContainer
               workingDays={workingDays}
               navigation={navigation}
-              weekDayData={[]}//stpData TO DO :: for dev 
+              weekDayData={[]} //stpData TO DO :: for dev
             />
             <View style={styles.stpLegend}>
               <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
