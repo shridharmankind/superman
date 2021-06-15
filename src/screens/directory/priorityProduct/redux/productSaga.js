@@ -2,7 +2,7 @@ import {call, takeEvery, put} from '@redux-saga/core/effects';
 import {NetworkService} from 'services';
 import {
   fetchPriorityProductTypeName,
-  priorotyProductActions,
+  priorityProductActions,
 } from './productSlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {API_PATH} from 'screens/directory/apiPath';
@@ -22,7 +22,7 @@ function* fetchTaskHandler(action) {
       `${API_PATH.GET_PRODUCT}?StaffPositionId=${staffPositionID}&PartyId=${partyId}`,
     );
     yield put(
-      priorotyProductActions.getPriorityProduct({
+      priorityProductActions.getPriorityProduct({
         priorityProduct: response.data.priorityProduct,
       }),
     );

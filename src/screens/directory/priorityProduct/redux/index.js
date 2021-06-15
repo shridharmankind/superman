@@ -4,5 +4,5 @@ export {productSelector} from './productSelector';
 
 export {
   fetchPriorityProductCreator,
-  priorotyProductReducer,
+  priorityProductReducer,
 } from './productSlice';

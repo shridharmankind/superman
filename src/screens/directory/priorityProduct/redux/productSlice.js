@@ -12,7 +12,7 @@ export const fetchPriorityProductCreator = createAction(
 export const fetchPriorityProductTypeName = fetchPriorityProductCreator().type;
 
 const priorityProductSlice = createSlice({
-  name: 'FETCH_PRIORITY_PRODUCTS',
+  name: 'PRIORITY_PRODUCTS',
   initialState: productListState,
   reducers: {
     getPriorityProduct: (state, action) => {
@@ -21,5 +21,5 @@ const priorityProductSlice = createSlice({
   },
 });
 
-export const priorotyProductActions = priorityProductSlice.actions;
-export const priorotyProductReducer = priorityProductSlice.reducer;
+export const priorityProductActions = priorityProductSlice.actions;
+export const priorityProductReducer = priorityProductSlice.reducer;
