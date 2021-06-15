@@ -30,6 +30,10 @@ const getPartiesByPatchIDSelector = createSelector(
 const savePatch = state => state.standardPlan.savePatch;
 const savePatchSelector = createSelector([savePatch], data => data);
 
+/** Selector function to  get stp update */
+const stpUpdate = state => state.standardPlan.stpData;
+const stpUpdateSelector = createSelector([stpUpdate], data => data);
+
 export const standardTourPlanSelector = {
   getParties: () => {
     return getPartiesSelector;
@@ -46,4 +50,5 @@ export const standardTourPlanSelector = {
   savePatch: () => {
     return savePatchSelector;
   },
+  getSTPData: () => stpUpdateSelector,
 };
