@@ -4,13 +4,18 @@ import {
   Image,
   ImageBackground,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Operations,
+  Schemas,
+  Qualifications,
+} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
@@ -34,6 +39,35 @@ const MasterDataDownload = ({navigation}) => {
       try {
         await initMasterTablesDownloadStatus();
 
+        const updateRecordDownloaded = async recordName => {
+          await Operations.updateRecord(
+            Schemas.masterTablesDownLoadStatus,
+            DBConstants.downloadStatus.DOWNLOADED,
+            recordName,
+          );
+        };
+
+        // eslint-disable-next-line no-unused-vars
+        const onDownloadError = () => {};
+
+        const onDownloadComplete = () => {
+          navigation.reset({
+            routes: [{name: Routes.ROUTE_DASHBOARD}],
+          });
+        };
+
+        const fetchQualificationsPerDivision = async qualificationInfo => {
+          const {name, apiPath} = qualificationInfo;
+          const response = await NetworkService.get(apiPath);
+
+          if (response.status === Constants.HTTP_OK) {
+            const {data} = response;
+            const recordsUpdated =
+              await Qualifications.storeQualificationsPerDivision(data);
+            recordsUpdated && updateRecordDownloaded(name);
+          }
+        };
+
         for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
           let item = Helper.MASTER_TABLES_DETAILS[i];
           const record = await Operations.getRecord(
@@ -56,6 +90,9 @@ const MasterDataDownload = ({navigation}) => {
                   `${item.apiPath}${staffPositionId}`,
                 );
               }
+              break;
+            case DBConstants.QUALIFICATIONS_PER_DIVISION:
+              fetchQualificationsPerDivision(item);
               break;
           }
           if (response.status === Constants.HTTP_OK) {
@@ -84,14 +121,12 @@ const MasterDataDownload = ({navigation}) => {
               setProgress(prevProgress => prevProgress + 0.1);
             }
           } else {
-            Alert.alert(Strings.info, response);
+            // TODO error handling -> while downloading data for item.name
           }
         }
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
+        onDownloadComplete();
       } catch (error) {
-        Alert.alert(Strings.info, error);
+        // TODO error handling -> while downloading data for item.name
       }
     };
     fetchData();
