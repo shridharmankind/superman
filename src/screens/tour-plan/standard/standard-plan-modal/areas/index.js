@@ -98,7 +98,6 @@ const Areas = ({
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
       toastForConfirmation(val);
-      // setAreaSelected(areaSelected.filter(item => item.id !== val));
     } else {
       setAreaSelected([
         ...areaSelected,
