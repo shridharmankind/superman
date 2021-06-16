@@ -6,7 +6,7 @@ import styles from './styles';
 import theme from 'themes';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import {LocationIcon, ErrorIcon} from 'assets';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 
 /**
  * @param {Object} patchData
@@ -50,28 +50,39 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
    * @param {string} row row key
    */
   const getCellData = (data, column, row) =>
+    data &&
     data.filter(item => item.week === column && item.weekDay === row)[0];
 
   /**
    *
-   * @param {Number} party
-   * @param {String} partyType
-   * @returns
+   * @param {Object} partyData
+   * @param {String} type
+   * @returns  count for specific party Type
    */
-  const getCountLabel = (party, partyType) => `${party} ${partyType}`;
+
+  const getPartyData = (partyData, type) =>
+    partyData?.filter(
+      item => item?.partyType.toLowerCase() === type.toLowerCase(),
+    )[0]?.count;
 
   /**
    *
    * @param {Object} parties
-   * @returns  party Name with Respectpective suffix
+   * @returns  party Name with respectpective suffix
    */
   const getPartyTitle = parties => {
-    return [
-      getCountLabel(parties[0].doctor, PARTY_PREFIX.DOCTOR),
-      getCountLabel(parties[0].chemist, PARTY_PREFIX.CHEMIST),
-    ]
-      .filter(Boolean)
-      .join(', ');
+    const drCount = getPartyData(parties, Constants.PARTY_TYPE.DOCTOR);
+    const ChemistCount = getPartyData(parties, Constants.PARTY_TYPE.CHEMIST);
+
+    if (drCount && !ChemistCount) {
+      return `${drCount} ${PARTY_PREFIX.DOCTOR} `;
+    } else if (!drCount && ChemistCount) {
+      return `${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+    } else if (drCount && ChemistCount) {
+      return `${drCount}  ${PARTY_PREFIX.DOCTOR}, ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+    } else {
+      return null;
+    }
   };
   /**
    * Renders data of each cell
@@ -91,7 +102,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
               title={parties && getPartyTitle(parties)}
               variant={LabelVariant.h5}
             />
-            {!isCompliant && <ErrorIcon width={16} height={16} />}
+            {!isCompliant && <ErrorIcon width={18} height={18} />}
           </View>
 
           {noOfKyc && (
@@ -199,7 +210,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
    * @param {string} label represents name of label
    */
   const Header = ({label}) =>
-    label.map((value, index) => {
+    label?.map((_, index) => {
       return (
         <Label
           key={index}
@@ -231,7 +242,7 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
 WeekView.propTypes = {
   workingDays: PropTypes.array.isRequired,
   columnHeader: PropTypes.array.isRequired,
-  weekData: PropTypes.object,
+  weekData: PropTypes.array,
   onPressHandler: PropTypes.func,
 };
 
