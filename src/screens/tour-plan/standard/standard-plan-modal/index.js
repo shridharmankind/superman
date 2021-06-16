@@ -580,7 +580,7 @@ const StandardPlanModal = ({
     obj => {
       dispatch(
         fetchSTPCalendarUpdateCreator({
-          staffPositionId: 1,
+          staffPositionId,
         }),
       );
     },
