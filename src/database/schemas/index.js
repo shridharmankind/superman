@@ -1,4 +1,5 @@
-import * as Constants from './constants';
+import * as Constants from '../constants';
+import {QualificationsSchemaName} from './Qualifications';
 
 export const masterTablesDownLoadStatus = {
   name: Constants.MASTER_TABLES_DOWNLOAD_STATUS,
@@ -114,7 +115,7 @@ export const partyMaster = {
     },
     qualifications: {
       type: 'list',
-      objectType: Constants.MASTER_TABLE_QUALIFICATIONS,
+      objectType: QualificationsSchemaName,
     },
     engagement: {
       type: 'list',
@@ -136,16 +137,6 @@ export const specialities = {
 
 export const areas = {
   name: Constants.MASTER_TABLE_AREAS,
-  properties: {
-    id: 'int',
-    name: 'string?',
-    shortName: 'string?',
-  },
-  primaryKey: 'id',
-};
-
-export const qualifications = {
-  name: Constants.MASTER_TABLE_QUALIFICATIONS,
   properties: {
     id: 'int',
     name: 'string?',
@@ -182,3 +173,11 @@ export const engagement = {
     endDate: 'string?',
   },
 };
+
+export {default as Qualifications} from './Qualifications';
+export {dailyMaster,
+  dailyPlanActivityTypeDto,
+  monthlyPlanStatusDetails,
+  monthlyMaster,
+  dailyPlanNonActivityTypeDto
+} from './MonthlyPlan';

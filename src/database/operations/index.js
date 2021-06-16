@@ -1,14 +1,14 @@
-// All common DB operations should be declared in this file
+// TODO all ops need to be moved into the common ops file // clean this file
 
-import {sha512} from 'react-native-sha512';
 import {Buffer} from 'buffer';
 import base64js from 'base64-js';
-import Realm from 'realm';
+import {sha512} from 'react-native-sha512';
+
 import {KeyChain} from 'helper';
-import * as Schemas from './schemas';
-import * as MonthlyPlanSchema from './schemasFolder/monthlyPlanSchema';
-const dbPath = 'superman.realm';
-let realm;
+import {getDBInstance} from 'database';
+
+let realm = null;
+
 /*
  helper function to generarte key based on password/access-token
 */
@@ -30,36 +30,7 @@ Open/Create DB Schema
 @schemaName - Scheama Name
 */
 export const openSchema = async () => {
-  try {
-    //const key = await getDatabaseKey();
-    realm = await Realm.open({
-      path: dbPath,
-      schema: [
-        Schemas.masterTablesDownLoadStatus,
-        Schemas.userInfo,
-        Schemas.staffPositions,
-        Schemas.designation,
-        Schemas.partyMaster,
-        Schemas.specialities,
-        Schemas.areas,
-        Schemas.qualifications,
-        Schemas.partyTypes,
-        Schemas.partyTypeGroup,
-        Schemas.syncParameters,
-        Schemas.syncErrorDetails,
-        Schemas.engagement,
-        MonthlyPlanSchema.monthlyMaster,
-        MonthlyPlanSchema.dailyMaster,
-        MonthlyPlanSchema.monthlyPlanStatusDetails,
-        MonthlyPlanSchema.dailyPlanNonActivityTypeDto,
-        MonthlyPlanSchema.dailyPlanActivityTypeDto,
-      ],
-      schemaVersion: 0,
-    });
-  } catch (error) {
-    console.log('openSchema', error);
-    await realm.close();
-  }
+  !realm && (realm = getDBInstance());
 };
 
 export const createRecord = async (schema, record) => {
@@ -556,3 +527,5 @@ let dummyPartyData = {
   "staffPositionId": 1,
   "partyTypeId": 2
 };
+export {default as qualificationOperations} from './qualificationOperations';
+export {default as monthlyPlanOperations} from './MonthlyPlanOperations';

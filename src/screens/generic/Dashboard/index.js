@@ -1,5 +1,11 @@
-import React, {useEffect} from 'react';
-import {View, Alert, BackHandler} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Alert,
+  BackHandler,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -7,7 +13,8 @@ import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon, RefreshIcon} from 'assets';
 import SyncAdapter from 'react-native-sync-adapter';
 import {Routes} from 'navigations';
-import ROUTES_DASHBOARD from './routes';
+import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
+import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
 import theme from 'themes';
 import {KeyChain} from 'helper';
@@ -16,10 +23,13 @@ import styles from './styles';
 import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {syncInterval,syncFlexTime} from 'utils/backgroundTask';
+import {validateSearch} from 'screens/directory/helper';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
+  const [searchState, toggleSearch] = useState(false);
+  const [searhInput, updateVal] = useState(null);
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
@@ -89,6 +99,52 @@ const Dashboard = ({navigation}) => {
     ]);
   };
 
+  // Function to open the search bar
+  const openSearchBar = () => {
+    updateVal(null);
+    toggleSearch(true);
+  };
+
+  // Function to clear the input text
+  const clearInputSearch = () => {
+    updateVal(null);
+  };
+
+  // Function to validate the search input
+  const validateSearchKeyword = () => {
+    const [isValid, searchKeyword] = validateSearch(
+      searhInput,
+      clearInputSearch,
+    );
+    if (isValid) {
+      return searchKeyword;
+    } else {
+      return undefined;
+    }
+  };
+
+  // Function called on the click of search icon
+  const navigateAndSearch = () => {
+    if (searhInput === null) {
+      toggleSearch(false);
+      return;
+    }
+    const searchKeyword = validateSearchKeyword();
+    if (!!searchKeyword && searchKeyword !== '') {
+      //navigate to the landing page of directory
+      navigation.push(ROUTE_DIRECTORY, {
+        screen: ROUTE_DIRECTORY_LANDING,
+        params: {inputKeyword: searchKeyword},
+      });
+      toggleSearch(false);
+    }
+  };
+
+  /* Function to update the input of search bar */
+  const updateSearchInput = input => {
+    updateVal(input);
+  };
+
   const renderSideMenu = () => (
     <View style={styles.sidemenuContainer}>
       <NavMenu onNavItemPress={onActivePageChanged} />
@@ -97,9 +153,32 @@ const Dashboard = ({navigation}) => {
 
   const renderScreenActions = () => (
     <View style={styles.actionsContainer}>
-      <View style={styles.action}>
-        <SearchIcon height={21.3} width={21.3} />
-      </View>
+      {!searchState && (
+        <TouchableOpacity style={styles.action} onPress={openSearchBar}>
+          <SearchIcon height={21.3} width={21.3} />
+        </TouchableOpacity>
+      )}
+
+      {searchState && (
+        <View>
+          <TextInput
+            placeholder="Search"
+            style={styles.globalSearchBar}
+            placeholderTextColor={theme.colors.white}
+            autoFocus={true}
+            value={searhInput}
+            onChangeText={input => updateSearchInput(input)}
+          />
+          <SearchIcon
+            style={styles.searchIcon}
+            height={16}
+            width={16}
+            fill={theme.colors.white}
+            onPress={navigateAndSearch}
+          />
+        </View>
+      )}
+
       <View style={[styles.action, styles.actionPadding]}>
         <NotificationIcon height={21.3} width={21.3} />
       </View>

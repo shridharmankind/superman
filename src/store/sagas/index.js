@@ -14,6 +14,7 @@ import {
   fetchPatchesWatcher,
   fetchPartiesByPatchIdWatcher,
   savePatchWatcher,
+  fetchSTPCalendarUpdateWatcher,
 } from 'screens/tourPlan/standard/redux';
 import {fetchPlanComplianceWatcher} from 'screens/tourPlan/planCompliance/redux';
 import {fetchTaskWatcher} from 'screens/directory/doctorDetails/openTask/redux';
@@ -36,6 +37,7 @@ export function* rootSaga() {
     savePatchWatcher,
     deletePartyWatcher,
     fetchTaskWatcher,
+    fetchSTPCalendarUpdateWatcher,
     fetchPlanComplianceWatcher,
   ];
 

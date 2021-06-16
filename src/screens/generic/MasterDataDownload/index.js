@@ -11,7 +11,7 @@ import {Strings} from 'common';
 import {NetworkService} from 'services';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
+import {Helper, Constants as DBConstants, Operations, Schemas,MonthlyPlan} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
@@ -91,7 +91,7 @@ const MasterDataDownload = ({navigation}) => {
         break;
       case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
         console.log("start");
-        await Operations.createMonthlyMasterRecord(
+        await MonthlyPlan.createMonthlyMasterRecord(
           item.schema,
           JSON.parse(data),
         );

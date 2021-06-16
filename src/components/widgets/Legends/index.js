@@ -8,14 +8,14 @@ import {LocationIcon, ErrorIcon} from 'assets';
 const legends = Strings.Legends;
 
 const LegendWrapper = props => {
-  const {title, style, testID = `legends_${title}_test`} = props;
+  const {title, style, labelStyle, testID = `legends_${title}_test`} = props;
   return (
     <View style={styles.legendsContainer} testID={testID}>
       {props.children}
       {style && <View style={style} />}
       <Label
         variant={LabelVariant.label}
-        style={[styles.contentBasicStyle]}
+        style={[styles.contentBasicStyle, labelStyle]}
         title={title}
       />
     </View>
@@ -95,7 +95,7 @@ const renderExStation = () => (
     <Label
       title={legends.exStationTitle}
       variant={LabelVariant.label}
-      type="bold"
+      style={styles.exStation}
     />
   </LegendWrapper>
 );
