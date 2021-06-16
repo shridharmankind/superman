@@ -31,6 +31,7 @@ const CongratulatoryModal = ({
     }).start();
   });
 
+  /**method to render title Congratulation on modal*/
   const renderTitle = () => {
     return (
       <View style={styles.title}>
@@ -44,6 +45,7 @@ const CongratulatoryModal = ({
     );
   };
 
+  /** method to render content passed as element from parent component  */
   const renderContent = () => {
     return (
       <>
@@ -53,22 +55,22 @@ const CongratulatoryModal = ({
           <Animated.Image
             opacity={opacity}
             style={[styles.popImage, styles.topImage]}
-            source={require('../../../assets/images/celebrate_1.png')}
+            source={require('assets/images/celebrate_1.png')}
           />
           <Animated.Image
             opacity={opacity}
             style={[styles.popImage, styles.topRightImage]}
-            source={require('../../../assets/images/ribbons.png')}
+            source={require('assets/images/ribbons.png')}
           />
           <Animated.Image
             opacity={opacity}
             style={[styles.popImage, styles.topMiddleImage]}
-            source={require('../../../assets/images/celebrate_2.png')}
+            source={require('assets/images/celebrate_2.png')}
           />
           <Animated.Image
             opacity={opacity}
             style={[styles.popImage, styles.topBottomImage]}
-            source={require('../../../assets/images/ribbons.png')}
+            source={require('assets/images/ribbons.png')}
           />
         </View>
         <View style={styles.bottomTextContent}>
@@ -78,7 +80,7 @@ const CongratulatoryModal = ({
           <Animated.Image
             opacity={opacity}
             style={styles.popImage}
-            source={require('../../../assets/images/celebrate_2.png')}
+            source={require('assets/images/celebrate_2.png')}
           />
         </View>
       </>
