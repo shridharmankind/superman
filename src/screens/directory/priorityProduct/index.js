@@ -65,93 +65,91 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
    */
   const product = data => {
     return (
-      <>
-        <View style={[styles.cardMainContainer]} key={data.productId}>
-          <View
-            style={[
-              styles.cardContainer,
-              data.isfocused || data.ispowered ? styles.cardBackground : '',
-            ]}>
-            <View style={styles.headerProduct}>
-              <View style={styles.cardHeaderTitle}>
-                <Label
-                  variant={LabelVariant.subtitleSmall}
-                  style={styles.labelTitle}
-                  title={data.name}
-                />
-              </View>
-              {data.ispowered && (
-                <View style={styles.powerIcon}>
-                  <Power width={15} height={15} style={styles.power} />
-                </View>
-              )}
-              {data.isfocused && (
-                <View style={styles.focus}>
-                  <Label
-                    variant={LabelVariant.label}
-                    style={styles.focusLabel}
-                    title={Strings.priorityProductCard.foc}
-                  />
-                </View>
-              )}
-              {data.priority && (
-                <View style={styles.cardHeaderRightTitle}>
-                  <Label
-                    style={styles.priorityLabel}
-                    title={data.priority.toUpperCase()}
-                  />
-                </View>
-              )}
-            </View>
-            <View style={styles.cardDetail}>
+      <View style={[styles.cardMainContainer]} key={data.productId}>
+        <View
+          style={[
+            styles.cardContainer,
+            data.isfocused || data.ispowered ? styles.cardBackground : '',
+          ]}>
+          <View style={styles.headerProduct}>
+            <View style={styles.cardHeaderTitle}>
               <Label
-                variant={LabelVariant.bodySmall}
-                textColor={theme.colors.grey[1100]}
-                style={styles.labelSubHeader}
-                title={
-                  Strings.priorityProductCard.description +
-                  formatDate(data.lastDetailed)
-                }
+                variant={LabelVariant.subtitleSmall}
+                style={styles.labelTitle}
+                title={data.name}
               />
             </View>
-            <View style={styles.cardDetail}>
-              <View style={styles.ratioClass}>
-                <Label style={styles.progressText} title={data.ourratio} />
-                <Label
-                  style={styles.progressLightText}
-                  title={'/' + data.totalRatio}
-                />
+            {data.ispowered && (
+              <View style={styles.powerIcon}>
+                <Power width={15} height={15} style={styles.power} />
               </View>
-              <View style={styles.gxClass}>
-                <ArrowUp style={styles.arrowUp} width={14} height={14} />
-                <Label style={styles.percentageText} title={data.gx + '%'} />
+            )}
+            {data.isfocused && (
+              <View style={styles.focus}>
                 <Label
                   variant={LabelVariant.label}
-                  style={styles.gxLabel}
-                  title={Strings.priorityProductCard.gx}
+                  style={styles.focusLabel}
+                  title={Strings.priorityProductCard.foc}
                 />
               </View>
-              <View style={styles.gxClass}>
-                <ArrowUp style={styles.arrowUp} width={14} height={14} />
-                <Label style={styles.percentageText} title={data.sow + '%'} />
+            )}
+            {data.priority && (
+              <View style={styles.cardHeaderRightTitle}>
                 <Label
-                  variant={LabelVariant.label}
-                  style={styles.gxLabel}
-                  title={Strings.priorityProductCard.sow}
+                  style={styles.priorityLabel}
+                  title={data.priority.toUpperCase()}
                 />
               </View>
+            )}
+          </View>
+          <View style={styles.cardDetail}>
+            <Label
+              variant={LabelVariant.bodySmall}
+              textColor={theme.colors.grey[1100]}
+              style={styles.labelSubHeader}
+              title={
+                Strings.priorityProductCard.description +
+                formatDate(data.lastDetailed)
+              }
+            />
+          </View>
+          <View style={styles.cardDetail}>
+            <View style={styles.ratioClass}>
+              <Label style={styles.progressText} title={data.ourratio} />
+              <Label
+                style={styles.progressLightText}
+                title={'/' + data.totalRatio}
+              />
             </View>
-            <View>
+            <View style={styles.gxClass}>
+              <ArrowUp style={styles.arrowUp} width={14} height={14} />
+              <Label style={styles.percentageText} title={data.gx + '%'} />
               <Label
                 variant={LabelVariant.label}
-                textColor={theme.colors.grey[1100]}
-                style={styles.descriptionText}
-                title={Strings.priorityProductCard.tabDes?.toUpperCase()}
+                style={styles.gxLabel}
+                title={Strings.priorityProductCard.gx}
+              />
+            </View>
+            <View style={styles.gxClass}>
+              <ArrowUp style={styles.arrowUp} width={14} height={14} />
+              <Label style={styles.percentageText} title={data.sow + '%'} />
+              <Label
+                variant={LabelVariant.label}
+                style={styles.gxLabel}
+                title={Strings.priorityProductCard.sow}
               />
             </View>
           </View>
+          <View>
+            <Label
+              variant={LabelVariant.label}
+              textColor={theme.colors.grey[1100]}
+              style={styles.descriptionText}
+              title={Strings.priorityProductCard.tabDes?.toUpperCase()}
+            />
+          </View>
         </View>
-      </>
+      </View>
     );
   };
 
