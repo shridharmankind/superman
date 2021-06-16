@@ -1,3 +1,4 @@
+/** not sure why this files exists in the first place // TODO to be deleted */
 export const getDatabaseKey = async () => {};
 
 /*
