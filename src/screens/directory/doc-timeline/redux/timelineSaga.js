@@ -18,7 +18,6 @@ function* fetchTimelineHandler(action) {
       NetworkService.get,
       `${API_PATH.GET_TIMELINE}?StaffPositionId=${staffPositionId}&PartyId=${partyId}&StartDate=${start}&EndDate=${end}`,
     );
-    console.log(response);
     yield put(timelineActions.getTimeline(response.data));
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {

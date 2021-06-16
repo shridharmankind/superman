@@ -2,13 +2,16 @@ import {StyleSheet} from 'react-native';
 import themes from 'themes';
 
 const styles = StyleSheet.create({
-  timeline: {},
+  timeline: {
+    maxHeight: 350,
+  },
   timelineWrapper: {
     borderColor: '#e8e8e8',
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: '#fcfcfc',
     paddingVertical: 21,
+    paddingLeft: 21,
   },
   timelineYear: {
     textAlign: 'center',
@@ -19,7 +22,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     position: 'absolute',
     right: -20,
-    borderColor: themes.colors.blue[200],
+    borderColor: themes.colors.primary,
     borderWidth: 1,
     backgroundColor: themes.colors.white,
     borderRadius: 40,
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
     fontFamily: themes.fonts.fontBold,
-    color: themes.colors.blue[200],
+    color: themes.colors.primary,
   },
   timelineDateMissed: {
     color: '#aa0808',
@@ -97,6 +100,40 @@ const styles = StyleSheet.create({
   },
   itemPlainIcon: {
     marginRight: 10,
+  },
+  timelineScrollContainer: {
+    flexDirection: 'row',
+  },
+  timelineDots: {
+    position: 'absolute',
+    top: '50%',
+    transform: [{rotate: '270deg'}],
+  },
+  timelineDotsContent: {
+    display: 'flex',
+    alignItems: 'center',
+    textAlignVertical: 'center',
+  },
+  timelineDot: {
+    height: 8,
+    width: 8,
+    backgroundColor: '#BFBDD5',
+    borderRadius: 4,
+    marginTop: 8,
+    marginRight: 8,
+  },
+  timelineDotSelected: {
+    fontFamily: themes.fonts.fontRegular,
+    fontSize: 10.7,
+    paddingVertical: 2.3,
+    paddingHorizontal: 7,
+    backgroundColor: themes.colors.primary,
+    color: themes.colors.white,
+    lineHeight: 18.7,
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginRight: 8,
   },
 });
 

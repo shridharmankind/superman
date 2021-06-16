@@ -48,6 +48,7 @@ const Timeline = props => {
         data={props.data}
         renderItem={_renderItem.bind(props)}
         keyExtractor={(item, index) => index + ''}
+        nestedScrollEnabled
         {...props.options}
       />
     </View>

@@ -3,14 +3,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Timeline} from 'components/widgets';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
-import {View} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 import {List} from 'react-native-paper';
 import {DoctorVisit, MissedVisit} from 'assets';
-import {fetchTimelineCreator} from './redux/timelineSlice';
+import {fetchTimelineCreator, timelineActions} from './redux/timelineSlice';
 import {timelineSelector} from './redux/timelineSelector';
 import dayjs from 'dayjs';
+import debounce from 'lodash.debounce';
 
 const isCompleted = item => {
   const today = startOf(new Date());
@@ -146,6 +147,7 @@ function renderDate(item, index) {
 
 const DocTimeline = props => {
   const dispatch = useDispatch();
+  let ref = null;
   // dispatching the action
   useEffect(() => {
     const {staffPositionId, partyId} = props;
@@ -166,9 +168,41 @@ const DocTimeline = props => {
   }, [dispatch, props]);
   const data = useSelector(timelineSelector.getVisits());
 
-  const onViewableItemsChanged = React.useCallback(({viewableItems}) => {
-    console.log(viewableItems);
-  }, []);
+  const buttons = useSelector(timelineSelector.getButtons());
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onViewableItemsChanged = React.useCallback(
+    debounce(({viewableItems}) => {
+      const lastItem = viewableItems[viewableItems.length - 1];
+      dispatch(timelineActions.handleScroll({index: lastItem.index}));
+    }, 100),
+    [dispatch],
+  );
+  const viewabilityConfig = React.useRef({
+    itemVisiblePercentThreshold: 75,
+  });
+
+  const renderDot = ({item, index}) => {
+    if (item.selected) {
+      return (
+        <Label
+          testID="timeline-dot-selected"
+          title={item.label}
+          style={[styles.timelineDotSelected]}
+        />
+      );
+    }
+    return (
+      <TouchableOpacity
+        testID="timelineMonthDot"
+        onPress={() => {
+          ref.scrollToIndex({index: item.itemIndex, animated: true});
+          dispatch(timelineActions.setSelectedButtonIndex({index}));
+        }}>
+        <View style={[styles.timelineDot]} />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={[styles.timelineWrapper]}>
@@ -178,6 +212,18 @@ const DocTimeline = props => {
         title={getFormatDate({date: new Date(), format: 'YYYY'})}
         style={[styles.timelineYear]}
       />
+      <FlatList
+        style={[
+          styles.timelineDots,
+          // eslint-disable-next-line react-native/no-inline-styles
+          {left: buttons.length > 1 ? (buttons.length - 1) * -10 : 0},
+        ]}
+        contentContainerStyle={styles.timelineDotsContent}
+        data={buttons}
+        renderItem={renderDot}
+        numColumns={3}
+        keyExtractor={(item, index) => index + ''}
+      />
       <View style={[styles.timelineScrollContainer]}>
         <Timeline
           style={[styles.timeline]}
@@ -185,6 +231,10 @@ const DocTimeline = props => {
           renderItem={renderItem}
           renderDate={renderDate}
           options={{
+            ref: reference => {
+              ref = reference;
+            },
+            viewabilityConfig: viewabilityConfig.current,
             onViewableItemsChanged: onViewableItemsChanged,
           }}
         />
