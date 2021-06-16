@@ -6,7 +6,10 @@ import {createSelector} from '@reduxjs/toolkit';
 
 const productList = state => state.productList.priorityProduct;
 
-const priorityProductsSelector = createSelector([productList], task => task);
+const priorityProductsSelector = createSelector(
+  [productList],
+  product => product,
+);
 
 /**
  * get All the priority Products

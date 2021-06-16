@@ -90,7 +90,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                   <Label
                     variant={LabelVariant.label}
                     style={styles.focusLabel}
-                    title={'FOC'}
+                    title={Strings.priorityProductCard.foc}
                   />
                 </View>
               )}
@@ -128,7 +128,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                 <Label
                   variant={LabelVariant.label}
                   style={styles.gxLabel}
-                  title={'(Gx)'}
+                  title={Strings.priorityProductCard.gx}
                 />
               </View>
               <View style={styles.gxClass}>
@@ -137,7 +137,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                 <Label
                   variant={LabelVariant.label}
                   style={styles.gxLabel}
-                  title={'(Sow)'}
+                  title={Strings.priorityProductCard.sow}
                 />
               </View>
             </View>
