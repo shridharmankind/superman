@@ -21,9 +21,6 @@ import {
   fetchWorkingDayCreator,
 } from './redux';
 
-//TO DO:: TO REMOVE AFTER API INTEGRATION & EXACT CONTRACT DETAILS
-// import stpData from '../../../data/mock/api/stpData';
-
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -65,6 +62,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
+
   const previousMonthSelected = usePrevious(monthSelected);
 
   const subOrdinatesList = useSelector(
@@ -333,7 +331,6 @@ const MonthlyTourPlan = ({navigation}) => {
             <StandardPlanContainer
               workingDays={workingDays}
               navigation={navigation}
-              weekDayData={[]}//stpData TO DO :: for dev 
             />
             <View style={styles.stpLegend}>
               <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   focusLabel: {
     fontFamily: theme.fonts.fontBold,
-    backgroundColor: theme.colors.grey[1300],
+    backgroundColor: theme.colors.grey[1500],
     textAlign: 'center',
     borderRadius: 20,
     paddingHorizontal: theme.spacing(6),

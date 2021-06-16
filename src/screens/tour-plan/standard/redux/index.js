@@ -4,6 +4,7 @@ export {
   fetchPatchesWatcher,
   fetchPartiesByPatchIdWatcher,
   savePatchWatcher,
+  fetchSTPCalendarUpdateWatcher,
 } from './standardSaga';
 export {
   getStandardPlanCreator,
@@ -14,5 +15,6 @@ export {
   savePatchCreator,
   standardPlanActions,
   standardPlanReducer,
+  fetchSTPCalendarUpdateCreator,
 } from './standardSlice';
 export {standardTourPlanSelector} from './standardSelector';
