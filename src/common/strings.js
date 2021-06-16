@@ -141,6 +141,8 @@ const Strings = {
   chemistVisitsPerDay: 'chemists visits per day',
   tourPlanRules: 'Monthly tour plan rules',
   exStation: 'Ex',
+  patchExhaustedForParty:
+    'One or more doctors added in the patch do not have further visiting slots, do you want to create a new patch.',
   directory: {
     tab: {
       doctors: 'Doctors',
