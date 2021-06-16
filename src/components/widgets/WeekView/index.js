@@ -13,7 +13,7 @@ import {Strings, Constants} from 'common';
  * @returns patch name string
  */
 const getPatchName = patchData => {
-  const {isExStation, displayName} = patchData;
+  const {isExStation, displayName = ''} = patchData;
   return isExStation ? `(${Strings.exStation}) ${displayName}` : displayName;
 };
 
