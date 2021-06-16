@@ -144,14 +144,15 @@ function renderDate(item, index) {
   );
 }
 
-const DocTimeline = () => {
+const DocTimeline = props => {
   const dispatch = useDispatch();
   // dispatching the action
   useEffect(() => {
+    const {staffPositionId, partyId} = props;
     dispatch(
       fetchTimelineCreator({
-        staffPositionId: 2,
-        partyId: 1,
+        staffPositionId,
+        partyId,
         start: getFormatDate({
           date: dayjs().subtract(2, 'months').startOf('month'),
           format: 'YYYY-MM-DD',
@@ -162,8 +163,12 @@ const DocTimeline = () => {
         }),
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, props]);
   const data = useSelector(timelineSelector.getVisits());
+
+  const onViewableItemsChanged = React.useCallback(({viewableItems}) => {
+    console.log(viewableItems);
+  }, []);
 
   return (
     <View style={[styles.timelineWrapper]}>
@@ -179,6 +184,9 @@ const DocTimeline = () => {
           data={data}
           renderItem={renderItem}
           renderDate={renderDate}
+          options={{
+            onViewableItemsChanged: onViewableItemsChanged,
+          }}
         />
       </View>
     </View>

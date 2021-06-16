@@ -244,12 +244,12 @@ const DoctorProfile = ({route}) => {
           </View>
           <View style={styles.openMainTask}>{<OpenTask />}</View>
         </View>
-        {renderTimeLine()}
+        {renderTimeLine(doctorData)}
       </View>
     );
   };
 
-  const renderTimeLine = () => {
+  const renderTimeLine = doctorData => {
     return (
       <View>
         <Label
@@ -257,7 +257,7 @@ const DoctorProfile = ({route}) => {
           style={styles.mainHeader}
           title="Timeline"
         />
-        <DocTimeline />
+        <DocTimeline staffPositionId={2} partyId={1} />
       </View>
     );
   };
