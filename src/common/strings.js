@@ -4,7 +4,7 @@ const Strings = {
   forgotpwd: 'Forgot password',
   week: [1, 2, 3, 4],
   weekText: 'Week',
-  selectDoctorAndChemist: 'Select doctors and chemist',
+  selectDoctorAndChemist: 'Select doctors and chemists',
   selectArea: 'Select Area',
   selectVisit: 'Selected Visits',
   planCompliance: 'Plan Compliance',
@@ -167,6 +167,9 @@ const Strings = {
       continue: 'Continue',
     },
   },
+  areaSelectionConfirmation:
+    'The selections done by you will be lost. Do you want to proceed?',
+  warning: 'Warning',
 };
 
 export default Strings;

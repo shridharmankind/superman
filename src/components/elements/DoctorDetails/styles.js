@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     marginRight: 21,
   },
   nameContainer: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
+    flex: 1,
     textTransform: 'capitalize',
   },
 });
