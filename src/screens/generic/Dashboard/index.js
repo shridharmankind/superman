@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   View,
   Alert,
   BackHandler,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
@@ -23,18 +23,38 @@ import styles from './styles';
 import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
+import {AuthContext} from '../../../App';
 
 export const DashboardStack = createStackNavigator();
+
+const config = {
+  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
+  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
+  redirectUrl: 'com.superman://callback',
+  scopes: ['openid', 'profile'],
+  additionalParameters: {prompt: 'login'},
+};
 
 const Dashboard = ({navigation}) => {
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
+  const { signOut } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRemoved, setIsRemoved] = useState(false);
+  const [animating, setAnimating] = useState(false);
+
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   });
+
+  useEffect(() => {
+    if(isLoading && isRemoved && animating) {
+      signOut();
+    }
+  }, [isLoading, isRemoved, animating])
 
   const onActivePageChanged = (route, itemId) => {
     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
@@ -77,18 +97,61 @@ const Dashboard = ({navigation}) => {
         text: Strings.ok,
         onPress: async () => {
           try {
-            await KeyChain.resetPassword();
-            await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
-            setTimeout(() => {
-              navigation.navigate(Routes.ROUTE_LOGIN);
-            }, 2000);
+            // await KeyChain.saveAccessToken('null');
+            setAnimating(true);
+            // signOutStateUpdate();
+            removeResetPassword();
+            removeItemValue();
+            // signOutStateUpdate();
+            // if (isLoading) {
+            //   signOutStateUpdate();
+            // }
+            // setTimeout(() => {
+            //   navigation.navigate(Routes.ROUTE_LOGIN);
+            // }, 2000);
           } catch (error) {
+            setAnimating(false);
             Alert.alert(Strings.error, error);
           }
         },
       },
     ]);
   };
+
+  // async const removeItemValue = () => {
+    const removeResetPassword = async () => {
+      try {
+        await KeyChain.resetPassword().then(() => {
+          setIsRemoved(true);
+        })
+        return true;
+      }
+      catch(exception) {
+          return false;
+      }
+    }
+
+  // async const removeItemValue = () => {
+  const removeItemValue = async () => {
+    try {
+    await AsyncStorage.removeItem('token_expiry_time').then(() => {
+      setIsLoading(true);
+      setTimeout(() => {
+        setAnimating(false);
+      }, 2000);
+      
+    })
+  }
+  catch(e) {
+    setAnimating(false);
+    return false;
+  }
+  }
+
+  //sign out state update hook
+  // const signOutStateUpdate = () => {
+  //   signOut();
+  // }
 
   // Function to open the search bar
   const openSearchBar = () => {
@@ -137,9 +200,18 @@ const Dashboard = ({navigation}) => {
   };
 
   const renderSideMenu = () => (
-    <View style={styles.sidemenuContainer}>
-      <NavMenu onNavItemPress={onActivePageChanged} />
-    </View>
+    // <AuthContext.Consumer>
+    //   {
+    //     context => {
+    //       updateToken(context.userToken)
+    //       return (
+            <View style={styles.sidemenuContainer}>
+              <NavMenu onNavItemPress={onActivePageChanged} />
+            </View>
+    //       )
+    //     }
+    //   }
+    // </AuthContext.Consumer>
   );
 
   const renderScreenActions = () => (
@@ -199,6 +271,13 @@ const Dashboard = ({navigation}) => {
       {renderSideMenu()}
       {renderNavigator()}
       {renderScreenActions()}
+
+      <ActivityIndicator
+        animating={animating}
+        color={theme.colors.darkBlue}
+        size="large"
+        style={styles.activityIndicator}
+      />
     </View>
   );
 };

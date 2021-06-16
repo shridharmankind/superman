@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -18,13 +18,14 @@ import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
 import {Helper} from 'database';
 import {Routes} from 'navigations';
-
+import {AuthContext} from '../../../App';
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
   clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
   redirectUrl: 'com.superman://callback',
   scopes: ['openid', 'profile'],
   additionalParameters: {prompt: 'login'},
+  clientAuthMethod: 'post'
 };
 
 export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
@@ -33,26 +34,37 @@ export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
+  const { signIn, restoreToken, updateSessionToken } = useContext(AuthContext);
 
   const loginHandler = useCallback(async () => {
     try {
-      setAnimating(true);
-      const newAuthState = await authorize(config);
-      await KeyChain.saveAccessToken(newAuthState.accessToken);
-      const decoded = jwt_decode(newAuthState.accessToken);
-      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
-      AsyncStorage.setItem(USER_ID, decoded.sub);
-      setAnimating(false);
-
-      const isPending = await Helper.checkForPendingMasterDataDownload();
-      if (isPending) {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
-        });
+      userToken = await KeyChain.getAccessToken();
+      expToken = await AsyncStorage.getItem(TOKEN_EXPIRY_TIME);
+      if (userToken && expToken) {
+        restoreToken(userToken);
+        updateSessionToken(expToken);
       } else {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
+        setAnimating(true);
+        const newAuthState = await authorize(config);
+        await KeyChain.saveAccessToken(newAuthState.accessToken)
+        signIn(newAuthState.accessToken);
+        const decoded = jwt_decode(newAuthState.accessToken);
+        AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
+        updateSessionToken(JSON.stringify(decoded.exp));
+        AsyncStorage.setItem(USER_ID, decoded.sub);
+        setAnimating(false);
+      }
+
+      // const isPending = await Helper.checkForPendingMasterDataDownload();
+      const isPending = false;
+      if (isPending) {
+        // navigation.reset({
+        //   routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
+        // });
+      } else {
+        // navigation.reset({
+        //   routes: [{name: Routes.ROUTE_DASHBOARD}],
+        // });
       }
     } catch (error) {
       setAnimating(false);

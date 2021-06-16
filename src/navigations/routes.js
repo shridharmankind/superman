@@ -12,14 +12,14 @@ export const ROUTE_STANDARD_PLAN = 'StandardPlan';
 export const ROUTE_DCR = 'DoctorFeedback';
 
 const ROUTES = [
-  {
-    name: ROUTE_LOGIN,
-    component: Login,
-  },
-  {
-    name: ROUTE_MASTER_DATA_DOWNLOAD,
-    component: MasterDataDownload,
-  },
+  // {
+  //   name: ROUTE_LOGIN,
+  //   component: Login,
+  // },
+  // {
+  //   name: ROUTE_MASTER_DATA_DOWNLOAD,
+  //   component: MasterDataDownload,
+  // },
   {
     name: ROUTE_DASHBOARD,
     component: Dashboard,
