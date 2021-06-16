@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Label, LabelVariant} from 'components/elements';
 import {useDispatch, useSelector} from 'react-redux';
-import {Bar} from 'react-native-progress';
 import styles from './style';
-import {ArrowUp} from 'assets';
+import {ArrowUp, Power} from 'assets';
 import {Strings} from 'common';
 import theme from 'themes';
+import {getFormatDate} from 'utils/dateTimeHelper';
 import {fetchPriorityProductCreator, productSelector} from './redux';
 
 /**
@@ -15,21 +15,41 @@ import {fetchPriorityProductCreator, productSelector} from './redux';
  * @param {Object} route route to navigate
  */
 
-const PriorityProduct = () => {
+const PriorityProduct = ({staffPostionId, partyId}) => {
   const dispatch = useDispatch();
+  const [list, setList] = useState([]);
+  const [viewFlag, setViewFlag] = useState(true);
   // dispatching the action
   useEffect(() => {
     dispatch(
       fetchPriorityProductCreator({
-        staffPositionID: 1,
-        partyId: 1,
+        staffPositionID: staffPostionId,
+        partyId: partyId,
       }),
     );
   }, [dispatch]);
-
   const priorityProductList = useSelector(
     productSelector.getPriorityProductList(),
   );
+  useEffect(() => {
+    const result = priorityProductList.slice(0, 4);
+    setList(result);
+  }, [priorityProductList]);
+
+  const formatDate = date => {
+    const dateValue = getFormatDate({date: date, format: 'DD MMM, YYYY'});
+    return dateValue;
+  };
+
+  const viewAllHandler = () => {
+    setViewFlag(!viewFlag);
+    if (list.length === 4) {
+      setList(priorityProductList);
+    } else {
+      const result = priorityProductList.slice(0, 4);
+      setList(result);
+    }
+  };
   /**
    * Function to render the Product Card
    * @returns a Card with Product Detail
@@ -37,8 +57,12 @@ const PriorityProduct = () => {
   const product = data => {
     return (
       <>
-        <View style={styles.cardMainContainer} key={data.productId}>
-          <View style={styles.cardContainer}>
+        <View style={[styles.cardMainContainer]} key={data.productId}>
+          <View
+            style={[
+              styles.cardContainer,
+              data.isfocused || data.ispowered ? styles.cardBackground : '',
+            ]}>
             <View style={styles.cardHeader}>
               <View style={styles.cardHeaderTitle}>
                 <Label
@@ -47,45 +71,66 @@ const PriorityProduct = () => {
                   title={data.name}
                 />
               </View>
-              <View style={styles.cardHeaderRightTitle}>
-                <Label
-                  variant={LabelVariant.label}
-                  style={styles.labelSubTitle}
-                  title={Strings.priorityProductCard.p1}
-                />
-              </View>
+              {data.ispowered && (
+                <View style={styles.powerIcon}>
+                  <Power width={15} height={15} style={styles.power} />
+                </View>
+              )}
+              {data.isfocused && (
+                <View style={styles.focus}>
+                  <Label
+                    variant={LabelVariant.label}
+                    style={styles.focusLabel}
+                    title={'FOC'}
+                  />
+                </View>
+              )}
+              {data.priority && (
+                <View style={styles.cardHeaderRightTitle}>
+                  <Label
+                    style={styles.priorityLabel}
+                    title={data.priority.toUpperCase()}
+                  />
+                </View>
+              )}
             </View>
             <View style={styles.cardDetail}>
               <Label
                 variant={LabelVariant.bodySmall}
-                textColor={theme.colors.primary}
+                textColor={theme.colors.grey[1100]}
                 style={styles.labelSubHeader}
-                title={Strings.priorityProductCard.description}
+                title={
+                  Strings.priorityProductCard.description +
+                  formatDate(data.lastDetailed)
+                }
               />
             </View>
             <View style={styles.cardDetail}>
-              <Label
-                style={styles.progressText}
-                title={Strings.priorityProductCard.progressNumber}
-              />
-              <Label
-                style={styles.progressLightText}
-                title={Strings.priorityProductCard.slashNumber}
-              />
-              <ArrowUp style={styles.arrowUp} width={15} height={15} />
-              <Label
-                style={styles.percentageText}
-                title={Strings.priorityProductCard.nine}
-              />
-            </View>
-            <View style={styles.progreesBar}>
-              <Bar
-                progress={0.6}
-                width={200}
-                borderWidth={0}
-                unfilledColor={theme.colors.blue[300]}
-                color={theme.colors.blue[200]}
-              />
+              <View style={styles.ratioClass}>
+                <Label style={styles.progressText} title={data.ourratio} />
+                <Label
+                  style={styles.progressLightText}
+                  title={'/' + data.totalRatio}
+                />
+              </View>
+              <View style={styles.gxClass}>
+                <ArrowUp style={styles.arrowUp} width={14} height={14} />
+                <Label style={styles.percentageText} title={data.gx + '%'} />
+                <Label
+                  variant={LabelVariant.label}
+                  style={styles.gxLabel}
+                  title={'(Gx)'}
+                />
+              </View>
+              <View style={styles.gxClass}>
+                <ArrowUp style={styles.arrowUp} width={14} height={14} />
+                <Label style={styles.percentageText} title={data.sow + '%'} />
+                <Label
+                  variant={LabelVariant.label}
+                  style={styles.gxLabel}
+                  title={'(Sow)'}
+                />
+              </View>
             </View>
             <View>
               <Label
@@ -102,7 +147,7 @@ const PriorityProduct = () => {
   };
 
   const priorityProduct = () => {
-    return (priorityProductList || []).map(data => {
+    return (list || []).map(data => {
       return product(data);
     });
   };
@@ -116,13 +161,24 @@ const PriorityProduct = () => {
           title={Strings.priorityProductCard.header}
         />
       </View>
-      <View style={styles.cardHeadContainer}>{priorityProduct()}</View>
-      {priorityProductList && priorityProductList.length > 4 && (
+      <View
+        style={[
+          styles.cardHeadContainer,
+          viewFlag ? styles.cardViewHeight : styles.cardViewAllHeight,
+        ]}>
+        {priorityProduct()}
+      </View>
+      {priorityProductList && priorityProductList?.length > 4 && (
         <View>
           <Label
             style={styles.footer}
             variant={LabelVariant.h5}
-            title={Strings.doctorDetail.openTasks.viewAll}
+            onPress={viewAllHandler}
+            title={
+              viewFlag
+                ? Strings.doctorDetail.openTasks.viewAll
+                : Strings.doctorDetail.openTasks.viewLess
+            }
           />
         </View>
       )}

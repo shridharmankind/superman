@@ -91,7 +91,10 @@ const DoctorProfile = ({route}) => {
     return (
       <View style={styles.tabMainContainer}>
         <View style={styles.productMainContainer}>
-          <PriorityProduct />
+          <PriorityProduct
+            staffPostionId={1}
+            partyId={doctorData.partyTypes.id}
+          />
         </View>
         <View style={styles.openMainTask}>{<OpenTask />}</View>
       </View>

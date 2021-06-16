@@ -4,7 +4,7 @@
         "productId" : 1,
         "name": "LipKind",
         "lastDetailed": "2021-05-19T18:25:11",
-        "isfocused": false,
+        "isfocused": true,
         "ispowered": false,
         "ourratio": 40,
         "totalRatio": 100,
@@ -14,10 +14,22 @@
     },
     {
         "productId" : 2,
+        "name": "LipKind",
+        "lastDetailed": "2021-05-19T18:25:11",
+        "isfocused": false,
+        "ispowered": true,
+        "ourratio": 40,
+        "totalRatio": 100,
+        "priority": null,
+        "gx": 8,
+        "sow": 20
+    },
+    {
+        "productId" : 3,
         "name": "Amlokind",
         "lastDetailed": "2021-05-19T18:25:11",
         "isfocused": false,
-        "ispowered": false,
+        "ispowered": true,
         "ourratio": 50,
         "totalRatio": 100,
         "priority": "p2",
@@ -25,7 +37,7 @@
         "sow": 20
     },
     {
-        "productId" : 3,
+        "productId" : 4,
         "name": "Neurokind",
         "lastDetailed": "2021-05-19T18:25:11",
         "isfocused": false,
@@ -37,7 +49,7 @@
         "sow": 20
     },
     {
-        "productId" : 4,
+        "productId" : 5,
         "name": "Gudcef",
         "lastDetailed": "2021-05-19T18:25:11",
         "isfocused": false,
