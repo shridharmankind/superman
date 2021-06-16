@@ -7,13 +7,13 @@ import {
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {API_PATH} from 'screens/directory/apiPath';
 
-// Watcher function\
+// Watcher function of Fetch Priority Product
 export function* fetchPriorityProductWatcher() {
-  yield takeEvery(fetchPriorityProductTypeName, fetchTaskHandler);
+  yield takeEvery(fetchPriorityProductTypeName, fetchPriorityProductHandler);
 }
 
-// Handler function
-function* fetchTaskHandler(action) {
+// Handler function of Priority Product
+function* fetchPriorityProductHandler(action) {
   const {staffPositionID, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {

@@ -10,9 +10,10 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 import {fetchPriorityProductCreator, productSelector} from './redux';
 
 /**
- * Custom doctor details component render after click on doctor list.
- * This serves the purpose to make the use of doctor details consistent throughtout the app
- * @param {Object} route route to navigate
+ * Custom Priority Product component render.
+ * This serves the purpose to make the use of prioroty product dynamically
+ * @param {Number} staffPostionId postion id
+ * @param {Number} partyId party id of particular doctor
  */
 
 const PriorityProduct = ({staffPostionId, partyId}) => {
@@ -36,11 +37,18 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
     setList(result);
   }, [priorityProductList]);
 
+  /**
+   * Function to display date
+   * @returns date format like 21 May, 2021
+   */
   const formatDate = date => {
     const dateValue = getFormatDate({date: date, format: 'DD MMM, YYYY'});
     return dateValue;
   };
 
+  /**
+   * Function Display Priority Products behalf of clicking View All and View Less button
+   */
   const viewAllHandler = () => {
     setViewFlag(!viewFlag);
     if (list.length === 4) {
@@ -50,6 +58,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
       setList(result);
     }
   };
+
   /**
    * Function to render the Product Card
    * @returns a Card with Product Detail
@@ -63,7 +72,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
               styles.cardContainer,
               data.isfocused || data.ispowered ? styles.cardBackground : '',
             ]}>
-            <View style={styles.cardHeader}>
+            <View style={styles.headerProduct}>
               <View style={styles.cardHeaderTitle}>
                 <Label
                   variant={LabelVariant.subtitleSmall}
@@ -146,6 +155,10 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
     );
   };
 
+  /**
+   * Function dynamically render the Product Card
+   * @returns dynamic Card with Product Detail
+   */
   const priorityProduct = () => {
     return (list || []).map(data => {
       return product(data);

@@ -35,9 +35,6 @@ const styles = StyleSheet.create({
     borderRadius: 9.3,
     width: '95%',
   },
-  cardHeader: {
-    flexDirection: 'row',
-  },
   cardHeaderTitle: {
     flexDirection: 'column',
     flexGrow: 5,

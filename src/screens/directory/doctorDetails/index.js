@@ -9,9 +9,7 @@ import {ContentWithSidePanel} from 'components/layouts';
 import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
-import theme from 'themes';
-import {OpenTask} from 'screens/directory';
-import {PriorityProduct} from 'screens/directory';
+import {OpenTask, PriorityProduct} from 'screens/directory';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -160,7 +158,7 @@ const DoctorProfile = ({route}) => {
                 ]}>
                 <Label
                   variant={LabelVariant.h6}
-                  textColor={theme.colors.white}
+                  textColor={themes.colors.white}
                   title={Strings.kyc}
                   type={'bold'}
                 />
@@ -176,7 +174,7 @@ const DoctorProfile = ({route}) => {
                 ]}>
                 <Label
                   variant={LabelVariant.h6}
-                  textColor={theme.colors.white}
+                  textColor={themes.colors.white}
                   style={styles.divisionText}
                   title={doctorData?.category?.toUpperCase()}
                 />

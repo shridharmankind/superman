@@ -15,7 +15,7 @@ export const rootReducer = combineReducers({
   monthlyState: monthlyReducer,
   standardPlan: standardPlanReducer,
   openTaskState: openTasksReducer,
-  productListState: priorityProductReducer,
+  productList: priorityProductReducer,
   planCompliance: planComplianceReducer,
 });
 
