@@ -28,7 +28,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
         partyId: partyId,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, partyId, staffPostionId]);
   const priorityProductList = useSelector(
     productSelector.getPriorityProductList(),
   );
