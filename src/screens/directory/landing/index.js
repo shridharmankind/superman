@@ -56,7 +56,8 @@ const DirectoryLanding = ({ navigation, route }) => {
     },
   ];
 
-  const renderNavBar = () => { // For rendering navbars
+  // For rendering navbars
+  const renderNavBar = () => { 
     return (
       <View style={styles.mainTabContainer}>
         <TabBar
@@ -75,6 +76,7 @@ const DirectoryLanding = ({ navigation, route }) => {
     setSelectedTabIndex(itemIdx);
   };
 
+  // To render the tabs based on selected index
   const renderChildView = () => {
     switch (selectedTabIndex) {
       case 0:
@@ -117,6 +119,7 @@ const DirectoryLanding = ({ navigation, route }) => {
 
   // Function for infinite scrolling
   const handleLoadMore = () => {
+    // TO DO
     // if (skip < docCount) {
     //   dispatch(
     //     fetchSearchDoctors({
@@ -132,13 +135,13 @@ const DirectoryLanding = ({ navigation, route }) => {
   }
 
 
-
+// Below is the doctor tab under directory page
   const doctorTab = () => {
     return (
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <TextInput
-            placeholder={Strings.searchBar.placeholder}
+            placeholder={Strings.searchBar.searchPlaceholder}
             style={styles.searchBar}
             value={searchKeyword}
             onChangeText={text => updateSearchKeyword(text)}
@@ -245,7 +248,7 @@ const DirectoryLanding = ({ navigation, route }) => {
             </View>
           )}
 
-          {doctorList.length === 0 && (
+          {!!doctorList && doctorList.length === 0 && (
             <View>
               <Label title={Strings.directory.noResult} />
             </View>

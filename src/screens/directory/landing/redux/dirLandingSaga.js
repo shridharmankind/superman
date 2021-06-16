@@ -1,7 +1,6 @@
 import {
   fetchSearchDoctorsTypeName,
   searchDoctorActions,
-  fetchSearchDoctorsCountTypeName,
 } from './dirlandingSlice';
 import {call, takeEvery, put} from '@redux-saga/core/effects';
 import {NetworkService} from 'services';

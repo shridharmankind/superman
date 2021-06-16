@@ -174,7 +174,7 @@ const Strings = {
       clear: 'Clear',
       continue: 'Continue',
     },
-    placeholder:'Search Doctors Here'
+    searchPlaceholder:'Search Doctors Here'
   },
   areaSelectionConfirmation:
     'The selections done by you will be lost. Do you want to proceed?',
