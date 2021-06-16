@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
   stpLegend: {
     paddingLeft: theme.spacing(56),
   },
+  congratsContent: {
+    marginVertical: theme.spacing(20),
+  },
 });
 
 export default styles;
