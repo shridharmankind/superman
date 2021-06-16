@@ -14,6 +14,7 @@ import {isWeb} from 'helper';
  * Custom doctor details component using Chip from react-native-paper.
  * This serves the purpose to make the use of doctor details consistent throughtout the app
  * @param {String} title text of the chip
+ * @param {String} gender gender of party
  * @param {Array} specialization doctor specialization eg. Cardiologist, Neurologist
  * @param {String} image doctor image
  * @param {Boolean} selected doctor is selected or not
@@ -29,6 +30,7 @@ import {isWeb} from 'helper';
 
 const DoctorDetails = ({
   title,
+  gender,
   specialization,
   image,
   category,
@@ -71,9 +73,13 @@ const DoctorDetails = ({
    */
   const OnErrorHandler = () => {
     if (!isImageErrror) {
+      const genderImage =
+        Constants.GENDER.MALE === gender.toUpperCase()
+          ? require('assets/images/male.png')
+          : require('assets/images/female.png');
       const src =
         Constants.PARTY_TYPE.DOCTOR === partyType
-          ? require('assets/images/avatar.png')
+          ? genderImage
           : require('assets/images/chemist.png');
 
       setImageSrc(src);
@@ -185,6 +191,7 @@ const DoctorDetails = ({
                 onTileNamePress && onTileNamePress();
               }}
               type={'medium'}
+              numberOfLines={2}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
@@ -193,6 +200,7 @@ const DoctorDetails = ({
                   .map(spec => spec?.name || spec)
                   .join(', ')}
                 style={customStyle && customStyle.specialization}
+                numberOfLines={1}
               />
 
               {location && (
@@ -262,6 +270,7 @@ DoctorDetails.defaultProps = {
   selected: false,
   division: '',
   showTile: false,
+  gender: 'Male',
 };
 
 DoctorDetails.propTypes = {

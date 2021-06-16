@@ -2,8 +2,9 @@ const Strings = {
   superman: 'superman',
   heading: 'Welcome',
   forgotpwd: 'Forgot password',
-  week: ['week 1', 'week 2', 'week 3', 'week 4'],
-  selectDoctorAndChemist: 'Select doctors and chemist',
+  week: [1, 2, 3, 4],
+  weekText: 'Week',
+  selectDoctorAndChemist: 'Select doctors and chemists',
   selectArea: 'Select Area',
   selectVisit: 'Selected Visits',
   planCompliance: 'Plan Compliance',
@@ -35,6 +36,9 @@ const Strings = {
     today: 'Today',
     holiday: 'Holiday',
     location: 'Location',
+    complainceNotMet: 'Compliance not met',
+    exStation: 'Ex-station',
+    exStationTitle: '(Ex)',
   },
   kyc: 'KYC',
   all: 'All',
@@ -130,6 +134,46 @@ const Strings = {
   exitConfirmation: 'Are you sure you want to exit Superman?',
   patchSaveForPrevDay: 'Patch for previous day(s) has been saved',
   noPatchFound: 'No patch found',
+  congratulations: 'Congratulations!',
+  takeMeToHome: 'Take me to Home',
+  beginJourney: "Let's begin your journey",
+  successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
+  errorFetchingComplianceRules: 'There is some error in fetching rules',
+  minimum: 'minimum',
+  maximum: 'maximum',
+  doctorVisitsPerDay: 'doctor visits per day',
+  chemistVisitsPerDay: 'chemists visits per day',
+  tourPlanRules: 'Monthly tour plan rules',
+  exStation: 'Ex',
+  patchExhaustedForParty:
+    'One or more doctors added in the patch do not have further visiting slots, do you want to create a new patch.',
+  directory: {
+    tab: {
+      doctors: 'Doctors',
+      chemists: 'Chemists',
+      stocklists: 'Stocklists',
+    },
+    listHeader: {
+      doctor: 'DOCTOR',
+      speciality: 'SPECIALITY',
+      region: 'REGION',
+    },
+    noResult: 'No Records found',
+  },
+  searchBar: {
+    errors: {
+      validName: 'Please Enter Valid name',
+      partyName: 'Please Enter Party Name',
+      minChar: 'Please Enter atleast 2 characters',
+    },
+    toastBtns: {
+      clear: 'Clear',
+      continue: 'Continue',
+    },
+  },
+  areaSelectionConfirmation:
+    'The selections done by you will be lost. Do you want to proceed?',
+  warning: 'Warning',
 };
 
 export default Strings;

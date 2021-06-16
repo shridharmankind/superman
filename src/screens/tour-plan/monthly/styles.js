@@ -60,7 +60,10 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing(15),
   },
   stpLegend: {
-    paddingLeft: theme.spacing(62),
+    paddingLeft: theme.spacing(56),
+  },
+  congratsContent: {
+    marginVertical: theme.spacing(20),
   },
 });
 

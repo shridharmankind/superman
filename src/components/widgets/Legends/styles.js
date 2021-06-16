@@ -15,14 +15,12 @@ const styles = StyleSheet.create({
   },
   legendsContainer: {
     flexDirection: 'row',
-    paddingHorizontal: theme.spacing(7),
+    paddingHorizontal: theme.spacing(6),
     alignItems: 'center',
   },
-
   contentBasicStyle: {
-    marginHorizontal: 6,
+    marginHorizontal: theme.spacing(4),
   },
-
   verticalBar: {
     width: 6,
     height: 15,
@@ -49,6 +47,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
+    marginRight: theme.spacing(4),
   },
   barContainer: {
     flexDirection: 'row',
@@ -57,10 +56,13 @@ const styles = StyleSheet.create({
   },
   bar: {
     width: 1,
-    height: 15,
+    height: 12,
     backgroundColor: theme.colors.grey[200],
     transform: [{rotate: '50deg'}],
-    marginRight: 2,
+    marginRight: theme.spacing(3),
+  },
+  exStation: {
+    marginRight: theme.spacing(2),
   },
 });
 

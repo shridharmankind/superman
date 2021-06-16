@@ -6,7 +6,7 @@ import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {MonthlyView, Legends} from 'components/widgets';
+import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {
   PLAN_TYPES,
@@ -20,6 +20,7 @@ import {
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
 } from './redux';
+import themes from 'themes';
 
 /**
  * Check if same month is selected
@@ -62,7 +63,9 @@ const MonthlyTourPlan = ({navigation}) => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
+
   const previousMonthSelected = usePrevious(monthSelected);
+  const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
 
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
@@ -353,6 +356,19 @@ const MonthlyTourPlan = ({navigation}) => {
     }
   };
 
+  const renderCongratsContent = () => {
+    return (
+      <View style={styles.congratsContent}>
+        <Label
+          type={'regular'}
+          size={18}
+          textColor={themes.colors.grey[900]}
+          title={Strings.successfullyCreatedSTP}
+        />
+      </View>
+    );
+  };
+
   return (
     <View>
       <View style={styles.dropDownsContainer}>
@@ -372,6 +388,13 @@ const MonthlyTourPlan = ({navigation}) => {
         )}
       {openTourPlanDropDown()}
       {renderView()}
+      <CongratulatoryModal
+        open={showCongratsModal}
+        actionTitle={Strings.takeMeToHome}
+        content={renderCongratsContent()}
+        bottomText={Strings.beginJourney}
+        btnAction={() => {}}
+      />
     </View>
   );
 };

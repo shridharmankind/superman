@@ -16,7 +16,13 @@ export const partiesMock = {
         key: 1,
         id: 4,
         name: 'ASHISH GULATI',
-        specialization: ['Cardiologist'],
+        specialities: [
+          {
+            id: 1,
+            name: 'Orthopaedic',
+            shortName: 'Ortho',
+          },
+        ],
         category: 'a+',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
@@ -24,6 +30,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 2253,
+        gender: 'Male',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -61,7 +68,13 @@ export const partiesMock = {
         key: 2,
         id: 2,
         name: 'Manish Kumar ',
-        specialization: ['Cardiologist'],
+        specialities: [
+          {
+            id: 1,
+            name: 'Cardiologist',
+            shortName: 'Cardio',
+          },
+        ],
         category: 'B',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
@@ -69,6 +82,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: false,
         potential: 22530,
+        gender: 'Female',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -106,7 +120,13 @@ export const partiesMock = {
         key: 3,
         id: 3,
         name: 'Anmol Yadav',
-        specialization: ['Cardiologist'],
+        specialities: [
+          {
+            id: 1,
+            name: 'Orthopaedic',
+            shortName: 'Ortho',
+          },
+        ],
         category: 'C',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
@@ -114,6 +134,7 @@ export const partiesMock = {
         selfDispensing: true,
         isKyc: true,
         potential: 22000,
+        gender: 'Male',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -146,7 +167,13 @@ export const partiesMock = {
         key: 4,
         id: 1,
         name: 'MANOJ MANJHI',
-        specialization: ['Cardiologist'],
+        specialities: [
+          {
+            id: 2,
+            name: 'Neurologist',
+            shortName: 'Neuro',
+          },
+        ],
         category: 'A+',
         location: 'Karol Bagh',
         birthday: '2021-05-19T18:25:11',
@@ -154,6 +181,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 100000,
+        gender: 'Female',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -191,9 +219,15 @@ export const partiesMock = {
         key: 5,
         id: 5,
         name: 'Tanmay Singh',
-        specialization: ['Dermatologist'],
+        specialities: [
+          {
+            id: 2,
+            name: 'Orthopaedic',
+            shortName: 'Ortho',
+          },
+        ],
         birthday: '2021-05-19T18:25:11',
-        anniversary: '2021-09-26T18:25:11',
+        anniversary: null,
         selfDispensing: false,
         isKyc: true,
         potential: 80000,
@@ -236,7 +270,13 @@ export const partiesMock = {
         key: 6,
         id: 6,
         name: 'Balaji Medicos ',
-        specialization: ['Chemist'],
+        specialities: [
+          {
+            id: 2,
+            name: 'Chemist',
+            shortName: 'Che',
+          },
+        ],
         birthday: '2021-05-19T18:25:11',
         anniversary: '1990-05-27T18:25:11',
         selfDispensing: false,
