@@ -34,37 +34,24 @@ export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
-  const { signIn, restoreToken, updateSessionToken } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const loginHandler = useCallback(async () => {
     try {
-      userToken = await KeyChain.getAccessToken();
-      expToken = await AsyncStorage.getItem(TOKEN_EXPIRY_TIME);
-      if (userToken && expToken) {
-        restoreToken(userToken);
-        updateSessionToken(expToken);
-      } else {
-        setAnimating(true);
-        const newAuthState = await authorize(config);
-        await KeyChain.saveAccessToken(newAuthState.accessToken)
-        signIn(newAuthState.accessToken);
-        const decoded = jwt_decode(newAuthState.accessToken);
-        AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
-        updateSessionToken(JSON.stringify(decoded.exp));
-        AsyncStorage.setItem(USER_ID, decoded.sub);
-        setAnimating(false);
-      }
+      setAnimating(true);
+      const newAuthState = await authorize(config);
+      await KeyChain.saveAccessToken(newAuthState.accessToken)
+      signIn(newAuthState.accessToken);
+      const decoded = jwt_decode(newAuthState.accessToken);
+      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
+      AsyncStorage.setItem(USER_ID, decoded.sub);
+      setAnimating(false);
 
-      // const isPending = await Helper.checkForPendingMasterDataDownload();
-      const isPending = false;
+      const isPending = await Helper.checkForPendingMasterDataDownload();
       if (isPending) {
-        // navigation.reset({
-        //   routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
-        // });
-      } else {
-        // navigation.reset({
-        //   routes: [{name: Routes.ROUTE_DASHBOARD}],
-        // });
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
+        });
       }
     } catch (error) {
       setAnimating(false);

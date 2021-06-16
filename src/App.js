@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {LogBox} from 'react-native';
+import {Alert, LogBox} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -9,28 +9,21 @@ import {Login} from 'screens/generic';
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
 import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
-import {useEffect} from 'react';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
-import {isWeb} from 'helper';
+import {isWeb, KeyChain} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
-import {revoke} from 'react-native-app-auth';
+import {isAccessTokenValid, revokeLogin} from './utils/util';
 
 const Stack = createStackNavigator();
 const store = getStore();
-const config = {
-  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
-  redirectUrl: 'com.superman://callback',
-  scopes: ['openid', 'profile'],
-  additionalParameters: {prompt: 'login'},
-};
+
 export const AuthContext = React.createContext();
 const App = () => {
   LogBox.ignoreAllLogs();
   setI18nConfig();
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
@@ -61,15 +54,7 @@ const App = () => {
           return {
             ...prevState,
             isSignout: true,
-            // userToken: action.token,
-            sessionToken: null,
             screen: ROUTE_LOGIN
-          };
-        case 'RESTORE_SESSION':
-          return {
-            ...prevState,
-            sessionToken: action.token,
-            screen: ROUTE_DASHBOARD
           };
         case 'REMOVE_TOKEN':
           return {
@@ -81,25 +66,28 @@ const App = () => {
     {
       isSignout: false,
       userToken: null,
-      sessionToken: null,
       screen: ROUTE_LOGIN
     }
   );
 
-  revokeLogin = async () => {
-    try {
-      await revoke(config, {
-        tokenToRevoke: state.userToken
-      });
-    } catch (error) {
-      Alert.alert('Failed to revoke token', error.message);
-    }
-  };
+  React.useEffect(() => {
+    const restoreLoginToken = async () => {
+      try {
+        const userToken = await KeyChain.getAccessToken();
+        if (userToken && isAccessTokenValid()) {
+          dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+        }
+      } catch (error) {
+        Alert.alert('Failed to restore token', error.message);
+      }
+    };
+    restoreLoginToken();
+  }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if(state.isSignout) {
-      revokeLogin();
-      dispatch({ type: 'REMOVE_TOKEN', token: null });
+      revokeLogin(state);
+      dispatch({ type: 'REMOVE_TOKEN'});
     }
   }, [state.isSignout])
 
@@ -108,13 +96,9 @@ const App = () => {
       signIn: async data => {
         dispatch({ type: 'SIGN_IN', token: data });
       },
-      signOut: () => dispatch({ type: 'SIGN_OUT', token: state.userToken }),
-      restoreToken: async data => {
-        dispatch({ type: 'RESTORE_TOKEN', token: data });
-      },
-      updateSessionToken: async data => {
-        dispatch({ type: 'RESTORE_SESSION', sessionToken: data });
-      },
+      signOut: () => {
+        dispatch({ type: 'SIGN_OUT'})
+      }
     }),
     []
   );
@@ -125,8 +109,8 @@ const App = () => {
         <PaperProvider theme={theme}>
           <NavigationContainer>
             <Stack.Navigator initialRouteName={state.screen}>
-              {state.userToken === null || state.isSignout ? (
-                <Stack.Screen name="signIn" component={Login} />
+              {state.userToken === null ? (
+                <Stack.Screen name="Login" component={Login} />
               ) : (
                 ROUTES.map(route => (
                   <Stack.Screen
