@@ -159,6 +159,10 @@ const Strings = {
       region: 'REGION',
     },
     noResult: 'No Records found',
+    btns:{
+      addTodayPlan:"Add to Today's Plan",
+      startEdetail:"eDetail" 
+    }
   },
   searchBar: {
     errors: {
@@ -170,6 +174,7 @@ const Strings = {
       clear: 'Clear',
       continue: 'Continue',
     },
+    placeholder:'Search Doctors Here'
   },
   areaSelectionConfirmation:
     'The selections done by you will be lost. Do you want to proceed?',
