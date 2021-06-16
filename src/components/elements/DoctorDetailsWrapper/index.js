@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -34,12 +34,13 @@ const DoctorDetailsWrapper = ({
   isPatchedData,
   isKyc,
   containerStyle,
+  isSameDayPatch,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
-
-  const isDisabled = frequency === alreadyVisited;
+  const [count, setCount] = useState();
+  const isDisabled = isSameDayPatch && frequency === count;
 
   /**
    *  Select and deselect the card ,also
@@ -47,16 +48,44 @@ const DoctorDetailsWrapper = ({
    * @param {Boolean} sel
    */
   const handleDoctorSelection = sel => {
-    if (frequency === alreadyVisited) {
-      return;
-    }
     onPress(id);
   };
+
+  useEffect(() => {
+    if (selected) {
+      setCount(count + 1);
+    }
+    if (!selected) {
+      setCount(count - 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
+
+  const getSelectedFrequency = () => {
+    if (isSameDayPatch && isPatchedData) {
+      setCount(alreadyVisited);
+    } else if (!isSameDayPatch && isPatchedData) {
+      if (selected && frequency !== alreadyVisited) {
+        setCount(alreadyVisited + 1);
+      } else {
+        setCount(alreadyVisited);
+      }
+    } else {
+      const countData = selected ? alreadyVisited + 1 : alreadyVisited;
+      setCount(countData);
+    }
+  };
+
+  useEffect(() => {
+    getSelectedFrequency();
+    // TO BE CALLED ONCE hence disabling dep hooks
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(party)}
+      onPress={() => handleDoctorSelection(!selected)}
       style={[styles.container, containerStyle, isDisabled && styles.disabled]}
       disabled={isDisabled}
       activeOpacity={1}>
@@ -67,7 +96,7 @@ const DoctorDetailsWrapper = ({
         category={category}
         location={location}
         isTicked={selected || false}
-        selectedVistedFrequency={selected ? alreadyVisited + 1 : alreadyVisited}
+        selectedVistedFrequency={count}
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}

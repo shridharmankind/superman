@@ -76,13 +76,20 @@ const DoctorsByArea = ({
                 isPatchedData={isPatchedData}
                 onPress={id => handleDoctorCardPress(id)}
                 containerStyle={index % 2 === 0 ? styles.left : styles.right}
+                isSameDayPatch={isSameDayPatch}
               />
             ))}
           </View>
         )
       );
     },
-    [getDoctorsByArea, handleDoctorCardPress, isDoctorSelected, isPatchedData],
+    [
+      getDoctorsByArea,
+      handleDoctorCardPress,
+      isDoctorSelected,
+      isPatchedData,
+      isSameDayPatch,
+    ],
   );
 
   /** function to render area label by area selected from area chiklets
