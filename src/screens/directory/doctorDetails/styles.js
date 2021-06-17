@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: theme.spacing(20),
+    marginRight: theme.spacing(10),
+    marginTop: theme.spacing(-7),
   },
   nameContainer: {
     flexDirection: 'column',
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 20,
     marginLeft: theme.spacing(10),
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(-3),
     height: 20,
   },
   arrowBack: {
@@ -188,6 +189,7 @@ const styles = StyleSheet.create({
   },
   labelTitle: {
     fontStyle: 'normal',
+    fontFamily: theme.fonts.fontBold,
   },
   labelSubTitle: {
     fontStyle: 'normal',
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
   },
   tabBarContainer: {
     flexDirection: 'row',
-    width: '100%',
+    width: '15%',
     justifyContent: 'space-between',
     fontSize: 10,
   },

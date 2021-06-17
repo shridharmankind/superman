@@ -4,17 +4,13 @@
       "id": 1,
       "displayName": "Party1",
       "defaultName": "Noida Sec-1",
-      "year": 2021,
-      "weekDay": "Monday",
-      "week": 1
+      "usedOn": [{"year": 2021, "weekDay": "Monday", "week": 1}]
     },
     {
       "id": 2,
       "displayName": "Party3",
       "defaultName": "Noida Sec-2",
-      "year": 2021,
-      "weekDay": "Monday",
-      "week": 2
+      "usedOn": [{"year": 2021, "weekDay": "Monday", "week": 2}]
     }
   ],
   "validate": {

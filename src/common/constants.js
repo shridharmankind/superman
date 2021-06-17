@@ -14,6 +14,7 @@ export const HTTP_PATCH_CODE = {
   VALIDATED: 400,
   ALREADY_EXITS: '103',
   PATCH_EXITS_FOR_OTHER_DAY: '107',
+  PATCH_EXHAUSTED: '111',
 };
 
 export const DIRECTION = {
@@ -36,4 +37,9 @@ export const PARTY_TYPE = {
   DOCTOR: 'Doctor',
   CHEMIST: 'Chemist',
   ALL: 'All',
+};
+
+export const GENDER = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
 };

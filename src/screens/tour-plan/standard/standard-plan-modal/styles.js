@@ -35,25 +35,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 60,
   },
   content: {
+    flex: 1,
     flexDirection: 'row',
   },
   leftContent: {
     flex: 0.9,
     flexDirection: 'column',
     paddingBottom: 40,
-  },
-  rightContnet: {
-    flex: 1,
-  },
-  selectAreaContainer: {
-    flexDirection: 'column',
-  },
-  doctorDetailsContainer: {
-    marginVertical: 20,
-  },
-  areaFilterContainer: {
-    flexDirection: 'row',
-    marginVertical: 20,
   },
   categoryFilterContainer: {
     flexDirection: 'row',
@@ -69,46 +57,17 @@ const styles = StyleSheet.create({
     borderBottomColor: themes.colors.grey[100],
     borderBottomWidth: 1,
   },
-  doctorDetails: {
-    flexDirection: 'row',
-    alignContent: 'flex-start',
-    flexWrap: 'wrap',
-    marginBottom: 20,
-  },
-  areaFilter: {
-    flex: 1,
-    overflow: 'hidden',
-    zIndex: 19,
-  },
+
   swiper: {
     flex: 1,
     flexDirection: 'row',
   },
-  swiperArrow: {
-    backgroundColor: themes.colors.white,
-    borderColor: themes.colors.blue,
-    borderWidth: 1,
-    borderRadius: 1000,
-    width: 26,
-    height: 26,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
-    top: 7,
-  },
-  leftArrow: {
-    position: 'absolute',
-    left: 0,
-  },
-  rightArrow: {
-    position: 'absolute',
-    right: 0,
-  },
-  areaChip: {marginRight: 14},
   areaType: {
-    paddingHorizontal: 34,
+    paddingHorizontal: 24,
     paddingVertical: 6,
+  },
+  doctorSelectedContainer: {
+    flexDirection: 'row',
   },
   patchContainer: {
     flex: 0.5,
@@ -162,9 +121,6 @@ const styles = StyleSheet.create({
     height: 20,
     marginHorizontal: 5,
   },
-  doctorSelectedContainer: {
-    flexDirection: 'row',
-  },
   bottom: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -200,10 +156,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   rightContent: {
+    justifyContent: 'flex-start',
     paddingLeft: themes.spacing(36),
   },
-  left: {
-    marginRight: 14,
+  planComplainceLabel: {
+    paddingBottom: themes.spacing(21.3),
   },
 });
 

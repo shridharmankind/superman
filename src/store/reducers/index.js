@@ -5,6 +5,9 @@ import {doctorDetailReducer} from 'screens/tourPlan/daily/redux';
 import {monthlyReducer} from 'screens/tourPlan/monthly/redux/monthlySlice';
 import {standardPlanReducer} from 'screens/tourPlan/standard/redux/standardSlice';
 import {openTasksReducer} from 'screens/directory/doctorDetails/openTask/redux';
+import {priorityProductReducer} from 'screens/directory/priorityProduct/redux';
+import {planComplianceReducer} from 'screens/tourPlan/planCompliance/redux';
+import {searchDoctorReducer} from 'screens/directory/landing/redux';
 import {timelineReducer} from 'screens/directory/doc-timeline/redux';
 
 export const rootReducer = combineReducers({
@@ -14,6 +17,9 @@ export const rootReducer = combineReducers({
   monthlyState: monthlyReducer,
   standardPlan: standardPlanReducer,
   openTaskState: openTasksReducer,
+  productList: priorityProductReducer,
+  planCompliance: planComplianceReducer,
+  fetchQueryDoctorsState: searchDoctorReducer,
   timeline: timelineReducer,
 });
 

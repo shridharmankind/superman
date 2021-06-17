@@ -6,6 +6,7 @@ import {
   fetchPatchesCreatorType,
   fetchPartiesByPatchIdCreatorType,
   savePatchCreatorType,
+  fetchSTPCalendarUpdateCreatorType,
 } from './standardSlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
@@ -38,6 +39,14 @@ export function* savePatchWatcher() {
 }
 
 /**
+ * Function to fetch stp update worker
+ */
+
+export function* fetchSTPCalendarUpdateWatcher() {
+  yield takeEvery(fetchSTPCalendarUpdateCreatorType, updateSTPCalendarWorker);
+}
+
+/**
  * worker function to send the api call to get all parties list
  */
 export function* fetchPartiesWorker(action) {
@@ -56,7 +65,6 @@ export function* fetchPartiesWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -81,7 +89,6 @@ export function* fetchAreasWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -106,7 +113,6 @@ export function* fetchPatchesWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -131,7 +137,6 @@ export function* fetchPartiesByPatchIdWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -155,7 +160,32 @@ export function* savePatchWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+/**
+ * Handles STP handle action
+ * @param {Object} action
+ */
+export function* updateSTPCalendarWorker(action) {
+  const {staffPositionId} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  const valueMap = {
+    staffPositionId: staffPositionId,
+  };
+  let url = API_PATH.STP_CALENDAR_UPDATE;
+  url = url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
+
+  try {
+    const response = yield call(NetworkService.get, url);
+    yield put(
+      standardPlanActions.STPCalendarUpdate({
+        stpData: response.data,
+      }),
+    );
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }

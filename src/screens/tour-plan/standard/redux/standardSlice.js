@@ -9,7 +9,13 @@ export const standardTourPlan = {
   areas: [],
   patches: [],
   partyByPatchID: null,
+  stpData: [],
 };
+
+// Action Creator and type for STP Update
+export const fetchSTPCalendarUpdateCreator = createAction('STP_UPDATE_CREATOR');
+export const fetchSTPCalendarUpdateCreatorType =
+  fetchSTPCalendarUpdateCreator().type;
 
 // Action Creator and type for Parties
 export const fetchPartiesCreator = createAction('PARTIES_CREATOR');
@@ -74,10 +80,19 @@ export const getStandardPlanSlice = createSlice({
         savePatch: null,
       };
     },
-    resetPatches: state => {
+    resetState: state => {
       return {
         ...state,
+        parties: [],
+        savePatch: null,
         patches: [],
+        partyByPatchID: null,
+      };
+    },
+    STPCalendarUpdate: (state, action) => {
+      return {
+        ...state,
+        stpData: action.payload.stpData, //TO DO :: update on responsenfromm API
       };
     },
   },

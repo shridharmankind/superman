@@ -31,4 +31,19 @@ export default StyleSheet.create({
   actionPadding: {
     marginLeft: theme.spacing(26.7),
   },
+  globalSearchBar: {
+    width: 266.7,
+    height: 37.3,
+    borderWidth: 1,
+    borderRadius: 13.3,
+    backgroundColor: theme.colors.grey[200],
+    paddingHorizontal: theme.spacing(16),
+    paddingVertical: theme.spacing(10.7),
+    color: theme.colors.white,
+  },
+  searchIcon: {
+    position: 'absolute',
+    right: 16,
+    top: 10.7,
+  },
 });

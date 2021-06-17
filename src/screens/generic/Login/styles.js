@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import theme from 'themes';
 
 const styles = StyleSheet.create({
@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     width: 810,
     height: '100%',
     justifyContent: 'flex-start',
+    ...Platform.select({
+      web: {
+        width: 750,
+        height: 650,
+      },
+    }),
   },
 
   logo: {

@@ -1,17 +1,15 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
 import {Label, LabelVariant, Button} from 'components/elements';
-import {Bar} from 'react-native-progress';
 import themes from 'themes';
 import styles from './styles';
-import {ArrowBack, Birthday, Anniversary, ArrowUp, WorkOutline} from 'assets';
+import {ArrowBack, Birthday, Anniversary, WorkOutline} from 'assets';
 import {Strings, Constants} from 'common';
 import {ContentWithSidePanel} from 'components/layouts';
 import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
-import theme from 'themes';
-import {OpenTask} from 'screens/directory';
+import {OpenTask, PriorityProduct} from 'screens/directory';
 import DocTimeline from '../doc-timeline';
 import {Helper} from 'database';
 import {useEffect} from 'react';
@@ -38,24 +36,6 @@ const DoctorProfile = ({route}) => {
   const data = [
     {
       text: `${Strings.doctorProfileTab.prepSheet}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.doctor360}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.performance}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.contentStudio}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.engagement}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.tasks}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.surveys}`,
     },
   ];
 
@@ -122,145 +102,19 @@ const DoctorProfile = ({route}) => {
       <View>
         <View style={styles.tabMainContainer}>
           <View style={styles.productMainContainer}>
-            <View style={styles.headerProduct}>
-              <Label
-                variant={LabelVariant.h3}
-                style={styles.mainHeader}
-                title={Strings.priorityProductCard.header}
-              />
-              <Label
-                variant={LabelVariant.bodySmall}
-                style={styles.count}
-                title={Strings.priorityProductCard.two}
-              />
-            </View>
-            <View style={styles.cardMainContainer}>
-              <View style={styles.cardContainer}>
-                <View style={styles.cardHeader}>
-                  <View style={styles.cardHeaderTitle}>
-                    <Label
-                      variant={LabelVariant.subtitleSmall}
-                      style={styles.labelTitle}
-                      title={Strings.priorityProductCard.amlokindAt}
-                    />
-                  </View>
-                  <View style={styles.cardHeaderRightTitle}>
-                    <Label
-                      variant={LabelVariant.label}
-                      style={styles.labelSubTitle}
-                      title={Strings.priorityProductCard.p1}
-                    />
-                  </View>
-                </View>
-                <View style={styles.cardDetail}>
-                  <Label
-                    variant={LabelVariant.bodySmall}
-                    textColor={theme.colors.primary}
-                    style={styles.labelSubHeader}
-                    title={Strings.priorityProductCard.description}
-                  />
-                </View>
-                <View style={styles.cardDetail}>
-                  <Label
-                    style={styles.progressText}
-                    title={Strings.priorityProductCard.progressNumber}
-                  />
-                  <Label
-                    style={styles.progressLightText}
-                    title={Strings.priorityProductCard.slashNumber}
-                  />
-                  <ArrowUp style={styles.arrowUp} width={15} height={15} />
-                  <Label
-                    style={styles.percentageText}
-                    title={Strings.priorityProductCard.nine}
-                  />
-                </View>
-                <View style={styles.progreesBar}>
-                  <Bar
-                    progress={0.6}
-                    width={200}
-                    borderWidth={0}
-                    unfilledColor={theme.colors.blue[300]}
-                    color={theme.colors.blue[200]}
-                  />
-                </View>
-                <View>
-                  <Label
-                    variant={LabelVariant.label}
-                    textColor={theme.colors.grey[1100]}
-                    style={styles.descriptionText}
-                    title={Strings.priorityProductCard.tabDes?.toUpperCase()}
-                  />
-                </View>
-              </View>
-              <View style={styles.cardContainer}>
-                <View style={styles.cardHeader}>
-                  <View style={styles.cardHeaderTitle}>
-                    <Label
-                      variant={LabelVariant.subtitleSmall}
-                      style={styles.labelTitle}
-                      title={Strings.priorityProductCard.neurokind}
-                    />
-                  </View>
-                  <View style={styles.cardHeaderRightTitle}>
-                    <Label
-                      variant={LabelVariant.label}
-                      style={styles.labelSubTitle}
-                      title={Strings.priorityProductCard.p2}
-                    />
-                  </View>
-                </View>
-                <View style={styles.cardDetail}>
-                  <Label
-                    variant={LabelVariant.bodySmall}
-                    textColor={theme.colors.primary}
-                    style={styles.labelSubHeader}
-                    title={Strings.priorityProductCard.description}
-                  />
-                </View>
-                <View style={styles.cardDetail}>
-                  <Label
-                    style={styles.progressText}
-                    title={Strings.priorityProductCard.secondProgressbar}
-                  />
-                  <Label
-                    style={styles.progressLightText}
-                    title={Strings.priorityProductCard.slashSecondNumber}
-                  />
-                  <ArrowUp style={styles.arrowUp} width={15} height={15} />
-                  <Label
-                    style={styles.percentageText}
-                    title={Strings.priorityProductCard.ten}
-                  />
-                </View>
-                <View style={styles.progreesBar}>
-                  <Bar
-                    progress={0.4}
-                    width={200}
-                    borderWidth={0}
-                    unfilledColor={theme.colors.blue[300]}
-                    color={theme.colors.blue[200]}
-                  />
-                </View>
-                <View>
-                  <Label
-                    variant={LabelVariant.label}
-                    textColor={theme.colors.grey[1100]}
-                    style={styles.descriptionText}
-                    title={Strings.priorityProductCard.tabDes?.toUpperCase()}
-                  />
-                </View>
-              </View>
-            </View>
+            <PriorityProduct
+              staffPostionId={1}
+              partyId={doctorData.partyTypes.id}
+            />
           </View>
           <View style={styles.openMainTask}>{<OpenTask />}</View>
         </View>
-        {renderTimeLine(doctorData)}
+        {renderTimeLine()}
       </View>
     );
   };
 
-  const renderTimeLine = docdata => {
+  const renderTimeLine = () => {
     if (!staffPositionId) {
       return null;
     }
@@ -271,7 +125,10 @@ const DoctorProfile = ({route}) => {
           style={styles.mainHeader}
           title="Timeline"
         />
-        <DocTimeline staffPositionId={staffPositionId} partyId={docdata.id} />
+        <DocTimeline
+          staffPositionId={staffPositionId}
+          partyId={doctorData.id}
+        />
       </View>
     );
   };
@@ -285,7 +142,7 @@ const DoctorProfile = ({route}) => {
       case 0:
         return firstTab();
       default:
-        return '';
+        return <Label title={Strings.comingSoon} />;
     }
   };
 
@@ -335,7 +192,7 @@ const DoctorProfile = ({route}) => {
                 ]}>
                 <Label
                   variant={LabelVariant.h6}
-                  textColor={theme.colors.white}
+                  textColor={themes.colors.white}
                   title={Strings.kyc}
                   type={'bold'}
                 />
@@ -351,7 +208,7 @@ const DoctorProfile = ({route}) => {
                 ]}>
                 <Label
                   variant={LabelVariant.h6}
-                  textColor={theme.colors.white}
+                  textColor={themes.colors.white}
                   style={styles.divisionText}
                   title={doctorData?.category?.toUpperCase()}
                 />
@@ -405,7 +262,11 @@ const DoctorProfile = ({route}) => {
             <View style={styles.container}>
               <Image
                 style={[styles.image]}
-                source={require('assets/images/avatar.png')}
+                source={
+                  Constants.GENDER.MALE === doctorData?.gender?.toUpperCase()
+                    ? require('assets/images/male.png')
+                    : require('assets/images/female.png')
+                }
               />
               <View style={styles.nameContainer}>
                 <Label
@@ -416,8 +277,8 @@ const DoctorProfile = ({route}) => {
                 <View style={styles.location}>
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={(doctorData?.specialization || [])
-                      .map(spec => spec)
+                    title={(doctorData?.specialities || [])
+                      .map(spec => spec.name)
                       .join(', ')}
                   />
                   {doctorData?.location && (
@@ -448,7 +309,11 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData?.anniversary)}
+                title={
+                  doctorData?.anniversary
+                    ? dateFormat(doctorData?.anniversary)
+                    : ''
+                }
               />
             </View>
           </View>
