@@ -57,6 +57,9 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
+            case DBConstants.MASTER_TABLE_ORGANIZATION:
+              response = await NetworkService.get(item.apiPath);
+              break;
           }
           if (response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
@@ -70,6 +73,13 @@ const MasterDataDownload = ({navigation}) => {
 
               case DBConstants.MASTER_TABLE_PARTY:
                 await Operations.createPartyMasterRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                break;
+
+              case DBConstants.MASTER_TABLE_ORGANIZATION:
+                await Operations.createOrganizationRecord(
                   item.schema,
                   JSON.parse(data),
                 );

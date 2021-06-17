@@ -109,6 +109,19 @@ export const createUserInfoRecord = async (schema, data) => {
   }
 };
 
+export const createOrganizationRecord = async (schema, data) => {
+  try {
+    await openSchema();
+    await realm.write(() => {
+      data?.forEach(obj => {
+        realm.create(schema[0].name, obj, 'modified');
+      });
+    });
+  } catch (error) {
+    console.log('createOrganizationRecord', error);
+  }
+};
+
 export const createPartyMasterRecord = async (schema, data) => {
   try {
     await openSchema();

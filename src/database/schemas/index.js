@@ -141,4 +141,14 @@ export const engagement = {
   },
 };
 
+export const organization = {
+  name: Constants.MASTER_TABLE_ORGANIZATION,
+  properties: {
+    id: 'int',
+    name: 'string',
+    shortName: 'string',
+  },
+  primaryKey: 'id',
+};
+
 export {default as Qualifications} from './Qualifications';

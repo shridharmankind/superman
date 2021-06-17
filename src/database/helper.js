@@ -22,6 +22,11 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.engagement,
     ],
   },
+  {
+    name: Constants.MASTER_TABLE_ORGANIZATION,
+    apiPath: Constants.MASTER_TABLE_ORGANIZATION_API_PATH,
+    schema: [Schemas.organization],
+  },
 ];
 
 /**

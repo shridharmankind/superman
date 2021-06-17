@@ -24,6 +24,7 @@ const dbInstance = new Realm({
     Schemas.partyTypes,
     Schemas.partyTypeGroup,
     Schemas.engagement,
+    Schemas.organization,
   ],
   schemaVersion,
 });
