@@ -179,6 +179,12 @@ const renderCompletedVisit = () => {
   );
 };
 
+/**
+ * Timeline component
+ *
+ * @param {Object} props
+ * @return {JSX} Doctor timeline
+ */
 const DocTimeline = props => {
   const dispatch = useDispatch();
   const [expanded, setExpanded] = React.useState(true);
