@@ -25,6 +25,7 @@ const Areas = ({
   handleDropDownValue,
   allPatches,
   isPatchedData,
+  partyInArea,
 }) => {
   const swiperRef = useRef(null);
   const [hideRightArrow, setHideRightArrow] = useState(false);
@@ -88,6 +89,7 @@ const Areas = ({
    */
   const handleConfirmation = val => {
     setAreaSelected(areaSelected.filter(item => item.id !== val));
+    onPress(val);
     hideToast();
   };
 
@@ -97,14 +99,19 @@ const Areas = ({
   const handleAreaSelected = val => {
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
-      toastForConfirmation(val);
+      if (partyInArea(val) > 0) {
+        toastForConfirmation(val);
+      } else {
+        setAreaSelected(areaSelected.filter(item => item.id !== val));
+        onPress(val);
+      }
     } else {
       setAreaSelected([
         ...areaSelected,
         areaList.find(area => area.id === val),
       ]);
+      onPress(val);
     }
-    onPress(val);
   };
 
   /**function to render area component */

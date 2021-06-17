@@ -40,7 +40,7 @@ const DoctorDetailsWrapper = ({
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
   const [count, setCount] = useState();
-  const isDisabled = isSameDayPatch && frequency === count;
+  const isDisabled = isSameDayPatch && frequency <= alreadyVisited;
 
   /**
    *  Select and deselect the card ,also
@@ -52,11 +52,13 @@ const DoctorDetailsWrapper = ({
   };
 
   useEffect(() => {
-    if (selected) {
-      setCount(count + 1);
-    }
-    if (!selected) {
-      setCount(count - 1);
+    if (frequency > alreadyVisited) {
+      if (selected) {
+        setCount(count + 1);
+      }
+      if (!selected) {
+        setCount(count - 1);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);

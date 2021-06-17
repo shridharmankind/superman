@@ -375,7 +375,7 @@ const StandardPlanModal = ({
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
           } else {
-            setPatchValue(obj);
+            setPatchValue(savePatchRes.data || obj);
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
@@ -646,12 +646,20 @@ const StandardPlanModal = ({
    */
   const handleDoctorCardPress = id => {
     const indexAvailable = doctorsSelected?.some(party => party === id);
-
+    let selected = null;
     if (indexAvailable) {
-      setDoctorsSelected(doctorsSelected?.filter(party => party !== id));
+      selected = doctorsSelected?.filter(party => party !== id);
     } else {
-      setDoctorsSelected([...doctorsSelected, id]);
+      selected = [...doctorsSelected, id];
     }
+    setDoctorsSelected(selected);
+    const string = createPatchString(
+      areaSelected,
+      selected,
+      partiesList,
+      patches,
+    );
+    setPatchDefaultValue(string);
     if (!isSameDayPatch(patchValue)) {
       setIsPatchedData(false);
     }
@@ -846,7 +854,7 @@ const StandardPlanModal = ({
             mode="contained"
             title={Strings.done}
             uppercase={true}
-            disabled={!patchSelected || false}
+            disabled={!patchSelected || !dataChanged || false}
             contentStyle={styles.doneBtn}
             onPress={() => handleDonePress(doctorsSelected)}
           />
@@ -869,6 +877,7 @@ const StandardPlanModal = ({
             handleDropDownValue={handleDropDownValue}
             isPatchedData={isPatchedData}
             allPatches={allPatches}
+            partyInArea={id => getSelectedPartyByArea(id)}
           />
           <View style={styles.doctorDetailsContainer}>
             <View>
