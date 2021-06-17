@@ -21,3 +21,4 @@ export {default as WorkOutline} from './workOutline';
 export {default as LocationIcon} from './location';
 export {default as ErrorIcon} from './error';
 export {default as Power} from './power';
+export {default as ArrowDownRed} from './arrowDownRed';

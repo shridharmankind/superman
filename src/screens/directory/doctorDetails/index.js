@@ -228,7 +228,11 @@ const DoctorProfile = ({route}) => {
             <View style={styles.container}>
               <Image
                 style={[styles.image]}
-                source={require('assets/images/avatar.png')}
+                source={
+                  Constants.GENDER.MALE === doctorData?.gender?.toUpperCase()
+                    ? require('assets/images/male.png')
+                    : require('assets/images/female.png')
+                }
               />
               <View style={styles.nameContainer}>
                 <Label
@@ -239,8 +243,8 @@ const DoctorProfile = ({route}) => {
                 <View style={styles.location}>
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={(doctorData?.specialization || [])
-                      .map(spec => spec)
+                    title={(doctorData?.specialities || [])
+                      .map(spec => spec.name)
                       .join(', ')}
                   />
                   {doctorData?.location && (

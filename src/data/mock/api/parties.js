@@ -181,7 +181,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 100000,
-        gender: 'Female',
+        gender: 'Male',
         partyTypes: {
           id: 1,
           name: 'Doctor',
