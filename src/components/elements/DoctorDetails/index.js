@@ -191,6 +191,7 @@ const DoctorDetails = ({
                 onTileNamePress && onTileNamePress();
               }}
               type={'medium'}
+              numberOfLines={2}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
@@ -199,6 +200,7 @@ const DoctorDetails = ({
                   .map(spec => spec?.name || spec)
                   .join(', ')}
                 style={customStyle && customStyle.specialization}
+                numberOfLines={1}
               />
 
               {location && (

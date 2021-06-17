@@ -43,6 +43,7 @@ const StandardPlanModal = ({
   week,
   weekDay,
   year,
+  workingDays,
 }) => {
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
@@ -139,12 +140,13 @@ const StandardPlanModal = ({
         staffPositionId,
       }),
     );
+    dispatch(
+      fetchAreasCreator({
+        staffPositionId,
+      }),
+    );
   }, [dispatch]);
-  dispatch(
-    fetchAreasCreator({
-      staffPositionId,
-    }),
-  );
+
   useEffect(() => {
     setPartiesList(allParties);
     filterPartyByType(allParties);
@@ -580,7 +582,7 @@ const StandardPlanModal = ({
     obj => {
       dispatch(
         fetchSTPCalendarUpdateCreator({
-          staffPositionId: 1,
+          staffPositionId,
         }),
       );
     },
@@ -792,20 +794,32 @@ const StandardPlanModal = ({
         <View>
           <Label title={Strings.selectDoctorAndChemist} size={18.7} />
           <View style={styles.week}>
-            <TouchableOpacity
-              onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
-              <Icon iconStyle={styles.weekArrow} name="angle-left" size={24} />
-            </TouchableOpacity>
+            {weekDay !== workingDays[0] && (
+              <TouchableOpacity
+                onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
+                <Icon
+                  iconStyle={styles.weekArrow}
+                  name="angle-left"
+                  size={24}
+                />
+              </TouchableOpacity>
+            )}
             <Label
               style={styles.weekLabel}
               title={`${Strings.weekText} ${week} - ${weekDay}`}
               variant={LabelVariant.h3}
               type={'bold'}
             />
-            <TouchableOpacity
-              onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
-              <Icon iconStyle={styles.weekArrow} name="angle-right" size={24} />
-            </TouchableOpacity>
+            {weekDay !== workingDays[workingDays.length - 1] && (
+              <TouchableOpacity
+                onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
+                <Icon
+                  iconStyle={styles.weekArrow}
+                  name="angle-right"
+                  size={24}
+                />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
         <View style={[styles.patchContainer]}>

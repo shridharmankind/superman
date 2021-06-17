@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   areaType: {
-    paddingHorizontal: 34,
+    paddingHorizontal: 24,
     paddingVertical: 6,
   },
   doctorSelectedContainer: {

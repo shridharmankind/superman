@@ -4,7 +4,7 @@ const Strings = {
   forgotpwd: 'Forgot password',
   week: [1, 2, 3, 4],
   weekText: 'Week',
-  selectDoctorAndChemist: 'Select doctors and chemist',
+  selectDoctorAndChemist: 'Select doctors and chemists',
   selectArea: 'Select Area',
   selectVisit: 'Selected Visits',
   planCompliance: 'Plan Compliance',
@@ -139,6 +139,10 @@ const Strings = {
   exitConfirmation: 'Are you sure you want to exit Superman?',
   patchSaveForPrevDay: 'Patch for previous day(s) has been saved',
   noPatchFound: 'No patch found',
+  congratulations: 'Congratulations!',
+  takeMeToHome: 'Take me to Home',
+  beginJourney: "Let's begin your journey",
+  successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
   minimum: 'minimum',
   maximum: 'maximum',
@@ -160,6 +164,10 @@ const Strings = {
       region: 'REGION',
     },
     noResult: 'No Records found',
+    btns:{
+      addTodayPlan:"Add to Today's Plan",
+      startEdetail:"eDetail" 
+    }
   },
   searchBar: {
     errors: {
@@ -171,7 +179,11 @@ const Strings = {
       clear: 'Clear',
       continue: 'Continue',
     },
+    searchPlaceholder:'Search Doctors Here'
   },
+  areaSelectionConfirmation:
+    'The selections done by you will be lost. Do you want to proceed?',
+  warning: 'Warning',
 };
 
 export default Strings;

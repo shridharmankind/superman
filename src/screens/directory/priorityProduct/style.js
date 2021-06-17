@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     color: theme.colors.red[300],
   },
   colorGrey: {
-    color: theme.colors.grey[1600],
+    color: theme.colors.grey[1800],
   },
   gxLabel: {
     color: theme.colors.grey[1100],
