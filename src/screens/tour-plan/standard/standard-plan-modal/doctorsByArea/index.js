@@ -43,14 +43,14 @@ const DoctorsByArea = ({
         }
       });
       let newPartiesData = partiesData;
-      if (!isSameDayPatch) {
+      if (!isPatchedData) {
         newPartiesData = partiesData?.filter(
           par => par.frequency !== par.alreadyVisited,
         );
       }
       return newPartiesData;
     },
-    [partiesList, selectedDoctorType, isSameDayPatch],
+    [partiesList, selectedDoctorType, isPatchedData],
   );
 
   /** function to render parties by area selected from area chiklets
