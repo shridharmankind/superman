@@ -19,15 +19,20 @@ import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
-  const isLoggedIn = false;
-  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOCALAUTHENTICATION;
+  // let isLoggedIn = false;
+  const nodeRef = React.useRef(null);
   setI18nConfig();
   useEffect(() => {
+    let y = async () => {
+      nodeRef.current = await AsyncStorage.getItem('isLocalAuth');
+      return nodeRef;
+    };
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
@@ -35,7 +40,14 @@ const App = () => {
         });
       }, 2000);
     }
+    y();
+    return async () => {
+      return await AsyncStorage.removeItem('isLocalAuth');
+    };
   }, []);
+  const initialRoute = nodeRef.current
+    ? ROUTE_DASHBOARD
+    : ROUTE_LOCALAUTHENTICATION;
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>

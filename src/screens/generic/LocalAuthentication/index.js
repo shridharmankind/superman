@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import * as LocalAuthentication from 'expo-local-authentication';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const LocalAuth = ({navigation}) => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const LocalAuth = ({navigation}) => {
 
           LocalAuthentication.authenticateAsync().then(response3 => {
             console.log(response3);
+            AsyncStorage.setItem('isLocalAuth', 'true');
             navigation.navigate('Login');
           });
         });

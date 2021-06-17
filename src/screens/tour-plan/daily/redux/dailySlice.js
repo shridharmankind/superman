@@ -49,11 +49,16 @@ export const doctorDetailSlice = createSlice({
       return state;
     },
     addDeletedParty: (state, action) => {
-      state.doctorDetail.data.splice(
-        state.doctorDetail.deletedItem.index,
-        0,
-        state.doctorDetail.deletedItem.item,
-      );
+      const findItemToAdd = state.doctorDetail.data.find(d => {
+        return d.id === state.doctorDetail.deletedItem.item.id;
+      });
+      if (!findItemToAdd) {
+        state.doctorDetail.data.splice(
+          state.doctorDetail.deletedItem.index,
+          0,
+          state.doctorDetail.deletedItem.item,
+        );
+      }
     },
     deletePartyError: (state, action) => merge(state, action.payload),
   },

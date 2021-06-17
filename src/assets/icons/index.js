@@ -18,3 +18,7 @@ export {default as Birthday} from './birthday';
 export {default as Anniversary} from './anniversary';
 export {default as ArrowUp} from './arrowUp';
 export {default as WorkOutline} from './workOutline';
+export {default as LocationIcon} from './location';
+export {default as ErrorIcon} from './error';
+export {default as Power} from './power';
+export {default as ArrowDownRed} from './arrowDownRed';

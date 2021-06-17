@@ -36,9 +36,9 @@ const DailyTourPlan = () => {
     dispatch(
       fetchDoctorDetailCreator({
         staffPositionid: 2,
-        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+        day: parseInt(getFormatDate({format: 'D'}), 10),
+        month: parseInt(getFormatDate({format: 'M'}), 10),
+        year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
     );
   }, [dispatch]);
@@ -204,9 +204,18 @@ const DailyTourPlan = () => {
             dispatch(
               deletePartyCreator({
                 staffPositionid: 2,
-                day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-                month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-                year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+                day: parseInt(
+                  getFormatDate({date: new Date(), format: 'D'}),
+                  10,
+                ),
+                month: parseInt(
+                  getFormatDate({date: new Date(), format: 'M'}),
+                  10,
+                ),
+                year: parseInt(
+                  getFormatDate({date: new Date(), format: 'YYYY'}),
+                  10,
+                ),
                 partyId: itemPressed.id,
               }),
             );

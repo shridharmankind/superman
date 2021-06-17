@@ -1,13 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
-  View,
   Image,
   ImageBackground,
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Strings} from 'common';
 import {Label} from 'components/elements';
@@ -20,32 +18,19 @@ import {NetworkService} from 'services';
 import {Routes} from 'navigations';
 
 const MasterDataDownload = ({navigation}) => {
+  const progressBarSyncParam = 10 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
   const [progress, setProgress] = useState(0);
   const [indeterminate, setIndeterminate] = useState(true);
 
-  const animate = useCallback(() => {
-    let progressStatus = 0;
-
-    setProgress(progressStatus);
-    setTimeout(() => {
-      setIndeterminate(false);
-      const interval = setInterval(() => {
-        progressStatus += Math.random() / 5;
-        if (progressStatus > 1) {
-          progressStatus = 1;
-          clearInterval(interval);
-          navigation.reset({
-            routes: [{name: Routes.ROUTE_DASHBOARD}],
-          });
-        }
-        setProgress(progressStatus);
-      }, 1500);
-    }, 3000);
-  }, [navigation]);
-
   useEffect(() => {
+    let isMounted = true;
+    setTimeout(() => {
+      if (isMounted) {
+        setIndeterminate(false);
+      }
+    }, 3000);
+
     const fetchData = async () => {
-      animate();
       try {
         await initMasterTablesDownloadStatus();
 
@@ -95,22 +80,34 @@ const MasterDataDownload = ({navigation}) => {
               DBConstants.downloadStatus.DOWNLOADED,
               item.name,
             );
+            if (i % progressBarSyncParam === 0) {
+              setProgress(prevProgress => prevProgress + 0.1);
+            }
           } else {
             Alert.alert(Strings.info, response);
           }
         }
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
       } catch (error) {
         Alert.alert(Strings.info, error);
       }
     };
     fetchData();
-  }, [animate, navigation]);
+    return () => {
+      isMounted = false;
+    };
+  }, [navigation, progressBarSyncParam]);
 
   const initMasterTablesDownloadStatus = async () => {
     try {
       const accessToken = await KeyChain.getAccessToken();
       await KeyChain.saveDatabaseKey(accessToken);
       Helper.MASTER_TABLES_DETAILS.forEach(async item => {
+        if (item?.status === DBConstants.downloadStatus.DOWNLOADED) {
+          return;
+        }
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
           status: DBConstants.downloadStatus.PENDING,

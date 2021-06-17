@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -9,14 +9,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-  Area,
-  Label,
-  LabelVariant,
-  Button,
-  Dropdown,
-  DoctorDetailsWrapper,
-} from 'components/elements';
+import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
@@ -29,9 +22,12 @@ import {
   standardTourPlanSelector,
   savePatchCreator,
   standardPlanActions,
+  fetchSTPCalendarUpdateCreator,
 } from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
-
+import Areas from './areas';
+import DoctorsByArea from './doctorsByArea';
+import PlanCompliance from 'screens/tourPlan/planCompliance';
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -47,6 +43,7 @@ const StandardPlanModal = ({
   week,
   weekDay,
   year,
+  workingDays,
 }) => {
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
@@ -59,18 +56,15 @@ const StandardPlanModal = ({
   const [parties, setParties] = useState([]);
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
-  const [doctorsSelected, setDoctorSelected] = useState([]);
+  const [doctorsSelected, setDoctorsSelected] = useState([]);
   const [showPatchError, setShowPatchError] = useState(false);
   const [patchError, setPatchError] = useState();
-  const swiperRef = useRef(null);
-  const [hideRightArrow, setHideRightArrow] = useState(false);
-  const [scrollOffset, setScrollOffset] = useState(0);
   const [isPatchedData, setIsPatchedData] = useState(false);
   const [patchEdited, setPatchEdited] = useState(false);
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
-  const weekNum = Number(week.split(' ')[1]);
+  const weekNum = Number(week);
   const staffPositionId = 1;
   /**
    * callback function to return direction left/right of day swiper
@@ -80,7 +74,8 @@ const StandardPlanModal = ({
     async direction => {
       if (patchSelected && dataChanged && !savePatchRes) {
         setSwipeDirection(direction);
-        handleDonePress();
+
+        handleDonePress(doctorsSelected);
       } else {
         resetandChangePage(direction, dataChanged);
       }
@@ -91,6 +86,7 @@ const StandardPlanModal = ({
       dataChanged,
       resetandChangePage,
       savePatchRes,
+      doctorsSelected,
     ],
   );
 
@@ -114,7 +110,7 @@ const StandardPlanModal = ({
 
   const resetState = useCallback(async () => {
     await setAreaSelected([]);
-    await setDoctorSelected([]);
+    await setDoctorsSelected([]);
     await setIsPatchedData(false);
     await setPatchEdited(false);
     await setShowPatchError(false);
@@ -144,12 +140,13 @@ const StandardPlanModal = ({
         staffPositionId,
       }),
     );
+    dispatch(
+      fetchAreasCreator({
+        staffPositionId,
+      }),
+    );
   }, [dispatch]);
-  dispatch(
-    fetchAreasCreator({
-      staffPositionId,
-    }),
-  );
+
   useEffect(() => {
     setPartiesList(allParties);
     filterPartyByType(allParties);
@@ -192,7 +189,7 @@ const StandardPlanModal = ({
 
   useEffect(() => {
     if (allPartiesByPatchID) {
-      setDoctorSelected(allPartiesByPatchID);
+      setDoctorsSelected(allPartiesByPatchID);
       getSelectedArea(allPartiesByPatchID);
     }
   }, [getSelectedArea, allPartiesByPatchID]);
@@ -233,23 +230,6 @@ const StandardPlanModal = ({
     setPartiesType(doctorType);
   };
 
-  /** function to handle and update state with area selected
-   * @param {Number} val area id passed
-   */
-  const handleAreaSelected = val => {
-    const index = (areaSelected || []).filter(area => area.id === val);
-    if (index.length > 0) {
-      setAreaSelected(areaSelected.filter(item => item.id !== val));
-    } else {
-      setAreaSelected([
-        ...areaSelected,
-        areaList.find(area => area.id === val),
-      ]);
-    }
-    removeSelectedDoctorFromArea(val);
-    setSelectedDoctorType(Strings.all);
-  };
-
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
     if (partiesList) {
@@ -257,38 +237,44 @@ const StandardPlanModal = ({
         return {
           ...area,
           totalPartiesInArea: getDoctorsByArea(area.id).length,
+          totalUniqueParty: doctorsSelected && getSelectedPartyByArea(area.id),
         };
       });
       return areaData;
     }
-  }, [getDoctorsByArea, areaList, partiesList]);
+  }, [
+    getDoctorsByArea,
+    areaList,
+    partiesList,
+    getSelectedPartyByArea,
+    doctorsSelected,
+  ]);
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
    */
   const removeSelectedDoctorFromArea = useCallback(
-    areaId => {
-      const doctorToRemove = partiesList.find(party =>
-        doctorsSelected?.some(
-          obj =>
-            obj === party.id && areaSelected.some(par => par.id === areaId),
-        ),
-      );
-      if (doctorToRemove) {
-        setDoctorSelected(
-          doctorsSelected.filter(doc => doc !== doctorToRemove.id),
+    async areaId => {
+      let doctorArr = doctorsSelected;
+      partiesList.map(party => {
+        const doctorToRemove = doctorsSelected?.find(
+          obj => obj === party.id && party.areas.some(par => par.id === areaId),
         );
-      }
+        if (doctorToRemove) {
+          doctorArr = doctorArr.filter(doc => doc !== doctorToRemove);
+        }
+      });
+      setDoctorsSelected(doctorArr);
     },
-    [doctorsSelected, partiesList, areaSelected],
+    [doctorsSelected, partiesList],
   );
 
   /** function to create patch string to be put in patch input field*/
-  const createPatchString = useCallback(() => {
-    let patchString = (areaSelected || [])
+  const createPatchString = useCallback((areas, doctors, partyList, ptches) => {
+    let patchString = (areas || [])
       .filter(area => {
-        const partyData = partiesList.find(party =>
-          doctorsSelected?.some(
+        const partyData = partyList.find(party =>
+          doctors?.some(
             obj =>
               obj === party.id && party.areas.some(par => par.id === area.id),
           ),
@@ -297,10 +283,10 @@ const StandardPlanModal = ({
       })
       .map(patch => patch.name)
       .join(' + ');
-    const patchCount = (patches || []).filter(
+    const patchCount = (ptches || []).filter(
       p =>
         p.displayName === patchString ||
-        p.defaultName.split(' (')[0] === patchString,
+        p.defaultName?.split(' (')[0] === patchString,
     );
     if (patchCount) {
       patchString = patchString
@@ -309,11 +295,16 @@ const StandardPlanModal = ({
         : '';
     }
     return patchString;
-  }, [areaSelected, doctorsSelected, partiesList, patches]);
+  }, []);
 
   useEffect(() => {
-    if (!isPatchedData && dataChanged) {
-      const string = createPatchString();
+    if (!isPatchedData && dataChanged && !isSameDayPatch(patchValue)) {
+      const string = createPatchString(
+        areaSelected,
+        doctorsSelected,
+        partiesList,
+        patches,
+      );
       if (!patchEdited) {
         setPatchSelected(string);
       }
@@ -328,6 +319,8 @@ const StandardPlanModal = ({
     patchEdited,
     patchValue,
     dataChanged,
+    isSameDayPatch,
+    patches,
   ]);
 
   /** function to filter parties by area selected from area chiklets
@@ -377,9 +370,12 @@ const StandardPlanModal = ({
                 : Strings.patchSaved,
             },
           });
+          setDataChanged(false);
           dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
+          } else {
+            setPatchValue(savePatchRes.data || obj);
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
@@ -391,14 +387,16 @@ const StandardPlanModal = ({
             setPatchError(Strings.patchAlreadyExists);
           } else if (
             savePatchRes?.data?.details[0]?.code ===
-            Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY
-          ) {
-            showOverrideNotification(obj, id);
-          } else if (
+              Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY ||
             savePatchRes?.data?.details[0]?.code ===
-            Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED
+              Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED
           ) {
-            showOverrideNotification(obj, id);
+            showOverrideNotification(
+              obj,
+              id,
+              savePatchRes?.data?.details[0]?.code,
+              savePatchRes?.data?.details,
+            );
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
@@ -420,50 +418,51 @@ const StandardPlanModal = ({
   );
 
   /** function to save the patch */
-  const handleDonePress = useCallback(async () => {
-    const obj = {
-      displayName: patchSelected,
-      defaultName: patchDefaultValue,
-      partyIds: doctorsSelected,
-      week: weekNum,
-      weekDay,
-      year: year,
-    };
-    setPatchError(null);
-    setPatchRequest(obj);
-    const isPatchOfSameDay = isSameDayPatch(patchValue);
+  const handleDonePress = useCallback(
+    async partyIds => {
+      const obj = {
+        displayName: patchSelected,
+        defaultName: patchDefaultValue,
+        partyIds: partyIds || doctorsSelected,
+        week: weekNum,
+        weekDay,
+        year: year,
+      };
+      setPatchError(null);
+      setPatchRequest(obj);
+      const isPatchOfSameDay = isSameDayPatch(patchValue);
 
-    if (!patchValue) {
-      savePatch(obj);
-    } else if (
-      (patchValue && isPatchOfSameDay) ||
-      (patchValue && !dataChanged)
-    ) {
-      updatePatch(obj, patchValue.id, false);
-    } else if (patchValue && !isPatchOfSameDay) {
-      savePatch(obj);
-    } else if (patchValue && isPatchOfSameDay) {
-      updatePatch(obj, patchValue.id, false);
-    }
-  }, [
-    patchDefaultValue,
-    patchSelected,
-    patchValue,
-    savePatch,
-    updatePatch,
-    weekDay,
-    weekNum,
-    year,
-    doctorsSelected,
-    isSameDayPatch,
-    dataChanged,
-  ]);
+      if (!patchValue) {
+        savePatch(obj);
+      } else if (patchValue && isPatchOfSameDay && dataChanged) {
+        updatePatch(obj, patchValue.id, false);
+      } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
+        savePatch(obj);
+      } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
+        updatePatch(obj, patchValue.id, false);
+      }
+    },
+    [
+      patchDefaultValue,
+      patchSelected,
+      patchValue,
+      savePatch,
+      updatePatch,
+      weekDay,
+      weekNum,
+      year,
+      isSameDayPatch,
+      dataChanged,
+      isPatchedData,
+      doctorsSelected,
+    ],
+  );
 
   /** function to show notification in case of updating the patch
    * @param {Object} obj patch request has been passed as object
    */
   const showOverrideNotification = useCallback(
-    (obj, id) => {
+    (obj, id, code, errors) => {
       showToast({
         type: Constants.TOAST_TYPES.NOTIFICATION,
         autoHide: false,
@@ -473,15 +472,121 @@ const StandardPlanModal = ({
           },
           onClose: () => hideToast(),
           heading: Strings.confirmation,
-          subHeading: Strings.patchUsedForOtherWeekDay,
+          subHeading:
+            code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED
+              ? Strings.patchExhaustedForParty
+              : Strings.patchUsedForOtherWeekDay,
           actionLeftTitle: Strings.yes,
           actionRightTitle: Strings.no,
-          onPressLeftBtn: () => updatePatch(obj, id, true),
-          onPressRightBtn: () => savePatch(obj),
+          onPressLeftBtn: () => {
+            if (code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED) {
+              handleNoPress(
+                obj,
+                areaSelected,
+                doctorsSelected,
+                partiesList,
+                patches,
+              );
+            } else {
+              const isPatchExhausted = errors.some(
+                error =>
+                  error.code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED,
+              );
+              if (
+                isPatchExhausted &&
+                code === Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY
+              ) {
+                checkPatchExhausted(obj, id, errors);
+              } else {
+                updatePatch(obj, id, true);
+              }
+            }
+          },
+          onPressRightBtn: () => {
+            if (code === Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY) {
+              handleNoPress(
+                obj,
+                areaSelected,
+                doctorsSelected,
+                partiesList,
+                patches,
+              );
+            } else {
+              const docIds = errors.find(err => err.code === code);
+              setDoctorsSelected(
+                doctorsSelected.filter(
+                  doc => docIds?.params?.partyIds.indexOf(doc) === -1,
+                ),
+              );
+              hideToast();
+            }
+          },
         },
       });
     },
-    [savePatch, updatePatch],
+    [
+      updatePatch,
+      handleNoPress,
+      areaSelected,
+      patches,
+      doctorsSelected,
+      partiesList,
+      checkPatchExhausted,
+    ],
+  );
+
+  /**function to check if patch is exhausted
+   * @param {Object} obj request obj to update
+   * @param {String} id patch id to update
+   * @param {Array} errors errors as Array got while updating
+   */
+  const checkPatchExhausted = useCallback(
+    (obj, id, errors) => {
+      if (
+        errors.some(
+          error => error.code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED,
+        )
+      ) {
+        showOverrideNotification(
+          obj,
+          id,
+          Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED,
+          errors,
+        );
+      }
+    },
+    [showOverrideNotification],
+  );
+
+  /**function to create new patch on databse if No button on override notification is pressed
+   * @param {Object} obj request obj to update
+   * @param {Array} areas errors as Array got while updating
+   * @param {Array} doctors selected doctors passed as an Array
+   * @param {Array} partyList list of parties
+   * @param {Array} ptches lsit of patches
+   */
+  const handleNoPress = useCallback(
+    async (obj, areas, doctors, partyList, ptches) => {
+      const string = createPatchString(areas, doctors, partyList, ptches);
+      await setPatchSelected(string);
+      await setPatchDefaultValue(string);
+      savePatch({...obj, displayName: string, defaultName: string});
+    },
+    [createPatchString, savePatch],
+  );
+
+  /** function to save patch
+   * @param {Object} obj patch request has been passed as object
+   */
+  const updateSTPCalendar = useCallback(
+    obj => {
+      dispatch(
+        fetchSTPCalendarUpdateCreator({
+          staffPositionId,
+        }),
+      );
+    },
+    [dispatch],
   );
 
   /** function to save patch
@@ -541,28 +646,24 @@ const StandardPlanModal = ({
    */
   const handleDoctorCardPress = id => {
     const indexAvailable = doctorsSelected?.some(party => party === id);
-
+    let selected = null;
     if (indexAvailable) {
-      setDoctorSelected(doctorsSelected?.filter(party => party !== id));
+      selected = doctorsSelected?.filter(party => party !== id);
     } else {
-      setDoctorSelected([...doctorsSelected, id]);
+      selected = [...doctorsSelected, id];
     }
+    setDoctorsSelected(selected);
+    const string = createPatchString(
+      areaSelected,
+      selected,
+      partiesList,
+      patches,
+    );
+    setPatchDefaultValue(string);
     if (!isSameDayPatch(patchValue)) {
       setIsPatchedData(false);
-      setDataChanged(true);
     }
-  };
-
-  /** function to handle area left swipe*/
-  const handleAreaLeftArrow = () => {
-    swiperRef.current.scrollTo({x: scrollOffset - 150, y: 0, animated: true});
-    setScrollOffset(scrollOffset - 100);
-  };
-
-  /** function to handle area right swipe*/
-  const handleAreaRightArrow = () => {
-    swiperRef.current.scrollTo({x: scrollOffset + 150, y: 0, animated: true});
-    setScrollOffset(scrollOffset + 100);
+    setDataChanged(true);
   };
 
   /** function to handle value of patch input field and check validation on string
@@ -580,15 +681,14 @@ const StandardPlanModal = ({
    * @param {Object} val passed from dropdown
    */
   const handleDropDownValue = useCallback(
-    async (val, def) => {
+    async val => {
       if (val) {
         await setPatchValue(val);
         await setPatchSelected(val.displayName);
         await setPatchDefaultValue(val.defaultName);
-        if (def) {
-          setIsPatchedData(true);
-        } else {
-          setIsPatchedData(false);
+        setIsPatchedData(true);
+        if (!isSameDayPatch(val)) {
+          setDataChanged(true);
         }
 
         dispatch(
@@ -598,21 +698,24 @@ const StandardPlanModal = ({
         );
       }
     },
-    [dispatch],
+    [dispatch, isSameDayPatch],
   );
 
   /** function to filter parties by area selected
    * @param {Number} id area id passed from party object
    */
-  const getSelectedPartyByArea = id => {
-    let count = 0;
-    getDoctorsByArea(id).map(party => {
-      if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
-        count = count + 1;
-      }
-    });
-    return count;
-  };
+  const getSelectedPartyByArea = useCallback(
+    id => {
+      let count = 0;
+      getDoctorsByArea(id).map(party => {
+        if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
+          count = count + 1;
+        }
+      });
+      return count;
+    },
+    [doctorsSelected, getDoctorsByArea],
+  );
 
   /**
    *  Handle singular & plural
@@ -668,22 +771,12 @@ const StandardPlanModal = ({
     }
   }, [doctorsSelected, partiesList, selectedDoctorType, patchSelected]);
 
-  /** function toh hide/show right arrow of area scroll
-   * @param {Object} nativeEvent native events of scrollView passed
-   */
-  const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
-    if (layoutMeasurement.width + contentOffset.x >= contentSize.width) {
-      setHideRightArrow(true);
-    } else {
-      setHideRightArrow(false);
-    }
-  };
-
   /**
    * function to close stp page
    */
   const handleClose = () => {
     resetState();
+    updateSTPCalendar();
     navigation.pop();
   };
 
@@ -693,10 +786,11 @@ const StandardPlanModal = ({
    */
   const isSameDayPatch = useCallback(
     patch => {
-      return (
-        weekNum === patch?.week &&
-        weekDay === patch?.weekDay &&
-        year === patch?.year
+      return patch?.usedOn?.some(
+        pat =>
+          weekNum === pat?.week &&
+          weekDay === pat?.weekDay &&
+          year === pat?.year,
       );
     },
     [weekNum, weekDay, year],
@@ -708,20 +802,32 @@ const StandardPlanModal = ({
         <View>
           <Label title={Strings.selectDoctorAndChemist} size={18.7} />
           <View style={styles.week}>
-            <TouchableOpacity
-              onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
-              <Icon iconStyle={styles.weekArrow} name="angle-left" size={24} />
-            </TouchableOpacity>
+            {weekDay !== workingDays[0] && (
+              <TouchableOpacity
+                onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
+                <Icon
+                  iconStyle={styles.weekArrow}
+                  name="angle-left"
+                  size={24}
+                />
+              </TouchableOpacity>
+            )}
             <Label
               style={styles.weekLabel}
-              title={`${week} - ${weekDay}`}
+              title={`${Strings.weekText} ${week} - ${weekDay}`}
               variant={LabelVariant.h3}
               type={'bold'}
             />
-            <TouchableOpacity
-              onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
-              <Icon iconStyle={styles.weekArrow} name="angle-right" size={24} />
-            </TouchableOpacity>
+            {weekDay !== workingDays[workingDays.length - 1] && (
+              <TouchableOpacity
+                onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
+                <Icon
+                  iconStyle={styles.weekArrow}
+                  name="angle-right"
+                  size={24}
+                />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
         <View style={[styles.patchContainer]}>
@@ -748,9 +854,9 @@ const StandardPlanModal = ({
             mode="contained"
             title={Strings.done}
             uppercase={true}
-            disabled={!patchSelected || false}
+            disabled={!patchSelected || !dataChanged || false}
             contentStyle={styles.doneBtn}
-            onPress={() => handleDonePress()}
+            onPress={() => handleDonePress(doctorsSelected)}
           />
           <Button
             mode="outlined"
@@ -763,69 +869,16 @@ const StandardPlanModal = ({
       </View>
       <View style={styles.content}>
         <View style={styles.leftContent}>
-          <View style={styles.selectAreaContainer}>
-            <View>
-              <Label title={Strings.selectArea} size={14} />
-            </View>
-            <View style={styles.areaFilterContainer}>
-              <Dropdown
-                valueSelected={val => handleDropDownValue(val, false)}
-                data={allPatches}
-                defaultLabel={Strings.selectPatch}
-                isPatchedData={isPatchedData}
-              />
-              <View style={styles.areaFilter}>
-                {scrollOffset > 0 && (
-                  <TouchableOpacity
-                    onPress={() => handleAreaLeftArrow()}
-                    style={[styles.swiperArrow, styles.leftArrow]}>
-                    <Icon
-                      name={'chevron-left'}
-                      size={10}
-                      color={themes.colors.blue}
-                    />
-                  </TouchableOpacity>
-                )}
-                <ScrollView
-                  horizontal={true}
-                  ref={swiperRef}
-                  onScroll={({nativeEvent}) => {
-                    hideScrollArrow(nativeEvent);
-                  }}
-                  showsHorizontalScrollIndicator={false}>
-                  {getPartyCountFromArea().map(area => {
-                    return (
-                      <Area
-                        key={area.id}
-                        title={area.name}
-                        value={area.id}
-                        count={area.totalPartiesInArea}
-                        bgColor={'#524F670D'}
-                        color={'#524F67'}
-                        selectedColor={'#322B7C1A'}
-                        selected={isAreaSelected(area.id, areaSelected)}
-                        selectedTextColor={themes.colors.primary}
-                        style={styles.areaChip}
-                        onPress={handleAreaSelected}
-                      />
-                    );
-                  })}
-                </ScrollView>
-                {!hideRightArrow && (
-                  <TouchableOpacity
-                    onPress={() => handleAreaRightArrow()}
-                    style={[styles.swiperArrow, styles.rightArrow]}>
-                    <Icon
-                      name={'chevron-right'}
-                      size={10}
-                      color={themes.colors.blue}
-                    />
-                  </TouchableOpacity>
-                )}
-              </View>
-            </View>
-          </View>
-
+          <Areas
+            areaSelected={areaSelected}
+            setAreaSelected={setAreaSelected}
+            areaList={getPartyCountFromArea()}
+            onPress={val => removeSelectedDoctorFromArea(val)}
+            handleDropDownValue={handleDropDownValue}
+            isPatchedData={isPatchedData}
+            allPatches={allPatches}
+            partyInArea={id => getSelectedPartyByArea(id)}
+          />
           <View style={styles.doctorDetailsContainer}>
             <View>
               <View style={styles.doctorDetailsHeader}>
@@ -855,62 +908,18 @@ const StandardPlanModal = ({
                   ))}
                 </View>
               </View>
-
-              <View style={styles.doctorDetailsContainer}>
-                {areaSelected?.map((area, i) => (
-                  <React.Fragment key={i}>
-                    <View style={styles.doctorSelectedContainer}>
-                      <Label
-                        title={area.name}
-                        testID={`label_stp_area_${area.id}_test`}
-                        size={14}
-                      />
-                      <Label
-                        title={` (${getSelectedPartyByArea(area.id)})`}
-                        type={'bold'}
-                        size={14}
-                      />
-                    </View>
-
-                    <View style={styles.doctorDetails}>
-                      {getDoctorsByArea(area.id).map((party, index) => (
-                        <DoctorDetailsWrapper
-                          key={party.id + area.id}
-                          id={party.id}
-                          title={party.shortName || party.name}
-                          specialization={party.specialities}
-                          category={party.category}
-                          isKyc={party.isKyc}
-                          selected={(doctorsSelected || []).some(id => {
-                            if (id === party.id) {
-                              return true;
-                            }
-                          })}
-                          testID={`card_standard_plan_doctor_${party.id}_test`}
-                          party={party}
-                          isPatchedData={isPatchedData}
-                          onPress={id => handleDoctorCardPress(id)}
-                          containerStyle={
-                            index % 2 === 0 ? styles.left : styles.right
-                          }
-                        />
-                      ))}
-                      {getDoctorsByArea(area.id).length === 0 && (
-                        <Label
-                          title={Strings.noRecordsForSelection}
-                          variant={LabelVariant.h4}
-                        />
-                      )}
-                    </View>
-                  </React.Fragment>
-                ))}
-                {areaSelected.length === 0 && (
-                  <Label
-                    title={Strings.noRecordsForSelection}
-                    variant={LabelVariant.h4}
-                  />
-                )}
-              </View>
+              <DoctorsByArea
+                areaSelected={areaSelected}
+                doctorsByArea={getDoctorsByArea}
+                doctorsSelected={doctorsSelected}
+                handleDoctorCardPress={handleDoctorCardPress}
+                isPatchedData={isPatchedData}
+                selectedPartyByArea={getSelectedPartyByArea}
+                partiesList={partiesList}
+                selectedDoctorType={selectedDoctorType}
+                patchValue={patchValue}
+                isSameDayPatch={isSameDayPatch(patchValue)}
+              />
               <View styles={styles.bottom}>
                 <View style={styles.bottomContent}>
                   <Button
@@ -931,7 +940,12 @@ const StandardPlanModal = ({
           </View>
         </View>
         <View style={styles.rightContent}>
-          <Label variant={LabelVariant.h4} title={Strings.planCompliance} />
+          <Label
+            variant={LabelVariant.h4}
+            title={Strings.planCompliance}
+            style={styles.planComplainceLabel}
+          />
+          <PlanCompliance />
         </View>
       </View>
     </ScrollView>
@@ -939,10 +953,6 @@ const StandardPlanModal = ({
 };
 
 const {height} = Dimensions.get('window');
-
-const isAreaSelected = (area, areaList) => {
-  return areaList?.filter(val => val.id === area).length > 0;
-};
 
 StandardPlanModal.defaultProps = {
   handleSliderIndex: () => {},

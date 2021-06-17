@@ -33,6 +33,7 @@ const AreaChip = ({
   style,
   value,
   textStyle,
+  selectedPartyCount,
   onPress,
 }) => {
   const selectedStyle = {
@@ -55,7 +56,13 @@ const AreaChip = ({
       type="flat"
       onPress={() => onPress(value)}
       activeOpacity={1}>
-      {`${title}${count ? ' (' + count + ')' : ''}`}
+      {`${title}${
+        count
+          ? ` (${
+              selectedPartyCount > 0 ? `${selectedPartyCount}/` : ''
+            }${count})`
+          : ''
+      }`}
     </Chip>
   );
 };
