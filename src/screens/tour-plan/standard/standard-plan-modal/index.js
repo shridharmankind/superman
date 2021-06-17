@@ -27,7 +27,7 @@ import {
 import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
-
+import PlanCompliance from 'screens/tourPlan/planCompliance';
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -931,7 +931,12 @@ const StandardPlanModal = ({
           </View>
         </View>
         <View style={styles.rightContent}>
-          <Label variant={LabelVariant.h4} title={Strings.planCompliance} />
+          <Label
+            variant={LabelVariant.h4}
+            title={Strings.planCompliance}
+            style={styles.planComplainceLabel}
+          />
+          <PlanCompliance />
         </View>
       </View>
     </ScrollView>
