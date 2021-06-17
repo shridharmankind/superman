@@ -43,3 +43,14 @@ export const GENDER = {
   MALE: 'MALE',
   FEMALE: 'FEMALE',
 };
+
+export const revokeUrl =
+  'https://mankindpharma-sandbox.onelogin.com/oidc/2/logout?post_logout_redirect_uri=com.superman://callback&id_token_hint=';
+
+export const config = {
+  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
+  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
+  redirectUrl: 'com.superman://callback',
+  scopes: ['openid', 'profile'],
+  additionalParameters: {prompt: 'login'},
+};

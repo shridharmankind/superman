@@ -25,7 +25,7 @@ const config = {
   redirectUrl: 'com.superman://callback',
   scopes: ['openid', 'profile'],
   additionalParameters: {prompt: 'login'},
-  clientAuthMethod: 'post'
+  clientAuthMethod: 'post',
 };
 
 export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
@@ -34,13 +34,13 @@ export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
-  const { signIn } = useContext(AuthContext);
+  const {signIn} = useContext(AuthContext);
 
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);
       const newAuthState = await authorize(config);
-      await KeyChain.saveAccessToken(newAuthState.accessToken)
+      await KeyChain.saveAccessToken(newAuthState.accessToken);
       signIn(newAuthState.accessToken);
       const decoded = jwt_decode(newAuthState.accessToken);
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
@@ -57,6 +57,7 @@ const Login = ({navigation}) => {
       setAnimating(false);
       Alert.alert(Strings.info, error.message);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation]);
 
   return (

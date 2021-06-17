@@ -2,14 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Constants} from 'common';
 import {Alert, Linking} from 'react-native';
 import {revoke} from 'react-native-app-auth';
-
-const config = {
-  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
-  redirectUrl: 'com.superman://callback',
-  scopes: ['openid', 'profile'],
-  additionalParameters: {prompt: 'login'},
-};
+import {KeyChain} from 'helper';
 
 export const isAccessTokenValid = async () => {
   const tokenExpiryTime = await AsyncStorage.getItem(
@@ -22,15 +15,19 @@ export const isAccessTokenValid = async () => {
   }
 };
 
-export const revokeLogin = async state => {
-  const url = `https://mankindpharma-sandbox.onelogin.com/oidc/2/logout?post_logout_redirect_uri=com.superman://callback&id_token_hint=${state.userToken}`
-  try {
-    await Linking.openURL(url);
-    await revoke(config, {
-      tokenToRevoke: state.userToken,
-      includeBasicAuth: false
-    });
-  } catch (error) {
-    Alert.alert('Failed to revoke token', error.message);
+export const revokeLogin = async userToken => {
+  if (userToken) {
+    try {
+      const url = Constants.revokeUrl + userToken;
+      await Linking.openURL(url);
+      await revoke(Constants.config, {
+        tokenToRevoke: userToken,
+        includeBasicAuth: false,
+      });
+      await KeyChain.resetPassword();
+      await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
+    } catch (error) {
+      Alert.alert(error.message);
+    }
   }
 };

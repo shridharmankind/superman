@@ -21,6 +21,7 @@ const store = getStore();
 
 export const AuthContext = React.createContext();
 const App = () => {
+  const [isLoggedIn, setLoggedIn] = React.useState(true);
   LogBox.ignoreAllLogs();
   setI18nConfig();
   React.useEffect(() => {
@@ -41,33 +42,33 @@ const App = () => {
             ...prevState,
             userToken: action.token,
             isSignout: false,
-            screen: ROUTE_DASHBOARD
+            screen: ROUTE_DASHBOARD,
           };
         case 'SIGN_IN':
           return {
             ...prevState,
             isSignout: false,
             userToken: action.token,
-            screen: ROUTE_DASHBOARD
+            screen: ROUTE_DASHBOARD,
           };
         case 'SIGN_OUT':
           return {
             ...prevState,
             isSignout: true,
-            screen: ROUTE_LOGIN
+            screen: ROUTE_LOGIN,
           };
         case 'REMOVE_TOKEN':
           return {
             ...prevState,
-            userToken: null
-          }
+            userToken: null,
+          };
       }
     },
     {
       isSignout: false,
       userToken: null,
-      screen: ROUTE_LOGIN
-    }
+      screen: ROUTE_LOGIN,
+    },
   );
 
   React.useEffect(() => {
@@ -75,32 +76,45 @@ const App = () => {
       try {
         const userToken = await KeyChain.getAccessToken();
         if (userToken && isAccessTokenValid()) {
-          dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+          setLoggedIn(true);
+          dispatch({type: 'RESTORE_TOKEN', token: userToken});
         }
       } catch (error) {
-        Alert.alert('Failed to restore token', error.message);
+        Alert.alert(error.message);
       }
     };
     restoreLoginToken();
   }, []);
 
   React.useEffect(() => {
-    if(state.isSignout) {
-      revokeLogin(state);
-      dispatch({ type: 'REMOVE_TOKEN'});
+    const logoutUser = async () => {
+      try {
+        const userToken = await KeyChain.getAccessToken();
+        if (userToken) {
+          revokeLogin(userToken);
+          dispatch({type: 'REMOVE_TOKEN'});
+        }
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+    };
+    if (!isLoggedIn) {
+      logoutUser();
     }
-  }, [state.isSignout])
+  }, [isLoggedIn]);
 
   const authContext = React.useMemo(
     () => ({
       signIn: async data => {
-        dispatch({ type: 'SIGN_IN', token: data });
+        setLoggedIn(true);
+        dispatch({type: 'SIGN_IN', token: data});
       },
       signOut: () => {
-        dispatch({ type: 'SIGN_OUT'})
-      }
+        setLoggedIn(false);
+        dispatch({type: 'SIGN_OUT'});
+      },
     }),
-    []
+    [],
   );
 
   return (

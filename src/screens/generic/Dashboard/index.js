@@ -15,10 +15,8 @@ import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
 import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
 import theme from 'themes';
-import {KeyChain} from 'helper';
-import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
-import {Strings, Constants} from 'common';
+import {Strings} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
 import {AuthContext} from '../../../App';
@@ -28,7 +26,7 @@ export const DashboardStack = createStackNavigator();
 const Dashboard = ({navigation}) => {
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
-  const { signOut } = useContext(AuthContext);
+  const {signOut} = useContext(AuthContext);
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
@@ -77,8 +75,6 @@ const Dashboard = ({navigation}) => {
         text: Strings.ok,
         onPress: async () => {
           try {
-            await KeyChain.resetPassword();
-            await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
             signOutStateUpdate();
           } catch (error) {
             Alert.alert(Strings.error, error);
@@ -91,7 +87,7 @@ const Dashboard = ({navigation}) => {
   //sign out state update hook
   const signOutStateUpdate = () => {
     signOut();
-  }
+  };
 
   // Function to open the search bar
   const openSearchBar = () => {
