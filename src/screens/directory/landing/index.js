@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, FlatList, Image } from 'react-native';
-import { ContentWithSidePanel } from 'components/layouts';
-import { useDispatch, useSelector } from 'react-redux';
-import { Label, LabelVariant } from 'components/elements';
-import { Strings, Constants } from 'common';
+import React, {useEffect, useState} from 'react';
+import {View, Text, TextInput, FlatList, Image} from 'react-native';
+import {ContentWithSidePanel} from 'components/layouts';
+import {useDispatch, useSelector} from 'react-redux';
+import {Label, LabelVariant} from 'components/elements';
+import {Strings, Constants} from 'common';
 import styles from './styles';
-import { TabBar } from 'components/widgets';
-import {
-  fetchSearchDoctors
-} from './redux/dirlandingSlice';
-import { searchDocSelector } from './redux/dirLandingSelector';
-import { validateSearch } from 'screens/directory/helper';
-import { SearchIcon } from 'assets';
-import { Button } from 'components/elements';
+import {TabBar} from 'components/widgets';
+import {fetchSearchDoctors} from './redux/dirlandingSlice';
+import {searchDocSelector} from './redux/dirLandingSelector';
+import {validateSearch} from 'screens/directory/helper';
+import {SearchIcon} from 'assets';
+import {Button} from 'components/elements';
 import theme from 'themes';
-import { getDivisionColor } from 'screens/directory/helper';
-import { ROUTE_EDETAILING } from 'screens/directory/routes';
+import {getDivisionColor} from 'screens/directory/helper';
+import {ROUTE_EDETAILING} from 'screens/directory/routes';
 
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
  */
-const DirectoryLanding = ({ navigation, route }) => {
+const DirectoryLanding = ({navigation, route}) => {
   const LIMIT = 10;
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [skip, setSkip] = useState(0);
@@ -30,16 +28,17 @@ const DirectoryLanding = ({ navigation, route }) => {
   );
   const dispatch = useDispatch(); // For dispatching the action
   useEffect(() => {
-      dispatch(
-        fetchSearchDoctors({
-          staffPositionId: 1,
-          searchKeyword: 'abc',
-          partyTypeId:1,
-          skip: skip,
-          limit: LIMIT,
-        }),
-      );
-      setSkip(prev => prev + LIMIT);
+    dispatch(
+      fetchSearchDoctors({
+        staffPositionId: 1,
+        searchKeyword: 'abc',
+        partyTypeId: 1,
+        skip: skip,
+        limit: LIMIT,
+      }),
+    );
+    setSkip(prev => prev + LIMIT);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
@@ -57,7 +56,7 @@ const DirectoryLanding = ({ navigation, route }) => {
   ];
 
   // For rendering navbars
-  const renderNavBar = () => { 
+  const renderNavBar = () => {
     return (
       <View style={styles.mainTabContainer}>
         <TabBar
@@ -82,7 +81,7 @@ const DirectoryLanding = ({ navigation, route }) => {
       case 0:
         return doctorTab();
       default:
-        return <Label title={Strings.comingSoon}/>;
+        return <Label title={Strings.comingSoon} />;
     }
   };
 
@@ -105,17 +104,17 @@ const DirectoryLanding = ({ navigation, route }) => {
   // Function to be called on click of eDetail button
   const edetailHandler = () => {
     navigation.navigate(ROUTE_EDETAILING);
-  }
+  };
 
   // If image is not received from server
-  const OnErrorHandler = (index) => {
+  const OnErrorHandler = index => {
     const genderImage =
       Constants.GENDER.MALE === doctorList[index].gender.toUpperCase()
         ? require('assets/images/male.png')
         : require('assets/images/female.png');
 
     return genderImage;
-  }
+  };
 
   // Function for infinite scrolling
   const handleLoadMore = () => {
@@ -132,10 +131,9 @@ const DirectoryLanding = ({ navigation, route }) => {
     //   );
     //   setSkip(prev => prev + LIMIT);
     // }
-  }
+  };
 
-
-// Below is the doctor tab under directory page
+  // Below is the doctor tab under directory page
   const doctorTab = () => {
     return (
       <View style={styles.container}>
@@ -178,7 +176,7 @@ const DirectoryLanding = ({ navigation, route }) => {
                 data={doctorList}
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                   return (
                     <View style={styles.doctorDataRow}>
                       <View style={styles.kycCatContainer}>
@@ -204,9 +202,12 @@ const DirectoryLanding = ({ navigation, route }) => {
                         {item?.category && (
                           <View
                             style={[
-                              styles.category, ,
+                              styles.category,
+                              ,
                               {
-                                backgroundColor: getDivisionColor(item?.category),
+                                backgroundColor: getDivisionColor(
+                                  item?.category,
+                                ),
                               },
                             ]}>
                             <Label
@@ -220,21 +221,33 @@ const DirectoryLanding = ({ navigation, route }) => {
                       </View>
                       <Image
                         style={[styles.docImage]}
-                        source={item.imageUrl ? item.imageUrl : OnErrorHandler(index)}
+                        source={
+                          item.imageUrl ? item.imageUrl : OnErrorHandler(index)
+                        }
                       />
                       <Label style={styles.dataStyle} title={item.name} />
-                      <Label style={styles.dataStyle}   title={(item?.specialities || [])
-                      .map(spec => spec.name)
-                      .join(', ')} />
-                      <Label style={styles.dataStyle} title={(item?.areas || [])
-                      .map(area => area.name)
-                      .join(', ')} />
+                      <Label
+                        style={styles.dataStyle}
+                        title={(item?.specialities || [])
+                          .map(spec => spec.name)
+                          .join(', ')}
+                      />
+                      <Label
+                        style={styles.dataStyle}
+                        title={(item?.areas || [])
+                          .map(area => area.name)
+                          .join(', ')}
+                      />
                       <View style={styles.btnsContainer}>
-                        {!item?.isScheduledToday && <Button title={Strings.directory.btns.addTodayPlan}
-                          mode="contained"
-                          contentStyle={styles.todayPlanbuttonLayout}
-                        />}
-                        <Button title={Strings.directory.btns.startEdetail}
+                        {!item?.isScheduledToday && (
+                          <Button
+                            title={Strings.directory.btns.addTodayPlan}
+                            mode="contained"
+                            contentStyle={styles.todayPlanbuttonLayout}
+                          />
+                        )}
+                        <Button
+                          title={Strings.directory.btns.startEdetail}
                           mode="contained"
                           contentStyle={styles.eDetailbuttonLayout}
                           onPress={edetailHandler}

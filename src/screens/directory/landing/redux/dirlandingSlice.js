@@ -8,7 +8,7 @@ export const fetchQueryDoctorsState = {
   docList: {
     searchCount: 0,
     doctors: [],
-  }
+  },
 };
 
 const searchDoctorSlice = createSlice({
@@ -22,7 +22,7 @@ const searchDoctorSlice = createSlice({
       return {
         ...state,
         docList: {
-          searchCount:action.payload.docList.searchCount,
+          searchCount: action.payload.docList.searchCount,
           doctors: [
             ...state.docList.doctors,
             ...action.payload.docList.doctors,

@@ -12,7 +12,8 @@ export function* fetchQueryDoctorsWatcher() {
 }
 
 function* fetchSearchDoctorsHandler(action) {
-  const {staffPositionId, partyTypeId , skip, limit, searchKeyword} = action.payload;
+  const {staffPositionId, partyTypeId, skip, limit, searchKeyword} =
+    action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
     const response = yield call(
