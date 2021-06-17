@@ -1,3 +1,14 @@
 {
-    "goodMorning": "Good morning"
+  "goodMorning": "Good morning",
+  "missedVisit": "Missed Visit!",
+  "upcomingVisit": "Upcoming Visit",
+  "detailedProducts": "Detailed Products: ",
+  "samplesGiven": "Samples Given: ",
+  "samplesRequested": "Samples Requested: ",
+  "itemsRequested": "Items Requested: ",
+  "itemsGiven": "Items Given: ",
+  "visitNotes": "Visit Notes: ",
+  "completedVisit": "Completed Visit",
+  "lastCompletedVisit": "Last Completed Visit",
+  "on": "On"
 }

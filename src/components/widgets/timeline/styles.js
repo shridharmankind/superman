@@ -15,14 +15,14 @@ const styles = StyleSheet.create({
   timelineItem: {
     alignItems: 'flex-start',
     width: '50%',
-    paddingBottom: 20,
+    paddingBottom: themes.spacing(20),
   },
   timelineItemInnerContainer: {
     flex: 1,
     flexDirection: 'row',
   },
   timelineItemRight: {
-    paddingBottom: 20,
+    paddingBottom: themes.spacing(20),
     width: '50%',
   },
   timelineLineContainer: {

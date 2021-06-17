@@ -6,22 +6,22 @@ const styles = StyleSheet.create({
     maxHeight: 350,
   },
   timelineWrapper: {
-    borderColor: '#e8e8e8',
+    borderColor: themes.colors.grey[1900],
     borderWidth: 1,
     borderRadius: 20,
-    backgroundColor: '#fcfcfc',
-    paddingVertical: 21,
-    paddingLeft: 21,
+    backgroundColor: themes.colors.grey[2000],
+    paddingVertical: themes.spacing(21),
+    paddingLeft: themes.spacing(21),
   },
   timelineYear: {
     textAlign: 'center',
-    marginBottom: 19,
+    marginBottom: themes.spacing(19),
   },
   timelineDateContainer: {
     flex: 1,
     textAlign: 'justify',
     position: 'absolute',
-    right: -20,
+    right: themes.spacing(-20),
     borderColor: themes.colors.primary,
     borderWidth: 1,
     backgroundColor: themes.colors.white,
@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     textAlignVertical: 'center',
-    paddingVertical: 5,
+    paddingVertical: themes.spacing(5),
     opacity: 1,
     alignItems: 'center',
   },
   timelineDateContainerMissed: {
-    borderColor: '#aa0808',
+    borderColor: themes.colors.red[500],
   },
   timelineDateContainerCompleted: {
     borderColor: themes.colors.green[200],
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     color: themes.colors.primary,
   },
   timelineDateMissed: {
-    color: '#aa0808',
+    color: themes.colors.red[500],
   },
   timelineDateCompleted: {
     color: themes.colors.green[200],
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     fontFamily: themes.fonts.fontRegular,
   },
   timelineMonthMissed: {
-    color: '#aa0808',
+    color: themes.colors.red[500],
   },
   timelineMonthCompleted: {
     color: themes.colors.green[200],
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     width: '87%',
     borderRadius: 10,
-    marginHorizontal: 27,
+    marginHorizontal: themes.spacing(27),
   },
   timelineItemAccordion: {
     padding: 0,
@@ -80,29 +80,29 @@ const styles = StyleSheet.create({
   itemDetailsTitle: {
     fontSize: 12.7,
     lineHeight: 14,
-    color: '#3b3850',
+    color: themes.colors.grey[2100],
     fontFamily: themes.fonts.fontSemiBold,
   },
   timelineItemIcon: {
-    marginLeft: 18,
+    marginLeft: themes.spacing(18),
   },
   itemDetailsSection: {
-    marginBottom: 10,
+    marginBottom: themes.spacing(10),
   },
   itemDetailsContainer: {
-    marginLeft: -47,
-    paddingTop: 13,
-    paddingRight: 10,
+    marginLeft: themes.spacing(-47),
+    paddingTop: themes.spacing(13),
+    paddingRight: themes.spacing(10),
     // maxHeight: 200,
     // overflow: 'scroll',
   },
   itemPlain: {
-    paddingVertical: 10,
-    paddingHorizontal: 21.3,
+    paddingVertical: themes.spacing(10),
+    paddingHorizontal: themes.spacing(21.3),
     flexDirection: 'row',
   },
   itemPlainIcon: {
-    marginRight: 10,
+    marginRight: themes.spacing(10),
   },
   timelineScrollContainer: {
     flexDirection: 'row',
@@ -120,23 +120,27 @@ const styles = StyleSheet.create({
   timelineDot: {
     height: 8,
     width: 8,
-    backgroundColor: '#BFBDD5',
+    backgroundColor: themes.colors.grey[2200],
     borderRadius: 4,
-    marginTop: 5,
-    marginRight: 8,
+    marginTop: themes.spacing(5),
+    marginRight: themes.spacing(8),
   },
   timelineDotSelected: {
     fontFamily: themes.fonts.fontRegular,
     fontSize: 10,
-    paddingVertical: 2.3,
-    paddingHorizontal: 7,
+    paddingVertical: themes.spacing(2.3),
+    paddingHorizontal: themes.spacing(7),
     backgroundColor: themes.colors.primary,
     color: themes.colors.white,
     lineHeight: 14,
     display: 'flex',
     alignItems: 'center',
     borderRadius: 10,
-    marginRight: 8,
+    marginRight: themes.spacing(8),
+  },
+  timelineHighlitedItem: {
+    marginBottom: themes.spacing(10),
+    maxWidth: '43.5%',
   },
 });
 

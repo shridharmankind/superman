@@ -11,6 +11,7 @@ import {fetchTimelineCreator, timelineActions} from './redux/timelineSlice';
 import {timelineSelector} from './redux/timelineSelector';
 import dayjs from 'dayjs';
 import debounce from 'lodash.debounce';
+import {translate} from 'locale';
 
 const isCompleted = item => {
   const today = startOf(new Date());
@@ -52,7 +53,10 @@ function renderItemDetails(item) {
     return (
       <View style={[styles.itemPlain]}>
         <MissedVisit style={[styles.itemPlainIcon]} height={20} width={20} />
-        <Label style={[styles.timelineItemTitle]} title="Missed Visit!" />
+        <Label
+          style={[styles.timelineItemTitle]}
+          title={translate('missedVisit')}
+        />
       </View>
     );
   } else if (isCompleted(item)) {
@@ -61,80 +65,78 @@ function renderItemDetails(item) {
     return (
       <View style={[styles.itemPlain]}>
         <DoctorVisit style={[styles.itemPlainIcon]} height={20} width={20} />
-        <Label style={[styles.timelineItemTitle]} title="Upcoming Visit" />
+        <Label
+          style={[styles.timelineItemTitle]}
+          title={translate('upcomingVisit')}
+        />
       </View>
     );
   }
 }
 
-function renderCompletedVisit(item) {
+const renderCompletedItemDetails = () => {
   return (
-    <List.Accordion
-      title="Completed Visit"
-      titleStyle={[styles.timelineItemTitle]}
-      style={[styles.timelineItemAccordion]}
-      left={props => {
-        return (
-          <DoctorVisit
-            style={[styles.timelineItemIcon]}
-            height={20}
-            width={20}
-          />
-        );
-      }}>
-      <View style={[styles.itemDetailsContainer]}>
-        <Text style={[styles.itemDetailsSection]}>
-          <Label
-            style={[styles.itemDetailsTitle]}
-            title="Detailed Products: "
-          />
-          <Label
-            variant={LabelVariant.bodySmall}
-            title="Amlokind AT, Cevakind I, Telmekind II"
-          />
-        </Text>
-        <Text style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Samples Given: " />
-          <Label
-            variant={LabelVariant.bodySmall}
-            title="Amlokind, Cevakind, Telmekind"
-          />
-        </Text>
-        <Text style={[styles.itemDetailsSection]}>
-          <Label
-            style={[styles.itemDetailsTitle]}
-            title="Samples Requested: "
-          />
-          <Label
-            variant={LabelVariant.bodySmall}
-            title="Amlokind AT, Gudacef"
-          />
-        </Text>
-        <Text style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Items Given: " />
-          <Label
-            variant={LabelVariant.bodySmall}
-            title="Booklet, Pens, Diary, Calendar"
-          />
-        </Text>
-        <Text style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Items Requested: " />
-          <Label
-            variant={LabelVariant.bodySmall}
-            title="Faceshields(2), Masks(12), Sanitizer(4)"
-          />
-        </Text>
-        <Text style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Visit Notes: " />
-          <Label
-            variant={LabelVariant.bodySmall}
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          />
-        </Text>
-      </View>
-    </List.Accordion>
+    <View style={[styles.itemDetailsContainer]}>
+      <Text style={[styles.itemDetailsSection]}>
+        <Label
+          style={[styles.itemDetailsTitle]}
+          title={translate('detailedProducts')}
+        />
+        <Label
+          variant={LabelVariant.bodySmall}
+          title="Amlokind AT, Cevakind I, Telmekind II"
+        />
+      </Text>
+      <Text style={[styles.itemDetailsSection]}>
+        <Label
+          style={[styles.itemDetailsTitle]}
+          title={translate('samplesGiven')}
+        />
+        <Label
+          variant={LabelVariant.bodySmall}
+          title="Amlokind, Cevakind, Telmekind"
+        />
+      </Text>
+      <Text style={[styles.itemDetailsSection]}>
+        <Label
+          style={[styles.itemDetailsTitle]}
+          title={translate('samplesRequested')}
+        />
+        <Label variant={LabelVariant.bodySmall} title="Amlokind AT, Gudacef" />
+      </Text>
+      <Text style={[styles.itemDetailsSection]}>
+        <Label
+          style={[styles.itemDetailsTitle]}
+          title={translate('itemsGiven')}
+        />
+        <Label
+          variant={LabelVariant.bodySmall}
+          title="Booklet, Pens, Diary, Calendar"
+        />
+      </Text>
+      <Text style={[styles.itemDetailsSection]}>
+        <Label
+          style={[styles.itemDetailsTitle]}
+          title={translate('itemsRequested')}
+        />
+        <Label
+          variant={LabelVariant.bodySmall}
+          title="Faceshields(2), Masks(12), Sanitizer(4)"
+        />
+      </Text>
+      <Text style={[styles.itemDetailsSection]}>
+        <Label
+          style={[styles.itemDetailsTitle]}
+          title={translate('visitNotes')}
+        />
+        <Label
+          variant={LabelVariant.bodySmall}
+          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        />
+      </Text>
+    </View>
   );
-}
+};
 
 function renderItem(item, index) {
   return <View style={[styles.timelineItem]}>{renderItemDetails(item)}</View>;
@@ -157,8 +159,30 @@ function renderDate(item, index) {
   );
 }
 
+const renderCompletedVisit = () => {
+  return (
+    <List.Accordion
+      title={translate('completedVisit')}
+      titleStyle={[styles.timelineItemTitle]}
+      style={[styles.timelineItemAccordion]}
+      left={() => {
+        return (
+          <DoctorVisit
+            style={[styles.timelineItemIcon]}
+            height={20}
+            width={20}
+          />
+        );
+      }}>
+      {renderCompletedItemDetails()}
+    </List.Accordion>
+  );
+};
+
 const DocTimeline = props => {
   const dispatch = useDispatch();
+  const [expanded, setExpanded] = React.useState(true);
+  const handlePress = () => setExpanded(!expanded);
   let ref = null;
   // dispatching the action
   useEffect(() => {
@@ -181,32 +205,6 @@ const DocTimeline = props => {
   const data = useSelector(timelineSelector.getVisits());
   const buttons = useSelector(timelineSelector.getButtons());
   const lastCompleted = useSelector(timelineSelector.getLastCompleted());
-
-  function renderHightlight() {
-    if (!lastCompleted) {
-      return null;
-    }
-    return (
-      <View style={[styles.timelineItem]}>
-        <View style={[styles.itemPlain]}>
-          <DoctorVisit style={[styles.itemPlainIcon]} height={20} width={20} />
-          <Text>
-            <Label
-              style={[styles.timelineItemTitle]}
-              title="Last Completed Visit"
-            />
-            <Label
-              style={[styles.timelineItemTitle]}
-              title={` (On ${getFormatDate({
-                date: lastCompleted.item.date,
-                format: 'DD-MM-YYYY',
-              })})`}
-            />
-          </Text>
-        </View>
-      </View>
-    );
-  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onViewableItemsChanged = React.useCallback(
@@ -242,8 +240,41 @@ const DocTimeline = props => {
     );
   };
 
+  const renderHightlight = () => {
+    if (!lastCompleted) {
+      return null;
+    }
+    return (
+      <View style={[styles.timelineItem, styles.timelineHighlitedItem]}>
+        <List.Accordion
+          title={`${translate('lastCompletedVisit')} (${translate(
+            'on',
+          )} ${getFormatDate({
+            date: lastCompleted.item.date,
+            format: 'DD-MM-YYYY',
+          })})`}
+          expanded={expanded}
+          onPress={handlePress}
+          titleStyle={[styles.timelineItemTitle]}
+          style={[styles.timelineItemAccordion]}
+          left={() => {
+            return (
+              <DoctorVisit
+                style={[styles.timelineItemIcon]}
+                height={20}
+                width={20}
+              />
+            );
+          }}>
+          {renderCompletedItemDetails()}
+        </List.Accordion>
+      </View>
+    );
+  };
+
   return (
     <View style={[styles.timelineWrapper]}>
+      {renderHightlight(lastCompleted)}
       <Label
         testID="timeline-year"
         variant={LabelVariant.h4}
@@ -268,13 +299,12 @@ const DocTimeline = props => {
           data={data}
           renderItem={renderItem}
           renderDate={renderDate}
-          renderHighlight={renderHightlight}
           options={{
             ref: reference => {
               ref = reference;
             },
-            // viewabilityConfig: viewabilityConfig.current,
-            // onViewableItemsChanged: onViewableItemsChanged,
+            viewabilityConfig: viewabilityConfig.current,
+            onViewableItemsChanged: onViewableItemsChanged,
           }}
         />
       </View>
