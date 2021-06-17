@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing(13.3),
   },
   rulesContainer: {
-    paddingVertical: theme.spacing(0),
+    paddingVertical: theme.spacing(6),
     paddingHorizontal: theme.spacing(13.3),
   },
   percentage: {
