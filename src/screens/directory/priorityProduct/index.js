@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Label, LabelVariant} from 'components/elements';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './style';
-import {ArrowUp, Power} from 'assets';
+import {ArrowUp, Power, ArrowDownRed} from 'assets';
 import {Strings} from 'common';
 import theme from 'themes';
 import {getFormatDate} from 'utils/dateTimeHelper';
@@ -115,30 +115,64 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
           </View>
           <View style={styles.cardDetail}>
             <View style={styles.ratioClass}>
-              <Label style={styles.progressText} title={data.ourratio} />
               <Label
-                style={styles.progressLightText}
+                style={[
+                  styles.progressText,
+                  !data.ourratio ? styles.colorGrey : '',
+                ]}
+                title={
+                  data.ourratio ? data.ourratio : Strings.priorityProductCard.na
+                }
+              />
+              <Label
+                style={[
+                  styles.progressLightText,
+                  !data.ourratio ? styles.colorGrey : '',
+                ]}
                 title={'/' + data.totalRatio}
               />
             </View>
-            <View style={styles.gxClass}>
-              <ArrowUp style={styles.arrowUp} width={14} height={14} />
-              <Label style={styles.percentageText} title={data.gx + '%'} />
-              <Label
-                variant={LabelVariant.label}
-                style={styles.gxLabel}
-                title={Strings.priorityProductCard.gx}
-              />
-            </View>
-            <View style={styles.gxClass}>
-              <ArrowUp style={styles.arrowUp} width={14} height={14} />
-              <Label style={styles.percentageText} title={data.sow + '%'} />
-              <Label
-                variant={LabelVariant.label}
-                style={styles.gxLabel}
-                title={Strings.priorityProductCard.sow}
-              />
-            </View>
+            {!data.ourratio && (
+              <View style={styles.headerProduct}>
+                <Label
+                  variant={LabelVariant.body}
+                  style={styles.conductRcpaLabel}
+                  title={Strings.priorityProductCard.conductRcpa}
+                />
+              </View>
+            )}
+            {data.ourratio && (
+              <View style={styles.gxClass}>
+                <ArrowUp style={styles.arrowUp} width={14} height={14} />
+                <Label style={styles.percentageText} title={data.gx + '%'} />
+                <Label
+                  variant={LabelVariant.label}
+                  style={styles.gxLabel}
+                  title={Strings.priorityProductCard.gx}
+                />
+              </View>
+            )}
+            {data.ourratio && (
+              <View style={styles.gxClass}>
+                {data.isGrowthIncrease ? (
+                  <ArrowUp style={styles.arrowUp} width={14} height={14} />
+                ) : (
+                  <ArrowDownRed style={styles.arrowUp} width={14} height={14} />
+                )}
+                <Label
+                  style={[
+                    styles.percentageText,
+                    !data.isGrowthIncrease ? styles.colorRed : '',
+                  ]}
+                  title={data.sow + '%'}
+                />
+                <Label
+                  variant={LabelVariant.label}
+                  style={styles.gxLabel}
+                  title={Strings.priorityProductCard.sow}
+                />
+              </View>
+            )}
           </View>
           <View>
             <Label

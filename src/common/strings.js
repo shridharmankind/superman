@@ -84,6 +84,8 @@ const Strings = {
     foc: 'FOC',
     gx: '(Gx)',
     sow: '(Sow)',
+    conductRcpa: 'Conduct RCPA',
+    na: 'NA',
   },
   captureDcr: 'Capture DCR',
   startEdetail: 'Start eDetailing',

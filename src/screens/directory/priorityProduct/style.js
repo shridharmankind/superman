@@ -69,6 +69,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexGrow: 1,
   },
+  conductRcpaLabel: {
+    fontFamily: theme.fonts.fontSemiBold,
+    color: theme.colors.primary,
+    marginTop: theme.spacing(8),
+  },
   focus: {
     flexDirection: 'column',
   },
@@ -126,6 +131,12 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     color: theme.colors.green[200],
     fontFamily: theme.fonts.fontRegular,
+  },
+  colorRed: {
+    color: theme.colors.red[300],
+  },
+  colorGrey: {
+    color: theme.colors.grey[1600],
   },
   gxLabel: {
     color: theme.colors.grey[1100],
