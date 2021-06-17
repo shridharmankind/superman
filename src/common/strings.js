@@ -4,7 +4,7 @@ const Strings = {
   forgotpwd: 'Forgot password',
   week: [1, 2, 3, 4],
   weekText: 'Week',
-  selectDoctorAndChemist: 'Select doctors and chemist',
+  selectDoctorAndChemist: 'Select doctors and chemists',
   selectArea: 'Select Area',
   selectVisit: 'Selected Visits',
   planCompliance: 'Plan Compliance',
@@ -72,7 +72,7 @@ const Strings = {
     two: '2',
     p1: 'P1',
     p2: 'P2',
-    description: 'Detailed on 3 March, 2021',
+    description: 'Detailed on ',
     progressNumber: '45',
     slashNumber: '/80',
     secondProgressbar: '45',
@@ -80,7 +80,12 @@ const Strings = {
     neurokind: 'Neurokind',
     nine: '9%',
     ten: '10%',
-    tabDes: 'Mankind’s Prescription/TOtal prescription',
+    tabDes: 'Mankind/Total',
+    foc: 'FOC',
+    gx: '(Gx)',
+    sow: '(Sow)',
+    conductRcpa: 'Conduct RCPA',
+    na: 'NA',
   },
   captureDcr: 'Capture DCR',
   startEdetail: 'Start eDetailing',
@@ -134,6 +139,10 @@ const Strings = {
   exitConfirmation: 'Are you sure you want to exit Superman?',
   patchSaveForPrevDay: 'Patch for previous day(s) has been saved',
   noPatchFound: 'No patch found',
+  congratulations: 'Congratulations!',
+  takeMeToHome: 'Take me to Home',
+  beginJourney: "Let's begin your journey",
+  successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
   minimum: 'minimum',
   maximum: 'maximum',
@@ -141,6 +150,8 @@ const Strings = {
   chemistVisitsPerDay: 'chemists visits per day',
   tourPlanRules: 'Monthly tour plan rules',
   exStation: 'Ex',
+  patchExhaustedForParty:
+    'One or more doctors added in the patch do not have further visiting slots, do you want to create a new patch.',
   directory: {
     tab: {
       doctors: 'Doctors',
@@ -153,6 +164,10 @@ const Strings = {
       region: 'REGION',
     },
     noResult: 'No Records found',
+    btns:{
+      addTodayPlan:"Add to Today's Plan",
+      startEdetail:"eDetail" 
+    }
   },
   searchBar: {
     errors: {
@@ -164,7 +179,11 @@ const Strings = {
       clear: 'Clear',
       continue: 'Continue',
     },
+    searchPlaceholder:'Search Doctors Here'
   },
+  areaSelectionConfirmation:
+    'The selections done by you will be lost. Do you want to proceed?',
+  warning: 'Warning',
 };
 
 export default Strings;

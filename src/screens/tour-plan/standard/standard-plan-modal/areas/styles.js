@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: themes.spacing(20),
   },
+  yesBtn: {
+    justifyContent: 'space-between',
+  },
 });
 
 export default styles;
