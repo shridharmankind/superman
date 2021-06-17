@@ -20,19 +20,26 @@ import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {AppState} from 'react-native';
 const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
+  const [isLocalAuthStore, setIsLocalAuth] = React.useState(false);
   LogBox.ignoreAllLogs();
-  // let isLoggedIn = false;
-  const nodeRef = React.useRef(null);
+  let isLoggedIn = false;
+  const getLocalStrData = async () => {
+    let strData = await AsyncStorage.getItem('isLocalAuth');
+    console.log('strData', strData);
+    if (strData === null) {
+      console.log('inside 2');
+      setIsLocalAuth(false);
+    } else {
+      console.log('inside 1');
+      setIsLocalAuth(true);
+    }
+  };
   setI18nConfig();
   useEffect(() => {
-    let y = async () => {
-      nodeRef.current = await AsyncStorage.getItem('isLocalAuth');
-      return nodeRef;
-    };
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
@@ -40,14 +47,9 @@ const App = () => {
         });
       }, 2000);
     }
-    y();
-    return async () => {
-      return await AsyncStorage.removeItem('isLocalAuth');
-    };
+    getLocalStrData();
   }, []);
-  const initialRoute = nodeRef.current
-    ? ROUTE_DASHBOARD
-    : ROUTE_LOCALAUTHENTICATION;
+  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOCALAUTHENTICATION;
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
