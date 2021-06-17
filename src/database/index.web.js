@@ -1,1 +1,3 @@
-export const Helper = () => ({});
+import * as Helper from './helper';
+
+export {Helper};

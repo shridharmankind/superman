@@ -23,6 +23,7 @@ import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
 import {TOKEN_EXPIRY_TIME, USER_ID, LOGIN_STATUS} from './index';
 import {isLocalHost} from 'utils/util';
+import {Routes} from 'navigations';
 
 const state = nanoid(32);
 const nonce = nanoid(32);
@@ -99,9 +100,11 @@ const AuthComp = ({navigation}) => {
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
       AsyncStorage.setItem(USER_ID, decoded.sub);
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
-      window.location.assign(config.redirect_uri);
+      // window.location.assign(window.location.origin);
+      navigation.reset({
+        routes: [{name: Routes.ROUTE_DASHBOARD}],
+      });
     }
-    navigation.navigate('Dashboard');
   }, [navigation]);
   return null;
 };
@@ -112,7 +115,7 @@ const WebRouterComp = ({navigation}) => {
         <Route exact path="/login">
           <Login />
         </Route>
-        <Route path="/auth" exact>
+        <Route path="/auth">
           <AuthComp navigation={navigation} />
         </Route>
         <Redirect from="/" to="/login" />
