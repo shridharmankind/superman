@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 42.7,
     borderRadius: 6.7,
-    backgroundColor: theme.colors.grey[1500],
+    backgroundColor: theme.colors.grey[1700],
     paddingLeft: theme.spacing(24),
   },
   searchIcon: {
