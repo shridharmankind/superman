@@ -43,9 +43,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingBottom: 40,
   },
-  rightContnet: {
-    flex: 1,
-  },
   categoryFilterContainer: {
     flexDirection: 'row',
     borderWidth: 2,
@@ -159,7 +156,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   rightContent: {
+    justifyContent: 'flex-start',
     paddingLeft: themes.spacing(36),
+  },
+  planComplainceLabel: {
+    paddingBottom: themes.spacing(21.3),
   },
 });
 

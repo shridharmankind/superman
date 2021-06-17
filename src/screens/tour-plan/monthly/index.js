@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Modal, Label} from 'components/elements';
+import {Modal, Label, Button} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
@@ -356,6 +356,10 @@ const MonthlyTourPlan = ({navigation}) => {
     }
   };
 
+  /**
+   *
+   * @returns congrats Modal Content
+   */
   const renderCongratsContent = () => {
     return (
       <View style={styles.congratsContent}>
@@ -369,6 +373,28 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**
+   * Returns STP action buttons
+   */
+  const renderActionButton = () => {
+    return (
+      <View style={styles.actionButtonGroup}>
+        <Button
+          title={Strings.monthlyActions.save}
+          mode="outlined"
+          contentStyle={[styles.actionBtn, styles.saveBtn]}
+          labelStyle={styles.buttonTabBarText}
+        />
+        <Button
+          title={Strings.monthlyActions.submitSTP}
+          mode="contained"
+          contentStyle={styles.actionBtn}
+          labelStyle={styles.buttonTabBarText}
+        />
+      </View>
+    );
+  };
+
   return (
     <View>
       <View style={styles.dropDownsContainer}>
@@ -377,6 +403,7 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
+        {renderActionButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
         selectedTourPlan.id === 1 && (

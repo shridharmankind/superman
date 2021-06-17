@@ -144,10 +144,6 @@ const Strings = {
   beginJourney: "Let's begin your journey",
   successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
-  minimum: 'minimum',
-  maximum: 'maximum',
-  doctorVisitsPerDay: 'doctor visits per day',
-  chemistVisitsPerDay: 'chemists visits per day',
   tourPlanRules: 'Monthly tour plan rules',
   exStation: 'Ex',
   patchExhaustedForParty:
@@ -184,6 +180,25 @@ const Strings = {
   areaSelectionConfirmation:
     'The selections done by you will be lost. Do you want to proceed?',
   warning: 'Warning',
+  monthlyActions: {
+    save: 'Save',
+    submitSTP: 'Submit STP',
+  },
+  planComplaince: {
+    dr: 'Doctor',
+    minimum: 'minimum',
+    maximum: 'maximum',
+    doctorVisitsPerDay: 'doctor visits per day',
+    chemistVisitsPerDay: 'chemists visits per day',
+    daysGap: 'days',
+    minGap: 'minimum gap',
+    drCovered: 'Doctors covered',
+    chCovered: 'Chemist covered',
+    outStationPerMonth: 'Out-station visits per month',
+    exStationPerMonth: 'Ex-station visits per month',
+    areaCovered: 'areas covered',
+    frequencyMet: 'frequency met',
+  },
 };
 
 export default Strings;
