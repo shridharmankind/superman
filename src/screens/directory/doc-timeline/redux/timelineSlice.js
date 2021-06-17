@@ -1,11 +1,12 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
-import {getFormatDate} from 'utils/dateTimeHelper';
+import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 
 /* Initial state of timline */
 export const timelineState = {
   data: [],
   buttons: [],
+  lastCompleted: null,
 };
 
 /* Action Creator */
@@ -59,7 +60,7 @@ const parseData = data => {
   const stripTill = index;
   index = index - 1;
   while (index > -1 && counter < 3) {
-    upcomingVisits.push(data[index]);
+    upcomingVisits.unshift(data[index]);
     counter += 1;
     index -= 1;
   }
@@ -71,6 +72,7 @@ const prepareState = data => {
   let buttons = [];
   let lastMonth = null;
   let index = 0;
+  let lastCompleted = null;
   for (const iterator of data) {
     if (lastMonth !== dayjs(iterator.date).month()) {
       lastMonth = dayjs(iterator.date).month();
@@ -78,15 +80,28 @@ const prepareState = data => {
         date: iterator.date,
         format: 'MMMM',
       });
-      buttons.push({itemIndex: index, label, selected: buttons.length === 0});
-      if (buttons.length === 3) {
-        break;
+      if (buttons.length < 3) {
+        buttons.unshift({
+          itemIndex: index,
+          label,
+          selected: buttons.length === 0,
+        });
       }
+    }
+    if (lastCompleted === null && isCompleted(iterator)) {
+      lastCompleted = {index, item: iterator};
+    }
+    if (buttons.length === 3 && lastCompleted) {
+      break;
     }
     index += 1;
   }
-  buttons = buttons.reverse();
-  return {buttons, data};
+  return {buttons, data, lastCompleted};
+};
+
+const isCompleted = item => {
+  const today = startOf(new Date());
+  return isAfter(today, item.date) && !item.isMissed;
 };
 
 export const timelineActions = timelineSlice.actions;

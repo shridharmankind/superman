@@ -13,6 +13,8 @@ import {useNavigation} from '@react-navigation/native';
 import theme from 'themes';
 import {OpenTask} from 'screens/directory';
 import DocTimeline from '../doc-timeline';
+import {Helper} from 'database';
+import {useEffect} from 'react';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -21,6 +23,15 @@ import DocTimeline from '../doc-timeline';
  */
 
 const DoctorProfile = ({route}) => {
+  const [staffPositionId, setStaffPositionId] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      setStaffPositionId(id);
+    })();
+  });
+
   const doctorData = route.params?.data || {};
   const navigation = useNavigation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -249,7 +260,10 @@ const DoctorProfile = ({route}) => {
     );
   };
 
-  const renderTimeLine = doctorData => {
+  const renderTimeLine = docdata => {
+    if (!staffPositionId) {
+      return null;
+    }
     return (
       <View>
         <Label
@@ -257,7 +271,7 @@ const DoctorProfile = ({route}) => {
           style={styles.mainHeader}
           title="Timeline"
         />
-        <DocTimeline staffPositionId={2} partyId={1} />
+        <DocTimeline staffPositionId={staffPositionId} partyId={docdata.id} />
       </View>
     );
   };

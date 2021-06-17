@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Timeline} from 'components/widgets';
 import {Label, LabelVariant} from 'components/elements';
-import {Strings} from 'common';
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import {getFormatDate, startOf, isAfter} from 'utils/dateTimeHelper';
 import {List} from 'react-native-paper';
@@ -84,41 +83,54 @@ function renderCompletedVisit(item) {
         );
       }}>
       <View style={[styles.itemDetailsContainer]}>
-        <View style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Samples Given" />
+        <Text style={[styles.itemDetailsSection]}>
+          <Label
+            style={[styles.itemDetailsTitle]}
+            title="Detailed Products: "
+          />
+          <Label
+            variant={LabelVariant.bodySmall}
+            title="Amlokind AT, Cevakind I, Telmekind II"
+          />
+        </Text>
+        <Text style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Samples Given: " />
           <Label
             variant={LabelVariant.bodySmall}
             title="Amlokind, Cevakind, Telmekind"
           />
-        </View>
-        <View style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Samples Requested" />
+        </Text>
+        <Text style={[styles.itemDetailsSection]}>
+          <Label
+            style={[styles.itemDetailsTitle]}
+            title="Samples Requested: "
+          />
           <Label
             variant={LabelVariant.bodySmall}
             title="Amlokind AT, Gudacef"
           />
-        </View>
-        <View style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Items Given" />
+        </Text>
+        <Text style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Items Given: " />
           <Label
             variant={LabelVariant.bodySmall}
             title="Booklet, Pens, Diary, Calendar"
           />
-        </View>
-        <View style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Items Requested" />
+        </Text>
+        <Text style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Items Requested: " />
           <Label
             variant={LabelVariant.bodySmall}
             title="Faceshields(2), Masks(12), Sanitizer(4)"
           />
-        </View>
-        <View style={[styles.itemDetailsSection]}>
-          <Label style={[styles.itemDetailsTitle]} title="Visit Notes" />
+        </Text>
+        <Text style={[styles.itemDetailsSection]}>
+          <Label style={[styles.itemDetailsTitle]} title="Visit Notes: " />
           <Label
             variant={LabelVariant.bodySmall}
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           />
-        </View>
+        </Text>
       </View>
     </List.Accordion>
   );
@@ -167,19 +179,45 @@ const DocTimeline = props => {
     );
   }, [dispatch, props]);
   const data = useSelector(timelineSelector.getVisits());
-
   const buttons = useSelector(timelineSelector.getButtons());
+  const lastCompleted = useSelector(timelineSelector.getLastCompleted());
+
+  function renderHightlight() {
+    if (!lastCompleted) {
+      return null;
+    }
+    return (
+      <View style={[styles.timelineItem]}>
+        <View style={[styles.itemPlain]}>
+          <DoctorVisit style={[styles.itemPlainIcon]} height={20} width={20} />
+          <Text>
+            <Label
+              style={[styles.timelineItemTitle]}
+              title="Last Completed Visit"
+            />
+            <Label
+              style={[styles.timelineItemTitle]}
+              title={` (On ${getFormatDate({
+                date: lastCompleted.item.date,
+                format: 'DD-MM-YYYY',
+              })})`}
+            />
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onViewableItemsChanged = React.useCallback(
     debounce(({viewableItems}) => {
       const lastItem = viewableItems[viewableItems.length - 1];
       dispatch(timelineActions.handleScroll({index: lastItem.index}));
-    }, 100),
+    }, 500),
     [dispatch],
   );
   const viewabilityConfig = React.useRef({
-    itemVisiblePercentThreshold: 75,
+    itemVisiblePercentThreshold: 70,
   });
 
   const renderDot = ({item, index}) => {
@@ -230,12 +268,13 @@ const DocTimeline = props => {
           data={data}
           renderItem={renderItem}
           renderDate={renderDate}
+          renderHighlight={renderHightlight}
           options={{
             ref: reference => {
               ref = reference;
             },
-            viewabilityConfig: viewabilityConfig.current,
-            onViewableItemsChanged: onViewableItemsChanged,
+            // viewabilityConfig: viewabilityConfig.current,
+            // onViewableItemsChanged: onViewableItemsChanged,
           }}
         />
       </View>

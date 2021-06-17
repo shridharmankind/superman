@@ -13,6 +13,15 @@ const renderBorder = (index, total) => {
   );
 };
 
+function _renderHighlight(index) {
+  if (index === 0) {
+    return (
+      <View style={[styles.timelineItemRight]}>{this.renderHighlight()}</View>
+    );
+  }
+  return null;
+}
+
 function _renderItem({item, index}) {
   return (
     <View style={[styles.timelineItemContainer]} key={index}>
@@ -23,6 +32,7 @@ function _renderItem({item, index}) {
             {this.renderDate(item, index)}
           </View>
           {renderBorder(index, this.data?.length)}
+          {_renderHighlight.call(this, index)}
         </View>
       ) : (
         <View style={[styles.timelineItemInnerContainer]}>
@@ -53,6 +63,11 @@ const Timeline = props => {
       />
     </View>
   );
+};
+
+Timeline.defaultProps = {
+  renderHighlight: () => null,
+  data: [],
 };
 
 export default Timeline;
