@@ -14,6 +14,10 @@ import Schedule from './schedule';
 import TourPlanSidePanel from './sidePanel';
 import {ContentWithSidePanel} from 'components/layouts';
 
+/**
+ * @param {Object} navigation
+ * @returns  Tour planning component conatiner
+ */
 const TourPlanning = ({navigation}) => {
   return (
     <ContentWithSidePanel sidePanel={<TourPlanSidePanel />}>
