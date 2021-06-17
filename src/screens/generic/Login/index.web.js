@@ -22,7 +22,7 @@ import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
 import {TOKEN_EXPIRY_TIME, USER_ID, LOGIN_STATUS} from './index';
-import {isLocalHost} from '../../../utils/util';
+import {isLocalHost} from 'utils/util';
 
 const state = nanoid(32);
 const nonce = nanoid(32);
