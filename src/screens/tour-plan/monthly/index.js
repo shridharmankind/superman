@@ -6,9 +6,13 @@ import styles from './styles';
 import {Modal, Label} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {MonthlyView, Legends} from 'components/widgets';
+import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
-import {PLAN_TYPES, STAFF_CODES} from 'screens/tourPlan/constants';
+import {
+  PLAN_TYPES,
+  STAFF_CODES,
+  TOUR_PLAN_TYPE,
+} from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon} from 'assets';
 import {
@@ -16,6 +20,8 @@ import {
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
 } from './redux';
+import themes from 'themes';
+
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -57,7 +63,9 @@ const MonthlyTourPlan = ({navigation}) => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
+
   const previousMonthSelected = usePrevious(monthSelected);
+  const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
 
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
@@ -295,6 +303,7 @@ const MonthlyTourPlan = ({navigation}) => {
    * @returns modal
    */
   const openTourPlanDropDown = () => {
+    const optionsToIterate = getOptionsToIterateForDropDown();
     return (
       <Modal
         open={visible}
@@ -302,7 +311,11 @@ const MonthlyTourPlan = ({navigation}) => {
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
-        customModalPosition={styles.modalPosition}
+        customModalPosition={
+          optionsToIterate?.length < 7
+            ? [styles.modalPosition, styles.modalHeightHalf]
+            : styles.modalPosition
+        }
       />
     );
   };
@@ -321,6 +334,9 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               navigation={navigation}
             />
+            <View style={styles.stpLegend}>
+              <Legends tourType={TOUR_PLAN_TYPE.STANDARD} />
+            </View>
           </View>
         ) : null;
 
@@ -338,6 +354,19 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
       }
     }
+  };
+
+  const renderCongratsContent = () => {
+    return (
+      <View style={styles.congratsContent}>
+        <Label
+          type={'regular'}
+          size={18}
+          textColor={themes.colors.grey[900]}
+          title={Strings.successfullyCreatedSTP}
+        />
+      </View>
+    );
   };
 
   return (
@@ -359,6 +388,13 @@ const MonthlyTourPlan = ({navigation}) => {
         )}
       {openTourPlanDropDown()}
       {renderView()}
+      <CongratulatoryModal
+        open={showCongratsModal}
+        actionTitle={Strings.takeMeToHome}
+        content={renderCongratsContent()}
+        bottomText={Strings.beginJourney}
+        btnAction={() => {}}
+      />
     </View>
   );
 };

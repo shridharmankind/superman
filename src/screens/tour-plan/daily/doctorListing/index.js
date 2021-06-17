@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 import {CloseIcon} from 'assets';
+import {getFormatDate} from 'utils/dateTimeHelper';
 
 /**
  * render list of doctors
@@ -56,9 +57,9 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     dispatch(
       doctorDetailActions.tempStoreRemovedDoctor({
         staffPositionid: 2,
-        day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-        month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-        year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+        day: parseInt(getFormatDate({format: 'D'}), 10),
+        month: parseInt(getFormatDate({format: 'M'}), 10),
+        year: parseInt(getFormatDate({format: 'YYYY'}), 10),
         partyId: item.id,
       }),
     );
@@ -87,9 +88,9 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           dispatch(
             deletePartyCreator({
               staffPositionid: 2,
-              day: 5, // parseInt(getFormatDate({date: new Date(), format: 'D'}), 10),
-              month: 5, // parseInt(getFormatDate({date: new Date(), format: 'M'}), 10),
-              year: 2021, // parseInt(getFormatDate({date: new Date(), format: 'YYYY'}), 10),
+              day: parseInt(getFormatDate({format: 'D'}), 10),
+              month: parseInt(getFormatDate({format: 'M'}), 10),
+              year: parseInt(getFormatDate({format: 'YYYY'}), 10),
               partyId: item.id,
             }),
           );
@@ -132,8 +133,9 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
             <View key={data.item.key} style={styles.doctorDetailContainer}>
               <DoctorDetails
                 title={data.item.name}
-                specialization={data.item.specialization}
+                specialization={data.item.specialities}
                 isKyc={data.item.isKyc}
+                gender={data.item.gender}
                 category={data.item.category}
                 location={data.item.location}
                 partyType={data?.item?.partyTypes?.name}

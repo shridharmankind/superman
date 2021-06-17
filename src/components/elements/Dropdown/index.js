@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {View} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {ScrollView, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {TextInput} from 'react-native-paper';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
-import themes from 'themes';
+import {Strings} from 'common';
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
  * This serves the purpose to make the use of Dropdown throughout the app
@@ -33,6 +33,7 @@ const Dropdown = ({
     setDropdownText(val?.value || defaultLabel);
     setTogglePicker(false);
     setValue(val);
+    valueSelected(val);
   };
 
   useEffect(() => {
@@ -42,32 +43,31 @@ const Dropdown = ({
     }
   }, [isPatchedData, defaultLabel]);
 
-  useEffect(() => {
-    valueSelected(value);
-  }, [value, valueSelected]);
-
   const handleDropdownFocus = () => {
     setDropdownText('');
     setDropDownData(data);
     setTogglePicker(true);
   };
 
-  const handleTextChange = text => {
-    if (text) {
-      setDropdownText(text);
-      const filteredData = data.filter(val =>
-        val.value.toLowerCase().includes(text.toLowerCase()),
-      );
-      if (filteredData.length > 0) {
-        setDropDownData(filteredData);
+  const handleTextChange = useCallback(
+    text => {
+      if (text) {
+        setDropdownText(text);
+        const filteredData = data.filter(val =>
+          val.displayName.toLowerCase().includes(text.toLowerCase()),
+        );
+        if (filteredData.length > 0) {
+          setDropDownData(filteredData);
+        } else {
+          setDropDownData([{displayName: Strings.noPatchFound}]);
+        }
       } else {
-        setDropDownData([{value: 'No patch found'}]);
+        setDropdownText('');
+        setDropDownData(data);
       }
-    } else {
-      setDropdownText('');
-      setDropDownData(data);
-    }
-  };
+    },
+    [data],
+  );
 
   return (
     <View
@@ -78,11 +78,11 @@ const Dropdown = ({
           if (childrenIds.includes(evt.target)) {
             return;
           }
-          setDropdownText((value && value.value) || defaultLabel);
+          setDropdownText((value && value.displayName) || defaultLabel);
           setTogglePicker(false);
         }
       }}>
-      {data.length > 6 ? (
+      {data?.length > 6 ? (
         <TextInput
           testID={testID}
           style={styles.selectContainer}
@@ -120,19 +120,21 @@ const Dropdown = ({
               component._children[0] &&
               component._children[0]._children.map(el => el._nativeTag);
           }}>
-          {dropDownData.map((option, i) => (
-            <TouchableOpacity
-              key={option.value}
-              style={[
-                styles.pickerLabel,
-                data.length === i + 1 ? styles.noBorder : null,
-              ]}
-              onPress={() => handleValueSelected(option)}>
-              <Label
-                title={option.value}
-                variant={LabelVariant.subtitleSmall}
-              />
-            </TouchableOpacity>
+          {(dropDownData.length > 0 ? dropDownData : data)?.map((option, i) => (
+            <ScrollView>
+              <TouchableOpacity
+                key={option.displayName}
+                style={[
+                  styles.pickerLabel,
+                  data.length === i + 1 ? styles.noBorder : null,
+                ]}
+                onPress={() => handleValueSelected(option)}>
+                <Label
+                  title={option.displayName}
+                  variant={LabelVariant.subtitleSmall}
+                />
+              </TouchableOpacity>
+            </ScrollView>
           ))}
         </View>
       )}

@@ -28,16 +28,19 @@ const Label = ({
   isUpperCase = false,
   type,
   variant,
+  numberOfLines,
   ...props
 }) => {
   return (
     <Text
       testID={testID}
+      numberOfLines={numberOfLines}
+      ellipsizeMode="tail"
       style={[
         size && {fontSize: size},
-        type && {fontFamily: getFontFamily(type)},
 
         variant && {...theme.typography[variant]},
+        type && {fontFamily: getFontFamily(type)},
         textColor && {color: textColor},
         isUpperCase && styles.upperCase,
         style,
@@ -67,5 +70,6 @@ Label.propTypes = {
   title: PropTypes.any,
   size: PropTypes.number,
   testID: PropTypes.string,
+  numberOfLines: PropTypes.number,
 };
 export default Label;

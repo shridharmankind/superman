@@ -1,6 +1,7 @@
 import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
+import {getActiveUser} from './operations/common';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -15,7 +16,7 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.partyMaster,
       Schemas.specialities,
       Schemas.areas,
-      Schemas.qualifications,
+      Schemas.Qualifications.schema,
       Schemas.partyTypeGroup,
       Schemas.partyTypes,
       Schemas.engagement,
@@ -29,11 +30,8 @@ export const MASTER_TABLES_DETAILS = [
  */
 export const getUserFirstName = async () => {
   try {
-    const record = await Operations.getRecord(
-      Schemas.userInfo,
-      Constants.USER_PRIMARY_KEY,
-    );
-    return record.firstName || '';
+    const user = await getActiveUser();
+    return user.firstName || '';
   } catch (error) {}
 };
 
@@ -43,18 +41,15 @@ export const getUserFirstName = async () => {
  */
 export const getStaffPositionId = async () => {
   try {
-    const record = await Operations.getRecord(
-      Schemas.userInfo,
-      Constants.USER_PRIMARY_KEY,
-    );
-    let staffPositionId;
-    record?.staffPositions.forEach(obj => {
-      if (obj?.isPrimary) {
-        staffPositionId = obj.id;
-      }
-    });
-    Operations.closeDB();
-    return staffPositionId;
+    const user = await getActiveUser();
+
+    const primaryStaffPositions =
+      (await user.staffPositions.filter(
+        staffPosition => staffPosition.isPrimary,
+      )) || [];
+    const primaryStaffPosition = primaryStaffPositions[0] || {};
+
+    return primaryStaffPosition?.id;
   } catch (error) {}
 };
 
@@ -78,7 +73,7 @@ export const checkForPendingMasterDataDownload = async () => {
         isPending = true;
       }
     });
-    Operations.closeDB();
+    // Operations.closeDB();
     return isPending;
   } catch (error) {}
 };
