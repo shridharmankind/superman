@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 import {stringify, parse} from 'query-string';
 import {nanoid} from 'nanoid';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import AsyncStorage from '@react-native-community/async-storage';
 import jwt_decode from 'jwt-decode';
 import styles from './styles';
@@ -17,14 +22,19 @@ import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
 import {TOKEN_EXPIRY_TIME, USER_ID, LOGIN_STATUS} from './index';
+import {isLocalHost} from '../../../utils/util';
 
 const state = nanoid(32);
 const nonce = nanoid(32);
 
 const config = {
   authority: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  client_id: '9dcc6560-9a92-0139-202d-0a8697f39ec7186786',
-  redirect_uri: 'http://localhost:3000/home',
+  client_id: isLocalHost()
+    ? '4cadc330-b176-0139-61ed-066569480319186786'
+    : '9dcc6560-9a92-0139-202d-0a8697f39ec7186786',
+  redirect_uri: isLocalHost()
+    ? 'http://localhost:3000/auth'
+    : 'https://services-all.0a6418a61f9c4aeb86ee.centralindia.aksapp.io/auth',
   state,
   nonce,
   response_type: 'id_token',
@@ -33,7 +43,6 @@ const config = {
 
 const Login = () => {
   const [animating, setAnimating] = useState(false);
-
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);
@@ -90,7 +99,7 @@ const AuthComp = ({navigation}) => {
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
       AsyncStorage.setItem(USER_ID, decoded.sub);
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
-      window.location.assign('http://localhost:3000/home');
+      window.location.assign(config.redirect_uri);
     }
     navigation.navigate('Dashboard');
   }, [navigation]);
@@ -100,12 +109,13 @@ const WebRouterComp = ({navigation}) => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/login">
           <Login />
         </Route>
-        <Route path="/home" exact>
+        <Route path="/auth" exact>
           <AuthComp navigation={navigation} />
         </Route>
+        <Redirect from="/" to="/login" />
       </Switch>
     </Router>
   );

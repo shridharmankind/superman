@@ -28,17 +28,11 @@ const styles = StyleSheet.create({
 
   image: {
     width: 810,
+    height: '100%',
     justifyContent: 'flex-start',
     ...Platform.select({
-      ios: {
-        height: '100%',
-      },
-      android: {
-        height: '100%',
-      },
-      default: {
-        // other platforms, web for example
-        height: 810,
+      web: {
+        height: 700,
       },
     }),
   },
