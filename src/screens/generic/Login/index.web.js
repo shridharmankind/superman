@@ -99,7 +99,7 @@ const AuthComp = ({navigation}) => {
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
       AsyncStorage.setItem(USER_ID, decoded.sub);
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
-      window.location.assign(config.redirect_uri);
+      window.location.origin(config.redirect_uri);
     }
     navigation.navigate('Dashboard');
   }, [navigation]);

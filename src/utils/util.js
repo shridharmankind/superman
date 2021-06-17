@@ -12,10 +12,5 @@ export const isAccessTokenValid = async () => {
   }
 };
 
-export const isLocalHost = () => {
-  if (['localhost', '127.0.0.1', ''].includes(window.location.hostname)) {
-    return true;
-  } else {
-    return false;
-  }
-};
+export const isLocalHost = () =>
+  ['localhost', '127.0.0.1', ''].includes(window.location.hostname);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Alert,
@@ -8,17 +8,17 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
-import { NotificationIcon, SearchIcon } from 'assets';
+import {NotificationIcon, SearchIcon} from 'assets';
 
-import { Routes } from 'navigations';
-import ROUTES_DASHBOARD, { ROUTE_DIRECTORY } from './routes';
-import { ROUTE_DIRECTORY_LANDING } from 'screens/directory/routes';
+import {Routes} from 'navigations';
+import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
+import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
 import theme from 'themes';
-import { KeyChain } from 'helper';
+import {KeyChain} from 'helper';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {Strings, Constants} from 'common';
@@ -72,7 +72,7 @@ const Dashboard = ({navigation}) => {
     Alert.alert(Strings.info, Strings.logOffmsg, [
       {
         text: Strings.cancel,
-        onPress: () => { },
+        onPress: () => {},
         style: Strings.cancel,
       },
       {
@@ -159,8 +159,8 @@ const Dashboard = ({navigation}) => {
         </TouchableOpacity>
       )}
 
-{searchState && (
-     <View>
+      {searchState && (
+        <View>
           <TextInput
             placeholder="Search"
             style={styles.globalSearchBar}
@@ -177,7 +177,7 @@ const Dashboard = ({navigation}) => {
             onPress={navigateAndSearch}
           />
         </View>
-        )}
+      )}
 
       <View style={[styles.action, styles.actionPadding]}>
         <NotificationIcon height={21.3} width={21.3} />
@@ -205,12 +205,12 @@ const Dashboard = ({navigation}) => {
 
   return (
     <TouchableWithoutFeedback onPress={closeSearchBar}>
-      <View style={styles.container} >
+      <View style={styles.container}>
         {renderSideMenu()}
         {renderNavigator()}
         {renderScreenActions()}
-        </View>
-      </TouchableWithoutFeedback>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

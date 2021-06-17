@@ -98,7 +98,9 @@ const getMock = axios => {
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
   mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyConpliance);
   mock
-    .onGet('party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10')
+    .onGet(
+      'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
+    )
     .reply(200, docList);
 };
 
