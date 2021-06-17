@@ -1,5 +1,6 @@
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Strings, Constants} from 'common';
+import themes from 'themes';
 
 /* Function to validate the input text of the Search Bar */
 export const validateSearch = (searchInput, clearSearch) => {
@@ -64,4 +65,22 @@ const showWarningToast = (message, clearSearch) => {
       actionRightTitle: Strings.searchBar.toastBtns.continue,
     },
   });
+};
+
+// Function to get teh division color
+export const getDivisionColor = division => {
+  switch (division && division.toLowerCase()) {
+    case Constants.DIVISION_COLOR.KYC:
+      return themes.colors.orange[100];
+    case Constants.DIVISION_COLOR.A_PLUS:
+      return themes.colors.darkBlue;
+    case Constants.DIVISION_COLOR.A:
+      return themes.colors.yellow[300];
+    case Constants.DIVISION_COLOR.B:
+      return themes.colors.lightBlue;
+    case Constants.DIVISION_COLOR.C:
+      return themes.colors.grey[1200];
+    default:
+      return themes.colors.transparent;
+  }
 };

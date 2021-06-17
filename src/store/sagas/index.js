@@ -1,5 +1,5 @@
-import {all, call, spawn} from 'redux-saga/effects';
-import {fetchTodoWatcher} from './../../screens/generic/Reference/redux/todoSaga';
+import { all, call, spawn } from 'redux-saga/effects';
+import { fetchTodoWatcher } from './../../screens/generic/Reference/redux/todoSaga';
 import {
   fetchDoctorDetailWatcher,
   deletePartyWatcher,
@@ -16,9 +16,10 @@ import {
   savePatchWatcher,
   fetchSTPCalendarUpdateWatcher,
 } from 'screens/tourPlan/standard/redux';
-import {fetchPlanComplianceWatcher} from 'screens/tourPlan/planCompliance/redux';
-import {fetchTaskWatcher} from 'screens/directory/doctorDetails/openTask/redux';
-import {fetchPriorityProductWatcher} from 'screens/directory/priorityProduct/redux';
+import { fetchPlanComplianceWatcher } from 'screens/tourPlan/planCompliance/redux';
+import { fetchTaskWatcher } from 'screens/directory/doctorDetails/openTask/redux';
+import { fetchQueryDoctorsWatcher } from 'screens/directory/landing/redux';
+import { fetchPriorityProductWatcher } from 'screens/directory/priorityProduct/redux';
 
 export function* rootSaga() {
   /**
@@ -41,6 +42,7 @@ export function* rootSaga() {
     fetchPriorityProductWatcher,
     fetchSTPCalendarUpdateWatcher,
     fetchPlanComplianceWatcher,
+    fetchQueryDoctorsWatcher,
   ];
 
   /**

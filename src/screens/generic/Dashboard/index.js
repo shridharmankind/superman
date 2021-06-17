@@ -1,23 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Alert,
   BackHandler,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
-import {NotificationIcon, SearchIcon} from 'assets';
+import { NotificationIcon, SearchIcon } from 'assets';
 
-import {Routes} from 'navigations';
-import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
-import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
+import { Routes } from 'navigations';
+import ROUTES_DASHBOARD, { ROUTE_DIRECTORY } from './routes';
+import { ROUTE_DIRECTORY_LANDING } from 'screens/directory/routes';
 
 import theme from 'themes';
-import {KeyChain} from 'helper';
+import { KeyChain } from 'helper';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {Strings, Constants} from 'common';
@@ -41,6 +42,7 @@ const Dashboard = ({navigation}) => {
     if (itemId === LOGOUT_ITEM_ID) {
       showLogOffConfirmationDialog();
     } else {
+      closeSearchBar();
       route && navigation && navigation.navigate(route);
     }
   };
@@ -70,7 +72,7 @@ const Dashboard = ({navigation}) => {
     Alert.alert(Strings.info, Strings.logOffmsg, [
       {
         text: Strings.cancel,
-        onPress: () => {},
+        onPress: () => { },
         style: Strings.cancel,
       },
       {
@@ -94,6 +96,13 @@ const Dashboard = ({navigation}) => {
   const openSearchBar = () => {
     updateVal(null);
     toggleSearch(true);
+  };
+
+  /* Function to close Search bar on clicking anywher
+  on the dashboard*/
+  const closeSearchBar = () => {
+    updateVal(null);
+    toggleSearch(false);
   };
 
   // Function to clear the input text
@@ -150,8 +159,8 @@ const Dashboard = ({navigation}) => {
         </TouchableOpacity>
       )}
 
-      {searchState && (
-        <View>
+{searchState && (
+     <View>
           <TextInput
             placeholder="Search"
             style={styles.globalSearchBar}
@@ -168,7 +177,7 @@ const Dashboard = ({navigation}) => {
             onPress={navigateAndSearch}
           />
         </View>
-      )}
+        )}
 
       <View style={[styles.action, styles.actionPadding]}>
         <NotificationIcon height={21.3} width={21.3} />
@@ -195,11 +204,13 @@ const Dashboard = ({navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
-      {renderSideMenu()}
-      {renderNavigator()}
-      {renderScreenActions()}
-    </View>
+    <TouchableWithoutFeedback onPress={closeSearchBar}>
+      <View style={styles.container} >
+        {renderSideMenu()}
+        {renderNavigator()}
+        {renderScreenActions()}
+        </View>
+      </TouchableWithoutFeedback>
   );
 };
 

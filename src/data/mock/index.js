@@ -10,6 +10,7 @@ import product from './api/priorityProduct.json';
 import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import monthlyConpliance from './api/monthlyCompliance.json';
+import docList from './api/searchDocList.json';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
@@ -96,6 +97,9 @@ const getMock = axios => {
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
   mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyConpliance);
+  mock
+    .onGet('party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10')
+    .reply(200, docList);
 };
 
 export default getMock;
