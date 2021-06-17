@@ -21,7 +21,7 @@ import {
   fetchWorkingDayCreator,
 } from './redux';
 import themes from 'themes';
-import {planComplianceSelector} from '../planCompliance/redux';
+import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
