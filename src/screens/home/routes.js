@@ -8,10 +8,12 @@ export const ROUTES_HOME = [
   {
     name: ROUTE_HOME_LANDING,
     component: HomeLanding,
+    path: '/landing',
   },
   {
     name: ROUTE_HOME_LANDING_SECONDARY,
     component: HomeLandingSecondaryScreen,
+    path: '/landing-secondary',
   },
 ];
 
@@ -21,6 +23,7 @@ const ROUTES_HOME_ROOT = [
   {
     name: ROUTE_HOME_DETAILS,
     component: HomeDetailsScreen,
+    path: '/details',
   },
 ];
 

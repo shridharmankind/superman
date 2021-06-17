@@ -1,28 +1,33 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import {LogBox} from 'react-native';
+
+import {Provider} from 'react-redux';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
 
 import SplashScreen from 'react-native-splash-screen';
+
 import theme from 'themes';
-import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
-import {useEffect} from 'react';
+import {Routes, linking} from 'navigations';
 import {getStore} from './store/getStore';
-import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
 
 const Stack = createStackNavigator();
 const store = getStore();
+
 const App = () => {
   LogBox.ignoreAllLogs();
+
   const isLoggedIn = false;
-  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
+  const initialRoute = isLoggedIn ? Routes.ROUTE_DASHBOARD : Routes.ROUTE_LOGIN;
+
   setI18nConfig();
+
   useEffect(() => {
     if (!isWeb()) {
       setTimeout(() => {
@@ -36,9 +41,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <Stack.Navigator initialRouteName={initialRoute}>
-            {ROUTES.map(route => (
+            {Routes.default.map(route => (
               <Stack.Screen
                 key={route.name}
                 name={route.name}

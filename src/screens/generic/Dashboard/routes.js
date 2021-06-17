@@ -18,6 +18,7 @@ const ROUTES_DASHBOARD = [
   {
     name: ROUTE_TOUR_PLAN,
     component: TourPlanning,
+    path: '/tour-plan',
   },
   {
     name: ROUTE_PERFORMANCE,
