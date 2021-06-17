@@ -6,6 +6,7 @@ import {sha512} from 'react-native-sha512';
 
 import {KeyChain} from 'helper';
 import {getDBInstance} from 'database';
+import {WeeklyOffPerCountrySchema} from '../schemas/weeklyOffPerCountry';
 
 let realm = null;
 
@@ -174,6 +175,16 @@ export const createPartyMasterRecord = async (schema, data) => {
   }
 };
 
+export const createWeeklyOffRecord = async (schema, data) => {
+  try {
+    await openSchema();
+    await realm.write(() => {
+      realm.create(WeeklyOffPerCountrySchema().schema, 'modified');
+    });
+  } catch (error) {
+    console.log('createWeeklyOffRecord', error);
+  }
+};
 export const closeDB = () => {
   if (realm) {
     realm.close();

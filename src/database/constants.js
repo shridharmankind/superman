@@ -20,3 +20,4 @@ export const MASTER_TABLE_USER_INFO_API_PATH = 'user/me';
 export const MASTER_TABLE_USER_INFO = 'UserInfo';
 export const MASTER_TABLE_STAFF_POSITIONS = 'StaffPositions';
 export const MASTER_TABLE_STAFF_DESIGNATION = 'Designation';
+//export const MASTER_TABLE_WEEKLYOFF_COUNTRYWISE = 'WeeklyOffCountryWise';

@@ -7,4 +7,4 @@ export const getAllTableRecords = async schemaName => {
 export const getActiveUser = async () => {
   const users = await getDBInstance().objects(Constants.MASTER_TABLE_USER_INFO);
   return users[0] || {};
-}
+};

@@ -1,5 +1,6 @@
 import * as Constants from '../constants';
 import {QualificationsSchemaName} from './Qualifications';
+import {WeeklyOffPerCountrySchemaName} from './weeklyOffPerCountry';
 
 export const masterTablesDownLoadStatus = {
   name: Constants.MASTER_TABLES_DOWNLOAD_STATUS,
@@ -87,6 +88,10 @@ export const partyMaster = {
     engagement: {
       type: 'list',
       objectType: Constants.MASTER_TABLE_ENGAGEMENT,
+    },
+    weeklyoff: {
+      type: 'list',
+      objectType: WeeklyOffPerCountrySchemaName,
     },
   },
   primaryKey: 'id',

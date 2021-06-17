@@ -1,7 +1,7 @@
 import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
-import { getActiveUser } from './operations/common';
+import {getActiveUser} from './operations/common';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -43,7 +43,10 @@ export const getStaffPositionId = async () => {
   try {
     const user = await getActiveUser();
 
-    const primaryStaffPositions = (await user.staffPositions.filter(staffPosition => staffPosition.isPrimary)) || [];
+    const primaryStaffPositions =
+      (await user.staffPositions.filter(
+        staffPosition => staffPosition.isPrimary,
+      )) || [];
     const primaryStaffPosition = primaryStaffPositions[0] || {};
 
     return primaryStaffPosition?.id;
