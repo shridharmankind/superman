@@ -6,7 +6,7 @@ import {Strings} from 'common';
 import styles from './styles';
 import {COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
 import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
-
+import {STANDARD_TOUR_PLAN_ID} from 'screens/tourPlan/constants';
 /**
  * @returns Side Panel
  */
@@ -40,7 +40,7 @@ const SidePanel = () => {
    */
   useEffect(() => {
     setIsStandardTourPlanSelected(
-      selectedPlanOption && selectedPlanOption?.id === 1,
+      selectedPlanOption && selectedPlanOption?.id === STANDARD_TOUR_PLAN_ID,
     );
   }, [selectedPlanOption]);
 

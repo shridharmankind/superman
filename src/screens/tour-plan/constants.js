@@ -41,3 +41,5 @@ export const COMPLAINCE_TYPE = {
   MONTHLY: 'monthly',
   DAILY: 'daily',
 };
+
+export const STANDARD_TOUR_PLAN_ID = 1;
