@@ -5,6 +5,7 @@ import {
   BackHandler,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
@@ -41,6 +42,7 @@ const Dashboard = ({navigation}) => {
     if (itemId === LOGOUT_ITEM_ID) {
       showLogOffConfirmationDialog();
     } else {
+      closeSearchBar();
       route && navigation && navigation.navigate(route);
     }
   };
@@ -94,6 +96,13 @@ const Dashboard = ({navigation}) => {
   const openSearchBar = () => {
     updateVal(null);
     toggleSearch(true);
+  };
+
+  /* Function to close Search bar on clicking anywher
+  on the dashboard*/
+  const closeSearchBar = () => {
+    updateVal(null);
+    toggleSearch(false);
   };
 
   // Function to clear the input text
@@ -195,11 +204,13 @@ const Dashboard = ({navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
-      {renderSideMenu()}
-      {renderNavigator()}
-      {renderScreenActions()}
-    </View>
+    <TouchableWithoutFeedback onPress={closeSearchBar}>
+      <View style={styles.container}>
+        {renderSideMenu()}
+        {renderNavigator()}
+        {renderScreenActions()}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
