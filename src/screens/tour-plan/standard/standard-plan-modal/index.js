@@ -13,7 +13,7 @@ import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {PARTY_TYPE} from 'screens/tourPlan/constants';
+import {PARTY_TYPE ,COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
@@ -1016,7 +1016,7 @@ const StandardPlanModal = ({
             title={Strings.planCompliance}
             style={styles.planComplainceLabel}
           />
-          <PlanCompliance />
+          <PlanCompliance type={COMPLAINCE_TYPE.DAILY} />
         </View>
       </View>
     </ScrollView>

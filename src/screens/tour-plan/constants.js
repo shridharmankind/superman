@@ -38,6 +38,6 @@ export const PARTY_TYPE = {
 };
 
 export const COMPLAINCE_TYPE = {
-  MONTHLY: 'MONTHLY',
-  DAILY: 'DAILY',
+  MONTHLY: 'monthly',
+  DAILY: 'daily',
 };
