@@ -16,7 +16,7 @@ import {ErrorIcon, Complaint} from 'assets';
  * @param {Function} onTabPress click event
  * @returns button
  */
-const PlanCompliance = () => {
+const PlanCompliance = ({type}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
@@ -27,9 +27,10 @@ const PlanCompliance = () => {
     dispatch(
       fetchPlanComplianceCreator({
         staffPositionId: 2,
+        type,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, type]);
 
   /**
    * fetch data from selector
@@ -42,8 +43,8 @@ const PlanCompliance = () => {
    * effect to set fetched data in state
    */
   useEffect(() => {
-    setComplianceData(complianceRules);
-  }, [complianceRules]);
+    setComplianceData(complianceRules[type]);
+  }, [complianceRules, type]);
 
   /**
    * function to render UI of rules
@@ -52,7 +53,7 @@ const PlanCompliance = () => {
   const renderRules = () => {
     return (complianceData?.rules || []).map(rule => {
       return (
-        <View style={styles.rulesContainerSub}>
+        <View key={rule.ruleID} style={styles.rulesContainerSub}>
           <View style={styles.complianceIcon}>
             {rule.isCompliant ? (
               <Complaint width={12} height={12} />
@@ -95,9 +96,17 @@ const PlanCompliance = () => {
         />
       </View>
       <View style={styles.rulesContainer}>
-        <Label variant={LabelVariant.h6} style={styles.rulesTitle}>
-          {Strings.tourPlanRules}
-        </Label>
+        <View style={styles.header}>
+          <Label
+            variant={LabelVariant.h6}
+            style={styles.rulesTitle}
+            isCapitalise={true}>
+            {type}{' '}
+          </Label>
+          <Label variant={LabelVariant.h6} style={styles.rulesTitle}>
+            {Strings.tourPlanRules}
+          </Label>
+        </View>
         {renderRules()}
       </View>
     </View>

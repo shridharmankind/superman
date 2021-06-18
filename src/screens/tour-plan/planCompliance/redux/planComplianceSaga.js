@@ -7,6 +7,7 @@ import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 import {Strings} from 'common';
+import {COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
 
 /**
  * saga watcher to fetch the plan compliance rules
@@ -19,22 +20,39 @@ export function* fetchPlanComplianceWatcher() {
  * worker function to send the api call to get all plan compliance rules
  */
 export function* fetchPlanComplianceWorker(action) {
-  const {staffPositionId} = action.payload;
-  const valueMap = {
-    staffPositionId: staffPositionId,
-  };
-  let url = API_PATH.COMPLAINCE_MONTHLY;
-  url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
+  const {staffPositionId, type, weekVal = 1, weekdayVal = 1} = action.payload;
+  let url;
+  // set url on basis of compliance type selected
+  if (type === COMPLAINCE_TYPE.MONTHLY) {
+    const valueMap = {
+      staffPositionId: staffPositionId,
+    };
+    url = API_PATH.COMPLAINCE_MONTHLY.replace(
+      /\b(?:staffPositionId)\b/gi,
+      matched => valueMap[matched],
+    );
+  } else {
+    if (type === COMPLAINCE_TYPE.DAILY) {
+      const valueMap = {
+        staffPositionId: staffPositionId,
+        weekVal: weekVal,
+        weekdayVal: weekdayVal,
+      };
+      url = API_PATH.COMPLAINCE_DAILY.replace(
+        /\b(?:staffPositionId|weekVal|weekdayVal)\b/gi,
+        matched => valueMap[matched],
+      );
+    }
+  }
 
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
-
   try {
     const response = yield call(NetworkService.get, url);
     if (response.data) {
       yield put(
         planComplianceActions.getComplainceRules({
           rules: {
-            data: response.data,
+            [type]: response.data,
             error: null,
           },
         }),
@@ -52,7 +70,7 @@ export function* fetchPlanComplianceWorker(action) {
   } catch (error) {
     yield put(
       planComplianceActions.getComplainceRules({
-        doctorDetail: {
+        rules: {
           error: Strings.errorFetchingComplianceRules,
         },
       }),
