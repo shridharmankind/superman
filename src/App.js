@@ -15,6 +15,7 @@ import {isWeb, KeyChain} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
 import {isAccessTokenValid, revokeLogin} from './utils/util';
+import {Constants} from 'common';
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -22,6 +23,7 @@ const store = getStore();
 export const AuthContext = React.createContext();
 const App = () => {
   const [isLoggedIn, setLoggedIn] = React.useState(true);
+  const {authentication} = Constants;
   LogBox.ignoreAllLogs();
   setI18nConfig();
   React.useEffect(() => {
@@ -37,27 +39,27 @@ const App = () => {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
-        case 'RESTORE_TOKEN':
+        case authentication.RESTORE_TOKEN:
           return {
             ...prevState,
             userToken: action.token,
             isSignout: false,
             screen: ROUTE_DASHBOARD,
           };
-        case 'SIGN_IN':
+        case authentication.SIGN_IN:
           return {
             ...prevState,
             isSignout: false,
             userToken: action.token,
             screen: ROUTE_DASHBOARD,
           };
-        case 'SIGN_OUT':
+        case authentication.SIGN_OUT:
           return {
             ...prevState,
             isSignout: true,
             screen: ROUTE_LOGIN,
           };
-        case 'REMOVE_TOKEN':
+        case authentication.REMOVE_TOKEN:
           return {
             ...prevState,
             userToken: null,
@@ -77,7 +79,7 @@ const App = () => {
         const userToken = await KeyChain.getAccessToken();
         if (userToken && isAccessTokenValid()) {
           setLoggedIn(true);
-          dispatch({type: 'RESTORE_TOKEN', token: userToken});
+          dispatch({type: authentication.RESTORE_TOKEN, token: userToken});
         }
       } catch (error) {
         Alert.alert(error.message);
@@ -92,7 +94,7 @@ const App = () => {
         const userToken = await KeyChain.getAccessToken();
         if (userToken) {
           revokeLogin(userToken);
-          dispatch({type: 'REMOVE_TOKEN'});
+          dispatch({type: authentication.REMOVE_TOKEN});
         }
       } catch (error) {
         Alert.alert(error.message);
@@ -107,11 +109,11 @@ const App = () => {
     () => ({
       signIn: async data => {
         setLoggedIn(true);
-        dispatch({type: 'SIGN_IN', token: data});
+        dispatch({type: authentication.SIGN_IN, token: data});
       },
       signOut: () => {
         setLoggedIn(false);
-        dispatch({type: 'SIGN_OUT'});
+        dispatch({type: authentication.SIGN_OUT});
       },
     }),
     [],
@@ -123,8 +125,10 @@ const App = () => {
         <PaperProvider theme={theme}>
           <NavigationContainer>
             <Stack.Navigator initialRouteName={state.screen}>
-              {state.userToken === null ? (
-                <Stack.Screen name="Login" component={Login} />
+              {!state.userToken ? (
+                <Stack.Screen name={authentication.LOGIN} component={Login} options={{
+                  headerShown: false,
+                }}/>
               ) : (
                 ROUTES.map(route => (
                   <Stack.Screen

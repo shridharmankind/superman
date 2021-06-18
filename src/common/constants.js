@@ -54,3 +54,11 @@ export const config = {
   scopes: ['openid', 'profile'],
   additionalParameters: {prompt: 'login'},
 };
+
+export const authentication = {
+  LOGIN: 'Login',
+  RESTORE_TOKEN: 'RESTORE_TOKEN',
+  SIGN_IN: 'SIGN_IN',
+  SIGN_OUT: 'SIGN_OUT',
+  REMOVE_TOKEN: 'REMOVE_TOKEN'
+}
