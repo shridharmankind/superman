@@ -16,12 +16,11 @@ const DoctorsByArea = ({
   allPartiesByPatchID,
 }) => {
   const isDoctorSelected = useCallback(
-    partyId => {
-      return (doctorsSelected || []).some(id => {
-        if (id === partyId) {
-          return true;
-        }
-      });
+    (partyId, area) => {
+      const a = (doctorsSelected || []).some(
+        party => party.partyId === partyId && party.areaId === area,
+      );
+      return a;
     },
     [doctorsSelected],
   );
@@ -71,11 +70,11 @@ const DoctorsByArea = ({
                 specialization={party.specialities}
                 category={party.category}
                 isKyc={party.isKyc}
-                selected={isDoctorSelected(party.id)}
+                selected={isDoctorSelected(party.id, area.id)}
                 testID={`card_standard_plan_doctor_${party.id}_test`}
                 party={party}
                 isPatchedData={isPatchedData}
-                onPress={id => handleDoctorCardPress(id)}
+                onPress={id => handleDoctorCardPress(id, area.id)}
                 containerStyle={index % 2 === 0 ? styles.left : styles.right}
                 isSameDayPatch={isSameDayPatch}
                 isPartyInPatch={isPartyInPatch(party.id)}

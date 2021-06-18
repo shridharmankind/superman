@@ -69,7 +69,7 @@ const DoctorDetailsWrapper = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  }, []);
 
   const getSelectedFrequency = () => {
     if (isSameDayPatch && isPatchedData) {
