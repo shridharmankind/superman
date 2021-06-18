@@ -13,6 +13,7 @@ const DoctorsByArea = ({
   partiesList,
   selectedDoctorType,
   isSameDayPatch,
+  allPartiesByPatchID,
 }) => {
   const isDoctorSelected = useCallback(
     partyId => {
@@ -77,6 +78,7 @@ const DoctorsByArea = ({
                 onPress={id => handleDoctorCardPress(id)}
                 containerStyle={index % 2 === 0 ? styles.left : styles.right}
                 isSameDayPatch={isSameDayPatch}
+                isPartyInPatch={isPartyInPatch(party.id)}
               />
             ))}
           </View>
@@ -89,6 +91,7 @@ const DoctorsByArea = ({
       isDoctorSelected,
       isPatchedData,
       isSameDayPatch,
+      isPartyInPatch,
     ],
   );
 
@@ -111,6 +114,13 @@ const DoctorsByArea = ({
       </View>
     );
   };
+
+  const isPartyInPatch = useCallback(
+    id => {
+      return allPartiesByPatchID.indexOf(id) !== -1;
+    },
+    [allPartiesByPatchID],
+  );
 
   return (
     <View style={styles.doctorDetailsContainer}>
