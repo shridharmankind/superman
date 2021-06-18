@@ -83,7 +83,7 @@ const getMock = axios => {
     .reply(200, taskList);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
   mock.onGet('user/me').reply(200, userInfo);
-  mock.onGet('Party/partyBySpId/1').reply(200, party);
+  mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock
     .onGet('taskinfo/product?StaffPositionId=1&PartyId=1')
     .reply(200, product);
