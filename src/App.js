@@ -11,7 +11,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
 
 import theme from 'themes';
-import {Routes, linking} from 'navigations';
+import {Routes, linking, NavigationService} from 'navigations';
 import {getStore} from './store/getStore';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
@@ -41,7 +41,12 @@ const App = () => {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <NavigationContainer linking={linking}>
+        <NavigationContainer
+          ref={NavigationService.navigationRef}
+          onReady={() => {
+            NavigationService.isReadyRef.current = true;
+          }}
+          linking={linking}>
           <Stack.Navigator initialRouteName={initialRoute}>
             {Routes.default.map(route => (
               <Stack.Screen

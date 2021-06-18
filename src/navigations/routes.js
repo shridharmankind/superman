@@ -1,4 +1,4 @@
-import {Login, Dashboard, MasterDataDownload} from 'screens/generic';
+import {Login, Dashboard, MasterDataDownload, Auth} from 'screens/generic';
 import {StandardPlan} from 'screens/tourPlan';
 
 import ROUTES_HOME_ROOT from 'screens/home/routes';
@@ -6,6 +6,7 @@ import ROUTES_HOME_ROOT from 'screens/home/routes';
 import {DoctorFeedback} from 'screens/directory';
 
 export const ROUTE_LOGIN = 'Login';
+export const ROUTE_AUTH = 'Auth';
 export const ROUTE_MASTER_DATA_DOWNLOAD = 'MasterDataDownload';
 export const ROUTE_DASHBOARD = 'Dashboard';
 export const ROUTE_STANDARD_PLAN = 'StandardPlan';
@@ -15,6 +16,10 @@ const ROUTES = [
   {
     name: ROUTE_LOGIN,
     component: Login,
+  },
+  {
+    name: ROUTE_AUTH,
+    component: Auth,
   },
   {
     name: ROUTE_MASTER_DATA_DOWNLOAD,

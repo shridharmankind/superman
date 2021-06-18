@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -6,29 +6,32 @@ import {
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
-import {stringify, parse} from 'query-string';
+
+import {stringify} from 'query-string';
 import {nanoid} from 'nanoid';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import AsyncStorage from '@react-native-community/async-storage';
-import jwt_decode from 'jwt-decode';
-import styles from './styles';
-import theme from 'themes';
+
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
+import theme from 'themes';
 import {LoginCover, LogoMankindWhite} from 'assets';
-import {TOKEN_EXPIRY_TIME, USER_ID} from './index';
+
+import styles from './styles';
 
 const state = nanoid(32);
 const nonce = nanoid(32);
 
+const isLocalhost = ['localhost'].includes(window.location.hostname);
 const config = {
   authority: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  client_id: '9dcc6560-9a92-0139-202d-0a8697f39ec7186786',
-  redirect_uri: 'http://localhost:3000/home',
+  client_id: isLocalhost
+    ? '4cadc330-b176-0139-61ed-066569480319186786'
+    : '9dcc6560-9a92-0139-202d-0a8697f39ec7186786',
+  redirect_uri: `${window.location.origin}/auth`,
   state,
   nonce,
   response_type: 'id_token',
   scope: 'openid profile',
+  additionalParameters: {prompt: 'login'},
 };
 
 const Login = () => {
@@ -81,33 +84,5 @@ const Login = () => {
     </SafeAreaView>
   );
 };
-const AuthComp = ({navigation}) => {
-  useEffect(() => {
-    if (window.location.hash) {
-      const hash = window.location.hash;
-      const response = parse(hash);
-      const decoded = jwt_decode(response.id_token);
-      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
-      AsyncStorage.setItem(USER_ID, decoded.sub);
-      window.location.assign('http://localhost:3000/home');
-    }
-    navigation.navigate('Dashboard');
-  }, [navigation]);
-  return null;
-};
-const WebRouterComp = ({navigation}) => {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <Login />
-        </Route>
-        <Route path="/home" exact>
-          <AuthComp navigation={navigation} />
-        </Route>
-      </Switch>
-    </Router>
-  );
-};
 
-export default WebRouterComp;
+export default Login;
