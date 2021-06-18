@@ -14,11 +14,21 @@ const workingDayList = state => state.monthlyState.workingDay;
 
 const workingDaySelector = createSelector([workingDayList], data => data);
 
+const selectedPlanOption = state => state.monthlyState.selectedPlanOption;
+
+const selectedPlanOptionSelector = createSelector(
+  [selectedPlanOption],
+  data => data,
+);
+
 export const monthlyTourPlanSelector = {
   allSubOrdinates: () => {
     return allSubOrdinatesSelector;
   },
   allWorkingDay: () => {
     return workingDaySelector;
+  },
+  selectedPlanOption: () => {
+    return selectedPlanOptionSelector;
   },
 };
