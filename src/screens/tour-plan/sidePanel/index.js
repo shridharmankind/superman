@@ -8,10 +8,9 @@ import {COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
 import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
 
 /**
- *  Tour plan Side Panel
  * @returns Side Panel
  */
-const TourPlanSidePanel = () => {
+const SidePanel = () => {
   const [isStandardTourPlanSelected, setIsStandardTourPlanSelected] =
     useState(false);
 
@@ -21,9 +20,9 @@ const TourPlanSidePanel = () => {
   );
 
   /**
-   * @returns Side panel component
+   * @returns plan complaince panel
    */
-  const renderSidePanel = () => {
+  const renderPlanComplaince = () => {
     return (
       <>
         <Label
@@ -45,7 +44,7 @@ const TourPlanSidePanel = () => {
     );
   }, [selectedPlanOption]);
 
-  return isStandardTourPlanSelected ? renderSidePanel() : null;
+  return isStandardTourPlanSelected ? renderPlanComplaince() : null;
 };
 
-export default TourPlanSidePanel;
+export default SidePanel;
