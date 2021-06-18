@@ -26,7 +26,6 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: DivisionSchemaName,
     apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
-    schema: [Schemas.Division.schema],
   },
 ];
 

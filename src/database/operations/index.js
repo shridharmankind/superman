@@ -174,19 +174,6 @@ export const createPartyMasterRecord = async (schema, data) => {
   }
 };
 
-export const createDivisionRecord = async (schema, data) => {
-  try {
-    await openSchema();
-    await realm.write(() => {
-      data?.forEach(obj => {
-        realm.create(schema[0].name, obj, 'modified');
-      });
-    });
-  } catch (error) {
-    console.log('createDivisionRecord', error);
-  }
-};
-
 export const closeDB = () => {
   if (realm) {
     realm.close();

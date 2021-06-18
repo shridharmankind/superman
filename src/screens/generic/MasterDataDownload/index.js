@@ -10,12 +10,19 @@ import styles from './styles';
 import {Strings} from 'common';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Division,
+  Operations,
+  Schemas,
+} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
 import {NetworkService} from 'services';
 import {Routes} from 'navigations';
+import {DivisionSchemaName} from '../../../database/schemas/Divisions';
 
 const MasterDataDownload = ({navigation}) => {
   const progressBarSyncParam = 10 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
@@ -57,7 +64,7 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
-            case DBConstants.MASTER_TABLE_DIVISION:
+            case DivisionSchemaName:
               response = await NetworkService.get(item.apiPath);
               break;
           }
@@ -78,11 +85,8 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 break;
 
-              case DBConstants.MASTER_TABLE_DIVISION:
-                await Operations.createDivisionRecord(
-                  item.schema,
-                  JSON.parse(data),
-                );
+              case DivisionSchemaName:
+                await Division.storeDivisions(JSON.parse(data));
                 break;
             }
             await Operations.updateRecord(
