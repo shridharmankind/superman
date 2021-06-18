@@ -7,7 +7,7 @@
       "ruleShortName": "MINIMUMPERDAYFORDOC",
       "ruleValue": "12",
       "partyType": "Doctor",
-      "IsCompliant": false,
+      "isCompliant": false,
       "IsWarning": false
     },
     {
@@ -15,7 +15,7 @@
       "ruleShortName": "MAXIMUMDAYFORDOC",
       "ruleValue": "15",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": true
     },
     {
@@ -23,7 +23,7 @@
       "ruleShortName": "MINIMUMPERDAYFORCHE",
       "ruleValue": "12",
       "partyType": "Chemist",
-      "IsCompliant": true,
+      "isCompliant": false,
       "IsWarning": false
     },
     {
@@ -31,7 +31,7 @@
       "ruleShortName": "MAXIMUMDAYFORCHE",
       "ruleValue": "15",
       "partyType": "Chemist",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": true
     },
     {
@@ -39,7 +39,7 @@
       "ruleShortName": "DIFFERENCEOF4FORDOC",
       "ruleValue": "10",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -47,7 +47,7 @@
       "ruleShortName": "DIFFERENCEOF3FORDOC",
       "ruleValue": "8",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -55,7 +55,7 @@
       "ruleShortName": "DIFFERENCEOF2FORDOC",
       "ruleValue": "8",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -63,7 +63,7 @@
       "ruleShortName": "DOCTORCOVEREDINXDAYS",
       "ruleValue": "89/150",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -71,7 +71,7 @@
       "ruleShortName": "MINIMUMOUTSTATIONVISIT",
       "ruleValue": "1",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -79,7 +79,7 @@
       "ruleShortName": "MAXIMUMOUTSTATIONVISIT",
       "ruleValue": "1",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -87,7 +87,7 @@
       "ruleShortName": "MINIMUMEXSTATIONVISIT",
       "ruleValue": "1",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -95,7 +95,7 @@
       "ruleShortName": "MAXIMUMEXSTATIONVISIT",
       "ruleValue": "1",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -103,7 +103,7 @@
       "ruleShortName": "DOCTORCOVEREDINMONTH",
       "ruleValue": "89/150",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     },
     {
@@ -111,7 +111,7 @@
       "ruleShortName": "CHEMISTCOVEREDINMONTH",
       "ruleValue": "44/180",
       "partyType": "Chemist",
-      "IsCompliant": true,
+      "isCompliant": false,
       "IsWarning": false
     },
     {
@@ -119,7 +119,7 @@
       "ruleShortName": "ALLAREACOVERED",
       "ruleValue": "2/5",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": false,
       "IsWarning": false
     },
     {
@@ -127,7 +127,7 @@
       "ruleShortName": "ALLFREQUENCYMET",
       "ruleValue": "",
       "partyType": "Doctor",
-      "IsCompliant": true,
+      "isCompliant": true,
       "IsWarning": false
     }
   ]
