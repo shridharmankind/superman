@@ -8,12 +8,3 @@ export const getActiveUser = async () => {
   const users = await getDBInstance().objects(Constants.MASTER_TABLE_USER_INFO);
   return users[0] || {};
 };
-
-// Sample orgainzation call
-// Uncomment to use
-// export const getOrganization = async () => {
-//   const users = await getDBInstance().objects(
-//     Constants.MASTER_TABLE_ORGANIZATION,
-//   );
-//   return users[0] || [];
-// };
