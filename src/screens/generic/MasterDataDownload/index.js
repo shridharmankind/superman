@@ -10,7 +10,13 @@ import styles from './styles';
 import {Strings} from 'common';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Operations,
+  Organizations,
+  Schemas,
+} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
@@ -79,10 +85,7 @@ const MasterDataDownload = ({navigation}) => {
                 break;
 
               case DBConstants.MASTER_TABLE_ORGANIZATION:
-                await Operations.createOrganizationRecord(
-                  item.schema,
-                  JSON.parse(data),
-                );
+                await Organizations.storeOrganizations(JSON.parse(data));
                 break;
             }
             await Operations.updateRecord(
