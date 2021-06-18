@@ -25,8 +25,8 @@ const Stack = createStackNavigator();
 const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
-  // let isLoggedIn = false;
-  const nodeRef = React.useRef(null);
+  let isLoggedIn = false;
+
   setI18nConfig();
   useEffect(() => {
     if (!isWeb()) {
@@ -36,10 +36,11 @@ const App = () => {
         });
       }, 2000);
     }
+    return () => {
+      AsyncStorage.removeItem('isLoggedIn');
+    };
   }, []);
-  const initialRoute = nodeRef.current
-    ? ROUTE_DASHBOARD
-    : ROUTE_LOCALAUTHENTICATION;
+  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOCALAUTHENTICATION;
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>

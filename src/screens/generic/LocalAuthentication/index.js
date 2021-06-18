@@ -4,25 +4,16 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const LocalAuth = ({navigation}) => {
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
-
   useEffect(() => {
     // AppState.addEventListener('change', _handleAppStateChange);
-    console.log('test');
-    let y = async () => {
-      let x = await AsyncStorage.getItem('isLoggedIn');
-      if (JSON.parse(x)) {
-        return navigation.navigate('Login');
-      }
-    };
     checkForIsloggedIn();
-    y();
-    // return () => {
-    //   // AppState.removeEventListener('change', _handleAppStateChange);
-    // };
+
+    return () => {
+      AsyncStorage.removeItem('isLoggedIn');
+      // AppState.removeEventListener('change', _handleAppStateChange);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation]);
+  }, []);
 
   // const _handleAppStateChange = async nextAppState => {
   //   if (
@@ -45,14 +36,15 @@ const LocalAuth = ({navigation}) => {
   // };
 
   const checkForIsloggedIn = async () => {
-    LocalAuthentication.authenticateAsync().then(response3 => {
-      if (response3.success) {
-        AsyncStorage.setItem('isLoggedIn', 'true');
-        return navigation.navigate('Login');
-      } else {
-        return checkForIsloggedIn();
-      }
-    });
+    const response = await LocalAuthentication.authenticateAsync();
+    console.log(response, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+    if (response.success) {
+      AsyncStorage.setItem('isLoggedIn', 'true');
+      navigation.navigate('Login');
+      return '';
+    } else {
+      checkForIsloggedIn();
+    }
   };
 
   // eslint-disable-next-line react/react-in-jsx-scope
