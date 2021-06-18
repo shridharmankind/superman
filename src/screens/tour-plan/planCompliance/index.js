@@ -7,7 +7,7 @@ import {Strings} from 'common';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchPlanComplianceCreator, planComplianceSelector} from './redux';
 import {rulesMapping} from './rulesMapping';
-import {ErrorIcon} from 'assets';
+import {ErrorIcon, Complaint} from 'assets';
 
 /**
  * Tab component rendering as a radio button
@@ -54,7 +54,11 @@ const PlanCompliance = () => {
       return (
         <View style={styles.rulesContainerSub}>
           <View style={styles.complianceIcon}>
-            <ErrorIcon width={12} height={12} />
+            {rule.isCompliant ? (
+              <Complaint width={12} height={12} />
+            ) : (
+              <ErrorIcon width={12} height={12} />
+            )}
           </View>
           <View style={styles.rule}>
             <View>
