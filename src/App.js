@@ -79,7 +79,10 @@ const App = () => {
         const userToken = await KeyChain.getAccessToken();
         if (userToken && isAccessTokenValid()) {
           setLoggedIn(true);
-          dispatch({type: authentication.RESTORE_TOKEN, token: userToken});
+          dispatch({
+            type: Constants.authentication.RESTORE_TOKEN,
+            token: userToken,
+          });
         }
       } catch (error) {
         Alert.alert(error.message);
@@ -94,7 +97,7 @@ const App = () => {
         const userToken = await KeyChain.getAccessToken();
         if (userToken) {
           revokeLogin(userToken);
-          dispatch({type: authentication.REMOVE_TOKEN});
+          dispatch({type: Constants.authentication.REMOVE_TOKEN});
         }
       } catch (error) {
         Alert.alert(error.message);
@@ -109,11 +112,11 @@ const App = () => {
     () => ({
       signIn: async data => {
         setLoggedIn(true);
-        dispatch({type: authentication.SIGN_IN, token: data});
+        dispatch({type: Constants.authentication.SIGN_IN, token: data});
       },
       signOut: () => {
         setLoggedIn(false);
-        dispatch({type: authentication.SIGN_OUT});
+        dispatch({type: Constants.authentication.SIGN_OUT});
       },
     }),
     [],
@@ -126,9 +129,13 @@ const App = () => {
           <NavigationContainer>
             <Stack.Navigator initialRouteName={state.screen}>
               {!state.userToken ? (
-                <Stack.Screen name={authentication.LOGIN} component={Login} options={{
-                  headerShown: false,
-                }}/>
+                <Stack.Screen
+                  name={authentication.LOGIN}
+                  component={Login}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
               ) : (
                 ROUTES.map(route => (
                   <Stack.Screen
