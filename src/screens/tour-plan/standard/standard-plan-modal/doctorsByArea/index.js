@@ -115,6 +115,10 @@ const DoctorsByArea = ({
     );
   };
 
+  /**method to check if party is part of patch
+   * @param {String} id party id
+   * @return {Boolean}
+   */
   const isPartyInPatch = useCallback(
     id => {
       return allPartiesByPatchID?.indexOf(id) !== -1;

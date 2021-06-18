@@ -109,7 +109,6 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        // isTicked={(selected && frequency > alreadyVisited) || false}
         isTicked={showTicked || false}
         selectedVistedFrequency={count}
         frequency={frequency}

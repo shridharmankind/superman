@@ -132,6 +132,7 @@ const StandardPlanModal = ({
     loadData();
   }, [loadData]);
 
+  /**mehtod to load the initial state of daily plan */
   const loadData = useCallback(() => {
     dispatch(
       fetchPartiesCreator({
