@@ -2,6 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
+import {DivisionSchemaName} from './schemas/Divisions';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -21,6 +22,11 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.partyTypes,
       Schemas.engagement,
     ],
+  },
+  {
+    name: DivisionSchemaName,
+    apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
+    schema: [Schemas.Division.schema],
   },
 ];
 
