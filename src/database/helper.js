@@ -2,7 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import * as MonthlyPlanSchema from './schemas/MonthlyPlan';
-import { getActiveUser } from './operations/common';
+import {getActiveUser} from './operations/common';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -30,11 +30,8 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
     syncApiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_SYNC_API_PATH,
     syncParam: Constants.MASTER_MONTHLY_TABLE_SYNC_PARAM,
-    schema: [
-      MonthlyPlanSchema.monthlyMaster,
-      MonthlyPlanSchema.dailyMaster,
-    ]
-  }
+    schema: [MonthlyPlanSchema.monthlyMaster, MonthlyPlanSchema.dailyMaster],
+  },
 ];
 
 export const syncErrorDetails = {
@@ -42,9 +39,9 @@ export const syncErrorDetails = {
   embedded: true,
   properties: {
     conflictType: 'string',
-    errorMessage: 'string'
-  }
-}
+    errorMessage: 'string',
+  },
+};
 
 export const syncParameters = {
   name: Constants.MASTER_SYNC_PARAMETERS,
@@ -56,8 +53,8 @@ export const syncParameters = {
     lastModifiedOn: 'date',
     isDeleted: 'bool',
     errorInSync: 'bool',
-    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL
-  }
+    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL,
+  },
 };
 
 /**
@@ -79,7 +76,10 @@ export const getStaffPositionId = async () => {
   try {
     const user = await getActiveUser();
 
-    const primaryStaffPositions = (await user.staffPositions.filter(staffPosition => staffPosition.isPrimary)) || [];
+    const primaryStaffPositions =
+      (await user.staffPositions.filter(
+        staffPosition => staffPosition.isPrimary,
+      )) || [];
     const primaryStaffPosition = primaryStaffPositions[0] || {};
 
     return primaryStaffPosition?.id;

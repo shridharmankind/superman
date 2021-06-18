@@ -11,7 +11,13 @@ import {Strings} from 'common';
 import {NetworkService} from 'services';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas,MonthlyPlan} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Operations,
+  Schemas,
+  MonthlyPlan,
+} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
@@ -33,20 +39,20 @@ const MasterDataDownload = ({navigation}) => {
     const fetchData = async () => {
       try {
         await initMasterTablesDownloadStatus();
-        
+
         for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
           let item = Helper.MASTER_TABLES_DETAILS[i];
           const record = await Operations.getRecord(
             Schemas.masterTablesDownLoadStatus,
             item.name,
-          );  
+          );
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
           let response = await getAPIResponse(item);
           if (response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
-            await createMasterRecord(item,data);
+            await createMasterRecord(item, data);
             await Operations.updateRecord(
               Schemas.masterTablesDownLoadStatus,
               DBConstants.downloadStatus.DOWNLOADED,
@@ -62,7 +68,7 @@ const MasterDataDownload = ({navigation}) => {
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: DBConstants.APPLICATION_SYNC_STATUS,
           status: DBConstants.downloadStatus.DOWNLOADED,
-          lastSync: new Date()
+          lastSync: new Date(),
         });
         navigation.reset({
           routes: [{name: Routes.ROUTE_DASHBOARD}],
@@ -77,21 +83,14 @@ const MasterDataDownload = ({navigation}) => {
     };
   }, [navigation, progressBarSyncParam]);
 
-
-  const createMasterRecord = async (item,data) => {
+  const createMasterRecord = async (item, data) => {
     switch (item.name) {
       case DBConstants.MASTER_TABLE_USER_INFO:
-        await Operations.createUserInfoRecord(
-          item.schema,
-          JSON.parse(data),
-        );
+        await Operations.createUserInfoRecord(item.schema, JSON.parse(data));
         break;
 
       case DBConstants.MASTER_TABLE_PARTY:
-        await Operations.createPartyMasterRecord(
-          item.schema,
-          JSON.parse(data),
-        );
+        await Operations.createPartyMasterRecord(item.schema, JSON.parse(data));
         break;
       case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
         await MonthlyPlan.createMonthlyMasterRecord(
@@ -100,9 +99,9 @@ const MasterDataDownload = ({navigation}) => {
         );
         break;
     }
-  }
-  const getAPIResponse = async (item) => {
-    try{
+  };
+  const getAPIResponse = async item => {
+    try {
       let response;
       switch (item.name) {
         case DBConstants.MASTER_TABLE_USER_INFO:
@@ -119,17 +118,15 @@ const MasterDataDownload = ({navigation}) => {
         case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
           {
             const staffPositionId = await Helper.getStaffPositionId();
-            response = await NetworkService.get(
-              `${item.apiPath}2`,
-            );
-          } 
-          break;   
+            response = await NetworkService.get(`${item.apiPath}2`);
+          }
+          break;
       }
       return response;
-    }catch(err){
-      console.log("getAPIResponse", err);
+    } catch (err) {
+      console.log('getAPIResponse', err);
     }
-  }
+  };
 
   const initMasterTablesDownloadStatus = async () => {
     try {
@@ -142,7 +139,7 @@ const MasterDataDownload = ({navigation}) => {
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
           status: DBConstants.downloadStatus.PENDING,
-          lastSync: new Date()
+          lastSync: new Date(),
         });
       });
     } catch (error) {

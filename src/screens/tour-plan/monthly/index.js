@@ -3,10 +3,10 @@ import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Modal, Label} from 'components/elements';
+import {Modal, Label, Button} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
-import {MonthlyView, Legends} from 'components/widgets';
+import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
 import {getTourPlanScheduleMonths} from 'screens/tourPlan/helper';
 import {
   PLAN_TYPES,
@@ -20,7 +20,8 @@ import {
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
 } from './redux';
-
+import themes from 'themes';
+import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -64,9 +65,16 @@ const MonthlyTourPlan = ({navigation}) => {
   const [monthSelected, setMonthSelected] = useState();
 
   const previousMonthSelected = usePrevious(monthSelected);
+  const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
+  const [compliancePercentage, setCompliancePercentage] = useState();
 
+  // Selectors
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
+  );
+  // Selector to get compliance percentage
+  const complaincePercentage = useSelector(
+    planComplianceSelector.getTotalPercent(),
   );
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
 
@@ -78,7 +86,17 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   }, [dispatch]);
 
+  /**
+   *effect to set working Day
+   */
   useEffect(() => setworkingDays(workindDay), [workindDay]);
+
+  /**
+   * effect to set percentage compliance
+   */
+  useEffect(() => {
+    setCompliancePercentage(complaincePercentage);
+  }, [complaincePercentage]);
 
   useEffect(() => {
     const myPlan = {
@@ -354,6 +372,46 @@ const MonthlyTourPlan = ({navigation}) => {
     }
   };
 
+  /**
+   *
+   * @returns congrats Modal Content
+   */
+  const renderCongratsContent = () => {
+    return (
+      <View style={styles.congratsContent}>
+        <Label
+          type={'regular'}
+          size={18}
+          textColor={themes.colors.grey[900]}
+          title={Strings.successfullyCreatedSTP}
+        />
+      </View>
+    );
+  };
+
+  /**
+   * Returns STP action buttons
+   */
+  const renderActionButton = () => {
+    return (
+      <View style={styles.actionButtonGroup}>
+        <Button
+          title={Strings.monthlyActions.save}
+          mode="outlined"
+          contentStyle={[styles.actionBtn, styles.saveBtn]}
+          labelStyle={styles.buttonTabBarText}
+        />
+        <Button
+          title={Strings.monthlyActions.submitSTP}
+          mode="contained"
+          contentStyle={styles.actionBtn}
+          labelStyle={styles.buttonTabBarText}
+          disabled={compliancePercentage !== 100}
+        />
+      </View>
+    );
+  };
+
   return (
     <View>
       <View style={styles.dropDownsContainer}>
@@ -362,6 +420,7 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
+        {renderActionButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
         selectedTourPlan.id === 1 && (
@@ -373,6 +432,13 @@ const MonthlyTourPlan = ({navigation}) => {
         )}
       {openTourPlanDropDown()}
       {renderView()}
+      <CongratulatoryModal
+        open={showCongratsModal}
+        actionTitle={Strings.takeMeToHome}
+        content={renderCongratsContent()}
+        bottomText={Strings.beginJourney}
+        btnAction={() => {}}
+      />
     </View>
   );
 };

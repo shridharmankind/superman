@@ -6,12 +6,17 @@ import {createSelector} from '@reduxjs/toolkit';
 
 const getCompliance = state => state.planCompliance.rules.data;
 
-const allComplianceRulesSelector = createSelector([getCompliance], data => {
-  return data;
-});
+const allComplianceRulesSelector = createSelector(
+  [getCompliance],
+  data => data,
+);
+
+const totalPercentSelector = createSelector(
+  [getCompliance],
+  data => data.totalPercent,
+);
 
 export const planComplianceSelector = {
-  allComplianceRules: () => {
-    return allComplianceRulesSelector;
-  },
+  allComplianceRules: () => allComplianceRulesSelector,
+  getTotalPercent: () => totalPercentSelector,
 };

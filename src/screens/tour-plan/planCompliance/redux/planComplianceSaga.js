@@ -35,13 +35,14 @@ export function* fetchPlanComplianceWorker(action) {
         planComplianceActions.getComplainceRules({
           rules: {
             data: response.data,
+            error: null,
           },
         }),
       );
     } else {
       yield put(
         planComplianceActions.getComplainceRules({
-          doctorDetail: {
+          rules: {
             error: Strings.errorFetchingComplianceRules,
           },
         }),

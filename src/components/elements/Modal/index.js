@@ -67,6 +67,7 @@ const CustomModal = ({
               title={primaryActionProps.actionTitle}
               mode={primaryActionProps.mode}
               onPress={primaryActionHandler}
+              contentStyle={primaryActionProps.btnStyle}
             />
           )}
         </View>

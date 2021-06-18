@@ -37,6 +37,7 @@ const DoctorTag = ({
         textColor={textColor}
         title={title}
         type={'bold'}
+        testID={`doctorTag-${title}-${division}-test`}
       />
     </View>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -18,6 +18,7 @@ import {DoctorDetails} from 'components/elements';
  * @param {Boolean} isKyc boolean value passed for KYC status
  * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
  * @param {Object} party party information is passed as an object
+ * @param {Boolean} isPartyInPatch is party is availble in patch
  */
 
 const DoctorDetailsWrapper = ({
@@ -34,12 +35,17 @@ const DoctorDetailsWrapper = ({
   isPatchedData,
   isKyc,
   containerStyle,
+  isSameDayPatch,
+  isPartyInPatch,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
-
-  const isDisabled = frequency === alreadyVisited;
+  const [count, setCount] = useState();
+  const isDisabled = !isSameDayPatch && frequency <= alreadyVisited;
+  const showTicked =
+    (selected && frequency > alreadyVisited) ||
+    (isSameDayPatch && selected && frequency <= alreadyVisited);
 
   /**
    *  Select and deselect the card ,also
@@ -47,16 +53,53 @@ const DoctorDetailsWrapper = ({
    * @param {Boolean} sel
    */
   const handleDoctorSelection = sel => {
-    if (frequency === alreadyVisited) {
-      return;
-    }
     onPress(id);
   };
+
+  useEffect(() => {
+    if (
+      frequency > alreadyVisited ||
+      (frequency === alreadyVisited && isSameDayPatch)
+    ) {
+      if (selected) {
+        setCount(count + 1);
+      }
+      if (!selected) {
+        setCount(count - 1);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
+
+  const getSelectedFrequency = () => {
+    if (isSameDayPatch && isPatchedData) {
+      setCount(alreadyVisited);
+    } else if (!isSameDayPatch && isPatchedData) {
+      if (selected && frequency !== alreadyVisited) {
+        setCount(alreadyVisited + 1);
+      } else {
+        setCount(alreadyVisited);
+      }
+    } else {
+      const countData = selected ? alreadyVisited + 1 : alreadyVisited;
+      setCount(countData);
+    }
+  };
+
+  useEffect(() => {
+    getSelectedFrequency();
+    // TO BE CALLED ONCE hence disabling dep hooks
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!isPartyInPatch && frequency <= alreadyVisited) {
+    return null;
+  }
 
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(party)}
+      onPress={() => handleDoctorSelection(!selected)}
       style={[styles.container, containerStyle, isDisabled && styles.disabled]}
       disabled={isDisabled}
       activeOpacity={1}>
@@ -66,8 +109,8 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={selected || false}
-        selectedVistedFrequency={selected ? alreadyVisited + 1 : alreadyVisited}
+        isTicked={showTicked || false}
+        selectedVistedFrequency={count}
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}

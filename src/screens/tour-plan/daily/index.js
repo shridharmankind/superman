@@ -33,7 +33,7 @@ const DailyTourPlan = () => {
    * Fetch parties list
    */
   useEffect(() => {
-    console.log("working 1");
+    console.log('working 1');
     dispatch(
       fetchDoctorDetailCreator({
         staffPositionid: 2,

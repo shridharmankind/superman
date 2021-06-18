@@ -6,9 +6,11 @@ import areaList from './api/areaList.json';
 import taskList from './api/tasks.json';
 import party from './api/party.json';
 import tourPlanMock from './api/tourPlan.json';
+import product from './api/priorityProduct.json';
 import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import monthlyConpliance from './api/monthlyCompliance.json';
+import planComplaince from './api/planComplaince.json';
+import docList from './api/searchDocList.json';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
@@ -81,7 +83,10 @@ const getMock = axios => {
     .reply(200, taskList);
   mock.onGet('/getSubordinates').reply(200, tourPlanMock.subOrdinates.u1);
   mock.onGet('user/me').reply(200, userInfo);
-  mock.onGet('Party/partyBySpId/1').reply(200, party);
+  mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
+  mock
+    .onGet('taskinfo/product?StaffPositionId=1&PartyId=1')
+    .reply(200, product);
   mock
     .onGet(`${API_PATH.PATCH}/1/parties`)
     .reply(200, patchesMock.getPartyByPatchId);
@@ -91,7 +96,12 @@ const getMock = axios => {
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
-  mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyConpliance);
+  mock.onGet(getMonthlyComplainceUrl()).reply(200, planComplaince);
+  mock
+    .onGet(
+      'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
+    )
+    .reply(200, docList);
 };
 
 export default getMock;

@@ -6,7 +6,7 @@ export const masterTablesDownLoadStatus = {
   properties: {
     name: 'string',
     status: 'string',
-    lastSync: 'date'
+    lastSync: 'date',
   },
   primaryKey: 'name',
 };
@@ -60,8 +60,8 @@ export const errorDetailsObject = {
   name: 'errorDetailsObject',
   properties: {
     errorCode: 'string',
-    message: 'string'
-  }
+    message: 'string',
+  },
 };
 
 export const syncErrorDetails = {
@@ -69,9 +69,9 @@ export const syncErrorDetails = {
   embedded: true,
   properties: {
     conflictType: 'string?',
-    errorMessage: 'string?'
-  }
-}
+    errorMessage: 'string?',
+  },
+};
 
 export const syncParameters = {
   name: Constants.MASTER_SYNC_PARAMETERS,
@@ -83,9 +83,9 @@ export const syncParameters = {
     lastModifiedOn: 'date',
     isDeleted: 'bool',
     errorInSync: 'bool',
-    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL
-  }
-};  
+    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL,
+  },
+};
 
 export const partyMaster = {
   name: Constants.MASTER_TABLE_PARTY,
@@ -102,7 +102,7 @@ export const partyMaster = {
     anniversary: 'string?',
     selfDispensing: 'bool',
     partyTypeId: 'int',
-    syncParameters : Constants.MASTER_SYNC_PARAMETERS,
+    syncParameters: Constants.MASTER_SYNC_PARAMETERS,
 
     partyTypes: Constants.MASTER_TABLE_PARTY_TYPES,
     areas: {
@@ -175,9 +175,10 @@ export const engagement = {
 };
 
 export {default as Qualifications} from './Qualifications';
-export {dailyMaster,
+export {
+  dailyMaster,
   dailyPlanActivityTypeDto,
   monthlyPlanStatusDetails,
   monthlyMaster,
-  dailyPlanNonActivityTypeDto
+  dailyPlanNonActivityTypeDto,
 } from './MonthlyPlan';

@@ -1,18 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {View,Button} from 'react-native';
+import {View, Button} from 'react-native';
 import {Card} from 'react-native-paper';
 
-import {Label,LabelVariant} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
-import {Helper,Constants as DBConstants,Operations,Schemas,getDBInstance} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Operations,
+  Schemas,
+  getDBInstance,
+} from 'database';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {translate} from 'locale';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
-import {syncInterval,syncFlexTime} from 'utils/backgroundTask';
-import { checkForPendingMasterDataDownload } from 'src/database/helper';
-
+import {syncInterval, syncFlexTime} from 'utils/backgroundTask';
+import {checkForPendingMasterDataDownload} from 'src/database/helper';
 
 const HomeLanding = ({navigation}) => {
   const [userName, setUserName] = useState('');
@@ -23,55 +28,53 @@ const HomeLanding = ({navigation}) => {
       const firstName = await Helper.getUserFirstName();
       firstName ? setUserName(firstName) : setUserName('');
     };
-    
-    
+
+    const fetchSyncTime = async () => {
+      let masterData = getDBInstance().objects(
+        Schemas.masterTablesDownLoadStatus.name,
+      );
+      setSyncListener(masterData);
+      masterData.forEach(modifiedData => {
+        if (modifiedData.name == DBConstants.APPLICATION_SYNC_STATUS) {
+          setSync(modifiedData);
+          return;
+        }
+      });
+      return;
+    };
+
     loadData();
     fetchSyncTime();
-    return () => {
-      masterData.removeAllListeners();
-    }
-  },[]);
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
-    console.log("Landing Screen")
+    console.log('Landing Screen');
     // SyncAdapter.syncImmediately({
     //   syncInterval,
     //   syncFlexTime,
     // });
-  },[]);
+  }, []);
 
-  const fetchSyncTime = async () => {
-    let masterData = getDBInstance().objects(Schemas.masterTablesDownLoadStatus.name);
-    setSyncListener(masterData);
-    masterData.forEach((modifiedData) => {
-      if(modifiedData.name == DBConstants.APPLICATION_SYNC_STATUS){
-        setSync(modifiedData);
-        return;
-      }
-    })
-    return;
-  }
-
-  const setSyncListener = (masterData) => {
-    masterData.addListener((masterData,changes) => {
-      changes.insertions.forEach((index) => {
+  const setSyncListener = masterData => {
+    masterData.addListener((masterData, changes) => {
+      changes.insertions.forEach(index => {
         const modifiedData = masterData[index];
         setSync(modifiedData);
       });
-      changes.modifications.forEach((index) => {
+      changes.modifications.forEach(index => {
         const modifiedData = masterData[index];
         setSync(modifiedData);
       });
-    })
-  }
-  
-  const setSync = (syncRecord) => {
-    if(syncRecord.name == DBConstants.APPLICATION_SYNC_STATUS){
+    });
+  };
+
+  const setSync = syncRecord => {
+    if (syncRecord.name == DBConstants.APPLICATION_SYNC_STATUS) {
       let date = getLocalTimeZone(syncRecord.lastSync);
       setLastSync(date);
     }
-  }
-
+  };
 
   const renderHeader = () => (
     <View style={styles.header}>
@@ -87,9 +90,14 @@ const HomeLanding = ({navigation}) => {
   const renderSidePanel = () => (
     <View style={styles.sidePanel}>
       <View style={styles.descContainer}>
-        <Label type="bold" size={14} title='Last Sync:'/>
-        <Label size={14} title={`${lastSync}`}/>
-        <Label style={styles.desc} type="bold" size={14} title="Upcoming Events" />
+        <Label type="bold" size={14} title="Last Sync:" />
+        <Label size={14} title={`${lastSync}`} />
+        <Label
+          style={styles.desc}
+          type="bold"
+          size={14}
+          title="Upcoming Events"
+        />
         <Label
           size={12}
           style={styles.desc}

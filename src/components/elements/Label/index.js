@@ -35,6 +35,7 @@ const Label = ({
     <Text
       testID={testID}
       numberOfLines={numberOfLines}
+      ellipsizeMode="tail"
       style={[
         size && {fontSize: size},
 

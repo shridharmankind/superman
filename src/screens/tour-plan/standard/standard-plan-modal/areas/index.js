@@ -2,7 +2,8 @@ import React, {useRef, useState} from 'react';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Area, Dropdown, Label, LabelVariant} from 'components/elements';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
+import {showToast, hideToast} from 'components/widgets/Toast';
 import themes from 'themes';
 import styles from './styles';
 
@@ -24,6 +25,7 @@ const Areas = ({
   handleDropDownValue,
   allPatches,
   isPatchedData,
+  partyInArea,
 }) => {
   const swiperRef = useRef(null);
   const [hideRightArrow, setHideRightArrow] = useState(false);
@@ -61,20 +63,55 @@ const Areas = ({
     return areas?.filter(val => val.id === area).length > 0;
   };
 
+  /** method to show toast confirmation for area deselection
+   * @param {String} val id for the area selected
+   */
+  const toastForConfirmation = val => {
+    showToast({
+      type: Constants.TOAST_TYPES.WARNING,
+      autoHide: false,
+      props: {
+        onPress: () => {
+          hideToast();
+        },
+        onClose: () => hideToast(),
+        heading: Strings.warning,
+        subHeading: Strings.areaSelectionConfirmation,
+        actionLeftTitle: Strings.yes,
+        onPressLeftBtn: () => handleConfirmation(val),
+        btnContainerStyle: styles.yesBtn,
+      },
+    });
+  };
+
+  /** method to handle confirmation for area deselection
+   * @param {String} val id for the area selected
+   */
+  const handleConfirmation = val => {
+    setAreaSelected(areaSelected.filter(item => item.id !== val));
+    onPress(val);
+    hideToast();
+  };
+
   /** function to handle and update state with area selected
    * @param {Number} val area id passed
    */
   const handleAreaSelected = val => {
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
-      setAreaSelected(areaSelected.filter(item => item.id !== val));
+      if (partyInArea(val) > 0) {
+        toastForConfirmation(val);
+      } else {
+        setAreaSelected(areaSelected.filter(item => item.id !== val));
+        onPress(val);
+      }
     } else {
       setAreaSelected([
         ...areaSelected,
         areaList.find(area => area.id === val),
       ]);
+      onPress(val);
     }
-    onPress(val);
   };
 
   /**function to render area component */

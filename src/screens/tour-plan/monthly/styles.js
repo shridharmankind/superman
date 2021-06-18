@@ -4,11 +4,9 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   dropDownsContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  tourPlanContainer: {
-    width: '90%',
-    alignItems: 'flex-start',
-  },
+  tourPlanContainer: {},
   myPlanContainer: {
     width: '10%',
     alignItems: 'flex-end',
@@ -62,6 +60,15 @@ const styles = StyleSheet.create({
   stpLegend: {
     paddingLeft: theme.spacing(56),
   },
+  congratsContent: {
+    marginVertical: theme.spacing(20),
+  },
+
+  actionButtonGroup: {
+    flexDirection: 'row',
+  },
+  saveBtn: {marginRight: theme.spacing(12)},
+  actionBtn: {width: 165.3},
 });
 
 export default styles;

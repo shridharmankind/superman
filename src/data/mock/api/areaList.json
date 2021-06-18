@@ -1,37 +1,47 @@
 [
   {
+    "id": 4,
+    "name": "Noida Sector 4",
+    "shortName": "Sec4"
+  },
+  {
+    "id": 10,
+    "name": "Noida Sector 9",
+    "shortName": "sec9"
+  },
+  {
+    "id": 11,
+    "name": "Noida Sector 10",
+    "shortName": "sec10"
+  },
+  {
+    "id": 12,
+    "name": "Noida Sector 11",
+    "shortName": "sec11"
+  },
+  {
     "id": 1,
-    "name": "Noida Sec-1",
-    "shortName": "Noida Sec-1"
+    "name": "Noida Sector 1",
+    "shortName": "Sec 1"
   },
   {
     "id": 2,
-    "name": "Noida Sec-2",
-    "shortName": "Noida Sec-2"
+    "name": "Noida Sector 2",
+    "shortName": "Sec 2"
   },
   {
-    "id": 3,
-    "name": "Noida Sec-3",
-    "shortName": "Noida Sec-3"
+    "id": 8,
+    "name": "Noida Sector 7",
+    "shortName": "sec7"
   },
   {
-    "id": 4,
-    "name": "Noida Sec-4",
-    "shortName": "Noida Sec-4"
+    "id": 9,
+    "name": "Noida Sector 8",
+    "shortName": "sec8"
   },
   {
-    "id": 5,
-    "name": "Noida Sec-5",
-    "shortName": "Noida Sec-5"
-  },
-  {
-    "id": 6,
-    "name": "Noida Sec-6",
-    "shortName": "Noida Sec-6"
-  },
-  {
-    "id": 7,
-    "name": "Noida Sec-7",
-    "shortName": "Noida Sec-7"
+    "id": 20,
+    "name": "Gurgaon Sec 3 ",
+    "shortName": "Gurgaon Sec 3"
   }
 ]

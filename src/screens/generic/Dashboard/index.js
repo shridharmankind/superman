@@ -5,6 +5,7 @@ import {
   BackHandler,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
@@ -17,13 +18,14 @@ import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
 import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
 import theme from 'themes';
-import {KeyChain} from 'helper';
+import {KeyChain, isWeb} from 'helper';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
-import {syncInterval,syncFlexTime} from 'utils/backgroundTask';
+import {syncInterval, syncFlexTime} from 'utils/backgroundTask';
 import {validateSearch} from 'screens/directory/helper';
+import NetInfo from '@react-native-community/netinfo';
 
 export const DashboardStack = createStackNavigator();
 
@@ -38,11 +40,23 @@ const Dashboard = ({navigation}) => {
   });
 
   const onSyncPress = () => {
-    console.log("[EVENT_GENERATED_FOREGROUND_TASK] ");
-    SyncAdapter.syncImmediately({
-      syncInterval,
-      syncFlexTime,
-    });
+    if(!isWeb()){
+      NetInfo.fetch().then(state => {
+        console.log('Connection type', state.type);
+        console.log('Is connected?', state.isConnected);
+        if (state.isConnected) {
+          console.log('[EVENT_GENERATED_FOREGROUND_TASK] ');
+          SyncAdapter.syncImmediately({
+            syncInterval,
+            syncFlexTime,
+          });
+        }
+        else{
+          console.log('Not connected work');
+        }
+      });
+    }
+    
   };
 
   const onActivePageChanged = (route, itemId) => {
@@ -50,6 +64,7 @@ const Dashboard = ({navigation}) => {
     if (itemId === LOGOUT_ITEM_ID) {
       showLogOffConfirmationDialog();
     } else {
+      closeSearchBar();
       route && navigation && navigation.navigate(route);
     }
   };
@@ -103,6 +118,13 @@ const Dashboard = ({navigation}) => {
   const openSearchBar = () => {
     updateVal(null);
     toggleSearch(true);
+  };
+
+  /* Function to close Search bar on clicking anywher
+  on the dashboard*/
+  const closeSearchBar = () => {
+    updateVal(null);
+    toggleSearch(false);
   };
 
   // Function to clear the input text
@@ -207,11 +229,13 @@ const Dashboard = ({navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
-      {renderSideMenu()}
-      {renderNavigator()}
-      {renderScreenActions()}
-    </View>
+    <TouchableWithoutFeedback onPress={closeSearchBar}>
+      <View style={styles.container}>
+        {renderSideMenu()}
+        {renderNavigator()}
+        {renderScreenActions()}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

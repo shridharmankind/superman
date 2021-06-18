@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {LogBox,  Alert} from 'react-native';
+import {LogBox, Alert} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -16,13 +16,12 @@ import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
 import SyncAdapter from 'react-native-sync-adapter';
-import {TASK_NAME,syncFlexTime,syncInterval} from './utils/backgroundTask';
-import * as BackgroundFetch from "expo-background-fetch";
+import {TASK_NAME, syncFlexTime, syncInterval} from './utils/backgroundTask';
+import * as BackgroundFetch from 'expo-background-fetch';
 import AsyncStorage from '@react-native-community/async-storage';
-import NetInfo from "@react-native-community/netinfo";
+import NetInfo from '@react-native-community/netinfo';
 
 BackgroundFetch.setMinimumIntervalAsync(60);
-
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -30,7 +29,7 @@ const App = () => {
   LogBox.ignoreAllLogs();
   const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
-  const [conn,setConn] = React.useState(false);
+  const [conn, setConn] = React.useState(false);
   setI18nConfig();
   useEffect(() => {
     //const unsubscribe = checkNetworkConnectivity();
@@ -40,52 +39,50 @@ const App = () => {
           SplashScreen.hide();
         });
       }, 2000);
-      
+
       syncBackgroundTaskOnStart();
       RegisterBackgroundTask();
     }
 
     return () => {
-      console.log("Unmount task in working");
+      console.log('Unmount task in working');
       //unsubscribe();
-      AsyncStorage.removeItem("BACKGROUND_TASK");
-    }
-  
+      AsyncStorage.removeItem('BACKGROUND_TASK');
+    };
   }, []);
 
   const checkNetworkConnectivity = () => {
-    try{
-        const netSubscribe = NetInfo.addEventListener(state => {
-          console.log("EventListerner Connection type", state.type);
-          console.log("EventListerner Is connected?", state.isConnected);
-          //setConn(state.isConnected);
-        });
+    try {
+      const netSubscribe = NetInfo.addEventListener(state => {
+        console.log('EventListerner Connection type', state.type);
+        console.log('EventListerner Is connected?', state.isConnected);
+        //setConn(state.isConnected);
+      });
 
-        return netSubscribe;
-      
-    } catch(err){
-        console.log("Network Connectivity Error ",err);
+      return netSubscribe;
+    } catch (err) {
+      console.log('Network Connectivity Error ', err);
     }
-  }
+  };
 
   const syncBackgroundTaskOnStart = () => {
-    console.log("App.js")
+    console.log('App.js');
     SyncAdapter.init({
       syncInterval,
       syncFlexTime,
     });
-  }
+  };
 
   const RegisterBackgroundTask = async () => {
     try {
-      await AsyncStorage.setItem("BACKGROUND_TASK","NOT_RUNNING");
+      await AsyncStorage.setItem('BACKGROUND_TASK', 'NOT_RUNNING');
       await BackgroundFetch.registerTaskAsync(TASK_NAME, {
         minimumInterval: 10000, // seconds,
-      })
+      });
     } catch (err) {
-      console.log("Task Register failed:", err)
+      console.log('Task Register failed:', err);
     }
-  }
+  };
 
   return (
     <Provider store={store}>
