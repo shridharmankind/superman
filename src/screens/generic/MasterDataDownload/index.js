@@ -22,7 +22,6 @@ import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
 import {NetworkService} from 'services';
 import {Routes} from 'navigations';
-import {DivisionSchemaName} from '../../../database/schemas/Divisions';
 
 const MasterDataDownload = ({navigation}) => {
   const progressBarSyncParam = 10 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
@@ -64,7 +63,7 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
-            case DivisionSchemaName:
+            case DBConstants.MASTER_TABLE_DIVISION:
               response = await NetworkService.get(item.apiPath);
               break;
           }
@@ -85,7 +84,7 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 break;
 
-              case DivisionSchemaName:
+              case DBConstants.MASTER_TABLE_DIVISION:
                 await Division.storeDivisions(JSON.parse(data));
                 break;
             }

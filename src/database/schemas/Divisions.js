@@ -1,4 +1,4 @@
-export const DivisionSchemaName = 'division';
+export const DivisionSchemaName = 'Divisions';
 
 export default class DivisionSchema {
   static schema = {
