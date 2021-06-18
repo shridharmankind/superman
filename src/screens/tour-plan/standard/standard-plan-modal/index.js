@@ -27,7 +27,7 @@ import {
 import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
-
+import PlanCompliance from 'screens/tourPlan/planCompliance';
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -129,6 +129,11 @@ const StandardPlanModal = ({
   const savePatchRes = useSelector(standardTourPlanSelector.savePatch());
 
   useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  /**mehtod to load the initial state of daily plan */
+  const loadData = useCallback(() => {
     dispatch(
       fetchPartiesCreator({
         staffPositionId,
@@ -375,7 +380,8 @@ const StandardPlanModal = ({
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
           } else {
-            setPatchValue(obj);
+            resetState();
+            loadData();
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
@@ -414,6 +420,8 @@ const StandardPlanModal = ({
       resetandChangePage,
       patchSelected,
       dispatch,
+      loadData,
+      resetState,
     ],
   );
 
@@ -431,9 +439,12 @@ const StandardPlanModal = ({
       setPatchError(null);
       setPatchRequest(obj);
       const isPatchOfSameDay = isSameDayPatch(patchValue);
+      const isAnyPartyExhausted = checkPartyExhausted(partyIds);
 
       if (!patchValue) {
         savePatch(obj);
+      } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
+        handleExhaustedParty(obj, isAnyPartyExhausted);
       } else if (patchValue && isPatchOfSameDay && dataChanged) {
         updatePatch(obj, patchValue.id, false);
       } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
@@ -455,6 +466,8 @@ const StandardPlanModal = ({
       dataChanged,
       isPatchedData,
       doctorsSelected,
+      checkPartyExhausted,
+      handleExhaustedParty,
     ],
   );
 
@@ -558,6 +571,63 @@ const StandardPlanModal = ({
     [showOverrideNotification],
   );
 
+  /**method to check if any party selected in a patch got exhausted
+   * @param {Array} ids selected doctors id passed as an Array
+   * @returns {Boolean} return Boolean if any party got exhausted
+   */
+  const checkPartyExhausted = useCallback(
+    ids => {
+      return partiesList.filter(
+        party =>
+          ids.indexOf(party.id) !== -1 &&
+          party.frequency <= party.alreadyVisited,
+      );
+    },
+    [partiesList],
+  );
+
+  /**method to handle done button in case of exhausted party
+   * @param {Object} obj request to pass as an object
+   * @param {Array} exhaustedParty list of exhausted party in an Array
+   */
+  const handleExhaustedParty = useCallback(
+    (obj, exhaustedParty) => {
+      const updatedPartyList = doctorsSelected.filter(
+        id => !exhaustedParty.some(par => par.id === id),
+      );
+      let message = null;
+      if (
+        exhaustedParty.length >= 1 &&
+        doctorsSelected.length > 1 &&
+        exhaustedParty.length !== doctorsSelected.length
+      ) {
+        setDoctorsSelected(updatedPartyList);
+        handleNoPress(obj, areaList, updatedPartyList, partiesList, patches);
+        message = Strings.frquecySlotExhausted;
+      } else if (
+        (exhaustedParty.length === 1 && doctorsSelected.length === 1) ||
+        exhaustedParty.length === doctorsSelected.length
+      ) {
+        setDoctorsSelected(updatedPartyList);
+        message = Strings.selectDocToCreatePatch;
+      }
+
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: false,
+        props: {
+          onPress: () => {
+            hideToast();
+          },
+          onClose: () => hideToast(),
+          heading: Strings.warning,
+          subHeading: message,
+        },
+      });
+    },
+    [areaList, doctorsSelected, handleNoPress, partiesList, patches],
+  );
+
   /**function to create new patch on databse if No button on override notification is pressed
    * @param {Object} obj request obj to update
    * @param {Array} areas errors as Array got while updating
@@ -646,12 +716,20 @@ const StandardPlanModal = ({
    */
   const handleDoctorCardPress = id => {
     const indexAvailable = doctorsSelected?.some(party => party === id);
-
+    let selected = null;
     if (indexAvailable) {
-      setDoctorsSelected(doctorsSelected?.filter(party => party !== id));
+      selected = doctorsSelected?.filter(party => party !== id);
     } else {
-      setDoctorsSelected([...doctorsSelected, id]);
+      selected = [...doctorsSelected, id];
     }
+    setDoctorsSelected(selected);
+    const string = createPatchString(
+      areaSelected,
+      selected,
+      partiesList,
+      patches,
+    );
+    setPatchDefaultValue(string);
     if (!isSameDayPatch(patchValue)) {
       setIsPatchedData(false);
     }
@@ -846,7 +924,7 @@ const StandardPlanModal = ({
             mode="contained"
             title={Strings.done}
             uppercase={true}
-            disabled={!patchSelected || false}
+            disabled={!patchSelected || !dataChanged || false}
             contentStyle={styles.doneBtn}
             onPress={() => handleDonePress(doctorsSelected)}
           />
@@ -869,6 +947,7 @@ const StandardPlanModal = ({
             handleDropDownValue={handleDropDownValue}
             isPatchedData={isPatchedData}
             allPatches={allPatches}
+            partyInArea={id => getSelectedPartyByArea(id)}
           />
           <View style={styles.doctorDetailsContainer}>
             <View>
@@ -909,6 +988,7 @@ const StandardPlanModal = ({
                 partiesList={partiesList}
                 selectedDoctorType={selectedDoctorType}
                 patchValue={patchValue}
+                allPartiesByPatchID={allPartiesByPatchID}
                 isSameDayPatch={isSameDayPatch(patchValue)}
               />
               <View styles={styles.bottom}>
@@ -931,7 +1011,12 @@ const StandardPlanModal = ({
           </View>
         </View>
         <View style={styles.rightContent}>
-          <Label variant={LabelVariant.h4} title={Strings.planCompliance} />
+          <Label
+            variant={LabelVariant.h4}
+            title={Strings.planCompliance}
+            style={styles.planComplainceLabel}
+          />
+          <PlanCompliance />
         </View>
       </View>
     </ScrollView>

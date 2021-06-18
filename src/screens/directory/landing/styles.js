@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import theme from 'themes';
 const styles = StyleSheet.create({
   tabBarContainer: {
@@ -36,27 +36,27 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing(16),
     marginLeft: theme.spacing(57.3),
   },
-  listBody: { maxHeight: 500 },
+  listBody: {maxHeight: 500},
   division: {
     width: '23%',
     fontSize: 10.7,
     fontFamily: theme.fonts.fontSemiBold,
     color: theme.colors.grey[1600],
-    marginRight:theme.spacing(10),
+    marginRight: theme.spacing(10),
   },
-  colwidth:{
-    width:'19%'
+  colwidth: {
+    width: '19%',
   },
   doctorDataRow: {
     flexDirection: 'row',
     paddingLeft: theme.spacing(57.3),
     paddingTop: theme.spacing(30),
-    paddingBottom:theme.spacing(13.3),
-    shadowColor: "#000",
-    shadowOpacity: 0.10,
+    paddingBottom: theme.spacing(13.3),
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
     elevation: 1,
     alignItems: 'center',
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: theme.colors.grey[1000],
   },
   dataStyle: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.grey[200],
     width: '19%',
-    marginRight:theme.spacing(10),
+    marginRight: theme.spacing(10),
   },
   docImage: {
     width: 26.7,
@@ -76,14 +76,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing(8),
     width: 155,
     height: 35,
-    alignSelf:'flex-end',
+    alignSelf: 'flex-end',
   },
   eDetailbuttonLayout: {
     marginRight: theme.spacing(8),
     paddingHorizontal: theme.spacing(8),
     width: 80,
     height: 35,
-    alignSelf:'flex-end'
+    alignSelf: 'flex-end',
   },
   scrollPad: {
     paddingRight: theme.spacing(10),
@@ -96,22 +96,21 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing(4),
     marginRight: theme.spacing(5),
   },
-  kycCatContainer:{
+  kycCatContainer: {
     position: 'absolute',
-     top:0,
-     left:0,
-     flexDirection:'row'
+    top: 0,
+    left: 0,
+    flexDirection: 'row',
   },
-  btnContent:{
-    textAlign:'center'
+  btnContent: {
+    textAlign: 'center',
   },
-  btnsContainer:{
-    flexDirection:'row',
-    justifyContent:'flex-end',
-    alignItems:'flex-end',
-    width:'35%',
+  btnsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    width: '35%',
   },
-
 });
 
 export default styles;

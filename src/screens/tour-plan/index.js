@@ -7,16 +7,20 @@ export {default as Schedule} from './schedule';
 export {default as MonthlyTourPlan} from './monthly';
 export {default as DailyTourPlan} from './daily';
 export {default as PlanCompliance} from './planCompliance';
+export {default as TourPlanSidePanel} from './sidePanel';
 
 import React from 'react';
-
 import Schedule from './schedule';
+import TourPlanSidePanel from './sidePanel';
 import {ContentWithSidePanel} from 'components/layouts';
-import PlanCompliance from 'screens/tourPlan/planCompliance';
 
+/**
+ * @param {Object} navigation
+ * @returns  Tour planning component conatiner
+ */
 const TourPlanning = ({navigation}) => {
   return (
-    <ContentWithSidePanel sidePanel={<PlanCompliance />}>
+    <ContentWithSidePanel sidePanel={<TourPlanSidePanel />}>
       <Schedule navigation={navigation} />
     </ContentWithSidePanel>
   );

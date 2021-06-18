@@ -144,10 +144,6 @@ const Strings = {
   beginJourney: "Let's begin your journey",
   successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
-  minimum: 'minimum',
-  maximum: 'maximum',
-  doctorVisitsPerDay: 'doctor visits per day',
-  chemistVisitsPerDay: 'chemists visits per day',
   tourPlanRules: 'Monthly tour plan rules',
   exStation: 'Ex',
   patchExhaustedForParty:
@@ -164,10 +160,10 @@ const Strings = {
       region: 'REGION',
     },
     noResult: 'No Records found',
-    btns:{
-      addTodayPlan:"Add to Today's Plan",
-      startEdetail:"eDetail" 
-    }
+    btns: {
+      addTodayPlan: "Add to Today's Plan",
+      startEdetail: 'eDetail',
+    },
   },
   searchBar: {
     errors: {
@@ -179,11 +175,33 @@ const Strings = {
       clear: 'Clear',
       continue: 'Continue',
     },
-    searchPlaceholder:'Search Doctors Here'
+    searchPlaceholder: 'Search Doctors Here',
   },
   areaSelectionConfirmation:
     'The selections done by you will be lost. Do you want to proceed?',
   warning: 'Warning',
+  monthlyActions: {
+    save: 'Save',
+    submitSTP: 'Submit STP',
+  },
+  planComplaince: {
+    dr: 'Doctor',
+    minimum: 'minimum',
+    maximum: 'maximum',
+    doctorVisitsPerDay: 'doctor visits per day',
+    chemistVisitsPerDay: 'chemists visits per day',
+    daysGap: 'days',
+    minGap: 'minimum gap',
+    drCovered: 'Doctors covered',
+    chCovered: 'Chemist covered',
+    outStationPerMonth: 'Out-station visits per month',
+    exStationPerMonth: 'Ex-station visits per month',
+    areaCovered: 'areas covered',
+    frequencyMet: 'frequency met',
+  },
+  frquecySlotExhausted:
+    'Frequency slots for few doctors has been exhausted, a new patch name has been created',
+  selectDocToCreatePatch: 'Please select any doctor to create a patch.',
 };
 
 export default Strings;

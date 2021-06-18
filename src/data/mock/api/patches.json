@@ -2,15 +2,68 @@
   "getPatches": [
     {
       "id": 1,
-      "displayName": "Party1",
-      "defaultName": "Noida Sec-1",
-      "usedOn": [{"year": 2021, "weekDay": "Monday", "week": 1}]
+      "displayName": "Noida Sector 1 (1)",
+      "defaultName": "Noida Sector 1 (1)",
+      "week": 0,
+      "weekDay": null,
+      "year": 0,
+      "usedOn": [
+        {
+          "week": 1,
+          "weekDay": "Monday",
+          "year": 2021
+        }
+      ]
     },
     {
-      "id": 2,
-      "displayName": "Party3",
-      "defaultName": "Noida Sec-2",
-      "usedOn": [{"year": 2021, "weekDay": "Monday", "week": 2}]
+      "id": 263,
+      "displayName": "asaaqw",
+      "defaultName": "Noida Sector 10 (2)",
+      "week": 0,
+      "weekDay": null,
+      "year": 0,
+      "usedOn": [
+        {
+          "week": 2,
+          "weekDay": "Monday",
+          "year": 2021
+        }
+      ]
+    },
+    {
+      "id": 276,
+      "displayName": "Noida Sector 9 + Noida Sector 10 (2)",
+      "defaultName": "Noida Sector 9 (1)",
+      "week": 0,
+      "weekDay": null,
+      "year": 0,
+      "usedOn": [
+        {
+          "week": 2,
+          "weekDay": "Wednesday",
+          "year": 2021
+        },
+        {
+          "week": 2,
+          "weekDay": "Friday",
+          "year": 2021
+        }
+      ]
+    },
+    {
+      "id": 277,
+      "displayName": "Noida Sector 10 (1)",
+      "defaultName": "Noida Sector 10 (2)",
+      "week": 0,
+      "weekDay": null,
+      "year": 0,
+      "usedOn": [
+        {
+          "week": 2,
+          "weekDay": "Thursday",
+          "year": 2021
+        }
+      ]
     }
   ],
   "validate": {
@@ -59,5 +112,7 @@
     "week": 1,
     "weekDay": "Monday"
   },
-  "getPartyByPatchId": [1, 2, 3]
+  "getPartyByPatchId": [
+    13
+  ]
 }
