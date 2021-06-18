@@ -72,9 +72,13 @@ const StandardPlanModal = ({
    */
   const handleIndex = useCallback(
     async direction => {
-      if (patchSelected && dataChanged && !savePatchRes) {
+      if (
+        patchSelected &&
+        dataChanged &&
+        !savePatchRes &&
+        doctorsSelected.length > 0
+      ) {
         setSwipeDirection(direction);
-
         handleDonePress(doctorsSelected);
       } else {
         resetandChangePage(direction, dataChanged);
