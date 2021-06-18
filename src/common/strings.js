@@ -199,6 +199,9 @@ const Strings = {
     areaCovered: 'areas covered',
     frequencyMet: 'frequency met',
   },
+  frquecySlotExhausted:
+    'Frequency slots for few doctors has been exhausted, a new patch name has been created',
+  selectDocToCreatePatch: 'Please select any doctor to create a patch.',
 };
 
 export default Strings;
