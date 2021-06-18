@@ -20,6 +20,7 @@ import {TASK_NAME,syncFlexTime,syncInterval} from './utils/backgroundTask';
 import * as BackgroundFetch from "expo-background-fetch";
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from "@react-native-community/netinfo";
+
 BackgroundFetch.setMinimumIntervalAsync(60);
 
 
@@ -57,7 +58,7 @@ const App = () => {
         const netSubscribe = NetInfo.addEventListener(state => {
           console.log("EventListerner Connection type", state.type);
           console.log("EventListerner Is connected?", state.isConnected);
-          setConn(state.isConnected);
+          //setConn(state.isConnected);
         });
 
         return netSubscribe;

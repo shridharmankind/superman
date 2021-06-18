@@ -39,8 +39,7 @@ const MasterDataDownload = ({navigation}) => {
           const record = await Operations.getRecord(
             Schemas.masterTablesDownLoadStatus,
             item.name,
-          );
-          //console.log('level 1')  
+          );  
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
@@ -60,6 +59,11 @@ const MasterDataDownload = ({navigation}) => {
             Alert.alert(Strings.info, response);
           }
         }
+        await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
+          name: DBConstants.APPLICATION_SYNC_STATUS,
+          status: DBConstants.downloadStatus.DOWNLOADED,
+          lastSync: new Date()
+        });
         navigation.reset({
           routes: [{name: Routes.ROUTE_DASHBOARD}],
         });
@@ -90,7 +94,6 @@ const MasterDataDownload = ({navigation}) => {
         );
         break;
       case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
-        console.log("start");
         await MonthlyPlan.createMonthlyMasterRecord(
           item.schema,
           JSON.parse(data),
@@ -99,29 +102,33 @@ const MasterDataDownload = ({navigation}) => {
     }
   }
   const getAPIResponse = async (item) => {
-    let response;
-    switch (item.name) {
-      case DBConstants.MASTER_TABLE_USER_INFO:
-        response = await NetworkService.get(item.apiPath);
-        break;
-      case DBConstants.MASTER_TABLE_PARTY:
-        {
-          const staffPositionId = await Helper.getStaffPositionId();
-          response = await NetworkService.get(
-            `${item.apiPath}${staffPositionId}`,
-          );
-        }
-        break;
-      case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
-        {
-          const staffPositionId = await Helper.getStaffPositionId();
-          response = await NetworkService.get(
-            `${item.apiPath}2`,
-          );
-        } 
-        break;   
+    try{
+      let response;
+      switch (item.name) {
+        case DBConstants.MASTER_TABLE_USER_INFO:
+          response = await NetworkService.get(item.apiPath);
+          break;
+        case DBConstants.MASTER_TABLE_PARTY:
+          {
+            const staffPositionId = await Helper.getStaffPositionId();
+            response = await NetworkService.get(
+              `${item.apiPath}${staffPositionId}`,
+            );
+          }
+          break;
+        case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+          {
+            const staffPositionId = await Helper.getStaffPositionId();
+            response = await NetworkService.get(
+              `${item.apiPath}2`,
+            );
+          } 
+          break;   
+      }
+      return response;
+    }catch(err){
+      console.log("getAPIResponse", err);
     }
-    return response;
   }
 
   const initMasterTablesDownloadStatus = async () => {

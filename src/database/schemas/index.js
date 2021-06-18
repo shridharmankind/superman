@@ -68,8 +68,8 @@ export const syncErrorDetails = {
   name: Constants.MASTER_SYNC_ERROR_DETAIL,
   embedded: true,
   properties: {
-    conflictType: 'string',
-    errorMessage: 'string'
+    conflictType: 'string?',
+    errorMessage: 'string?'
   }
 }
 

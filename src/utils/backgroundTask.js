@@ -1,13 +1,17 @@
 import * as BackgroundFetch from "expo-background-fetch"
 import * as TaskManager from "expo-task-manager";
 import AsyncStorage from '@react-native-community/async-storage';
-import {fetchPreviouslyUpdatedData } from './../database/syncActions/syncPartyTable';
+import {syncTableTask} from '../database/syncActions/syncTableActions';
 import {KeyChain} from 'helper';
 import {showToast, hideToast} from '../components/widgets/Toast';
 
 export const TASK_NAME = "BACKGROUND_TASK";
-export const syncInterval = 60; // 1 minute
-export const syncFlexTime = 15; // 15 seconds
+export const syncInterval = 120; // 2 minute
+export const syncFlexTime = 120; // 2 minutes
+
+const SUCCESS = "SUCCESS";
+const FAILURE = "FAILURE";
+const CONFLICT = "CONFLICT";
 
 export const setWorkingAsyncStorage = async () => {
     const getAsyncValue = await AsyncStorage.getItem("BACKGROUND_TASK");
@@ -69,11 +73,16 @@ export const TestTask = async () => {
 
 export const runTask = async () => {
     try{
-        const result = await fetchPreviouslyUpdatedData();
-        console.log("result",result);
-        if(result){
+        let resultArray = [];
+        await syncTableTask()
+        .then((result) => {
+            console.log("final Result ",result);
+            resultArray = result;
+        })
+        console.log("resultArray ",resultArray);
+        if(resultArray.includes(CONFLICT)){
             showToast({
-                type: 'success',
+                type: 'warning',
                 autoHide: true,
                 props: {
                 onPress: () => {
@@ -81,11 +90,11 @@ export const runTask = async () => {
                 },
                 onClose: () => hideToast(),
                 heading: 'Sync Activity',
-                subHeading: 'Successfully completed Sync.'
+                subHeading: 'Sync Activity have conflicts'
                 },
             });
         }
-        else{
+        else if(resultArray.includes(FAILURE)){
             showToast({
                 type: 'warning',
                 autoHide: true,
@@ -96,6 +105,20 @@ export const runTask = async () => {
                   onClose: () => hideToast(),
                   heading: 'Sync Activity',
                   subHeading: 'Sync Activity Failed'
+                },
+            }); 
+        }
+        else{
+            showToast({
+                type: 'success',
+                autoHide: true,
+                props: {
+                  onPress: () => {
+                    hideToast();
+                  },
+                  onClose: () => hideToast(),
+                  heading: 'Sync Activity',
+                  subHeading: 'Sync Activity Completed'
                 },
             });
         }    

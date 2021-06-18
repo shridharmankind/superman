@@ -5,12 +5,13 @@ import {Card} from 'react-native-paper';
 import {Label,LabelVariant} from 'components/elements';
 import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
-import {Helper,Constants as DBConstants,Operations,Schemas} from 'database';
+import {Helper,Constants as DBConstants,Operations,Schemas,getDBInstance} from 'database';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {translate} from 'locale';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
 import {syncInterval,syncFlexTime} from 'utils/backgroundTask';
+import { checkForPendingMasterDataDownload } from 'src/database/helper';
 
 
 const HomeLanding = ({navigation}) => {
@@ -22,37 +23,55 @@ const HomeLanding = ({navigation}) => {
       const firstName = await Helper.getUserFirstName();
       firstName ? setUserName(firstName) : setUserName('');
     };
-    const fetchSyncTime = async () => {
-      let schemaName = Helper.MASTER_TABLES_DETAILS[1].name;
-      const record = await Operations.getRecord(
-        Schemas.masterTablesDownLoadStatus,
-        schemaName,
-      ); 
-      if (record?.status === DBConstants.downloadStatus.PENDING) {
-        setLastSync(`--:--:--`);
-      }
-      else if(record != undefined){
-        let date = getLocalTimeZone(record.lastSync);
-        setLastSync(date);
-      }
-      return;
-    }
+    
+    
     loadData();
     fetchSyncTime();
-    setTimeout(() => {
-      fetchSyncTime();
-    },5000);
-    
+    return () => {
+      masterData.removeAllListeners();
+    }
   },[]);
   
   useEffect(() => {
     console.log("Landing Screen")
-    SyncAdapter.syncImmediately({
-      syncInterval,
-      syncFlexTime,
-    });
+    // SyncAdapter.syncImmediately({
+    //   syncInterval,
+    //   syncFlexTime,
+    // });
   },[]);
+
+  const fetchSyncTime = async () => {
+    let masterData = getDBInstance().objects(Schemas.masterTablesDownLoadStatus.name);
+    setSyncListener(masterData);
+    masterData.forEach((modifiedData) => {
+      if(modifiedData.name == DBConstants.APPLICATION_SYNC_STATUS){
+        setSync(modifiedData);
+        return;
+      }
+    })
+    return;
+  }
+
+  const setSyncListener = (masterData) => {
+    masterData.addListener((masterData,changes) => {
+      changes.insertions.forEach((index) => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+      changes.modifications.forEach((index) => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+    })
+  }
   
+  const setSync = (syncRecord) => {
+    if(syncRecord.name == DBConstants.APPLICATION_SYNC_STATUS){
+      let date = getLocalTimeZone(syncRecord.lastSync);
+      setLastSync(date);
+    }
+  }
+
 
   const renderHeader = () => (
     <View style={styles.header}>

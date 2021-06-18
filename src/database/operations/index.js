@@ -6,6 +6,7 @@ import {sha512} from 'react-native-sha512';
 
 import {KeyChain} from 'helper';
 import {getDBInstance} from 'database';
+import {generateUUID} from './common';
 
 let realm = null;
 
@@ -61,7 +62,9 @@ export const updateRecord = async (schema, updatedvalue, idToUpdate,lastSync = n
       let recordToUpdate = realm.objectForPrimaryKey(schema.name, idToUpdate);
       recordToUpdate.status = updatedvalue;
       recordToUpdate.lastSync = lastSync
+      console.log("recordToUpdate ",recordToUpdate);
     });
+    return;
   } catch (error) {
     console.log('updateRecord', error);
   }
@@ -240,54 +243,10 @@ export const updatePartyMasterRecord = async (schema , data) => {
   }
 }
 
-export const createMonthlyMasterRecord = async (schema,data) => {
-  try{
-    await openSchema();
-    let dailyPlannedActivity;
-    let syncErrorDetailsObject = {
-      conflictType: 'null',
-      errorMessage: 'null'
-    }
-    let syncParametersObject = {
-        devicePartyId: null,
-        isActive: true,
-        requireSync: false,
-        lastModifiedOn: new Date(),
-        isDeleted: false,
-        errorInSync: false,
-        syncErrorDetails: syncErrorDetailsObject
-    }
-    await realm.write(() => {
-      data.forEach((object) => { 
-        let statusDetail = object.status
-        
-        let monthlyPlan = realm.create(
-          schema[0].name,
-          {
-            id: object.id,
-            staffPositionId: object.staffPositionId,
-            year: object.year,
-            month: object.month,
-            statusId: object.statusId,
-            isLocked: object.isLocked,
-            status: statusDetail,
-            syncParameters: syncParametersObject
-          },
-          'modified'
-        );
-        object.dailyPlannedActivities?.forEach((dailyPlan) => {
-          let obj = { ...dailyPlan, syncParameters: syncParametersObject};
-          dailyPlannedActivity = realm.create(schema[1].name,obj,'modified');
-          monthlyPlan.dailyPlannedActivities.push(dailyPlannedActivity);
-        }); 
-      }); //data.foreach ends here
-    }) //realm.write ends here
-  }
-  catch(err){
-    console.log("createMonthlyMasterRecord ",err);
-  }
-}
-
+var d1 = new Date (),
+d2 = new Date ( d1 );
+d2.setMinutes ( d1.getMinutes() + 30 );
+console.log(d2);
 
 export const createPartyMasterRecord = async (schema, data) => {
   try {
@@ -321,8 +280,8 @@ export const createPartyMasterRecord = async (schema, data) => {
             devicePartyId: null,
             isActive: true,
             requireSync: (index % 3 == 0) ? true : false,
-            lastModifiedOn: new Date(),
-            isDeleted: (index % 5 == 0) ? true : false,
+            lastModifiedOn: (index % 3 == 0) ? d2 : new Date(),
+            isDeleted: false,
             errorInSync: false,
             syncErrorDetails: syncErrorDetailsObject
         }
@@ -334,14 +293,14 @@ export const createPartyMasterRecord = async (schema, data) => {
           {
             id: object.id,
             partyTypeId: object.partyTypeId,
-            shortName: (index % 3 == 0) ? object.name: `${object.shortName}`,
+            shortName: object.shortName,
             name: object.name ,
             qualification: object.qualification,
             frequency: object.frequency,
             category: object.category,
             potential: object.potential,
             isKyc: object.isKyc,
-            syncParameters: syncParametersObject,
+            syncParameters: object.syncParameters != null ?  object.syncParameters : syncParametersObject,
             partyTypes: partyTypes,
             alreadyVisited: object.alreadyVisited,
             shortName: object.shortName,
@@ -411,7 +370,7 @@ export async function insertPartyTableData(schema,id){
           devicePartyId: generateUUID(),
           isActive: true,
           requireSync: true,
-          lastModifiedOn: new Date(),
+          lastModifiedOn: d2,
           isDeleted: false,
           errorInSync: false,
           syncErrorDetails: syncErrorDetailsObject
@@ -459,21 +418,7 @@ export async function insertPartyTableData(schema,id){
   });
 }
 
-function generateUUID() { // Public Domain/MIT
-  var d = new Date().getTime();//Timestamp
-  var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16;//random number between 0 and 16
-      if(d > 0){//Use timestamp until depleted
-          r = (d + r)%16 | 0;
-          d = Math.floor(d/16);
-      } else {//Use microseconds since page-load if supported
-          r = (d2 + r)%16 | 0;
-          d2 = Math.floor(d2/16);
-      }
-      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-  });
-}
+
 
 let dummyPartyData = {
   "syncParameters": {
@@ -488,15 +433,15 @@ let dummyPartyData = {
       "errorMessage": "null"
     }
   },
-  "id":-1,
-  "name": `KESH RAUT`,
+  "id":-2,
+  "name": `NIK KUMAR`,
   "specialities": [],
   "qualifications": [],
   "frequency": 2,
   "alreadyVisited": 0,
   "partyTypes": {
-    "id": 2,
-    "name": "Chemist",
+    "id": 1,
+    "name": "Doctor",
     "shortName": "Che",
     "partyTypeGroup": {
       "id": 2,
@@ -525,7 +470,7 @@ let dummyPartyData = {
   "engagement": null,
   "selfDispensing": false,
   "staffPositionId": 1,
-  "partyTypeId": 2
+  "partyTypeId": 1
 };
 export {default as qualificationOperations} from './qualificationOperations';
 export {default as monthlyPlanOperations} from './MonthlyPlanOperations';

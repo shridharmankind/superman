@@ -13,6 +13,8 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_PARTY,
     apiPath: Constants.MASTER_TABLE_PARTY_API_PATH,
+    syncApiPath: Constants.MASTER_TABLE_PARTY_SYNC_API_PATH,
+    syncParam: Constants.MASTER_TABLE_PARTY_SYNC_PARAM,
     schema: [
       Schemas.partyMaster,
       Schemas.specialities,
@@ -26,6 +28,8 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_MONTHLY_TABLE_PLAN,
     apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
+    syncApiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_SYNC_API_PATH,
+    syncParam: Constants.MASTER_MONTHLY_TABLE_SYNC_PARAM,
     schema: [
       MonthlyPlanSchema.monthlyMaster,
       MonthlyPlanSchema.dailyMaster,

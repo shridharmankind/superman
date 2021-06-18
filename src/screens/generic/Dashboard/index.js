@@ -183,7 +183,7 @@ const Dashboard = ({navigation}) => {
         <NotificationIcon height={21.3} width={21.3} />
       </View>
       <View style={[styles.action, styles.actionPadding]}>
-        <RefreshIcon height={21.3} width={21.3} onPress={() => onSyncPress()} />
+        <RefreshIcon height={21.3} width={21.3} onPress={onSyncPress} />
       </View>
     </View>
   );

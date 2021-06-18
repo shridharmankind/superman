@@ -9,7 +9,6 @@ export {Operations, Helper, Schemas, Constants};
 
 const path = 'superman.realm';
 const schemaVersion = 0;
-console.log(Schemas);
 const dbInstance = new Realm({
   path,
   schema: [
