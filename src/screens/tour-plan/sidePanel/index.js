@@ -36,6 +36,9 @@ const TourPlanSidePanel = () => {
     );
   };
 
+  /**
+   * Effect to update selected tour plan
+   */
   useEffect(() => {
     setIsStandardTourPlanSelected(
       selectedPlanOption && selectedPlanOption?.id === 1,
