@@ -64,9 +64,7 @@ const DailyTourPlan = () => {
    * set parties list in state
    */
   useEffect(() => {
-    if (Array.isArray(allDoctorDetail) && allDoctorDetail?.length > 0) {
-      setDayPlanData(allDoctorDetail);
-    }
+    setDayPlanData(allDoctorDetail);
   }, [allDoctorDetail]);
 
   const [visible, setVisible] = useState(false);
