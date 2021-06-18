@@ -1,4 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
+import {NetworkService} from 'services';
+
 import userMock from './api/doctors.json';
 import stpMock from './api/standardTourPlan.json';
 import patchesMock from './api/patches.json';
@@ -9,10 +11,13 @@ import tourPlanMock from './api/tourPlan.json';
 import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import monthlyConpliance from './api/monthlyCompliance.json';
+import qualificationPerDivision from './api/masterDataDownload/qualificationsPerDivision.json';
 
 import {partiesMock} from './api/parties.js';
-import {API_PATH} from 'screens/tour-plan/apiPath';
 import stpData from './api/stpData.js';
+
+import {API_PATH} from 'screens/tour-plan/apiPath';
+
 const getPartiesUrl = () => {
   const valueMap = {
     staffpositionid: 2,
@@ -92,6 +97,14 @@ const getMock = axios => {
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
   mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyConpliance);
+
+  // master data download
+  const qualificationsPerDivisionsAPI = new RegExp(
+    `${NetworkService.API.FETCH_QUALIFICATIONS_PER_DIVISION}?divisionId=*`,
+  );
+  mock
+    .onGet(qualificationsPerDivisionsAPI)
+    .reply(200, qualificationPerDivision);
 };
 
 export default getMock;

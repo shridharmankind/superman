@@ -36,6 +36,16 @@ const MasterDataDownload = ({navigation}) => {
     }, 3000);
 
     const fetchData = async () => {
+      const onDownloadError = error => {
+        console.log('DB error downloading master data', error);
+      };
+
+      const onDownloadComplete = () => {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
+      };
+
       try {
         await initMasterTablesDownloadStatus();
 
@@ -47,25 +57,31 @@ const MasterDataDownload = ({navigation}) => {
           );
         };
 
-        // eslint-disable-next-line no-unused-vars
-        const onDownloadError = () => {};
-
-        const onDownloadComplete = () => {
-          navigation.reset({
-            routes: [{name: Routes.ROUTE_DASHBOARD}],
-          });
-        };
-
-        const fetchQualificationsPerDivision = async qualificationInfo => {
+        const fetchQualificationsPerDivision = qualificationInfo => {
           const {name, apiPath} = qualificationInfo;
-          const response = await NetworkService.get(apiPath);
+          // const divisions = Divisions.getAllDivisions(); // TODO enable
+          const divisions = [{id: 2}];
+          let failedToSaveQualifications = false;
 
-          if (response.status === Constants.HTTP_OK) {
-            const {data} = response;
-            const recordsUpdated =
-              await Qualifications.storeQualificationsPerDivision(data);
-            recordsUpdated && updateRecordDownloaded(name);
-          }
+          divisions.forEach(async division => {
+            const response = await NetworkService.get(
+              `${apiPath}?divisionId=${division?.id}`,
+            );
+
+            if (response.status === Constants.HTTP_OK) {
+              const {data} = response;
+              const recordsUpdated =
+                await Qualifications.storeQualificationsPerDivision(data);
+
+              if (!recordsUpdated) {
+                failedToSaveQualifications = true;
+              }
+            } else {
+              failedToSaveQualifications = true;
+            }
+          });
+
+          !failedToSaveQualifications && updateRecordDownloaded(name);
         };
 
         for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
@@ -95,7 +111,7 @@ const MasterDataDownload = ({navigation}) => {
               fetchQualificationsPerDivision(item);
               break;
           }
-          if (response.status === Constants.HTTP_OK) {
+          if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
             switch (item.name) {
               case DBConstants.MASTER_TABLE_USER_INFO:
@@ -103,6 +119,7 @@ const MasterDataDownload = ({navigation}) => {
                   item.schema,
                   JSON.parse(data),
                 );
+                updateRecordDownloaded(item.name);
                 break;
 
               case DBConstants.MASTER_TABLE_PARTY:
@@ -110,23 +127,21 @@ const MasterDataDownload = ({navigation}) => {
                   item.schema,
                   JSON.parse(data),
                 );
+                updateRecordDownloaded(item.name);
                 break;
             }
-            await Operations.updateRecord(
-              Schemas.masterTablesDownLoadStatus,
-              DBConstants.downloadStatus.DOWNLOADED,
-              item.name,
-            );
+
             if (i % progressBarSyncParam === 0) {
               setProgress(prevProgress => prevProgress + 0.1);
             }
           } else {
             // TODO error handling -> while downloading data for item.name
+            onDownloadError(item.name);
           }
         }
         onDownloadComplete();
       } catch (error) {
-        // TODO error handling -> while downloading data for item.name
+        onDownloadError(error);
       }
     };
     fetchData();
@@ -149,7 +164,7 @@ const MasterDataDownload = ({navigation}) => {
         });
       });
     } catch (error) {
-      console.log('initMasterTablesDownloadStatus', error);
+      console.log('DB initMasterTablesDownloadStatus', error);
     }
   };
 

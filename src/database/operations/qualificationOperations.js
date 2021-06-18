@@ -2,24 +2,22 @@ import {QualificationsSchemaName} from '../schemas/Qualifications';
 import {getAllTableRecords} from './common';
 
 export default dbInstance => ({
-  storeQualificationsPerDivision: async data => {
-    let recordsUpdated = false;
+  storeQualificationsPerDivision: async qualifications => {
+    let recordsUpdated = true;
+
     try {
-      const qualifications = dbInstance.create(
-        QualificationsSchemaName,
-        {
-          id: data.id,
-          // other data
-        },
-        true,
-      );
-
-      // loop and create child table rows
-      // qualifications.childData.push(child);
-      // data.someChildData.forEach()
-
-      recordsUpdated = true;
-    } catch (err) {}
+      await dbInstance.write(() => {
+        qualifications.forEach(qualification => {
+          dbInstance.create(
+            QualificationsSchemaName,
+            qualification,
+            'modified',
+          );
+        });
+      });
+    } catch (err) {
+      recordsUpdated = false;
+    }
 
     return recordsUpdated;
   },
