@@ -1,9 +1,9 @@
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
 import AsyncStorage from '@react-native-community/async-storage';
-import {syncTableTask} from '../database/syncActions/syncTableActions';
+import {syncTableTask} from './../../database/syncActions/syncTableActions';
 import {KeyChain} from 'helper';
-import {showToast, hideToast} from '../components/widgets/Toast';
+import {showToast, hideToast} from '../../components/widgets/Toast';
 
 export const TASK_NAME = 'BACKGROUND_TASK';
 export const syncInterval = 120; // 2 minute

@@ -40,7 +40,7 @@ const Dashboard = ({navigation}) => {
   });
 
   const onSyncPress = () => {
-    if(!isWeb()){
+    if (!isWeb()) {
       NetInfo.fetch().then(state => {
         console.log('Connection type', state.type);
         console.log('Is connected?', state.isConnected);
@@ -50,13 +50,11 @@ const Dashboard = ({navigation}) => {
             syncInterval,
             syncFlexTime,
           });
-        }
-        else{
+        } else {
           console.log('Not connected work');
         }
       });
     }
-    
   };
 
   const onActivePageChanged = (route, itemId) => {
