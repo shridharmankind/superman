@@ -9,7 +9,7 @@ import tourPlanMock from './api/tourPlan.json';
 import product from './api/priorityProduct.json';
 import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import monthlyConpliance from './api/monthlyCompliance.json';
+import planComplaince from './api/planComplaince.json';
 import docList from './api/searchDocList.json';
 
 import {partiesMock} from './api/parties.js';
@@ -96,7 +96,7 @@ const getMock = axios => {
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
-  mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyConpliance);
+  mock.onGet(getMonthlyComplainceUrl()).reply(200, planComplaince);
   mock
     .onGet(
       'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
