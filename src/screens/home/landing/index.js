@@ -13,8 +13,8 @@ const HomeLanding = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      const firstName = await Helper.getUserFirstName();
-      firstName ? setUserName(firstName) : setUserName('');
+      // const firstName = await Helper.getUserFirstName();
+      // firstName ? setUserName(firstName) : setUserName('');
     };
     loadData();
   });

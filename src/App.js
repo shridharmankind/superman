@@ -50,7 +50,7 @@ const App = () => {
             ))}
           </Stack.Navigator>
         </NavigationContainer>
-        <Toast />
+        {!isWeb() && <Toast />}
       </PaperProvider>
     </Provider>
   );

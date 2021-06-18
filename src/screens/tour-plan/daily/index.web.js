@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Alert} from 'react-native';
+import {View, Alert, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {Strings, Constants} from 'common';
@@ -13,8 +13,10 @@ import {
 } from './redux';
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
-// import {ShowToast, hideToast} from 'components/widgets/Toast';
+import {showToast, hideToast} from 'components/widgets/Toast';
 import {Toast} from 'components/widgets';
+import {CloseIcon} from 'assets';
+
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -23,6 +25,14 @@ const DailyTourPlan = () => {
   const navigation = useNavigation();
   const [dayPlanData, setDayPlanData] = useState([]);
   const [showToastWeb, setShowToastWeb] = useState(false);
+  const [show, setShow] = useState(false);
+  const showToast = () => {
+    setShow(true);
+  };
+
+  const hideToast = () => {
+    setShow(false);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -265,35 +275,20 @@ const DailyTourPlan = () => {
 
   return (
     <>
-      <View
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{
-          position: 'absolute',
-          top: 45,
-          left: 0,
-          right: 0,
-        }}>
-        {showToastWeb && (
-          <Toast
-            onHide={() => {
-              // undoclicked = true;
-              // hideToast();
-              // closeRow(rowMap, rowKey);
-              // dispatch(doctorDetailActions.addDeletedParty());
-              // Alert.alert('closed');
-              console.log('hide called');
-            }}
-            onClose={() => {
-              // hideToast();
-              // closeRow(rowMap, rowKey);
-            }}
-            heading={`${Strings.removed}!`}
-            subHeading={`${Strings.removedDoctor}`}
-            actionLeftTitle={`${Strings.undo}`}
-            btnContainerStyle={styles.toastBtnContainer}
-          />
-        )}
-      </View>
+      <Toast show={show} hideToast={hideToast}>
+        {showToast({
+          hideToast: hideToast,
+        })}
+      </Toast>
+      {/* {show &&
+        showToast({
+          show: show,
+          hideToast: hideToast,
+        })} */}
+      <a href="/#" onClick={showToast} className={`${show && 'disabled'}`}>
+        Show Toast
+      </a>
+      {/* </View> */}
       <View style={styles.heading}>
         <Label
           title={getCurrentDateFormatted()}
