@@ -3,7 +3,6 @@ import {View, Button} from 'react-native';
 import {Card} from 'react-native-paper';
 
 import {Label, LabelVariant} from 'components/elements';
-import SyncAdapter from 'react-native-sync-adapter';
 import styles from './styles';
 import {
   Helper,
@@ -11,12 +10,12 @@ import {
   Operations,
   Schemas,
   getDBInstance,
+  Sync,
 } from 'database';
 
 import {ContentWithSidePanel} from 'components/layouts';
 import {translate} from 'locale';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
-import {syncInterval, syncFlexTime} from 'utils/backgroundTask';
 import {checkForPendingMasterDataDownload} from 'src/database/helper';
 
 const HomeLanding = ({navigation}) => {
@@ -48,13 +47,10 @@ const HomeLanding = ({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log('Landing Screen');
-    // SyncAdapter.syncImmediately({
-    //   syncInterval,
-    //   syncFlexTime,
-    // });
-  }, []);
+  // useEffect(() => {
+  //   console.log('Landing Screen');
+  //   Sync.SyncService.syncInit();
+  // }, []);
 
   const setSyncListener = masterData => {
     masterData.addListener((masterData, changes) => {

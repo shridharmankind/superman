@@ -81,7 +81,6 @@ export const getStaffPositionId = async () => {
         staffPosition => staffPosition.isPrimary,
       )) || [];
     const primaryStaffPosition = primaryStaffPositions[0] || {};
-
     return primaryStaffPosition?.id;
   } catch (error) {}
 };

@@ -248,7 +248,7 @@ export const updatePartyMasterRecord = async (schema, data) => {
 var d1 = new Date(),
   d2 = new Date(d1);
 d2.setMinutes(d1.getMinutes() + 30);
-console.log(d2);
+//console.log(d2);
 
 export const createPartyMasterRecord = async (schema, data) => {
   try {

@@ -4,8 +4,10 @@ import * as Operations from './operations';
 import * as Helper from './helper';
 import * as Schemas from './schemas';
 import * as Constants from './constants';
+import * as Sync from './sync';
+import * as Offline from './offlineData';
 
-export {Operations, Helper, Schemas, Constants};
+export {Operations, Helper, Schemas, Constants, Sync, Offline};
 
 const path = 'superman.realm';
 const schemaVersion = 0;

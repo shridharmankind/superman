@@ -7,7 +7,43 @@ export default dbInstance => ({
   createSingleRecord: (schema, data) => {
     return singleRecord(dbInstance, schema, data);
   },
+  filteredRecordBasedOnYear_Month_Day: async (schema, data) => {
+    return getfilteredRecordBasedOnYear_Month_Day(dbInstance, schema, data);
+  }
 });
+
+const getfilteredRecordBasedOnYear_Month_Day = async (dbInstance, schema, data) => {
+  try{
+    //["mtp", "2", "parties", "Month=6", "Year=2021", "Day=19"]
+    let year = data[4].split('=');
+    let month = data[3].split('=');
+    let day = data[5].split('=');
+    let dailyRecords = [];
+    console.log("parseInt(day[1]) ",parseInt(day[1]));
+    const getMonthlyRecordObject = await dbInstance.objects(schema.name)
+                .filtered(`staffPositionId = ${parseInt(data[1])} && year = ${parseInt(year[1])} && month = ${parseInt(month[1])}`);
+    console.log("getMonthlyRecordObject", getMonthlyRecordObject);
+    if(getMonthlyRecordObject != []){
+      console.log("1")
+      for(const monthlyRecord of getMonthlyRecordObject){
+        console.log("2");
+        if(monthlyRecord.dailyPlannedActivities != []){
+          let getDailyRecordObjects = monthlyRecord.dailyPlannedActivities
+                                .filter((item) => item.day == parseInt(day[1]));
+          console.log("getDailyRecordObjects ",getDailyRecordObjects);
+          dailyRecords = [ ...dailyRecords, ...getDailyRecordObjects];
+        }
+      }
+    }
+    
+    console.log('getfilteredRecordBasedOnYear_Month_Day ', dailyRecords);
+    return dailyRecords;
+  }
+  catch(err){
+    console.log("getfilteredRecordBasedOnYear_Month_Day ",err);
+    return err;
+  }
+}
 
 const singleRecord = (dbInstance, schema, object) => {
   try {
@@ -75,7 +111,7 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
     var d1 = new Date(),
       d2 = new Date(d1);
     d2.setMinutes(d1.getMinutes() + 30);
-    console.log(d2);
+    //console.log(d2);
     let syncParametersObject = {
       devicePartyId: null,
       isActive: true,
@@ -89,7 +125,7 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
       singleRecord(dbInstance, schema, dummyObject);
       data.forEach(object => {
         let statusDetail = object.status;
-
+        
         let monthlyPlan = dbInstance.create(
           schema[0].name,
           {
@@ -127,7 +163,7 @@ let syncErrorDetailsObject = {
 var d1 = new Date(),
   d2 = new Date(d1);
 d2.setMinutes(d1.getMinutes() + 30);
-console.log(d2);
+//console.log(d2);
 let syncParametersObject = {
   devicePartyId: generateUUID(),
   isActive: true,
@@ -140,7 +176,7 @@ let syncParametersObject = {
 
 let dummyObject = {
   id: -1,
-  staffPositionId: 2,
+  staffPositionId: 1,
   year: 2103,
   month: 7,
   statusId: 0,

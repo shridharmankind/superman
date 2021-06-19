@@ -1,8 +1,8 @@
-import * as Constants from '../constants';
-import * as Schemas from '../schemas';
-import * as Helper from '../helper';
-import * as Operations from '../operations';
-import {commonSyncRecordCRUDMethod} from '../operations/common';
+import * as Constants from '../../constants';
+import * as Schemas from '../../schemas';
+import * as Helper from '../../helper';
+import * as Operations from '../../operations';
+import {commonSyncRecordCRUDMethod} from '../../operations/common';
 import {NetworkService} from 'services';
 
 const downloadStatus = Object.freeze({
@@ -18,18 +18,33 @@ const SYNC_TASK_LIST = [
 export const syncTableTask = async () => {
   try {
     let resultArray = [];
-    for (const table of SYNC_TASK_LIST) {
-      await runBackgroundTask(table).then(result => {
-        console.log('syncTableTask result ', result);
-        resultArray = [...resultArray, ...result];
-      });
-    }
-    console.log('table name 1');
-    await Operations.updateRecord(
-      Schemas.masterTablesDownLoadStatus,
-      Constants.downloadStatus.DOWNLOADED,
-      Constants.APPLICATION_SYNC_STATUS,
+    const record = await Operations.getRecord(
+        Schemas.masterTablesDownLoadStatus,
+        Constants.APPLICATION_SYNC_STATUS,
     );
+    //let recordDate = new Date(record.lastSync);
+    var d1 = new Date(record.lastSync);
+    //console.log("D1 ",d1);
+    d2 = new Date(d1);
+    d2.setMinutes(d1.getMinutes() + 1);
+    //console.log("D2 ",d2);
+    let newDate = new Date();
+    //console.log("newDate - ",newDate);
+    if(d2 < newDate){
+        console.log("time gone");
+        for (const table of SYNC_TASK_LIST) {
+        await runBackgroundTask(table).then(result => {
+            console.log('syncTableTask result ', result);
+            resultArray = [...resultArray, ...result];
+        });
+        }
+        console.log('table name 1');
+        await Operations.updateRecord(
+        Schemas.masterTablesDownLoadStatus,
+        Constants.downloadStatus.DOWNLOADED,
+        Constants.APPLICATION_SYNC_STATUS,
+        );
+    }    
     console.log('table name 2');
     return resultArray;
   } catch (err) {
@@ -41,7 +56,7 @@ const configParam = (item, staffPositionId, lastSync, data) => {
   let postData = {};
   switch (item.name) {
     case Constants.MASTER_MONTHLY_TABLE_PLAN:
-      postData.staffPositionId = 2;
+      postData.staffPositionId = staffPositionId;
       postData.lastSyncTime = lastSync;
       postData[item.syncParam] = data;
       return postData;
@@ -91,7 +106,7 @@ const runBackgroundTask = async tableName => {
           item[0].syncApiPath,
           postData,
         );
-        console.log('response--- ', JSON.stringify(response, null, 2));
+        //console.log('response--- ', JSON.stringify(response, null, 2));
         if (response?.status === Constants.HTTP_OK) {
           await commonSyncRecordCRUDMethod(item[0], response.data).then(res => {
             resultArray = [...resultArray, ...res];
@@ -100,7 +115,7 @@ const runBackgroundTask = async tableName => {
           const updatedRecord = await Operations.getAllRecord(
             item[0].schema[0],
           );
-          console.log('Iupdated == ', JSON.stringify(updatedRecord, null, 2));
+          //console.log('Iupdated == ', JSON.stringify(updatedRecord, null, 2));
 
           await Operations.updateRecord(
             Schemas.masterTablesDownLoadStatus,

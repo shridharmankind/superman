@@ -15,11 +15,11 @@ import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
-import SyncAdapter from 'react-native-sync-adapter';
-import {TASK_NAME, syncFlexTime, syncInterval} from './utils/backgroundTask';
+import {TASK_NAME} from './utils/backgroundTask';
 import * as BackgroundFetch from 'expo-background-fetch';
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import {Sync} from 'database';
 
 BackgroundFetch.setMinimumIntervalAsync(60);
 
@@ -32,31 +32,40 @@ const App = () => {
   const [conn, setConn] = React.useState(false);
   setI18nConfig();
   useEffect(() => {
-    //const unsubscribe = checkNetworkConnectivity();
+    let unsubscribe = null;
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
           SplashScreen.hide();
         });
       }, 2000);
-
-      syncBackgroundTaskOnStart();
+      console.log("wokrin net 1")
+      unsubscribe = checkNetworkConnectivity();
       RegisterBackgroundTask();
+      
     }
 
     return () => {
       console.log('Unmount task in working');
-      //unsubscribe();
+      unsubscribe();
       AsyncStorage.removeItem('BACKGROUND_TASK');
     };
   }, []);
 
+
   const checkNetworkConnectivity = () => {
     try {
+      console.log("wokrin net")
       const netSubscribe = NetInfo.addEventListener(state => {
         console.log('EventListerner Connection type', state.type);
         console.log('EventListerner Is connected?', state.isConnected);
         //setConn(state.isConnected);
+        if(state.isConnected){
+          syncBackgroundTaskOnStart();
+        }
+        else{
+          Alert.alert("No Internet","check internet");
+        }
       });
 
       return netSubscribe;
@@ -67,10 +76,12 @@ const App = () => {
 
   const syncBackgroundTaskOnStart = () => {
     console.log('App.js');
-    SyncAdapter.init({
-      syncInterval,
-      syncFlexTime,
-    });
+    try{
+    Sync.SyncService.syncNow();
+    }
+    catch (err) {
+      console.log('syncBackgroundTaskOnStart failed:', err);
+    }
   };
 
   const RegisterBackgroundTask = async () => {

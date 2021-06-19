@@ -12,7 +12,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon, RefreshIcon} from 'assets';
-import SyncAdapter from 'react-native-sync-adapter';
 import {Routes} from 'navigations';
 import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
 import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
@@ -23,9 +22,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
-import {syncInterval, syncFlexTime} from 'utils/backgroundTask';
 import {validateSearch} from 'screens/directory/helper';
 import NetInfo from '@react-native-community/netinfo';
+import {Sync} from 'database';
 
 export const DashboardStack = createStackNavigator();
 
@@ -46,10 +45,7 @@ const Dashboard = ({navigation}) => {
         console.log('Is connected?', state.isConnected);
         if (state.isConnected) {
           console.log('[EVENT_GENERATED_FOREGROUND_TASK] ');
-          SyncAdapter.syncImmediately({
-            syncInterval,
-            syncFlexTime,
-          });
+          Sync.SyncService.syncNow();
         } else {
           console.log('Not connected work');
         }

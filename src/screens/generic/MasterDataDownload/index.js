@@ -110,6 +110,7 @@ const MasterDataDownload = ({navigation}) => {
         case DBConstants.MASTER_TABLE_PARTY:
           {
             const staffPositionId = await Helper.getStaffPositionId();
+            console.log("MASTER_TABLE_PARTY ",staffPositionId)
             response = await NetworkService.get(
               `${item.apiPath}${staffPositionId}`,
             );
@@ -118,7 +119,8 @@ const MasterDataDownload = ({navigation}) => {
         case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
           {
             const staffPositionId = await Helper.getStaffPositionId();
-            response = await NetworkService.get(`${item.apiPath}2`);
+            console.log("MASTER_MONTHLY_TABLE_PLAN ",staffPositionId)
+            response = await NetworkService.get(`${item.apiPath}${staffPositionId}`);
           }
           break;
       }

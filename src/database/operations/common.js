@@ -12,7 +12,7 @@ export const getActiveUser = async () => {
 
 export const commonSyncRecordCRUDMethod = async (item, data) => {
   try {
-    console.log('Running for item', item);
+    //console.log('Running for item', item);
     let resultArray = [];
     let schema = item.schema;
     await getDBInstance().write(() => {
@@ -21,8 +21,8 @@ export const commonSyncRecordCRUDMethod = async (item, data) => {
           schema[0].name,
           object.id,
         );
-        console.log('Existing Record - ', existingRecord);
-        console.log('Record From Server - ', object);
+        //console.log('Existing Record - ', existingRecord);
+        //console.log('Record From Server - ', object);
         /**
          * Now, There can be two scenario's
          * 1. If record doesn't exist.
@@ -63,7 +63,7 @@ const recordExist = async (item, schema, existingRecord, object) => {
        * This scenario will occur when records are successfully update in DB end.
        */
       object.syncParameters = existingRecord.syncParameters;
-      console.log('recordExist syncParameters null -', object.syncParameters);
+      //console.log('recordExist syncParameters null -', object.syncParameters);
       if (object.syncParameters != null) {
         object.syncParameters.requireSync = false;
         object.syncParameters.lastModifiedOn = new Date();
@@ -85,17 +85,17 @@ const recordExist = async (item, schema, existingRecord, object) => {
       ) {
         let deleteResult = deleteExistingRecord(schema[0], object.id);
         result = deleteResult;
-        console.log('deleteResult ', deleteResult);
+        //console.log('deleteResult ', deleteResult);
         if (deleteResult == Constants.SUCCESS) {
           object = null;
-          console.log('recordExist objected Delete - ', object);
+          //console.log('recordExist objected Delete - ', object);
         } else {
-          console.log('recordExist object not deleted');
+          //console.log('recordExist object not deleted');
           result = Constants.FAILURE;
         }
       } //isDelete = true and errorInSync = false
       else {
-        console.log('recordExist some conflict happened ');
+        //console.log('recordExist some conflict happened ');
         //This means there is some conflict in updating the records.
         object.syncParameters.requireSync = true;
         object.syncParameters.lastModifiedOn = new Date();
@@ -103,11 +103,11 @@ const recordExist = async (item, schema, existingRecord, object) => {
       }
     } //else ends here
     if (object !== null && object.syncParameters != null) {
-      console.log('recordExist Object not null and can be modified - ', object);
+      //console.log('recordExist Object not null and can be modified - ', object);
 
       switch (item.name) {
         case Constants.MASTER_MONTHLY_TABLE_PLAN:
-          console.log('Constants.MASTER_MONTHLY_TABLE_PLAN');
+          //console.log('Constants.MASTER_MONTHLY_TABLE_PLAN');
           object.dailyPlannedActivities = [
             ...object.dailyPlannedActivities.map(dailyPlan => {
               if (dailyPlan.syncParameters != null) {
@@ -119,7 +119,7 @@ const recordExist = async (item, schema, existingRecord, object) => {
           getDBInstance().create(schema[0].name, object, 'modified');
           break;
         case Constants.MASTER_TABLE_PARTY:
-          console.log('Constants.MASTER_TABLE_PARTY');
+          //console.log('Constants.MASTER_TABLE_PARTY');
           getDBInstance().create(schema[0].name, object, 'modified');
           break;
       }
@@ -137,7 +137,7 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
     if (existingRecord == undefined || existingRecord == null) {
       //Check if server sends its deleting confirmation on server DB side
       if (object.syncParameters != null && object.syncParameters.isDeleted) {
-        console.log('No issues in DB');
+        //console.log('No issues in DB');
         return Constants.SUCCESS;
       }
       /**
@@ -171,7 +171,7 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
           );
           deleteExistingRecord(schema[0], existingObjectId);
           object.syncParameters.requireSync = false;
-          console.log('ModifyExisting record before ', object);
+          //console.log('ModifyExisting record before ', object);
           let modifyResult = getDBInstance().create(
             schema[0].name,
             object,
@@ -181,12 +181,12 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
           return Constants.SUCCESS;
         } else {
           //Conflict happened on both Side.
-          console.log('Conflicts haapened 128');
+          //console.log('Conflicts haapened 128');
           return Constants.CONFLICT;
         }
       } else if (object.syncParameters == null) {
         //case 1.2
-        console.log('Entirely new record', item.name);
+        //console.log('Entirely new record', item.name);
         //entirely new record
         switch (item.name) {
           case Constants.MASTER_MONTHLY_TABLE_PLAN:
@@ -202,7 +202,7 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
         //return Constants.SUCCESS;
       } else {
         //case 1.3
-        console.log('Conflict at 139');
+        //console.log('Conflict at 139');
         // This scenario is conflict state when syncParameters are not null but devicePartyId = null
         return Constants.CONFLICT;
       }
@@ -216,14 +216,14 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
 const deleteExistingRecord = (schema, id) => {
   try {
     let newData = getDBInstance().objects(schema.name).filtered(`id == ${id}`);
-    console.log('deleteExistingRecord', newData);
+    //console.log('deleteExistingRecord', newData);
     if (newData != undefined) {
-      console.log('Should Be deleted');
+      //console.log('Should Be deleted');
       getDBInstance().delete(newData[0]);
       newData = null;
       return Constants.SUCCESS;
     }
-    console.log('Is it here');
+    //console.log('Is it here');
     return Constants.FAILURE;
   } catch (err) {
     console.log('deleteExistingRecord -', err);

@@ -1,13 +1,13 @@
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
 import AsyncStorage from '@react-native-community/async-storage';
-import {syncTableTask} from './../../database/syncActions/syncTableActions';
+import {Sync} from 'database';
 import {KeyChain} from 'helper';
 import {showToast, hideToast} from '../../components/widgets/Toast';
 
 export const TASK_NAME = 'BACKGROUND_TASK';
-export const syncInterval = 120; // 2 minute
-export const syncFlexTime = 120; // 2 minutes
+export const syncInterval = 60; // 2 minute
+export const syncFlexTime = 15; // 2 minutes
 
 const SUCCESS = 'SUCCESS';
 const FAILURE = 'FAILURE';
@@ -51,6 +51,7 @@ TaskManager.defineTask(TASK_NAME, async () => {
 
 export const TestTask = async () => {
   try {
+    console.log("again called");
     const accessToken = await KeyChain.getAccessToken();
     const getCurrentAsyncStorage = await AsyncStorage.getItem(
       'BACKGROUND_TASK',
@@ -69,67 +70,41 @@ export const TestTask = async () => {
   }
 };
 
+const showToastie = (tostieType, message) => {
+  showToast({
+    type: tostieType,
+    autoHide: true,
+    props: {
+      onPress: () => {
+        hideToast();
+      },
+      onClose: () => hideToast(),
+      heading: 'Sync Activity',
+      subHeading: message,
+    },
+  });
+};
+
 export const runTask = async () => {
   try {
     let resultArray = [];
-    await syncTableTask().then(result => {
+    await Sync.SyncAction.syncTableTask().then(result => {
       console.log('final Result ', result);
       resultArray = result;
     });
     console.log('resultArray ', resultArray);
+    if(resultArray == undefined){
+      return;
+    }
     if (resultArray.includes(CONFLICT)) {
-      showToast({
-        type: 'warning',
-        autoHide: true,
-        props: {
-          onPress: () => {
-            hideToast();
-          },
-          onClose: () => hideToast(),
-          heading: 'Sync Activity',
-          subHeading: 'Sync Activity have conflicts',
-        },
-      });
+      showToastie('warning', 'Sync Activity have conflicts');
     } else if (resultArray.includes(FAILURE)) {
-      showToast({
-        type: 'warning',
-        autoHide: true,
-        props: {
-          onPress: () => {
-            hideToast();
-          },
-          onClose: () => hideToast(),
-          heading: 'Sync Activity',
-          subHeading: 'Sync Activity Failed',
-        },
-      });
+      showToastie('warning', 'Sync Activity Failed');
     } else {
-      showToast({
-        type: 'success',
-        autoHide: true,
-        props: {
-          onPress: () => {
-            hideToast();
-          },
-          onClose: () => hideToast(),
-          heading: 'Sync Activity',
-          subHeading: 'Sync Activity Completed',
-        },
-      });
+      showToastie('success', 'Sync Activity Completed');
     }
   } catch (err) {
     console.log(err);
-    showToast({
-      type: 'warning',
-      autoHide: true,
-      props: {
-        onPress: () => {
-          hideToast();
-        },
-        onClose: () => hideToast(),
-        heading: 'Sync Activity',
-        subHeading: 'Sync Activity Failed',
-      },
-    });
+    showToastie('warning', 'Sync Activity Failed');
   }
 };

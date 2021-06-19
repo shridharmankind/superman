@@ -36,8 +36,8 @@ const DailyTourPlan = () => {
     console.log('working 1');
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 2,
-        day: parseInt(getFormatDate({format: 'D'}), 10),
+        staffPositionid: 1,
+        day: 18,
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
@@ -204,11 +204,8 @@ const DailyTourPlan = () => {
           onPress={() => {
             dispatch(
               deletePartyCreator({
-                staffPositionid: 2,
-                day: parseInt(
-                  getFormatDate({date: new Date(), format: 'D'}),
-                  10,
-                ),
+                staffPositionid: 1,
+                day: 18,
                 month: parseInt(
                   getFormatDate({date: new Date(), format: 'M'}),
                   10,

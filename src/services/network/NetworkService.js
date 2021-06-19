@@ -9,13 +9,87 @@ Server errors (500–599)
 
 import {client} from '../../api';
 import env from '../../../env.json';
-import {KeyChain} from 'helper';
+import {KeyChain,isWeb} from 'helper';
+import {Offline} from 'database';
+import NetInfo from '@react-native-community/netinfo';
+
+// client.interceptors.request.use(
+//   config => {
+//     if (!isWeb()) {
+//       console.log("Before config - ",config);
+//       NetInfo.fetch().then(state => {
+//         if (!state.isConnected) {
+//           console.log('Not connected work');
+          
+//         }
+//         else{
+//           //return config;
+//         }
+//       });
+//     } else {
+//       console.log('It is web');
+//       return config;
+//     }
+//     console.log("ebfore configured -- ",config);
+//     return config;
+//   },
+//   error => {
+//     // Do something with request error
+//     return Promise.reject(error);
+//   },
+// );
+
+// client.interceptors.response.use(
+//   config => {
+//     if (!isWeb()) {
+//       console.log("After config - ",config);
+//       //return config;
+//     } else {
+//       console.log('It is web',config);
+//       //return config;
+//     }
+//      console.log("after config ------ ",config);
+//      return config;
+//   },
+//   error => {
+//     // Do something with request error
+//     return Promise.reject(error);
+//   },
+// );
+
+
+const checkInternetConnectionForApp = async () => {
+  return NetInfo.fetch().then(state => {
+    if (!state.isConnected && !isWeb()) {
+      console.log('Not connected work');
+      return false;
+    }
+    else{
+      console.log("connected and web");
+      return true;
+    }
+  });
+}
+
+const getNetworkResponse = async (config) => {
+  console.log("getNetork response");
+  return await client(config)
+    .then(function (response) {
+      // handle success
+      return response;
+    })
+    .catch(function (error) {
+      console.log(error);
+      // handle error, based on different error code different error message can be set here
+      return error.response || error.message;
+    });
+}
 
 /*
 Function to handle HTTP GET request
 @params- for query params
 */
-export const get = async (url, params = {}) => {
+export const get = async (url, params = {}, apiPath = null) => {
   const accessToken = await KeyChain.getAccessToken();
   const config = {
     baseURL: env.API_HOST,
@@ -24,16 +98,19 @@ export const get = async (url, params = {}) => {
     headers: {Authorization: `Bearer ${accessToken}`},
     params,
   };
+  console.log("again called");
+  const isConnectionAvailable = await checkInternetConnectionForApp();
 
-  return await client(config)
-    .then(function (response) {
-      // handle success
-      return response;
-    })
-    .catch(function (error) {
-      // handle error, based on different error code different error message can be set here
-      return error.response || error.message;
-    });
+  if(isConnectionAvailable){
+    console.log("ConnectionAvailable in call");
+    return await getNetworkResponse(config);
+  }
+  else{
+    console.log("Connection Not Avaibale in call ");
+    console.log("Api Path ",apiPath);
+    return await Offline.offlineData(config, apiPath);
+  }
+  
 };
 
 /*
