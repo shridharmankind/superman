@@ -9,6 +9,10 @@ const LocalAuth = ({navigation}) => {
   useEffect(() => {
     (async () => {
       const compatible = await LocalAuthentication.hasHardwareAsync();
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      if (JSON.parse(isLoggedIn)) {
+        navigation.navigate('Login');
+      }
       setIsBiometricSupported(compatible);
     })();
     AppState.addEventListener('change', _handleAppStateChange);
@@ -71,7 +75,6 @@ const LocalAuth = ({navigation}) => {
       cancelLabel: 'Cancel',
       disableDeviceFallback: false,
     });
-    console.log(response, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     if (response.success) {
       await AsyncStorage.setItem('isLoggedIn', 'true');
       navigation.navigate('Login');
@@ -82,7 +85,7 @@ const LocalAuth = ({navigation}) => {
   };
 
   // eslint-disable-next-line react/react-in-jsx-scope
-  return <Text>testing</Text>;
+  return <Text />;
 };
 
 export default LocalAuth;

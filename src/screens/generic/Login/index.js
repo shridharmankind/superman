@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -33,7 +33,6 @@ export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
-
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);
