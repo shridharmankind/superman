@@ -15,6 +15,10 @@ import docList from './api/searchDocList.json';
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import stpData from './api/stpData.js';
+import stpStatus from './api/stpStatus.json';
+import submitStpMock from './api/submitStp.json';
+
+
 const getPartiesUrl = () => {
   const valueMap = {
     staffpositionid: 2,
@@ -56,11 +60,11 @@ const getSTPCalendarUpdateUrl = () => {
   return url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
 };
 
-const getMonthlyComplainceUrl = () => {
+const getUrl = apiPath => {
   const valueMap = {
     staffPositionId: 2,
   };
-  let url = API_PATH.COMPLAINCE_MONTHLY;
+  let url = apiPath;
   url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
 
   return url;
@@ -96,7 +100,10 @@ const getMock = axios => {
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
-  mock.onGet(getMonthlyComplainceUrl()).reply(200, planComplaince);
+  mock.onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY)).reply(200, planComplaince);
+  mock.onGet(getUrl(API_PATH.STP_STATUS)).reply(200, stpStatus);
+  mock.onGet(getUrl(API_PATH.SUBMIT_STP)).reply(200, submitStpMock);
+
   mock
     .onGet(
       'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',

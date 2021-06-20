@@ -3,6 +3,7 @@ import {
   getSubordinatesTypeName,
   monthlyActions,
   fetchWorkingDayCreatorType,
+  fetchSTPStatusCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
@@ -17,6 +18,10 @@ export function* fetchSubOrdinatesWatcher() {
 
 export function* fetchWorkingDayWatcher() {
   yield takeEvery(fetchWorkingDayCreatorType, fetchWorkingDayWorker);
+}
+
+export function* fetchSTPStatusWatcher() {
+  yield takeEvery(fetchSTPStatusCreatorType, fetchSTPStatusWorker);
 }
 
 /**
@@ -57,6 +62,30 @@ export function* fetchWorkingDayWorker(action) {
     yield put(
       monthlyActions.getWorkingDay({
         workingDay: response.data?.workingDay,
+      }),
+    );
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    console.log(error);
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+export function* fetchSTPStatusWorker(action) {
+  const staffPositionId = action.payload.staffPositionId;
+  const valueMap = {
+    staffPositionId: staffPositionId,
+  };
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+
+  let url = API_PATH.STP_STATUS;
+  url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
+
+  try {
+    const response = yield call(NetworkService.get, url);
+    yield put(
+      monthlyActions.getSTPStatus({
+        stpStatus: response.data,
       }),
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));

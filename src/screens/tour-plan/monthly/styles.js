@@ -69,6 +69,11 @@ const styles = StyleSheet.create({
   },
   saveBtn: {marginRight: theme.spacing(12)},
   actionBtn: {width: 165.3},
+  submittedChip: {
+    fontSize: 9.3,
+    lineHeight: 10.7,
+    color: theme.colors.green[400],
+  },
 });
 
 export default styles;

@@ -9,6 +9,7 @@ export const monthlyTourPlan = {
     data: [],
   },
   workingDay: [],
+  stpStatus: null,
 };
 
 /**
@@ -21,6 +22,10 @@ export const getSubordinatesTypeName = getSubordinatesCreator().type;
 export const fetchWorkingDayCreator = createAction('WORKING_DAY_CREATOR');
 export const fetchWorkingDayCreatorType = fetchWorkingDayCreator().type;
 
+// Action Creator and type to get stp status
+export const fetchSTPStatusCreator = createAction('STP_STATUS');
+export const fetchSTPStatusCreatorType = fetchSTPStatusCreator().type;
+
 /**
  *  create subordinate slice defining the intial state, reducers
  */
@@ -32,6 +37,7 @@ export const getMonthlySlice = createSlice({
     getWorkingDay: (state, action) => {
       return merge(state, action.payload);
     },
+    getSTPStatus: (state, action) => merge(state, action.payload),
   },
 });
 

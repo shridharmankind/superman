@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Modal, Label, Button} from 'components/elements';
+import {Modal, Label, Button, Area} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
@@ -12,16 +12,20 @@ import {
   PLAN_TYPES,
   STAFF_CODES,
   TOUR_PLAN_TYPE,
+  STP_STATUS,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
-import {DropdownIcon} from 'assets';
+import {DropdownIcon, LockIcon} from 'assets';
 import {
   getSubordinatesCreator,
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
+  fetchSTPStatusCreator,
 } from './redux';
 import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
+import {translate} from 'locale';
+import theme from 'themes';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -67,6 +71,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const previousMonthSelected = usePrevious(monthSelected);
   const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
   const [compliancePercentage, setCompliancePercentage] = useState();
+  const [stpStatus, setStpStatus] = useState();
 
   // Selectors
   const subOrdinatesList = useSelector(
@@ -77,6 +82,7 @@ const MonthlyTourPlan = ({navigation}) => {
     planComplianceSelector.getTotalPercent(),
   );
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
+  const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
 
   useEffect(() => {
     dispatch(
@@ -86,10 +92,19 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(
+      fetchSTPStatusCreator({
+        staffPositionid: 2,
+      }),
+    );
+  }, [dispatch]);
+
   /**
    *effect to set working Day
    */
   useEffect(() => setworkingDays(workindDay), [workindDay]);
+  useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
 
   /**
    * effect to set percentage compliance
@@ -307,6 +322,21 @@ const MonthlyTourPlan = ({navigation}) => {
                   option.selected ? styles.modalTextSelected : styles.modalText
                 }
               />
+              {stpStatus?.status === STP_STATUS.INPROGRESS && (
+                <LockIcon width={16} height={20} />
+              )}
+              {stpStatus?.status === STP_STATUS.SUBMITTED && (
+                <>
+                  <LockIcon width={16} height={20} />
+                  <Area
+                    title={'submitted on'}
+                    value={'submitted on'}
+                    bgColor={theme.colors.green[300]}
+                    color={'#524F67'}
+                    textStyle={styles.submittedChip}
+                  />
+                </>
+              )}
             </TouchableWithoutFeedback>
           ))}
         </View>
@@ -396,13 +426,13 @@ const MonthlyTourPlan = ({navigation}) => {
     return (
       <View style={styles.actionButtonGroup}>
         <Button
-          title={Strings.monthlyActions.save}
+          title={translate('monthlyActions.save')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
           labelStyle={styles.buttonTabBarText}
         />
         <Button
-          title={Strings.monthlyActions.submitSTP}
+          title={translate('monthlyActions.submitSTP')}
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
@@ -420,7 +450,7 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
-        {renderActionButton()}
+        {selectedTourPlan.id === 1 && renderActionButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
         selectedTourPlan.id === 1 && (

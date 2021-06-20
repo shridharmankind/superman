@@ -41,3 +41,8 @@ export const COMPLAINCE_TYPE = {
   MONTHLY: 'MONTHLY',
   DAILY: 'DAILY',
 };
+
+export const STP_STATUS = {
+  INPROGRESS: 'workinprogress',
+  SUBMITTED: 'submitted',
+};

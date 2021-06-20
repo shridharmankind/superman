@@ -1,3 +1,7 @@
 {
-    "goodMorning": "Good morning"
+  "goodMorning": "Good morning",
+  "monthlyActions": {
+    "save": "Save",
+    "submitSTP": "Submit STP"
+  }
 }
