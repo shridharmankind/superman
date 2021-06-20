@@ -2,6 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
+
 import {NetworkService} from 'services';
 
 export const MASTER_TABLES_DETAILS = [
@@ -22,6 +23,10 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.partyTypes,
       Schemas.engagement,
     ],
+  },
+  {
+    name: Constants.MASTER_TABLE_DIVISION,
+    apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
   },
   {
     name: Constants.QUALIFICATIONS_PER_DIVISION,

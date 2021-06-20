@@ -14,6 +14,7 @@ import {
   Constants as DBConstants,
   Operations,
   Schemas,
+  Divisions,
   Qualifications,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
@@ -59,8 +60,7 @@ const MasterDataDownload = ({navigation}) => {
 
         const fetchQualificationsPerDivision = qualificationInfo => {
           const {name, apiPath} = qualificationInfo;
-          // const divisions = Divisions.getAllDivisions(); // TODO enable
-          const divisions = [{id: 2}];
+          const divisions = Divisions.getAllDivisions();
           let failedToSaveQualifications = false;
 
           divisions.forEach(async division => {
@@ -107,6 +107,9 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
+            case DBConstants.MASTER_TABLE_DIVISION:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.QUALIFICATIONS_PER_DIVISION:
               fetchQualificationsPerDivision(item);
               break;
@@ -129,13 +132,19 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 updateRecordDownloaded(item.name);
                 break;
+
+              case DBConstants.MASTER_TABLE_DIVISION:
+                const divisionsUpdated = await Divisions.storeDivisions(
+                  JSON.parse(data),
+                );
+                divisionsUpdated && updateRecordDownloaded(item.name);
+                break;
             }
 
             if (i % progressBarSyncParam === 0) {
               setProgress(prevProgress => prevProgress + 0.1);
             }
           } else {
-            // TODO error handling -> while downloading data for item.name
             onDownloadError(item.name);
           }
         }

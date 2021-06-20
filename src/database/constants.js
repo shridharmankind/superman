@@ -1,3 +1,4 @@
+import {DivisionSchemaName} from './schemas/Divisions';
 import {QualificationsSchemaName} from './schemas/Qualifications';
 
 //Common
@@ -22,5 +23,8 @@ export const MASTER_TABLE_USER_INFO_API_PATH = 'user/me';
 export const MASTER_TABLE_USER_INFO = 'UserInfo';
 export const MASTER_TABLE_STAFF_POSITIONS = 'StaffPositions';
 export const MASTER_TABLE_STAFF_DESIGNATION = 'Designation';
+
+export const MASTER_TABLE_DIVISION = DivisionSchemaName;
+export const MASTER_TABLE_DIVISION_API_PATH = 'division';
 
 export const QUALIFICATIONS_PER_DIVISION = QualificationsSchemaName;

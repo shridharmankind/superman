@@ -142,3 +142,4 @@ export const engagement = {
 };
 
 export {default as Qualifications} from './Qualifications';
+export {default as Divisions} from './Divisions';
