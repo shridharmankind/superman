@@ -25,6 +25,8 @@ const dbInstance = new Realm({
     Schemas.partyTypeGroup,
     Schemas.engagement,
     Schemas.Division.schema,
+    Schemas.GeoLocations.schema,
+    Schemas.GeoLocationConfiguration.schema,
   ],
   schemaVersion,
 });

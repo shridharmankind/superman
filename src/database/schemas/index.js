@@ -143,3 +143,5 @@ export const engagement = {
 
 export {default as Qualifications} from './Qualifications';
 export {default as Division} from './Divisions';
+export {default as GeoLocations} from './GeoLocations';
+export {default as GeoLocationConfiguration} from './GeoLocationConfiguration';

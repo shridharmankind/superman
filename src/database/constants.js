@@ -23,3 +23,7 @@ export const MASTER_TABLE_STAFF_DESIGNATION = 'Designation';
 
 export const MASTER_TABLE_DIVISION = 'Divisions';
 export const MASTER_TABLE_DIVISION_API_PATH = 'division';
+
+export const MASTER_TABLE_GEOLOCATIONS = 'GeoLocations';
+export const MASTER_TABLE_GEOLOCATIONS_CONFIGURATION =
+  'GeoLocationConfiguration';
