@@ -78,6 +78,9 @@ const PlanCompliance = ({type}) => {
     });
   };
 
+  if (!complianceData) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <View
