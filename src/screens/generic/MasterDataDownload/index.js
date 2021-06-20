@@ -10,7 +10,13 @@ import styles from './styles';
 import {Strings} from 'common';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Operations,
+  Schemas,
+  Skus,
+} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
@@ -57,6 +63,9 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
+            case DBConstants.MASTER_TABLE_SKU:
+              response = await NetworkService.get(item.apiPath);
+              break;
           }
           if (response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
@@ -73,6 +82,10 @@ const MasterDataDownload = ({navigation}) => {
                   item.schema,
                   JSON.parse(data),
                 );
+                break;
+
+              case DBConstants.MASTER_TABLE_SKU:
+                await Skus.storeSkus(JSON.parse(data));
                 break;
             }
             await Operations.updateRecord(

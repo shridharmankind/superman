@@ -22,6 +22,10 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.engagement,
     ],
   },
+  {
+    name: Constants.MASTER_TABLE_SKU,
+    apiPath: Constants.MASTER_TABLE_SKU_API_PATH,
+  },
 ];
 
 /**

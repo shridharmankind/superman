@@ -24,6 +24,8 @@ const dbInstance = new Realm({
     Schemas.partyTypes,
     Schemas.partyTypeGroup,
     Schemas.engagement,
+    Schemas.Skus.schema,
+    Schemas.SubBrand.schema,
   ],
   schemaVersion,
 });
@@ -38,3 +40,4 @@ export const getDBInstance = () => dbInstance;
  * register DB operations
  */
 export const Qualifications = Operations.qualificationOperations(dbInstance);
+export const Skus = Operations.skuOperations(dbInstance);
