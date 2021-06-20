@@ -9,41 +9,51 @@ export default dbInstance => ({
   },
   filteredRecordBasedOnYear_Month_Day: async (schema, data) => {
     return getfilteredRecordBasedOnYear_Month_Day(dbInstance, schema, data);
-  }
+  },
 });
 
-const getfilteredRecordBasedOnYear_Month_Day = async (dbInstance, schema, data) => {
-  try{
+const getfilteredRecordBasedOnYear_Month_Day = async (
+  dbInstance,
+  schema,
+  data,
+) => {
+  try {
     //["mtp", "2", "parties", "Month=6", "Year=2021", "Day=19"]
     let year = data[4].split('=');
     let month = data[3].split('=');
     let day = data[5].split('=');
     let dailyRecords = [];
-    console.log("parseInt(day[1]) ",parseInt(day[1]));
-    const getMonthlyRecordObject = await dbInstance.objects(schema.name)
-                .filtered(`staffPositionId = ${parseInt(data[1])} && year = ${parseInt(year[1])} && month = ${parseInt(month[1])}`);
-    console.log("getMonthlyRecordObject", getMonthlyRecordObject);
-    if(getMonthlyRecordObject != []){
-      console.log("1")
-      for(const monthlyRecord of getMonthlyRecordObject){
-        console.log("2");
-        if(monthlyRecord.dailyPlannedActivities != []){
-          let getDailyRecordObjects = monthlyRecord.dailyPlannedActivities
-                                .filter((item) => item.day == parseInt(day[1]));
-          console.log("getDailyRecordObjects ",getDailyRecordObjects);
-          dailyRecords = [ ...dailyRecords, ...getDailyRecordObjects];
+    console.log('parseInt(day[1]) ', parseInt(day[1]));
+    const getMonthlyRecordObject = await dbInstance
+      .objects(schema.name)
+      .filtered(
+        `staffPositionId = ${parseInt(data[1])} && year = ${parseInt(
+          year[1],
+        )} && month = ${parseInt(month[1])}`,
+      );
+    console.log('getMonthlyRecordObject', getMonthlyRecordObject);
+    if (getMonthlyRecordObject != []) {
+      console.log('1');
+      for (const monthlyRecord of getMonthlyRecordObject) {
+        console.log('2');
+        if (monthlyRecord.dailyPlannedActivities != []) {
+          let getDailyRecordObjects =
+            monthlyRecord.dailyPlannedActivities.filter(
+              item => item.day == parseInt(day[1]),
+            );
+          console.log('getDailyRecordObjects ', getDailyRecordObjects);
+          dailyRecords = [...dailyRecords, ...getDailyRecordObjects];
         }
       }
     }
-    
+
     console.log('getfilteredRecordBasedOnYear_Month_Day ', dailyRecords);
     return dailyRecords;
-  }
-  catch(err){
-    console.log("getfilteredRecordBasedOnYear_Month_Day ",err);
+  } catch (err) {
+    console.log('getfilteredRecordBasedOnYear_Month_Day ', err);
     return err;
   }
-}
+};
 
 const singleRecord = (dbInstance, schema, object) => {
   try {
@@ -125,7 +135,7 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
       singleRecord(dbInstance, schema, dummyObject);
       data.forEach(object => {
         let statusDetail = object.status;
-        
+
         let monthlyPlan = dbInstance.create(
           schema[0].name,
           {
@@ -177,8 +187,8 @@ let syncParametersObject = {
 let dummyObject = {
   id: -1,
   staffPositionId: 1,
-  year: 2103,
-  month: 7,
+  year: 2104,
+  month: 8,
   statusId: 0,
   isLocked: true,
   status: null,

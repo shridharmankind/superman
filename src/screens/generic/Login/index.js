@@ -34,6 +34,17 @@ export const AlertTitle = 'Info';
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
 
+  React.useEffect(() => {
+    async function fetchAccessToken() {
+      let accessToken = await KeyChain.getAccessToken();
+      if (accessToken) {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
+      }
+    }
+    fetchAccessToken();
+  }, []);
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);
@@ -56,6 +67,7 @@ const Login = ({navigation}) => {
       }
     } catch (error) {
       setAnimating(false);
+      console.log(error);
       Alert.alert(Strings.info, error.message);
     }
   }, [navigation]);

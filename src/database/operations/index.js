@@ -6,7 +6,11 @@ import {sha512} from 'react-native-sha512';
 
 import {KeyChain} from 'helper';
 import {getDBInstance} from 'database';
-import {generateUUID} from './common';
+import {
+  generateUUID,
+  commonSyncRecordCRUDMethod,
+  deleteExistingRecord,
+} from './common';
 
 let realm = null;
 
@@ -116,132 +120,6 @@ export const createUserInfoRecord = async (schema, data) => {
     });
   } catch (error) {
     console.log('createUserInfoRecord', error);
-  }
-};
-
-export const updatePartyMasterRecord = async (schema, data) => {
-  try {
-    let objectToBeDeleted = [];
-    console.log('updatePartyMasterRecord started');
-    await openSchema();
-    await realm.write(async () => {
-      await data.forEach(async object => {
-        let recordToUpdate = realm.objectForPrimaryKey(
-          schema[0].name,
-          object.id,
-        );
-        console.log('Existing -- ', JSON.stringify(recordToUpdate));
-        console.log('From DB --- ', JSON.stringify(object));
-        if (recordToUpdate == undefined || recordToUpdate == null) {
-          if (
-            object.syncParameters != null &&
-            object.syncParameters.isDeleted
-          ) {
-            //console.log("Not required")
-            return;
-          }
-          //console.log("undefined")
-          const findRecord = realm
-            .objects(schema[0].name)
-            .filtered(`name == "${object.name}"`);
-          //console.log(findRecord.length,"findRecord ",findRecord);
-          if (findRecord.length === 0) {
-            let createNewRecord = [object];
-            //console.log("Fresh New Record",createNewRecord);
-            createPartyMasterRecord(schema, createNewRecord);
-            //console.log("created");
-          } else {
-            //findRecord.id = object.id;
-
-            //console.log("newObject ID ",findRecord);
-            let updatedObject = object;
-            try {
-              updatedObject.shortName = `${updatedObject.shortName}`;
-              updatedObject.syncParameters.syncErrorDetails.conflictType = `${updatedObject.syncParameters.syncErrorDetails.conflictType}`;
-              updatedObject.syncParameters.syncErrorDetails.errorMessage = `${updatedObject.syncParameters.syncErrorDetails.errorMessage}`;
-              realm.create(schema[0].name, updatedObject, 'modified');
-              //console.log("New record add",updatedObject)
-              let newData = realm.objects(schema[0].name).filtered('id == -1');
-              //console.log("Data going to be delete ",newData);
-              if (newData[0].id != undefined) {
-                realm.delete(newData[0]);
-                newData = null;
-                //recordToUpdate = null;
-                //console.log("deleted ",newData);
-              }
-              return;
-            } catch (err) {
-              console.log('delete -', err);
-              return false;
-            }
-          }
-        } else {
-          //console.log("else 1");
-          let updatedObject = object;
-          //If syncParameters is null then records are successfully updated.
-          if (updatedObject.syncParameters == null) {
-            //console.log("new-----------------")
-            //console.log(recordToUpdate)
-            updatedObject.syncParameters = recordToUpdate.syncParameters;
-            //console.log(updatedObject);
-            if (updatedObject.syncParameters != null) {
-              updatedObject.syncParameters.requireSync = false;
-              updatedObject.syncParameters.lastModifiedOn = new Date();
-            }
-          } else {
-            //If syncParameters are not null then records are not successfully updated
-            if (
-              updatedObject.syncParameters.isDeleted &&
-              !updatedObject.syncParameters.errorInSync
-            ) {
-              objectToBeDeleted.push(updatedObject.id);
-              //console.log(updatedObject.id,"delete new way",objectToBeDeleted);
-
-              try {
-                let newData = realm
-                  .objects(schema[0].name)
-                  .filtered(`id == ${updatedObject.id}`);
-                //console.log("Data going to be delete ",newData);
-                if (newData != undefined) {
-                  realm.delete(newData);
-                  newData = null;
-                  recordToUpdate = null;
-                  //console.log("deleted ",newData);
-                }
-              } catch (err) {
-                console.log('delete -', err);
-                return false;
-              }
-            } else {
-              updatedObject.syncParameters.requireSync = true;
-              updatedObject.syncParameters.lastModifiedOn = new Date();
-            }
-          }
-          if (
-            updatedObject.syncParameters != null &&
-            updatedObject.syncParameters.isDeleted
-          ) {
-            updatedObject = null;
-          }
-
-          recordToUpdate = updatedObject;
-          if (updatedObject !== null && updatedObject.syncParameters != null) {
-            updatedObject.shortName = `${updatedObject.shortName}`;
-            updatedObject.syncParameters.syncErrorDetails.conflictType = `${updatedObject.syncParameters.syncErrorDetails.conflictType}`;
-            updatedObject.syncParameters.syncErrorDetails.errorMessage = `${updatedObject.syncParameters.syncErrorDetails.errorMessage}`;
-            //updatedObject.syncParameters.devicePartyId = `${updatedObject.syncParameters.devicePartyId}`
-            realm.create(schema[0].name, updatedObject, 'modified');
-          }
-          //console.log("update Object",updatedObject);
-
-          //console.log("1 new --- ",JSON.stringify(object));
-        }
-      });
-    });
-    return true;
-  } catch (error) {
-    console.log('updatePartyMasterRecord', error);
-    return false;
   }
 };
 
@@ -427,7 +305,7 @@ let dummyPartyData = {
     },
   },
   id: -1,
-  name: 'NIKI KUMAR',
+  name: 'VIVEKA KUMAR',
   specialities: [],
   qualifications: [],
   frequency: 2,
@@ -467,3 +345,4 @@ let dummyPartyData = {
 };
 export {default as qualificationOperations} from './qualificationOperations';
 export {default as monthlyPlanOperations} from './MonthlyPlanOperations';
+export {commonSyncRecordCRUDMethod, generateUUID, deleteExistingRecord};

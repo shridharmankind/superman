@@ -1,26 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {View, Button} from 'react-native';
+import {View} from 'react-native';
 import {Card} from 'react-native-paper';
-
+import NetInfo from '@react-native-community/netinfo';
 import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
 import {
   Helper,
   Constants as DBConstants,
-  Operations,
   Schemas,
   getDBInstance,
-  Sync,
 } from 'database';
-
+import {isWeb} from 'helper';
 import {ContentWithSidePanel} from 'components/layouts';
 import {translate} from 'locale';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
-import {checkForPendingMasterDataDownload} from 'src/database/helper';
+import {Sync} from 'database';
 
 const HomeLanding = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [lastSync, setLastSync] = useState('--:--:--');
+  const [isConnected, setConnected] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -41,16 +40,35 @@ const HomeLanding = ({navigation}) => {
       });
       return;
     };
-
-    loadData();
-    fetchSyncTime();
+    let subscribeNetworkCheck = null;
+    if (!isWeb()) {
+      loadData();
+      fetchSyncTime();
+      subscribeNetworkCheck = NetInfo.addEventListener(handleConnectivityChange);
+      Sync.SyncService.RegisterBackgroundTask();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    return async () => {
+      if(!isWeb()){
+        if(subscribeNetworkCheck){
+          subscribeNetworkCheck();
+          subscribeNetworkCheck = null;
+        }
+      }
+    }
   }, []);
 
-  // useEffect(() => {
-  //   console.log('Landing Screen');
-  //   Sync.SyncService.syncInit();
-  // }, []);
+  useEffect(() => {
+    if(isConnected){
+      Sync.SyncService.syncNow();
+    }
+  },[isConnected]);
+
+
+  const handleConnectivityChange = (connection) => {
+    setConnected(connection.isConnected);
+  }
+
 
   const setSyncListener = masterData => {
     masterData.addListener((masterData, changes) => {
@@ -83,11 +101,21 @@ const HomeLanding = ({navigation}) => {
     </View>
   );
 
+  const renderSyncAt = () => {
+    if (!isWeb()) {
+      return (
+        <>
+          <Label type="bold" size={14} title="Synced At:" />
+          <Label size={14} title={`${lastSync}`} />
+        </>
+      );
+    }
+  };
+
   const renderSidePanel = () => (
     <View style={styles.sidePanel}>
       <View style={styles.descContainer}>
-        <Label type="bold" size={14} title="Last Sync:" />
-        <Label size={14} title={`${lastSync}`} />
+        {renderSyncAt()}
         <Label
           style={styles.desc}
           type="bold"

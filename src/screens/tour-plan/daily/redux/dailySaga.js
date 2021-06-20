@@ -42,8 +42,13 @@ export function* fetchDoctorDetailWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
-    const response = yield call(NetworkService.get, url,{},API_PATH.GET_PARTIES);
-    console.log("redux response",response);
+    const response = yield call(
+      NetworkService.get,
+      url,
+      {},
+      API_PATH.GET_PARTIES,
+    );
+    console.log('redux response', response);
     let formattedResponse = [];
     if (
       response.data &&

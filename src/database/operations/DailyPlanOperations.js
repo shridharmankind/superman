@@ -1,5 +1,4 @@
-import * as Constants from '../constants';
-import {generateUUID, syncParametersObject} from './common';
+import {syncParametersObject} from './common';
 export default dbInstance => ({
   createSingleRecord: (schema, data) => {
     return singleDailyRecord(dbInstance, schema, data);

@@ -1,5 +1,6 @@
 import * as Constants from '../constants';
 import {QualificationsSchemaName} from './Qualifications';
+import * as MonthlySchema from './MonthlyPlan';
 
 export const masterTablesDownLoadStatus = {
   name: Constants.MASTER_TABLES_DOWNLOAD_STATUS,
@@ -175,10 +176,4 @@ export const engagement = {
 };
 
 export {default as Qualifications} from './Qualifications';
-export {
-  dailyMaster,
-  dailyPlanActivityTypeDto,
-  monthlyPlanStatusDetails,
-  monthlyMaster,
-  dailyPlanNonActivityTypeDto,
-} from './MonthlyPlan';
+export {MonthlySchema};

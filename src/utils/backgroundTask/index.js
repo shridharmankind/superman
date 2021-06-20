@@ -1,75 +1,97 @@
-import * as BackgroundFetch from 'expo-background-fetch';
-import * as TaskManager from 'expo-task-manager';
+import * as BackgroundFetch from 'expo-background-fetch'; //Task when App is in background
+import * as TaskManager from 'expo-task-manager'; //Task Manager for defining task when app is in background
 import AsyncStorage from '@react-native-community/async-storage';
 import {Sync} from 'database';
 import {KeyChain} from 'helper';
 import {showToast, hideToast} from '../../components/widgets/Toast';
+import NetInfo from '@react-native-community/netinfo';
 
-export const TASK_NAME = 'BACKGROUND_TASK';
-export const syncInterval = 60; // 2 minute
-export const syncFlexTime = 15; // 2 minutes
+export const TASK_NAME = 'BACKGROUND_TASK'; //Task Name for running background task
+export const NOT_RUNNING = 'NOT_RUNNING';
+export const RUNNING = 'RUNNING';
 
 const SUCCESS = 'SUCCESS';
 const FAILURE = 'FAILURE';
 const CONFLICT = 'CONFLICT';
 
-export const setWorkingAsyncStorage = async () => {
-  const getAsyncValue = await AsyncStorage.getItem('BACKGROUND_TASK');
-  if (getAsyncValue === 'NOT_RUNNING') {
-    await AsyncStorage.setItem('BACKGROUND_TASK', 'RUNNING');
+/**
+ * Set BACKGROUND_TASK value to RUNNING
+ */
+export const setRunningBackgrounTaskValue = async () => {
+  const getAsyncValue = await AsyncStorage.getItem(TASK_NAME);
+  if (getAsyncValue === NOT_RUNNING) {
+    await AsyncStorage.setItem(TASK_NAME, RUNNING);
+    return RUNNING;
   }
 };
 
-export const setExitAsyncStorage = async () => {
-  const getAsyncValue = await AsyncStorage.getItem('BACKGROUND_TASK');
-  if (getAsyncValue === 'RUNNING') {
-    await AsyncStorage.setItem('BACKGROUND_TASK', 'NOT_RUNNING');
+/**
+ * Set BACKGROUND_TASK value to NOT_RUNNING
+ */
+export const setNotRunningBackgrounTaskValue= async () => {
+  const getAsyncValue = await AsyncStorage.getItem(TASK_NAME);
+  if (getAsyncValue === RUNNING) {
+    await AsyncStorage.setItem(TASK_NAME, NOT_RUNNING);
+    return NOT_RUNNING;
   }
-};
+}
 
+/**
+ * Set Task when app is in Background
+ */
 TaskManager.defineTask(TASK_NAME, async () => {
   try {
-    const accessToken = await KeyChain.getAccessToken();
-    const getCurrentAsyncStorage = await AsyncStorage.getItem(
-      'BACKGROUND_TASK',
-    );
-    if (accessToken && getCurrentAsyncStorage === 'NOT_RUNNING') {
-      console.log('[SYNC ACTIVITY] STARTED');
-      await setWorkingAsyncStorage();
-      console.log('[BACKGROUND_TASK] :  ', getCurrentAsyncStorage);
-      await runTask();
-      await setExitAsyncStorage();
-      console.log('[BACKGROUND_TASK] :  ', getCurrentAsyncStorage);
-    } else {
-      console.log('[BACKGROUND_TASK] : NOT_STARTED');
-    }
+    await setBackgroundTask();
   } catch (err) {
-    console.log('err -- ', err);
+    console.log('err ', err);
     return BackgroundFetch.Result.Failed;
   }
 });
 
-export const TestTask = async () => {
+/**
+ * Register Background Task when App is in foreground.
+ */
+export const registerBackgroundTask = async () => {
   try {
-    console.log("again called");
-    const accessToken = await KeyChain.getAccessToken();
-    const getCurrentAsyncStorage = await AsyncStorage.getItem(
-      'BACKGROUND_TASK',
-    );
-    if (accessToken && getCurrentAsyncStorage === 'NOT_RUNNING') {
-      console.log('[SYNC ACTIVITY] STARTED');
-      await setWorkingAsyncStorage();
-      console.log('[FOREGROUND_TASK] ', getCurrentAsyncStorage);
-      await runTask();
-      await setExitAsyncStorage();
-    } else {
-      console.log('[FOREGROUND_TASK] : NOT_STARTED');
-    }
+    await setBackgroundTask();
+  } catch (err) {
+    console.log('TestTask ', err);
+  }
+};
+
+/**
+ * Set Background Task which will run based on its AsyncStorage value, 
+ * So that no two simultaneously sync activity can run at the same time.
+ */
+const setBackgroundTask = async () => {
+  try {
+    await NetInfo.fetch().then( async (state) => {
+      if (state.isConnected) {
+        const accessToken = await KeyChain.getAccessToken();
+        let getCurrentAsyncStorage = await AsyncStorage.getItem(TASK_NAME);
+        if (accessToken && getCurrentAsyncStorage === NOT_RUNNING) {
+          console.log(` [${TASK_NAME}] STARTED ${RUNNING}`);
+          getCurrentAsyncStorage = await setRunningBackgrounTaskValue();
+          console.log(`[${TASK_NAME}] STATUS:  `, getCurrentAsyncStorage);
+          await runBackgroundTask();
+          getCurrentAsyncStorage = await setNotRunningBackgrounTaskValue();
+          console.log(`[${TASK_NAME}] STATUS:  `, getCurrentAsyncStorage);
+          console.log(` [${TASK_NAME}] EXIT`);
+        }
+      } else {
+        console.log('Not connected work');
+      }
+    });
   } catch (err) {
     console.log('err -- ', err);
   }
 };
 
+/**
+ * 
+ * @param {Type of the toastie} tostieType 
+ * @param {Message} message 
+ */
 const showToastie = (tostieType, message) => {
   showToast({
     type: tostieType,
@@ -85,26 +107,27 @@ const showToastie = (tostieType, message) => {
   });
 };
 
-export const runTask = async () => {
+/**
+ * This methos will run the syncTable task for all table which needs be sync in background.
+ * It also collects the overall status of the sync and show toastie as per the status.
+ * @returns
+ */
+export const runBackgroundTask = async () => {
   try {
     let resultArray = [];
     await Sync.SyncAction.syncTableTask().then(result => {
-      console.log('final Result ', result);
-      resultArray = result;
+      resultArray = result || [];
     });
-    console.log('resultArray ', resultArray);
-    if(resultArray == undefined){
-      return;
-    }
-    if (resultArray.includes(CONFLICT)) {
+    console.log('Overall result ', resultArray);
+    if (resultArray && resultArray.includes(CONFLICT)) {
       showToastie('warning', 'Sync Activity have conflicts');
-    } else if (resultArray.includes(FAILURE)) {
-      showToastie('warning', 'Sync Activity Failed');
-    } else {
+    } else if (resultArray && resultArray.includes(FAILURE)) {
+      showToastie('alert', 'Sync Activity Failed');
+    } else if (resultArray && resultArray.includes(SUCCESS)) {
       showToastie('success', 'Sync Activity Completed');
     }
   } catch (err) {
     console.log(err);
-    showToastie('warning', 'Sync Activity Failed');
+    showToastie('alert', 'Sync Activity Failed');
   }
 };

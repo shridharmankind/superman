@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {LogBox, Alert} from 'react-native';
+import {LogBox} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -10,90 +10,37 @@ import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
 import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
 import {useEffect} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
-import {TASK_NAME} from './utils/backgroundTask';
-import * as BackgroundFetch from 'expo-background-fetch';
-import AsyncStorage from '@react-native-community/async-storage';
-import NetInfo from '@react-native-community/netinfo';
-import {Sync} from 'database';
-
-BackgroundFetch.setMinimumIntervalAsync(60);
+import {TASK_NAME} from 'utils/backgroundTask';
 
 const Stack = createStackNavigator();
 const store = getStore();
+
 const App = () => {
   LogBox.ignoreAllLogs();
   const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
-  const [conn, setConn] = React.useState(false);
   setI18nConfig();
   useEffect(() => {
-    let unsubscribe = null;
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
           SplashScreen.hide();
         });
       }, 2000);
-      console.log("wokrin net 1")
-      unsubscribe = checkNetworkConnectivity();
-      RegisterBackgroundTask();
-      
     }
 
-    return () => {
-      console.log('Unmount task in working');
-      unsubscribe();
-      AsyncStorage.removeItem('BACKGROUND_TASK');
+    return async () => {
+      if (!isWeb()) {
+        AsyncStorage.removeItem(TASK_NAME);
+      }
     };
   }, []);
-
-
-  const checkNetworkConnectivity = () => {
-    try {
-      console.log("wokrin net")
-      const netSubscribe = NetInfo.addEventListener(state => {
-        console.log('EventListerner Connection type', state.type);
-        console.log('EventListerner Is connected?', state.isConnected);
-        //setConn(state.isConnected);
-        if(state.isConnected){
-          syncBackgroundTaskOnStart();
-        }
-        else{
-          Alert.alert("No Internet","check internet");
-        }
-      });
-
-      return netSubscribe;
-    } catch (err) {
-      console.log('Network Connectivity Error ', err);
-    }
-  };
-
-  const syncBackgroundTaskOnStart = () => {
-    console.log('App.js');
-    try{
-    Sync.SyncService.syncNow();
-    }
-    catch (err) {
-      console.log('syncBackgroundTaskOnStart failed:', err);
-    }
-  };
-
-  const RegisterBackgroundTask = async () => {
-    try {
-      await AsyncStorage.setItem('BACKGROUND_TASK', 'NOT_RUNNING');
-      await BackgroundFetch.registerTaskAsync(TASK_NAME, {
-        minimumInterval: 10000, // seconds,
-      });
-    } catch (err) {
-      console.log('Task Register failed:', err);
-    }
-  };
 
   return (
     <Provider store={store}>

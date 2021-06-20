@@ -9,70 +9,24 @@ Server errors (500–599)
 
 import {client} from '../../api';
 import env from '../../../env.json';
-import {KeyChain,isWeb} from 'helper';
+import {KeyChain, isWeb} from 'helper';
 import {Offline} from 'database';
 import NetInfo from '@react-native-community/netinfo';
-
-// client.interceptors.request.use(
-//   config => {
-//     if (!isWeb()) {
-//       console.log("Before config - ",config);
-//       NetInfo.fetch().then(state => {
-//         if (!state.isConnected) {
-//           console.log('Not connected work');
-          
-//         }
-//         else{
-//           //return config;
-//         }
-//       });
-//     } else {
-//       console.log('It is web');
-//       return config;
-//     }
-//     console.log("ebfore configured -- ",config);
-//     return config;
-//   },
-//   error => {
-//     // Do something with request error
-//     return Promise.reject(error);
-//   },
-// );
-
-// client.interceptors.response.use(
-//   config => {
-//     if (!isWeb()) {
-//       console.log("After config - ",config);
-//       //return config;
-//     } else {
-//       console.log('It is web',config);
-//       //return config;
-//     }
-//      console.log("after config ------ ",config);
-//      return config;
-//   },
-//   error => {
-//     // Do something with request error
-//     return Promise.reject(error);
-//   },
-// );
-
 
 const checkInternetConnectionForApp = async () => {
   return NetInfo.fetch().then(state => {
     if (!state.isConnected && !isWeb()) {
       console.log('Not connected work');
       return false;
-    }
-    else{
-      console.log("connected and web");
+    } else {
+      console.log('connected or web');
       return true;
     }
   });
-}
+};
 
-const getNetworkResponse = async (config) => {
-  console.log("getNetork response");
+const getNetworkResponse = async config => {
+  console.log('getNetork response');
   return await client(config)
     .then(function (response) {
       // handle success
@@ -83,7 +37,7 @@ const getNetworkResponse = async (config) => {
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
     });
-}
+};
 
 /*
 Function to handle HTTP GET request
@@ -98,19 +52,16 @@ export const get = async (url, params = {}, apiPath = null) => {
     headers: {Authorization: `Bearer ${accessToken}`},
     params,
   };
-  console.log("again called");
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
-  if(isConnectionAvailable){
-    console.log("ConnectionAvailable in call");
+  if (isConnectionAvailable) {
+    console.log('ConnectionAvailable in call');
     return await getNetworkResponse(config);
-  }
-  else{
-    console.log("Connection Not Avaibale in call ");
-    console.log("Api Path ",apiPath);
+  } else {
+    console.log('Connection Not Avaibale in call ');
+    console.log('Api Path ', apiPath);
     return await Offline.offlineData(config, apiPath);
   }
-  
 };
 
 /*
@@ -118,7 +69,7 @@ Function to handle HTTP POST request
 @data for passing data as body
 @params- for query params
 */
-export const post = async (url, data = {}, params = {}) => {
+export const post = async (url, data = {}, params = {}, apiPath = null) => {
   const accessToken = await KeyChain.getAccessToken();
   const config = {
     baseURL: env.API_HOST,
@@ -131,16 +82,16 @@ export const post = async (url, data = {}, params = {}) => {
     data,
     params,
   };
+  const isConnectionAvailable = await checkInternetConnectionForApp();
 
-  return await client(config)
-    .then(function (response) {
-      // handle success
-      return response;
-    })
-    .catch(function (error) {
-      // handle error, based on different error code different error message can be set here
-      return error.response || error.message;
-    });
+  if (isConnectionAvailable) {
+    console.log('ConnectionAvailable in call');
+    return await getNetworkResponse(config);
+  } else {
+    console.log('Connection Not Avaibale in call ');
+    console.log('Api Path ', apiPath);
+    return await Offline.offlineData(config, apiPath);
+  }
 };
 
 /**
@@ -149,7 +100,7 @@ export const post = async (url, data = {}, params = {}) => {
  * @param {object} data data to pass in body
  * @param {object} params params to pass in api call
  */
-export const put = async (url, data = {}, params = {}) => {
+export const put = async (url, data = {}, params = {}, apiPath = null) => {
   const accessToken = await KeyChain.getAccessToken();
   const config = {
     baseURL: env.API_HOST,
@@ -163,15 +114,16 @@ export const put = async (url, data = {}, params = {}) => {
     params,
   };
 
-  return await client(config)
-    .then(function (response) {
-      // handle success
-      return response;
-    })
-    .catch(function (error) {
-      // handle error, based on different error code different error message can be set here
-      return error.response || error.message;
-    });
+  const isConnectionAvailable = await checkInternetConnectionForApp();
+
+  if (isConnectionAvailable) {
+    console.log('ConnectionAvailable in call');
+    return await getNetworkResponse(config);
+  } else {
+    console.log('Connection Not Avaibale in call ');
+    console.log('Api Path ', apiPath);
+    return await Offline.offlineData(config, apiPath);
+  }
 };
 
 /**
@@ -180,7 +132,7 @@ export const put = async (url, data = {}, params = {}) => {
  * @param {object} data data to pass in body
  * @param {object} params params to pass in api call
  */
-export const Delete = async (url, data = {}, params = {}) => {
+export const Delete = async (url, data = {}, params = {}, apiPath = null) => {
   const accessToken = await KeyChain.getAccessToken();
   const config = {
     baseURL: env.API_HOST,
@@ -194,15 +146,16 @@ export const Delete = async (url, data = {}, params = {}) => {
     params,
   };
 
-  return client(config)
-    .then(function (response) {
-      // handle success
-      return response;
-    })
-    .catch(function (error) {
-      // handle error, based on different error code different error message can be set here
-      return error.response || error.message;
-    });
+  const isConnectionAvailable = await checkInternetConnectionForApp();
+
+  if (isConnectionAvailable) {
+    console.log('ConnectionAvailable in call');
+    return await getNetworkResponse(config);
+  } else {
+    console.log('Connection Not Avaibale in call ');
+    console.log('Api Path ', apiPath);
+    return await Offline.offlineData(config, apiPath);
+  }
 };
 
 const NetworkService = {

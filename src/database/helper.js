@@ -1,7 +1,6 @@
 import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
-import * as MonthlyPlanSchema from './schemas/MonthlyPlan';
 import {getActiveUser} from './operations/common';
 
 export const MASTER_TABLES_DETAILS = [
@@ -30,7 +29,10 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
     syncApiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_SYNC_API_PATH,
     syncParam: Constants.MASTER_MONTHLY_TABLE_SYNC_PARAM,
-    schema: [MonthlyPlanSchema.monthlyMaster, MonthlyPlanSchema.dailyMaster],
+    schema: [
+      Schemas.MonthlySchema.monthlyMaster,
+      Schemas.MonthlySchema.dailyMaster,
+    ],
   },
 ];
 

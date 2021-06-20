@@ -1,57 +1,81 @@
+import {Alert} from 'react-native';
 import * as Constants from '../../constants';
 import * as Schemas from '../../schemas';
 import * as Helper from '../../helper';
 import * as Operations from '../../operations';
-import {commonSyncRecordCRUDMethod} from '../../operations/common';
 import {NetworkService} from 'services';
 
-const downloadStatus = Object.freeze({
-  DOWNLOADED: 'DOWNLOADED',
-  PENDING: 'PENDING',
-});
-
+const syncDifference = 1; // minutes
+/**
+ * In this list we mention all the Schema's Name for which we want to run the Sync activity.
+ */
 const SYNC_TASK_LIST = [
-  Constants.MASTER_TABLE_PARTY,
-  Constants.MASTER_MONTHLY_TABLE_PLAN,
+  Constants.MASTER_TABLE_PARTY,         //partyMaster Table
+  Constants.MASTER_MONTHLY_TABLE_PLAN,  //monthlyMaster Table
 ];
 
+
+export const checkMinimumTimeConstraint = async () => {
+  try{
+    const record = await Operations.getRecord(
+      Schemas.masterTablesDownLoadStatus,
+      Constants.APPLICATION_SYNC_STATUS,
+    );
+
+    //Set the time constraints 
+    let lastSyncRecordTime = new Date(record.lastSync);
+    let constraintTime = new Date(lastSyncRecordTime);
+    constraintTime.setMinutes(lastSyncRecordTime.getMinutes() + syncDifference);
+    return constraintTime;
+  }catch(err){
+    console.log("checkMinimumTimeConstraint",err);
+  }
+}
+
+/**
+ * This method first check the time different between last sync and current time.
+ * Secondly, it will call the runBackgrounTask() method as per the schemas mentioned in SYNC_TASK_LIST.
+ * Thirdly, It will update the Master Table time for 'Application Sync' record for showing last sync Value.
+ * @returns 
+ */
 export const syncTableTask = async () => {
   try {
     let resultArray = [];
-    const record = await Operations.getRecord(
-        Schemas.masterTablesDownLoadStatus,
-        Constants.APPLICATION_SYNC_STATUS,
-    );
-    //let recordDate = new Date(record.lastSync);
-    var d1 = new Date(record.lastSync);
-    //console.log("D1 ",d1);
-    d2 = new Date(d1);
-    d2.setMinutes(d1.getMinutes() + 1);
-    //console.log("D2 ",d2);
-    let newDate = new Date();
-    //console.log("newDate - ",newDate);
-    if(d2 < newDate){
-        console.log("time gone");
-        for (const table of SYNC_TASK_LIST) {
+
+    let constraintTime = await checkMinimumTimeConstraint();
+    let currentTime = new Date();
+
+    if (constraintTime < currentTime) { // if current time is greater than the lastSync time + syncDifference
+      for (const table of SYNC_TASK_LIST) {
         await runBackgroundTask(table).then(result => {
-            console.log('syncTableTask result ', result);
-            resultArray = [...resultArray, ...result];
+          //console.log('syncTableTask result ', result);
+          resultArray = [...resultArray, ...result]; //collecting result to show toastie
         });
-        }
-        console.log('table name 1');
-        await Operations.updateRecord(
+      }
+      await Operations.updateRecord(
         Schemas.masterTablesDownLoadStatus,
         Constants.downloadStatus.DOWNLOADED,
         Constants.APPLICATION_SYNC_STATUS,
-        );
-    }    
-    console.log('table name 2');
+      );
+    }
+    else{
+      console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
+    }
     return resultArray;
   } catch (err) {
     console.log('Error ', err);
   }
 };
 
+/**
+ * Configuring param for POST api for different tables.
+ * 
+ * @param {*} item 
+ * @param {*} staffPositionId 
+ * @param {*} lastSync 
+ * @param {*} data 
+ * @returns 
+ */
 const configParam = (item, staffPositionId, lastSync, data) => {
   let postData = {};
   switch (item.name) {
@@ -69,60 +93,92 @@ const configParam = (item, staffPositionId, lastSync, data) => {
 };
 
 /**
- *
+ * This method will hit post data with configured postData.
+ * @param {*} item 
+ * @param {*} lastSync 
+ * @param {*} data 
+ * @returns 
+ */
+const syncPostRequest = async (item, lastSync, data ) => {
+  const staffPositionId = await Helper.getStaffPositionId();
+  let postData = configParam(
+    item,
+    staffPositionId,
+    lastSync,
+    data,
+  );
+  const response = await NetworkService.post(
+    item.syncApiPath,
+    postData,
+  );
+  return response;
+}
+
+/**
+ * Get modified Records as per conditions from the schema
+ * @param {*} schema 
+ * @returns 
+ */
+const getModifiedRecords = async (schema) => {
+  const tableRecord = await Operations.getAllRecord(schema);
+  console.log("tableRecord length ",tableRecord.length);
+  const modifiedRecords = await tableRecord.filtered(
+    'syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true',
+  );
+  console.log("modifiedRecords length ",modifiedRecords.length);
+  return modifiedRecords;
+}
+
+/**
+ * This method do three things :
+ * 1. Check for modified Data.
+ * 2. Hit Post API for sync with modified Data.
+ * 3. Update Realm DB with response from POST data.
  * @returns true : success
  * @returns false: failure
  */
 const runBackgroundTask = async tableName => {
   try {
     let resultArray = [];
-    console.log('start table Name ', tableName);
     let item = await Helper.MASTER_TABLES_DETAILS.filter(obj => {
       return obj.name === tableName;
     });
-    console.log(item);
     if (item[0].name === tableName) {
       const record = await Operations.getRecord(
         Schemas.masterTablesDownLoadStatus,
         item[0].name,
       );
-      if (record?.status === downloadStatus.DOWNLOADED) {
-        const tableRecord = await Operations.getAllRecord(item[0].schema[0]);
-        //console.log("tablerecord ",JSON.stringify(tableRecord,null,2));
-        const modifiedData = tableRecord.filtered(
-          'syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true',
-        );
-        //modifiedData[1].id == 13 ? modifiedData[1].syncParameters.isDeleted = true : '';
-        //console.log("modified -- ",JSON.stringify(modifiedData,null,2));
-        const staffPositionId = await Helper.getStaffPositionId();
-        let postData = configParam(
-          item[0],
-          staffPositionId,
-          record.lastSync,
-          Array.from(modifiedData),
-        );
-        //console.log("postData - ",postData);
-        const response = await NetworkService.post(
-          item[0].syncApiPath,
-          postData,
-        );
-        //console.log('response--- ', JSON.stringify(response, null, 2));
+      if (record?.status === Constants.downloadStatus.DOWNLOADED) {
+        
+        const modifiedRecords = await getModifiedRecords(item[0].schema[0]);
+
+        //Hit Post API
+        const response = await syncPostRequest(item[0], record.lastSync, Array.from(modifiedRecords));
+
         if (response?.status === Constants.HTTP_OK) {
-          await commonSyncRecordCRUDMethod(item[0], response.data).then(res => {
+          
+          await Operations.commonSyncRecordCRUDMethod(
+            item[0],
+            response.data,
+          ).then(res => {
             resultArray = [...resultArray, ...res];
-            console.log('commonSyncRecordCRUDMethod ', resultArray);
+            //console.log(`${item[0].name} result `, resultArray);
           });
+
           const updatedRecord = await Operations.getAllRecord(
             item[0].schema[0],
           );
-          //console.log('Iupdated == ', JSON.stringify(updatedRecord, null, 2));
+          console.log("UpdatedRecord length ",updatedRecord.length);
 
           await Operations.updateRecord(
             Schemas.masterTablesDownLoadStatus,
-            downloadStatus.DOWNLOADED,
+            Constants.downloadStatus.DOWNLOADED,
             item[0].name,
           );
 
+          return resultArray;
+        } else {
+          console.log(`${item[0].name}'s response from API is ${response?.status}`);
           return resultArray;
         }
       } else {

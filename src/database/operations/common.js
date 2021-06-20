@@ -36,12 +36,12 @@ export const commonSyncRecordCRUDMethod = async (item, data) => {
           });
         } else {
           //case 2
-          console.log('record exist');
+          //console.log('record exist');
           recordExist(item, schema, existingRecord, object).then(result => {
             resultArray.push(result);
           });
         }
-        console.log('End of one Object');
+        //console.log('End of one Object');
       }); //data forEach ends here
     }); //getDbInstance write ends here
     return resultArray;
@@ -74,10 +74,7 @@ const recordExist = async (item, schema, existingRecord, object) => {
     } //syncParameters are null
     else {
       //If syncParameters are not null then records are not successfully updated
-      console.log(
-        'recordExist syncParameters are not null - ',
-        object.syncParameters,
-      );
+      //console.log('recordExist syncParameters are not null - ',object.syncParameters);
       //check if isDelete is true and there is no errorInSync
       if (
         object.syncParameters.isDeleted &&
@@ -213,7 +210,7 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
   }
 };
 
-const deleteExistingRecord = (schema, id) => {
+export const deleteExistingRecord = (schema, id) => {
   try {
     let newData = getDBInstance().objects(schema.name).filtered(`id == ${id}`);
     //console.log('deleteExistingRecord', newData);

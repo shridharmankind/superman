@@ -40,18 +40,24 @@ const Dashboard = ({navigation}) => {
 
   const onSyncPress = () => {
     if (!isWeb()) {
-      NetInfo.fetch().then(state => {
-        console.log('Connection type', state.type);
-        console.log('Is connected?', state.isConnected);
+      NetInfo.fetch().then(async (state) => {
         if (state.isConnected) {
-          console.log('[EVENT_GENERATED_FOREGROUND_TASK] ');
-          Sync.SyncService.syncNow();
+          let constraintTime = await Sync.SyncAction.checkMinimumTimeConstraint();
+          let currentTime = new Date();
+          if(constraintTime < currentTime){
+            Sync.SyncService.syncNow();
+          }
+          else{
+            Alert.alert('Sync Status','Minimum Sync Interval is 1 minute'); 
+          }
         } else {
           console.log('Not connected work');
         }
       });
     }
   };
+
+
 
   const onActivePageChanged = (route, itemId) => {
     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
@@ -167,6 +173,16 @@ const Dashboard = ({navigation}) => {
     </View>
   );
 
+  const renderSyncButton = () => {
+    if (!isWeb()) {
+      return (
+        <View style={[styles.action, styles.actionPadding]}>
+          <RefreshIcon height={21.3} width={21.3} onPress={onSyncPress} />
+        </View>
+      );
+    }
+  };
+
   const renderScreenActions = () => (
     <View style={styles.actionsContainer}>
       {!searchState && (
@@ -198,9 +214,7 @@ const Dashboard = ({navigation}) => {
       <View style={[styles.action, styles.actionPadding]}>
         <NotificationIcon height={21.3} width={21.3} />
       </View>
-      <View style={[styles.action, styles.actionPadding]}>
-        <RefreshIcon height={21.3} width={21.3} onPress={onSyncPress} />
-      </View>
+      {renderSyncButton()}
     </View>
   );
 
