@@ -7,7 +7,12 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         organizations.forEach(organization => {
-          dbInstance.create(OrganizationSchemaName, organization, 'modified');
+          const {id, name, shortName} = organization;
+          dbInstance.create(
+            OrganizationSchemaName,
+            {id, name, shortName},
+            'modified',
+          );
         });
       });
     } catch (err) {
