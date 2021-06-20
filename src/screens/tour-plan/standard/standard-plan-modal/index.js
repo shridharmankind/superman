@@ -798,7 +798,16 @@ const StandardPlanModal = ({
   /** function to filter parties by party type eg. doctors,chemist and all*/
   const getSelectedPartyByType = useCallback(() => {
     if (patchSelected) {
-      const obj = getSelectedPartyTypeData(partiesList, doctorsSelected);
+      const obj = {doctor: 0, chemist: 0};
+      partiesList.map(party => {
+        if (doctorsSelected?.some(id => id === party.id)) {
+          if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
+            obj.doctor = obj.doctor + 1;
+          } else {
+            obj.chemist = obj.chemist + 1;
+          }
+        }
+      });
       if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
         let partyCount = obj.chemist;
         return (
