@@ -16,6 +16,7 @@ import {
   Schemas,
   Divisions,
   Qualifications,
+  Specialities,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -58,16 +59,21 @@ const MasterDataDownload = ({navigation}) => {
           );
         };
 
-        const fetchQualificationsPerDivision = async qualificationInfo => {
+        const areDivisionsDownloaded = async () => {
           const divisionsDownloadStatus = await Operations.getRecord(
             Schemas.masterTablesDownLoadStatus,
             DBConstants.MASTER_TABLE_DIVISION,
           );
-          const divisionsDownloaded =
+
+          return (
             divisionsDownloadStatus &&
             divisionsDownloadStatus.status ===
-              DBConstants.downloadStatus.DOWNLOADED;
+              DBConstants.downloadStatus.DOWNLOADED
+          );
+        };
 
+        const fetchQualifications = async qualificationInfo => {
+          const divisionsDownloaded = await areDivisionsDownloaded();
           if (!divisionsDownloaded) {
             return;
           }
@@ -83,8 +89,9 @@ const MasterDataDownload = ({navigation}) => {
 
             if (response && response.status === Constants.HTTP_OK) {
               const {data} = response;
-              const recordsUpdated =
-                await Qualifications.storeQualificationsPerDivision(data);
+              const recordsUpdated = await Qualifications.storeQualifications(
+                data,
+              );
 
               if (!recordsUpdated) {
                 failedToSaveQualifications = true;
@@ -95,6 +102,38 @@ const MasterDataDownload = ({navigation}) => {
 
             if (index === divisions.length - 1) {
               !failedToSaveQualifications && updateRecordDownloaded(name);
+            }
+          });
+        };
+
+        const fetchSpecialities = async specialityInfo => {
+          const divisionsDownloaded = await areDivisionsDownloaded();
+          if (!divisionsDownloaded) {
+            return;
+          }
+
+          const divisions = await Divisions.getAllDivisions();
+          const {name, apiPath} = specialityInfo;
+          let failedToSaveSpecialities = false;
+
+          divisions.forEach(async (division, index) => {
+            const response = await NetworkService.get(
+              `${apiPath}?divisionId=${division?.id}`,
+            );
+
+            if (response && response.status === Constants.HTTP_OK) {
+              const {data} = response;
+              const recordsUpdated = await Specialities.storeSpecialities(data);
+
+              if (!recordsUpdated) {
+                failedToSaveSpecialities = true;
+              }
+            } else {
+              failedToSaveSpecialities = true;
+            }
+
+            if (index === divisions.length - 1) {
+              !failedToSaveSpecialities && updateRecordDownloaded(name);
             }
           });
         };
@@ -125,8 +164,11 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_TABLE_DIVISION:
               response = await NetworkService.get(item.apiPath);
               break;
-            case DBConstants.QUALIFICATIONS_PER_DIVISION:
-              fetchQualificationsPerDivision(item);
+            case DBConstants.QUALIFICATIONS:
+              fetchQualifications(item);
+              break;
+            case DBConstants.SPECIALITIES:
+              fetchSpecialities(item);
               break;
           }
           if (response && response.status === Constants.HTTP_OK) {

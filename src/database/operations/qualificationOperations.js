@@ -2,7 +2,7 @@ import {QualificationsSchemaName} from '../schemas/Qualifications';
 import {getAllTableRecords} from './common';
 
 export default dbInstance => ({
-  storeQualificationsPerDivision: async qualifications => {
+  storeQualifications: async qualifications => {
     let recordsUpdated = true;
 
     try {

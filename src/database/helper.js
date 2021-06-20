@@ -16,7 +16,7 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_TABLE_PARTY_API_PATH,
     schema: [
       Schemas.partyMaster,
-      Schemas.specialities,
+      Schemas.Specialities.schema,
       Schemas.areas,
       Schemas.Qualifications.schema,
       Schemas.partyTypeGroup,
@@ -29,8 +29,12 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
   },
   {
-    name: Constants.QUALIFICATIONS_PER_DIVISION,
+    name: Constants.QUALIFICATIONS,
     apiPath: NetworkService.API.FETCH_QUALIFICATIONS_PER_DIVISION,
+  },
+  {
+    name: Constants.SPECIALITIES,
+    apiPath: NetworkService.API.FETCH_SPECIALITIES_PER_DIVISION,
   },
 ];
 
