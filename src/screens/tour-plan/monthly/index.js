@@ -29,6 +29,7 @@ import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
 import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
+import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -123,9 +124,10 @@ const MonthlyTourPlan = ({navigation}) => {
     if (showCongratsModal) {
       setTimeout(() => {
         setShowCongratsModal(false);
+        dispatch(monthlyActions.setSTPShowComplete(true));
       }, 5000);
     }
-  }, [showCongratsModal]);
+  }, [dispatch, showCongratsModal]);
 
   /**
    * effect to set percentage compliance
@@ -514,11 +516,19 @@ const MonthlyTourPlan = ({navigation}) => {
       {openTourPlanDropDown()}
       {renderView()}
       <CongratulatoryModal
-        open={showCongratsModal}
+        open={!submitSTP?.messageShown && showCongratsModal}
         actionTitle={Strings.takeMeToHome}
         content={renderCongratsContent()}
         bottomText={Strings.beginJourney}
-        btnAction={() => {}}
+        btnAction={() => {
+          navigation.navigate(ROUTE_HOME, {
+            screen: 'Home',
+          });
+        }}
+        closeAction={true}
+        onClose={() => {
+          setShowCongratsModal(false);
+        }}
       />
     </View>
   );
