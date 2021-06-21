@@ -12,6 +12,8 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 import monthlyplanComplaince from './api/planComplaince.json';
 import dailyPlanComplaince from './api/dailyPlanComplaince.json';
 import docList from './api/searchDocList.json';
+import EPriorityProductList from './api/ePriorityProduct.json';
+import EOtherProductList from './api/eOtherProduct.json';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
@@ -115,6 +117,22 @@ const getMock = axios => {
       'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
     )
     .reply(200, docList);
+  mock
+    .onGet(
+      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=1',
+    )
+    .reply(200, EPriorityProductList);
+  mock
+    .onGet(
+      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=1&Limit=4',
+    )
+    .reply(200, EPriorityProductList);
+  mock
+    .onGet('eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=4')
+    .reply(200, EOtherProductList);
+  mock
+    .onGet('eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=1&Limit=4')
+    .reply(200, EOtherProductList);
 };
 
 export default getMock;

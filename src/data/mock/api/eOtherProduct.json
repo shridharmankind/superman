@@ -1,0 +1,74 @@
+[
+    {
+      "id": 3,
+      "eDetailId": 0,
+      "name": "MB3",
+      "isFeatured": 1,
+      "isFocused": 0,
+      "isPowered": 0,
+      "priority": 2,
+      "isSelected": 0,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "isSKU": 0,
+      "subBrandList": []
+    },
+    {
+      "id": 1,
+      "eDetailId": 0,
+      "name": "Alzone",
+      "isFeatured": 0,
+      "isFocused": 1,
+      "isPowered": 0,
+      "priority": 0,
+      "isSelected": 0,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "isSKU": 0,
+      "subBrandList": [
+        {
+          "id": 1,
+          "eDetailId": 0,
+          "name": "Sub-brand-1",
+          "isFeatured": 0,
+          "isFocused": 0,
+          "isPowered": 0,
+          "priority": 0,
+          "isSelected": 0,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "isSKU": 0,
+          "subBrandList": null
+        },
+        {
+          "id": 1,
+          "eDetailId": 0,
+          "name": "SKU-1",
+          "isFeatured": 0,
+          "isFocused": 0,
+          "isPowered": 0,
+          "priority": 0,
+          "isSelected": 0,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "isSKU": 1,
+          "subBrandList": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eDetailId": 0,
+      "name": "Zinco",
+      "isFeatured": 0,
+      "isFocused": 0,
+      "isPowered": 1,
+      "priority": 0,
+      "isSelected": 0,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "isSKU": 0,
+      "subBrandList": []
+    }
+  ]
+  

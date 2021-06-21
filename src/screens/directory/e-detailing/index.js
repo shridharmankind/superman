@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Label} from 'components/elements';
 import {ContentWithSidePanel} from 'components/layouts';
 import {Button, LabelVariant} from 'components/elements';
@@ -7,6 +8,11 @@ import {TouchableOpacity, View} from 'react-native';
 import {Strings} from 'common';
 import {ArrowBack} from 'assets';
 import {isWeb} from 'helper';
+import {
+  fetchDetailingPriorityProductCreator,
+  fetchDetailingOtherProductCreator,
+  eDetailingSelector,
+} from './redux';
 
 /**
  * Render header
@@ -51,6 +57,22 @@ const renderHeader = ({navigation}) => (
  * @return {JSX} Edetailing component
  */
 const EDetailing = ({navigation}) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      fetchDetailingPriorityProductCreator({
+        staffPositionID: 1,
+        partyId: 1,
+        skip: 0,
+        limit: 1,
+      }),
+    );
+  }, [dispatch]);
+
+  const priorityProductList = useSelector(
+    eDetailingSelector.getPriorityProduct(),
+  );
   return (
     <ContentWithSidePanel header={renderHeader({navigation})}>
       <View style={[styles.eDetailingPriorityProducts]}>
