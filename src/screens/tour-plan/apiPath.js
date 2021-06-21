@@ -11,4 +11,6 @@ export const API_PATH = {
   COMPLAINCE_DAILY:
     'standardtourplan/staffPositionId/daily?week=weekVal&weekday=weekdayVal',
   COMPLAINCE_MONTHLY: 'standardtourplan/staffPositionId/month',
+  STP_STATUS: 'stp/status/staffPositionId/year',
+  SUBMIT_STP: 'stp/status/staffPositionId',
 };
