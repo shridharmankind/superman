@@ -1,3 +1,6 @@
 {
-    "goodMorning": "Good morning"
+  "goodMorning": "Good morning",
+  "errorMessage": {
+    "noRecords": "There are no records"
+  }
 }
