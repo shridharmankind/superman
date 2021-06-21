@@ -12,9 +12,8 @@ import {validateSearch} from 'screens/directory/helper';
 import {SearchIcon} from 'assets';
 import {Button} from 'components/elements';
 import theme from 'themes';
-import {getDivisionColor} from 'screens/directory/helper';
-import {ROUTE_EDETAILING} from 'screens/directory/routes';
-
+import { getDivisionColor } from 'screens/directory/helper';
+import { ROUTE_EDETAILING } from 'screens/directory/routes';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
@@ -26,26 +25,29 @@ const DirectoryLanding = ({navigation, route}) => {
   const [searchKeyword, updateSearchKeyword] = useState(
     route?.params?.inputKeyword,
   );
+  let filterPrefix;
   const dispatch = useDispatch(); // For dispatching the action
+
   useEffect(() => {
+    filterPrefix = checkForDrPrefix(searchKeyword);
     dispatch(
       fetchSearchDoctors({
         staffPositionId: 1,
-        searchKeyword: 'abc',
+        searchKeyword: filterPrefix,
         partyTypeId: 1,
-        skip: skip,
+        skip: 0,
         limit: LIMIT,
       }),
     );
-    setSkip(prev => prev + LIMIT);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setSkip(LIMIT);
+
   }, [dispatch]);
 
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
   const doctorList = useSelector(searchDocSelector.getSearchDocList());
   const data = [
     {
-      text: `${Strings.directory.tab.doctors}(${docCount})`,
+      text: `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`,
     },
     {
       text: `${Strings.directory.tab.chemists}`,
@@ -54,6 +56,16 @@ const DirectoryLanding = ({navigation, route}) => {
       text: `${Strings.directory.tab.stocklists}`,
     },
   ];
+
+ // Dunction to check the dr. prefix and remove it
+  const checkForDrPrefix = (searchKey) => {
+    if (searchKey.toLowerCase().indexOf('dr.') === 0) {
+      return searchKey.toLowerCase().replace('dr.', '').trim();
+    }
+    else {
+      return searchKey.trim();
+    }
+  }
 
   // For rendering navbars
   const renderNavBar = () => {
@@ -92,12 +104,29 @@ const DirectoryLanding = ({navigation, route}) => {
 
   // Function to be called on search icon
   const doSearch = () => {
-    const [isValid, searchKey] = validateSearch(
+    const [isValid, drPrefix] = validateSearch(
       searchKeyword,
       clearSearchInput,
     );
     if (isValid) {
-      updateSearchKeyword(searchKey);
+      // updateSearchKeyword(searchKey);
+      let trimmedKeyword = '';
+      if (drPrefix) {
+        trimmedKeyword = searchKeyword.toLowerCase().replace('dr.', '');
+      }
+      else {
+        trimmedKeyword = searchKeyword;
+      }
+      dispatch(
+        fetchSearchDoctors({
+          staffPositionId: 1,
+          searchKeyword: trimmedKeyword.trim(),
+          partyTypeId: 1,
+          skip: 0,
+          limit: LIMIT,
+        }),
+      );
+      setSkip(LIMIT);
     }
   };
 
@@ -107,31 +136,33 @@ const DirectoryLanding = ({navigation, route}) => {
   };
 
   // If image is not received from server
-  const OnErrorHandler = index => {
-    const genderImage =
+  const OnErrorHandler = (index) => {
+    let genderImage = require('assets/images/male.png');
+    if(doctorList[index]?.gender){
       Constants.GENDER.MALE === doctorList[index].gender.toUpperCase()
-        ? require('assets/images/male.png')
-        : require('assets/images/female.png');
-
+        ? genderImage = require('assets/images/male.png')
+        : genderImage = require('assets/images/female.png');
+    }
     return genderImage;
   };
 
   // Function for infinite scrolling
   const handleLoadMore = () => {
-    // TO DO
-    // if (skip < docCount) {
-    //   dispatch(
-    //     fetchSearchDoctors({
-    //       staffPositionId: 1,
-    //       searchKeyword: 'abc',
-    //       partyTypeId:1,
-    //       skip: skip,
-    //       limit: LIMIT,
-    //     }),
-    //   );
-    //   setSkip(prev => prev + LIMIT);
-    // }
-  };
+    filterPrefix = checkForDrPrefix(searchKeyword);
+    if (skip < docCount) {
+      dispatch(
+        fetchSearchDoctors({
+          staffPositionId: 1,
+          searchKeyword: filterPrefix,
+          partyTypeId: 1,
+          skip: skip,
+          limit: LIMIT,
+        }),
+      );
+        setSkip(prev => prev + LIMIT);
+    }
+  }
+
 
   // Below is the doctor tab under directory page
   const doctorTab = () => {
@@ -199,7 +230,7 @@ const DirectoryLanding = ({navigation, route}) => {
                           </View>
                         )}
 
-                        {item?.category && (
+                        {item.category !== '' && (
                           <View
                             style={[
                               styles.category,
@@ -226,18 +257,12 @@ const DirectoryLanding = ({navigation, route}) => {
                         }
                       />
                       <Label style={styles.dataStyle} title={item.name} />
-                      <Label
-                        style={styles.dataStyle}
-                        title={(item?.specialities || [])
-                          .map(spec => spec.name)
-                          .join(', ')}
-                      />
-                      <Label
-                        style={styles.dataStyle}
-                        title={(item?.areas || [])
-                          .map(area => area.name)
-                          .join(', ')}
-                      />
+                      <Label style={styles.dataStyle} title={(item?.specialities || [])
+                        .map(spec => spec.name)
+                        .join(', ')} />
+                      <Label style={styles.dataStyle} title={(item?.areas || [])
+                        .map(area => area.name)
+                        .join(', ')} />
                       <View style={styles.btnsContainer}>
                         {!item?.isScheduledToday && (
                           <Button
