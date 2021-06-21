@@ -153,6 +153,7 @@ const EDetailing = ({navigation}) => {
             renderItem={({item, index}) => {
               return renderSwape(item, index);
             }}
+            contentContainerStyle={[styles.priorityProducts]}
           />
           <View style={[styles.arrowContainer, styles.rightArrow]}>
             <TouchableOpacity onPress={() => handleAreaRightArrow()}>

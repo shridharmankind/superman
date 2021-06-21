@@ -32,9 +32,11 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   eDetailingPriorityProductsList: {
-    marginTop: theme.spacing(13),
-    paddingTop: theme.spacing(13),
-    height: 230,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing(22),
   },
   swapMain: {
     marginLeft: 20,
@@ -77,6 +79,9 @@ const styles = StyleSheet.create({
   },
   eDetailingNav: {
     backgroundColor: theme.colors.grey[1700],
+  },
+  priorityProducts: {
+    paddingVertical: theme.spacing(15),
   },
 });
 
