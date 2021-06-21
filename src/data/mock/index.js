@@ -13,8 +13,8 @@ import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import planComplaince from './api/planComplaince.json';
 import docList from './api/searchDocList.json';
-import qualificationsPerDivision from './api/masterDataDownload/qualificationsPerDivision.json';
-import specialitiesPerDivision from './api/masterDataDownload/specialitiesPerDivision.json';
+import qualifications from './api/masterDataDownload/qualifications.json';
+import specialities from './api/masterDataDownload/specialities.json';
 
 import {partiesMock} from './api/parties.js';
 import stpData from './api/stpData.js';
@@ -112,10 +112,10 @@ const getMock = axios => {
   // master data download
   mock
     .onGet(NetworkService.API.FETCH_QUALIFICATIONS_PER_DIVISION)
-    .reply(200, qualificationsPerDivision);
+    .reply(200, qualifications);
   mock
     .onGet(NetworkService.API.FETCH_SPECIALITIES_PER_DIVISION)
-    .reply(200, specialitiesPerDivision);
+    .reply(200, specialities);
 };
 
 export default getMock;
