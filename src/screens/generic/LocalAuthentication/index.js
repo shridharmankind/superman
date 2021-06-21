@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react';
-import {BackHandler} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {BackHandler, View, StyleSheet} from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -17,7 +17,6 @@ const LocalAuth = ({navigation}) => {
           if (response3.error === 'user_cancel') {
             return BackHandler.exitApp();
           }
-          navigation.navigate('LocalAuthentication');
           setLoginFail(!loginfail);
         }
       });
@@ -25,7 +24,13 @@ const LocalAuth = ({navigation}) => {
     fn();
   }, [navigation, loginfail]);
 
-  return null;
+  return <View style={styles.container} />;
 };
-
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#1C1837',
+  },
+});
 export default LocalAuth;
