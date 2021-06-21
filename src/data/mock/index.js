@@ -1,4 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
+import {NetworkService} from 'services';
+
 import userMock from './api/doctors.json';
 import stpMock from './api/standardTourPlan.json';
 import patchesMock from './api/patches.json';
@@ -15,10 +17,13 @@ import docList from './api/searchDocList.json';
 import EPriorityProductList from './api/ePriorityProduct.json';
 import EOtherProductList from './api/eOtherProduct.json';
 import AllPriority from './api/AllPriority.json';
+import qualifications from './api/masterDataDownload/qualifications.json';
+import specialities from './api/masterDataDownload/specialities.json';
 
 import {partiesMock} from './api/parties.js';
-import {API_PATH} from 'screens/tour-plan/apiPath';
 import stpData from './api/stpData.js';
+
+import {API_PATH} from 'screens/tour-plan/apiPath';
 import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
 import visitMockData from './api/timeline.json';
 
@@ -118,7 +123,7 @@ const getMock = axios => {
   mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyplanComplaince);
   mock
     .onGet(
-      'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
+      'party/searchpartybyname?StaffPositionId=1&Keyword=ra&PartyTypeId=1&Skip=0&Limit=10',
     )
     .reply(200, docList);
   mock
@@ -142,6 +147,12 @@ const getMock = axios => {
       `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,
     )
     .reply(200, visitMockData);
+
+  // master data download
+  mock
+    .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
+    .reply(200, qualifications);
+  mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
 };
 
 export default getMock;
