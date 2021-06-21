@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textTransform: 'capitalize',
   },
+  capitalize: {textTransform: 'capitalize'},
 });
 
 export default styles;

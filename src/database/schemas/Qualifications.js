@@ -8,6 +8,7 @@ export default class QualificationsSchema {
       id: 'int',
       name: 'string?',
       shortName: 'string?',
+      divisionId: 'int?',
     },
   };
 }

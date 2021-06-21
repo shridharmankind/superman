@@ -153,6 +153,12 @@ const styles = StyleSheet.create({
   modalButton: {
     width: 100,
   },
+  error: {
+    fontSize: 20,
+    color: theme.colors.primary,
+    paddingVertical: theme.spacing(10),
+    fontFamily: theme.fonts.fontBold,
+  },
 });
 
 export default styles;

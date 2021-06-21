@@ -18,6 +18,7 @@ import {DoctorDetails} from 'components/elements';
  * @param {Boolean} isKyc boolean value passed for KYC status
  * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
  * @param {Object} party party information is passed as an object
+ * @param {Boolean} isPartyInPatch is party is availble in patch
  */
 
 const DoctorDetailsWrapper = ({
@@ -35,12 +36,16 @@ const DoctorDetailsWrapper = ({
   isKyc,
   containerStyle,
   isSameDayPatch,
+  isPartyInPatch,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
   const [count, setCount] = useState();
-  const isDisabled = isSameDayPatch && frequency <= alreadyVisited;
+  const isDisabled = !isSameDayPatch && frequency <= alreadyVisited;
+  const showTicked =
+    (selected && frequency > alreadyVisited) ||
+    (isSameDayPatch && selected && frequency <= alreadyVisited);
 
   /**
    *  Select and deselect the card ,also
@@ -52,7 +57,10 @@ const DoctorDetailsWrapper = ({
   };
 
   useEffect(() => {
-    if (frequency > alreadyVisited) {
+    if (
+      frequency > alreadyVisited ||
+      (frequency === alreadyVisited && isSameDayPatch)
+    ) {
       if (selected) {
         setCount(count + 1);
       }
@@ -67,7 +75,7 @@ const DoctorDetailsWrapper = ({
     if (isSameDayPatch && isPatchedData) {
       setCount(alreadyVisited);
     } else if (!isSameDayPatch && isPatchedData) {
-      if (selected && frequency !== alreadyVisited) {
+      if (selected && frequency > alreadyVisited) {
         setCount(alreadyVisited + 1);
       } else {
         setCount(alreadyVisited);
@@ -84,6 +92,10 @@ const DoctorDetailsWrapper = ({
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (!isPartyInPatch && frequency <= alreadyVisited && !isSameDayPatch) {
+    return null;
+  }
+
   return (
     <TouchableOpacity
       testID={testID}
@@ -97,7 +109,7 @@ const DoctorDetailsWrapper = ({
         image={image}
         category={category}
         location={location}
-        isTicked={selected || false}
+        isTicked={showTicked || false}
         selectedVistedFrequency={count}
         frequency={frequency}
         partyType={party.partyTypes.name}

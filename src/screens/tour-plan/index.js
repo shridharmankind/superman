@@ -11,7 +11,7 @@ export {default as TourPlanSidePanel} from './sidePanel';
 
 import React from 'react';
 import Schedule from './schedule';
-import TourPlanSidePanel from './sidePanel';
+import SidePanel from './sidePanel';
 import {ContentWithSidePanel} from 'components/layouts';
 
 /**
@@ -20,7 +20,7 @@ import {ContentWithSidePanel} from 'components/layouts';
  */
 const TourPlanning = ({navigation}) => {
   return (
-    <ContentWithSidePanel sidePanel={<TourPlanSidePanel />}>
+    <ContentWithSidePanel sidePanel={<SidePanel />}>
       <Schedule navigation={navigation} />
     </ContentWithSidePanel>
   );
