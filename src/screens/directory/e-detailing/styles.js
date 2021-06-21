@@ -35,6 +35,35 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing(13),
     height: 246,
   },
+  swapMain: {
+    marginLeft: 20,
+  },
+  swiperArrow: {
+    backgroundColor: theme.colors.white,
+    borderColor: theme.colors.blue,
+    borderWidth: 1,
+    borderRadius: 1000,
+    width: 26,
+    height: 26,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+    top: 80,
+  },
+  leftArrow: {
+    position: 'absolute',
+    left: 0,
+  },
+  rightArrow: {
+    position: 'absolute',
+    right: 0,
+  },
+  swapDiv: {
+    padding: 70,
+    textAlign: 'center',
+    borderWidth: 1,
+  },
 });
 
 export default styles;
