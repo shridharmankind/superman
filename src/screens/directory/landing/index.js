@@ -109,7 +109,7 @@ const DirectoryLanding = ({navigation, route}) => {
   // If image is not received from server
   const OnErrorHandler = index => {
     const genderImage =
-      Constants.GENDER.MALE === doctorList[index].gender.toUpperCase()
+      Constants.GENDER.MALE === doctorList[index].gender?.toUpperCase()
         ? require('assets/images/male.png')
         : require('assets/images/female.png');
 
