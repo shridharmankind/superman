@@ -75,7 +75,7 @@ const DoctorDetailsWrapper = ({
     if (isSameDayPatch && isPatchedData) {
       setCount(alreadyVisited);
     } else if (!isSameDayPatch && isPatchedData) {
-      if (selected && frequency !== alreadyVisited) {
+      if (selected && frequency > alreadyVisited) {
         setCount(alreadyVisited + 1);
       } else {
         setCount(alreadyVisited);
@@ -92,7 +92,7 @@ const DoctorDetailsWrapper = ({
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!isPartyInPatch && frequency <= alreadyVisited) {
+  if (!isPartyInPatch && frequency <= alreadyVisited && !isSameDayPatch) {
     return null;
   }
 
@@ -114,6 +114,7 @@ const DoctorDetailsWrapper = ({
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}
+        onTileNamePress={() => handleDoctorSelection(!selected)}
         {...props}
       />
     </TouchableOpacity>

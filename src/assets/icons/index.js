@@ -23,3 +23,5 @@ export {default as ErrorIcon} from './error';
 export {default as Power} from './power';
 export {default as ArrowDownRed} from './arrowDownRed';
 export {default as Complaint} from './compliant';
+export {default as DoctorVisit} from './doctorVisit';
+export {default as MissedVisit} from './missedVisit';

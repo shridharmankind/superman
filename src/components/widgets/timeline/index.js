@@ -1,0 +1,77 @@
+import React from 'react';
+import styles from './styles';
+import {View, FlatList} from 'react-native';
+
+/**
+ * Render border
+ *
+ * @param {number} index
+ * @param {number} total
+ * @return {JSX} Border
+ */
+const renderBorder = (index, total) => {
+  if (total === index + 1) {
+    return null;
+  }
+  return (
+    <View style={styles.timelineLineContainer}>
+      <View style={styles.timelineLine} />
+    </View>
+  );
+};
+
+/**
+ * Render item
+ *
+ * @param {Object} {item, index}
+ * @return {JSX} Timeline Item
+ */
+function _renderItem({item, index}) {
+  return (
+    <View style={[styles.timelineItemContainer]} key={index}>
+      {index % 2 !== 0 ? (
+        <View style={[styles.timelineItemInnerContainer]}>
+          <View style={[styles.timelineItem]}>
+            {this.renderItem(item, index)}
+            {this.renderDate(item, index)}
+          </View>
+          {renderBorder(index, this.data?.length)}
+        </View>
+      ) : (
+        <View style={[styles.timelineItemInnerContainer]}>
+          <View style={[styles.timelineItem]}>
+            {this.renderDate(item, index)}
+          </View>
+          {renderBorder(index, this.data?.length)}
+          <View style={[styles.timelineItemRight]}>
+            {this.renderItem(item, index)}
+          </View>
+        </View>
+      )}
+    </View>
+  );
+}
+
+/**
+ * Timeline widget
+ *
+ * @param {Object} props
+ * @return {JSX} Timeline
+ */
+const Timeline = props => {
+  return (
+    <View style={[styles.timeline, props.style]}>
+      <FlatList
+        style={[styles.timelineList, props.listViewStyle]}
+        contentContainerStyle={props.listViewContainerStyle}
+        data={props.data}
+        renderItem={_renderItem.bind(props)}
+        keyExtractor={(item, index) => index + ''}
+        nestedScrollEnabled
+        {...props.options}
+      />
+    </View>
+  );
+};
+
+export default Timeline;

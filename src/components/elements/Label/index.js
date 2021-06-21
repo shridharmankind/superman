@@ -26,6 +26,7 @@ const Label = ({
   size = 18,
   textColor = theme.colors.grey[200],
   isUpperCase = false,
+  isCapitalise = false,
   type,
   variant,
   numberOfLines,
@@ -43,6 +44,7 @@ const Label = ({
         type && {fontFamily: getFontFamily(type)},
         textColor && {color: textColor},
         isUpperCase && styles.upperCase,
+        isCapitalise && styles.capitalise,
         style,
       ]}
       {...props}>

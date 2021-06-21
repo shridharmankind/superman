@@ -60,8 +60,10 @@ export const sortByCategory = array => {
   const byPotentials = byCategory
     .slice()
     .sort((a, b) => (a.isKyc === b.isKyc ? 0 : a.isKyc ? -1 : 1));
-
-  return byPotentials;
+  const byFrequency = byPotentials.sort((a, b) =>
+    a.frequency > b.alreadyVisited ? 0 : -1,
+  );
+  return byFrequency;
 };
 
 export const sortBasedOnCategory = (a, b) => {
@@ -77,4 +79,24 @@ export const sortBasedOnCategory = (a, b) => {
 
 export const getSelectedMonthIndex = month => {
   return String(getMonthList().indexOf(month) + 1).padStart(2, '0');
+};
+
+/**
+ *
+ * @param {Object} partiesList  list of party types
+ * @param {Array} doctorsSelected  array of selected doctor id's
+ * @returns obj containing count of party types
+ */
+export const getSelectedPartyTypeData = (partiesList, doctorsSelected) => {
+  const obj = {doctor: 0, chemist: 0};
+  partiesList.map(party => {
+    if (doctorsSelected?.some(id => id === party.id)) {
+      if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
+        obj.doctor = obj.doctor + 1;
+      } else {
+        obj.chemist = obj.chemist + 1;
+      }
+    }
+  });
+  return obj;
 };
