@@ -164,7 +164,7 @@ const Strings = {
       addTodayPlan: "Add to Today's Plan",
       startEdetail: 'eDetail',
     },
-    docAddedTodayPlan:'Doctor added successfully'
+    docAddedTodayPlan:'Doctor added successfully',
   },
   searchBar: {
     errors: {
@@ -184,22 +184,6 @@ const Strings = {
   monthlyActions: {
     save: 'Save',
     submitSTP: 'Submit STP',
-  },
-  planComplaince: {
-    dr: 'dr',
-    minimum: 'minimum',
-    maximum: 'maximum',
-    doctorVisitsPerDay: 'doctorVisitsPerDay',
-    chemistVisitsPerDay: 'chemistVisitsPerDay',
-    daysGap: 'daysGap',
-    minGap: 'minGap',
-    drCovered:'drCovered',
-    drCoveredInMonth: 'drCoveredInMonth',
-    chCoveredInMonth: 'chCoveredInMonth',
-    outStationPerMonth: 'outStationPerMonth',
-    exStationPerMonth: 'exStationPerMonth',
-    areaCovered: 'areaCovered',
-    frequencyMet: 'frequencyMet',
   },
   frquecySlotExhausted:
     'Frequency slots for few doctors has been exhausted, a new patch name has been created',
