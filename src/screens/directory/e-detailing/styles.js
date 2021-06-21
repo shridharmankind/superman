@@ -32,8 +32,51 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   eDetailingPriorityProductsList: {
+    marginTop: theme.spacing(13),
     paddingTop: theme.spacing(13),
-    height: 246,
+    height: 230,
+  },
+  swapMain: {
+    marginLeft: 20,
+  },
+  swiperArrow: {
+    backgroundColor: theme.colors.white,
+    borderColor: theme.colors.blue,
+    borderWidth: 1,
+    borderRadius: 1000,
+    width: 26,
+    height: 26,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    opacity: 1,
+  },
+  leftArrow: {
+    left: 0,
+    top: 0,
+  },
+  arrowContainer: {
+    position: 'absolute',
+    backgroundColor: theme.colors.grey[1700],
+    alignItems: 'center',
+    height: '100%',
+    flexDirection: 'row',
+    minWidth: 25,
+    opacity: 0.5,
+    elevation: 10,
+    zIndex: 1,
+  },
+  rightArrow: {
+    right: 0,
+    top: 0,
+  },
+  swapDiv: {
+    padding: 70,
+    textAlign: 'center',
+    borderWidth: 1,
+  },
+  eDetailingNav: {
+    backgroundColor: theme.colors.grey[1700],
   },
 });
 

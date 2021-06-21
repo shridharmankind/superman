@@ -1,0 +1,30 @@
+[
+    {
+      "id": 13,
+      "eDetailId": 0,
+      "name": "MB3asas",
+      "isFeatured": 1,
+      "isFocused": 0,
+      "isPowered": 0,
+      "priority": 3,
+      "isSelected": 0,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "isSKU": 0,
+      "subBrandList": []
+    },
+    {
+        "id": 113,
+        "eDetailId": 0,
+        "name": "MB3Wss",
+        "isFeatured": 1,
+        "isFocused": 0,
+        "isPowered": 0,
+        "priority": 17,
+        "isSelected": 0,
+        "thumbnailUrl": "",
+        "fileUrl": "",
+        "isSKU": 0,
+        "subBrandList": []
+      }
+  ]

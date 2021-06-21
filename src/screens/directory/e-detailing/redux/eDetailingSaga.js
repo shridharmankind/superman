@@ -72,7 +72,7 @@ function* fetchEOtherProductHandler(action) {
     } else {
       yield put(
         eOtherProductActions.getMoreDetailingOtherProduct({
-          detailingOtherProduct: response.data.detailingOtherProduct,
+          detailingOtherProduct: response.data,
         }),
       );
     }
