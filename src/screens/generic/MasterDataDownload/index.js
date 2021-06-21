@@ -59,83 +59,45 @@ const MasterDataDownload = ({navigation}) => {
           );
         };
 
-        const areDivisionsDownloaded = async () => {
-          const divisionsDownloadStatus = await Operations.getRecord(
-            Schemas.masterTablesDownLoadStatus,
-            DBConstants.MASTER_TABLE_DIVISION,
-          );
-
-          return (
-            divisionsDownloadStatus &&
-            divisionsDownloadStatus.status ===
-              DBConstants.downloadStatus.DOWNLOADED
-          );
-        };
-
         const fetchQualifications = async qualificationInfo => {
-          const divisionsDownloaded = await areDivisionsDownloaded();
-          if (!divisionsDownloaded) {
-            return;
-          }
-
-          const divisions = await Divisions.getAllDivisions();
           const {name, apiPath} = qualificationInfo;
           let failedToSaveQualifications = false;
 
-          divisions.forEach(async (division, index) => {
-            const response = await NetworkService.get(
-              `${apiPath}?divisionId=${division?.id}`,
+          const response = await NetworkService.get(apiPath);
+
+          if (response && response.status === Constants.HTTP_OK) {
+            const {data} = response;
+            const recordsUpdated = await Qualifications.storeQualifications(
+              data,
             );
 
-            if (response && response.status === Constants.HTTP_OK) {
-              const {data} = response;
-              const recordsUpdated = await Qualifications.storeQualifications(
-                data,
-              );
-
-              if (!recordsUpdated) {
-                failedToSaveQualifications = true;
-              }
-            } else {
+            if (!recordsUpdated) {
               failedToSaveQualifications = true;
             }
-
-            if (index === divisions.length - 1) {
-              !failedToSaveQualifications && updateRecordDownloaded(name);
-            }
-          });
+          } else {
+            failedToSaveQualifications = true;
+          }
+          !failedToSaveQualifications && updateRecordDownloaded(name);
         };
 
         const fetchSpecialities = async specialityInfo => {
-          const divisionsDownloaded = await areDivisionsDownloaded();
-          if (!divisionsDownloaded) {
-            return;
-          }
-
-          const divisions = await Divisions.getAllDivisions();
           const {name, apiPath} = specialityInfo;
           let failedToSaveSpecialities = false;
 
-          divisions.forEach(async (division, index) => {
-            const response = await NetworkService.get(
-              `${apiPath}?divisionId=${division?.id}`,
-            );
+          const response = await NetworkService.get(apiPath);
 
-            if (response && response.status === Constants.HTTP_OK) {
-              const {data} = response;
-              const recordsUpdated = await Specialities.storeSpecialities(data);
+          if (response && response.status === Constants.HTTP_OK) {
+            const {data} = response;
+            const recordsUpdated = await Specialities.storeSpecialities(data);
 
-              if (!recordsUpdated) {
-                failedToSaveSpecialities = true;
-              }
-            } else {
+            if (!recordsUpdated) {
               failedToSaveSpecialities = true;
             }
+          } else {
+            failedToSaveSpecialities = true;
+          }
 
-            if (index === divisions.length - 1) {
-              !failedToSaveSpecialities && updateRecordDownloaded(name);
-            }
-          });
+          !failedToSaveSpecialities && updateRecordDownloaded(name);
         };
 
         for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
