@@ -13,6 +13,7 @@ import {OpenTask, PriorityProduct} from 'screens/directory';
 import DocTimeline from '../doc-timeline';
 import {Helper} from 'database';
 import {useEffect} from 'react';
+import {translate} from 'locale';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -114,6 +115,11 @@ const DoctorProfile = ({route}) => {
     );
   };
 
+  /**
+   * Render timeline component
+   *
+   * @return {JSX} Timeline
+   */
   const renderTimeLine = () => {
     if (!staffPositionId) {
       return null;
@@ -123,7 +129,7 @@ const DoctorProfile = ({route}) => {
         <Label
           variant={LabelVariant.h3}
           style={styles.mainHeader}
-          title="Timeline"
+          title={translate('timeline')}
         />
         <DocTimeline
           staffPositionId={staffPositionId}

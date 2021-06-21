@@ -242,7 +242,7 @@ const renderCompletedVisit = () => {
 const DocTimeline = props => {
   const dispatch = useDispatch();
   const [expanded, setExpanded] = React.useState(true);
-  const handlePress = () => setExpanded(!expanded);
+  const handlePress = () => setExpanded(prevExpanded => !prevExpanded);
   let ref = null;
   // dispatching the action
   useEffect(() => {
