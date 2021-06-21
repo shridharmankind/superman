@@ -31,6 +31,6 @@ it('getFormatDate - get year only', () => {
 });
 
 it('returnUTCtoLocal', () => {
-  const result = returnUTCtoLocal();
-  console.log(result);
+  const result = returnUTCtoLocal('2011-02-11T10:20:30Z');
+  expect(result).toEqual('11 Feb 2011');
 });

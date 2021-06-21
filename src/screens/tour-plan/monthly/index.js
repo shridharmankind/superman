@@ -355,7 +355,6 @@ const MonthlyTourPlan = ({navigation}) => {
                         )}`}
                         value={'1'}
                         bgColor={theme.colors.green[300]}
-                        color={'#524F67'}
                         textStyle={styles.submittedChip}
                         chipContainerCustomStyle={styles.chipContainer}
                       />
@@ -461,13 +460,16 @@ const MonthlyTourPlan = ({navigation}) => {
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          // disabled={compliancePercentage !== 100}
+          disabled={compliancePercentage !== 100}
           onPress={submitSTPHandler}
         />
       </View>
     );
   };
 
+  /**
+   * Submit STP to BE
+   */
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({

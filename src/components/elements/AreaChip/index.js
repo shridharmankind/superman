@@ -19,6 +19,7 @@ import styles from './styles';
  * @param {Function} onPress click event
  * @param {String} testID date test id
  * @param {Object} textStyle custom style to be passed from consuming component for the text
+ * @param {Object} chipContainerCustomStyle custom style on chip container passed from consuming component
  */
 
 const AreaChip = ({
@@ -85,6 +86,7 @@ Chip.propTypes = {
   onPress: PropTypes.func,
   testID: PropTypes.string,
   value: PropTypes.string,
+  chipContainerCustomStyle: PropTypes.object,
 };
 
 export default AreaChip;

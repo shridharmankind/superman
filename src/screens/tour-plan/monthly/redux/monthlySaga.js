@@ -71,7 +71,6 @@ export function* fetchWorkingDayWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -95,7 +94,6 @@ export function* fetchSTPStatusWorker(action) {
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -109,7 +107,6 @@ export function* submitSTPWorker(action) {
 
   let url = API_PATH.SUBMIT_STP;
   url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
-  console.log('url', url);
   try {
     const response = yield call(NetworkService.post, url);
     yield put(
@@ -117,8 +114,6 @@ export function* submitSTPWorker(action) {
         submitSTP: response.data,
       }),
     );
-
-    console.log('response', response);
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {

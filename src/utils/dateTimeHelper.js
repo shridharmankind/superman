@@ -58,11 +58,16 @@ export const getDateFromMonthYear = ({month, year, date = '01'}) => {
   return `${year}-${String(month).padStart(2, '0')}-${date}`;
 };
 
+/**
+ * @param {String} inputDate date in utc format
+ * @param {String} format expected format of date output
+ * @returns date formatted to local time
+ */
 export const returnUTCtoLocal = (inputDate, format) => {
   const date = inputDate || dayjs.utc().format();
   const localDate = dayjs.utc(date).local().format();
   return getFormatDate({date: localDate, format: format || 'D MMM YYYY'});
-}
+};
 
 /**
  * Check if a date is after a particular date or note
