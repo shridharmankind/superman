@@ -113,6 +113,20 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
 
+  useEffect(() => {
+    if (submitSTP?.status === STP_STATUS.SUBMITTED) {
+      setShowCongratsModal(true);
+    }
+  }, [submitSTP]);
+
+  useEffect(() => {
+    if (showCongratsModal) {
+      setTimeout(() => {
+        setShowCongratsModal(false);
+      }, 5000);
+    }
+  }, [showCongratsModal]);
+
   /**
    * effect to set percentage compliance
    */

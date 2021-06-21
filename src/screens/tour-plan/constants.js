@@ -43,7 +43,7 @@ export const COMPLAINCE_TYPE = {
 };
 
 export const STP_STATUS = {
-  INPROGRESS: 'workinprogress',
-  SUBMITTED: 'submitted',
+  INPROGRESS: 'WorkinProgress',
+  SUBMITTED: 'Submitted',
 };
 export const STANDARD_TOUR_PLAN_ID = 1;
