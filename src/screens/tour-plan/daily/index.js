@@ -29,15 +29,26 @@ const DailyTourPlan = () => {
     });
   };
 
+  // useEffect(() => {
+  //   dispatch(
+  //     deletePartyCreator({
+  //       staffPositionid: 1,
+  //       day: 22,
+  //       month: 6,
+  //       year: 2021,
+  //       partyId: 27,
+  //     }),
+  //   );  
+  // },[dispatch])
+
   /**
    * Fetch parties list
    */
   useEffect(() => {
-    console.log('working 1');
     dispatch(
       fetchDoctorDetailCreator({
         staffPositionid: 1,
-        day: 18,
+        day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
@@ -65,7 +76,7 @@ const DailyTourPlan = () => {
    * set parties list in state
    */
   useEffect(() => {
-    if (Array.isArray(allDoctorDetail) && allDoctorDetail?.length > 0) {
+    if (Array.isArray(allDoctorDetail)) {
       setDayPlanData(allDoctorDetail);
     }
   }, [allDoctorDetail]);
@@ -205,7 +216,10 @@ const DailyTourPlan = () => {
             dispatch(
               deletePartyCreator({
                 staffPositionid: 1,
-                day: 18,
+                day: parseInt(
+                  getFormatDate({date: new Date(), format: 'D'}),
+                  10,
+                ),
                 month: parseInt(
                   getFormatDate({date: new Date(), format: 'M'}),
                   10,

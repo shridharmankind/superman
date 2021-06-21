@@ -7,47 +7,35 @@ export default dbInstance => ({
   createSingleRecord: (schema, data) => {
     return singleRecord(dbInstance, schema, data);
   },
-  filteredRecordBasedOnYear_Month_Day: async (schema, data) => {
+  filteredRecordBasedOnYear_Month_Day: (schema, data) => {
     return getfilteredRecordBasedOnYear_Month_Day(dbInstance, schema, data);
   },
 });
 
-const getfilteredRecordBasedOnYear_Month_Day = async (
+const getfilteredRecordBasedOnYear_Month_Day = (
   dbInstance,
   schema,
   data,
 ) => {
   try {
     //["mtp", "2", "parties", "Month=6", "Year=2021", "Day=19"]
-    let year = data[4].split('=');
-    let month = data[3].split('=');
-    let day = data[5].split('=');
     let dailyRecords = [];
-    console.log('parseInt(day[1]) ', parseInt(day[1]));
-    const getMonthlyRecordObject = await dbInstance
+    const getMonthlyRecordObject = dbInstance
       .objects(schema.name)
       .filtered(
-        `staffPositionId = ${parseInt(data[1])} && year = ${parseInt(
-          year[1],
-        )} && month = ${parseInt(month[1])}`,
+        `staffPositionId = ${data.staffPositionId} && year = ${data.year} && month = ${data.month}`,
       );
-    console.log('getMonthlyRecordObject', getMonthlyRecordObject);
     if (getMonthlyRecordObject != []) {
-      console.log('1');
       for (const monthlyRecord of getMonthlyRecordObject) {
-        console.log('2');
         if (monthlyRecord.dailyPlannedActivities != []) {
           let getDailyRecordObjects =
             monthlyRecord.dailyPlannedActivities.filter(
-              item => item.day == parseInt(day[1]),
+              item => item.day == data.day,
             );
-          console.log('getDailyRecordObjects ', getDailyRecordObjects);
           dailyRecords = [...dailyRecords, ...getDailyRecordObjects];
         }
       }
     }
-
-    console.log('getfilteredRecordBasedOnYear_Month_Day ', dailyRecords);
     return dailyRecords;
   } catch (err) {
     console.log('getfilteredRecordBasedOnYear_Month_Day ', err);
@@ -96,7 +84,6 @@ const singleRecord = (dbInstance, schema, object) => {
       } else {
         obj = {...dailyPlan};
       }
-      console.log('dailyPlan ', obj);
       let dailyPlannedActivity = dbInstance.create(
         schema[1].name,
         obj,
@@ -118,21 +105,17 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
       conflictType: 'null',
       errorMessage: 'null',
     };
-    var d1 = new Date(),
-      d2 = new Date(d1);
-    d2.setMinutes(d1.getMinutes() + 30);
-    //console.log(d2);
     let syncParametersObject = {
       devicePartyId: null,
       isActive: true,
-      requireSync: true,
-      lastModifiedOn: d2,
+      requireSync: false,
+      lastModifiedOn: new Date(),
       isDeleted: false,
       errorInSync: false,
       syncErrorDetails: syncErrorDetailsObject,
     };
     await dbInstance.write(() => {
-      singleRecord(dbInstance, schema, dummyObject);
+      //singleRecord(dbInstance, schema, dummyObject);
       data.forEach(object => {
         let statusDetail = object.status;
 
@@ -144,7 +127,7 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
             year: object.year,
             month: object.month,
             statusId: object.statusId,
-            isLocked: !object.isLocked,
+            isLocked: object.isLocked,
             status: statusDetail,
             syncParameters: syncParametersObject,
           },
@@ -166,70 +149,66 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
   }
 };
 
-let syncErrorDetailsObject = {
-  conflictType: 'null',
-  errorMessage: 'null',
-};
-var d1 = new Date(),
-  d2 = new Date(d1);
-d2.setMinutes(d1.getMinutes() + 30);
-//console.log(d2);
-let syncParametersObject = {
-  devicePartyId: generateUUID(),
-  isActive: true,
-  requireSync: true,
-  lastModifiedOn: d2,
-  isDeleted: false,
-  errorInSync: false,
-  syncErrorDetails: syncErrorDetailsObject,
-};
+// let syncErrorDetailsObject = {
+//   conflictType: 'null',
+//   errorMessage: 'null',
+// };
+// let syncParametersObject = {
+//   devicePartyId: generateUUID(),
+//   isActive: true,
+//   requireSync: false,
+//   lastModifiedOn: new Date(),
+//   isDeleted: false,
+//   errorInSync: false,
+//   syncErrorDetails: syncErrorDetailsObject,
+// };
 
-let dummyObject = {
-  id: -1,
-  staffPositionId: 1,
-  year: 2104,
-  month: 8,
-  statusId: 0,
-  isLocked: true,
-  status: null,
-  syncParameters: syncParametersObject,
-  dailyPlannedActivities: [
-    {
-      id: -1,
-      monthlyTourPlanId: 0,
-      day: 1,
-      date: new Date(),
-      isJointVisit: true,
-      activityTypeId: 0,
-      partyId: 0,
-      patchId: 0,
-      nonFieldActvityId: 0,
-      isMissed: true,
-      isAdhoc: true,
-      activityTypeDto: {
-        id: 0,
-        name: 'string',
-        shortName: 'string',
-        isActive: true,
-        isFieldActivity: true,
-        isDisplay: true,
-      },
-      nonFieldActivityDto: {
-        id: 0,
-        name: 'string',
-        shortName: 'string',
-        activityTypeId: 0,
-        durationTypeId: 0,
-      },
-      syncParameters: {
-        devicePartyId: generateUUID(),
-        isActive: true,
-        requireSync: true,
-        lastModifiedOn: d2,
-        isDeleted: false,
-        errorInSync: false,
-        syncErrorDetails: syncErrorDetailsObject,
-      },
-    },
-  ],
-};
+// let dummyObject = {
+//   id: -1,
+//   staffPositionId: 1,
+//   year: 2104,
+//   month: 10,
+//   statusId: 0,
+//   isLocked: true,
+//   status: null,
+//   syncParameters: syncParametersObject,
+//   dailyPlannedActivities: [
+//     {
+//       id: -1,
+//       monthlyTourPlanId: 0,
+//       day: 1,
+//       date: new Date(),
+//       isJointVisit: true,
+//       activityTypeId: 0,
+//       partyId: 0,
+//       patchId: 0,
+//       nonFieldActvityId: 0,
+//       isMissed: true,
+//       isAdhoc: true,
+//       activityTypeDto: {
+//         id: 0,
+//         name: 'string',
+//         shortName: 'string',
+//         isActive: true,
+//         isFieldActivity: true,
+//         isDisplay: true,
+//       },
+//       nonFieldActivityDto: {
+//         id: 0,
+//         name: 'string',
+//         shortName: 'string',
+//         activityTypeId: 0,
+//         durationTypeId: 0,
+//       },
+//       syncParameters: {
+//         devicePartyId: generateUUID(),
+//         isActive: true,
+//         requireSync: true,
+//         lastModifiedOn: d2,
+//         isDeleted: false,
+//         errorInSync: false,
+//         syncErrorDetails: syncErrorDetailsObject,
+//       },
+//     },
+//   ],
+// };

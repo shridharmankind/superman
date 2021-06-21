@@ -1,7 +1,7 @@
 import {Constants} from 'common';
 import {MonthlyPlan, getDBInstance, Schemas, Operations} from 'database';
 
-export const offlineData = async (config, exactApiPath) => {
+export const offlineData = async (config, data, params, exactApiPath) => {
   try {
     let response = null;
     switch (exactApiPath) {
@@ -9,29 +9,51 @@ export const offlineData = async (config, exactApiPath) => {
         response = await getPartiesFromMTU(config);
         break;
       case Constants.API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN:
-        response = await deletePartyFromDailyPlan(config);
+        response = await deletePartyFromDailyPlan(config,data, params, exactApiPath);
+        break;
       default:
         break;
     }
-    return await response;
+    return response;
   } catch (error) {
     console.log('offlineData ', error);
   }
 };
 
-const deletePartyFromDailyPlan = async config => {
-  let response = {
-    date: null,
-    status: null,
-  };
+const deletePartyFromDailyPlan = async (config, data, params, exactApiPath) => {
   try {
-    let schema = [Schemas.partyMaster];
-    let splittedAPIData = config.url.split(/[/?&]+/);
-    //let result = Operations.deleteExistingRecord(schema[0],)
+    let response = {
+      data: null,
+      status: null,
+    };
+    await getDBInstance().write(() => {
+      let schema = [Schemas.MonthlySchema.monthlyMaster,Schemas.MonthlySchema.dailyMaster];
+      let splittedAPIData = config.url.split(/[/?&]+/);
+      let paramObject = {
+        staffPositionId: parseInt(splittedAPIData[1]),
+        partyId: parseInt(splittedAPIData[3]),
+        year: data["year"],
+        month: data["month"],
+        day: data["day"]
+      }
+      let getFilteredDailyRecord = MonthlyPlan.filteredRecordBasedOnYear_Month_Day(schema[0], paramObject);
+      if (getFilteredDailyRecord != []) {
+        getFilteredDailyRecord.forEach((dailyObject) => {
+          let partyId = dailyObject.partyId;
+          if (partyId === paramObject.partyId) {
+              dailyObject.syncParameters.isDeleted= true;
+              dailyObject.syncParameters.lastModifiedOn = new Date();
+              getDBInstance().create(schema[1].name,dailyObject,'modified');
+          }
+        }) 
+      }    
+    });
+
+    response.data = 'Deleted';
+    response.status = 200;
     return response;
   } catch (err) {
-    console.log('deletePartyFromDailyPlan', err);
-    response.data = error;
+    response.data = err;
     response.status = 500;
     return response;
   }
@@ -45,31 +67,33 @@ const getPartiesFromMTU = async config => {
   let getPartiesById = [];
   try {
     let schema = [Schemas.MonthlySchema.monthlyMaster, Schemas.partyMaster];
-    let data = config.url.split(/[/?&]+/);
+    let splittedAPIData = config.url.split(/[/?&]+/);
+    let paramObject = {
+      staffPositionId: parseInt(splittedAPIData[1]),
+      year: parseInt(splittedAPIData[4].split('=')[1]),
+      month: parseInt(splittedAPIData[3].split('=')[1]),
+      day: parseInt(splittedAPIData[5].split('=')[1])
+    }
     let getFilteredDailyRecord =
-      await MonthlyPlan.filteredRecordBasedOnYear_Month_Day(schema[0], data);
+      await MonthlyPlan.filteredRecordBasedOnYear_Month_Day(schema[0], paramObject);
     if (getFilteredDailyRecord != []) {
       for (const dailyObject of getFilteredDailyRecord) {
         let partyId = dailyObject.partyId;
-        console.log('PartyId ', partyId);
-        if (partyId != null) {
+        if (partyId != null && !dailyObject.syncParameters.isDeleted) {
           let newPartyById = await getDBInstance().objectForPrimaryKey(
             schema[1].name,
             partyId,
           );
-          if (newPartyById != undefined) {
+          if (newPartyById && !newPartyById.syncParameters.isDeleted ) {
             getPartiesById.push(newPartyById);
           }
         }
       }
-
-      console.log('getPartiesById ', getPartiesById);
       response.data = getPartiesById;
       response.status = getPartiesById !== [] ? 200 : 404;
     }
     return response;
   } catch (error) {
-    console.log('getPartiesFromMTU', error);
     response.data = error;
     response.status = 500;
     return response;

@@ -12,7 +12,6 @@ const singleDailyRecord = async (
   monthlyObjectId,
 ) => {
   try {
-    console.log('object', object);
     await dbInstance.write(() => {
       let dailyPlannedActivity = {
         id: object.id,

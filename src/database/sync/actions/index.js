@@ -1,17 +1,18 @@
-import {Alert} from 'react-native';
-import * as Constants from '../../constants';
+import * as DBConstants from '../../constants';
 import * as Schemas from '../../schemas';
 import * as Helper from '../../helper';
 import * as Operations from '../../operations';
 import {NetworkService} from 'services';
+import {Constants} from 'common';
+import {getOnDemandSyncStatus} from 'utils/backgroundTask';
 
 const syncDifference = 1; // minutes
 /**
  * In this list we mention all the Schema's Name for which we want to run the Sync activity.
  */
 const SYNC_TASK_LIST = [
-  Constants.MASTER_TABLE_PARTY,         //partyMaster Table
-  Constants.MASTER_MONTHLY_TABLE_PLAN,  //monthlyMaster Table
+  DBConstants.MASTER_TABLE_PARTY,         //partyMaster Table
+  DBConstants.MASTER_MONTHLY_TABLE_PLAN,  //monthlyMaster Table
 ];
 
 
@@ -19,7 +20,7 @@ export const checkMinimumTimeConstraint = async () => {
   try{
     const record = await Operations.getRecord(
       Schemas.masterTablesDownLoadStatus,
-      Constants.APPLICATION_SYNC_STATUS,
+      DBConstants.APPLICATION_SYNC_STATUS,
     );
 
     //Set the time constraints 
@@ -44,23 +45,26 @@ export const syncTableTask = async () => {
 
     let constraintTime = await checkMinimumTimeConstraint();
     let currentTime = new Date();
-
-    if (constraintTime < currentTime) { // if current time is greater than the lastSync time + syncDifference
+    let onDemandSyncStatus = await getOnDemandSyncStatus();
+    console.log("onDemand ",onDemandSyncStatus);
+    console.log(constraintTime,"constraintTime",currentTime);
+    if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING || 
+        (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
       for (const table of SYNC_TASK_LIST) {
         await runBackgroundTask(table).then(result => {
-          //console.log('syncTableTask result ', result);
           resultArray = [...resultArray, ...result]; //collecting result to show toastie
         });
       }
       await Operations.updateRecord(
         Schemas.masterTablesDownLoadStatus,
-        Constants.downloadStatus.DOWNLOADED,
-        Constants.APPLICATION_SYNC_STATUS,
+        DBConstants.downloadStatus.DOWNLOADED,
+        DBConstants.APPLICATION_SYNC_STATUS,
       );
     }
     else{
       console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
     }
+    console.log("result arry ",[])
     return resultArray;
   } catch (err) {
     console.log('Error ', err);
@@ -79,12 +83,12 @@ export const syncTableTask = async () => {
 const configParam = (item, staffPositionId, lastSync, data) => {
   let postData = {};
   switch (item.name) {
-    case Constants.MASTER_MONTHLY_TABLE_PLAN:
+    case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
       postData.staffPositionId = staffPositionId;
       postData.lastSyncTime = lastSync;
       postData[item.syncParam] = data;
       return postData;
-    case Constants.MASTER_TABLE_PARTY:
+    case DBConstants.MASTER_TABLE_PARTY:
       postData.staffPositionId = staffPositionId;
       postData.lastSyncTime = lastSync;
       postData[item.syncParam] = data;
@@ -125,7 +129,7 @@ const getModifiedRecords = async (schema) => {
   const modifiedRecords = await tableRecord.filtered(
     'syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true',
   );
-  console.log("modifiedRecords length ",modifiedRecords.length);
+  console.log("modifiedRecords length ",modifiedRecords);
   return modifiedRecords;
 }
 
@@ -148,15 +152,21 @@ const runBackgroundTask = async tableName => {
         Schemas.masterTablesDownLoadStatus,
         item[0].name,
       );
-      if (record?.status === Constants.downloadStatus.DOWNLOADED) {
+      if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
         
         const modifiedRecords = await getModifiedRecords(item[0].schema[0]);
-
+        if(modifiedRecords == []){
+          await Operations.updateRecord(
+            Schemas.masterTablesDownLoadStatus,
+            DBConstants.downloadStatus.DOWNLOADED,
+            item[0].name,
+          );
+          return resultArray;
+        }
         //Hit Post API
         const response = await syncPostRequest(item[0], record.lastSync, Array.from(modifiedRecords));
 
-        if (response?.status === Constants.HTTP_OK) {
-          
+        if (response?.status === DBConstants.HTTP_OK) {
           await Operations.commonSyncRecordCRUDMethod(
             item[0],
             response.data,
@@ -165,14 +175,14 @@ const runBackgroundTask = async tableName => {
             //console.log(`${item[0].name} result `, resultArray);
           });
 
-          const updatedRecord = await Operations.getAllRecord(
-            item[0].schema[0],
-          );
-          console.log("UpdatedRecord length ",updatedRecord.length);
+          // const updatedRecord = await Operations.getAllRecord(
+          //   item[0].schema[0],
+          // );
+          // console.log("UpdatedRecord length ",updatedRecord.length);
 
           await Operations.updateRecord(
             Schemas.masterTablesDownLoadStatus,
-            Constants.downloadStatus.DOWNLOADED,
+            DBConstants.downloadStatus.DOWNLOADED,
             item[0].name,
           );
 

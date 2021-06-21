@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -34,7 +34,7 @@ export const AlertTitle = 'Info';
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchAccessToken() {
       let accessToken = await KeyChain.getAccessToken();
       if (accessToken) {

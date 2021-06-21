@@ -15,6 +15,7 @@ import {ContentWithSidePanel} from 'components/layouts';
 import {translate} from 'locale';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
 import {Sync} from 'database';
+import {Strings} from 'common';
 
 const HomeLanding = ({navigation}) => {
   const [userName, setUserName] = useState('');
@@ -105,8 +106,7 @@ const HomeLanding = ({navigation}) => {
     if (!isWeb()) {
       return (
         <>
-          <Label type="bold" size={14} title="Synced At:" />
-          <Label size={14} title={`${lastSync}`} />
+          <Label size={10.5} title={`${Strings.backgroundTask.lastSync} ${lastSync}`} />
         </>
       );
     }

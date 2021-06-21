@@ -155,7 +155,7 @@ const DoctorDetails = ({
                   />
                 </View>
               )}
-              {category && (
+              {category != '' && (
                 <View
                   style={[
                     styles.divisionItem,
@@ -196,7 +196,7 @@ const DoctorDetails = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={(specialization || [])
+                title={(specialization || {})
                   .map(spec => spec?.name || spec)
                   .join(', ')}
                 style={[

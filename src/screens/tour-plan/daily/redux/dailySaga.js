@@ -48,7 +48,6 @@ export function* fetchDoctorDetailWorker(action) {
       {},
       API_PATH.GET_PARTIES,
     );
-    console.log('redux response', response);
     let formattedResponse = [];
     if (
       response.data &&
@@ -60,7 +59,6 @@ export function* fetchDoctorDetailWorker(action) {
         return data;
       });
     }
-
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
@@ -103,8 +101,7 @@ export function* deletePartyWorker(action) {
       day: day,
       month: month,
       year: year,
-    });
-
+    },{},API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN);
     if (response.status === Constants.HTTP_OK) {
       yield put(doctorDetailActions.doctorRemoved(action.payload));
     }

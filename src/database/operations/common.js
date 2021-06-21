@@ -1,6 +1,10 @@
 import {Constants, getDBInstance} from 'database';
 import {monthlyPlanOperations} from './index';
 
+export const modifyDBObject = async (schema, object) => {
+  return await getDBInstance().create(schema.name, object, 'modified');
+}
+
 export const getAllTableRecords = async schemaName => {
   return await getDBInstance().objects(schemaName);
 };
@@ -12,7 +16,6 @@ export const getActiveUser = async () => {
 
 export const commonSyncRecordCRUDMethod = async (item, data) => {
   try {
-    //console.log('Running for item', item);
     let resultArray = [];
     let schema = item.schema;
     await getDBInstance().write(() => {
@@ -30,7 +33,7 @@ export const commonSyncRecordCRUDMethod = async (item, data) => {
          */
         //Case 1
         if (existingRecord == undefined || existingRecord == null) {
-          console.log('record not exist');
+          //console.log('record not exist');
           recordNotExist(item, schema, existingRecord, object).then(result => {
             resultArray.push(result);
           });
@@ -41,7 +44,6 @@ export const commonSyncRecordCRUDMethod = async (item, data) => {
             resultArray.push(result);
           });
         }
-        //console.log('End of one Object');
       }); //data forEach ends here
     }); //getDbInstance write ends here
     return resultArray;
@@ -110,7 +112,10 @@ const recordExist = async (item, schema, existingRecord, object) => {
               if (dailyPlan.syncParameters != null) {
                 return dailyPlan;
               }
-              return {...dailyPlan, syncParameters: syncParametersObject};
+              syncParametersObject.lastModifiedOn = new Date();
+              let dailyObject = {...dailyPlan, syncParameters: syncParametersObject};
+              getDBInstance().create(schema[1].name, dailyObject, 'modified');
+              return dailyObject;
             }),
           ];
           getDBInstance().create(schema[0].name, object, 'modified');
@@ -155,17 +160,17 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
           .filtered(
             `syncParameters.devicePartyId == "${object.syncParameters.devicePartyId}"`,
           );
-        console.log(
-          'check For existint record with devicePartyId ',
-          existingFERecord,
-        );
+        // console.log(
+        //   'check For existint record with devicePartyId ',
+        //   existingFERecord,
+        // );
         if (existingFERecord.length !== 0 && existingFERecord.length === 1) {
           const existingObjectId = existingFERecord[0].id;
-          console.log(
-            existingObjectId,
-            'Delete existing record with ID ',
-            existingFERecord,
-          );
+          // console.log(
+          //   existingObjectId,
+          //   'Delete existing record with ID ',
+          //   existingFERecord,
+          // );
           deleteExistingRecord(schema[0], existingObjectId);
           object.syncParameters.requireSync = false;
           //console.log('ModifyExisting record before ', object);
@@ -174,7 +179,7 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
             object,
             'modified',
           );
-          console.log('ModifyExisting record ', modifyResult);
+          //console.log('ModifyExisting record ', modifyResult);
           return Constants.SUCCESS;
         } else {
           //Conflict happened on both Side.
@@ -187,13 +192,13 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
         //entirely new record
         switch (item.name) {
           case Constants.MASTER_MONTHLY_TABLE_PLAN:
-            console.log('Constants.MASTER_MONTHLY_TABLE_PLAN');
+            //console.log('Constants.MASTER_MONTHLY_TABLE_PLAN');
             return monthlyPlanOperations(getDBInstance()).createSingleRecord(
               schema,
               object,
             );
           case Constants.MASTER_TABLE_PARTY:
-            console.log('Constants.MASTER_TABLE_PARTY');
+            //console.log('Constants.MASTER_TABLE_PARTY');
             return createSinglePartyMasterRecord(schema, object);
         }
         //return Constants.SUCCESS;
@@ -209,6 +214,20 @@ const recordNotExist = async (item, schema, existingRecord, object) => {
     return Constants.FAILURE;
   }
 };
+
+export const deleteDBObject = (object) => {
+  try{
+    if(object != undefined){
+      getDBInstance().delete(object);
+      object = null;
+      return Constants.SUCCESS;
+    }
+    return Constants.FAILURE;
+  }catch(err){
+    console.log("deleteDBObject",err);
+    return Constants.FAILURE;
+  }
+}
 
 export const deleteExistingRecord = (schema, id) => {
   try {
@@ -230,8 +249,6 @@ export const deleteExistingRecord = (schema, id) => {
 
 const createSinglePartyMasterRecord = async (schema, object) => {
   try {
-    console.log('schemaa', schema);
-    console.log('object ', object);
     let specialization,
       area,
       qualification,

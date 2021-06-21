@@ -31,7 +31,7 @@ export const doctorDetailSlice = createSlice({
   name: 'DAILY_PLAN',
   initialState: doctorDetailState,
   reducers: {
-    getDoctorDetail: (state, action) => merge(state, action.payload),
+    getDoctorDetail: (state, action) => void(state.doctorDetail.data = [...action.payload.doctorDetail.data]),
     tempStoreRemovedDoctor: (state, action) => {
       const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
         return d.id === action.payload.partyId;
@@ -46,7 +46,19 @@ export const doctorDetailSlice = createSlice({
       state.doctorDetail.data.splice(itemIndexToRemove, 1);
     },
     doctorRemoved: (state, action) => {
-      return state;
+      const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
+        return d.id === action.payload.partyId;
+      });
+      state.doctorDetail.deletedItem = {
+        item: state.doctorDetail.data.slice(
+          itemIndexToRemove,
+          itemIndexToRemove + 1,
+        )[0],
+        index: itemIndexToRemove,
+      };
+      state.doctorDetail.data.splice(itemIndexToRemove, 1);
+      console.log("remve ",JSON.stringify(state.doctorDetail.data,null,2));
+      void(state.doctorDetail.data = [...state.doctorDetail.data]);
     },
     addDeletedParty: (state, action) => {
       const findItemToAdd = state.doctorDetail.data.find(d => {

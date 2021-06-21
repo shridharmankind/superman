@@ -25,6 +25,10 @@ import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
 import NetInfo from '@react-native-community/netinfo';
 import {Sync} from 'database';
+import {showToastie,
+  setOnDemandSyncStatusRunning,
+  getOnDemandSyncStatus,
+  getBackgrounTaskValue} from 'utils/backgroundTask';
 
 export const DashboardStack = createStackNavigator();
 
@@ -42,16 +46,20 @@ const Dashboard = ({navigation}) => {
     if (!isWeb()) {
       NetInfo.fetch().then(async (state) => {
         if (state.isConnected) {
-          let constraintTime = await Sync.SyncAction.checkMinimumTimeConstraint();
-          let currentTime = new Date();
-          if(constraintTime < currentTime){
-            Sync.SyncService.syncNow();
-          }
-          else{
-            Alert.alert('Sync Status','Minimum Sync Interval is 1 minute'); 
-          }
+            let backgroundTaskStatus = await getBackgrounTaskValue();
+            if(backgroundTaskStatus == Constants.BACKGROUND_TASK.NOT_RUNNING){
+              await setOnDemandSyncStatusRunning();
+              let onDemandValue = await getOnDemandSyncStatus();
+              if(onDemandValue == Constants.BACKGROUND_TASK.RUNNING){
+                showToastie(Constants.TOAST_TYPES.SUCCESS,Strings.backgroundTask.toastBtns.syncInitiatedMessage);
+                Sync.SyncService.syncNow();
+              }
+            }
+            else{
+              showToastie(Constants.TOAST_TYPES.WARNING,Strings.backgroundTask.toastBtns.syncInitiatedMessage);
+            }
         } else {
-          console.log('Not connected work');
+          Alert.alert(Strings.noInternet,Strings.checkInternet);
         }
       });
     }

@@ -16,24 +16,20 @@ import NetInfo from '@react-native-community/netinfo';
 const checkInternetConnectionForApp = async () => {
   return NetInfo.fetch().then(state => {
     if (!state.isConnected && !isWeb()) {
-      console.log('Not connected work');
       return false;
     } else {
-      console.log('connected or web');
       return true;
     }
   });
 };
 
 const getNetworkResponse = async config => {
-  console.log('getNetork response');
   return await client(config)
     .then(function (response) {
       // handle success
       return response;
     })
     .catch(function (error) {
-      console.log(error);
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
     });
@@ -55,12 +51,9 @@ export const get = async (url, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    console.log('ConnectionAvailable in call');
     return await getNetworkResponse(config);
   } else {
-    console.log('Connection Not Avaibale in call ');
-    console.log('Api Path ', apiPath);
-    return await Offline.offlineData(config, apiPath);
+    return await Offline.offlineData(config, {}, params, apiPath);
   }
 };
 
@@ -85,12 +78,9 @@ export const post = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    console.log('ConnectionAvailable in call');
     return await getNetworkResponse(config);
   } else {
-    console.log('Connection Not Avaibale in call ');
-    console.log('Api Path ', apiPath);
-    return await Offline.offlineData(config, apiPath);
+    return await Offline.offlineData(config, data, params, apiPath);
   }
 };
 
@@ -117,12 +107,9 @@ export const put = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    console.log('ConnectionAvailable in call');
     return await getNetworkResponse(config);
   } else {
-    console.log('Connection Not Avaibale in call ');
-    console.log('Api Path ', apiPath);
-    return await Offline.offlineData(config, apiPath);
+    return await Offline.offlineData(config, data, params, apiPath);
   }
 };
 
@@ -149,12 +136,9 @@ export const Delete = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    console.log('ConnectionAvailable in call');
     return await getNetworkResponse(config);
   } else {
-    console.log('Connection Not Avaibale in call ');
-    console.log('Api Path ', apiPath);
-    return await Offline.offlineData(config, apiPath);
+    return await Offline.offlineData(config, data, params, apiPath);
   }
 };
 
