@@ -175,16 +175,16 @@ export const createPartyMasterRecord = async (schema, data) => {
   }
 };
 
-export const createWeeklyOffRecord = async (schema, data) => {
-  try {
-    await openSchema();
-    await realm.write(() => {
-      realm.create(WeeklyOffPerCountrySchema().schema, 'modified');
-    });
-  } catch (error) {
-    console.log('createWeeklyOffRecord', error);
-  }
-};
+// export const createWeeklyOffRecord = async (schema, data) => {
+//   try {
+//     await openSchema();
+//     await realm.write(() => {
+//       realm.create(WeeklyOffPerCountrySchema().schema, 'modified');
+//     });
+//   } catch (error) {
+//     console.log('createWeeklyOffRecord', error);
+//   }
+// };
 export const closeDB = () => {
   if (realm) {
     realm.close();
@@ -192,3 +192,4 @@ export const closeDB = () => {
 };
 
 export {default as qualificationOperations} from './qualificationOperations';
+export {default as weeklyOffOperation} from './weeklyoffoperation';

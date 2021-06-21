@@ -21,6 +21,7 @@ const dbInstance = new Realm({
     Schemas.specialities,
     Schemas.areas,
     Schemas.Qualifications.schema,
+    Schemas.weeklyOffPerCountry.schema,
     Schemas.partyTypes,
     Schemas.partyTypeGroup,
     Schemas.engagement,
@@ -38,3 +39,4 @@ export const getDBInstance = () => dbInstance;
  * register DB operations
  */
 export const Qualifications = Operations.qualificationOperations(dbInstance);
+export const weeklyOff = Operations.weeklyOffOperation(dbInstance);

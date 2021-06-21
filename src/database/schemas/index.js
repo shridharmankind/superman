@@ -89,10 +89,10 @@ export const partyMaster = {
       type: 'list',
       objectType: Constants.MASTER_TABLE_ENGAGEMENT,
     },
-    weeklyoff: {
-      type: 'list',
-      objectType: WeeklyOffPerCountrySchemaName,
-    },
+    // weeklyoff: {
+    //   type: 'list',
+    //   objectType: WeeklyOffPerCountrySchemaName,
+    // },
   },
   primaryKey: 'id',
 };
@@ -147,3 +147,4 @@ export const engagement = {
 };
 
 export {default as Qualifications} from './Qualifications';
+export {default as weeklyOffPerCountry} from './weeklyOffPerCountry';

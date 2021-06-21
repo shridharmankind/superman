@@ -2,6 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
+import {WeeklyOffPerCountrySchemaName} from './schemas/weeklyOffPerCountry';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -22,6 +23,10 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.engagement,
     ],
   },
+  {
+    name: WeeklyOffPerCountrySchemaName,
+    apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
+  },
 ];
 
 /**
@@ -31,6 +36,8 @@ export const MASTER_TABLES_DETAILS = [
 export const getUserFirstName = async () => {
   try {
     const user = await getActiveUser();
+    const data = Operations.weeklyOffOperation.getAllWeeklyOffs();
+    console.log('my data', data);
     return user.firstName || '';
   } catch (error) {}
 };

@@ -10,7 +10,13 @@ import styles from './styles';
 import {Strings} from 'common';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Operations,
+  weeklyOffOperation,
+  Schemas,
+} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
@@ -49,6 +55,9 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_TABLE_USER_INFO:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_WEEKLYOFF:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_PARTY:
               {
                 const staffPositionId = await Helper.getStaffPositionId();
@@ -73,6 +82,9 @@ const MasterDataDownload = ({navigation}) => {
                   item.schema,
                   JSON.parse(data),
                 );
+                break;
+              case DBConstants.MASTER_TABLE_WEEKLYOFF:
+                await Operations.weeklyOffOperation.weeklyOff(JSON.parse(data));
                 break;
             }
             await Operations.updateRecord(
