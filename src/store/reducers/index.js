@@ -12,6 +12,7 @@ import {
   ePriorityProductReducer,
   eOtherProductReducer,
 } from 'screens/directory/e-detailing/redux';
+import {timelineReducer} from 'screens/directory/doc-timeline/redux';
 
 export const rootReducer = combineReducers({
   todoState: updateTodoDataReducer,
@@ -25,6 +26,7 @@ export const rootReducer = combineReducers({
   fetchQueryDoctorsState: searchDoctorReducer,
   ePriorityProductList: ePriorityProductReducer,
   eOtherProductList: eOtherProductReducer,
+  timeline: timelineReducer,
 });
 
 export {fetchStatusSliceActions, FetchEnumStatus} from './appSlice';

@@ -60,8 +60,10 @@ export const sortByCategory = array => {
   const byPotentials = byCategory
     .slice()
     .sort((a, b) => (a.isKyc === b.isKyc ? 0 : a.isKyc ? -1 : 1));
-
-  return byPotentials;
+  const byFrequency = byPotentials.sort((a, b) =>
+    a.frequency > b.alreadyVisited ? 0 : -1,
+  );
+  return byFrequency;
 };
 
 export const sortBasedOnCategory = (a, b) => {

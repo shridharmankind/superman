@@ -24,6 +24,7 @@ import {
   fetchEDetailingOtherProductWatcher,
   fetchEDetailingPriorityProductWatcher,
 } from 'screens/directory/e-detailing/redux';
+import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
 
 export function* rootSaga() {
   /**
@@ -49,6 +50,7 @@ export function* rootSaga() {
     fetchQueryDoctorsWatcher,
     fetchEDetailingPriorityProductWatcher,
     fetchEDetailingOtherProductWatcher,
+    fetchTimelineWatcher,
   ];
 
   /**
