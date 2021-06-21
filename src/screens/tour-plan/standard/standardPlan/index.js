@@ -1,13 +1,9 @@
 import React, {useState, useCallback, useRef} from 'react';
 import {View, Dimensions, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
 import styles from './styles';
 import {Constants} from 'common';
-import themes from 'themes';
-import {appSelector} from 'selectors';
-import {FetchEnumStatus} from 'reducers';
 
 /**
  * Standard Plan screen component for daily standard plan.
@@ -22,10 +18,9 @@ const StandardPlan = ({navigation, route}) => {
   const [showLeftSwiper, setShowLeftSwiper] = useState(true);
   const [showRightSwiper, setShowRightSwiper] = useState(true);
   const [visitedDays, setVisitedDays] = useState([route.params.row]);
+  const [indexChanged, setIndexChanged] = useState();
   const year = route.params.year;
   const swiperRef = useRef(null);
-
-  const fetchStatus = useSelector(appSelector.makeGetAppFetch());
 
   const handleSlider = useCallback(
     direction => {
@@ -42,10 +37,15 @@ const StandardPlan = ({navigation, route}) => {
       }
       setActiveIndex(index);
       visitedDayIndex(index);
+      setIndexChanged(null);
       swiperRef.current.scrollToIndex({index});
     },
     [activeIndex, totalIndex, swiperRef, visitedDayIndex],
   );
+
+  const handleSliderNavigation = dir => {
+    setIndexChanged(dir);
+  };
 
   const visitedDayIndex = useCallback(
     i => {
@@ -74,6 +74,8 @@ const StandardPlan = ({navigation, route}) => {
               weekDay={day}
               year={year}
               workingDays={route.params.workingDays}
+              indexChanged={indexChanged}
+              setIndexChanged={setIndexChanged}
             />
           )}
         </View>
@@ -83,10 +85,10 @@ const StandardPlan = ({navigation, route}) => {
 
   return (
     <>
-      {showLeftSwiper && (
+      {showLeftSwiper && activeIndex !== 0 && (
         <TouchableOpacity
           style={[styles.swipe, styles.leftSwipe]}
-          onPress={() => handleSlider(Constants.DIRECTION.LEFT)}
+          onPress={() => handleSliderNavigation(Constants.DIRECTION.LEFT)}
         />
       )}
       <SwiperFlatList
@@ -100,10 +102,10 @@ const StandardPlan = ({navigation, route}) => {
         paginationStyle={styles.paginationStyle}>
         {renderStandardPlan()}
       </SwiperFlatList>
-      {showRightSwiper && (
+      {showRightSwiper && activeIndex !== totalIndex && (
         <TouchableOpacity
           style={[styles.swipe, styles.rightSwipe]}
-          onPress={() => handleSlider(Constants.DIRECTION.RIGHT)}
+          onPress={() => handleSliderNavigation(Constants.DIRECTION.RIGHT)}
         />
       )}
     </>
