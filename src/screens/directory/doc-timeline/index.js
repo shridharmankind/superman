@@ -13,11 +13,23 @@ import dayjs from 'dayjs';
 import debounce from 'lodash.debounce';
 import {translate} from 'locale';
 
+/**
+ * Check if item is completed
+ *
+ * @param {Object} item
+ * @return {boolean} isCompleted
+ */
 const isCompleted = item => {
   const today = startOf(new Date());
   return isAfter(today, item.date);
 };
 
+/**
+ * Get containet style
+ *
+ * @param {Object} item
+ * @return {Array} styles
+ */
 const getDateContainerStyle = item => {
   const style = [styles.timelineDateContainer];
   if (item.isMissed) {
@@ -28,6 +40,12 @@ const getDateContainerStyle = item => {
   return style;
 };
 
+/**
+ * Get date style based upon type
+ *
+ * @param {Object} item
+ * @return {Array} styles
+ */
 const getDateStyle = item => {
   const style = [styles.timelineDate];
   if (item.isMissed) {
@@ -38,6 +56,12 @@ const getDateStyle = item => {
   return style;
 };
 
+/**
+ * Get month style
+ *
+ * @param {Object} item
+ * @return {Array} style
+ */
 const getMonthStyle = item => {
   const style = [styles.timelineMonth];
   if (item.isMissed) {
@@ -48,6 +72,12 @@ const getMonthStyle = item => {
   return style;
 };
 
+/**
+ * Render item details
+ *
+ * @param {Object} item
+ * @return {JSX} Item details
+ */
 function renderItemDetails(item) {
   if (item.isMissed) {
     return (
@@ -74,6 +104,11 @@ function renderItemDetails(item) {
   }
 }
 
+/**
+ * Completed item details
+ *
+ * @return {JSX} Completed Item Details
+ */
 const renderCompletedItemDetails = () => {
   return (
     <View style={[styles.itemDetailsContainer]}>
@@ -138,10 +173,24 @@ const renderCompletedItemDetails = () => {
   );
 };
 
+/**
+ * Render Timeline item
+ *
+ * @param {Object} item
+ * @param {number} index
+ * @return {JSX} Timeline Item
+ */
 function renderItem(item, index) {
   return <View style={[styles.timelineItem]}>{renderItemDetails(item)}</View>;
 }
 
+/**
+ * Render Item Date
+ *
+ * @param {number} item
+ * @param {number} index
+ * @return {JSX} Timeline Date
+ */
 function renderDate(item, index) {
   return (
     <View style={getDateContainerStyle(item)}>
@@ -159,6 +208,11 @@ function renderDate(item, index) {
   );
 }
 
+/**
+ * Render completed visit
+ *
+ * @return {JSX} Completed Visit
+ */
 const renderCompletedVisit = () => {
   return (
     <List.Accordion
@@ -208,6 +262,7 @@ const DocTimeline = props => {
       }),
     );
   }, [dispatch, props]);
+
   const data = useSelector(timelineSelector.getVisits());
   const buttons = useSelector(timelineSelector.getButtons());
   const lastCompleted = useSelector(timelineSelector.getLastCompleted());
@@ -224,6 +279,12 @@ const DocTimeline = props => {
     itemVisiblePercentThreshold: 70,
   });
 
+  /**
+   * Render Navigation Dots
+   *
+   * @param {Object} {item, index}
+   * @return {JSX} Dots
+   */
   const renderDot = ({item, index}) => {
     if (item.selected) {
       return (
@@ -246,6 +307,11 @@ const DocTimeline = props => {
     );
   };
 
+  /**
+   * Render last completed item
+   *
+   * @return {JSX} Last comleted item
+   */
   const renderHightlight = () => {
     if (!lastCompleted) {
       return null;

@@ -4,12 +4,20 @@ import {fetchTimelineTypeName, timelineActions} from './timelineSlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {API_PATH} from 'screens/directory/apiPath';
 
-// Watcher function\
+/**
+ * Watcher function
+ *
+ * @export
+ */
 export function* fetchTimelineWatcher() {
   yield takeEvery(fetchTimelineTypeName, fetchTimelineHandler);
 }
 
-// Handler function
+/**
+ * Handler function
+ *
+ * @param {Object} action
+ */
 function* fetchTimelineHandler(action) {
   const {staffPositionId, partyId, start, end} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));

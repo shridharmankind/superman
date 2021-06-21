@@ -93,8 +93,6 @@ const styles = StyleSheet.create({
     marginLeft: themes.spacing(-47),
     paddingTop: themes.spacing(13),
     paddingRight: themes.spacing(10),
-    // maxHeight: 200,
-    // overflow: 'scroll',
   },
   itemPlain: {
     paddingVertical: themes.spacing(10),

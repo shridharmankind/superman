@@ -12,6 +12,7 @@ const visitsSelector = createSelector([visitList], visit => visit);
 const buttonsSelector = createSelector([buttonList], buttons => buttons);
 const lastCompletedSelector = createSelector([lastCompleted], item => item);
 
+// Timeline selectors
 export const timelineSelector = {
   getVisits: () => {
     return visitsSelector;

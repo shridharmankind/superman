@@ -2,6 +2,13 @@ import React from 'react';
 import styles from './styles';
 import {View, FlatList} from 'react-native';
 
+/**
+ * Render border
+ *
+ * @param {number} index
+ * @param {number} total
+ * @return {JSX} Border
+ */
 const renderBorder = (index, total) => {
   if (total === index + 1) {
     return null;
@@ -13,6 +20,12 @@ const renderBorder = (index, total) => {
   );
 };
 
+/**
+ * Render item
+ *
+ * @param {Object} {item, index}
+ * @return {JSX} Timeline Item
+ */
 function _renderItem({item, index}) {
   return (
     <View style={[styles.timelineItemContainer]} key={index}>
@@ -39,6 +52,12 @@ function _renderItem({item, index}) {
   );
 }
 
+/**
+ * Timeline widget
+ *
+ * @param {Object} props
+ * @return {JSX} Timeline
+ */
 const Timeline = props => {
   return (
     <View style={[styles.timeline, props.style]}>

@@ -13,6 +13,7 @@ export const timelineState = {
 export const fetchTimelineCreator = createAction('FETCH_TIMELINE_VISITS');
 export const fetchTimelineTypeName = fetchTimelineCreator().type;
 
+// Timeline slice
 const timelineSlice = createSlice({
   name: 'TIMELINE',
   initialState: timelineState,
@@ -47,6 +48,12 @@ const timelineSlice = createSlice({
   },
 });
 
+/**
+ * Parse data for upcoming visits
+ *
+ * @param {Object} data
+ * @return {Object} parsed data
+ */
 const parseData = data => {
   if (!data || !data.length) {
     return [];
@@ -68,6 +75,12 @@ const parseData = data => {
   return prepareState([...upcomingVisits, ...data]);
 };
 
+/**
+ * Prepare buttons and data
+ *
+ * @param {Array} data
+ * @return {Object} new state
+ */
 const prepareState = data => {
   let buttons = [];
   let lastMonth = null;
@@ -99,6 +112,12 @@ const prepareState = data => {
   return {buttons, data, lastCompleted};
 };
 
+/**
+ * Check if item is completed
+ *
+ * @param {Object} item
+ * @return {Boolean} Is Completed
+ */
 const isCompleted = item => {
   const today = startOf(new Date());
   return isAfter(today, item.date) && !item.isMissed;
