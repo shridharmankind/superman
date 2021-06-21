@@ -14,6 +14,7 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 import planComplaince from './api/planComplaince.json';
 import docList from './api/searchDocList.json';
 import qualificationsPerDivision from './api/masterDataDownload/qualificationsPerDivision.json';
+import specialitiesPerDivision from './api/masterDataDownload/specialitiesPerDivision.json';
 
 import {partiesMock} from './api/parties.js';
 import stpData from './api/stpData.js';
@@ -109,12 +110,12 @@ const getMock = axios => {
     .reply(200, docList);
 
   // master data download
-  const qualificationsPerDivisionsAPI = new RegExp(
-    `${NetworkService.API.FETCH_QUALIFICATIONS_PER_DIVISION}?divisionId=*`,
-  );
   mock
-    .onGet(qualificationsPerDivisionsAPI)
+    .onGet(NetworkService.API.FETCH_QUALIFICATIONS_PER_DIVISION)
     .reply(200, qualificationsPerDivision);
+  mock
+    .onGet(NetworkService.API.FETCH_SPECIALITIES_PER_DIVISION)
+    .reply(200, specialitiesPerDivision);
 };
 
 export default getMock;
