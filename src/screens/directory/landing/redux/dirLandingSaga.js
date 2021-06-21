@@ -33,7 +33,8 @@ function* fetchSearchDoctorsHandler(action) {
       yield put(
         searchDoctorActions.getMoreDoctors({
           docList: {
-            doctors: response.data.doctors,
+            searchCount: response.data.searchCount,
+            doctors: response.data.searchParties,
           },
         }),
       );

@@ -14,6 +14,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
+import {translate} from 'locale';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -76,9 +77,7 @@ const DailyTourPlan = () => {
    * set parties list in state
    */
   useEffect(() => {
-    if (Array.isArray(allDoctorDetail)) {
-      setDayPlanData(allDoctorDetail);
-    }
+    setDayPlanData(allDoctorDetail);
   }, [allDoctorDetail]);
 
   const [visible, setVisible] = useState(false);
@@ -278,11 +277,20 @@ const DailyTourPlan = () => {
         />
         {getVisitBifurcationLabel()}
       </View>
-      <PartyList
-        dayPlanData={dayPlanData}
-        onTileNamePress={onTileNameHandler}
-        onTilePress={onTilePressHandler}
-      />
+      {dayPlanData.length > 0 && (
+        <PartyList
+          dayPlanData={dayPlanData}
+          onTileNamePress={onTileNameHandler}
+          onTilePress={onTilePressHandler}
+        />
+      )}
+      {dayPlanData.length === 0 && (
+        <Label
+          title={translate('errorMessage.noRecords')}
+          variant={LabelVariant.subtitleLarge}
+          style={styles.error}
+        />
+      )}
       {pressTile()}
     </>
   );
