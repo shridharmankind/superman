@@ -76,14 +76,18 @@ export function* fetchWorkingDayWorker(action) {
 }
 
 export function* fetchSTPStatusWorker(action) {
-  const staffPositionId = action.payload.staffPositionId;
+  const {staffPositionId, year} = action.payload;
   const valueMap = {
     staffPositionId: staffPositionId,
+    year: year,
   };
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   let url = API_PATH.STP_STATUS;
-  url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
+  url = url.replace(
+    /\b(?:staffPositionId|year)\b/gi,
+    matched => valueMap[matched],
+  );
 
   try {
     const response = yield call(NetworkService.get, url);

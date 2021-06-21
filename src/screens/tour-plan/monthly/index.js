@@ -28,7 +28,7 @@ import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
 import theme from 'themes';
-import {returnUTCtoLocal} from 'utils/dateTimeHelper';
+import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -101,6 +101,7 @@ const MonthlyTourPlan = ({navigation}) => {
     dispatch(
       fetchSTPStatusCreator({
         staffPositionId: 2,
+        year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
     );
   }, [dispatch]);

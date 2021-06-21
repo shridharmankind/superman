@@ -75,6 +75,20 @@ const getDailyComplainceUrl = () => {
   );
 };
 
+const getSTPStatusUrl = apiPath => {
+  const valueMap = {
+    staffPositionId: 2,
+    year: parseInt(getFormatDate({format: 'YYYY'}), 10),
+  };
+  let url = apiPath;
+  url = url.replace(
+    /\b(?:staffPositionId|year)\b/gi,
+    matched => valueMap[matched],
+  );
+
+  return url;
+};
+
 const getUrl = apiPath => {
   const valueMap = {
     staffPositionId: 2,
@@ -119,7 +133,7 @@ const getMock = axios => {
   mock
     .onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY))
     .reply(200, monthlyplanComplaince);
-  mock.onGet(getUrl(API_PATH.STP_STATUS)).reply(200, stpStatus);
+  mock.onGet(getSTPStatusUrl(API_PATH.STP_STATUS)).reply(200, stpStatus);
   mock.onPost(getUrl(API_PATH.SUBMIT_STP)).reply(200, submitStpMock);
 
   mock
