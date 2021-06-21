@@ -27,7 +27,7 @@ const DoctorProfile = ({route}) => {
   useEffect(() => {
     (async () => {
       const id = await Helper.getStaffPositionId();
-      setStaffPositionId(id || 2);
+      setStaffPositionId(id);
     })();
   });
 

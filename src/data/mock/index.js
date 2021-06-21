@@ -107,7 +107,7 @@ const getMock = axios => {
     .reply(200, docList);
   mock
     .onGet(
-      `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=2&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,
+      `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,
     )
     .reply(200, visitMockData);
 };
