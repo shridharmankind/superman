@@ -98,7 +98,11 @@ const EDetailing = ({navigation}) => {
     console.log(item, index);
     return (
       <View style={styles.swapMain} key={item.id}>
-        <Product title={item.name} isChecked={true} tags={['P1']} />
+        <Product
+          title={item.name}
+          isChecked={!!item.isFeatured}
+          tags={[`P${item.priority}`]}
+        />
       </View>
     );
   };
