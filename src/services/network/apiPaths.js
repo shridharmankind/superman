@@ -1,6 +1,6 @@
 const API_PATHS = {
-  FETCH_QUALIFICATIONS_PER_DIVISION: '/qualification',
-  FETCH_SPECIALITIES_PER_DIVISION: '/specialisationdivisionmap',
+  FETCH_QUALIFICATIONS: '/qualification',
+  FETCH_SPECIALITIES: '/specialisationdivisionmap',
 };
 
 export default API_PATHS;

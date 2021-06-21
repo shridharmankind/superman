@@ -30,11 +30,11 @@ export const MASTER_TABLES_DETAILS = [
   },
   {
     name: Constants.QUALIFICATIONS,
-    apiPath: NetworkService.API.FETCH_QUALIFICATIONS_PER_DIVISION,
+    apiPath: NetworkService.API.FETCH_QUALIFICATIONS,
   },
   {
     name: Constants.SPECIALITIES,
-    apiPath: NetworkService.API.FETCH_SPECIALITIES_PER_DIVISION,
+    apiPath: NetworkService.API.FETCH_SPECIALITIES,
   },
 ];
 

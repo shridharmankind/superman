@@ -111,11 +111,9 @@ const getMock = axios => {
 
   // master data download
   mock
-    .onGet(NetworkService.API.FETCH_QUALIFICATIONS_PER_DIVISION)
+    .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
     .reply(200, qualifications);
-  mock
-    .onGet(NetworkService.API.FETCH_SPECIALITIES_PER_DIVISION)
-    .reply(200, specialities);
+  mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
 };
 
 export default getMock;
