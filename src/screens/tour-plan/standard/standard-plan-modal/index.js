@@ -285,7 +285,8 @@ const StandardPlanModal = ({
         const partyData = partyList.find(party =>
           doctors?.some(
             obj =>
-              obj === party.id && party.areas.some(par => par.id === area.id),
+              obj.partyId === party.id &&
+              party.areas.some(par => par.id === area.id),
           ),
         );
         return partyData ? true : false;
