@@ -3,6 +3,8 @@ import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
 
+import {NetworkService} from 'services';
+
 export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_USER_INFO,
@@ -14,13 +16,29 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_TABLE_PARTY_API_PATH,
     schema: [
       Schemas.partyMaster,
-      Schemas.specialities,
+      Schemas.Specialities.schema,
       Schemas.areas,
       Schemas.Qualifications.schema,
       Schemas.partyTypeGroup,
       Schemas.partyTypes,
       Schemas.engagement,
     ],
+  },
+  {
+    name: Constants.MASTER_TABLE_ORGANIZATION,
+    apiPath: Constants.MASTER_TABLE_ORGANIZATION_API_PATH,
+  },
+  {
+    name: Constants.MASTER_TABLE_DIVISION,
+    apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
+  },
+  {
+    name: Constants.QUALIFICATIONS,
+    apiPath: NetworkService.API.FETCH_QUALIFICATIONS,
+  },
+  {
+    name: Constants.SPECIALITIES,
+    apiPath: NetworkService.API.FETCH_SPECIALITIES,
   },
 ];
 

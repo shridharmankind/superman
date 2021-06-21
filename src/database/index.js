@@ -18,12 +18,14 @@ const dbInstance = new Realm({
     Schemas.staffPositions,
     Schemas.designation,
     Schemas.partyMaster,
-    Schemas.specialities,
+    Schemas.Specialities.schema,
     Schemas.areas,
     Schemas.Qualifications.schema,
     Schemas.partyTypes,
     Schemas.partyTypeGroup,
     Schemas.engagement,
+    Schemas.Organizations.schema,
+    Schemas.Divisions.schema,
   ],
   schemaVersion,
 });
@@ -38,3 +40,6 @@ export const getDBInstance = () => dbInstance;
  * register DB operations
  */
 export const Qualifications = Operations.qualificationOperations(dbInstance);
+export const Organizations = Operations.organizationOperations(dbInstance);
+export const Divisions = Operations.divisionOperations(dbInstance);
+export const Specialities = Operations.specialityOperations(dbInstance);
