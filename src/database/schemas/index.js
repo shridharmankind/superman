@@ -112,11 +112,11 @@ export const partyMaster = {
     },
     specialities: {
       type: 'list',
-      objectType: Constants.MASTER_TABLE_SPECIALITY,
+      objectType: Constants.SPECIALITIES,
     },
     qualifications: {
       type: 'list',
-      objectType: QualificationsSchemaName,
+      objectType: Constants.QUALIFICATIONS,
     },
     engagement: {
       type: 'list',
@@ -176,5 +176,8 @@ export const engagement = {
   },
 };
 
+export {default as Divisions} from './Divisions';
 export {default as Qualifications} from './Qualifications';
 export {MonthlySchema};
+export {default as Organizations} from './Organizations';
+export {default as Specialities} from './Specialities';

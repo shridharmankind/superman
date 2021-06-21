@@ -4,7 +4,6 @@ import {
   Image,
   ImageBackground,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
@@ -17,6 +16,10 @@ import {
   Operations,
   Schemas,
   MonthlyPlan,
+  Organizations,
+  Divisions,
+  Qualifications,
+  Specialities,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -37,8 +40,67 @@ const MasterDataDownload = ({navigation}) => {
     }, 3000);
 
     const fetchData = async () => {
+      const onDownloadError = error => {
+        console.log('DB error downloading master data', error);
+      };
+
+      const onDownloadComplete = () => {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
+      };
+
       try {
         await initMasterTablesDownloadStatus();
+
+        const updateRecordDownloaded = async recordName => {
+          await Operations.updateRecord(
+            Schemas.masterTablesDownLoadStatus,
+            DBConstants.downloadStatus.DOWNLOADED,
+            recordName,
+          );
+        };
+
+        const fetchQualifications = async qualificationInfo => {
+          const {name, apiPath} = qualificationInfo;
+          let failedToSaveQualifications = false;
+
+          const response = await NetworkService.get(apiPath);
+
+          if (response && response.status === Constants.HTTP_OK) {
+            const {data} = response;
+            const recordsUpdated = await Qualifications.storeQualifications(
+              data,
+            );
+
+            if (!recordsUpdated) {
+              failedToSaveQualifications = true;
+            }
+          } else {
+            failedToSaveQualifications = true;
+          }
+          !failedToSaveQualifications && updateRecordDownloaded(name);
+        };
+
+        const fetchSpecialities = async specialityInfo => {
+          const {name, apiPath} = specialityInfo;
+          let failedToSaveSpecialities = false;
+
+          const response = await NetworkService.get(apiPath);
+
+          if (response && response.status === Constants.HTTP_OK) {
+            const {data} = response;
+            const recordsUpdated = await Specialities.storeSpecialities(data);
+
+            if (!recordsUpdated) {
+              failedToSaveSpecialities = true;
+            }
+          } else {
+            failedToSaveSpecialities = true;
+          }
+
+          !failedToSaveSpecialities && updateRecordDownloaded(name);
+        };
 
         for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
           let item = Helper.MASTER_TABLES_DETAILS[i];
@@ -49,20 +111,74 @@ const MasterDataDownload = ({navigation}) => {
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
-          let response = await getAPIResponse(item);
-          if (response.status === Constants.HTTP_OK) {
+          let response;
+          switch (item.name) {
+            case DBConstants.MASTER_TABLE_USER_INFO:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.MASTER_TABLE_PARTY:
+              {
+                const staffPositionId = await Helper.getStaffPositionId();
+                response = await NetworkService.get(
+                  `${item.apiPath}${staffPositionId}`,
+                );
+              }
+              break;
+            case DBConstants.MASTER_TABLE_ORGANIZATION:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.MASTER_TABLE_DIVISION:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.QUALIFICATIONS:
+              fetchQualifications(item);
+              break;
+            case DBConstants.SPECIALITIES:
+              fetchSpecialities(item);
+              break;
+            case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+              {
+                const staffPositionId = await Helper.getStaffPositionId();
+                console.log('MASTER_MONTHLY_TABLE_PLAN ', staffPositionId);
+                response = await NetworkService.get(
+                  `${item.apiPath}${staffPositionId}`,
+                );
+              }
+              break;  
+          }
+          if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
-            await createMasterRecord(item, data);
-            await Operations.updateRecord(
-              Schemas.masterTablesDownLoadStatus,
-              DBConstants.downloadStatus.DOWNLOADED,
-              item.name,
-            );
+            switch (item.name) {
+              case DBConstants.MASTER_TABLE_USER_INFO:
+                await Operations.createUserInfoRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                updateRecordDownloaded(item.name);
+                break;
+
+              case DBConstants.MASTER_TABLE_PARTY:
+                await Operations.createPartyMasterRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+                await MonthlyPlan.createMonthlyMasterRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                updateRecordDownloaded(item.name);
+                break;
+              
+            }
+
             if (i % progressBarSyncParam === 0) {
               setProgress(prevProgress => prevProgress + 0.1);
             }
           } else {
-            Alert.alert(Strings.info, response);
+            onDownloadError(item.name);
           }
         }
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
@@ -70,11 +186,9 @@ const MasterDataDownload = ({navigation}) => {
           status: DBConstants.downloadStatus.DOWNLOADED,
           lastSync: new Date(),
         });
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
+        onDownloadComplete();
       } catch (error) {
-        Alert.alert(Strings.info, error);
+        onDownloadError(error);
       }
     };
     fetchData();
@@ -82,55 +196,6 @@ const MasterDataDownload = ({navigation}) => {
       isMounted = false;
     };
   }, [navigation, progressBarSyncParam]);
-
-  const createMasterRecord = async (item, data) => {
-    switch (item.name) {
-      case DBConstants.MASTER_TABLE_USER_INFO:
-        await Operations.createUserInfoRecord(item.schema, JSON.parse(data));
-        break;
-
-      case DBConstants.MASTER_TABLE_PARTY:
-        await Operations.createPartyMasterRecord(item.schema, JSON.parse(data));
-        break;
-      case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
-        await MonthlyPlan.createMonthlyMasterRecord(
-          item.schema,
-          JSON.parse(data),
-        );
-        break;
-    }
-  };
-  const getAPIResponse = async item => {
-    try {
-      let response;
-      switch (item.name) {
-        case DBConstants.MASTER_TABLE_USER_INFO:
-          response = await NetworkService.get(item.apiPath);
-          break;
-        case DBConstants.MASTER_TABLE_PARTY:
-          {
-            const staffPositionId = await Helper.getStaffPositionId();
-            console.log('MASTER_TABLE_PARTY ', staffPositionId);
-            response = await NetworkService.get(
-              `${item.apiPath}${staffPositionId}`,
-            );
-          }
-          break;
-        case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
-          {
-            const staffPositionId = await Helper.getStaffPositionId();
-            console.log('MASTER_MONTHLY_TABLE_PLAN ', staffPositionId);
-            response = await NetworkService.get(
-              `${item.apiPath}${staffPositionId}`,
-            );
-          }
-          break;
-      }
-      return response;
-    } catch (err) {
-      console.log('getAPIResponse', err);
-    }
-  };
 
   const initMasterTablesDownloadStatus = async () => {
     try {
@@ -147,7 +212,7 @@ const MasterDataDownload = ({navigation}) => {
         });
       });
     } catch (error) {
-      console.log('initMasterTablesDownloadStatus', error);
+      console.log('DB initMasterTablesDownloadStatus', error);
     }
   };
 
