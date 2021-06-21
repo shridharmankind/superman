@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     borderRadius: 6.7,
     width: 200,
     padding: 16,
-    elevation: 5,
+    elevation: 10,
   },
   productImage: {
     width: 168,
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   productTitle: {
     fontSize: 16,
     fontFamily: themes.fonts.fontSemiBold,
+    marginRight: 8,
   },
   productTag: {
     backgroundColor: themes.colors.grey[1500],
@@ -29,6 +30,22 @@ const styles = StyleSheet.create({
     right: 13,
     top: 13,
     zIndex: 1,
+  },
+  productTag: {
+    fontFamily: themes.fonts.fontBold,
+    backgroundColor: themes.colors.grey[1000],
+    textAlign: 'center',
+    borderRadius: 16,
+    height: 16,
+    width: 16,
+    marginRight: 4,
+  },
+  productTitleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  productTags: {
+    flexDirection: 'row',
   },
 });
 
