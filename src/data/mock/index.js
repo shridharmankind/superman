@@ -9,7 +9,8 @@ import tourPlanMock from './api/tourPlan.json';
 import product from './api/priorityProduct.json';
 import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import planComplaince from './api/planComplaince.json';
+import monthlyplanComplaince from './api/planComplaince.json';
+import dailyPlanComplaince from './api/dailyPlanComplaince.json';
 import docList from './api/searchDocList.json';
 
 import {partiesMock} from './api/parties.js';
@@ -59,6 +60,17 @@ const getSTPCalendarUpdateUrl = () => {
   return url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
 };
 
+const getDailyComplainceUrl = () => {
+  const valueMap = {
+    staffPositionId: 2,
+    weekVal: 1,
+    weekdayVal: 1,
+  };
+  return API_PATH.COMPLAINCE_DAILY.replace(
+    /\b(?:staffPositionId|weekVal|weekdayVal)\b/gi,
+    matched => valueMap[matched],
+  );
+};
 const getMonthlyComplainceUrl = () => {
   const valueMap = {
     staffPositionId: 2,
@@ -99,7 +111,8 @@ const getMock = axios => {
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
-  mock.onGet(getMonthlyComplainceUrl()).reply(200, planComplaince);
+  mock.onGet(getDailyComplainceUrl()).reply(200, dailyPlanComplaince);
+  mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyplanComplaince);
   mock
     .onGet(
       'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',

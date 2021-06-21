@@ -11,5 +11,8 @@
   "completedVisit": "Completed Visit",
   "lastCompletedVisit": "Last Completed Visit",
   "on": "On",
-  "timeline": "Timeline"
+  "timeline": "Timeline",
+  "errorMessage": {
+    "noRecords": "There are no records"
+  }
 }

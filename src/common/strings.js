@@ -144,7 +144,7 @@ const Strings = {
   beginJourney: "Let's begin your journey",
   successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
-  tourPlanRules: 'Monthly tour plan rules',
+  tourPlanRules: 'tour plan rules',
   exStation: 'Ex',
   patchExhaustedForParty:
     'One or more doctors added in the patch do not have further visiting slots, do you want to create a new patch.',
