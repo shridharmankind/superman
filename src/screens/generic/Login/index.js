@@ -23,7 +23,6 @@ const config = {
   redirectUrl: 'com.superman://callback',
   scopes: ['openid', 'profile'],
   additionalParameters: {prompt: 'login'},
-  clientAuthMethod: 'post',
 };
 
 export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
