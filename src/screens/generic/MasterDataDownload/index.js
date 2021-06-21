@@ -84,14 +84,14 @@ const MasterDataDownload = ({navigation}) => {
               setProgress(prevProgress => prevProgress + 0.1);
             }
           } else {
-            Alert.alert(Strings.info, response);
+            // Alert.alert(Strings.info, response);
           }
         }
         navigation.reset({
           routes: [{name: Routes.ROUTE_DASHBOARD}],
         });
       } catch (error) {
-        Alert.alert(Strings.info, error);
+        // Alert.alert(Strings.info, error);
       }
     };
     fetchData();
