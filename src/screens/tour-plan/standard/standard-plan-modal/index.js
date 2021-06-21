@@ -127,6 +127,7 @@ const StandardPlanModal = ({
     return true;
   }, [dispatch]);
 
+  //allParties :: dr list => alreadyVisited once
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
@@ -808,7 +809,7 @@ const StandardPlanModal = ({
   /** function to filter parties by party type eg. doctors,chemist and all*/
   const getSelectedPartyByType = useCallback(() => {
     if (patchSelected && allParties.length > 0) {
-      const obj = {doctors: 0, chemist: 0};
+      const obj = {doctor: 0, chemist: 0};
       allParties.map(party => {
         if (doctorsSelected?.some(id => id === party.id)) {
           if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
@@ -1039,9 +1040,12 @@ const StandardPlanModal = ({
           />
           <PlanCompliance
             type={COMPLAINCE_TYPE.DAILY}
-            selectedPartyData={getSelectedPartyTypeData(
+            week={week}
+            weekDay={workingDays.indexOf(weekDay) + 1}
+            selectedData={getSelectedPartyTypeData(
               allParties,
               doctorsSelected,
+              areaSelected,
             )}
           />
         </View>

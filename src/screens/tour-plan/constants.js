@@ -43,3 +43,21 @@ export const COMPLAINCE_TYPE = {
 };
 
 export const STANDARD_TOUR_PLAN_ID = 1;
+
+export const COMPARISION_TYPE = {
+  MIN: 'minimum',
+  MAX: 'maximum',
+  EQUAL: 'equal',
+};
+
+export const RULE_KEY = {
+  DOCTOR: 'doctor',
+  CHEMIST: 'chemist',
+  AREA: 'areas',
+  OUTSATAION: 'outstation',
+  EXSATAION: 'exStation',
+  FREQUENCY_MET: 'frequencyMet',
+  DOCTOR_COVERED_IN_MONTH: 'doctorCoveredInMonth',
+  CHEMIST_COVERED_IN_MONTH: 'chemistCoveredInMonth',
+  DOCTOR_IN_X_DAYS: 'doctorInXDays',
+};
