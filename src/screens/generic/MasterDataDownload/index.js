@@ -13,6 +13,7 @@ import {
   Helper,
   Constants as DBConstants,
   Operations,
+  Organizations,
   Schemas,
   Divisions,
   Qualifications,
@@ -123,6 +124,9 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
+            case DBConstants.MASTER_TABLE_ORGANIZATION:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_DIVISION:
               response = await NetworkService.get(item.apiPath);
               break;
@@ -157,6 +161,10 @@ const MasterDataDownload = ({navigation}) => {
                   JSON.parse(data),
                 );
                 divisionsUpdated && updateRecordDownloaded(item.name);
+                break;
+
+              case DBConstants.MASTER_TABLE_ORGANIZATION:
+                await Organizations.storeOrganizations(JSON.parse(data));
                 break;
             }
 
