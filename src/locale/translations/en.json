@@ -3,5 +3,6 @@
   "monthlyActions": {
     "save": "Save",
     "submitSTP": "Submit STP"
-  }
+  },
+  "submittedOn": "Submitted on"
 }

@@ -26,6 +26,7 @@ import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
 import theme from 'themes';
+import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -95,7 +96,7 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(
       fetchSTPStatusCreator({
-        staffPositionid: 2,
+        staffPositionId: 2,
       }),
     );
   }, [dispatch]);
@@ -314,29 +315,40 @@ const MonthlyTourPlan = ({navigation}) => {
             <TouchableWithoutFeedback
               key={index}
               onPress={() => selectedTourPlanHandler(option)}>
-              <Label
-                type={option.selected ? 'bold' : 'regular'}
-                title={option.text}
-                size={14}
-                style={
-                  option.selected ? styles.modalTextSelected : styles.modalText
-                }
-              />
-              {stpStatus?.status === STP_STATUS.INPROGRESS && (
-                <LockIcon width={16} height={20} />
-              )}
-              {stpStatus?.status === STP_STATUS.SUBMITTED && (
-                <>
-                  <LockIcon width={16} height={20} />
-                  <Area
-                    title={'submitted on'}
-                    value={'submitted on'}
-                    bgColor={theme.colors.green[300]}
-                    color={'#524F67'}
-                    textStyle={styles.submittedChip}
-                  />
-                </>
-              )}
+              <View style={styles.tourPlanOption}>
+                <Label
+                  type={option.selected ? 'bold' : 'regular'}
+                  title={option.text}
+                  size={14}
+                  style={
+                    option.selected
+                      ? styles.modalTextSelected
+                      : styles.modalText
+                  }
+                />
+                {stpStatus?.status === STP_STATUS.INPROGRESS && index === 0 && (
+                  <></>
+                )}
+                {stpStatus?.status === STP_STATUS.SUBMITTED && index === 0 && (
+                  <>
+                    <LockIcon
+                      width={10.7}
+                      height={13.3}
+                      style={styles.lockIcon}
+                    />
+                    <Area
+                      title={`${translate('submittedOn')} ${returnUTCtoLocal(
+                        stpStatus.submitedDate,
+                      )}`}
+                      value={'1'}
+                      bgColor={theme.colors.green[300]}
+                      color={'#524F67'}
+                      textStyle={styles.submittedChip}
+                      chipContainerCustomStyle={styles.chipContainer}
+                    />
+                  </>
+                )}
+              </View>
             </TouchableWithoutFeedback>
           ))}
         </View>

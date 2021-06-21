@@ -35,6 +35,7 @@ const AreaChip = ({
   textStyle,
   selectedPartyCount,
   onPress,
+  chipContainerCustomStyle,
 }) => {
   const selectedStyle = {
     color: selected ? selectedTextColor : color,
@@ -47,6 +48,7 @@ const AreaChip = ({
       testID={testID}
       style={[
         styles.chipContainer,
+        chipContainerCustomStyle,
         style,
         {
           backgroundColor: selected && selectedColor ? selectedColor : bgColor,
@@ -65,6 +67,10 @@ const AreaChip = ({
       }`}
     </Chip>
   );
+};
+
+Chip.defaultProps = {
+  chipContainerCustomStyle: {},
 };
 
 Chip.propTypes = {
