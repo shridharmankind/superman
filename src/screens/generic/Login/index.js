@@ -33,6 +33,18 @@ export const AlertTitle = 'Info';
 
 const Login = ({navigation}) => {
   const [animating, setAnimating] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      console.log(
+        'isLoggedIn rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
+        isLoggedIn,
+      );
+      if (isLoggedIn === null) {
+        navigation.navigate('LocalAuthentication');
+      }
+    })();
+  }, [navigation]);
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);

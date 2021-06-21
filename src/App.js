@@ -40,7 +40,8 @@ const App = () => {
       AsyncStorage.removeItem('isLoggedIn');
     };
   }, []);
-  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOCALAUTHENTICATION;
+  // const initialRoute = isLoggedIn ? ROUTE_LOGIN : ROUTE_LOCALAUTHENTICATION;
+  const initialRoute = isLoggedIn ? ROUTE_LOGIN : ROUTE_LOCALAUTHENTICATION;
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
