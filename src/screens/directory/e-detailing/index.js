@@ -13,6 +13,7 @@ import {
   fetchDetailingOtherProductCreator,
   eDetailingSelector,
 } from './redux';
+import {Product} from 'components/widgets';
 
 /**
  * Render header
@@ -81,7 +82,9 @@ const EDetailing = ({navigation}) => {
           variant={LabelVariant.subtitleLarge}
           title={Strings.priorityProducts}
         />
-        <View style={[styles.eDetailingPriorityProductsList]} />
+        <View style={[styles.eDetailingPriorityProductsList]}>
+          <Product title="Test" isChecked={true} />
+        </View>
       </View>
       <Label
         testID="eDetail-priority-other-products"

@@ -4,6 +4,7 @@ const LoginCover = require('./login-cover.png');
 const LogoMankindWhite = require('./logo-white.png');
 const SingleAvtar = require('./single_visit.png');
 const JointAvtar = require('./joint_visit.png');
+const ProductImage = require('./product.png');
 
 export {
   LogoMankind,
@@ -12,4 +13,5 @@ export {
   LogoMankindWhite,
   SingleAvtar,
   JointAvtar,
+  ProductImage,
 };
