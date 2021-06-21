@@ -1,5 +1,5 @@
-import React, {useRef, useState, useEffect} from 'react';
-import {AppState, StyleSheet, Text, View, Alert} from 'react-native';
+import {useState, useEffect} from 'react';
+import {BackHandler} from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -11,9 +11,12 @@ const LocalAuth = ({navigation}) => {
         console.log(response3);
         if (response3.success) {
           AsyncStorage.setItem('isLoggedIn', 'true');
-          navigation.navigate('Login');
+          navigation.replace('Login');
         } else {
           AsyncStorage.removeItem('isLoggedIn');
+          if (response3.error === 'user_cancel') {
+            return BackHandler.exitApp();
+          }
           navigation.navigate('LocalAuthentication');
           setLoginFail(!loginfail);
         }
@@ -22,7 +25,7 @@ const LocalAuth = ({navigation}) => {
     fn();
   }, [navigation, loginfail]);
 
-  return <Text>test</Text>;
+  return null;
 };
 
 export default LocalAuth;
