@@ -20,7 +20,7 @@ export function* fetchPlanComplianceWatcher() {
  * worker function to send the api call to get all plan compliance rules
  */
 export function* fetchPlanComplianceWorker(action) {
-  const {staffPositionId, type, weekVal = 1, weekdayVal = 1} = action.payload;
+  const {staffPositionId, type, week = 1, weekDay = 1} = action.payload;
   let url;
   // set url on basis of compliance type selected
   if (type === COMPLAINCE_TYPE.MONTHLY) {
@@ -35,8 +35,8 @@ export function* fetchPlanComplianceWorker(action) {
     if (type === COMPLAINCE_TYPE.DAILY) {
       const valueMap = {
         staffPositionId: staffPositionId,
-        weekVal: weekVal,
-        weekdayVal: weekdayVal,
+        weekVal: week,
+        weekdayVal: weekDay,
       };
       url = API_PATH.COMPLAINCE_DAILY.replace(
         /\b(?:staffPositionId|weekVal|weekdayVal)\b/gi,
