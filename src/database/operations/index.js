@@ -181,3 +181,4 @@ export const closeDB = () => {
 };
 
 export {default as qualificationOperations} from './qualificationOperations';
+export {default as partyCategoryOperations} from './partyCategoryOperations';

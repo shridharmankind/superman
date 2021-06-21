@@ -24,6 +24,7 @@ const dbInstance = new Realm({
     Schemas.partyTypes,
     Schemas.partyTypeGroup,
     Schemas.engagement,
+    Schemas.PartyCategories.schema,
   ],
   schemaVersion,
 });
@@ -38,3 +39,4 @@ export const getDBInstance = () => dbInstance;
  * register DB operations
  */
 export const Qualifications = Operations.qualificationOperations(dbInstance);
+export const PartyCategories = Operations.partyCategoryOperations(dbInstance);

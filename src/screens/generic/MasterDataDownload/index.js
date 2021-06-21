@@ -10,7 +10,13 @@ import styles from './styles';
 import {Strings} from 'common';
 import {Label} from 'components/elements';
 import themes from 'themes';
-import {Helper, Constants as DBConstants, Operations, Schemas} from 'database';
+import {
+  Helper,
+  Constants as DBConstants,
+  Operations,
+  PartyCategories,
+  Schemas,
+} from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
@@ -57,6 +63,9 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
+            case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
+              response = await NetworkService.get(item.apiPath);
+              break;
           }
           if (response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
@@ -73,6 +82,9 @@ const MasterDataDownload = ({navigation}) => {
                   item.schema,
                   JSON.parse(data),
                 );
+                break;
+              case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
+                await PartyCategories.storePartyCategories(JSON.parse(data));
                 break;
             }
             await Operations.updateRecord(
