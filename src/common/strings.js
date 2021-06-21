@@ -164,6 +164,7 @@ const Strings = {
       addTodayPlan: "Add to Today's Plan",
       startEdetail: 'eDetail',
     },
+    docAddedTodayPlan:'Doctor added successfully'
   },
   searchBar: {
     errors: {
