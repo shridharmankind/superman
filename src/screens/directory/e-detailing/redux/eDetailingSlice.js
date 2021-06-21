@@ -33,8 +33,10 @@ const ePriorityProductSlice = createSlice({
     },
     getMoreDetailingPriorityProduct: (state, action) => {
       return {
-        ...state.detailingPriorityProduct,
-        ...action.payload,
+        detailingPriorityProduct: [
+          ...state.detailingPriorityProduct,
+          ...action.payload.detailingPriorityProduct,
+        ],
       };
     },
   },
@@ -52,8 +54,10 @@ const eOtherProductSlice = createSlice({
     },
     getMoreDetailingOtherProduct: (state, action) => {
       return {
-        ...state.detailingOtherProduct,
-        ...action.payload,
+        detailingOtherProduct: [
+          ...state.detailingOtherProduct,
+          ...action.payload.detailingOtherProduct,
+        ],
       };
     },
   },

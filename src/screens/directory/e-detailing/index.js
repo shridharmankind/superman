@@ -1,13 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Label} from 'components/elements';
 import {ContentWithSidePanel} from 'components/layouts';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {Button, LabelVariant} from 'components/elements';
 import styles from './styles';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View, FlatList} from 'react-native';
 import {Strings} from 'common';
 import {ArrowBack} from 'assets';
 import {isWeb} from 'helper';
+import theme from 'themes';
 import {
   fetchDetailingPriorityProductCreator,
   fetchDetailingOtherProductCreator,
@@ -57,7 +59,11 @@ const renderHeader = ({navigation}) => (
  * @return {JSX} Edetailing component
  */
 const EDetailing = ({navigation}) => {
+  const LIMIT = 10; // limit of priority to be fetched from server
   const dispatch = useDispatch();
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const [skip, setSkip] = useState(0);
+  const swiperRef = useRef(null);
 
   useEffect(() => {
     dispatch(
@@ -65,14 +71,61 @@ const EDetailing = ({navigation}) => {
         staffPositionID: 1,
         partyId: 1,
         skip: 0,
-        limit: 1,
+        limit: LIMIT,
       }),
     );
+    setSkip(prev => prev + LIMIT);
   }, [dispatch]);
 
   const priorityProductList = useSelector(
     eDetailingSelector.getPriorityProduct(),
   );
+  const hideScrollArrow = () => {
+    dispatch(
+      fetchDetailingPriorityProductCreator({
+        staffPositionID: 1,
+        partyId: 1,
+        skip: skip,
+        limit: LIMIT,
+      }),
+    );
+    //Once API Done I will Uncomment this
+    // setSkip(prev => prev + LIMIT);
+  };
+
+  const renderSwape = (item, index) => {
+    console.log(item, index);
+    return (
+      <View style={styles.swapMain} key={item.id}>
+        <Label style={styles.swapDiv}>{item.name}</Label>
+      </View>
+    );
+  };
+
+  const handleAreaRightArrow = () => {
+    console.log(swiperRef.current.scrollToOffset);
+
+    swiperRef.current.scrollToOffset({
+      offset: scrollOffset + 150,
+      animated: true,
+    });
+    setScrollOffset(scrollOffset + 100);
+  };
+
+  const handleAreaLeftArrow = () => {
+    swiperRef.current.scrollToOffset({
+      offset: scrollOffset + 150,
+      animated: true,
+    });
+    setScrollOffset(scrollOffset - 100);
+  };
+  /**function to return renderAreas() with scollable View
+   * @param {String} icon name of icon to use
+   */
+  const renderArrow = icon => (
+    <Icon name={icon} size={10} color={theme.colors.blue} />
+  );
+
   return (
     <ContentWithSidePanel header={renderHeader({navigation})}>
       <View style={[styles.eDetailingPriorityProducts]}>
@@ -81,7 +134,29 @@ const EDetailing = ({navigation}) => {
           variant={LabelVariant.subtitleLarge}
           title={Strings.priorityProducts}
         />
-        <View style={[styles.eDetailingPriorityProductsList]} />
+        <View style={[styles.eDetailingPriorityProductsList]}>
+          <TouchableOpacity
+            onPress={() => handleAreaLeftArrow()}
+            style={[styles.swiperArrow, styles.leftArrow]}>
+            {renderArrow('chevron-left')}
+          </TouchableOpacity>
+          <FlatList
+            horizontal
+            ref={swiperRef}
+            data={priorityProductList}
+            showsHorizontalScrollIndicator={true}
+            onEndReached={hideScrollArrow}
+            onEndReachedThreshold={0.5}
+            renderItem={({item, index}) => {
+              return renderSwape(item, index);
+            }}
+          />
+          <TouchableOpacity
+            onPress={() => handleAreaRightArrow()}
+            style={[styles.swiperArrow, styles.rightArrow]}>
+            {renderArrow('chevron-right')}
+          </TouchableOpacity>
+        </View>
       </View>
       <Label
         testID="eDetail-priority-other-products"

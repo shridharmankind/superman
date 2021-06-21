@@ -14,6 +14,7 @@ import dailyPlanComplaince from './api/dailyPlanComplaince.json';
 import docList from './api/searchDocList.json';
 import EPriorityProductList from './api/ePriorityProduct.json';
 import EOtherProductList from './api/eOtherProduct.json';
+import AllPriority from './api/AllPriority.json';
 
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
@@ -119,14 +120,14 @@ const getMock = axios => {
     .reply(200, docList);
   mock
     .onGet(
-      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=1',
+      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=10',
     )
     .reply(200, EPriorityProductList);
   mock
     .onGet(
-      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=1&Limit=4',
+      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=10&Limit=10',
     )
-    .reply(200, EPriorityProductList);
+    .reply(200, AllPriority);
   mock
     .onGet('eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=4')
     .reply(200, EOtherProductList);
