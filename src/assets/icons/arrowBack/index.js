@@ -10,7 +10,7 @@ function arrowBack(props) {
       height="1em"
       viewBox="0 0 48 48"
       {...props}>
-      <Defs></Defs>
+      <Defs />
       <Path id="prefix__Path" d="M0 0h48v48H0z" className="prefix__cls-1" />
       <G id="prefix__Shape" fill="none" stroke="none">
         <Path

@@ -8,6 +8,7 @@ import {openTasksReducer} from 'screens/directory/doctorDetails/openTask/redux';
 import {priorityProductReducer} from 'screens/directory/priorityProduct/redux';
 import {planComplianceReducer} from 'screens/tourPlan/planCompliance/redux';
 import {searchDoctorReducer} from 'screens/directory/landing/redux';
+import {timelineReducer} from 'screens/directory/doc-timeline/redux';
 import {
   ePriorityProductReducer,
   eOtherProductReducer,
@@ -23,6 +24,7 @@ export const rootReducer = combineReducers({
   productList: priorityProductReducer,
   planCompliance: planComplianceReducer,
   fetchQueryDoctorsState: searchDoctorReducer,
+  timeline: timelineReducer,
   ePriorityProductList: ePriorityProductReducer,
   eOtherProductList: eOtherProductReducer,
 });

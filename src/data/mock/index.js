@@ -18,6 +18,9 @@ import EOtherProductList from './api/eOtherProduct.json';
 import {partiesMock} from './api/parties.js';
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import stpData from './api/stpData.js';
+import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
+import visitMockData from './api/timeline.json';
+
 const getPartiesUrl = () => {
   const valueMap = {
     staffpositionid: 2,
@@ -117,6 +120,11 @@ const getMock = axios => {
       'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
     )
     .reply(200, docList);
+  mock
+    .onGet(
+      `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,
+    )
+    .reply(200, visitMockData);
   mock
     .onGet(
       'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=1',
