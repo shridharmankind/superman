@@ -114,9 +114,7 @@ const getMock = axios => {
   mock.onGet(getDailyComplainceUrl()).reply(200, dailyPlanComplaince);
   mock.onGet(getMonthlyComplainceUrl()).reply(200, monthlyplanComplaince);
   mock
-    .onGet(
-      'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
-    )
+    .onGet('party/searchpartybyname?StaffPositionId=1&Keyword=ra&PartyTypeId=1&Skip=0&Limit=10')
     .reply(200, docList);
   mock
     .onGet(
