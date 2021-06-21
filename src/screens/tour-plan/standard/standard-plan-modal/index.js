@@ -49,11 +49,9 @@ const StandardPlanModal = ({
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
-  const [areaList, setAreaList] = useState([]);
   const [patches, setPatches] = useState();
   const [patchSelected, setPatchSelected] = useState();
   const [patchDefaultValue, setPatchDefaultValue] = useState();
-  const [partiesList, setPartiesList] = useState([]);
   const [parties, setParties] = useState([]);
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
@@ -159,13 +157,8 @@ const StandardPlanModal = ({
   }, [dispatch]);
 
   useEffect(() => {
-    setPartiesList(allParties);
     filterPartyByType(allParties);
   }, [allParties]);
-
-  useEffect(() => {
-    setAreaList(allAreas);
-  }, [allAreas]);
 
   useEffect(() => {
     setPatches(allPatches);
