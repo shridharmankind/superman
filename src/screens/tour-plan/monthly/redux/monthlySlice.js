@@ -9,6 +9,7 @@ export const monthlyTourPlan = {
     data: [],
   },
   workingDay: [],
+  selectedPlanOption: null,
 };
 
 /**
@@ -31,6 +32,12 @@ export const getMonthlySlice = createSlice({
     getSubordinates: (state, action) => merge(state, action.payload),
     getWorkingDay: (state, action) => {
       return merge(state, action.payload);
+    },
+    setSelectedPlanOption: (state, action) => {
+      return {
+        ...state,
+        selectedPlanOption: action.payload,
+      };
     },
   },
 });
