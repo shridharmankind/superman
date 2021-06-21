@@ -14,7 +14,7 @@ import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {PARTY_TYPE} from 'screens/tourPlan/constants';
+import {PARTY_TYPE, COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
@@ -29,6 +29,7 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
+import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -811,13 +812,12 @@ const StandardPlanModal = ({
       allParties.map(party => {
         if (doctorsSelected?.some(id => id === party.id)) {
           if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
-            obj.doctors = obj.doctors + 1;
+            obj.doctor = obj.doctor + 1;
           } else {
             obj.chemist = obj.chemist + 1;
           }
         }
       });
-
       if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
         let partyCount = obj.chemist;
         return (
@@ -827,7 +827,7 @@ const StandardPlanModal = ({
           )}`
         );
       } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
-        let partyCount = obj.doctors;
+        let partyCount = obj.doctor;
         return (
           partyCount > 0 &&
           ` - ${partyCount} ${PARTY_TYPE.DOCTOR.toLowerCase()}${getSuffix(
@@ -836,16 +836,16 @@ const StandardPlanModal = ({
         );
       }
       return `${
-        obj.doctors > 0 || obj.chemist > 0
-          ? ` - ${obj.doctors + obj.chemist} `
+        obj.doctor > 0 || obj.chemist > 0
+          ? ` - ${obj.doctor + obj.chemist} `
           : ''
       }${
-        obj.doctors > 0
-          ? `(${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
+        obj.doctor > 0
+          ? `(${obj.doctor} doctor${obj.doctor > 1 ? 's' : ''}`
           : ''
-      }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
-        obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
-      }${obj.doctors === 0 && obj.chemist > 0 ? '(' : ''}${
+      }${obj.doctor > 0 && obj.chemist > 0 ? ', ' : ''}${
+        obj.doctor > 0 && obj.chemist === 0 ? ')' : ''
+      }${obj.doctor === 0 && obj.chemist > 0 ? '(' : ''}${
         obj.chemist > 0 ? `${obj.chemist} chemist)` : ''
       }`;
     }
@@ -1037,7 +1037,13 @@ const StandardPlanModal = ({
             title={Strings.planCompliance}
             style={styles.planComplainceLabel}
           />
-          <PlanCompliance />
+          <PlanCompliance
+            type={COMPLAINCE_TYPE.DAILY}
+            selectedPartyData={getSelectedPartyTypeData(
+              allParties,
+              doctorsSelected,
+            )}
+          />
         </View>
       </View>
     </ScrollView>

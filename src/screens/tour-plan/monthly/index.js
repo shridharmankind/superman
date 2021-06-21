@@ -20,8 +20,9 @@ import {
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
 } from './redux';
+import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
-
+import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -66,9 +67,15 @@ const MonthlyTourPlan = ({navigation}) => {
 
   const previousMonthSelected = usePrevious(monthSelected);
   const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
+  const [compliancePercentage, setCompliancePercentage] = useState();
 
+  // Selectors
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
+  );
+  // Selector to get compliance percentage
+  const complaincePercentage = useSelector(
+    planComplianceSelector.getTotalPercent(),
   );
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
 
@@ -80,7 +87,23 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   }, [dispatch]);
 
+  /**
+   *effect to set working Day
+   */
   useEffect(() => setworkingDays(workindDay), [workindDay]);
+
+  /**
+   * effect to set percentage compliance
+   */
+  useEffect(() => {
+    setCompliancePercentage(complaincePercentage);
+  }, [complaincePercentage]);
+
+  useEffect(() => {
+    dispatch(monthlyActions.setSelectedPlanOption({...selectedTourPlan}));
+
+    return () => dispatch(monthlyActions.setSelectedPlanOption(null));
+  }, [dispatch, selectedTourPlan]);
 
   useEffect(() => {
     const myPlan = {
@@ -390,6 +413,7 @@ const MonthlyTourPlan = ({navigation}) => {
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
+          disabled={compliancePercentage !== 100}
         />
       </View>
     );
