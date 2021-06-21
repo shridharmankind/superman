@@ -7,7 +7,12 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         divisions.forEach(division => {
-          dbInstance.create(DivisionSchemaName, division, 'modified');
+          const {id, name, shortName, maxPatchCount, kycPartyLimit} = division;
+          dbInstance.create(
+            DivisionSchemaName,
+            {id, name, shortName, maxPatchCount, kycPartyLimit},
+            'modified',
+          );
         });
       });
     } catch (err) {
