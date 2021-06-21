@@ -1,1 +1,1 @@
-export {default as NetworkService} from './network/NetworkService';
+export {default as NetworkService} from './network';
