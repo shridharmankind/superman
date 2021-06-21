@@ -48,9 +48,9 @@ export function* rootSaga() {
     fetchSTPCalendarUpdateWatcher,
     fetchPlanComplianceWatcher,
     fetchQueryDoctorsWatcher,
-    fetchTimelineWatcher,
     fetchEDetailingPriorityProductWatcher,
     fetchEDetailingOtherProductWatcher,
+    fetchTimelineWatcher,
   ];
 
   /**

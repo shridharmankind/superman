@@ -32,8 +32,11 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   eDetailingPriorityProductsList: {
-    paddingTop: theme.spacing(13),
-    height: 246,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing(22),
   },
   swapMain: {
     marginLeft: 20,
@@ -48,21 +51,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
-    top: 80,
+    opacity: 1,
   },
   leftArrow: {
-    position: 'absolute',
     left: 0,
+    top: 0,
+  },
+  arrowContainer: {
+    position: 'absolute',
+    backgroundColor: theme.colors.grey[1700],
+    alignItems: 'center',
+    height: '100%',
+    flexDirection: 'row',
+    minWidth: 25,
+    opacity: 0.5,
+    elevation: 10,
+    zIndex: 1,
   },
   rightArrow: {
-    position: 'absolute',
     right: 0,
+    top: 0,
   },
   swapDiv: {
     padding: 70,
     textAlign: 'center',
     borderWidth: 1,
+  },
+  eDetailingNav: {
+    backgroundColor: theme.colors.grey[1700],
+  },
+  priorityProducts: {
+    paddingVertical: theme.spacing(15),
   },
 });
 

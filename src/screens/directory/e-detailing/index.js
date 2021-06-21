@@ -15,6 +15,7 @@ import {
   fetchDetailingOtherProductCreator,
   eDetailingSelector,
 } from './redux';
+import {Product} from 'components/widgets';
 
 /**
  * Render header
@@ -97,7 +98,7 @@ const EDetailing = ({navigation}) => {
     console.log(item, index);
     return (
       <View style={styles.swapMain} key={item.id}>
-        <Label style={styles.swapDiv}>{item.name}</Label>
+        <Product title={item.name} isChecked={true} tags={['P1']} />
       </View>
     );
   };
@@ -135,11 +136,13 @@ const EDetailing = ({navigation}) => {
           title={Strings.priorityProducts}
         />
         <View style={[styles.eDetailingPriorityProductsList]}>
-          <TouchableOpacity
-            onPress={() => handleAreaLeftArrow()}
-            style={[styles.swiperArrow, styles.leftArrow]}>
-            {renderArrow('chevron-left')}
-          </TouchableOpacity>
+          <View style={[styles.arrowContainer, styles.leftArrow]}>
+            <TouchableOpacity onPress={() => handleAreaLeftArrow()}>
+              <View style={[styles.swiperArrow]}>
+                {renderArrow('chevron-left')}
+              </View>
+            </TouchableOpacity>
+          </View>
           <FlatList
             horizontal
             ref={swiperRef}
@@ -150,12 +153,15 @@ const EDetailing = ({navigation}) => {
             renderItem={({item, index}) => {
               return renderSwape(item, index);
             }}
+            contentContainerStyle={[styles.priorityProducts]}
           />
-          <TouchableOpacity
-            onPress={() => handleAreaRightArrow()}
-            style={[styles.swiperArrow, styles.rightArrow]}>
-            {renderArrow('chevron-right')}
-          </TouchableOpacity>
+          <View style={[styles.arrowContainer, styles.rightArrow]}>
+            <TouchableOpacity onPress={() => handleAreaRightArrow()}>
+              <View style={[styles.swiperArrow]}>
+                {renderArrow('chevron-right')}
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
       <Label
