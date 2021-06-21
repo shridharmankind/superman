@@ -1,5 +1,4 @@
-{
-  "priorityProduct": [
+[
     {
       "id": 1,
       "name": "LipKind",
@@ -86,4 +85,3 @@
 "isFeatured": false
     }
   ]
-}

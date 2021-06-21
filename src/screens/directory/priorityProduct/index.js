@@ -16,7 +16,7 @@ import {fetchPriorityProductCreator, productSelector} from './redux';
  * @param {Number} partyId party id of particular doctor
  */
 
-const PriorityProduct = ({staffPostionId, partyId}) => {
+const PriorityProduct = ({staffPostionId = 1, partyId}) => {
   const dispatch = useDispatch();
   const [list, setList] = useState([]);
   const [viewFlag, setViewFlag] = useState(true);
@@ -147,7 +147,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                 />
               </View>
             )}
-            {data.prescription && (
+            {!!data.prescription && (
               <View style={styles.gxClass}>
                 <ArrowUp style={styles.arrowUp} width={14} height={14} />
                 <Label style={styles.percentageText} title={data.rx + '%'} />
@@ -158,7 +158,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                 />
               </View>
             )}
-            {data.prescription && (
+            {!!data.prescription && (
               <View style={styles.gxClass}>
                 {data.isGrowthIncrease ? (
                   <ArrowUp style={styles.arrowUp} width={14} height={14} />
