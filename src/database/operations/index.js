@@ -181,3 +181,5 @@ export const closeDB = () => {
 };
 
 export {default as qualificationOperations} from './qualificationOperations';
+export {default as divisionOperations} from './divisionOperations';
+export {default as specialityOperations} from './specialityOperations';
