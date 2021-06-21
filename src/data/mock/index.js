@@ -137,11 +137,15 @@ const getMock = axios => {
     )
     .reply(200, AllPriority);
   mock
-    .onGet('eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=4')
+    .onGet(
+      'eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=10',
+    )
     .reply(200, EOtherProductList);
   mock
-    .onGet('eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=1&Limit=4')
-    .reply(200, EOtherProductList);
+    .onGet(
+      'eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=10&Limit=10',
+    )
+    .reply(200, AllPriority);
   mock
     .onGet(
       `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,

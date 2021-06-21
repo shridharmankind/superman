@@ -63,8 +63,11 @@ const EDetailing = ({navigation}) => {
   const LIMIT = 10; // limit of priority to be fetched from server
   const dispatch = useDispatch();
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [scrollOtherOffset, setScrollOtherOffset] = useState(0);
   const [skip, setSkip] = useState(0);
+  const [otherSkip, setOtherSkip] = useState(0);
   const swiperRef = useRef(null);
+  const swiperOtherRef = useRef(null);
 
   useEffect(() => {
     dispatch(
@@ -75,12 +78,23 @@ const EDetailing = ({navigation}) => {
         limit: LIMIT,
       }),
     );
+    dispatch(
+      fetchDetailingOtherProductCreator({
+        staffPositionID: 1,
+        partyId: 1,
+        skip: 0,
+        limit: LIMIT,
+      }),
+    );
     setSkip(prev => prev + LIMIT);
+    setOtherSkip(prev => prev + LIMIT);
   }, [dispatch]);
 
   const priorityProductList = useSelector(
     eDetailingSelector.getPriorityProduct(),
   );
+
+  const otherProductList = useSelector(eDetailingSelector.getOtherProduct());
   const hideScrollArrow = () => {
     dispatch(
       fetchDetailingPriorityProductCreator({
@@ -94,10 +108,22 @@ const EDetailing = ({navigation}) => {
     // setSkip(prev => prev + LIMIT);
   };
 
+  const hideOtherScrollArrow = () => {
+    dispatch(
+      fetchDetailingOtherProductCreator({
+        staffPositionID: 1,
+        partyId: 1,
+        skip: otherSkip,
+        limit: LIMIT,
+      }),
+    );
+    //Once API Done I will Uncomment this
+    // setSkip(prev => prev + LIMIT);
+  };
+
   const renderSwape = (item, index) => {
-    console.log(item, index);
     return (
-      <View style={styles.swapMain} key={item.id}>
+      <View style={styles.swapMain} key={index}>
         <Product
           title={item.name}
           isChecked={!!item.isFeatured}
@@ -107,14 +133,42 @@ const EDetailing = ({navigation}) => {
     );
   };
 
-  const handleAreaRightArrow = () => {
-    console.log(swiperRef.current.scrollToOffset);
+  const renderOtherSwape = (dataItem, index) => {
+    return (
+      <View style={styles.swapMain} key={dataItem.id}>
+        <Product
+          style={styles.otherProduct}
+          title={dataItem.name}
+          isChecked={false}
+          imageStyle={styles.otherProductImage}
+          productTitleStyle={styles.otherProductTitle}
+        />
+      </View>
+    );
+  };
 
+  const handleAreaRightArrow = () => {
     swiperRef.current.scrollToOffset({
       offset: scrollOffset + 150,
       animated: true,
     });
     setScrollOffset(scrollOffset + 100);
+  };
+
+  const handleOtherAreaRightArrow = () => {
+    swiperOtherRef.current.scrollToOffset({
+      offset: scrollOtherOffset + 150,
+      animated: true,
+    });
+    setScrollOtherOffset(scrollOtherOffset + 100);
+  };
+
+  const handleOtherAreaLeftArrow = () => {
+    swiperOtherRef.current.scrollToOffset({
+      offset: scrollOtherOffset + 150,
+      animated: true,
+    });
+    setScrollOtherOffset(scrollOtherOffset - 100);
   };
 
   const handleAreaLeftArrow = () => {
@@ -173,13 +227,34 @@ const EDetailing = ({navigation}) => {
         variant={LabelVariant.subtitleLarge}
         title={Strings.otherProducts}
       />
-      <Product
-        style={styles.otherProduct}
-        title="Test"
-        isChecked={true}
-        imageStyle={styles.otherProductImage}
-        productTitleStyle={styles.otherProductTitle}
-      />
+      <View style={[styles.eDetailingPriorityProductsList]}>
+        <View style={[styles.arrowContainer, styles.leftArrow]}>
+          <TouchableOpacity onPress={() => handleOtherAreaLeftArrow()}>
+            <View style={[styles.swiperArrow]}>
+              {renderArrow('chevron-left')}
+            </View>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          horizontal
+          ref={swiperOtherRef}
+          data={otherProductList}
+          showsHorizontalScrollIndicator={true}
+          onEndReached={hideOtherScrollArrow}
+          onEndReachedThreshold={0.5}
+          renderItem={({item, index}) => {
+            return renderOtherSwape(item, index);
+          }}
+          contentContainerStyle={[styles.priorityProducts]}
+        />
+        <View style={[styles.arrowContainer, styles.rightArrow]}>
+          <TouchableOpacity onPress={() => handleOtherAreaRightArrow()}>
+            <View style={[styles.swiperArrow]}>
+              {renderArrow('chevron-right')}
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     </ContentWithSidePanel>
   );
 };
