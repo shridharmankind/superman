@@ -9,7 +9,8 @@ import tourPlanMock from './api/tourPlan.json';
 import product from './api/priorityProduct.json';
 import userInfo from './api/userInfo.json';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import planComplaince from './api/planComplaince.json';
+import monthlyplanComplaince from './api/planComplaince.json';
+import dailyPlanComplaince from './api/dailyPlanComplaince.json';
 import docList from './api/searchDocList.json';
 
 import {partiesMock} from './api/parties.js';
@@ -18,6 +19,8 @@ import stpData from './api/stpData.js';
 import stpStatus from './api/stpStatus.json';
 import submitStpMock from './api/submitStp.json';
 
+import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
+import visitMockData from './api/timeline.json';
 
 const getPartiesUrl = () => {
   const valueMap = {
@@ -60,6 +63,18 @@ const getSTPCalendarUpdateUrl = () => {
   return url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
 };
 
+const getDailyComplainceUrl = () => {
+  const valueMap = {
+    staffPositionId: 2,
+    weekVal: 1,
+    weekdayVal: 1,
+  };
+  return API_PATH.COMPLAINCE_DAILY.replace(
+    /\b(?:staffPositionId|weekVal|weekdayVal)\b/gi,
+    matched => valueMap[matched],
+  );
+};
+
 const getUrl = apiPath => {
   const valueMap = {
     staffPositionId: 2,
@@ -100,7 +115,10 @@ const getMock = axios => {
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
-  mock.onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY)).reply(200, planComplaince);
+  mock.onGet(getDailyComplainceUrl()).reply(200, dailyPlanComplaince);
+  mock
+    .onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY))
+    .reply(200, monthlyplanComplaince);
   mock.onGet(getUrl(API_PATH.STP_STATUS)).reply(200, stpStatus);
   mock.onPost(getUrl(API_PATH.SUBMIT_STP)).reply(200, submitStpMock);
 
@@ -109,6 +127,11 @@ const getMock = axios => {
       'party/searchpartybyname?StaffPositionId=1&Keyword=abc&PartyTypeId=1&Skip=0&Limit=10',
     )
     .reply(200, docList);
+  mock
+    .onGet(
+      `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,
+    )
+    .reply(200, visitMockData);
 };
 
 export default getMock;

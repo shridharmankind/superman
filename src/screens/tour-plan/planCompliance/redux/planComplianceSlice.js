@@ -6,7 +6,8 @@ import merge from 'lodash.merge';
  */
 export const planComplianceState = {
   rules: {
-    data: {},
+    monthly: {},
+    daily: {},
     error: null,
   },
 };

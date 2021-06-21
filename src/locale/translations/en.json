@@ -4,5 +4,20 @@
     "save": "Save",
     "submitSTP": "Submit STP"
   },
-  "submittedOn": "Submitted on"
+  "submittedOn": "Submitted on",
+  "missedVisit": "Missed Visit!",
+  "upcomingVisit": "Upcoming Visit",
+  "detailedProducts": "Detailed Products: ",
+  "samplesGiven": "Samples Given: ",
+  "samplesRequested": "Samples Requested: ",
+  "itemsRequested": "Items Requested: ",
+  "itemsGiven": "Items Given: ",
+  "visitNotes": "Visit Notes: ",
+  "completedVisit": "Completed Visit",
+  "lastCompletedVisit": "Last Completed Visit",
+  "on": "On",
+  "timeline": "Timeline",
+  "errorMessage": {
+    "noRecords": "There are no records"
+  }
 }

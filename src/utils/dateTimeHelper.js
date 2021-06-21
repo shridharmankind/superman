@@ -62,4 +62,26 @@ export const returnUTCtoLocal = (inputDate, format) => {
   const date = inputDate || dayjs.utc().format();
   const localDate = dayjs.utc(date).local().format();
   return getFormatDate({date: localDate, format: format || 'D MMM YYYY'});
+}
+
+/**
+ * Check if a date is after a particular date or note
+ *
+ * @param {Date} date - Date
+ * @param {Date} dateToCompare - Date to compare with
+ * @return {Boolean} Is After
+ */
+export const isAfter = (date, dateToCompare) => {
+  return dayjs(date).isAfter(dateToCompare);
+};
+
+/**
+ * Get start of month/day/year based upon unit for a date
+ *
+ * @param {Date} date
+ * @param {String} unit
+ * @return {dayjs.Dayjs} Start date
+ */
+export const startOf = (date, unit) => {
+  return dayjs(date).startOf(unit);
 };

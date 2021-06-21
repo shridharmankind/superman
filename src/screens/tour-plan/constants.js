@@ -38,11 +38,12 @@ export const PARTY_TYPE = {
 };
 
 export const COMPLAINCE_TYPE = {
-  MONTHLY: 'MONTHLY',
-  DAILY: 'DAILY',
+  MONTHLY: 'monthly',
+  DAILY: 'daily',
 };
 
 export const STP_STATUS = {
   INPROGRESS: 'workinprogress',
   SUBMITTED: 'submitted',
 };
+export const STANDARD_TOUR_PLAN_ID = 1;

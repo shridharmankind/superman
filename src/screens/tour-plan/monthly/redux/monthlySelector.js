@@ -21,6 +21,12 @@ const stpStatusSelector = createSelector([stpStatus], data => data);
 const submitSTP = state => state.monthlyState.submitSTP;
 
 const submitSTPSelector = createSelector([submitSTP], data => data);
+const selectedPlanOption = state => state.monthlyState.selectedPlanOption;
+
+const selectedPlanOptionSelector = createSelector(
+  [selectedPlanOption],
+  data => data,
+);
 
 export const monthlyTourPlanSelector = {
   allSubOrdinates: () => {
@@ -34,5 +40,8 @@ export const monthlyTourPlanSelector = {
   },
   submitSTP: () => {
     return submitSTPSelector;
+  },
+  selectedPlanOption: () => {
+    return selectedPlanOptionSelector;
   },
 };

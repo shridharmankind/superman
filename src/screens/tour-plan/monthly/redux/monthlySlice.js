@@ -11,6 +11,7 @@ export const monthlyTourPlan = {
   workingDay: [],
   stpStatus: null,
   submitSTP: null,
+  selectedPlanOption: null,
 };
 
 /**
@@ -44,6 +45,12 @@ export const getMonthlySlice = createSlice({
     },
     getSTPStatus: (state, action) => merge(state, action.payload),
     submitSTP: (state, action) => merge(state, action.payload),
+    setSelectedPlanOption: (state, action) => {
+      return {
+        ...state,
+        selectedPlanOption: action.payload,
+      };
+    },
   },
 });
 

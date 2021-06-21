@@ -51,6 +51,9 @@ const styles = StyleSheet.create({
   complianceIcon: {
     paddingRight: theme.spacing(8),
   },
+  header: {
+    flexDirection: 'row',
+  },
 });
 
 export default styles;

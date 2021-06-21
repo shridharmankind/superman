@@ -23,6 +23,7 @@ import {
   fetchSTPStatusCreator,
   submitSTPCreator,
 } from './redux';
+import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
@@ -117,6 +118,12 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     setCompliancePercentage(complaincePercentage);
   }, [complaincePercentage]);
+
+  useEffect(() => {
+    dispatch(monthlyActions.setSelectedPlanOption({...selectedTourPlan}));
+
+    return () => dispatch(monthlyActions.setSelectedPlanOption(null));
+  }, [dispatch, selectedTourPlan]);
 
   useEffect(() => {
     const myPlan = {
