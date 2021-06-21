@@ -3,18 +3,13 @@ import {MonthlyPlan, getDBInstance, Schemas, Operations} from 'database';
 
 export const offlineData = async (config, data, params, exactApiPath) => {
   try {
-    let response = null;
     switch (exactApiPath) {
       case Constants.API_PATH.GET_PARTIES:
-        response = await getPartiesFromMTU(config);
-        break;
+        return await getPartiesFromMTU(config);
       case Constants.API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN:
-        response = await deletePartyFromDailyPlan(config,data, params, exactApiPath);
-        break;
-      default:
-        break;
+        console.log("working");
+        return await deletePartyFromDailyPlan(config,data, params, exactApiPath);
     }
-    return response;
   } catch (error) {
     console.log('offlineData ', error);
   }
@@ -26,7 +21,7 @@ const deletePartyFromDailyPlan = async (config, data, params, exactApiPath) => {
       data: null,
       status: null,
     };
-    await getDBInstance().write(() => {
+      await getDBInstance().write(() => {
       let schema = [Schemas.MonthlySchema.monthlyMaster,Schemas.MonthlySchema.dailyMaster];
       let splittedAPIData = config.url.split(/[/?&]+/);
       let paramObject = {
@@ -36,16 +31,33 @@ const deletePartyFromDailyPlan = async (config, data, params, exactApiPath) => {
         month: data["month"],
         day: data["day"]
       }
-      let getFilteredDailyRecord = MonthlyPlan.filteredRecordBasedOnYear_Month_Day(schema[0], paramObject);
-      if (getFilteredDailyRecord != []) {
-        getFilteredDailyRecord.forEach((dailyObject) => {
+      console.log(config.url);
+      console.log("paramObject",paramObject);
+      let isDeleted = false;
+      let getFilteredRecord = MonthlyPlan.filteredRecordBasedOnYear_Month_Day(schema[0], paramObject);
+      //console.log("daily Recods ",getFilteredRecord)
+      if (getFilteredRecord != []) {
+        for(const dailyObject of getFilteredRecord){
+          console.log(dailyObject.partyId,"dailyObject.partyId",paramObject.partyId);
           let partyId = dailyObject.partyId;
           if (partyId === paramObject.partyId) {
+              isDeleted = true;
               dailyObject.syncParameters.isDeleted= true;
               dailyObject.syncParameters.lastModifiedOn = new Date();
               getDBInstance().create(schema[1].name,dailyObject,'modified');
+              const getMonthlyRecordObject = getDBInstance().objectForPrimaryKey(
+                schema[0].name,
+                dailyObject.monthlyTourPlanId,
+              );
+              getMonthlyRecordObject.syncParameters.requireSync = true;
+              getMonthlyRecordObject.syncParameters.lastModifiedOn = new Date();
+
+              getDBInstance().create(schema[0].name,getMonthlyRecordObject,'modified');
+              
           }
-        }) 
+         
+        }
+        
       }    
     });
 
@@ -53,6 +65,7 @@ const deletePartyFromDailyPlan = async (config, data, params, exactApiPath) => {
     response.status = 200;
     return response;
   } catch (err) {
+    console.log("err",response,err);
     response.data = err;
     response.status = 500;
     return response;
@@ -74,10 +87,10 @@ const getPartiesFromMTU = async config => {
       month: parseInt(splittedAPIData[3].split('=')[1]),
       day: parseInt(splittedAPIData[5].split('=')[1])
     }
-    let getFilteredDailyRecord =
+    let getFilteredRecord =
       await MonthlyPlan.filteredRecordBasedOnYear_Month_Day(schema[0], paramObject);
-    if (getFilteredDailyRecord != []) {
-      for (const dailyObject of getFilteredDailyRecord) {
+    if (getFilteredRecord != []) {
+      for (const dailyObject of getFilteredRecord) {
         let partyId = dailyObject.partyId;
         if (partyId != null && !dailyObject.syncParameters.isDeleted) {
           let newPartyById = await getDBInstance().objectForPrimaryKey(

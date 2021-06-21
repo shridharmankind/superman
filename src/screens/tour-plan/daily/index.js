@@ -213,6 +213,8 @@ const DailyTourPlan = () => {
           contentStyle={styles.modalButton}
           title={Strings.proceed}
           onPress={() => {
+            console.log("item ",itemPressed);
+            console.log("ItemPressed.id ",itemPressed.id);
             dispatch(
               deletePartyCreator({
                 staffPositionid: 1,

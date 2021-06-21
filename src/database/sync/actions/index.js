@@ -154,15 +154,15 @@ const runBackgroundTask = async tableName => {
       );
       if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
         
-        const modifiedRecords = await getModifiedRecords(item[0].schema[0]);
-        if(modifiedRecords == []){
-          await Operations.updateRecord(
-            Schemas.masterTablesDownLoadStatus,
-            DBConstants.downloadStatus.DOWNLOADED,
-            item[0].name,
-          );
-          return resultArray;
-        }
+        let modifiedRecords = await getModifiedRecords(item[0].schema[0]);
+        // if(modifiedRecords == []){
+        //   await Operations.updateRecord(
+        //     Schemas.masterTablesDownLoadStatus,
+        //     DBConstants.downloadStatus.DOWNLOADED,
+        //     item[0].name,
+        //   );
+        //   return resultArray;
+        // }
         //Hit Post API
         const response = await syncPostRequest(item[0], record.lastSync, Array.from(modifiedRecords));
 

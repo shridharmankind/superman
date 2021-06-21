@@ -33,7 +33,7 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.MonthlySchema.monthlyMaster,
       Schemas.MonthlySchema.dailyMaster,
     ],
-  },
+  }
 ];
 
 export const syncErrorDetails = {

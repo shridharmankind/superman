@@ -10,7 +10,6 @@ const getDoctorDetailList = state => state.dailyState.doctorDetail.data;
 const doctorDetailRemoveError = state => state.dailyState.doctorDetail.error;
 
 const allDoctorDetailSelector = createSelector([getDoctorDetailList], data => {
-  console.log("data" , getDoctorDetailList)
   return sortByCategory(data);
 });
 

@@ -56,7 +56,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     setIsDeleteOperationInProgress(true);
     dispatch(
       doctorDetailActions.tempStoreRemovedDoctor({
-        staffPositionid: 2,
+        staffPositionid: 1,
         day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
@@ -135,7 +135,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                 title={data.item.name}
                 specialization={data.item.specialities}
                 isKyc={data.item.isKyc}
-                gender={data.item.gender}
+                // gender={data.item.gender}
                 category={data.item.category}
                 location={data.item.location}
                 partyType={data?.item?.partyTypes?.name}

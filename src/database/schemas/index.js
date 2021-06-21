@@ -126,6 +126,7 @@ export const partyMaster = {
   primaryKey: 'id',
 };
 
+
 export const specialities = {
   name: Constants.MASTER_TABLE_SPECIALITY,
   properties: {
