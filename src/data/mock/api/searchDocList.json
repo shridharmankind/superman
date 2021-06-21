@@ -1,8 +1,9 @@
-{"searchCount":20,
-  "searchParties" : [
+{
+  "searchCount": 20,
+  "searchParties": [
     {
       "id": 1,
-      "name":"Dr Manoj Manjhi",
+      "name": "Dr Manoj Manjhi",
       "areas": [
         {
           "id": 1,
@@ -10,10 +11,10 @@
           "shortName": "Sec 1"
         }
       ],
-      "isKyc":true,
-      "category":"A+",
-      "gender":"male",
-      "isScheduledToday":0,
+      "isKyc": true,
+      "category": "A+",
+      "gender": "male",
+      "isScheduledToday": 0,
       "specialities": [
         {
           "id": 2,
@@ -28,201 +29,201 @@
       ]
     },
     {
-        "id": 2,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"A+",
-        "gender":"female",
-        "isScheduledToday":1
-      },
-      {
-        "id": 3,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"A",
-        "gender":"male"
-      },
-      {
-        "id": 4,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"B",
-        "gender":"male"
-      },
-      {
-        "id": 5,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"C",
-        "gender":"male"
-      },
-      {
-        "id": 6,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"C",
-        "gender":"male"
-      },
-      {
-        "id": 7,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"A",
-        "gender":"male"
-
-      },
-      {
-        "id": 8,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"A",
-        "gender":"male"
-      }, {
-        "id": 9,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"A+",
-        "gender":"male"
-      },
-      {
-        "id": 10,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"A",
-        "gender":"female"
-      },
-      {
-        "id": 11,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"B",
-        "gender":"female"
-      },
-      {
-        "id": 12,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"C",
-        "gender":"male"
-      },
-      {
-        "id": 13,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"C",
-        "gender":"male"
-      },
-      {
-        "id": 14,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"C",
-        "gender":"male"
-      },
-      {
-        "id": 15,
-        "name": "Dr Manoj Manjhi",
-        "specialities": [
-          {
-            "id": 2,
-            "name": "Orthopaedic",
-            "shortName": "Ortho"
-          }
-        ],
-        "region": "Karol Bagh",
-        "category":"C",
-        "gender":"male"
-      }
+      "id": 2,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "A+",
+      "gender": "female",
+      "isScheduledToday": 1
+    },
+    {
+      "id": 3,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "A",
+      "gender": "male"
+    },
+    {
+      "id": 4,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "B",
+      "gender": "male"
+    },
+    {
+      "id": 5,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "C",
+      "gender": "male"
+    },
+    {
+      "id": 6,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "C",
+      "gender": "male"
+    },
+    {
+      "id": 7,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "A",
+      "gender": "male"
+    },
+    {
+      "id": 8,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "A",
+      "gender": "male"
+    },
+    {
+      "id": 9,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "A+",
+      "gender": "male"
+    },
+    {
+      "id": 10,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "A",
+      "gender": "female"
+    },
+    {
+      "id": 11,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "B",
+      "gender": "female"
+    },
+    {
+      "id": 12,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "C",
+      "gender": "male"
+    },
+    {
+      "id": 13,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "C",
+      "gender": "male"
+    },
+    {
+      "id": 14,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "C",
+      "gender": "male"
+    },
+    {
+      "id": 15,
+      "name": "Dr Manoj Manjhi",
+      "specialities": [
+        {
+          "id": 2,
+          "name": "Orthopaedic",
+          "shortName": "Ortho"
+        }
+      ],
+      "region": "Karol Bagh",
+      "category": "C",
+      "gender": "male"
+    }
   ]
 }
