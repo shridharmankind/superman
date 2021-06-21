@@ -42,6 +42,10 @@ export const COMPLAINCE_TYPE = {
   DAILY: 'daily',
 };
 
+export const STP_STATUS = {
+  INPROGRESS: 'WorkinProgress',
+  SUBMITTED: 'Submitted',
+};
 export const STANDARD_TOUR_PLAN_ID = 1;
 
 export const COMPARISION_TYPE = {

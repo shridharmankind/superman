@@ -1,5 +1,10 @@
 {
   "goodMorning": "Good morning",
+  "monthlyActions": {
+    "save": "Save",
+    "submitSTP": "Submit STP"
+  },
+  "submittedOn": "Submitted on",
   "missedVisit": "Missed Visit!",
   "upcomingVisit": "Upcoming Visit",
   "detailedProducts": "Detailed Products: ",
