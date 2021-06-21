@@ -648,7 +648,12 @@ const StandardPlanModal = ({
       const string = createPatchString(areas, doctors, partyList, ptches);
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
-      savePatch({...obj, displayName: string, defaultName: string});
+      savePatch({
+        ...obj,
+        partyIds: doctors,
+        displayName: string,
+        defaultName: string,
+      });
     },
     [createPatchString, savePatch],
   );
