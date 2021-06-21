@@ -14,6 +14,9 @@ import {Button} from 'components/elements';
 import theme from 'themes';
 import { getDivisionColor } from 'screens/directory/helper';
 import { ROUTE_EDETAILING } from 'screens/directory/routes';
+import { showToast ,hideToast} from 'components/widgets/Toast';
+import {API_PATH} from 'screens/directory/apiPath';
+import { NetworkService } from 'services';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
@@ -25,6 +28,7 @@ const DirectoryLanding = ({navigation, route}) => {
   const [searchKeyword, updateSearchKeyword] = useState(
     route?.params?.inputKeyword,
   );
+  const [doctorsAddedinTodayPlan,updateTodayPlan] = useState([]);
   let filterPrefix;
   const dispatch = useDispatch(); // For dispatching the action
 
@@ -164,6 +168,37 @@ const DirectoryLanding = ({navigation, route}) => {
   }
 
 
+  // Function to add doctor to Today's plan
+  const addToTodayPlan =  (doctorID) => {
+    const addDocToDailyPlan = async () => {
+      const result = await NetworkService.post(API_PATH.ADD_TODAY_PLAN,{},{staffPositionId:1,partyId:doctorID});
+      if (result.status === Constants.HTTP_OK) {
+        updateTodayPlan([...doctorsAddedinTodayPlan,doctorID]);
+        showToast({
+          type: Constants.TOAST_TYPES.SUCCESS,
+          autoHide: true,
+          props: {
+            heading: Strings.directory.docAddedTodayPlan,
+            onClose: () => hideToast(),
+          }
+        });
+      } else {
+        console.log('error', result.statusText);
+      }
+    };
+    addDocToDailyPlan();
+  }
+
+// Function to check if doctor is already added in today's plan
+  const isDoctorAddedinTodayPlan = (id) =>{
+   if(doctorsAddedinTodayPlan.length>0 && (doctorsAddedinTodayPlan.findIndex((item)=>item === id)>-1)){
+     return true;
+   }
+   else{
+     return false;
+   }
+  }
+
   // Below is the doctor tab under directory page
   const doctorTab = () => {
     return (
@@ -264,11 +299,12 @@ const DirectoryLanding = ({navigation, route}) => {
                         .map(area => area.name)
                         .join(', ')} />
                       <View style={styles.btnsContainer}>
-                        {!item?.isScheduledToday && (
+                        {!item?.isScheduledToday && !isDoctorAddedinTodayPlan(item.id) && (
                           <Button
                             title={Strings.directory.btns.addTodayPlan}
                             mode="contained"
                             contentStyle={styles.todayPlanbuttonLayout}
+                            onPress={()=>addToTodayPlan(item.id)}
                           />
                         )}
                         <Button
