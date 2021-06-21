@@ -13,7 +13,7 @@ import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {PARTY_TYPE} from 'screens/tourPlan/constants';
+import {PARTY_TYPE, STP_STATUS} from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
@@ -28,6 +28,7 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
+import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -64,8 +65,17 @@ const StandardPlanModal = ({
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
+  const [submitSTP, setSubmitSTP] = useState();
+  const [stpStatus, setStpStatus] = useState();
   const weekNum = Number(week);
   const staffPositionId = 1;
+
+  const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
+  const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+
+  useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
+  useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -924,7 +934,13 @@ const StandardPlanModal = ({
             mode="contained"
             title={Strings.done}
             uppercase={true}
-            disabled={!patchSelected || !dataChanged || false}
+            disabled={
+              !patchSelected ||
+              !dataChanged ||
+              submitSTP?.status === STP_STATUS.SUBMITTED ||
+              stpStatus?.status === STP_STATUS.SUBMITTED ||
+              false
+            }
             contentStyle={styles.doneBtn}
             onPress={() => handleDonePress(doctorsSelected)}
           />

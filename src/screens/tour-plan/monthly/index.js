@@ -21,6 +21,7 @@ import {
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
   fetchSTPStatusCreator,
+  submitSTPCreator,
 } from './redux';
 import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
@@ -73,6 +74,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [stpStatus, setStpStatus] = useState();
+  const [submitSTP, setSubmitSTP] = useState();
 
   // Selectors
   const subOrdinatesList = useSelector(
@@ -84,6 +86,7 @@ const MonthlyTourPlan = ({navigation}) => {
   );
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+  const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
 
   useEffect(() => {
     dispatch(
@@ -106,6 +109,7 @@ const MonthlyTourPlan = ({navigation}) => {
    */
   useEffect(() => setworkingDays(workindDay), [workindDay]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+  useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
 
   /**
    * effect to set percentage compliance
@@ -329,25 +333,27 @@ const MonthlyTourPlan = ({navigation}) => {
                 {stpStatus?.status === STP_STATUS.INPROGRESS && index === 0 && (
                   <></>
                 )}
-                {stpStatus?.status === STP_STATUS.SUBMITTED && index === 0 && (
-                  <>
-                    <LockIcon
-                      width={10.7}
-                      height={13.3}
-                      style={styles.lockIcon}
-                    />
-                    <Area
-                      title={`${translate('submittedOn')} ${returnUTCtoLocal(
-                        stpStatus.submitedDate,
-                      )}`}
-                      value={'1'}
-                      bgColor={theme.colors.green[300]}
-                      color={'#524F67'}
-                      textStyle={styles.submittedChip}
-                      chipContainerCustomStyle={styles.chipContainer}
-                    />
-                  </>
-                )}
+                {(submitSTP?.status === STP_STATUS.SUBMITTED ||
+                  stpStatus?.status === STP_STATUS.SUBMITTED) &&
+                  index === 0 && (
+                    <>
+                      <LockIcon
+                        width={10.7}
+                        height={13.3}
+                        style={styles.lockIcon}
+                      />
+                      <Area
+                        title={`${translate('submittedOn')} ${returnUTCtoLocal(
+                          submitSTP?.submitedDate || stpStatus?.submitedDate,
+                        )}`}
+                        value={'1'}
+                        bgColor={theme.colors.green[300]}
+                        color={'#524F67'}
+                        textStyle={styles.submittedChip}
+                        chipContainerCustomStyle={styles.chipContainer}
+                      />
+                    </>
+                  )}
               </View>
             </TouchableWithoutFeedback>
           ))}
@@ -448,9 +454,18 @@ const MonthlyTourPlan = ({navigation}) => {
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          disabled={compliancePercentage !== 100}
+          // disabled={compliancePercentage !== 100}
+          onPress={submitSTPHandler}
         />
       </View>
+    );
+  };
+
+  const submitSTPHandler = () => {
+    dispatch(
+      submitSTPCreator({
+        staffPositionId: 2,
+      }),
     );
   };
 

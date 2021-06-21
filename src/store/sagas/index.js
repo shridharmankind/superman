@@ -8,6 +8,7 @@ import {
   fetchSubOrdinatesWatcher,
   fetchWorkingDayWatcher,
   fetchSTPStatusWatcher,
+  submitSTPWatcher,
 } from 'screens/tourPlan/monthly/redux';
 import {
   fetchPartiesWatcher,
@@ -34,6 +35,7 @@ export function* rootSaga() {
     fetchSubOrdinatesWatcher,
     fetchWorkingDayWatcher,
     fetchSTPStatusWatcher,
+    submitSTPWatcher,
     fetchPartiesWatcher,
     fetchAreasWatcher,
     fetchPatchesWatcher,

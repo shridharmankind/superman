@@ -10,6 +10,7 @@ export const monthlyTourPlan = {
   },
   workingDay: [],
   stpStatus: null,
+  submitSTP: null,
 };
 
 /**
@@ -26,6 +27,10 @@ export const fetchWorkingDayCreatorType = fetchWorkingDayCreator().type;
 export const fetchSTPStatusCreator = createAction('STP_STATUS');
 export const fetchSTPStatusCreatorType = fetchSTPStatusCreator().type;
 
+// Action Creator and type to submit STP
+export const submitSTPCreator = createAction('SUBMIT_STP');
+export const submitSTPCreatorType = submitSTPCreator().type;
+
 /**
  *  create subordinate slice defining the intial state, reducers
  */
@@ -38,6 +43,7 @@ export const getMonthlySlice = createSlice({
       return merge(state, action.payload);
     },
     getSTPStatus: (state, action) => merge(state, action.payload),
+    submitSTP: (state, action) => merge(state, action.payload),
   },
 });
 

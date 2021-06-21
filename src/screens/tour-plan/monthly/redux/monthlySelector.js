@@ -18,6 +18,10 @@ const stpStatus = state => state.monthlyState.stpStatus;
 
 const stpStatusSelector = createSelector([stpStatus], data => data);
 
+const submitSTP = state => state.monthlyState.submitSTP;
+
+const submitSTPSelector = createSelector([submitSTP], data => data);
+
 export const monthlyTourPlanSelector = {
   allSubOrdinates: () => {
     return allSubOrdinatesSelector;
@@ -27,5 +31,8 @@ export const monthlyTourPlanSelector = {
   },
   getSTPStatus: () => {
     return stpStatusSelector;
+  },
+  submitSTP: () => {
+    return submitSTPSelector;
   },
 };

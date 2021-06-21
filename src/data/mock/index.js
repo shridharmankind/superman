@@ -102,7 +102,7 @@ const getMock = axios => {
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
   mock.onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY)).reply(200, planComplaince);
   mock.onGet(getUrl(API_PATH.STP_STATUS)).reply(200, stpStatus);
-  mock.onGet(getUrl(API_PATH.SUBMIT_STP)).reply(200, submitStpMock);
+  mock.onPost(getUrl(API_PATH.SUBMIT_STP)).reply(200, submitStpMock);
 
   mock
     .onGet(
