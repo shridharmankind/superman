@@ -10,7 +10,7 @@ function anniversary(props) {
       height="1em"
       viewBox="0 0 24 24"
       {...props}>
-      <Defs></Defs>
+      <Defs />
       <Path id="prefix__path" fill="none" d="M0 0h24v24H0z" />
       <G id="prefix__Drinks" transform="translate(-59.865 -21)">
         <Path

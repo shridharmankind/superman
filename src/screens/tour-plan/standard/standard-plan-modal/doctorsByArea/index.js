@@ -46,9 +46,10 @@ const DoctorsByArea = ({
       let newPartiesData = partiesData;
       if (!isPatchedData) {
         newPartiesData = partiesData?.filter(
-          par => par.frequency !== par.alreadyVisited,
+          par => par.frequency > par.alreadyVisited,
         );
       }
+
       return newPartiesData;
     },
     [partiesList, selectedDoctorType, isPatchedData],
