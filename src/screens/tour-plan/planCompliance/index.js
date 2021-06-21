@@ -126,7 +126,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
                 {ruleMappingValue?.showFraction
                   ? getActulaValue(rule, ruleMappingValue)
                   : rule.ruleValues.totalCount}{' '}
-                {ruleMappingValue.title}
+                {translate(ruleMappingValue.title)}
               </Label>
             </View>
             <View>
