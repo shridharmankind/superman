@@ -4,7 +4,9 @@ import {createSelector} from '@reduxjs/toolkit';
  * selector function to retrieve data from redux store
  **/
 
-const getCompliance = state => state.planCompliance.rules.data;
+const getCompliance = state => {
+  return state.planCompliance.rules;
+};
 
 const allComplianceRulesSelector = createSelector(
   [getCompliance],
@@ -13,7 +15,7 @@ const allComplianceRulesSelector = createSelector(
 
 const totalPercentSelector = createSelector(
   [getCompliance],
-  data => data.totalPercent,
+  data => data?.monthly?.totalPercent,
 );
 
 export const planComplianceSelector = {
