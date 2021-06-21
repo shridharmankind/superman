@@ -114,7 +114,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
    */
   const renderRules = () => {
     return (complianceData?.rules || []).map(rule => {
-      const ruleMappingValue = rulesMapping[rule.ruleShortName];
+      const ruleMappingValue = rulesMapping[rule.rulesShortName];
       return (
         <View key={rule.ruleID} style={styles.rulesContainerSub}>
           <View style={styles.complianceIcon}>
@@ -126,7 +126,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
                 {ruleMappingValue?.showFraction
                   ? getActulaValue(rule, ruleMappingValue)
                   : rule.ruleValues.totalCount}{' '}
-                {ruleMappingValue.title}
+                {translate(ruleMappingValue.title)}
               </Label>
             </View>
             <View>

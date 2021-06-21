@@ -26,13 +26,14 @@
   "maximum": "maximum",
   "doctorVisitsPerDay": "doctor visits per day",
   "chemistVisitsPerDay": "chemists visits per day",
-  "daysGap": "days",
+  "daysGap": "days ",
   "minGap": "minimum gap for {{xValue}} visit doctors",
   "drCovered": "Doctors covered in {{xValue}} days",
   "drCoveredInMonth": "Doctors covered in month",
   "chCoveredInMonth": "Chemist covered in month",
   "outStationPerMonth": "Out-station visits per month",
   "exStationPerMonth": "Ex-station visits per month",
-  "areaCovered": "areas covered",
-  "frequencyMet": "frequency met"
+  "areaCovered": "Areas covered",
+  "frequencyMet": "Frequency met",
+  "": ""
 }
