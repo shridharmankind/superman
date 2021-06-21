@@ -4,7 +4,6 @@ import {
   Image,
   ImageBackground,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
@@ -16,6 +15,10 @@ import {
   Operations,
   Schemas,
   Skus,
+  Organizations,
+  Divisions,
+  Qualifications,
+  Specialities,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -37,8 +40,67 @@ const MasterDataDownload = ({navigation}) => {
     }, 3000);
 
     const fetchData = async () => {
+      const onDownloadError = error => {
+        console.log('DB error downloading master data', error);
+      };
+
+      const onDownloadComplete = () => {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
+      };
+
       try {
         await initMasterTablesDownloadStatus();
+
+        const updateRecordDownloaded = async recordName => {
+          await Operations.updateRecord(
+            Schemas.masterTablesDownLoadStatus,
+            DBConstants.downloadStatus.DOWNLOADED,
+            recordName,
+          );
+        };
+
+        const fetchQualifications = async qualificationInfo => {
+          const {name, apiPath} = qualificationInfo;
+          let failedToSaveQualifications = false;
+
+          const response = await NetworkService.get(apiPath);
+
+          if (response && response.status === Constants.HTTP_OK) {
+            const {data} = response;
+            const recordsUpdated = await Qualifications.storeQualifications(
+              data,
+            );
+
+            if (!recordsUpdated) {
+              failedToSaveQualifications = true;
+            }
+          } else {
+            failedToSaveQualifications = true;
+          }
+          !failedToSaveQualifications && updateRecordDownloaded(name);
+        };
+
+        const fetchSpecialities = async specialityInfo => {
+          const {name, apiPath} = specialityInfo;
+          let failedToSaveSpecialities = false;
+
+          const response = await NetworkService.get(apiPath);
+
+          if (response && response.status === Constants.HTTP_OK) {
+            const {data} = response;
+            const recordsUpdated = await Specialities.storeSpecialities(data);
+
+            if (!recordsUpdated) {
+              failedToSaveSpecialities = true;
+            }
+          } else {
+            failedToSaveSpecialities = true;
+          }
+
+          !failedToSaveSpecialities && updateRecordDownloaded(name);
+        };
 
         for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
           let item = Helper.MASTER_TABLES_DETAILS[i];
@@ -66,8 +128,20 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_TABLE_SKU:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_ORGANIZATION:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.MASTER_TABLE_DIVISION:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.QUALIFICATIONS:
+              fetchQualifications(item);
+              break;
+            case DBConstants.SPECIALITIES:
+              fetchSpecialities(item);
+              break;
           }
-          if (response.status === Constants.HTTP_OK) {
+          if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
             switch (item.name) {
               case DBConstants.MASTER_TABLE_USER_INFO:
@@ -75,6 +149,7 @@ const MasterDataDownload = ({navigation}) => {
                   item.schema,
                   JSON.parse(data),
                 );
+                updateRecordDownloaded(item.name);
                 break;
 
               case DBConstants.MASTER_TABLE_PARTY:
@@ -82,29 +157,35 @@ const MasterDataDownload = ({navigation}) => {
                   item.schema,
                   JSON.parse(data),
                 );
+                updateRecordDownloaded(item.name);
+                break;
+
+              case DBConstants.MASTER_TABLE_DIVISION:
+                const divisionsUpdated = await Divisions.storeDivisions(
+                  JSON.parse(data),
+                );
+                divisionsUpdated && updateRecordDownloaded(item.name);
+                break;
+
+              case DBConstants.MASTER_TABLE_ORGANIZATION:
+                await Organizations.storeOrganizations(JSON.parse(data));
                 break;
 
               case DBConstants.MASTER_TABLE_SKU:
                 await Skus.storeSkus(JSON.parse(data));
                 break;
             }
-            await Operations.updateRecord(
-              Schemas.masterTablesDownLoadStatus,
-              DBConstants.downloadStatus.DOWNLOADED,
-              item.name,
-            );
+
             if (i % progressBarSyncParam === 0) {
               setProgress(prevProgress => prevProgress + 0.1);
             }
           } else {
-            Alert.alert(Strings.info, response);
+            onDownloadError(item.name);
           }
         }
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
+        onDownloadComplete();
       } catch (error) {
-        Alert.alert(Strings.info, error);
+        onDownloadError(error);
       }
     };
     fetchData();
@@ -127,7 +208,7 @@ const MasterDataDownload = ({navigation}) => {
         });
       });
     } catch (error) {
-      console.log('initMasterTablesDownloadStatus', error);
+      console.log('DB initMasterTablesDownloadStatus', error);
     }
   };
 

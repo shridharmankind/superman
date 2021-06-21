@@ -1,3 +1,7 @@
+import {DivisionSchemaName} from './schemas/Divisions';
+import {QualificationsSchemaName} from './schemas/Qualifications';
+import {SpecialitiesSchemaName} from './schemas/Specialities';
+
 //Common
 export const downloadStatus = Object.freeze({
   DOWNLOADED: 'DOWNLOADED',
@@ -10,7 +14,6 @@ export const MASTER_TABLES_DOWNLOAD_STATUS = 'MasterTablesDownloadStatus';
 // API Path and Master tables part of that API
 export const MASTER_TABLE_PARTY_API_PATH = 'Party/partyBySpId/';
 export const MASTER_TABLE_PARTY = 'Party';
-export const MASTER_TABLE_SPECIALITY = 'Speciality';
 export const MASTER_TABLE_AREAS = 'Areas';
 export const MASTER_TABLE_ENGAGEMENT = 'Engagement';
 export const MASTER_TABLE_PARTY_TYPE_GROUP = 'PartyTypeGroup';
@@ -24,3 +27,12 @@ export const MASTER_TABLE_STAFF_DESIGNATION = 'Designation';
 export const MASTER_TABLE_SKU = 'SKUs';
 export const MASTER_TABLE_SKU_API_PATH = 'sku';
 export const MASTER_TABLE_SUBBRAND = 'SubBrand';
+
+export const MASTER_TABLE_ORGANIZATION = 'Organizations';
+export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
+
+export const MASTER_TABLE_DIVISION = DivisionSchemaName;
+export const MASTER_TABLE_DIVISION_API_PATH = 'division';
+
+export const QUALIFICATIONS = QualificationsSchemaName;
+export const SPECIALITIES = SpecialitiesSchemaName;

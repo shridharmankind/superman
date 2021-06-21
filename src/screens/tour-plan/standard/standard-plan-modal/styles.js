@@ -160,7 +160,15 @@ const styles = StyleSheet.create({
     paddingLeft: themes.spacing(36),
   },
   planComplainceLabel: {
-    paddingBottom: themes.spacing(21.3),
+    paddingBottom: themes.spacing(6),
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
   },
 });
 

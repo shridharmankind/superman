@@ -1,10 +1,5 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {
-  View,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Dimensions, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
@@ -109,14 +104,6 @@ const StandardPlan = ({navigation, route}) => {
         <TouchableOpacity
           style={[styles.swipe, styles.rightSwipe]}
           onPress={() => handleSlider(Constants.DIRECTION.RIGHT)}
-        />
-      )}
-      {fetchStatus === FetchEnumStatus.FETCHING && (
-        <ActivityIndicator
-          animating={true}
-          color={themes.colors.darkBlue}
-          size="large"
-          style={styles.activityIndicator}
         />
       )}
     </>

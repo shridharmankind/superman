@@ -18,7 +18,7 @@ const dbInstance = new Realm({
     Schemas.staffPositions,
     Schemas.designation,
     Schemas.partyMaster,
-    Schemas.specialities,
+    Schemas.Specialities.schema,
     Schemas.areas,
     Schemas.Qualifications.schema,
     Schemas.partyTypes,
@@ -26,6 +26,8 @@ const dbInstance = new Realm({
     Schemas.engagement,
     Schemas.Skus.schema,
     Schemas.SubBrand.schema,
+    Schemas.Organizations.schema,
+    Schemas.Divisions.schema,
   ],
   schemaVersion,
 });
@@ -41,3 +43,6 @@ export const getDBInstance = () => dbInstance;
  */
 export const Qualifications = Operations.qualificationOperations(dbInstance);
 export const Skus = Operations.skuOperations(dbInstance);
+export const Organizations = Operations.organizationOperations(dbInstance);
+export const Divisions = Operations.divisionOperations(dbInstance);
+export const Specialities = Operations.specialityOperations(dbInstance);

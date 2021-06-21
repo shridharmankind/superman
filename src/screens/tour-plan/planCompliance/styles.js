@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing(13.3),
   },
   rulesContainer: {
-    paddingVertical: theme.spacing(6),
+    paddingVertical: theme.spacing(4),
     paddingHorizontal: theme.spacing(13.3),
   },
   percentage: {
@@ -46,10 +46,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    paddingVertical: theme.spacing(6),
+    paddingVertical: theme.spacing(4),
   },
   complianceIcon: {
     paddingRight: theme.spacing(8),
+  },
+  header: {
+    flexDirection: 'row',
   },
 });
 

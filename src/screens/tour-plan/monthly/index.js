@@ -20,6 +20,7 @@ import {
   monthlyTourPlanSelector,
   fetchWorkingDayCreator,
 } from './redux';
+import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 /**
@@ -97,6 +98,12 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     setCompliancePercentage(complaincePercentage);
   }, [complaincePercentage]);
+
+  useEffect(() => {
+    dispatch(monthlyActions.setSelectedPlanOption({...selectedTourPlan}));
+
+    return () => dispatch(monthlyActions.setSelectedPlanOption(null));
+  }, [dispatch, selectedTourPlan]);
 
   useEffect(() => {
     const myPlan = {
