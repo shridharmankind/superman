@@ -16,8 +16,6 @@ import {KeyChain} from 'helper';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
-import {Helper} from 'database';
-import {Routes} from 'navigations';
 import {AuthContext} from '../../../App';
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
@@ -41,18 +39,11 @@ const Login = ({navigation}) => {
       setAnimating(true);
       const newAuthState = await authorize(config);
       await KeyChain.saveAccessToken(newAuthState.accessToken);
-      signIn(newAuthState.accessToken);
+      signIn();
       const decoded = jwt_decode(newAuthState.accessToken);
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
       AsyncStorage.setItem(USER_ID, decoded.sub);
       setAnimating(false);
-
-      const isPending = await Helper.checkForPendingMasterDataDownload();
-      if (isPending) {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
-        });
-      }
     } catch (error) {
       setAnimating(false);
       Alert.alert(Strings.info, error.message);

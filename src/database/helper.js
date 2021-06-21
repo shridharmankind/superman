@@ -31,6 +31,7 @@ export const MASTER_TABLES_DETAILS = [
 export const getUserFirstName = async () => {
   try {
     const user = await getActiveUser();
+    console.log('my data', user);
     return user.firstName || '';
   } catch (error) {}
 };

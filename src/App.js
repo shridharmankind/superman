@@ -8,7 +8,11 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {Login} from 'screens/generic';
 import SplashScreen from 'react-native-splash-screen';
 import theme from 'themes';
-import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
+import ROUTES, {
+  ROUTE_DASHBOARD,
+  ROUTE_LOGIN,
+  ROUTE_MASTER_DATA_DOWNLOAD,
+} from './navigations/routes';
 import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
 import {isWeb, KeyChain} from 'helper';
@@ -16,6 +20,7 @@ import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
 import {isAccessTokenValid, revokeLogin} from './utils/util';
 import {Constants} from 'common';
+import {Helper} from 'database';
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -43,20 +48,17 @@ const App = () => {
           return {
             ...prevState,
             userToken: action.token,
-            isSignout: false,
-            screen: ROUTE_DASHBOARD,
+            screen: action.screen,
           };
         case authentication.SIGN_IN:
           return {
             ...prevState,
-            isSignout: false,
             userToken: action.token,
-            screen: ROUTE_DASHBOARD,
+            screen: action.screen,
           };
         case authentication.SIGN_OUT:
           return {
             ...prevState,
-            isSignout: true,
             screen: ROUTE_LOGIN,
           };
         case authentication.REMOVE_TOKEN:
@@ -67,36 +69,20 @@ const App = () => {
       }
     },
     {
-      isSignout: false,
       userToken: null,
       screen: ROUTE_LOGIN,
     },
   );
 
   React.useEffect(() => {
-    const restoreLoginToken = async () => {
-      try {
-        const userToken = await KeyChain.getAccessToken();
-        if (userToken && isAccessTokenValid()) {
-          setLoggedIn(true);
-          dispatch({
-            type: Constants.authentication.RESTORE_TOKEN,
-            token: userToken,
-          });
-        }
-      } catch (error) {
-        Alert.alert(error.message);
-      }
-    };
-    restoreLoginToken();
+    updateTokenAndScreen(Constants.authentication.RESTORE_TOKEN);
   }, []);
 
   React.useEffect(() => {
     const logoutUser = async () => {
       try {
         const userToken = await KeyChain.getAccessToken();
-        if (userToken) {
-          revokeLogin(userToken);
+        if (userToken && (await revokeLogin(userToken))) {
           dispatch({type: Constants.authentication.REMOVE_TOKEN});
         }
       } catch (error) {
@@ -108,11 +94,27 @@ const App = () => {
     }
   }, [isLoggedIn]);
 
+  const updateTokenAndScreen = async actionType => {
+    try {
+      const userToken = await KeyChain.getAccessToken();
+      const isPending = await Helper.checkForPendingMasterDataDownload();
+      if (userToken && isAccessTokenValid()) {
+        dispatch({
+          type: actionType,
+          token: userToken,
+          screen: isPending ? ROUTE_MASTER_DATA_DOWNLOAD : ROUTE_DASHBOARD,
+        });
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
+
   const authContext = React.useMemo(
     () => ({
       signIn: async data => {
         setLoggedIn(true);
-        dispatch({type: Constants.authentication.SIGN_IN, token: data});
+        updateTokenAndScreen(Constants.authentication.SIGN_IN);
       },
       signOut: () => {
         setLoggedIn(false);
