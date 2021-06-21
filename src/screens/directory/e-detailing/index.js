@@ -173,6 +173,13 @@ const EDetailing = ({navigation}) => {
         variant={LabelVariant.subtitleLarge}
         title={Strings.otherProducts}
       />
+      <Product
+        style={styles.otherProduct}
+        title="Test"
+        isChecked={true}
+        imageStyle={styles.otherProductImage}
+        productTitleStyle={styles.otherProductTitle}
+      />
     </ContentWithSidePanel>
   );
 };

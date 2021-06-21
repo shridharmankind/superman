@@ -59,12 +59,12 @@ const styles = StyleSheet.create({
   },
   arrowContainer: {
     position: 'absolute',
-    backgroundColor: theme.colors.grey[1700],
+    backgroundColor: theme.colors.white,
     alignItems: 'center',
     height: '100%',
     flexDirection: 'row',
     minWidth: 25,
-    opacity: 0.5,
+    opacity: 0.7,
     elevation: 10,
     zIndex: 1,
   },
@@ -82,6 +82,29 @@ const styles = StyleSheet.create({
   },
   priorityProducts: {
     paddingVertical: theme.spacing(15),
+  },
+  otherProduct: {
+    elevation: 0,
+    borderWidth: 1,
+    borderColor: theme.colors.grey[2300],
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    width: 133,
+    padding: 10,
+  },
+  otherProductImage: {
+    width: 80,
+    height: 53,
+    marginBottom: theme.spacing(4),
+  },
+  otherProductTitle: {
+    fontSize: 12.7,
+    fontFamily: theme.fonts.fontRegular,
+    marginBottom: 0,
+    padding: 0,
   },
 });
 

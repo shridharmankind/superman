@@ -38,7 +38,10 @@ const Product = props => {
           />
         </TouchableOpacity>
         <View style={[styles.productTitleWrapper]}>
-          <Label style={[styles.productTitle]} title={props.title} />
+          <Label
+            style={[styles.productTitle, props.productTitleStyle]}
+            title={props.title}
+          />
           <View style={[styles.productTags]}>
             {props.tags?.map(tag => (
               <Tag title={tag} />
