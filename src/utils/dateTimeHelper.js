@@ -84,6 +84,7 @@ const getTimeFormatOnDevice = () => {
     timeType = 'PM';
   }
   return timeType;
+}  
 /**
  * Check if a date is after a particular date or note
  *

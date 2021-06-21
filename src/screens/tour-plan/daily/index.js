@@ -30,18 +30,6 @@ const DailyTourPlan = () => {
     });
   };
 
-  // useEffect(() => {
-  //   dispatch(
-  //     deletePartyCreator({
-  //       staffPositionid: 1,
-  //       day: 22,
-  //       month: 6,
-  //       year: 2021,
-  //       partyId: 27,
-  //     }),
-  //   );  
-  // },[dispatch])
-
   /**
    * Fetch parties list
    */

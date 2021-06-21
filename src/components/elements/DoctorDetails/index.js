@@ -72,19 +72,19 @@ const DoctorDetails = ({
    * Handle image error & return default image
    */
    const OnErrorHandler = () => {
-  //   if (!isImageErrror) {
-  //     const genderImage =
-  //       Constants.GENDER.MALE === gender.toUpperCase()
-  //         ? require('assets/images/male.png')
-  //         : require('assets/images/female.png');
-  //     const src =
-  //       Constants.PARTY_TYPE.DOCTOR === partyType
-  //         ? genderImage
-  //         : require('assets/images/chemist.png');
+    if (!isImageErrror) {
+      // const genderImage =
+      //   Constants.GENDER.MALE === gender.toUpperCase()
+      //     ? require('assets/images/male.png')
+      //     : require('assets/images/female.png');
+      const src =
+        Constants.PARTY_TYPE.DOCTOR === partyType
+          ? require('assets/images/male.png')
+          : require('assets/images/chemist.png');
 
-  //     setImageSrc(src);
-  //     setIsImageErrror(true);
-  //   }
+      setImageSrc(src);
+      setIsImageErrror(true);
+    }
    };
 
   /**
