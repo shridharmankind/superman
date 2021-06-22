@@ -138,14 +138,15 @@ const StandardPlanModal = ({
         resetandChangePage(direction, dataChanged);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       patchSelected,
       dataChanged,
       savePatchRes,
-      doctorsSelected.length,
+      doctorsSelected,
       submitSTP?.status,
       stpStatus?.status,
-      showRulesWarning,
+      handleDonePress,
       resetandChangePage,
     ],
   );
