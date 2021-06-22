@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -71,8 +71,10 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
+  const [hideDropDown, setHideDropDown] = useState(false);
   const weekNum = Number(week);
-  const staffPositionId = 1;
+  const staffPositionId = 3;
+  const dropDownRef = useRef(null);
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
@@ -900,6 +902,21 @@ const StandardPlanModal = ({
     [weekNum, weekDay, year],
   );
 
+  const handleDropDownRef = e => {
+    e.persist();
+    const ids =
+      dropDownRef &&
+      dropDownRef.current._children &&
+      dropDownRef.current._children[0]._children.map(el => el._nativeTag);
+
+    if (ids && ids.length) {
+      if (ids.includes(e.target)) {
+        return;
+      }
+      setHideDropDown(true);
+    }
+  };
+
   if (allParties.length === 0 || allAreas.length === 0) {
     return (
       <ActivityIndicator
@@ -910,9 +927,12 @@ const StandardPlanModal = ({
       />
     );
   }
+
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
-      <View style={styles.modalHeader}>
+      <View
+        style={styles.modalHeader}
+        onStartShouldSetResponder={evt => handleDropDownRef(evt)}>
         <View>
           <Label title={Strings.selectDoctorAndChemist} size={18.7} />
           <View style={styles.week}>
@@ -998,6 +1018,8 @@ const StandardPlanModal = ({
             isPatchedData={isPatchedData}
             allPatches={allPatches}
             partyInArea={id => getSelectedPartyByArea(id)}
+            hideDropDown={hideDropDown}
+            ref={dropDownRef}
           />
           <View style={styles.doctorDetailsContainer}>
             <View>
