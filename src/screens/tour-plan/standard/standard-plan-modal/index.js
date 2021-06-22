@@ -34,8 +34,13 @@ import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
 import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
-import {fetchPlanComplianceCreator} from 'screens/tourPlan/planCompliance/redux';
+import {
+  planComplianceSelector,
+  fetchPlanComplianceCreator,
+} from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
+import {translate} from 'locale';
+
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -78,9 +83,36 @@ const StandardPlanModal = ({
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+  const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
 
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+
+  /**
+   * Show toast message to warn user that he has exceeded max doctor/chemist count
+   * once toast hides, save/update patch
+   */
+  const showRulesWarning = () => {
+    if ((rulesWarning || []).length > 0) {
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: true,
+        defaultVisibilityTime: 1000,
+        props: {
+          onClose: () => {
+            hideToast();
+            handleDonePress(doctorsSelected);
+          },
+          heading: translate('errorMessage.partiesExceedingMaxLimit'),
+        },
+        onHide: () => {
+          handleDonePress(doctorsSelected);
+        },
+      });
+    } else {
+      handleDonePress(doctorsSelected);
+    }
+  };
 
   /**
    * callback function to return direction left/right of day swiper
@@ -97,11 +129,12 @@ const StandardPlanModal = ({
         stpStatus?.status !== STP_STATUS.SUBMITTED
       ) {
         setSwipeDirection(direction);
-        handleDonePress(doctorsSelected);
+        showRulesWarning();
       } else {
         resetandChangePage(direction, dataChanged);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       patchSelected,
       dataChanged,
@@ -372,7 +405,6 @@ const StandardPlanModal = ({
             },
           });
           setDataChanged(false);
-          dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
           } else {
@@ -407,6 +439,7 @@ const StandardPlanModal = ({
           setPatchError(Strings.somethingWentWrong);
           setShowPatchError(true);
         }
+        dispatch(standardPlanActions.resetSavePatch());
       }
     },
     [
@@ -421,7 +454,6 @@ const StandardPlanModal = ({
     ],
   );
 
-  /** function to save the patch */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
@@ -998,7 +1030,7 @@ const StandardPlanModal = ({
               false
             }
             contentStyle={styles.doneBtn}
-            onPress={() => handleDonePress(doctorsSelected)}
+            onPress={() => showRulesWarning()}
           />
           <Button
             mode="outlined"

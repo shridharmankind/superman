@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing(13.3),
   },
   percentage: {
-    paddingVertical: theme.spacing(10),
+    paddingVertical: theme.spacing(18),
+    paddingBottom: theme.spacing(10),
     fontSize: 26.7,
     fontFamily: theme.fonts.fontBold,
     color: theme.colors.white,
