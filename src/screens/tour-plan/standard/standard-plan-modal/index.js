@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -78,23 +77,15 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
-  const [warningOnRules, setWarningOnRules] = useState([]);
   const weekNum = Number(week);
   const staffPositionId = 1;
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
-
-  // selected plan option
   const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
 
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
-
-  useEffect(() => {
-    console.log('test', rulesWarning);
-    setWarningOnRules([...rulesWarning]);
-  }, [rulesWarning]);
 
   const showRulesWarning = () => {
     if ((rulesWarning || []).length > 0) {
@@ -1025,8 +1016,8 @@ const StandardPlanModal = ({
               !patchSelected ||
               !dataChanged ||
               doctorsSelected.length === 0 ||
-              // submitSTP?.status === STP_STATUS.SUBMITTED ||
-              // stpStatus?.status === STP_STATUS.SUBMITTED ||
+              submitSTP?.status === STP_STATUS.SUBMITTED ||
+              stpStatus?.status === STP_STATUS.SUBMITTED ||
               false
             }
             contentStyle={styles.doneBtn}

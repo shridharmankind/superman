@@ -14,7 +14,7 @@ import {rulesMapping} from './rulesMapping';
 import {ErrorIcon, Complaint} from 'assets';
 import {getComparisonResult} from 'screens/tourPlan/helper';
 import {translate} from 'locale';
-import {COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
+import {COMPLAINCE_TYPE, ARRAY_OPERATION} from 'screens/tourPlan/constants';
 /**
  * Tab component rendering as a radio button
  * @param {Boolean} isChecked determines if radio button is selected or not
@@ -89,14 +89,14 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
           dispatch(
             planComplianceActions.collectWarningOnRules({
               rule: ruleMapping,
-              operation: 'push',
+              operation: ARRAY_OPERATION.PUSH,
             }),
           );
         } else {
           dispatch(
             planComplianceActions.collectWarningOnRules({
               rule: ruleMapping,
-              operation: 'pop',
+              operation: ARRAY_OPERATION.POP,
             }),
           );
         }
