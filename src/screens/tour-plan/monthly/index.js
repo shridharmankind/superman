@@ -13,7 +13,7 @@ import {
   STAFF_CODES,
   TOUR_PLAN_TYPE,
   STP_STATUS,
-SUBMIT_STP_PLAN_THRESHOLD_VALUE,
+  SUBMIT_STP_PLAN_THRESHOLD_VALUE,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
