@@ -32,7 +32,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   useEffect(() => {
     dispatch(
       fetchPlanComplianceCreator({
-        staffPositionId: 2,
+        staffPositionId: 1,
         week,
         weekDay,
         type,
@@ -178,7 +178,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
             : styles.inProgressComplaince,
         ]}>
         <Label variant={LabelVariant.h1} style={styles.percentage}>
-          {complianceData?.totalPercent} %
+          {complianceData?.totalPercent?.toFixed(2)} %
         </Label>
         <ProgressBar
           progress={complianceData?.totalPercent / 100}

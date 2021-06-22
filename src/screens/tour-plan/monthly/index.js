@@ -13,6 +13,7 @@ import {
   STAFF_CODES,
   TOUR_PLAN_TYPE,
   STP_STATUS,
+  SUBMIT_STP_PLAN_THRESHOLD_VALUE,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -93,7 +94,7 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
-        staffPositionid: 2,
+        staffPositionid: 1,
       }),
     );
   }, [dispatch]);
@@ -101,7 +102,7 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(
       fetchSTPStatusCreator({
-        staffPositionId: 2,
+        staffPositionId: 1,
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
     );
@@ -477,7 +478,7 @@ const MonthlyTourPlan = ({navigation}) => {
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          // disabled={compliancePercentage !== 100}
+          disabled={compliancePercentage !== SUBMIT_STP_PLAN_THRESHOLD_VALUE}
           onPress={submitSTPHandler}
         />
       </View>
@@ -490,7 +491,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({
-        staffPositionId: 2,
+        staffPositionId: 1,
       }),
     );
   };
