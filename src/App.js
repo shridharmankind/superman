@@ -25,7 +25,7 @@ const store = getStore();
 const App = () => {
   LogBox.ignoreAllLogs();
 
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const initialRoute = isLoggedIn ? Routes.ROUTE_DASHBOARD : Routes.ROUTE_LOGIN;
 
   setI18nConfig();
