@@ -15,7 +15,11 @@ import {rulesMapping} from './rulesMapping';
 import {ErrorIcon, Complaint} from 'assets';
 import {getComparisonResult} from 'screens/tourPlan/helper';
 import {translate} from 'locale';
-import {COMPLAINCE_TYPE, RULE_KEY,ARRAY_OPERATION} from 'screens/tourPlan/constants';
+import {
+  COMPLAINCE_TYPE,
+  RULE_KEY,
+  ARRAY_OPERATION,
+} from 'screens/tourPlan/constants';
 
 function reducer(state, action) {
   switch (action.type) {
