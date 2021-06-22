@@ -54,8 +54,6 @@ export const MASTER_TABLES_DETAILS = [
 export const getUserFirstName = async () => {
   try {
     const user = await getActiveUser();
-    const offs = await Weeklyoff.getAllWeeklyOffs();
-    console.log('offs offs offs ', offs);
     return user.firstName || '';
   } catch (error) {}
 };
