@@ -13,38 +13,39 @@ export const validateSearch = (searchInput, clearSearch) => {
   // If not empty string
   let searchInputLowerCase = searchInput.toLowerCase(); // to lowercase
   let trimmedInput = '';
+  let drPrefix = false;
   if (searchInputLowerCase.indexOf('dr.') === 0) {
     trimmedInput = searchInputLowerCase.replace('dr.', '').trim(); // need to remove dr.
-
+    drPrefix = true;
     if (trimmedInput.length === 0) {
       // If only dr./dr is there
       showWarningToast(Strings.searchBar.errors.partyName, clearSearch);
-      return [false, undefined];
+      return [false, drPrefix];
     }
     if (trimmedInput.length < 2) {
       showWarningToast(Strings.searchBar.errors.minChar, clearSearch);
-      return [false, undefined];
+      return [false, drPrefix];
     }
     if (trimmedInput.length >= 2) {
       const regEx1 = /^[^.][a-zA-Z. ]*$/;
       if (!regEx1.test(trimmedInput)) {
         showWarningToast(Strings.searchBar.errors.validName, clearSearch);
-        return [false, undefined];
+        return [false, drPrefix];
       }
     }
   } else if (searchInputLowerCase.length < 2) {
     // no dr. found
     showWarningToast(Strings.searchBar.errors.minChar, clearSearch);
-    return [false, undefined];
+    return [false, drPrefix];
   } else {
     trimmedInput = searchInputLowerCase.trim();
-    return [true, trimmedInput];
+    return [true, drPrefix];
   }
-  return [true, trimmedInput];
+  return [true, drPrefix];
 };
 
 // Function to show error message as toast
-const showWarningToast = (message, clearSearch) => {
+ const showWarningToast = (message,clearSearch) => {
   showToast({
     type: Constants.TOAST_TYPES.WARNING,
     autoHide: false,

@@ -1,8 +1,8 @@
-export const QualificationsSchemaName = 'Qualifications';
+export const SpecialitiesSchemaName = 'Specialities';
 
-export default class QualificationsSchema {
+export default class SpecialitiesSchema {
   static schema = {
-    name: QualificationsSchemaName,
+    name: SpecialitiesSchemaName,
     primaryKey: 'id',
     properties: {
       id: 'int',
