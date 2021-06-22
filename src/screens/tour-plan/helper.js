@@ -114,14 +114,6 @@ export const getSelectedPartyTypeData = (
     [DOCTOR_IN_X_DAYS]: 0,
   };
 
-  const uniqueAreas = [];
-  doctorsSelected.map(item => {
-    if (uniqueAreas.indexOf(item.areaId) === -1) {
-      uniqueAreas.push(item.areaId);
-    }
-  });
-
-
   allParties.map(party => {
     // for all
     if (party?.alreadyVisited > 0) {

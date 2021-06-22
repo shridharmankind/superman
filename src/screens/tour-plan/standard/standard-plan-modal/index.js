@@ -180,7 +180,6 @@ const StandardPlanModal = ({
     return true;
   }, [dispatch]);
 
-  //allParties :: dr list => alreadyVisited once
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
