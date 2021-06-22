@@ -114,6 +114,7 @@ const DoctorDetailsWrapper = ({
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}
+        onTileNamePress={() => handleDoctorSelection(!selected)}
         {...props}
       />
     </TouchableOpacity>

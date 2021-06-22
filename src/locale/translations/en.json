@@ -1,5 +1,10 @@
 {
   "goodMorning": "Good morning",
+  "monthlyActions": {
+    "save": "Save",
+    "submitSTP": "Submit STP"
+  },
+  "submittedOn": "Submitted on",
   "missedVisit": "Missed Visit!",
   "upcomingVisit": "Upcoming Visit",
   "detailedProducts": "Detailed Products: ",
@@ -14,5 +19,21 @@
   "timeline": "Timeline",
   "errorMessage": {
     "noRecords": "There are no records"
-  }
+  },
+
+  "dr": "Doctor",
+  "minimum": "minimum",
+  "maximum": "maximum",
+  "doctorVisitsPerDay": "doctor visits per day",
+  "chemistVisitsPerDay": "chemists visits per day",
+  "daysGap": "days ",
+  "minGap": "minimum gap for {{xValue}} visit doctors",
+  "drCovered": "Doctors covered in {{xValue}} days",
+  "drCoveredInMonth": "Doctors covered in month",
+  "chCoveredInMonth": "Chemist covered in month",
+  "outStationPerMonth": "Out-station visits per month",
+  "exStationPerMonth": "Ex-station visits per month",
+  "areaCovered": "Areas covered",
+  "frequencyMet": "Frequency met",
+  "": ""
 }

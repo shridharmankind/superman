@@ -24,6 +24,9 @@ export const MASTER_TABLE_USER_INFO = 'UserInfo';
 export const MASTER_TABLE_STAFF_POSITIONS = 'StaffPositions';
 export const MASTER_TABLE_STAFF_DESIGNATION = 'Designation';
 
+export const MASTER_TABLE_ORGANIZATION = 'Organizations';
+export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
+
 export const MASTER_TABLE_DIVISION = DivisionSchemaName;
 export const MASTER_TABLE_DIVISION_API_PATH = 'division';
 
