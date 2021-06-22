@@ -30,7 +30,7 @@ import {isWeb} from 'helper';
 
 const DoctorDetails = ({
   title,
-  //gender,
+  gender,
   specialization,
   image,
   category,
@@ -79,7 +79,7 @@ const DoctorDetails = ({
           : require('assets/images/female.png');
       const src =
         Constants.PARTY_TYPE.DOCTOR === partyType
-          ? require('assets/images/male.png')
+          ? genderImage
           : require('assets/images/chemist.png');
 
       setImageSrc(src);
