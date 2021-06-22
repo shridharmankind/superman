@@ -7,7 +7,6 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         weeklyoffs?.forEach(geoLocation => {
-          console.log('geoLocation geoLocation', geoLocation);
           const {
             id,
             name,
