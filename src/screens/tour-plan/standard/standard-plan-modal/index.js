@@ -924,7 +924,6 @@ const StandardPlanModal = ({
       />
     );
   }
-
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
@@ -1085,11 +1084,7 @@ const StandardPlanModal = ({
             type={COMPLAINCE_TYPE.DAILY}
             week={week}
             weekDay={workingDays.indexOf(weekDay) + 1}
-            selectedData={getSelectedPartyTypeData(
-              allParties,
-              doctorsSelected,
-              areaSelected,
-            )}
+            selectedData={getSelectedPartyTypeData(allParties, doctorsSelected)}
           />
         </View>
       </View>

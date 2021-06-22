@@ -90,11 +90,7 @@ export const getSelectedMonthIndex = month => {
  * @param {Array} doctorsSelected  array of selected doctor id's
  * @returns obj containing count of party types
  */
-export const getSelectedPartyTypeData = (
-  allParties,
-  doctorsSelected,
-  areaSelected,
-) => {
+export const getSelectedPartyTypeData = (allParties, doctorsSelected) => {
   const {
     DOCTOR,
     CHEMIST,
@@ -107,12 +103,20 @@ export const getSelectedPartyTypeData = (
   const obj = {
     [DOCTOR]: 0,
     [CHEMIST]: 0,
-    [AREA]: areaSelected?.length,
+    [AREA]: 0,
     [FREQUENCY_MET]: 0,
     [DOCTOR_COVERED_IN_MONTH]: 0,
     [CHEMIST_COVERED_IN_MONTH]: 0,
     [DOCTOR_IN_X_DAYS]: 0,
   };
+  const uniqueAreas = [];
+  doctorsSelected.map(item => {
+    if (uniqueAreas.indexOf(item.areaId) === -1) {
+      uniqueAreas.push(item.areaId);
+    }
+  });
+  obj[AREA] = uniqueAreas.length;
+
   allParties.map(party => {
     // for all
     if (party?.alreadyVisited > 0) {
