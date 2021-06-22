@@ -18,7 +18,12 @@ const totalPercentSelector = createSelector(
   data => data?.monthly?.totalPercent,
 );
 
+const warningOnRules = state => state.planCompliance.rules.warningOnRules;
+
+const warningOnRulesSelector = createSelector([warningOnRules], data => data);
+
 export const planComplianceSelector = {
   allComplianceRules: () => allComplianceRulesSelector,
   getTotalPercent: () => totalPercentSelector,
+  getWarningOnRules: () => warningOnRulesSelector,
 };
