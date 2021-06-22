@@ -13,6 +13,7 @@ import {
   STAFF_CODES,
   TOUR_PLAN_TYPE,
   STP_STATUS,
+SUBMIT_STP_PLAN_THRESHOLD_VALUE,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -477,7 +478,7 @@ const MonthlyTourPlan = ({navigation}) => {
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          disabled={compliancePercentage !== 100}
+          disabled={compliancePercentage !== SUBMIT_STP_PLAN_THRESHOLD_VALUE}
           onPress={submitSTPHandler}
         />
       </View>
