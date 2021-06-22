@@ -216,13 +216,11 @@ const StandardPlanModal = ({
       if (ids?.length > 0 && allParties.length > 0) {
         let patchAreaList = [];
         (allParties || []).map(party => {
-          if (ids.some(id => id === party.id)) {
-            party.areas.map(area => {
-              if (patchAreaList.indexOf(area.id) === -1) {
-                patchAreaList.push(area.id);
-              }
-            });
-          }
+          ids.map(id => {
+            if (id.partyId === party.id) {
+              patchAreaList.push(id.areaId);
+            }
+          });
         });
         const a = allAreas?.filter(
           area => patchAreaList.indexOf(area.id) !== -1,
@@ -274,10 +272,12 @@ const StandardPlanModal = ({
       let doctorArr = doctorsSelected;
       allParties.map(party => {
         const doctorToRemove = doctorsSelected?.find(
-          obj => obj === party.id && party.areas.some(par => par.id === areaId),
+          obj => obj.partyId === party.id && obj.areaId === areaId,
         );
         if (doctorToRemove) {
-          doctorArr = doctorArr.filter(doc => doc !== doctorToRemove);
+          doctorArr = doctorArr.filter(
+            doc => doc.partyId !== doctorToRemove.partyId,
+          );
         }
       });
       setDoctorsSelected(doctorArr);
@@ -292,7 +292,8 @@ const StandardPlanModal = ({
         const partyData = partyList.find(party =>
           doctors?.some(
             obj =>
-              obj === party.id && party.areas.some(par => par.id === area.id),
+              obj.partyId === party.id &&
+              party.areas.some(par => par.id === area.id),
           ),
         );
         return partyData ? true : false;
@@ -444,7 +445,7 @@ const StandardPlanModal = ({
       const obj = {
         displayName: patchSelected,
         defaultName: patchDefaultValue,
-        partyIds: partyIds || doctorsSelected,
+        partyMapping: partyIds || doctorsSelected,
         week: weekNum,
         weekDay,
         year: year,
@@ -541,7 +542,7 @@ const StandardPlanModal = ({
               const docIds = errors.find(err => err.code === code);
               setDoctorsSelected(
                 doctorsSelected.filter(
-                  doc => docIds?.params?.partyIds.indexOf(doc) === -1,
+                  doc => docIds?.params?.partyIds.indexOf(doc.partyId) === -1,
                 ),
               );
               hideToast();
@@ -606,7 +607,7 @@ const StandardPlanModal = ({
   const handleExhaustedParty = useCallback(
     (obj, exhaustedParty) => {
       const updatedPartyList = doctorsSelected.filter(
-        id => !exhaustedParty.some(par => par.id === id),
+        party => !exhaustedParty.some(par => par.id === party.partyId),
       );
       let message = null;
       if (
@@ -732,13 +733,17 @@ const StandardPlanModal = ({
    *  Handles Card click event& accept an id of party
    * @param {Number} id party id passed as int
    */
-  const handleDoctorCardPress = id => {
-    const indexAvailable = doctorsSelected?.some(party => party === id);
+  const handleDoctorCardPress = (id, area) => {
+    const indexAvailable = doctorsSelected?.some(
+      party => party.partyId === id && party.areaId === area,
+    );
     let selected = null;
     if (indexAvailable) {
-      selected = doctorsSelected?.filter(party => party !== id);
+      selected = doctorsSelected?.filter(
+        party => !(id === party.partyId && area === party.areaId),
+      );
     } else {
-      selected = [...doctorsSelected, id];
+      selected = [...doctorsSelected, {partyId: id, areaId: area}];
     }
     setDoctorsSelected(selected);
     const string = createPatchString(
@@ -800,7 +805,11 @@ const StandardPlanModal = ({
     id => {
       let count = 0;
       getDoctorsByArea(id).map(party => {
-        if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
+        if (
+          doctorsSelected?.filter(
+            doc => doc.partyId === party.id && doc.areaId === id,
+          ).length > 0
+        ) {
           count = count + 1;
         }
       });
@@ -1018,7 +1027,7 @@ const StandardPlanModal = ({
               </View>
               <DoctorsByArea
                 areaSelected={areaSelected}
-                doctorsByArea={getDoctorsByArea}
+                // doctorsByArea={getDoctorsByArea}
                 doctorsSelected={doctorsSelected}
                 handleDoctorCardPress={handleDoctorCardPress}
                 isPatchedData={isPatchedData}
