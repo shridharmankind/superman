@@ -7,8 +7,8 @@ export const BACKGROUND_TASK = {
   ON_DEMAND_TASK_NAME: 'ON_DEMAND_TASK',
   NOT_RUNNING: 'NOT_RUNNING',
   RUNNING: 'RUNNING',
-  SYNC_FLEX_TIME: 120, //seconds    //The amount of flex time in seconds before syncInterval that you permit for the sync to take place. Must be less than syncInterval
-  SYNC_INTERVAL: 300 //seconds   //The amount of time in seconds that you wish to elapse between periodic syncs
+  SYNC_FLEX_TIME: 50, //seconds    //The amount of flex time in seconds before syncInterval that you permit for the sync to take place. Must be less than syncInterval
+  SYNC_INTERVAL: 120 //seconds   //The amount of time in seconds that you wish to elapse between periodic syncs
 
 }
 

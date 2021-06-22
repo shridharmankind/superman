@@ -42,7 +42,7 @@ const getNetworkResponse = async (config,apiPath) => {
           console.log("default");  
           break;  
       }
-      console.log("finally",response.data);
+      //console.log("finally",response.data);
       return response;
     })
     .catch(function (error) {

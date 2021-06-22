@@ -39,7 +39,7 @@ export const RegisterBackgroundTask = async () => {
     await AsyncStorage.setItem(Constants.BACKGROUND_TASK.TASK_NAME, Constants.BACKGROUND_TASK.NOT_RUNNING);
     await AsyncStorage.setItem(Constants.BACKGROUND_TASK.ON_DEMAND_TASK_NAME,Constants.BACKGROUND_TASK.NOT_RUNNING);
     await BackgroundFetch.registerTaskAsync(TASK_NAME, {
-      minimumInterval: 120, // seconds,
+      minimumInterval: 50, // seconds,
     });
   } catch (err) {
     console.log('RegisterBackgroundTask ', err);

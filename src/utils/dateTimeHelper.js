@@ -66,7 +66,7 @@ export const getLocalTimeZone = date => {
   let dateString =
     newDate.getUTCDate() +
     '/' +
-    newDate.getMonth() +
+    (newDate.getMonth() + 1) +
     '/' +
     newDate.getFullYear();
   dateString = dateString + ' ' + timeInHours + ' ' + getTimeFormatOnDevice();

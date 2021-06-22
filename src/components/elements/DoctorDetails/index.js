@@ -147,15 +147,15 @@ const DoctorDetails = ({
                       ),
                     },
                   ]}>
-                  {/* <Label
+                  <Label
                     style={styles.divisionText}
                     title={Strings.kyc}
                     size={customStyle ? customStyle.divisionSize : 9}
                     type={'bold'}
-                  /> */}
+                  />
                 </View>
               )}
-              {/* {category != '' && (
+              {category != '' && (
                 <View
                   style={[
                     styles.divisionItem,
@@ -168,7 +168,7 @@ const DoctorDetails = ({
                     type={'bold'}
                   />
                 </View>
-              )} */}
+              )}
             </View>
           )}
 
