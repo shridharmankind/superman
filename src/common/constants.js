@@ -40,8 +40,8 @@ export const PARTY_TYPE = {
 };
 
 export const GENDER = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE',
+  MALE: 'M',
+  FEMALE: 'F',
 };
 
 export const revokeUrl =

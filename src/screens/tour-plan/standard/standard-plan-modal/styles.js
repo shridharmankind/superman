@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leftContent: {
-    flex: 0.9,
+    flex: 1,
     flexDirection: 'column',
     paddingBottom: 40,
   },
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     paddingLeft: themes.spacing(36),
   },
   planComplainceLabel: {
-    paddingBottom: themes.spacing(21.3),
+    paddingBottom: themes.spacing(6),
   },
   activityIndicator: {
     position: 'absolute',
