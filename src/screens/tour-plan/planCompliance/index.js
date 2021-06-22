@@ -151,11 +151,14 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     )[0]?.count;
   };
 
-  const getSelectedCount = key => {
+  const getSelectedCount = (key, ruleValues) => {
     if (key === RULE_KEY.AREA) {
       return state.areasCovered;
+    } else if (key === RULE_KEY.DOCTOR_IN_X_DAYS) {
+      return ruleValues?.coveredCount;
+    } else {
+      return selectedData[key];
     }
-    return selectedData[key];
   };
   /**
    *
