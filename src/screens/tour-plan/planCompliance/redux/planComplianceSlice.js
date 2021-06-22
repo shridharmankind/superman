@@ -9,6 +9,7 @@ export const planComplianceState = {
     monthly: {},
     daily: {},
     error: null,
+    warningOnRules: [],
   },
 };
 
@@ -26,6 +27,16 @@ export const planComplianceSlice = createSlice({
   initialState: planComplianceState,
   reducers: {
     getComplainceRules: (state, action) => merge(state, action.payload),
+    collectWarningOnRules: (state, action) => {
+      state.rules.warningOnRules.push(action.payload);
+      console.log(
+        'action',
+        action.payload,
+        JSON.stringify(state.rules.warningOnRules),
+      );
+
+      return state;
+    },
   },
 });
 

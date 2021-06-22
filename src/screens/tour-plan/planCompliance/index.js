@@ -5,7 +5,11 @@ import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchPlanComplianceCreator, planComplianceSelector} from './redux';
+import {
+  fetchPlanComplianceCreator,
+  planComplianceActions,
+  planComplianceSelector,
+} from './redux';
 import {rulesMapping} from './rulesMapping';
 import {ErrorIcon, Complaint} from 'assets';
 import {getComparisonResult} from 'screens/tourPlan/helper';
@@ -69,19 +73,27 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
    * @returns  check complaint and render icon
    */
   const getComplaintCheck = (rule, ruleMapping) => {
-    const {checkType, key} = ruleMapping;
+    const {checkType, key, showWarningMessage} = ruleMapping;
     if (type === COMPLAINCE_TYPE.MONTHLY || !checkType) {
       return renderIcon(rule?.isCompliant);
     }
 
     if (checkType && type === COMPLAINCE_TYPE.DAILY) {
-      return renderIcon(
-        getComparisonResult(
-          selectedData[key],
-          rule?.ruleValues?.totalCount,
-          checkType,
-        ),
+      const comparisonResult = getComparisonResult(
+        selectedData[key],
+        rule?.ruleValues?.totalCount,
+        checkType,
       );
+      if (
+        showWarningMessage &&
+        !comparisonResult &&
+        checkType &&
+        type === COMPLAINCE_TYPE.DAILY
+      ) {
+        console.log('test', comparisonResult, ruleMapping);
+        dispatch(planComplianceActions.collectWarningOnRules(ruleMapping));
+      }
+      return renderIcon(comparisonResult);
     }
   };
 
