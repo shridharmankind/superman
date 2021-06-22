@@ -34,6 +34,7 @@ import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
 import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
+import {fetchPlanComplianceCreator} from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -676,6 +677,12 @@ const StandardPlanModal = ({
       dispatch(
         fetchSTPCalendarUpdateCreator({
           staffPositionId,
+        }),
+      );
+      dispatch(
+        fetchPlanComplianceCreator({
+          staffPositionId,
+          type: 'monthly',
         }),
       );
     },
