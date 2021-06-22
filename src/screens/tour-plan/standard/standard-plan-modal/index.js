@@ -35,7 +35,10 @@ import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
 import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
-import {planComplianceSelector, fetchPlanComplianceCreator} from 'screens/tourPlan/planCompliance/redux';
+import {
+  planComplianceSelector,
+  fetchPlanComplianceCreator,
+} from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -430,25 +433,6 @@ const StandardPlanModal = ({
     ],
   );
 
-  const handleDonePressAfterToast = (
-    obj,
-    isAnyPartyExhausted,
-    isPatchOfSameDay,
-  ) => {
-    if (!patchValue) {
-      savePatch(obj);
-    } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
-      handleExhaustedParty(obj, isAnyPartyExhausted);
-    } else if (patchValue && isPatchOfSameDay && dataChanged) {
-      updatePatch(obj, patchValue.id, false);
-    } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
-      savePatch(obj);
-    } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
-      updatePatch(obj, patchValue.id, false);
-    }
-  };
-
-  /** function to save the patch */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
@@ -464,63 +448,33 @@ const StandardPlanModal = ({
       const isPatchOfSameDay = isSameDayPatch(patchValue);
       const isAnyPartyExhausted = checkPartyExhausted(partyIds);
 
-      console.log('done called', rulesWarning, warningOnRules);
-
-      if ((rulesWarning || []).length > 0) {
-        console.log('inside if');
-        // Alert.alert('hurray');
-        showToast({
-          type: Constants.TOAST_TYPES.WARNING,
-          autoHide: false,
-          props: {
-            onPress: () => {
-              hideToast();
-              handleDonePressAfterToast(
-                obj,
-                isAnyPartyExhausted,
-                isPatchOfSameDay,
-              );
-            },
-            onClose: () => {
-              hideToast();
-              handleDonePressAfterToast(
-                obj,
-                isAnyPartyExhausted,
-                isPatchOfSameDay,
-              );
-            },
-            heading: 'You are exceeding the max doctor visits',
-          },
-        });
-      } else {
-        handleDonePressAfterToast(obj, isAnyPartyExhausted, isPatchOfSameDay);
+      if (!patchValue) {
+        savePatch(obj);
+      } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
+        handleExhaustedParty(obj, isAnyPartyExhausted);
+      } else if (patchValue && isPatchOfSameDay && dataChanged) {
+        updatePatch(obj, patchValue.id, false);
+      } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
+        savePatch(obj);
+      } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
+        updatePatch(obj, patchValue.id, false);
       }
-
-      // if (!patchValue) {
-      //   savePatch(obj);
-      // } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
-      //   handleExhaustedParty(obj, isAnyPartyExhausted);
-      // } else if (patchValue && isPatchOfSameDay && dataChanged) {
-      //   updatePatch(obj, patchValue.id, false);
-      // } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
-      //   savePatch(obj);
-      // } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
-      //   updatePatch(obj, patchValue.id, false);
-      // }
     },
     [
-      patchSelected,
       patchDefaultValue,
-      doctorsSelected,
-      weekNum,
+      patchSelected,
+      patchValue,
+      savePatch,
+      updatePatch,
       weekDay,
+      weekNum,
       year,
       isSameDayPatch,
-      patchValue,
+      dataChanged,
+      isPatchedData,
+      doctorsSelected,
       checkPartyExhausted,
-      rulesWarning,
-      warningOnRules,
-      handleDonePressAfterToast,
+      handleExhaustedParty,
     ],
   );
 
@@ -1046,12 +1000,34 @@ const StandardPlanModal = ({
               !patchSelected ||
               !dataChanged ||
               doctorsSelected.length === 0 ||
-              submitSTP?.status === STP_STATUS.SUBMITTED ||
-              stpStatus?.status === STP_STATUS.SUBMITTED ||
+              // submitSTP?.status === STP_STATUS.SUBMITTED ||
+              // stpStatus?.status === STP_STATUS.SUBMITTED ||
               false
             }
             contentStyle={styles.doneBtn}
-            onPress={() => handleDonePress(doctorsSelected)}
+            onPress={() => {
+              if ((rulesWarning || []).length > 0) {
+                console.log('inside if');
+                // Alert.alert('hurray');
+                showToast({
+                  type: Constants.TOAST_TYPES.WARNING,
+                  autoHide: false,
+                  props: {
+                    onPress: () => {
+                      hideToast();
+                      handleDonePress(doctorsSelected);
+                    },
+                    onClose: () => {
+                      hideToast();
+                      handleDonePress(doctorsSelected);
+                    },
+                    heading: 'You are exceeding the max doctor visits',
+                  },
+                });
+              } else {
+                handleDonePress(doctorsSelected);
+              }
+            }}
           />
           <Button
             mode="outlined"
