@@ -91,7 +91,9 @@ const StandardPlanModal = ({
         patchSelected &&
         dataChanged &&
         !savePatchRes &&
-        doctorsSelected.length > 0
+        doctorsSelected.length > 0 &&
+        submitSTP?.status !== STP_STATUS.SUBMITTED &&
+        stpStatus?.status !== STP_STATUS.SUBMITTED
       ) {
         setSwipeDirection(direction);
         handleDonePress(doctorsSelected);
@@ -100,12 +102,14 @@ const StandardPlanModal = ({
       }
     },
     [
-      handleDonePress,
       patchSelected,
       dataChanged,
-      resetandChangePage,
       savePatchRes,
       doctorsSelected,
+      submitSTP?.status,
+      stpStatus?.status,
+      handleDonePress,
+      resetandChangePage,
     ],
   );
 
