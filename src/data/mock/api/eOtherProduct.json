@@ -2,21 +2,64 @@
     {
       "id": 113,
       "eDetailId": 0,
-      "name": "MB3",
-      "isFeatured": 1,
+      "name": "Bandy",
+      "isFeatured": 0,
       "isFocused": 0,
       "isPowered": 0,
-      "priority": 2,
+      "priority": 1,
       "isSelected": 0,
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subBrandList": [
+        {
+          "id": 1113,
+          "eDetailId": 0,
+          "name": "Bandy Plus",
+          "isFeatured": 0,
+          "isFocused": 0,
+          "isPowered": 0,
+          "priority": 0,
+          "isSelected": 0,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "isSKU": 0,
+          "subBrandList": null
+        },
+        {
+          "id": 1112,
+          "eDetailId": 0,
+          "name": "Bandy Plus - 12",
+          "isFeatured": 0,
+          "isFocused": 0,
+          "isPowered": 0,
+          "priority": 0,
+          "isSelected": 0,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "isSKU": 1,
+          "subBrandList": null
+        },
+        {
+          "id": 1111,
+          "eDetailId": 0,
+          "name": "Bandy Sup",
+          "isFeatured": 0,
+          "isFocused": 0,
+          "isPowered": 0,
+          "priority": 0,
+          "isSelected": 0,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "isSKU": 1,
+          "subBrandList": null
+        }
+      ]
     },
     {
       "id": 115,
       "eDetailId": 0,
-      "name": "MB31",
+      "name": "Bactfuz",
       "isFeatured": 1,
       "isFocused": 0,
       "isPowered": 0,
@@ -25,12 +68,41 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subBrandList": [
+        {
+          "id": 11113,
+          "eDetailId": 0,
+          "name": "Bactfuz - 5",
+          "isFeatured": 0,
+          "isFocused": 0,
+          "isPowered": 0,
+          "priority": 0,
+          "isSelected": 0,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "isSKU": 0,
+          "subBrandList": null
+        },
+        {
+          "id": 11112,
+          "eDetailId": 0,
+          "name": "Bactfuz - 10",
+          "isFeatured": 0,
+          "isFocused": 0,
+          "isPowered": 0,
+          "priority": 0,
+          "isSelected": 0,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "isSKU": 1,
+          "subBrandList": null
+        }
+      ]
     },
     {
       "id": 114,
       "eDetailId": 0,
-      "name": "MB31",
+      "name": "Bengreat",
       "isFeatured": 1,
       "isFocused": 0,
       "isPowered": 0,
@@ -44,7 +116,7 @@
     {
       "id": 116,
       "eDetailId": 0,
-      "name": "MB31",
+      "name": "Bigspas",
       "isFeatured": 1,
       "isFocused": 0,
       "isPowered": 0,
@@ -58,7 +130,7 @@
     {
       "id": 117,
       "eDetailId": 0,
-      "name": "MB31",
+      "name": "Biopreg",
       "isFeatured": 1,
       "isFocused": 0,
       "isPowered": 0,
@@ -72,7 +144,7 @@
     {
       "id": 118,
       "eDetailId": 0,
-      "name": "MB31",
+      "name": "Bisoheart",
       "isFeatured": 1,
       "isFocused": 0,
       "isPowered": 0,
@@ -86,7 +158,7 @@
     {
       "id": 119,
       "eDetailId": 0,
-      "name": "MB31",
+      "name": "Bisoheart A 5",
       "isFeatured": 1,
       "isFocused": 0,
       "isPowered": 0,
@@ -104,49 +176,6 @@
       "isFeatured": 0,
       "isFocused": 1,
       "isPowered": 0,
-      "priority": 0,
-      "isSelected": 0,
-      "thumbnailUrl": "",
-      "fileUrl": "",
-      "isSKU": 0,
-      "subBrandList": [
-        {
-          "id": 1,
-          "eDetailId": 0,
-          "name": "Sub-brand-1",
-          "isFeatured": 0,
-          "isFocused": 0,
-          "isPowered": 0,
-          "priority": 0,
-          "isSelected": 0,
-          "thumbnailUrl": "",
-          "fileUrl": "",
-          "isSKU": 0,
-          "subBrandList": null
-        },
-        {
-          "id": 1,
-          "eDetailId": 0,
-          "name": "SKU-1",
-          "isFeatured": 0,
-          "isFocused": 0,
-          "isPowered": 0,
-          "priority": 0,
-          "isSelected": 0,
-          "thumbnailUrl": "",
-          "fileUrl": "",
-          "isSKU": 1,
-          "subBrandList": null
-        }
-      ]
-    },
-    {
-      "id": 112,
-      "eDetailId": 0,
-      "name": "Zinco",
-      "isFeatured": 0,
-      "isFocused": 0,
-      "isPowered": 1,
       "priority": 0,
       "isSelected": 0,
       "thumbnailUrl": "",
