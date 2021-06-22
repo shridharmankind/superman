@@ -48,8 +48,8 @@ export const syncTableTask = async () => {
     let onDemandSyncStatus = await getOnDemandSyncStatus();
     console.log("onDemand ",onDemandSyncStatus);
     console.log(constraintTime,"constraintTime",currentTime);
-    if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING || 
-        (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
+    // if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING || 
+    //     (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
       for (const table of SYNC_TASK_LIST) {
         await runBackgroundTask(table).then(result => {
           resultArray = [...resultArray, ...result]; //collecting result to show toastie
@@ -60,10 +60,10 @@ export const syncTableTask = async () => {
         DBConstants.downloadStatus.DOWNLOADED,
         DBConstants.APPLICATION_SYNC_STATUS,
       );
-    }
-    else{
-      console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
-    }
+    //}
+    // else{
+    //   console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
+    // }
     console.log("result arry ",[])
     return resultArray;
   } catch (err) {

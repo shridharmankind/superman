@@ -23,16 +23,32 @@ const checkInternetConnectionForApp = async () => {
   });
 };
 
-const getNetworkResponse = async config => {
+const getNetworkResponse = async (config,apiPath) => {
+  console.log("getNetowkr")
   return await client(config)
-    .then(function (response) {
+    .then(async function (response) {
       // handle success
+      switch(config.method){
+        case 'DELETE':
+          console.log("resp ",response.status);
+          if(response.status == 200){
+            console.log("200 new ")
+            config.alreadyDeleted = true;
+            let deleteResponse = Offline.offlineData(config, config.data, config.params, apiPath);
+            console.log("deleteresponse ",deleteResponse);
+          }
+          break;
+        default:
+          console.log("default");  
+          break;  
+      }
+      console.log("finally",response.data);
       return response;
     })
     .catch(function (error) {
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
-    });
+    });  
 };
 
 /*
@@ -51,7 +67,8 @@ export const get = async (url, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    return await getNetworkResponse(config);
+    console.log("get Data");
+    return await getNetworkResponse(config,apiPath);
   } else {
     return await Offline.offlineData(config, {}, params, apiPath);
   }
@@ -78,7 +95,7 @@ export const post = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    return await getNetworkResponse(config);
+    return await getNetworkResponse(config,apiPath);
   } else {
     return await Offline.offlineData(config, data, params, apiPath);
   }
@@ -107,7 +124,7 @@ export const put = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    return await getNetworkResponse(config);
+    return await getNetworkResponse(config,apiPath);
   } else {
     return await Offline.offlineData(config, data, params, apiPath);
   }
@@ -136,7 +153,7 @@ export const Delete = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    return await getNetworkResponse(config);
+    return await getNetworkResponse(config,apiPath);
   } else {
     return await Offline.offlineData(config, data, params, apiPath);
   }
