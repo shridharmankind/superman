@@ -115,6 +115,9 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const renderRules = () => {
     return (complianceData?.rules || []).map(rule => {
       const ruleMappingValue = rulesMapping[rule.rulesShortName];
+      if (!ruleMappingValue) {
+        return;
+      }
       return (
         <View key={rule.ruleID} style={styles.rulesContainerSub}>
           <View style={styles.complianceIcon}>
