@@ -1,4 +1,3 @@
-import {MASTER_TABLE_GEOLOCATIONS_CONFIGURATION} from '../constants';
 export const WeeklyoffSchemaName = 'Weeklyoff';
 export default class WeeklyOffSchema {
   static schema = {
@@ -13,7 +12,7 @@ export default class WeeklyOffSchema {
       divisionId: 'int?',
       isActive: 'bool?',
       isDeleted: 'bool?',
-      geoLocationConfiguration: MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
+      geoLocationConfiguration: 'GeoLocationConfiguration',
     },
   };
 }
