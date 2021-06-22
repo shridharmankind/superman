@@ -100,7 +100,7 @@ export const rulesMapping = {
     key: RULE_KEY.CHEMIST_COVERED_IN_MONTH,
     showFraction: true,
   },
-  ALLAREACOVERED: {
+  AREASCOVERED: {
     title: '',
     subTitle: 'areaCovered',
     key: RULE_KEY.AREA,
@@ -108,6 +108,13 @@ export const rulesMapping = {
     showFraction: true,
   },
   ALLFREQUENCYMET: {
+    title: '',
+    subTitle: 'frequencyMet',
+    key: RULE_KEY.FREQUENCY_MET,
+    checkType: COMPARISION_TYPE.MIN,
+    showFraction: true,
+  },
+  DOCTORVISITFREQUENCY: {
     title: '',
     subTitle: 'frequencyMet',
     key: RULE_KEY.FREQUENCY_MET,
