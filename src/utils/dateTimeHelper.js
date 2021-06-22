@@ -1,10 +1,12 @@
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/en-in';
 
 dayjs.extend(localeData);
 dayjs.extend(advancedFormat);
+dayjs.extend(utc);
 
 /**
  * Utility file to handle Date/Time method
@@ -85,6 +87,17 @@ const getTimeFormatOnDevice = () => {
   }
   return timeType;
 }  
+/**
+ * @param {String} inputDate date in utc format
+ * @param {String} format expected format of date output
+ * @returns date formatted to local time
+ */
+export const returnUTCtoLocal = (inputDate, format) => {
+  const date = inputDate || dayjs.utc().format();
+  const localDate = dayjs.utc(date).local().format();
+  return getFormatDate({date: localDate, format: format || 'D MMM YYYY'});
+};
+
 /**
  * Check if a date is after a particular date or note
  *

@@ -73,10 +73,10 @@ const DoctorDetails = ({
    */
    const OnErrorHandler = () => {
     if (!isImageErrror) {
-      // const genderImage =
-      //   Constants.GENDER.MALE === gender.toUpperCase()
-      //     ? require('assets/images/male.png')
-      //     : require('assets/images/female.png');
+      const genderImage =
+        Constants.GENDER.MALE === (gender || '').toUpperCase()
+          ? require('assets/images/male.png')
+          : require('assets/images/female.png');
       const src =
         Constants.PARTY_TYPE.DOCTOR === partyType
           ? require('assets/images/male.png')

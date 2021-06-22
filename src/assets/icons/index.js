@@ -24,5 +24,6 @@ export {default as RefreshIcon} from './refresh';
 export {default as Power} from './power';
 export {default as ArrowDownRed} from './arrowDownRed';
 export {default as Complaint} from './compliant';
+export {default as LockIcon} from './lock';
 export {default as DoctorVisit} from './doctorVisit';
 export {default as MissedVisit} from './missedVisit';
