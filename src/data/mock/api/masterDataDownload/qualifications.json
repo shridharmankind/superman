@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "divisionId": 2,
+    "name": "MBBS.MS.DNB(ANES)",
+    "shortName": "Cardio"
+  },
+  {
+    "id": 3,
+    "divisionId": 2,
+    "name": "MBBS.MS(ENT)",
+    "shortName": ""
+  },
+  {
+    "id": 4,
+    "divisionId": 2,
+    "name": "MBBS.MS MCH (CARDIO)",
+    "shortName": ""
+  }
+]
