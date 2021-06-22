@@ -3,6 +3,7 @@ import {NetworkService} from 'services';
 import {fetchOpenTasksTypeName, openTaskActions} from './openTaskSlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {API_PATH} from 'screens/directory/apiPath';
+//import task from '../../../../../data/mock/api/tasks.json';
 
 // Watcher function\
 export function* fetchTaskWatcher() {
@@ -31,8 +32,8 @@ function* fetchTaskHandler(action) {
       yield put(
         openTaskActions.getMoreTasks({
           task: {
-            opentasks: response.data.openTasks,
-            count: response.data.totalCount,
+            opentasks: response.data?.openTasks || [],
+            count: response.data?.totalCount || 11,
           },
         }),
       );

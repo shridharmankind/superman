@@ -8,6 +8,9 @@ import {
 } from './eDetailingSlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {API_PATH} from 'screens/directory/apiPath';
+import EPriorityProduct from '../../../../data/mock/api/ePriorityProduct.json';
+import AllPriorityProduct from '../../../../data/mock/api/AllPriority.json';
+import EOtherPriorityProduct from '../../../../data/mock/api/eOtherProduct.json';
 
 // Watcher function for priority Product
 export function* fetchEDetailingPriorityProductWatcher() {
@@ -29,13 +32,15 @@ function* fetchEPriorityProductHandler(action) {
     if (skip === 0) {
       yield put(
         ePriorityProductActions.getDetailingPriorityProduct({
-          detailingPriorityProduct: response.data,
+          detailingPriorityProduct: EPriorityProduct,
+          //detailingPriorityProduct: response.data,
         }),
       );
     } else {
       yield put(
         ePriorityProductActions.getMoreDetailingPriorityProduct({
-          detailingPriorityProduct: response.data,
+          // detailingPriorityProduct: response.data,
+          detailingPriorityProduct: AllPriorityProduct,
         }),
       );
     }
@@ -66,13 +71,15 @@ function* fetchEOtherProductHandler(action) {
     if (skip === 0) {
       yield put(
         eOtherProductActions.getDetailingOtherProduct({
-          detailingOtherProduct: response.data,
+          //detailingOtherProduct: response.data,
+          detailingOtherProduct: EOtherPriorityProduct,
         }),
       );
     } else {
       yield put(
         eOtherProductActions.getMoreDetailingOtherProduct({
-          detailingOtherProduct: response.data,
+          // detailingOtherProduct: response.data,
+          detailingOtherProduct: EOtherPriorityProduct,
         }),
       );
     }

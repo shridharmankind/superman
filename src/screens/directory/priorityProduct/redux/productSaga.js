@@ -6,6 +6,7 @@ import {
 } from './productSlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {API_PATH} from 'screens/directory/apiPath';
+import PriorityProduct from '../../../../data/mock/api/priorityProduct.json';
 
 // Watcher function of Fetch Priority Product
 export function* fetchPriorityProductWatcher() {
@@ -23,7 +24,7 @@ function* fetchPriorityProductHandler(action) {
     );
     yield put(
       priorityProductActions.getPriorityProduct({
-        priorityProduct: response.data.priorityProduct,
+        priorityProduct: PriorityProduct.priorityProduct,
       }),
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
