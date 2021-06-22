@@ -876,7 +876,7 @@ const StandardPlanModal = ({
     } else {
       return '';
     }
-  }, [doctorsSelected, allParties, selectedDoctorType]);
+  }, [doctorsSelected, allParties, selectedDoctorType, areaSelected]);
 
   /**
    * function to close stp page
