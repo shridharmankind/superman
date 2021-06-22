@@ -73,7 +73,7 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
-  const [warningOnRules, setWarningOnRules] = useState();
+  const [warningOnRules, setWarningOnRules] = useState([]);
   const weekNum = Number(week);
   const staffPositionId = 1;
 
@@ -88,7 +88,7 @@ const StandardPlanModal = ({
 
   useEffect(() => {
     console.log('test', rulesWarning);
-    setWarningOnRules(rulesWarning);
+    setWarningOnRules([...rulesWarning]);
   }, [rulesWarning]);
 
   /**
@@ -458,6 +458,24 @@ const StandardPlanModal = ({
     ],
   );
 
+  const handleDonePressAfterToast = (
+    obj,
+    isAnyPartyExhausted,
+    isPatchOfSameDay,
+  ) => {
+    if (!patchValue) {
+      savePatch(obj);
+    } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
+      handleExhaustedParty(obj, isAnyPartyExhausted);
+    } else if (patchValue && isPatchOfSameDay && dataChanged) {
+      updatePatch(obj, patchValue.id, false);
+    } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
+      savePatch(obj);
+    } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
+      updatePatch(obj, patchValue.id, false);
+    }
+  };
+
   /** function to save the patch */
   const handleDonePress = useCallback(
     async partyIds => {
@@ -474,21 +492,36 @@ const StandardPlanModal = ({
       const isPatchOfSameDay = isSameDayPatch(patchValue);
       const isAnyPartyExhausted = checkPartyExhausted(partyIds);
 
-      console.log('done called');
+      console.log('done called', rulesWarning, warningOnRules);
 
-      if ((warningOnRules || []).length > 0) {
+      if ((rulesWarning || []).length > 0) {
+        console.log('inside if');
         // Alert.alert('hurray');
         showToast({
-          type: Constants.TOAST_TYPES.NOTIFICATION,
-          // autoHide: false,
+          type: Constants.TOAST_TYPES.WARNING,
+          autoHide: false,
           props: {
             onPress: () => {
               hideToast();
+              handleDonePressAfterToast(
+                obj,
+                isAnyPartyExhausted,
+                isPatchOfSameDay,
+              );
             },
-            onClose: () => hideToast(),
+            onClose: () => {
+              hideToast();
+              handleDonePressAfterToast(
+                obj,
+                isAnyPartyExhausted,
+                isPatchOfSameDay,
+              );
+            },
             heading: 'You are exceeding the max doctor visits',
           },
         });
+      } else {
+        handleDonePressAfterToast(obj, isAnyPartyExhausted, isPatchOfSameDay);
       }
 
       // if (!patchValue) {
@@ -504,20 +537,18 @@ const StandardPlanModal = ({
       // }
     },
     [
-      patchDefaultValue,
       patchSelected,
-      patchValue,
-      savePatch,
-      updatePatch,
-      weekDay,
+      patchDefaultValue,
+      doctorsSelected,
       weekNum,
+      weekDay,
       year,
       isSameDayPatch,
-      dataChanged,
-      isPatchedData,
-      doctorsSelected,
+      patchValue,
       checkPartyExhausted,
-      handleExhaustedParty,
+      rulesWarning,
+      warningOnRules,
+      handleDonePressAfterToast,
     ],
   );
 
