@@ -84,7 +84,6 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       );
     }
   };
-
   /**
    *
    * @param {Object} visitDays
@@ -113,7 +112,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       const {key, isDayCheck} = ruleMapping;
 
       return isDayCheck
-        ? `${selectedData[key]}/${getDayData(rule?.visitDays)}`
+        ? `${getDayData(rule?.visitDays)}/${ruleValues.totalCount}`
         : `${selectedData[key]}/${ruleValues.totalCount}`;
     }
   };
