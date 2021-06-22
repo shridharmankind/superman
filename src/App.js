@@ -15,7 +15,9 @@ import {Routes, linking, NavigationService} from 'navigations';
 import {getStore} from './store/getStore';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
+
 import {Toast} from 'components/widgets';
+import ErrorBoundary from 'screens/generic/ErrorBoundary';
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -39,30 +41,32 @@ const App = () => {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer
-          ref={NavigationService.navigationRef}
-          onReady={() => {
-            NavigationService.isReadyRef.current = true;
-          }}
-          linking={linking}>
-          <Stack.Navigator initialRouteName={initialRoute}>
-            {Routes.default.map(route => (
-              <Stack.Screen
-                key={route.name}
-                name={route.name}
-                component={route.component}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            ))}
-          </Stack.Navigator>
-        </NavigationContainer>
-        <Toast />
-      </PaperProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer
+            ref={NavigationService.navigationRef}
+            onReady={() => {
+              NavigationService.isReadyRef.current = true;
+            }}
+            linking={linking}>
+            <Stack.Navigator initialRouteName={initialRoute}>
+              {Routes.default.map(route => (
+                <Stack.Screen
+                  key={route.name}
+                  name={route.name}
+                  component={route.component}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              ))}
+            </Stack.Navigator>
+          </NavigationContainer>
+          <Toast />
+        </PaperProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 };
 

@@ -12,7 +12,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon} from 'assets';
 
-import {NavigationService, Routes} from 'navigations';
+import {Routes} from 'navigations';
 import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
 import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
@@ -41,7 +41,7 @@ const Dashboard = ({navigation}) => {
     if (itemId === LOGOUT_ITEM_ID) {
       showLogOffConfirmationDialog();
     } else {
-      route && NavigationService.navigate(route);
+      route && navigation.navigate(route);
     }
   };
 

@@ -1,5 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet, Dimensions} from 'react-native';
 import theme from 'themes';
+
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -27,9 +29,14 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 810,
-    height: '100%',
+    height: 800,
+    width: width / 2,
     justifyContent: 'flex-start',
+    ...Platform.select({
+      web: {
+        width: window.innerWidth / 2,
+      },
+    }),
   },
 
   logo: {
