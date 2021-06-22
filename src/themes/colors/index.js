@@ -61,6 +61,8 @@ const Colors = {
   green: {
     100: '#34b53a',
     200: '#01a685',
+    300: '#c8e7eb',
+    400: '#10606a',
   },
   blueShades: {100: '#32C5FF14'},
   pink: {100: '#FF71E7'},

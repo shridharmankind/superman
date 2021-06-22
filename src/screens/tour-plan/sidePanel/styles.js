@@ -3,7 +3,7 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: theme.spacing(21.3),
+    marginBottom: theme.spacing(6),
     paddingHorizontal: theme.spacing(2),
   },
 });

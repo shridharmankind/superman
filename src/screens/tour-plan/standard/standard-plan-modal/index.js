@@ -14,7 +14,11 @@ import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {PARTY_TYPE, COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
+import {
+  PARTY_TYPE,
+  STP_STATUS,
+  COMPLAINCE_TYPE,
+} from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
@@ -29,6 +33,7 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
+import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -64,8 +69,17 @@ const StandardPlanModal = ({
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
+  const [submitSTP, setSubmitSTP] = useState();
+  const [stpStatus, setStpStatus] = useState();
   const weekNum = Number(week);
   const staffPositionId = 1;
+
+  const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
+  const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+
+  useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
+  useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -127,6 +141,7 @@ const StandardPlanModal = ({
     return true;
   }, [dispatch]);
 
+  //allParties :: dr list => alreadyVisited once
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
@@ -205,13 +220,11 @@ const StandardPlanModal = ({
       if (ids?.length > 0 && allParties.length > 0) {
         let patchAreaList = [];
         (allParties || []).map(party => {
-          if (ids.some(id => id === party.id)) {
-            party.areas.map(area => {
-              if (patchAreaList.indexOf(area.id) === -1) {
-                patchAreaList.push(area.id);
-              }
-            });
-          }
+          ids.map(id => {
+            if (id.partyId === party.id) {
+              patchAreaList.push(id.areaId);
+            }
+          });
         });
         const a = allAreas?.filter(
           area => patchAreaList.indexOf(area.id) !== -1,
@@ -263,10 +276,12 @@ const StandardPlanModal = ({
       let doctorArr = doctorsSelected;
       allParties.map(party => {
         const doctorToRemove = doctorsSelected?.find(
-          obj => obj === party.id && party.areas.some(par => par.id === areaId),
+          obj => obj.partyId === party.id && obj.areaId === areaId,
         );
         if (doctorToRemove) {
-          doctorArr = doctorArr.filter(doc => doc !== doctorToRemove);
+          doctorArr = doctorArr.filter(
+            doc => doc.partyId !== doctorToRemove.partyId,
+          );
         }
       });
       setDoctorsSelected(doctorArr);
@@ -281,7 +296,8 @@ const StandardPlanModal = ({
         const partyData = partyList.find(party =>
           doctors?.some(
             obj =>
-              obj === party.id && party.areas.some(par => par.id === area.id),
+              obj.partyId === party.id &&
+              party.areas.some(par => par.id === area.id),
           ),
         );
         return partyData ? true : false;
@@ -433,7 +449,7 @@ const StandardPlanModal = ({
       const obj = {
         displayName: patchSelected,
         defaultName: patchDefaultValue,
-        partyIds: partyIds || doctorsSelected,
+        partyMapping: partyIds || doctorsSelected,
         week: weekNum,
         weekDay,
         year: year,
@@ -530,7 +546,7 @@ const StandardPlanModal = ({
               const docIds = errors.find(err => err.code === code);
               setDoctorsSelected(
                 doctorsSelected.filter(
-                  doc => docIds?.params?.partyIds.indexOf(doc) === -1,
+                  doc => docIds?.params?.partyIds.indexOf(doc.partyId) === -1,
                 ),
               );
               hideToast();
@@ -595,7 +611,7 @@ const StandardPlanModal = ({
   const handleExhaustedParty = useCallback(
     (obj, exhaustedParty) => {
       const updatedPartyList = doctorsSelected.filter(
-        id => !exhaustedParty.some(par => par.id === id),
+        party => !exhaustedParty.some(par => par.id === party.partyId),
       );
       let message = null;
       if (
@@ -721,13 +737,17 @@ const StandardPlanModal = ({
    *  Handles Card click event& accept an id of party
    * @param {Number} id party id passed as int
    */
-  const handleDoctorCardPress = id => {
-    const indexAvailable = doctorsSelected?.some(party => party === id);
+  const handleDoctorCardPress = (id, area) => {
+    const indexAvailable = doctorsSelected?.some(
+      party => party.partyId === id && party.areaId === area,
+    );
     let selected = null;
     if (indexAvailable) {
-      selected = doctorsSelected?.filter(party => party !== id);
+      selected = doctorsSelected?.filter(
+        party => !(id === party.partyId && area === party.areaId),
+      );
     } else {
-      selected = [...doctorsSelected, id];
+      selected = [...doctorsSelected, {partyId: id, areaId: area}];
     }
     setDoctorsSelected(selected);
     const string = createPatchString(
@@ -789,7 +809,11 @@ const StandardPlanModal = ({
     id => {
       let count = 0;
       getDoctorsByArea(id).map(party => {
-        if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
+        if (
+          doctorsSelected?.filter(
+            doc => doc.partyId === party.id && doc.areaId === id,
+          ).length > 0
+        ) {
           count = count + 1;
         }
       });
@@ -808,9 +832,9 @@ const StandardPlanModal = ({
   /** function to filter parties by party type eg. doctors,chemist and all*/
   const getSelectedPartyByType = useCallback(() => {
     if (patchSelected && allParties.length > 0) {
-      const obj = {doctors: 0, chemist: 0};
+      const obj = {doctor: 0, chemist: 0};
       allParties.map(party => {
-        if (doctorsSelected?.some(id => id === party.id)) {
+        if (doctorsSelected?.some(id => id.partyId === party.id)) {
           if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
             obj.doctor = obj.doctor + 1;
           } else {
@@ -886,7 +910,6 @@ const StandardPlanModal = ({
       />
     );
   }
-
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
@@ -945,7 +968,13 @@ const StandardPlanModal = ({
             mode="contained"
             title={Strings.done}
             uppercase={true}
-            disabled={!patchSelected || !dataChanged || false}
+            disabled={
+              !patchSelected ||
+              !dataChanged ||
+              submitSTP?.status === STP_STATUS.SUBMITTED ||
+              stpStatus?.status === STP_STATUS.SUBMITTED ||
+              false
+            }
             contentStyle={styles.doneBtn}
             onPress={() => handleDonePress(doctorsSelected)}
           />
@@ -1001,7 +1030,7 @@ const StandardPlanModal = ({
               </View>
               <DoctorsByArea
                 areaSelected={areaSelected}
-                doctorsByArea={getDoctorsByArea}
+                // doctorsByArea={getDoctorsByArea}
                 doctorsSelected={doctorsSelected}
                 handleDoctorCardPress={handleDoctorCardPress}
                 isPatchedData={isPatchedData}
@@ -1039,10 +1068,9 @@ const StandardPlanModal = ({
           />
           <PlanCompliance
             type={COMPLAINCE_TYPE.DAILY}
-            selectedPartyData={getSelectedPartyTypeData(
-              allParties,
-              doctorsSelected,
-            )}
+            week={week}
+            weekDay={workingDays.indexOf(weekDay) + 1}
+            selectedData={getSelectedPartyTypeData(allParties, doctorsSelected)}
           />
         </View>
       </View>

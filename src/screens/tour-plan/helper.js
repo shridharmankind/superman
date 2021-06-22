@@ -1,6 +1,9 @@
 import {getMonthList, getFormatDate} from 'utils/dateTimeHelper';
-import {PARTY_TYPE} from 'screens/tourPlan/constants';
-
+import {
+  PARTY_TYPE,
+  COMPARISION_TYPE,
+  RULE_KEY,
+} from 'screens/tourPlan/constants';
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
  * Ex: let today is May 2021. So, I will get [May 2021, June 2021, ..... February 2022, March 2022]
@@ -87,16 +90,78 @@ export const getSelectedMonthIndex = month => {
  * @param {Array} doctorsSelected  array of selected doctor id's
  * @returns obj containing count of party types
  */
-export const getSelectedPartyTypeData = (partiesList, doctorsSelected) => {
-  const obj = {doctor: 0, chemist: 0};
-  partiesList.map(party => {
-    if (doctorsSelected?.some(id => id === party.id)) {
+export const getSelectedPartyTypeData = (allParties, doctorsSelected) => {
+  const {
+    DOCTOR,
+    CHEMIST,
+    AREA,
+    FREQUENCY_MET,
+    DOCTOR_COVERED_IN_MONTH,
+    CHEMIST_COVERED_IN_MONTH,
+    DOCTOR_IN_X_DAYS,
+  } = RULE_KEY;
+  const obj = {
+    [DOCTOR]: 0,
+    [CHEMIST]: 0,
+    [AREA]: 0,
+    [FREQUENCY_MET]: 0,
+    [DOCTOR_COVERED_IN_MONTH]: 0,
+    [CHEMIST_COVERED_IN_MONTH]: 0,
+    [DOCTOR_IN_X_DAYS]: 0,
+  };
+  const uniqueAreas = [];
+  doctorsSelected.map(item => {
+    if (uniqueAreas.indexOf(item.areaId) === -1) {
+      uniqueAreas.push(item.areaId);
+    }
+  });
+  obj[AREA] = uniqueAreas.length;
+
+  allParties.map(party => {
+    // for all
+    if (party?.alreadyVisited > 0) {
+      if (party.partyTypes.name === PARTY_TYPE.CHEMIST) {
+        obj[CHEMIST_COVERED_IN_MONTH] = obj[CHEMIST_COVERED_IN_MONTH] + 1;
+      }
       if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
-        obj.doctor = obj.doctor + 1;
+        obj[DOCTOR_COVERED_IN_MONTH] = obj[DOCTOR_COVERED_IN_MONTH] + 1;
+      }
+    }
+    if (party.frequency === party.alreadyVisited) {
+      obj[FREQUENCY_MET] = obj[FREQUENCY_MET] + 1;
+    }
+    // for current selected  ==> IN A DAY
+    if (doctorsSelected?.some(id => id.partyId === party.id)) {
+      if (party.frequency === party.alreadyVisited + 1) {
+        obj[FREQUENCY_MET] = obj[FREQUENCY_MET] + 1;
+      }
+      //If party which was initially not selected then update the count
+      if (party.alreadyVisited === 0) {
+        if (party.partyTypes.name === PARTY_TYPE.CHEMIST) {
+          obj[CHEMIST_COVERED_IN_MONTH] = obj[CHEMIST_COVERED_IN_MONTH] + 1;
+        }
+        if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
+          obj[DOCTOR_COVERED_IN_MONTH] = obj[DOCTOR_COVERED_IN_MONTH] + 1;
+        }
+      }
+      //get count of selected party
+      if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
+        obj[DOCTOR] = obj[DOCTOR] + 1;
       } else {
-        obj.chemist = obj.chemist + 1;
+        obj[CHEMIST] = obj[CHEMIST] + 1;
       }
     }
   });
   return obj;
+};
+
+export const getComparisonResult = (value1, value2, checkType) => {
+  switch (checkType) {
+    case COMPARISION_TYPE.MIN:
+      return value1 >= value2;
+    case COMPARISION_TYPE.MAX:
+      return !(value1 > value2);
+    default:
+      return value1 === value2;
+  }
 };
