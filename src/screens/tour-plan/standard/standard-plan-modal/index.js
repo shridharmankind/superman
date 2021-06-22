@@ -87,6 +87,10 @@ const StandardPlanModal = ({
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
 
+  /**
+   * Show toast message to warn user that he has exceeded max doctor/chemist count
+   * once toast hides, save/update patch
+   */
   const showRulesWarning = () => {
     if ((rulesWarning || []).length > 0) {
       showToast({
