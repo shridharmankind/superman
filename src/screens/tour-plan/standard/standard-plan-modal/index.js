@@ -40,6 +40,8 @@ import {
   fetchPlanComplianceCreator,
 } from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
+import {translate} from 'locale';
+
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -94,6 +96,28 @@ const StandardPlanModal = ({
     setWarningOnRules([...rulesWarning]);
   }, [rulesWarning]);
 
+  const showRulesWarning = () => {
+    if ((rulesWarning || []).length > 0) {
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: true,
+        defaultVisibilityTime: 1000,
+        props: {
+          onClose: () => {
+            hideToast();
+            handleDonePress(doctorsSelected);
+          },
+          heading: translate('errorMessage.partiesExceedingMaxLimit'),
+        },
+        onHide: () => {
+          handleDonePress(doctorsSelected);
+        },
+      });
+    } else {
+      handleDonePress(doctorsSelected);
+    }
+  };
+
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -109,7 +133,7 @@ const StandardPlanModal = ({
         stpStatus?.status !== STP_STATUS.SUBMITTED
       ) {
         setSwipeDirection(direction);
-        handleDonePress(doctorsSelected);
+        showRulesWarning();
       } else {
         resetandChangePage(direction, dataChanged);
       }
@@ -118,10 +142,10 @@ const StandardPlanModal = ({
       patchSelected,
       dataChanged,
       savePatchRes,
-      doctorsSelected,
+      doctorsSelected.length,
       submitSTP?.status,
       stpStatus?.status,
-      handleDonePress,
+      showRulesWarning,
       resetandChangePage,
     ],
   );
@@ -1005,29 +1029,7 @@ const StandardPlanModal = ({
               false
             }
             contentStyle={styles.doneBtn}
-            onPress={() => {
-              if ((rulesWarning || []).length > 0) {
-                console.log('inside if');
-                // Alert.alert('hurray');
-                showToast({
-                  type: Constants.TOAST_TYPES.WARNING,
-                  autoHide: false,
-                  props: {
-                    onPress: () => {
-                      hideToast();
-                      handleDonePress(doctorsSelected);
-                    },
-                    onClose: () => {
-                      hideToast();
-                      handleDonePress(doctorsSelected);
-                    },
-                    heading: 'You are exceeding the max doctor visits',
-                  },
-                });
-              } else {
-                handleDonePress(doctorsSelected);
-              }
-            }}
+            onPress={() => showRulesWarning()}
           />
           <Button
             mode="outlined"

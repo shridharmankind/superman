@@ -18,7 +18,8 @@
   "on": "On",
   "timeline": "Timeline",
   "errorMessage": {
-    "noRecords": "There are no records"
+    "noRecords": "There are no records",
+    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits"
   },
 
   "dr": "Doctor",
