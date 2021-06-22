@@ -16,6 +16,7 @@ import {
   Organizations,
   Schemas,
   Divisions,
+  Weeklyoff,
   Qualifications,
   Specialities,
 } from 'database';
@@ -116,6 +117,9 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_TABLE_USER_INFO:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_WEEKLYOFF:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_PARTY:
               {
                 const staffPositionId = await Helper.getStaffPositionId();
@@ -165,6 +169,9 @@ const MasterDataDownload = ({navigation}) => {
 
               case DBConstants.MASTER_TABLE_ORGANIZATION:
                 await Organizations.storeOrganizations(JSON.parse(data));
+                break;
+              case DBConstants.MASTER_TABLE_WEEKLYOFF:
+                await Weeklyoff.storeWeeklyoffs(JSON.parse(data));
                 break;
             }
 
