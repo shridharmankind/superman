@@ -14,7 +14,11 @@ import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {PARTY_TYPE, STP_STATUS, COMPLAINCE_TYPE} from 'screens/tourPlan/constants';
+import {
+  PARTY_TYPE,
+  STP_STATUS,
+  COMPLAINCE_TYPE,
+} from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
@@ -830,7 +834,7 @@ const StandardPlanModal = ({
     if (patchSelected && allParties.length > 0) {
       const obj = {doctor: 0, chemist: 0};
       allParties.map(party => {
-        if (doctorsSelected?.some(id => id === party.id)) {
+        if (doctorsSelected?.some(id => id.partyId === party.id)) {
           if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
             obj.doctor = obj.doctor + 1;
           } else {

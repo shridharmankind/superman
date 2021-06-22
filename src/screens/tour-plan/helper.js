@@ -127,7 +127,7 @@ export const getSelectedPartyTypeData = (
       obj[FREQUENCY_MET] = obj[FREQUENCY_MET] + 1;
     }
     // for current selected  ==> IN A DAY
-    if (doctorsSelected?.some(id => id === party.id)) {
+    if (doctorsSelected?.some(id => id.partyId === party.id)) {
       if (party.frequency === party.alreadyVisited + 1) {
         obj[FREQUENCY_MET] = obj[FREQUENCY_MET] + 1;
       }
