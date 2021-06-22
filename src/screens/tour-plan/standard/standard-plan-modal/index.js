@@ -459,6 +459,20 @@ const StandardPlanModal = ({
       const isPatchOfSameDay = isSameDayPatch(patchValue);
       const isAnyPartyExhausted = checkPartyExhausted(partyIds);
 
+      console.log('done called');
+
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        // autoHide: false,
+        props: {
+          onPress: () => {
+            hideToast();
+          },
+          onClose: () => hideToast(),
+          heading: 'You are exceeding the max doctor visits',
+        },
+      });
+
       if (!patchValue) {
         savePatch(obj);
       } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {

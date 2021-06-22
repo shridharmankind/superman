@@ -85,7 +85,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
         checkType,
       );
       if (showWarningMessage && checkType && type === COMPLAINCE_TYPE.DAILY) {
-        if (isCompliant) {
+        if (!isCompliant) {
           dispatch(
             planComplianceActions.collectWarningOnRules({
               rule: ruleMapping,
@@ -100,7 +100,6 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
             }),
           );
         }
-        console.log('test', isCompliant);
       }
       return renderIcon(isCompliant);
     }

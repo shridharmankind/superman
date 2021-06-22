@@ -30,14 +30,13 @@ export const planComplianceSlice = createSlice({
     collectWarningOnRules: (state, action) => {
       const {rule, operation} = action.payload;
 
-      const findRule = state.rules.warningOnRules.find(r => {
-        console.log(rule, r);
+      const findRule = state.rules.warningOnRules.findIndex(r => {
         return rule.subTitle === r.subTitle;
       });
-      if (operation === 'push' && !findRule) {
+      if (operation === 'push' && findRule === -1) {
         state.rules.warningOnRules.push(rule);
-      } else {
-        console.log(findRule);
+      } else if (operation === 'pop' && findRule >= 0) {
+        state.rules.warningOnRules.splice(findRule, 1);
       }
       // state.rules.warningOnRules.push(action.payload);
       console.log(
