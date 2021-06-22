@@ -261,52 +261,15 @@ const EDetailing = ({navigation}) => {
 
   return (
     <ContentWithSidePanel header={renderHeader({navigation})}>
-      {priorityProductList?.length && (
-        <View style={[styles.eDetailingPriorityProducts]}>
-          <Label
-            testID="eDetail-priority-products"
-            variant={LabelVariant.subtitleLarge}
-            title={Strings.priorityProducts}
-          />
-          <View style={[styles.eDetailingPriorityProductsList]}>
-            <View style={[styles.arrowContainer, styles.leftArrow]}>
-              <TouchableOpacity onPress={() => handleAreaLeftArrow()}>
-                <View style={[styles.swiperArrow]}>
-                  {renderArrow('chevron-left')}
-                </View>
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              horizontal
-              ref={swiperRef}
-              data={priorityProductList}
-              showsHorizontalScrollIndicator={true}
-              onEndReached={hideScrollArrow}
-              onEndReachedThreshold={0.5}
-              renderItem={({item, index}) => {
-                return renderSwape(item, index);
-              }}
-              contentContainerStyle={[styles.priorityProducts]}
-            />
-            <View style={[styles.arrowContainer, styles.rightArrow]}>
-              <TouchableOpacity onPress={() => handleAreaRightArrow()}>
-                <View style={[styles.swiperArrow]}>
-                  {renderArrow('chevron-right')}
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      )}
-      {otherProductList?.length && [
+      <View style={[styles.eDetailingPriorityProducts]}>
         <Label
-          testID="eDetail-priority-other-products"
+          testID="eDetail-priority-products"
           variant={LabelVariant.subtitleLarge}
-          title={Strings.otherProducts}
-        />,
+          title={Strings.priorityProducts}
+        />
         <View style={[styles.eDetailingPriorityProductsList]}>
           <View style={[styles.arrowContainer, styles.leftArrow]}>
-            <TouchableOpacity onPress={() => handleOtherAreaLeftArrow()}>
+            <TouchableOpacity onPress={() => handleAreaLeftArrow()}>
               <View style={[styles.swiperArrow]}>
                 {renderArrow('chevron-left')}
               </View>
@@ -314,25 +277,58 @@ const EDetailing = ({navigation}) => {
           </View>
           <FlatList
             horizontal
-            ref={swiperOtherRef}
-            data={otherProductList}
+            ref={swiperRef}
+            data={priorityProductList}
             showsHorizontalScrollIndicator={true}
-            onEndReached={hideOtherScrollArrow}
+            onEndReached={hideScrollArrow}
             onEndReachedThreshold={0.5}
             renderItem={({item, index}) => {
-              return renderOtherSwape(item, index);
+              return renderSwape(item, index);
             }}
             contentContainerStyle={[styles.priorityProducts]}
           />
           <View style={[styles.arrowContainer, styles.rightArrow]}>
-            <TouchableOpacity onPress={() => handleOtherAreaRightArrow()}>
+            <TouchableOpacity onPress={() => handleAreaRightArrow()}>
               <View style={[styles.swiperArrow]}>
                 {renderArrow('chevron-right')}
               </View>
             </TouchableOpacity>
           </View>
-        </View>,
-      ]}
+        </View>
+      </View>
+      <Label
+        testID="eDetail-priority-other-products"
+        variant={LabelVariant.subtitleLarge}
+        title={Strings.otherProducts}
+      />
+      <View style={[styles.eDetailingPriorityProductsList]}>
+        <View style={[styles.arrowContainer, styles.leftArrow]}>
+          <TouchableOpacity onPress={() => handleOtherAreaLeftArrow()}>
+            <View style={[styles.swiperArrow]}>
+              {renderArrow('chevron-left')}
+            </View>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          horizontal
+          ref={swiperOtherRef}
+          data={otherProductList}
+          showsHorizontalScrollIndicator={true}
+          onEndReached={hideOtherScrollArrow}
+          onEndReachedThreshold={0.5}
+          renderItem={({item, index}) => {
+            return renderOtherSwape(item, index);
+          }}
+          contentContainerStyle={[styles.priorityProducts]}
+        />
+        <View style={[styles.arrowContainer, styles.rightArrow]}>
+          <TouchableOpacity onPress={() => handleOtherAreaRightArrow()}>
+            <View style={[styles.swiperArrow]}>
+              {renderArrow('chevron-right')}
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
       {renderModal()}
     </ContentWithSidePanel>
   );
