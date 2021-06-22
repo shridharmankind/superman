@@ -28,7 +28,18 @@ export const planComplianceSlice = createSlice({
   reducers: {
     getComplainceRules: (state, action) => merge(state, action.payload),
     collectWarningOnRules: (state, action) => {
-      state.rules.warningOnRules.push(action.payload);
+      const {rule, operation} = action.payload;
+
+      const findRule = state.rules.warningOnRules.find(r => {
+        console.log(rule, r);
+        return rule.subTitle === r.subTitle;
+      });
+      if (operation === 'push' && !findRule) {
+        state.rules.warningOnRules.push(rule);
+      } else {
+        console.log(findRule);
+      }
+      // state.rules.warningOnRules.push(action.payload);
       console.log(
         'action',
         action.payload,
@@ -36,6 +47,7 @@ export const planComplianceSlice = createSlice({
       );
 
       return state;
+    
     },
   },
 });

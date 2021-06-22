@@ -79,21 +79,30 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     }
 
     if (checkType && type === COMPLAINCE_TYPE.DAILY) {
-      const comparisonResult = getComparisonResult(
+      const isCompliant = getComparisonResult(
         selectedData[key],
         rule?.ruleValues?.totalCount,
         checkType,
       );
-      if (
-        showWarningMessage &&
-        !comparisonResult &&
-        checkType &&
-        type === COMPLAINCE_TYPE.DAILY
-      ) {
-        console.log('test', comparisonResult, ruleMapping);
-        dispatch(planComplianceActions.collectWarningOnRules(ruleMapping));
+      if (showWarningMessage && checkType && type === COMPLAINCE_TYPE.DAILY) {
+        if (isCompliant) {
+          dispatch(
+            planComplianceActions.collectWarningOnRules({
+              rule: ruleMapping,
+              operation: 'push',
+            }),
+          );
+        } else {
+          dispatch(
+            planComplianceActions.collectWarningOnRules({
+              rule: ruleMapping,
+              operation: 'pop',
+            }),
+          );
+        }
+        console.log('test', isCompliant);
       }
-      return renderIcon(comparisonResult);
+      return renderIcon(isCompliant);
     }
   };
 
