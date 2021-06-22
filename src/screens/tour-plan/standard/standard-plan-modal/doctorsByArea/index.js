@@ -17,10 +17,9 @@ const DoctorsByArea = ({
 }) => {
   const isDoctorSelected = useCallback(
     (partyId, area) => {
-      const a = (doctorsSelected || []).some(
+      return (doctorsSelected || []).some(
         party => party.partyId === partyId && party.areaId === area,
       );
-      return a;
     },
     [doctorsSelected],
   );

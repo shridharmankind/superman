@@ -210,10 +210,6 @@ const StandardPlanModal = ({
               patchAreaList.push(id.areaId);
             }
           });
-          // party.areas.map(area => {
-          //   if (patchAreaList.indexOf(area.id) === -1) {
-          //   }
-          // });
         });
         const a = allAreas?.filter(
           area => patchAreaList.indexOf(area.id) !== -1,
