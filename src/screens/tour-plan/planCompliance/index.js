@@ -145,20 +145,24 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     });
   };
 
-  if (!complianceData) {
+  if (!complianceData || !Object.values(complianceData)?.length) {
     return null;
   }
+  const compliancePercentage = complianceData?.totalPercent;
   return (
     <View style={styles.container}>
       <View
         style={[
           styles.progressContainer,
-          complianceData?.totalPercent === 100
+          compliancePercentage === 100
             ? styles.completedComplaince
             : styles.inProgressComplaince,
         ]}>
         <Label variant={LabelVariant.h1} style={styles.percentage}>
-          {complianceData?.totalPercent?.toFixed(2)} %
+          {Number.isInteger(compliancePercentage)
+            ? compliancePercentage
+            : compliancePercentage?.toFixed(2)}{' '}
+          %
         </Label>
         <ProgressBar
           progress={complianceData?.totalPercent / 100}
