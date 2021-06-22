@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
 
   image: {
     height: 800,
-    width: width / 2,
+    width: 0.64 * width,
+    resizeMode: 'contain',
     justifyContent: 'flex-start',
     ...Platform.select({
       web: {
@@ -46,21 +47,13 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
   loginViewContainer: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 60,
-  },
-
-  supermanTextStyle: {
-    justifyContent: 'center',
-    flex: 1,
   },
   loginButtonContainer: {
     position: 'absolute',
-    bottom: 40,
-  },
-  loginButtonContainerWeb: {
     bottom: 40,
   },
 });

@@ -67,14 +67,12 @@ const Login = ({navigation}) => {
       </ImageBackground>
 
       <View style={styles.loginViewContainer}>
-        <View style={styles.supermanTextStyle}>
-          <Label
-            title={Strings.superman}
-            size={105}
-            textColor={theme.colors.primary}
-            type="semiBold"
-          />
-        </View>
+        <Label
+          title={Strings.superman}
+          size={80}
+          textColor={theme.colors.primary}
+          type="semiBold"
+        />
 
         <View style={styles.loginButtonContainer}>
           <Button
