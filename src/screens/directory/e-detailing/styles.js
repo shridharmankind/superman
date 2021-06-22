@@ -106,6 +106,37 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     padding: 0,
   },
+  modalTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: theme.spacing(20),
+  },
+  centerModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalTitleDone: {
+    position: 'absolute',
+    right: -80,
+  },
+  subBrandList: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  subProduct: {
+    marginRight: theme.spacing(13.3),
+    marginBottom: theme.spacing(13.3),
+  },
+  modalTitleBack: {
+    marginLeft: theme.spacing(10.7),
+  },
+  modalPosition: {
+    width: '80%',
+    left: '4%',
+  },
 });
 
 export default styles;

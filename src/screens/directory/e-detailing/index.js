@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Label} from 'components/elements';
 import {ContentWithSidePanel} from 'components/layouts';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Button, LabelVariant} from 'components/elements';
+import {Button, LabelVariant, Modal} from 'components/elements';
 import styles from './styles';
 import {TouchableOpacity, View, FlatList} from 'react-native';
 import {Strings} from 'common';
@@ -65,6 +65,8 @@ const EDetailing = ({navigation}) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [skip, setSkip] = useState(0);
   const swiperRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null);
 
   useEffect(() => {
     dispatch(
@@ -102,6 +104,10 @@ const EDetailing = ({navigation}) => {
           title={item.name}
           isChecked={!!item.isFeatured}
           tags={[`P${item.priority}`]}
+          onProductClick={() => {
+            setCurrentProduct(item);
+            setShowModal(true);
+          }}
         />
       </View>
     );
@@ -130,6 +136,70 @@ const EDetailing = ({navigation}) => {
   const renderArrow = icon => (
     <Icon name={icon} size={10} color={theme.colors.blue} />
   );
+
+  const getModalContent = () => {
+    return (
+      <View style={[styles.subBrandList]}>
+        {currentProduct?.subBrandList.map(item => (
+          <Product
+            title={item.name}
+            isChecked={!!item.isFeatured}
+            style={styles.subProduct}
+          />
+        ))}
+      </View>
+    );
+  };
+
+  const getModalTitle = () => {
+    return (
+      <View style={styles.modalTitle}>
+        {isWeb() ? null : (
+          <TouchableOpacity
+            testID="eDetail-modal-back"
+            onPress={() => {
+              setShowModal(false);
+              setCurrentProduct(null);
+            }}
+            style={[styles.modalTitleBack]}>
+            <ArrowBack width={24} height={24} />
+          </TouchableOpacity>
+        )}
+        <Label
+          testID="eDetail-modal-title"
+          variant={LabelVariant.h2}
+          title="Select Sub-brands"
+        />
+        <View style={[styles.modalTitleDone]}>
+          <Button
+            testID="eDetail-done"
+            title="Done"
+            mode="contained"
+            contentStyle={styles.eDetailingStartContent}
+            labelStyle={styles.eDetailingStartText}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  const renderModal = () => {
+    return (
+      <Modal
+        animationType="fade"
+        open={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setCurrentProduct(null);
+        }}
+        modalTitle={getModalTitle()}
+        modalContent={getModalContent()}
+        presentationStyle="fullScreen"
+        customModalPosition={styles.modalPosition}
+        customModalCenteredView={styles.centerModal}
+      />
+    );
+  };
 
   return (
     <ContentWithSidePanel header={renderHeader({navigation})}>
@@ -180,6 +250,7 @@ const EDetailing = ({navigation}) => {
         imageStyle={styles.otherProductImage}
         productTitleStyle={styles.otherProductTitle}
       />
+      {renderModal()}
     </ContentWithSidePanel>
   );
 };
