@@ -31,12 +31,10 @@ const Product = props => {
             />
           </View>
         )}
-        <TouchableOpacity onPress={props.onImageClick}>
-          <Image
-            style={[styles.productImage, props.imageStyle]}
-            source={props.imageSource}
-          />
-        </TouchableOpacity>
+        <Image
+          style={[styles.productImage, props.imageStyle]}
+          source={props.imageSource}
+        />
         <View style={[styles.productTitleWrapper]}>
           <Label
             style={[styles.productTitle, props.productTitleStyle]}
