@@ -120,7 +120,7 @@ const Strings = {
     dcr: {
       what: 'What',
       kindOfVisit: 'kind of visit',
-      wasIt: 'was it ?',
+      wasIt: 'was it?',
       regVisit: 'Regular Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',

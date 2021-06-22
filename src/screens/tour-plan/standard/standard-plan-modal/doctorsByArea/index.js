@@ -120,7 +120,7 @@ const DoctorsByArea = ({
    */
   const isPartyInPatch = useCallback(
     id => {
-      return allPartiesByPatchID?.indexOf(id) !== -1;
+      return allPartiesByPatchID?.some(party => party.partyId === id);
     },
     [allPartiesByPatchID],
   );
