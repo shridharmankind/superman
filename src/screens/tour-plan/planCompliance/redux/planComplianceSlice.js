@@ -38,15 +38,7 @@ export const planComplianceSlice = createSlice({
       } else if (operation === 'pop' && findRule >= 0) {
         state.rules.warningOnRules.splice(findRule, 1);
       }
-      // state.rules.warningOnRules.push(action.payload);
-      console.log(
-        'action',
-        action.payload,
-        JSON.stringify(state.rules.warningOnRules),
-      );
-
       return state;
-    
     },
   },
 });

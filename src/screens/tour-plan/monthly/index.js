@@ -477,7 +477,7 @@ const MonthlyTourPlan = ({navigation}) => {
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          disabled={compliancePercentage !== 100}
+          // disabled={compliancePercentage !== 100}
           onPress={submitSTPHandler}
         />
       </View>

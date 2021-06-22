@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -34,6 +35,7 @@ import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
 import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
+import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -71,14 +73,23 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
+  const [warningOnRules, setWarningOnRules] = useState();
   const weekNum = Number(week);
-  const staffPositionId = 2;
+  const staffPositionId = 1;
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
 
+  // selected plan option
+  const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
+
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+
+  useEffect(() => {
+    console.log('test', rulesWarning);
+    setWarningOnRules(rulesWarning);
+  }, [rulesWarning]);
 
   /**
    * callback function to return direction left/right of day swiper
@@ -90,7 +101,9 @@ const StandardPlanModal = ({
         patchSelected &&
         dataChanged &&
         !savePatchRes &&
-        doctorsSelected.length > 0
+        doctorsSelected.length > 0 &&
+        submitSTP?.status !== STP_STATUS.SUBMITTED &&
+        stpStatus?.status !== STP_STATUS.SUBMITTED
       ) {
         setSwipeDirection(direction);
         handleDonePress(doctorsSelected);
@@ -99,12 +112,14 @@ const StandardPlanModal = ({
       }
     },
     [
-      handleDonePress,
       patchSelected,
       dataChanged,
-      resetandChangePage,
       savePatchRes,
       doctorsSelected,
+      submitSTP?.status,
+      stpStatus?.status,
+      handleDonePress,
+      resetandChangePage,
     ],
   );
 
@@ -461,29 +476,32 @@ const StandardPlanModal = ({
 
       console.log('done called');
 
-      showToast({
-        type: Constants.TOAST_TYPES.WARNING,
-        // autoHide: false,
-        props: {
-          onPress: () => {
-            hideToast();
+      if ((warningOnRules || []).length > 0) {
+        // Alert.alert('hurray');
+        showToast({
+          type: Constants.TOAST_TYPES.NOTIFICATION,
+          // autoHide: false,
+          props: {
+            onPress: () => {
+              hideToast();
+            },
+            onClose: () => hideToast(),
+            heading: 'You are exceeding the max doctor visits',
           },
-          onClose: () => hideToast(),
-          heading: 'You are exceeding the max doctor visits',
-        },
-      });
-
-      if (!patchValue) {
-        savePatch(obj);
-      } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
-        handleExhaustedParty(obj, isAnyPartyExhausted);
-      } else if (patchValue && isPatchOfSameDay && dataChanged) {
-        updatePatch(obj, patchValue.id, false);
-      } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
-        savePatch(obj);
-      } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
-        updatePatch(obj, patchValue.id, false);
+        });
       }
+
+      // if (!patchValue) {
+      //   savePatch(obj);
+      // } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
+      //   handleExhaustedParty(obj, isAnyPartyExhausted);
+      // } else if (patchValue && isPatchOfSameDay && dataChanged) {
+      //   updatePatch(obj, patchValue.id, false);
+      // } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
+      //   savePatch(obj);
+      // } else if (patchValue && !isPatchOfSameDay && isPatchedData) {
+      //   updatePatch(obj, patchValue.id, false);
+      // }
     },
     [
       patchDefaultValue,
@@ -985,8 +1003,8 @@ const StandardPlanModal = ({
             disabled={
               !patchSelected ||
               !dataChanged ||
-              submitSTP?.status === STP_STATUS.SUBMITTED ||
-              stpStatus?.status === STP_STATUS.SUBMITTED ||
+              // submitSTP?.status === STP_STATUS.SUBMITTED ||
+              // stpStatus?.status === STP_STATUS.SUBMITTED ||
               false
             }
             contentStyle={styles.doneBtn}
