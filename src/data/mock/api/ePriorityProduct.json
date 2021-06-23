@@ -63,7 +63,7 @@
     "isFeatured": 1,
     "isFocused": 0,
     "isPowered": 0,
-    "priority": 1,
+    "priority": null,
     "isSelected": 0,
     "thumbnailUrl": "",
     "fileUrl": "",

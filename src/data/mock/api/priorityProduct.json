@@ -16,7 +16,7 @@
     {
       "productId": 2,
       "name": "Amlokind - L",
-      "lastDetailed": "2021-05-19T18:25:11",
+      "lastDetailed": "2021-05-20T18:25:11",
       "isfocused": false,
       "ispowered": true,
       "ourratio": 50,
@@ -29,7 +29,7 @@
     {
       "productId": 3,
       "name": "Neurokind - G",
-      "lastDetailed": "2021-05-19T18:25:11",
+      "lastDetailed": "2021-05-20T18:25:11",
       "isfocused": false,
       "ispowered": false,
       "ourratio": 40,
@@ -58,7 +58,7 @@
       "lastDetailed": "2021-05-19T18:25:11",
       "isfocused": false,
       "ispowered": false,
-      "ourratio": null,
+      "ourratio": 30,
       "totalRatio": 100,
       "priority": "p3",
       "gx": 40,
