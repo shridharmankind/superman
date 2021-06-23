@@ -43,7 +43,8 @@ const DoctorDetailsWrapper = ({
   const {frequency, alreadyVisited} = party;
   const [count, setCount] = useState();
   const isDisabled =
-    !isSameDayPatch && frequency === alreadyVisited && isPartyInPatch;
+    (!isSameDayPatch && frequency === alreadyVisited && isPartyInPatch) ||
+    (!isPartyInPatch && frequency <= alreadyVisited);
   const showTicked =
     (selected && frequency > alreadyVisited) ||
     (isSameDayPatch && selected && frequency <= alreadyVisited);

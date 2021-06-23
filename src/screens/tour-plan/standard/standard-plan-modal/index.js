@@ -292,8 +292,8 @@ const StandardPlanModal = ({
       const areaData = (allAreas || []).map(area => {
         return {
           ...area,
-          totalPartiesInArea: getDoctorsByArea(area.id).length,
-          totalUniqueParty: doctorsSelected && getSelectedPartyByArea(area.id),
+          totalPartiesInArea: getDoctorsByArea(area.id, false).length,
+          totalUniqueParty: doctorsSelected && getAreaCountOnFrequecy(area.id),
         };
       });
       return areaData;
@@ -302,9 +302,28 @@ const StandardPlanModal = ({
     getDoctorsByArea,
     allAreas,
     allParties,
-    getSelectedPartyByArea,
+    getAreaCountOnFrequecy,
     doctorsSelected,
   ]);
+
+  /**method to get doctor visited in area
+   * @param {String} id area id passed
+   * @return {String} count of doctor visited
+   */
+  const getAreaCountOnFrequecy = useCallback(
+    id => {
+      let count = 0;
+      allParties?.map(party => {
+        party.areas.map(area => {
+          if (area.id === id && party.alreadyVisited > 0) {
+            count = count + 1;
+          }
+        });
+      });
+      return count;
+    },
+    [allParties],
+  );
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
@@ -358,7 +377,7 @@ const StandardPlanModal = ({
    * @param {Number} area area id passed as number
    */
   const getDoctorsByArea = useCallback(
-    area => {
+    (area, totalCount) => {
       if (allParties.length > 0) {
         const partiesData = allParties.filter(party => {
           const isArea = party.areas.find(obj => {
@@ -373,7 +392,7 @@ const StandardPlanModal = ({
           }
         });
         let newPartiesData = partiesData;
-        if (!isSameDayPatch(patchValue)) {
+        if (totalCount && !isSameDayPatch(patchValue)) {
           newPartiesData = partiesData?.filter(
             par => par.frequency !== par.alreadyVisited,
           );
@@ -839,7 +858,7 @@ const StandardPlanModal = ({
   const getSelectedPartyByArea = useCallback(
     id => {
       let count = 0;
-      getDoctorsByArea(id).map(party => {
+      getDoctorsByArea(id, true).map(party => {
         if (
           doctorsSelected?.filter(
             doc => doc.partyId === party.id && doc.areaId === id,
@@ -947,7 +966,7 @@ const StandardPlanModal = ({
     return allParties.filter(party => {
       return ids?.some(
         par =>
-          par.partyId === party.id && party.frequency === party.alreadyVisited,
+          par.partyId === party.id && party.frequency <= party.alreadyVisited,
       );
     });
   };
