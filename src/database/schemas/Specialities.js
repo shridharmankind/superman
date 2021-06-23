@@ -6,9 +6,12 @@ export default class SpecialitiesSchema {
     primaryKey: 'id',
     properties: {
       id: 'int',
+      specialisationId: 'int',
       name: 'string?',
       shortName: 'string?',
       divisionId: 'int?',
+      isActive: 'bool?',
+      isDeleted: 'bool?',
     },
   };
 }
