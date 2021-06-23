@@ -46,11 +46,3 @@ export const GENDER = {
 
 export const revokeUrl =
   'https://mankindpharma-sandbox.onelogin.com/oidc/2/logout?post_logout_redirect_uri=com.superman://callback&id_token_hint=';
-
-export const authentication = {
-  LOGIN: 'Login',
-  RESTORE_TOKEN: 'RESTORE_TOKEN',
-  SIGN_IN: 'SIGN_IN',
-  SIGN_OUT: 'SIGN_OUT',
-  REMOVE_TOKEN: 'REMOVE_TOKEN',
-};

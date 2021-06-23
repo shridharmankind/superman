@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {Alert, LogBox} from 'react-native';
+import {LogBox} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -19,8 +19,11 @@ import {isWeb, KeyChain} from 'helper';
 import {setI18nConfig} from './locale';
 import {Toast} from 'components/widgets';
 import {isAccessTokenValid, revokeLogin} from './utils/util';
-import {Constants} from 'common';
 import {Helper} from 'database';
+import {
+  loginHandlerReducer,
+  authenticationConstants,
+} from './utils/loginHandler/loginHandle.reducer';
 
 const Stack = createStackNavigator();
 const store = getStore();
@@ -28,7 +31,10 @@ const store = getStore();
 export const AuthContext = React.createContext();
 const App = () => {
   const [isLoggedIn, setLoggedIn] = React.useState(true);
-  const {authentication} = Constants;
+  const [state, dispatch] = React.useReducer(loginHandlerReducer, {
+    userToken: null,
+    screen: ROUTE_LOGIN,
+  });
   LogBox.ignoreAllLogs();
   setI18nConfig();
   React.useEffect(() => {
@@ -41,41 +47,8 @@ const App = () => {
     }
   }, []);
 
-  const [state, dispatch] = React.useReducer(
-    (prevState, action) => {
-      switch (action.type) {
-        case authentication.RESTORE_TOKEN:
-          return {
-            ...prevState,
-            userToken: action.token,
-            screen: action.screen,
-          };
-        case authentication.SIGN_IN:
-          return {
-            ...prevState,
-            userToken: action.token,
-            screen: action.screen,
-          };
-        case authentication.SIGN_OUT:
-          return {
-            ...prevState,
-            screen: ROUTE_LOGIN,
-          };
-        case authentication.REMOVE_TOKEN:
-          return {
-            ...prevState,
-            userToken: null,
-          };
-      }
-    },
-    {
-      userToken: null,
-      screen: ROUTE_LOGIN,
-    },
-  );
-
   React.useEffect(() => {
-    updateTokenAndScreen(Constants.authentication.RESTORE_TOKEN);
+    updateTokenAndScreen(authenticationConstants.RESTORE_TOKEN);
   }, []);
 
   React.useEffect(() => {
@@ -83,10 +56,10 @@ const App = () => {
       try {
         const userToken = await KeyChain.getAccessToken();
         if (userToken && (await revokeLogin(userToken))) {
-          dispatch({type: Constants.authentication.REMOVE_TOKEN});
+          dispatch({type: authenticationConstants.REMOVE_TOKEN});
         }
       } catch (error) {
-        Alert.alert(error.message);
+        console.log('revoke failed');
       }
     };
     if (!isLoggedIn) {
@@ -106,7 +79,7 @@ const App = () => {
         });
       }
     } catch (error) {
-      Alert.alert(error.message);
+      console.log('retrieve failed');
     }
   };
 
@@ -114,11 +87,11 @@ const App = () => {
     () => ({
       signIn: async data => {
         setLoggedIn(true);
-        updateTokenAndScreen(Constants.authentication.SIGN_IN);
+        updateTokenAndScreen(authenticationConstants.SIGN_IN);
       },
       signOut: () => {
         setLoggedIn(false);
-        dispatch({type: Constants.authentication.SIGN_OUT});
+        dispatch({type: authenticationConstants.SIGN_OUT});
       },
     }),
     [],
@@ -132,7 +105,7 @@ const App = () => {
             <Stack.Navigator initialRouteName={state.screen}>
               {!state.userToken ? (
                 <Stack.Screen
-                  name={authentication.LOGIN}
+                  name={authenticationConstants.LOGIN}
                   component={Login}
                   options={{
                     headerShown: false,
