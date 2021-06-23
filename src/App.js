@@ -23,7 +23,7 @@ import {Helper} from 'database';
 import {
   loginHandlerReducer,
   authenticationConstants,
-} from './utils/loginHandler/loginHandle.reducer';
+} from './utils/loginHandler/loginHandler.reducer';
 
 const Stack = createStackNavigator();
 const store = getStore();
