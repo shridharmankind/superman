@@ -7,14 +7,14 @@ const LocalAuth = ({navigation}) => {
   const [loginfail, setLoginFail] = useState(false);
   useEffect(() => {
     const fn = () => {
-      LocalAuthentication.authenticateAsync().then(response3 => {
-        console.log(response3);
-        if (response3.success) {
+      LocalAuthentication.authenticateAsync().then(response => {
+        console.log(response, 'response');
+        if (response.success) {
           AsyncStorage.setItem('isLoggedIn', 'true');
           navigation.replace('Login');
         } else {
           AsyncStorage.removeItem('isLoggedIn');
-          if (response3.error === 'user_cancel') {
+          if (response.error === 'user_cancel') {
             return BackHandler.exitApp();
           }
           setLoginFail(!loginfail);
