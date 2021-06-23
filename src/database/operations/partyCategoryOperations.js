@@ -7,13 +7,7 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         categories.forEach(category => {
-          const {id, name, divisionId, shortName, startAmount, endAmount} =
-            category;
-          dbInstance.create(
-            PartyCategorySchemaName,
-            {id, name, divisionId, shortName, startAmount, endAmount},
-            'modified',
-          );
+          dbInstance.create(PartyCategorySchemaName, category, 'modified');
         });
       });
     } catch (err) {
