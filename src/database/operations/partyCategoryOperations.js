@@ -25,6 +25,6 @@ export default dbInstance => ({
   },
   getPartyCategoryById: async categoryId => {
     const categories = await getAllTableRecords(PartyCategorySchemaName);
-    return await categories.filtered(`categoryId = ${categoryId}`);
+    return categories.filtered(`categoryId = ${categoryId}`);
   },
 });
