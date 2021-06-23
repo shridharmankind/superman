@@ -78,7 +78,7 @@ const StandardPlanModal = ({
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
   const weekNum = Number(week);
-  const staffPositionId = 1;
+  const staffPositionId = 2;
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());

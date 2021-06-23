@@ -94,7 +94,7 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
-        staffPositionid: 1,
+        staffPositionid: 2,
       }),
     );
   }, [dispatch]);
@@ -102,7 +102,7 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(
       fetchSTPStatusCreator({
-        staffPositionId: 1,
+        staffPositionId: 2,
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
     );
@@ -491,7 +491,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({
-        staffPositionId: 1,
+        staffPositionId: 2,
       }),
     );
   };
