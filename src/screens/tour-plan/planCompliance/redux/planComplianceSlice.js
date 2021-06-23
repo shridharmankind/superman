@@ -1,13 +1,16 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
 import merge from 'lodash.merge';
+import {ARRAY_OPERATION} from 'screens/tourPlan/constants';
 
 /**
  * Initial state of plan compliance
  */
 export const planComplianceState = {
   rules: {
-    data: {},
+    monthly: {},
+    daily: {},
     error: null,
+    warningOnRules: [],
   },
 };
 
@@ -25,6 +28,19 @@ export const planComplianceSlice = createSlice({
   initialState: planComplianceState,
   reducers: {
     getComplainceRules: (state, action) => merge(state, action.payload),
+    collectWarningOnRules: (state, action) => {
+      const {rule, operation} = action.payload;
+
+      const findRule = state.rules.warningOnRules.findIndex(r => {
+        return rule.subTitle === r.subTitle;
+      });
+      if (operation === ARRAY_OPERATION.PUSH && findRule === -1) {
+        state.rules.warningOnRules.push(rule);
+      } else if (operation === ARRAY_OPERATION.POP && findRule >= 0) {
+        state.rules.warningOnRules.splice(findRule, 1);
+      }
+      return state;
+    },
   },
 });
 

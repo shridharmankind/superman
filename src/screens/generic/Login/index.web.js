@@ -9,7 +9,6 @@ import {
 
 import {stringify} from 'query-string';
 import {nanoid} from 'nanoid';
-
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import theme from 'themes';
@@ -36,7 +35,6 @@ const config = {
 
 const Login = () => {
   const [animating, setAnimating] = useState(false);
-
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);

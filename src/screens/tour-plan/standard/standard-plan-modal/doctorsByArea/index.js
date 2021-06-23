@@ -13,14 +13,13 @@ const DoctorsByArea = ({
   partiesList,
   selectedDoctorType,
   isSameDayPatch,
+  allPartiesByPatchID,
 }) => {
   const isDoctorSelected = useCallback(
-    partyId => {
-      return (doctorsSelected || []).some(id => {
-        if (id === partyId) {
-          return true;
-        }
-      });
+    (partyId, area) => {
+      return (doctorsSelected || []).some(
+        party => party.partyId === partyId && party.areaId === area,
+      );
     },
     [doctorsSelected],
   );
@@ -43,14 +42,15 @@ const DoctorsByArea = ({
         }
       });
       let newPartiesData = partiesData;
-      if (!isSameDayPatch) {
+      if (!isPatchedData) {
         newPartiesData = partiesData?.filter(
-          par => par.frequency !== par.alreadyVisited,
+          par => par.frequency > par.alreadyVisited,
         );
       }
+
       return newPartiesData;
     },
-    [partiesList, selectedDoctorType, isSameDayPatch],
+    [partiesList, selectedDoctorType, isPatchedData],
   );
 
   /** function to render parties by area selected from area chiklets
@@ -70,13 +70,14 @@ const DoctorsByArea = ({
                 specialization={party.specialities}
                 category={party.category}
                 isKyc={party.isKyc}
-                selected={isDoctorSelected(party.id)}
+                selected={isDoctorSelected(party.id, area.id)}
                 testID={`card_standard_plan_doctor_${party.id}_test`}
                 party={party}
                 isPatchedData={isPatchedData}
-                onPress={id => handleDoctorCardPress(id)}
+                onPress={id => handleDoctorCardPress(id, area.id)}
                 containerStyle={index % 2 === 0 ? styles.left : styles.right}
                 isSameDayPatch={isSameDayPatch}
+                isPartyInPatch={isPartyInPatch(party.id)}
               />
             ))}
           </View>
@@ -89,6 +90,7 @@ const DoctorsByArea = ({
       isDoctorSelected,
       isPatchedData,
       isSameDayPatch,
+      isPartyInPatch,
     ],
   );
 
@@ -111,6 +113,17 @@ const DoctorsByArea = ({
       </View>
     );
   };
+
+  /**method to check if party is part of patch
+   * @param {String} id party id
+   * @return {Boolean}
+   */
+  const isPartyInPatch = useCallback(
+    id => {
+      return allPartiesByPatchID?.some(party => party.partyId === id);
+    },
+    [allPartiesByPatchID],
+  );
 
   return (
     <View style={styles.doctorDetailsContainer}>

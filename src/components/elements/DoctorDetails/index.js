@@ -74,7 +74,7 @@ const DoctorDetails = ({
   const OnErrorHandler = () => {
     if (!isImageErrror) {
       const genderImage =
-        Constants.GENDER.MALE === gender.toUpperCase()
+        Constants.GENDER.MALE === (gender || '').toUpperCase()
           ? require('assets/images/male.png')
           : require('assets/images/female.png');
       const src =
@@ -199,7 +199,10 @@ const DoctorDetails = ({
                 title={(specialization || [])
                   .map(spec => spec?.name || spec)
                   .join(', ')}
-                style={customStyle && customStyle.specialization}
+                style={[
+                  styles.capitalize,
+                  customStyle && customStyle.specialization,
+                ]}
                 numberOfLines={1}
               />
 
@@ -213,6 +216,7 @@ const DoctorDetails = ({
                   <Label
                     size={customStyle ? customStyle.subTitleSize : 18}
                     title={location}
+                    style={styles.capitalize}
                   />
                 </>
               )}

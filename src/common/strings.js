@@ -72,7 +72,7 @@ const Strings = {
     two: '2',
     p1: 'P1',
     p2: 'P2',
-    description: 'Detailed on 3 March, 2021',
+    description: 'Detailed on ',
     progressNumber: '45',
     slashNumber: '/80',
     secondProgressbar: '45',
@@ -80,7 +80,12 @@ const Strings = {
     neurokind: 'Neurokind',
     nine: '9%',
     ten: '10%',
-    tabDes: 'Mankind’s Prescription/TOtal prescription',
+    tabDes: 'Mankind/Total',
+    foc: 'FOC',
+    gx: '(Gx)',
+    sow: '(Sow)',
+    conductRcpa: 'Conduct RCPA',
+    na: 'NA',
   },
   captureDcr: 'Capture DCR',
   startEdetail: 'Start eDetailing',
@@ -115,7 +120,7 @@ const Strings = {
     dcr: {
       what: 'What',
       kindOfVisit: 'kind of visit',
-      wasIt: 'was it ?',
+      wasIt: 'was it?',
       regVisit: 'Regular Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
@@ -139,11 +144,7 @@ const Strings = {
   beginJourney: "Let's begin your journey",
   successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
-  minimum: 'minimum',
-  maximum: 'maximum',
-  doctorVisitsPerDay: 'doctor visits per day',
-  chemistVisitsPerDay: 'chemists visits per day',
-  tourPlanRules: 'Monthly tour plan rules',
+  tourPlanRules: 'tour plan rules',
   exStation: 'Ex',
   patchExhaustedForParty:
     'One or more doctors added in the patch do not have further visiting slots, do you want to create a new patch.',
@@ -159,6 +160,11 @@ const Strings = {
       region: 'REGION',
     },
     noResult: 'No Records found',
+    btns: {
+      addTodayPlan: "Add to Today's Plan",
+      startEdetail: 'eDetail',
+    },
+    docAddedTodayPlan:'Doctor added successfully',
   },
   searchBar: {
     errors: {
@@ -170,10 +176,18 @@ const Strings = {
       clear: 'Clear',
       continue: 'Continue',
     },
+    searchPlaceholder: 'Search Doctors Here',
   },
   areaSelectionConfirmation:
     'The selections done by you will be lost. Do you want to proceed?',
   warning: 'Warning',
+  monthlyActions: {
+    save: 'Save',
+    submitSTP: 'Submit STP',
+  },
+  frquecySlotExhausted:
+    'Frequency slots for few doctors has been exhausted, a new patch name has been created',
+  selectDocToCreatePatch: 'Please select any doctor to create a patch.',
 };
 
 export default Strings;

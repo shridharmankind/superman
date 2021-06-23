@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     ...Platform.select({
       web: {
-        width: window.innerWidth / 2,
+        width: 0.64 * window.innerWidth,
       },
     }),
   },

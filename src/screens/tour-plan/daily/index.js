@@ -14,6 +14,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
+import {translate} from 'locale';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -35,7 +36,7 @@ const DailyTourPlan = () => {
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 2,
+        staffPositionid: 1,
         day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
@@ -64,9 +65,7 @@ const DailyTourPlan = () => {
    * set parties list in state
    */
   useEffect(() => {
-    if (Array.isArray(allDoctorDetail) && allDoctorDetail?.length > 0) {
-      setDayPlanData(allDoctorDetail);
-    }
+    setDayPlanData(allDoctorDetail);
   }, [allDoctorDetail]);
 
   const [visible, setVisible] = useState(false);
@@ -203,7 +202,7 @@ const DailyTourPlan = () => {
           onPress={() => {
             dispatch(
               deletePartyCreator({
-                staffPositionid: 2,
+                staffPositionid: 1,
                 day: parseInt(
                   getFormatDate({date: new Date(), format: 'D'}),
                   10,
@@ -264,11 +263,20 @@ const DailyTourPlan = () => {
         />
         {getVisitBifurcationLabel()}
       </View>
-      <PartyList
-        dayPlanData={dayPlanData}
-        onTileNamePress={onTileNameHandler}
-        onTilePress={onTilePressHandler}
-      />
+      {dayPlanData.length > 0 && (
+        <PartyList
+          dayPlanData={dayPlanData}
+          onTileNamePress={onTileNameHandler}
+          onTilePress={onTilePressHandler}
+        />
+      )}
+      {dayPlanData.length === 0 && (
+        <Label
+          title={translate('errorMessage.noRecords')}
+          variant={LabelVariant.subtitleLarge}
+          style={styles.error}
+        />
+      )}
       {pressTile()}
     </>
   );

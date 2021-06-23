@@ -1,18 +1,9 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {
-  View,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-import {useSelector} from 'react-redux';
+import {View, Dimensions, TouchableOpacity} from 'react-native';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
 import styles from './styles';
 import {Constants} from 'common';
-import themes from 'themes';
-import {appSelector} from 'selectors';
-import {FetchEnumStatus} from 'reducers';
 
 /**
  * Standard Plan screen component for daily standard plan.
@@ -29,8 +20,6 @@ const StandardPlan = ({navigation, route}) => {
   const [visitedDays, setVisitedDays] = useState([route.params.row]);
   const year = route.params.year;
   const swiperRef = useRef(null);
-
-  const fetchStatus = useSelector(appSelector.makeGetAppFetch());
 
   const handleSlider = useCallback(
     direction => {
@@ -109,14 +98,6 @@ const StandardPlan = ({navigation, route}) => {
         <TouchableOpacity
           style={[styles.swipe, styles.rightSwipe]}
           onPress={() => handleSlider(Constants.DIRECTION.RIGHT)}
-        />
-      )}
-      {fetchStatus === FetchEnumStatus.FETCHING && (
-        <ActivityIndicator
-          animating={true}
-          color={themes.colors.darkBlue}
-          size="large"
-          style={styles.activityIndicator}
         />
       )}
     </>

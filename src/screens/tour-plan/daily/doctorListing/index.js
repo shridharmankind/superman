@@ -56,7 +56,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     setIsDeleteOperationInProgress(true);
     dispatch(
       doctorDetailActions.tempStoreRemovedDoctor({
-        staffPositionid: 2,
+        staffPositionid: 1,
         day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
@@ -87,7 +87,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         if (!undoclicked) {
           dispatch(
             deletePartyCreator({
-              staffPositionid: 2,
+              staffPositionid: 1,
               day: parseInt(getFormatDate({format: 'D'}), 10),
               month: parseInt(getFormatDate({format: 'M'}), 10),
               year: parseInt(getFormatDate({format: 'YYYY'}), 10),
