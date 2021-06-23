@@ -55,8 +55,9 @@ export const MASTER_TABLES_DETAILS = [
 export const getUserName = async () => {
   try {
     const user = await getActiveUser();
-    const x = await Motherbrands.getAllMotherBrands();
-    console.log('x xxxxx', x);
+    //console.log('user user', user);
+    // const x = await Motherbrands.getAllMotherBrands();
+    // console.log('x xxxxx', x);
     const {firstName = '', lastName = ''} = user;
 
     return `${firstName} ${lastName}`;
