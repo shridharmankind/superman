@@ -107,9 +107,7 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   nameStyling:{
-    fontSize: 22.7,
     fontFamily: themes.fonts.fontLight,
-    color: themes.colors.grey[200],
   },
   highlighted:{
     color:themes.colors.primary,
