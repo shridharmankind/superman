@@ -171,7 +171,9 @@ const MasterDataDownload = ({navigation}) => {
                 await Organizations.storeOrganizations(JSON.parse(data));
                 break;
               case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
-                await PartyCategories.storePartyCategories(JSON.parse(data));
+                const partyCategoriesUpdated =
+                  await PartyCategories.storePartyCategories(JSON.parse(data));
+                partyCategoriesUpdated && updateRecordDownloaded(item.name);
                 break;
             }
 
