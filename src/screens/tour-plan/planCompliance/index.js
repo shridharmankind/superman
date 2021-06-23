@@ -67,8 +67,13 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       let data = complianceData?.rules.filter(
         item => item.rulesShortName === 'AREASCOVERED',
       );
+
+      //it should give payload from state count
+      console.log(state.areasCovered, data[0]?.ruleValues?.coveredCount);
       if (selectedData.areas === undefined) {
         dispatchFn({type: 'init', payload: data[0]?.ruleValues?.coveredCount});
+      } else if (selectedData.areas === null) {
+        dispatchFn({type: 'init', payload: state.areasCovered});
       } else if (selectedData.areas === true) {
         dispatchFn({type: 'increment'});
       } else if (selectedData.areas === false) {

@@ -775,7 +775,30 @@ const StandardPlanModal = ({
     const isAreaAlreadySelected = doctorsSelected?.some(
       party => party.areaId === area,
     );
-    setIsAreaSelected(!isAreaAlreadySelected);
+
+    const isAreaPresentInDoctorsSelected = doctorsSelected?.filter(
+      party => party.areaId === area && party.partyId !== id,
+    );
+
+    /**
+     * first if - atleast one doctor in area is preset
+     * second if - last doctor in the area is unchecked
+     * third if - first doctor in the area is checked
+     */
+    if (isAreaPresentInDoctorsSelected.length > 0 && isAreaAlreadySelected) {
+      setIsAreaSelected(null);
+    } else if (
+      isAreaPresentInDoctorsSelected.length === 0 &&
+      isAreaAlreadySelected
+    ) {
+      setIsAreaSelected(false);
+    } else if (
+      isAreaPresentInDoctorsSelected.length === 0 &&
+      !isAreaAlreadySelected
+    ) {
+      setIsAreaSelected(true);
+    }
+
     const indexAvailable = doctorsSelected?.some(
       party => party.partyId === id && party.areaId === area,
     );
