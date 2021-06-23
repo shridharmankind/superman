@@ -1,8 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {DoctorDetails} from 'components/elements';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {
+        ...state,
+        alreadyVisitedCount: state.alreadyVisitedCount + 1,
+      };
+    case 'decrement':
+      return {
+        ...state,
+        alreadyVisitedCount: state.alreadyVisitedCount - 1,
+      };
+
+    case 'init':
+      return {...state, alreadyVisitedCount: action.value};
+    default:
+      return {...state, alreadyVisitedCount: state.alreadyVisited};
+  }
+}
 
 /**
  * Wrapper component of doctor details giving the click event over the detail box
@@ -41,7 +61,10 @@ const DoctorDetailsWrapper = ({
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
-  const [count, setCount] = useState();
+  const [state, dispatchFn] = useReducer(reducer, {
+    ...party,
+    alreadyVisitedCount: party?.alreadyVisited,
+  });
   const isDisabled =
     (!isSameDayPatch && frequency === alreadyVisited && isPartyInPatch) ||
     (!isPartyInPatch && frequency <= alreadyVisited);
@@ -64,10 +87,10 @@ const DoctorDetailsWrapper = ({
       (frequency === alreadyVisited && isSameDayPatch)
     ) {
       if (selected) {
-        setCount(count + 1);
+        dispatchFn({type: 'increment'});
       }
       if (!selected) {
-        setCount(count - 1);
+        dispatchFn({type: 'decrement'});
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,16 +98,16 @@ const DoctorDetailsWrapper = ({
 
   const getSelectedFrequency = () => {
     if (isSameDayPatch && isPatchedData) {
-      setCount(alreadyVisited);
+      dispatchFn({type: 'init', value: alreadyVisited});
     } else if (!isSameDayPatch && isPatchedData) {
       if (selected && frequency > alreadyVisited) {
-        setCount(alreadyVisited + 1);
+        dispatchFn({type: 'init', value: alreadyVisited + 1});
       } else {
-        setCount(alreadyVisited);
+        dispatchFn({type: 'init', value: alreadyVisited});
       }
     } else {
       const countData = selected ? alreadyVisited + 1 : alreadyVisited;
-      setCount(countData);
+      dispatchFn({type: 'init', value: countData});
     }
   };
 
@@ -112,7 +135,7 @@ const DoctorDetailsWrapper = ({
         category={category}
         location={location}
         isTicked={showTicked || false}
-        selectedVistedFrequency={count}
+        selectedVistedFrequency={state?.alreadyVisitedCount}
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}
