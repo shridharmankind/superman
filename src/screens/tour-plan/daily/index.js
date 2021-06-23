@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {translate} from 'locale';
+import {CustomHook} from 'helper';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
@@ -22,7 +23,7 @@ const DailyTourPlan = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [dayPlanData, setDayPlanData] = useState([]);
-
+  const staffPositionID = CustomHook.useStaffPositionID();
   const onTileNameHandler = data => {
     navigation.navigate('Directory', {
       screen: 'DirectoryDoctorProfile',
@@ -34,15 +35,18 @@ const DailyTourPlan = () => {
    * Fetch parties list
    */
   useEffect(() => {
+    if (!staffPositionID) {
+      return;
+    }
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 1,
+        staffPositionid: staffPositionID,
         day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionID]);
 
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
   const doctorRemoveError = useSelector(dailySelector.doctorDetailError());
@@ -202,7 +206,7 @@ const DailyTourPlan = () => {
           onPress={() => {
             dispatch(
               deletePartyCreator({
-                staffPositionid: 1,
+                staffPositionid: staffPositionID,
                 day: parseInt(
                   getFormatDate({date: new Date(), format: 'D'}),
                   10,

@@ -20,7 +20,7 @@ import {
   RULE_KEY,
   ARRAY_OPERATION,
 } from 'screens/tourPlan/constants';
-
+import {CustomHook} from 'helper';
 function reducer(state, action) {
   switch (action.type) {
     case 'increment':
@@ -47,19 +47,23 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
   const [state, dispatchFn] = useReducer(reducer, {areasCovered: 0});
+  const staffPositionId = CustomHook.useStaffPositionID();
   /**
    * Fetch complaince rules list
    */
   useEffect(() => {
+    if (!staffPositionId) {
+      return;
+    }
     dispatch(
       fetchPlanComplianceCreator({
-        staffPositionId: 1,
+        staffPositionId,
         week,
         weekDay,
         type,
       }),
     );
-  }, [dispatch, type, week, weekDay]);
+  }, [dispatch, type, week, weekDay, staffPositionId]);
 
   // TO UPDATE AREAS COVERED COUNT
   useEffect(() => {

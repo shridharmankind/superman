@@ -31,6 +31,7 @@ import {translate} from 'locale';
 import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
+import {CustomHook} from 'helper';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -63,7 +64,6 @@ const MonthlyTourPlan = ({navigation}) => {
   const dispatch = useDispatch();
 
   const user = userMock.users[0];
-
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
@@ -72,12 +72,12 @@ const MonthlyTourPlan = ({navigation}) => {
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
-
-  const previousMonthSelected = usePrevious(monthSelected);
-  const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
+  const [showCongratsModal, setShowCongratsModal] = useState(false);
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [submitSTP, setSubmitSTP] = useState();
+  const previousMonthSelected = usePrevious(monthSelected);
+  const staffPositionID = CustomHook.useStaffPositionID();
 
   // Selectors
   const subOrdinatesList = useSelector(
@@ -92,21 +92,20 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
 
   useEffect(() => {
-    dispatch(
-      getSubordinatesCreator({
-        staffPositionid: 1,
-      }),
-    );
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(
-      fetchSTPStatusCreator({
-        staffPositionId: 1,
-        year: parseInt(getFormatDate({format: 'YYYY'}), 10),
-      }),
-    );
-  }, [dispatch]);
+    if (staffPositionID) {
+      dispatch(
+        getSubordinatesCreator({
+          staffPositionid: staffPositionID,
+        }),
+      );
+      dispatch(
+        fetchSTPStatusCreator({
+          staffPositionId: staffPositionID,
+          year: parseInt(getFormatDate({format: 'YYYY'}), 10),
+        }),
+      );
+    }
+  }, [dispatch, staffPositionID]);
 
   /**
    *effect to set working Day
@@ -491,7 +490,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({
-        staffPositionId: 1,
+        staffPositionId: staffPositionID,
       }),
     );
   };

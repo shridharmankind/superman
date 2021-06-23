@@ -57,6 +57,7 @@ const StandardPlanModal = ({
   weekDay,
   year,
   workingDays,
+  staffPositionID,
 }) => {
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
@@ -79,7 +80,7 @@ const StandardPlanModal = ({
   const [stpStatus, setStpStatus] = useState();
   const [isAreaSelected, setIsAreaSelected] = useState(undefined);
   const weekNum = Number(week);
-  const staffPositionId = 1;
+  const staffPositionId = staffPositionID;
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());

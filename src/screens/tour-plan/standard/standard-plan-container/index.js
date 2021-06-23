@@ -6,6 +6,7 @@ import {
   fetchSTPCalendarUpdateCreator,
   standardTourPlanSelector,
 } from '../redux';
+import {CustomHook} from 'helper';
 
 /**
  * Standard Tour Plan container
@@ -16,14 +17,17 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
   const weekDayDataSelector = useSelector(
     standardTourPlanSelector.getSTPData(),
   );
+  const staffPositionID = CustomHook.useStaffPositionID();
   // Fetch STP Data
   useEffect(() => {
-    dispatch(
-      fetchSTPCalendarUpdateCreator({
-        staffPositionId: 1,
-      }),
-    );
-  }, [dispatch]);
+    if (staffPositionID) {
+      dispatch(
+        fetchSTPCalendarUpdateCreator({
+          staffPositionId: staffPositionID,
+        }),
+      );
+    }
+  }, [dispatch, staffPositionID]);
 
   useEffect(() => {
     setWeekDayData(weekDayDataSelector);
@@ -40,6 +44,7 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
       row,
       workingDays,
       year: new Date().getFullYear(), //as of now need current year
+      staffPositionID,
     });
   return (
     <WeekView

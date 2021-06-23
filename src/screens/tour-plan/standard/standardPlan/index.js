@@ -68,6 +68,7 @@ const StandardPlan = ({navigation, route}) => {
               weekDay={day}
               year={year}
               workingDays={route.params.workingDays}
+              staffPositionID={route.params.staffPositionID}
             />
           )}
         </View>
