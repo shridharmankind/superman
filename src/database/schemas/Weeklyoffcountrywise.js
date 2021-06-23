@@ -7,11 +7,6 @@ export default class WeeklyOffSchema {
       id: 'int',
       name: 'string',
       shortName: 'string',
-      geoLocationTypeId: 'int?',
-      parentGeoLocationId: 'int?',
-      divisionId: 'int?',
-      isActive: 'bool?',
-      isDeleted: 'bool?',
       geoLocationConfiguration: 'GeoLocationConfiguration',
     },
   };

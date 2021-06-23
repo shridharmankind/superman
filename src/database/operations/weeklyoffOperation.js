@@ -7,17 +7,7 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         weeklyoffs?.forEach(geoLocation => {
-          const {
-            id,
-            name,
-            shortName,
-            geoLocationTypeId,
-            parentGeoLocationId,
-            divisionId,
-            isActive,
-            isDeleted,
-            geoLocationConfiguration,
-          } = geoLocation;
+          const {id, name, shortName, geoLocationConfiguration} = geoLocation;
           const configuration = dbInstance.create(
             Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
             geoLocationConfiguration,
@@ -29,11 +19,6 @@ export default dbInstance => ({
               id: id,
               name: name,
               shortName: shortName,
-              geoLocationTypeId: geoLocationTypeId,
-              parentGeoLocationId: parentGeoLocationId,
-              divisionId: divisionId,
-              isActive: isActive,
-              isDeleted: isDeleted,
               geoLocationConfiguration: configuration,
             },
             'modified',
