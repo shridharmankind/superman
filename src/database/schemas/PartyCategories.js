@@ -12,8 +12,6 @@ export default class PartyCategorySchema {
       shortName: 'string?',
       startAmount: 'double?',
       endAmount: 'double?',
-      isActive: 'bool?',
-      isDeleted: 'bool?',
     },
   };
 }

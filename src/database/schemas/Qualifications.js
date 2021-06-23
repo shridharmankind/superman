@@ -10,8 +10,6 @@ export default class QualificationsSchema {
       name: 'string?',
       shortName: 'string?',
       divisionId: 'int?',
-      isActive: 'bool?',
-      isDeleted: 'bool?',
     },
   };
 }

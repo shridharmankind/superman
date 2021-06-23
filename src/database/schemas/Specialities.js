@@ -1,4 +1,4 @@
-export const SpecialitiesSchemaName = 'Specialities';
+export const SpecialitiesSchemaName = 'Specializations';
 
 export default class SpecialitiesSchema {
   static schema = {
@@ -10,8 +10,6 @@ export default class SpecialitiesSchema {
       name: 'string?',
       shortName: 'string?',
       divisionId: 'int?',
-      isActive: 'bool?',
-      isDeleted: 'bool?',
     },
   };
 }

@@ -20,23 +20,15 @@ export default dbInstance => ({
   getSpeciality: async id => {
     return await dbInstance.objectForPrimaryKey(SpecialitiesSchemaName, id);
   },
-  getSpecialities: async () => {
-    return await getAllTableRecords(SpecialitiesSchemaName);
-  },
-  getSpecialityBySpecialityId: async specialityId => {
+  getSpecialityById: async specialityId => {
     const specialities = await getAllTableRecords(SpecialitiesSchemaName);
     return await specialities.filtered(`specialityId = ${specialityId}`);
+  },
+  getSpecialities: async () => {
+    return await getAllTableRecords(SpecialitiesSchemaName);
   },
   getSpecialitiesByDivision: async divisionId => {
     const specialities = await getAllTableRecords(SpecialitiesSchemaName);
     return await specialities.filtered(`divisionId = ${divisionId}`);
-  },
-  getActiveSpecialities: async () => {
-    const specialities = await getAllTableRecords(SpecialitiesSchemaName);
-    return await specialities.filtered('isActive = true');
-  },
-  getDeletedSpecialities: async () => {
-    const specialities = await getAllTableRecords(SpecialitiesSchemaName);
-    return await specialities.filtered('isDeleted = false');
   },
 });
