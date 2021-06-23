@@ -6,11 +6,14 @@ export default class PartyCategorySchema {
     primaryKey: 'id',
     properties: {
       id: 'int',
+      categoryId: 'int',
       divisionId: 'int?',
       name: 'string',
       shortName: 'string?',
       startAmount: 'double?',
       endAmount: 'double?',
+      isActive: 'bool?',
+      isDeleted: 'bool?',
     },
   };
 }

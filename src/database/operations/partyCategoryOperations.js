@@ -26,8 +26,11 @@ export default dbInstance => ({
     return await getAllTableRecords(PartyCategorySchemaName);
   },
 
+  getPartyCategory: async id => {
+    return await dbInstance.objectForPrimaryKey(PartyCategorySchemaName, id);
+  },
   getPartyCategoryById: async categoryId => {
     const categories = await getAllTableRecords(PartyCategorySchemaName);
-    return categories.filtered(`id = ${categoryId}`);
+    return await categories.filtered(`categoryId = ${categoryId}`);
   },
 });
