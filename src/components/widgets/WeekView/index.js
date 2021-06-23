@@ -19,8 +19,8 @@ const getPatchName = patchData => {
 
 //Defines prefix for party typa
 const PARTY_PREFIX = {
-  DOCTOR: 'D',
-  CHEMIST: 'C',
+  DOCTOR: 'Dr',
+  CHEMIST: 'Ch',
 };
 
 // max number of character for Days to show

@@ -478,7 +478,7 @@ const MonthlyTourPlan = ({navigation}) => {
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          disabled={compliancePercentage !== SUBMIT_STP_PLAN_THRESHOLD_VALUE}
+          disabled={compliancePercentage <= SUBMIT_STP_PLAN_THRESHOLD_VALUE}
           onPress={submitSTPHandler}
         />
       </View>
