@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Button, LabelVariant, Modal} from 'components/elements';
 import styles from './styles';
 import {TouchableOpacity, View, FlatList} from 'react-native';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {ArrowBack} from 'assets';
 import {isWeb} from 'helper';
 import theme from 'themes';
@@ -17,12 +17,15 @@ import {
 } from './redux';
 import {Product} from 'components/widgets';
 
+import {API_PATH} from 'screens/directory/apiPath';
+import {NetworkService} from 'services';
+import {showToast, hideToast} from 'components/widgets/Toast';
 /**
  * Render header
  *
  * @param {Object} {navigation}
  */
-const renderHeader = ({navigation}) => (
+const renderHeader = ({navigation, docData}) => (
   <View style={[styles.eDetailingHead]}>
     <View style={[styles.eDetailingHeadCol]}>
       {isWeb() ? null : (
@@ -48,6 +51,7 @@ const renderHeader = ({navigation}) => (
         mode="contained"
         contentStyle={styles.eDetailingStartContent}
         labelStyle={styles.eDetailingStartText}
+        onPress={() => startPresentation(docData)}
       />
     </View>
   </View>
@@ -59,7 +63,8 @@ const renderHeader = ({navigation}) => (
  * @param {Object} {navigation}
  * @return {JSX} Edetailing component
  */
-const EDetailing = ({navigation}) => {
+const EDetailing = ({navigation, route}) => {
+  let docData = route?.params?.data || null;
   const LIMIT = 10; // limit of priority to be fetched from server
   const dispatch = useDispatch();
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -260,7 +265,7 @@ const EDetailing = ({navigation}) => {
   };
 
   return (
-    <ContentWithSidePanel header={renderHeader({navigation})}>
+    <ContentWithSidePanel header={renderHeader({navigation, docData})}>
       <View style={[styles.eDetailingPriorityProducts]}>
         <Label
           testID="eDetail-priority-products"
@@ -332,6 +337,33 @@ const EDetailing = ({navigation}) => {
       {renderModal()}
     </ContentWithSidePanel>
   );
+};
+
+// Function to be called on Start Presentation
+const startPresentation = docData => {
+  if (!!docData && !docData.isScheduledToday) {
+    const addDocToDailyPlan = async () => {
+      const result = await NetworkService.post(
+        API_PATH.ADD_TODAY_PLAN,
+        {},
+        {staffPositionId: 1, partyId: docData.doctorID},
+      );
+      if (result.status === Constants.HTTP_OK) {
+        docData.updateCallbk(docData.doctorID);
+        showToast({
+          type: Constants.TOAST_TYPES.SUCCESS,
+          autoHide: true,
+          props: {
+            heading: Strings.directory.docAddedTodayPlan,
+            onClose: () => hideToast(),
+          },
+        });
+      } else {
+        console.log('error', result.statusText);
+      }
+    };
+    addDocToDailyPlan();
+  }
 };
 
 export default EDetailing;

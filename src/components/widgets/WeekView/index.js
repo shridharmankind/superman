@@ -102,15 +102,15 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
               title={parties && getPartyTitle(parties)}
               variant={LabelVariant.h5}
             />
-            {!isCompliant && <ErrorIcon width={18} height={18} />}
+            {!isCompliant && <ErrorIcon width={20} height={20} />}
           </View>
 
-          {noOfKyc && (
+          {noOfKyc ? (
             <DoctorTag
               division={DivisionType.KYC}
               title={`${noOfKyc} ${DivisionType.KYC}`}
             />
-          )}
+          ) : null}
         </View>
 
         <View style={[styles.cellFooter]}>
