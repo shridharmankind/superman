@@ -134,7 +134,7 @@ const EDetailing = ({navigation, route}) => {
         <Product
           title={item.name}
           isChecked={!!item.isFeatured}
-          tags={[`P${item.priority}`]}
+          tags={item.priority ? [`P${item.priority}`] : []}
           onProductClick={() => {
             setCurrentProduct(item);
             setShowModal(true);
