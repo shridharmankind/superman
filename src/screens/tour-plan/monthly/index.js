@@ -467,12 +467,12 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderActionButton = () => {
     return (
       <View style={styles.actionButtonGroup}>
-        <Button
+        {/* <Button  //NOT REQUIRED CURRENTLY
           title={translate('monthlyActions.save')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
           labelStyle={styles.buttonTabBarText}
-        />
+        /> */}
         <Button
           title={translate('monthlyActions.submitSTP')}
           mode="contained"
