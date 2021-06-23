@@ -1169,6 +1169,7 @@ const StandardPlanModal = ({
               allParties,
               doctorsSelected,
               isAreaSelected,
+              dataChanged,
             )}
           />
         </View>
