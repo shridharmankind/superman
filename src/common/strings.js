@@ -120,7 +120,7 @@ const Strings = {
     dcr: {
       what: 'What',
       kindOfVisit: 'kind of visit',
-      wasIt: 'was it ?',
+      wasIt: 'was it?',
       regVisit: 'Regular Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
@@ -164,7 +164,7 @@ const Strings = {
       addTodayPlan: "Add to Today's Plan",
       startEdetail: 'eDetail',
     },
-    docAddedTodayPlan:'Doctor added successfully'
+    docAddedTodayPlan:'Doctor added successfully',
   },
   searchBar: {
     errors: {
@@ -184,21 +184,6 @@ const Strings = {
   monthlyActions: {
     save: 'Save',
     submitSTP: 'Submit STP',
-  },
-  planComplaince: {
-    dr: 'Doctor',
-    minimum: 'minimum',
-    maximum: 'maximum',
-    doctorVisitsPerDay: 'doctor visits per day',
-    chemistVisitsPerDay: 'chemists visits per day',
-    daysGap: 'days',
-    minGap: 'minimum gap',
-    drCovered: 'Doctors covered',
-    chCovered: 'Chemist covered',
-    outStationPerMonth: 'Out-station visits per month',
-    exStationPerMonth: 'Ex-station visits per month',
-    areaCovered: 'areas covered',
-    frequencyMet: 'frequency met',
   },
   frquecySlotExhausted:
     'Frequency slots for few doctors has been exhausted, a new patch name has been created',

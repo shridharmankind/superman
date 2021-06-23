@@ -6,7 +6,7 @@ import {Label, LabelVariant} from 'components/elements';
 import {Strings, Constants} from 'common';
 import styles from './styles';
 import {TabBar} from 'components/widgets';
-import {fetchSearchDoctors} from './redux/dirlandingSlice';
+import {fetchSearchDoctors, clearSearchDoctors} from './redux/dirlandingSlice';
 import {searchDocSelector} from './redux/dirLandingSelector';
 import {validateSearch} from 'screens/directory/helper';
 import {SearchIcon} from 'assets';
@@ -17,6 +17,7 @@ import {ROUTE_EDETAILING} from 'screens/directory/routes';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
+import {searchDoctorActions} from 'screens/directory/landing/redux';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
@@ -26,24 +27,29 @@ const DirectoryLanding = ({navigation, route}) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [skip, setSkip] = useState(0);
   const [searchKeyword, updateSearchKeyword] = useState(
-    route?.params?.inputKeyword,
+    route?.params?.inputKeyword || null,
   );
   const [doctorsAddedinTodayPlan, updateTodayPlan] = useState([]);
   let filterPrefix;
   const dispatch = useDispatch(); // For dispatching the action
-
   useEffect(() => {
-    filterPrefix = checkForDrPrefix(searchKeyword);
-    dispatch(
-      fetchSearchDoctors({
-        staffPositionId: 1,
-        searchKeyword: filterPrefix,
-        partyTypeId: 1,
-        skip: 0,
-        limit: LIMIT,
-      }),
-    );
-    setSkip(LIMIT);
+    if (!!searchKeyword && searchKeyword !== '') {
+      filterPrefix = checkForDrPrefix(searchKeyword);
+      dispatch(
+        fetchSearchDoctors({
+          staffPositionId: 1,
+          searchKeyword: filterPrefix,
+          partyTypeId: 1,
+          skip: 0,
+          limit: LIMIT,
+        }),
+      );
+      setSkip(LIMIT);
+    }
+
+    return () => {
+      dispatch(searchDoctorActions.clearSearch());
+    };
   }, [dispatch]);
 
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
@@ -62,10 +68,12 @@ const DirectoryLanding = ({navigation, route}) => {
 
   // Dunction to check the dr. prefix and remove it
   const checkForDrPrefix = searchKey => {
-    if (searchKey.toLowerCase().indexOf('dr.') === 0) {
-      return searchKey.toLowerCase().replace('dr.', '').trim();
-    } else {
-      return searchKey.trim();
+    if (!!searchKey) {
+      if (searchKey.toLowerCase().indexOf('dr.') === 0) {
+        return searchKey.toLowerCase().replace('dr.', '').trim();
+      } else {
+        return searchKey.trim();
+      }
     }
   };
 
@@ -106,31 +114,48 @@ const DirectoryLanding = ({navigation, route}) => {
 
   // Function to be called on search icon
   const doSearch = () => {
-    const [isValid, drPrefix] = validateSearch(searchKeyword, clearSearchInput);
-    if (isValid) {
-      // updateSearchKeyword(searchKey);
-      let trimmedKeyword = '';
-      if (drPrefix) {
-        trimmedKeyword = searchKeyword.toLowerCase().replace('dr.', '');
-      } else {
-        trimmedKeyword = searchKeyword;
-      }
-      dispatch(
-        fetchSearchDoctors({
-          staffPositionId: 1,
-          searchKeyword: trimmedKeyword.trim(),
-          partyTypeId: 1,
-          skip: 0,
-          limit: LIMIT,
-        }),
+    if (!!searchKeyword) {
+      const [isValid, drPrefix] = validateSearch(
+        searchKeyword,
+        clearSearchInput,
       );
-      setSkip(LIMIT);
+      if (isValid) {
+        // updateSearchKeyword(searchKey);
+        let trimmedKeyword = '';
+        if (drPrefix) {
+          trimmedKeyword = searchKeyword.toLowerCase().replace('dr.', '');
+        } else {
+          trimmedKeyword = searchKeyword;
+        }
+        dispatch(
+          fetchSearchDoctors({
+            staffPositionId: 1,
+            searchKeyword: trimmedKeyword.trim(),
+            partyTypeId: 1,
+            skip: 0,
+            limit: LIMIT,
+          }),
+        );
+        setSkip(LIMIT);
+      }
     }
   };
 
   // Function to be called on click of eDetail button
-  const edetailHandler = () => {
-    navigation.navigate(ROUTE_EDETAILING);
+  const edetailHandler = doctorData => {
+    let isDocScheduleToday = false;
+    if (doctorData.isScheduledToday) {
+      isDocScheduleToday = true;
+    } else {
+      isDocScheduleToday = isDoctorAddedinTodayPlan(doctorData.id);
+    }
+    navigation.navigate(ROUTE_EDETAILING, {
+      data: {
+        doctorID: doctorData.id,
+        isScheduledToday: isDocScheduleToday,
+        updateCallbk: updateDocTodayPlan,
+      },
+    });
   };
 
   // If image is not received from server
@@ -159,6 +184,11 @@ const DirectoryLanding = ({navigation, route}) => {
       );
       setSkip(prev => prev + LIMIT);
     }
+  };
+
+  // Callback Function to update doctorsAddedinTodayPlan
+  const updateDocTodayPlan = doctorID => {
+    updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
   };
 
   // Function to add doctor to Today's plan
@@ -317,7 +347,7 @@ const DirectoryLanding = ({navigation, route}) => {
                           title={Strings.directory.btns.startEdetail}
                           mode="contained"
                           contentStyle={styles.eDetailbuttonLayout}
-                          onPress={edetailHandler}
+                          onPress={() => edetailHandler(item)}
                           labelStyle={styles.btnContent}
                         />
                       </View>

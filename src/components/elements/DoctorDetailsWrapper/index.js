@@ -42,7 +42,8 @@ const DoctorDetailsWrapper = ({
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
   const [count, setCount] = useState();
-  const isDisabled = !isSameDayPatch && frequency <= alreadyVisited;
+  const isDisabled =
+    !isSameDayPatch && frequency === alreadyVisited && isPartyInPatch;
   const showTicked =
     (selected && frequency > alreadyVisited) ||
     (isSameDayPatch && selected && frequency <= alreadyVisited);
@@ -114,6 +115,7 @@ const DoctorDetailsWrapper = ({
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}
+        onTileNamePress={() => handleDoctorSelection(!selected)}
         {...props}
       />
     </TouchableOpacity>

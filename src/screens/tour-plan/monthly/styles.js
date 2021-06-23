@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   modalPosition: {
     marginTop: '12%',
     marginLeft: '16%',
-    width: 333.3,
+    width: 441.3,
     height: 590.7,
   },
   modalHeightHalf: {
@@ -69,6 +69,24 @@ const styles = StyleSheet.create({
   },
   saveBtn: {marginRight: theme.spacing(12)},
   actionBtn: {width: 165.3},
+  submittedChip: {
+    fontSize: 9.3,
+    lineHeight: 10.7,
+    color: theme.colors.green[400],
+    paddingHorizontal: theme.spacing(0),
+  },
+  tourPlanOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  chipContainer: {
+    height: 21.3,
+    marginLeft: theme.spacing(20),
+  },
+  lockIcon: {
+    marginBottom: theme.spacing(5),
+    marginLeft: theme.spacing(4),
+  },
 });
 
 export default styles;
