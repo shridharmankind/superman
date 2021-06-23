@@ -53,7 +53,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   useEffect(() => {
     dispatch(
       fetchPlanComplianceCreator({
-        staffPositionId: 1,
+        staffPositionId: 11,
         week,
         weekDay,
         type,

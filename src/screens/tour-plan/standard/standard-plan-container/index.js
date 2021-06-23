@@ -20,7 +20,7 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
   useEffect(() => {
     dispatch(
       fetchSTPCalendarUpdateCreator({
-        staffPositionId: 1,
+        staffPositionId: 11,
       }),
     );
   }, [dispatch]);
