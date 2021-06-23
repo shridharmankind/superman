@@ -18,6 +18,7 @@ import {
   Divisions,
   Qualifications,
   Specialities,
+  MotherBrands,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -136,6 +137,9 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.SPECIALITIES:
               fetchSpecialities(item);
               break;
+            case DBConstants.MOTHER_BRAND:
+              response = await NetworkService.get(item.apiPath);
+              break;
           }
           if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
@@ -167,6 +171,13 @@ const MasterDataDownload = ({navigation}) => {
                 const organizationsUpdated =
                   await Organizations.storeOrganizations(JSON.parse(data));
                 organizationsUpdated && updateRecordDownloaded(item.name);
+                break;
+
+              case DBConstants.MOTHER_BRAND:
+                const motherBrandUpdated = await MotherBrands.storeMotherBrands(
+                  JSON.parse(data),
+                );
+                motherBrandUpdated && updateRecordDownloaded(item.name);
                 break;
             }
 
