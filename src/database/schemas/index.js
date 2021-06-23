@@ -134,3 +134,6 @@ export {default as Divisions} from './Divisions';
 export {default as Qualifications} from './Qualifications';
 export {default as Organizations} from './Organizations';
 export {default as Specialities} from './Specialities';
+export {default as MotherBrands} from './MotherBrands';
+export {default as Molecules} from './Molecules';
+export {default as MotherBrandTypes} from './MotherBrandTypes';

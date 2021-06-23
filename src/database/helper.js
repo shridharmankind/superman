@@ -40,6 +40,10 @@ export const MASTER_TABLES_DETAILS = [
     name: Constants.SPECIALITIES,
     apiPath: NetworkService.API.FETCH_SPECIALITIES,
   },
+  {
+    name: Constants.MOTHER_BRAND,
+    apiPath: Constants.MOTHER_BRAND_API_PATH,
+  },
 ];
 
 /**
