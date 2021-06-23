@@ -164,7 +164,9 @@ const MasterDataDownload = ({navigation}) => {
                 break;
 
               case DBConstants.MASTER_TABLE_ORGANIZATION:
-                await Organizations.storeOrganizations(JSON.parse(data));
+                const organizationsUpdated =
+                  await Organizations.storeOrganizations(JSON.parse(data));
+                organizationsUpdated && updateRecordDownloaded(item.name);
                 break;
             }
 
