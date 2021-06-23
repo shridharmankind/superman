@@ -6,11 +6,11 @@
       "lastDetailed": "2021-05-19T18:25:11",
       "isfocused": true,
       "ispowered": false,
-      "ourratio": 40,
-      "totalRatio": 100,
-      "priority": "p1",
-      "gx": 40,
-      "sow": 20,
+      "ourratio": 300,
+      "totalRatio": 600,
+      "priority": null,
+      "gx": 50,
+      "sow": 17,
       "isGrowthIncrease": true
     },
     {
@@ -21,7 +21,7 @@
       "ispowered": true,
       "ourratio": 50,
       "totalRatio": 100,
-      "priority": "p2",
+      "priority": null,
       "gx": 50,
       "sow": 20,
       "isGrowthIncrease": true
@@ -34,7 +34,7 @@
       "ispowered": false,
       "ourratio": 40,
       "totalRatio": 100,
-      "priority": "p3",
+      "priority": "p1",
       "gx": 40,
       "sow": 20,
       "isGrowthIncrease": false
@@ -47,7 +47,7 @@
       "ispowered": false,
       "ourratio": 40,
       "totalRatio": 100,
-      "priority": "p4",
+      "priority": "p2",
       "gx": 40,
       "sow": 20,
       "isGrowthIncrease": true
@@ -60,7 +60,20 @@
       "ispowered": false,
       "ourratio": null,
       "totalRatio": 100,
-      "priority": "p5",
+      "priority": "p3",
+      "gx": 40,
+      "sow": 20,
+      "isGrowthIncrease": true
+    },
+    {
+      "productId": 6,
+      "name": "Amlokind L",
+      "lastDetailed": "2021-05-19T18:25:11",
+      "isfocused": false,
+      "ispowered": false,
+      "ourratio": null,
+      "totalRatio": 100,
+      "priority": "p4",
       "gx": 40,
       "sow": 20,
       "isGrowthIncrease": true
