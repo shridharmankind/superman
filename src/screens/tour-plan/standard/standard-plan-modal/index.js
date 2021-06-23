@@ -77,6 +77,7 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
+  const [isAreaSelected, setIsAreaSelected] = useState(undefined);
   const weekNum = Number(week);
   const staffPositionId = 2;
 
@@ -179,7 +180,6 @@ const StandardPlanModal = ({
     return true;
   }, [dispatch]);
 
-  //allParties :: dr list => alreadyVisited once
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
@@ -753,6 +753,10 @@ const StandardPlanModal = ({
    * @param {Number} id party id passed as int
    */
   const handleDoctorCardPress = (id, area) => {
+    const isAreaAlreadySelected = doctorsSelected?.some(
+      party => party.areaId === area,
+    );
+    setIsAreaSelected(!isAreaAlreadySelected);
     const indexAvailable = doctorsSelected?.some(
       party => party.partyId === id && party.areaId === area,
     );
@@ -1119,7 +1123,11 @@ const StandardPlanModal = ({
             type={COMPLAINCE_TYPE.DAILY}
             week={week}
             weekDay={workingDays.indexOf(weekDay) + 1}
-            selectedData={getSelectedPartyTypeData(allParties, doctorsSelected)}
+            selectedData={getSelectedPartyTypeData(
+              allParties,
+              doctorsSelected,
+              isAreaSelected,
+            )}
           />
         </View>
       </View>
