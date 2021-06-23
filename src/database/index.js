@@ -26,6 +26,9 @@ const dbInstance = new Realm({
     Schemas.engagement,
     Schemas.Organizations.schema,
     Schemas.Divisions.schema,
+    Schemas.Motherbrands.schema,
+    Schemas.MotherbrandType.schema,
+    Schemas.MoleculeSchema.schema,
   ],
   schemaVersion,
 });
@@ -43,3 +46,4 @@ export const Qualifications = Operations.qualificationOperations(dbInstance);
 export const Organizations = Operations.organizationOperations(dbInstance);
 export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
+export const Motherbrands = Operations.motherbrandoperations(dbInstance);

@@ -1,7 +1,9 @@
 import {DivisionSchemaName} from './schemas/Divisions';
 import {QualificationsSchemaName} from './schemas/Qualifications';
 import {SpecialitiesSchemaName} from './schemas/Specialities';
-
+import {MotherbrandsSchemaName} from './schemas/Motherbrands';
+import {MotherbrandTypeName} from './schemas/MotherbrandType';
+import {MoleculeName} from './schemas/MoleculeSchema';
 //Common
 export const downloadStatus = Object.freeze({
   DOWNLOADED: 'DOWNLOADED',
@@ -29,6 +31,11 @@ export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
 
 export const MASTER_TABLE_DIVISION = DivisionSchemaName;
 export const MASTER_TABLE_DIVISION_API_PATH = 'division';
+
+export const MASTER_TABLE_MOTHERBRAND = MotherbrandsSchemaName;
+export const MASTER_TABLE_MOTHERBRAND_API_PATH = 'motherbrand';
+export const MOTHER_BRAND_TYPE = MotherbrandTypeName;
+export const MOLECULES = MoleculeName;
 
 export const QUALIFICATIONS = QualificationsSchemaName;
 export const SPECIALITIES = SpecialitiesSchemaName;
