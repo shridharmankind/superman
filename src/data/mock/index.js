@@ -96,11 +96,10 @@ const getSTPStatusUrl = apiPath => {
 
 const getUrl = apiPath => {
   const valueMap = {
-    staffPositionId: 2,
+    staffPositionId: 1,
   };
   let url = apiPath;
   url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
-
   return url;
 };
 
