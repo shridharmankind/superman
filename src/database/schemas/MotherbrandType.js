@@ -1,4 +1,4 @@
-export const MotherbrandTypeName = 'MotherbrandTypeSchema';
+export const MotherbrandTypeName = 'MotherbrandType';
 export default class MotherbrandTypeSchema {
   static schema = {
     name: MotherbrandTypeName,

@@ -1,4 +1,4 @@
-export const MoleculeName = 'MoleculeSchema';
+export const MoleculeName = 'Molecule';
 export default class MoleculeSchema {
   static schema = {
     name: MoleculeName,

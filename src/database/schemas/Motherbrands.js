@@ -10,8 +10,8 @@ export default class MotherbrandsSchema {
       shortName: 'string',
       isFocused: 'bool',
       isPower: 'bool',
-      molecule: 'MoleculeSchema',
-      motherBrandType: 'MotherbrandTypeSchema',
+      molecule: 'Molecule',
+      motherBrandType: 'MotherbrandType',
     },
   };
 }
