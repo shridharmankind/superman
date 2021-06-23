@@ -63,10 +63,7 @@ export const sortByCategory = array => {
   const byPotentials = byCategory
     .slice()
     .sort((a, b) => (a.isKyc === b.isKyc ? 0 : a.isKyc ? -1 : 1));
-  const byFrequency = byPotentials.sort((a, b) =>
-    a.frequency > b.alreadyVisited ? 0 : -1,
-  );
-  return byFrequency;
+  return byPotentials;
 };
 
 export const sortBasedOnCategory = (a, b) => {
@@ -93,7 +90,7 @@ export const getSelectedMonthIndex = month => {
 export const getSelectedPartyTypeData = (
   allParties,
   doctorsSelected,
-  areaSelected,
+  isAreaSelected,
 ) => {
   const {
     DOCTOR,
@@ -107,12 +104,13 @@ export const getSelectedPartyTypeData = (
   const obj = {
     [DOCTOR]: 0,
     [CHEMIST]: 0,
-    [AREA]: areaSelected?.length,
+    [AREA]: isAreaSelected,
     [FREQUENCY_MET]: 0,
     [DOCTOR_COVERED_IN_MONTH]: 0,
     [CHEMIST_COVERED_IN_MONTH]: 0,
     [DOCTOR_IN_X_DAYS]: 0,
   };
+
   allParties.map(party => {
     // for all
     if (party?.alreadyVisited > 0) {
@@ -127,7 +125,7 @@ export const getSelectedPartyTypeData = (
       obj[FREQUENCY_MET] = obj[FREQUENCY_MET] + 1;
     }
     // for current selected  ==> IN A DAY
-    if (doctorsSelected?.some(id => id === party.id)) {
+    if (doctorsSelected?.some(id => id.partyId === party.id)) {
       if (party.frequency === party.alreadyVisited + 1) {
         obj[FREQUENCY_MET] = obj[FREQUENCY_MET] + 1;
       }

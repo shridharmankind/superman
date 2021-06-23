@@ -1,49 +1,55 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, FlatList, Image} from 'react-native';
-import {ContentWithSidePanel} from 'components/layouts';
-import {useDispatch, useSelector} from 'react-redux';
-import {Label, LabelVariant} from 'components/elements';
-import {Strings, Constants} from 'common';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, FlatList, Image } from 'react-native';
+import { ContentWithSidePanel } from 'components/layouts';
+import { useDispatch, useSelector } from 'react-redux';
+import { Label, LabelVariant } from 'components/elements';
+import { Strings, Constants } from 'common';
 import styles from './styles';
-import {TabBar} from 'components/widgets';
-import {fetchSearchDoctors} from './redux/dirlandingSlice';
-import {searchDocSelector} from './redux/dirLandingSelector';
-import {validateSearch} from 'screens/directory/helper';
-import {SearchIcon} from 'assets';
-import {Button} from 'components/elements';
+import { TabBar } from 'components/widgets';
+import { fetchSearchDoctors, clearSearchDoctors } from './redux/dirlandingSlice';
+import { searchDocSelector } from './redux/dirLandingSelector';
+import { validateSearch } from 'screens/directory/helper';
+import { SearchIcon } from 'assets';
+import { Button } from 'components/elements';
 import theme from 'themes';
 import { getDivisionColor } from 'screens/directory/helper';
 import { ROUTE_EDETAILING } from 'screens/directory/routes';
-import { showToast ,hideToast} from 'components/widgets/Toast';
-import {API_PATH} from 'screens/directory/apiPath';
+import { showToast, hideToast } from 'components/widgets/Toast';
+import { API_PATH } from 'screens/directory/apiPath';
 import { NetworkService } from 'services';
+import { searchDoctorActions } from 'screens/directory/landing/redux';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
  */
-const DirectoryLanding = ({navigation, route}) => {
+const DirectoryLanding = ({ navigation, route }) => {
   const LIMIT = 10;
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [skip, setSkip] = useState(0);
   const [searchKeyword, updateSearchKeyword] = useState(
-    route?.params?.inputKeyword,
+    route?.params?.inputKeyword || null,
   );
-  const [doctorsAddedinTodayPlan,updateTodayPlan] = useState([]);
+  const [doctorsAddedinTodayPlan, updateTodayPlan] = useState([]);
   let filterPrefix;
   const dispatch = useDispatch(); // For dispatching the action
-
   useEffect(() => {
-    filterPrefix = checkForDrPrefix(searchKeyword);
-    dispatch(
-      fetchSearchDoctors({
-        staffPositionId: 1,
-        searchKeyword: filterPrefix,
-        partyTypeId: 1,
-        skip: 0,
-        limit: LIMIT,
-      }),
-    );
-    setSkip(LIMIT);
+    if (!!searchKeyword && searchKeyword !== '') {
+      filterPrefix = checkForDrPrefix(searchKeyword);
+      dispatch(
+        fetchSearchDoctors({
+          staffPositionId: 1,
+          searchKeyword: filterPrefix,
+          partyTypeId: 1,
+          skip: 0,
+          limit: LIMIT,
+        }),
+      );
+      setSkip(LIMIT);
+    }
+
+    return () => {
+      dispatch(searchDoctorActions.clearSearch());
+    }
 
   }, [dispatch]);
 
@@ -61,13 +67,15 @@ const DirectoryLanding = ({navigation, route}) => {
     },
   ];
 
- // Dunction to check the dr. prefix and remove it
+  // Dunction to check the dr. prefix and remove it
   const checkForDrPrefix = (searchKey) => {
-    if (searchKey.toLowerCase().indexOf('dr.') === 0) {
-      return searchKey.toLowerCase().replace('dr.', '').trim();
-    }
-    else {
-      return searchKey.trim();
+    if (!!searchKey) {
+      if (searchKey.toLowerCase().indexOf('dr.') === 0) {
+        return searchKey.toLowerCase().replace('dr.', '').trim();
+      }
+      else {
+        return searchKey.trim();
+      }
     }
   }
 
@@ -108,41 +116,50 @@ const DirectoryLanding = ({navigation, route}) => {
 
   // Function to be called on search icon
   const doSearch = () => {
-    const [isValid, drPrefix] = validateSearch(
-      searchKeyword,
-      clearSearchInput,
-    );
-    if (isValid) {
-      // updateSearchKeyword(searchKey);
-      let trimmedKeyword = '';
-      if (drPrefix) {
-        trimmedKeyword = searchKeyword.toLowerCase().replace('dr.', '');
-      }
-      else {
-        trimmedKeyword = searchKeyword;
-      }
-      dispatch(
-        fetchSearchDoctors({
-          staffPositionId: 1,
-          searchKeyword: trimmedKeyword.trim(),
-          partyTypeId: 1,
-          skip: 0,
-          limit: LIMIT,
-        }),
+    if (!!searchKeyword) {
+      const [isValid, drPrefix] = validateSearch(
+        searchKeyword,
+        clearSearchInput,
       );
-      setSkip(LIMIT);
+      if (isValid) {
+        // updateSearchKeyword(searchKey);
+        let trimmedKeyword = '';
+        if (drPrefix) {
+          trimmedKeyword = searchKeyword.toLowerCase().replace('dr.', '');
+        }
+        else {
+          trimmedKeyword = searchKeyword;
+        }
+        dispatch(
+          fetchSearchDoctors({
+            staffPositionId: 1,
+            searchKeyword: trimmedKeyword.trim(),
+            partyTypeId: 1,
+            skip: 0,
+            limit: LIMIT,
+          }),
+        );
+        setSkip(LIMIT);
+      }
     }
   };
 
   // Function to be called on click of eDetail button
-  const edetailHandler = () => {
-    navigation.navigate(ROUTE_EDETAILING);
+  const edetailHandler = (doctorData) => {
+    let isDocScheduleToday = false;
+    if (doctorData.isScheduledToday) {
+      isDocScheduleToday = true;
+    }
+    else {
+      isDocScheduleToday = isDoctorAddedinTodayPlan(doctorData.id)
+    }
+    navigation.navigate(ROUTE_EDETAILING, { data: { doctorID: doctorData.id, isScheduledToday: isDocScheduleToday,updateCallbk:updateDocTodayPlan } });
   };
 
   // If image is not received from server
   const OnErrorHandler = (index) => {
     let genderImage = require('assets/images/male.png');
-    if(doctorList[index]?.gender){
+    if (doctorList[index]?.gender) {
       Constants.GENDER.MALE === doctorList[index].gender.toUpperCase()
         ? genderImage = require('assets/images/male.png')
         : genderImage = require('assets/images/female.png');
@@ -163,17 +180,21 @@ const DirectoryLanding = ({navigation, route}) => {
           limit: LIMIT,
         }),
       );
-        setSkip(prev => prev + LIMIT);
+      setSkip(prev => prev + LIMIT);
     }
   }
-
+  
+  // Callback Function to update doctorsAddedinTodayPlan
+  const updateDocTodayPlan = (doctorID) => {
+    updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
+  }
 
   // Function to add doctor to Today's plan
-  const addToTodayPlan =  (doctorID) => {
+  const addToTodayPlan = (doctorID) => {
     const addDocToDailyPlan = async () => {
-      const result = await NetworkService.post(API_PATH.ADD_TODAY_PLAN,{},{staffPositionId:1,partyId:doctorID});
+      const result = await NetworkService.post(API_PATH.ADD_TODAY_PLAN, {}, { staffPositionId: 1, partyId: doctorID });
       if (result.status === Constants.HTTP_OK) {
-        updateTodayPlan([...doctorsAddedinTodayPlan,doctorID]);
+        updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
         showToast({
           type: Constants.TOAST_TYPES.SUCCESS,
           autoHide: true,
@@ -189,14 +210,14 @@ const DirectoryLanding = ({navigation, route}) => {
     addDocToDailyPlan();
   }
 
-// Function to check if doctor is already added in today's plan
-  const isDoctorAddedinTodayPlan = (id) =>{
-   if(doctorsAddedinTodayPlan.length>0 && (doctorsAddedinTodayPlan.findIndex((item)=>item === id)>-1)){
-     return true;
-   }
-   else{
-     return false;
-   }
+  // Function to check if doctor is already added in today's plan
+  const isDoctorAddedinTodayPlan = (id) => {
+    if (doctorsAddedinTodayPlan.length > 0 && (doctorsAddedinTodayPlan.findIndex((item) => item === id) > -1)) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   // Below is the doctor tab under directory page
@@ -242,7 +263,7 @@ const DirectoryLanding = ({navigation, route}) => {
                 data={doctorList}
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return (
                     <View style={styles.doctorDataRow}>
                       <View style={styles.kycCatContainer}>
@@ -304,14 +325,14 @@ const DirectoryLanding = ({navigation, route}) => {
                             title={Strings.directory.btns.addTodayPlan}
                             mode="contained"
                             contentStyle={styles.todayPlanbuttonLayout}
-                            onPress={()=>addToTodayPlan(item.id)}
+                            onPress={() => addToTodayPlan(item.id)}
                           />
                         )}
                         <Button
                           title={Strings.directory.btns.startEdetail}
                           mode="contained"
                           contentStyle={styles.eDetailbuttonLayout}
-                          onPress={edetailHandler}
+                          onPress={()=>edetailHandler(item)}
                           labelStyle={styles.btnContent}
                         />
                       </View>

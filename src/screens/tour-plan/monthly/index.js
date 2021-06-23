@@ -13,6 +13,7 @@ import {
   STAFF_CODES,
   TOUR_PLAN_TYPE,
   STP_STATUS,
+  SUBMIT_STP_PLAN_THRESHOLD_VALUE,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -29,6 +30,7 @@ import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
 import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
+import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -92,7 +94,7 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
-        staffPositionid: 2,
+        staffPositionid: 1,
       }),
     );
   }, [dispatch]);
@@ -100,7 +102,7 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(
       fetchSTPStatusCreator({
-        staffPositionId: 2,
+        staffPositionId: 1,
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
     );
@@ -123,9 +125,10 @@ const MonthlyTourPlan = ({navigation}) => {
     if (showCongratsModal) {
       setTimeout(() => {
         setShowCongratsModal(false);
+        dispatch(monthlyActions.setSTPShowComplete(true));
       }, 5000);
     }
-  }, [showCongratsModal]);
+  }, [dispatch, showCongratsModal]);
 
   /**
    * effect to set percentage compliance
@@ -464,18 +467,18 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderActionButton = () => {
     return (
       <View style={styles.actionButtonGroup}>
-        <Button
+        {/* <Button  //NOT REQUIRED CURRENTLY
           title={translate('monthlyActions.save')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
           labelStyle={styles.buttonTabBarText}
-        />
+        /> */}
         <Button
           title={translate('monthlyActions.submitSTP')}
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          disabled={compliancePercentage !== 100}
+          disabled={compliancePercentage <= SUBMIT_STP_PLAN_THRESHOLD_VALUE}
           onPress={submitSTPHandler}
         />
       </View>
@@ -488,7 +491,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({
-        staffPositionId: 2,
+        staffPositionId: 1,
       }),
     );
   };
@@ -514,11 +517,19 @@ const MonthlyTourPlan = ({navigation}) => {
       {openTourPlanDropDown()}
       {renderView()}
       <CongratulatoryModal
-        open={showCongratsModal}
+        open={!submitSTP?.messageShown && showCongratsModal}
         actionTitle={Strings.takeMeToHome}
         content={renderCongratsContent()}
         bottomText={Strings.beginJourney}
-        btnAction={() => {}}
+        btnAction={() => {
+          navigation.navigate(ROUTE_HOME, {
+            screen: 'Home',
+          });
+        }}
+        closeAction={true}
+        onClose={() => {
+          setShowCongratsModal(false);
+        }}
       />
     </View>
   );

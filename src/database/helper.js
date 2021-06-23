@@ -50,10 +50,12 @@ export const MASTER_TABLES_DETAILS = [
  * This function is get logged in user first name
  * @returns user first name
  */
-export const getUserFirstName = async () => {
+export const getUserName = async () => {
   try {
     const user = await getActiveUser();
-    return user.firstName || '';
+    const {firstName = '', lastName = ''} = user;
+
+    return `${firstName} ${lastName}`;
   } catch (error) {}
 };
 

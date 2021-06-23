@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 9.3,
     lineHeight: 10.7,
     color: theme.colors.green[400],
-    paddingHorizontal: theme.spacing(5),
+    paddingHorizontal: theme.spacing(0),
   },
   tourPlanOption: {
     flexDirection: 'row',
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   chipContainer: {
     height: 21.3,
-    marginLeft: theme.spacing(32),
+    marginLeft: theme.spacing(20),
   },
   lockIcon: {
     marginBottom: theme.spacing(5),

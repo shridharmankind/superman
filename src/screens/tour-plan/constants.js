@@ -65,3 +65,11 @@ export const RULE_KEY = {
   CHEMIST_COVERED_IN_MONTH: 'chemistCoveredInMonth',
   DOCTOR_IN_X_DAYS: 'doctorInXDays',
 };
+
+// Comparison check to  enable submit STP
+export const SUBMIT_STP_PLAN_THRESHOLD_VALUE = 100;
+
+export const ARRAY_OPERATION = {
+  PUSH: 'PUSH',
+  POP: 'POP',
+};
