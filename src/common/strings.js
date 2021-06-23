@@ -83,7 +83,7 @@ const Strings = {
     tabDes: 'Mankind/Total',
     foc: 'FOC',
     gx: '(Gx)',
-    sow: '(SoW)',
+    sow: '(SOW)',
     conductRcpa: 'Conduct RCPA',
     na: 'NA',
   },
