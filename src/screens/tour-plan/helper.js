@@ -63,10 +63,7 @@ export const sortByCategory = array => {
   const byPotentials = byCategory
     .slice()
     .sort((a, b) => (a.isKyc === b.isKyc ? 0 : a.isKyc ? -1 : 1));
-  const byFrequency = byPotentials.sort((a, b) =>
-    a.frequency > b.alreadyVisited ? 0 : -1,
-  );
-  return byFrequency;
+  return byPotentials;
 };
 
 export const sortBasedOnCategory = (a, b) => {
@@ -90,7 +87,11 @@ export const getSelectedMonthIndex = month => {
  * @param {Array} doctorsSelected  array of selected doctor id's
  * @returns obj containing count of party types
  */
-export const getSelectedPartyTypeData = (allParties, doctorsSelected) => {
+export const getSelectedPartyTypeData = (
+  allParties,
+  doctorsSelected,
+  isAreaSelected,
+) => {
   const {
     DOCTOR,
     CHEMIST,
@@ -103,19 +104,12 @@ export const getSelectedPartyTypeData = (allParties, doctorsSelected) => {
   const obj = {
     [DOCTOR]: 0,
     [CHEMIST]: 0,
-    [AREA]: 0,
+    [AREA]: isAreaSelected,
     [FREQUENCY_MET]: 0,
     [DOCTOR_COVERED_IN_MONTH]: 0,
     [CHEMIST_COVERED_IN_MONTH]: 0,
     [DOCTOR_IN_X_DAYS]: 0,
   };
-  const uniqueAreas = [];
-  doctorsSelected.map(item => {
-    if (uniqueAreas.indexOf(item.areaId) === -1) {
-      uniqueAreas.push(item.areaId);
-    }
-  });
-  obj[AREA] = uniqueAreas.length;
 
   allParties.map(party => {
     // for all

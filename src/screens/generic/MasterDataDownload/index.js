@@ -13,8 +13,9 @@ import {
   Helper,
   Constants as DBConstants,
   Operations,
-  Organizations,
+  PartyCategories,
   Schemas,
+  Organizations,
   Divisions,
   Qualifications,
   Specialities,
@@ -124,6 +125,9 @@ const MasterDataDownload = ({navigation}) => {
                 );
               }
               break;
+            case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_ORGANIZATION:
               response = await NetworkService.get(item.apiPath);
               break;
@@ -164,7 +168,14 @@ const MasterDataDownload = ({navigation}) => {
                 break;
 
               case DBConstants.MASTER_TABLE_ORGANIZATION:
-                await Organizations.storeOrganizations(JSON.parse(data));
+                const organizationsUpdated =
+                  await Organizations.storeOrganizations(JSON.parse(data));
+                organizationsUpdated && updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
+                const partyCategoriesUpdated =
+                  await PartyCategories.storePartyCategories(JSON.parse(data));
+                partyCategoriesUpdated && updateRecordDownloaded(item.name);
                 break;
             }
 

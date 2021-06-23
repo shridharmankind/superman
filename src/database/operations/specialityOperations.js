@@ -20,6 +20,10 @@ export default dbInstance => ({
   getSpeciality: async id => {
     return await dbInstance.objectForPrimaryKey(SpecialitiesSchemaName, id);
   },
+  getSpecialityById: async specialityId => {
+    const specialities = await getAllTableRecords(SpecialitiesSchemaName);
+    return await specialities.filtered(`specialityId = ${specialityId}`);
+  },
   getSpecialities: async () => {
     return await getAllTableRecords(SpecialitiesSchemaName);
   },
