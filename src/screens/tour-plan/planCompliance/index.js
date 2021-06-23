@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState, useReducer} from 'react';
 import {ProgressBar, useTheme} from 'react-native-paper';
 import {View} from 'react-native';
 import styles from './styles';
@@ -14,7 +15,26 @@ import {rulesMapping} from './rulesMapping';
 import {ErrorIcon, Complaint} from 'assets';
 import {getComparisonResult} from 'screens/tourPlan/helper';
 import {translate} from 'locale';
-import {COMPLAINCE_TYPE, ARRAY_OPERATION} from 'screens/tourPlan/constants';
+import {
+  COMPLAINCE_TYPE,
+  RULE_KEY,
+  ARRAY_OPERATION,
+} from 'screens/tourPlan/constants';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {areasCovered: state.areasCovered + 1};
+    case 'decrement':
+      return {areasCovered: state.areasCovered - 1};
+
+    case 'init':
+      return {areasCovered: action.payload};
+    default:
+      return {areasCovered: state.areasCovered};
+  }
+}
+
 /**
  * Tab component rendering as a radio button
  * @param {Boolean} isChecked determines if radio button is selected or not
@@ -26,6 +46,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
+  const [state, dispatchFn] = useReducer(reducer, {areasCovered: 0});
   /**
    * Fetch complaince rules list
    */
@@ -40,6 +61,21 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     );
   }, [dispatch, type, week, weekDay]);
 
+  // TO UPDATE AREAS COVERED COUNT
+  useEffect(() => {
+    if (complianceData?.rules && selectedData) {
+      let data = complianceData?.rules.filter(
+        item => item.rulesShortName === 'AREASCOVERED',
+      );
+      if (selectedData.areas === undefined) {
+        dispatchFn({type: 'init', payload: data[0]?.ruleValues?.coveredCount});
+      } else if (selectedData.areas === true) {
+        dispatchFn({type: 'increment'});
+      } else if (selectedData.areas === false) {
+        dispatchFn({type: 'decrement'});
+      }
+    }
+  }, [complianceData, selectedData]);
   /**
    * fetch data from selector
    */
@@ -80,7 +116,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
 
     if (checkType && type === COMPLAINCE_TYPE.DAILY) {
       const isCompliant = getComparisonResult(
-        selectedData[key],
+        key === RULE_KEY.AREA ? state.areasCovered : selectedData[key],
         rule?.ruleValues?.totalCount,
         checkType,
       );
@@ -104,7 +140,26 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       return renderIcon(isCompliant);
     }
   };
+  /**
+   *
+   * @param {Object} visitDays
+   * @returns
+   */
+  const getDayData = visitDays => {
+    return visitDays.filter(
+      item => item.weekNumber === week && item.weekDay === weekDay,
+    )[0]?.count;
+  };
 
+  const getSelectedCount = (key, ruleValues) => {
+    if (key === RULE_KEY.AREA) {
+      return state.areasCovered;
+    } else if (key === RULE_KEY.DOCTOR_IN_X_DAYS) {
+      return ruleValues?.coveredCount;
+    } else {
+      return selectedData[key];
+    }
+  };
   /**
    *
    * @param {Object} ruleValues
@@ -123,8 +178,10 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       const {key, isDayCheck} = ruleMapping;
 
       return isDayCheck
-        ? `${selectedData[key]}/${rule?.visitDays[0].count}`
-        : `${selectedData[key]}/${ruleValues.totalCount}`;
+        ? `${getDayData(rule?.visitDays, ruleValues?.coveredCount)}/${
+            ruleValues.totalCount
+          }`
+        : `${getSelectedCount(key, ruleValues)}/${ruleValues.totalCount}`;
     }
   };
 
@@ -165,9 +222,10 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     });
   };
 
-  if (!complianceData) {
+  if (!complianceData || !Object.values(complianceData)?.length) {
     return null;
   }
+
   return (
     <View style={styles.container}>
       <View
@@ -178,7 +236,10 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
             : styles.inProgressComplaince,
         ]}>
         <Label variant={LabelVariant.h1} style={styles.percentage}>
-          {complianceData?.totalPercent?.toFixed(2)} %
+          {Number.isInteger(complianceData?.totalPercent)
+            ? complianceData?.totalPercent
+            : complianceData?.totalPercent?.toFixed(2)}{' '}
+          %
         </Label>
         <ProgressBar
           progress={complianceData?.totalPercent / 100}
