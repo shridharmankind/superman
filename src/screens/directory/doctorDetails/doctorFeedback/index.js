@@ -95,6 +95,7 @@ const DoctorFeedback = ({navigation, route}) => {
             />
             <Label
               style={styles.nameStyling}
+              variant={LabelVariant.h2}
               testID="doctor_name"
               title={`Dr. ${doctorData.name}`}
             />
