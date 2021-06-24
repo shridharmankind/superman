@@ -78,6 +78,8 @@ const StandardPlanModal = ({
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [isAreaSelected, setIsAreaSelected] = useState(undefined);
+  const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
+
   const weekNum = Number(week);
   const staffPositionId = 1;
 
@@ -184,6 +186,23 @@ const StandardPlanModal = ({
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
   const savePatchRes = useSelector(standardTourPlanSelector.savePatch());
+  const getUpdatedPartyArray = useSelector(
+    standardTourPlanSelector.getUpdatedPartyArray(),
+  );
+  const selectedDoctorCount = useSelector(
+    standardTourPlanSelector.getSelectedDoctorCount(),
+  );
+  const selectedChemistCount = useSelector(
+    standardTourPlanSelector.getSelectedChemistCount(),
+  );
+  // number of doctors  for whom  frequency ehauseted
+  const exhaustedDrFrequencyCount = useSelector(
+    standardTourPlanSelector.getExhaustedDrFrequencyCount(),
+  );
+
+  useEffect(() => {
+    setUpdatedPatchArray(getUpdatedPartyArray);
+  }, [getUpdatedPartyArray]);
 
   useEffect(() => {
     loadData();
@@ -776,6 +795,7 @@ const StandardPlanModal = ({
       party => party.areaId === area,
     );
     setIsAreaSelected(!isAreaAlreadySelected);
+
     const indexAvailable = doctorsSelected?.some(
       party => party.partyId === id && party.areaId === area,
     );
@@ -794,6 +814,7 @@ const StandardPlanModal = ({
         party => !partyExhausted?.some(par => par.id === party.partyId),
       );
     }
+
     setDoctorsSelected(selected || []);
     const string = createPatchString(
       areaSelected,
@@ -1146,6 +1167,11 @@ const StandardPlanModal = ({
               allParties,
               doctorsSelected,
               isAreaSelected,
+              updatedPatchArray,
+              dataChanged,
+              selectedDoctorCount,
+              selectedChemistCount,
+              exhaustedDrFrequencyCount,
             )}
           />
         </View>
