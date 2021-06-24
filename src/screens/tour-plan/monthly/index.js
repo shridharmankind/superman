@@ -467,18 +467,18 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderActionButton = () => {
     return (
       <View style={styles.actionButtonGroup}>
-        <Button
+        {/* <Button  //NOT REQUIRED CURRENTLY
           title={translate('monthlyActions.save')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
           labelStyle={styles.buttonTabBarText}
-        />
+        /> */}
         <Button
           title={translate('monthlyActions.submitSTP')}
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          disabled={compliancePercentage !== SUBMIT_STP_PLAN_THRESHOLD_VALUE}
+          disabled={compliancePercentage <= SUBMIT_STP_PLAN_THRESHOLD_VALUE}
           onPress={submitSTPHandler}
         />
       </View>
