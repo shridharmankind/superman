@@ -63,7 +63,6 @@ export const getStandardPlanSlice = createSlice({
   initialState: standardTourPlan,
   reducers: {
     getParties: (state, action) => {
-      //return merge(state, action.payload);
       return {
         ...state,
         parties: action.payload.parties,
