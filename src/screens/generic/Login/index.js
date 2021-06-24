@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -16,7 +16,9 @@ import {KeyChain} from 'helper';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
-import {AuthContext} from '../../../App';
+import {authTokenActions} from '../RouteHandler/redux';
+import {useDispatch} from 'react-redux';
+
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
   clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
@@ -29,16 +31,16 @@ export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
 export const USER_ID = 'USER_ID';
 export const AlertTitle = 'Info';
 
-const Login = ({navigation}) => {
+const Login = () => {
   const [animating, setAnimating] = useState(false);
-  const {signIn} = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);
       const newAuthState = await authorize(config);
       await KeyChain.saveAccessToken(newAuthState.accessToken);
-      signIn();
+      dispatch(authTokenActions.signIn({userToken: newAuthState.accessToken}));
       const decoded = jwt_decode(newAuthState.accessToken);
       AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
       AsyncStorage.setItem(USER_ID, decoded.sub);
@@ -47,8 +49,7 @@ const Login = ({navigation}) => {
       setAnimating(false);
       Alert.alert(Strings.info, error.message);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation]);
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>

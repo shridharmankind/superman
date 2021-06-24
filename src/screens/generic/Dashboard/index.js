@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Alert,
@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {useDispatch} from 'react-redux';
 
 import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon} from 'assets';
@@ -20,14 +21,14 @@ import styles from './styles';
 import {Strings} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
-import {AuthContext} from '../../../App';
+import {authTokenActions} from '../RouteHandler/redux';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
+  const dispatch = useDispatch();
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
-  const {signOut} = useContext(AuthContext);
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
@@ -88,7 +89,7 @@ const Dashboard = ({navigation}) => {
 
   //sign out state update hook
   const signOutStateUpdate = () => {
-    signOut();
+    dispatch(authTokenActions.signOut());
   };
 
   // Function to open the search bar
@@ -111,10 +112,7 @@ const Dashboard = ({navigation}) => {
 
   // Function to validate the search input
   const validateSearchKeyword = () => {
-    const [isValid] = validateSearch(
-      searhInput,
-      clearInputSearch,
-    );
+    const [isValid] = validateSearch(searhInput, clearInputSearch);
     if (isValid) {
       return searhInput.trim();
     } else {
