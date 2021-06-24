@@ -42,7 +42,7 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: NetworkService.API.FETCH_SPECIALITIES,
   },
   {
-    name: WeeklyoffSchemaName,
+    name: Constants.MASTER_TABLE_WEEKLYOFF,
     apiPath: Constants.MASTER_TABLE_WEEKLYOFF_API_PATH,
   },
 ];
@@ -54,6 +54,8 @@ export const MASTER_TABLES_DETAILS = [
 export const getUserFirstName = async () => {
   try {
     const user = await getActiveUser();
+    const x = await Weeklyoff.getAllWeeklyOffs();
+    console.log('x', x);
     return user.firstName || '';
   } catch (error) {}
 };

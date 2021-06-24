@@ -119,6 +119,7 @@ const MasterDataDownload = ({navigation}) => {
               break;
             case DBConstants.MASTER_TABLE_WEEKLYOFF:
               response = await NetworkService.get(item.apiPath);
+              response && updateRecordDownloaded(item.name);
               break;
             case DBConstants.MASTER_TABLE_PARTY:
               {
@@ -260,3 +261,5 @@ const MasterDataDownload = ({navigation}) => {
 };
 
 export default MasterDataDownload;
+
+//  divisionsUpdated && updateRecordDownloaded(item.name);
