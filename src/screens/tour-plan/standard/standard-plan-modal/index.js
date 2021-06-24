@@ -86,10 +86,12 @@ const StandardPlanModal = ({
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
+  const XMonthValue = useSelector(planComplianceSelector.getXMonthValue());
 
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
-
+  const selectedDayNumber =
+    (weekNum - 1) * workingDays?.length + (workingDays.indexOf(weekDay) + 1);
   /**
    * Show toast message to warn user that he has exceeded max doctor/chemist count
    * once toast hides, save/update patch
@@ -1172,6 +1174,8 @@ const StandardPlanModal = ({
               selectedDoctorCount,
               selectedChemistCount,
               exhaustedDrFrequencyCount,
+              selectedDayNumber,
+              XMonthValue,
             )}
           />
         </View>
