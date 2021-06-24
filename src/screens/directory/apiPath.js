@@ -5,5 +5,5 @@ export const API_PATH = {
   GET_TIMELINE: 'mtp/timeline/visit',
   GET_PRIORITY_PRODUCT: 'eDetailing/priorityProduct',
   GET_OTHER_PRODUCT: 'eDetailing/otherProduct',
-  ADD_TODAY_PLAN: 'dailyplanactivity/adhocPan',
+  ADD_TODAY_PLAN: 'dailyplanactivity/adhocplan',
 };
