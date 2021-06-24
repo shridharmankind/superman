@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, FlatList, Image} from 'react-native';
+import {
+  View,
+  TextInput,
+  FlatList,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import {ContentWithSidePanel} from 'components/layouts';
 import {useDispatch, useSelector} from 'react-redux';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings, Constants} from 'common';
 import styles from './styles';
 import {TabBar} from 'components/widgets';
-import {fetchSearchDoctors, clearSearchDoctors} from './redux/dirlandingSlice';
+import {fetchSearchDoctors} from './redux/dirlandingSlice';
 import {searchDocSelector} from './redux/dirLandingSelector';
 import {validateSearch} from 'screens/directory/helper';
 import {SearchIcon} from 'assets';
@@ -18,6 +24,7 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
 import {searchDoctorActions} from 'screens/directory/landing/redux';
+import {appSelector} from 'selectors';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
@@ -30,11 +37,10 @@ const DirectoryLanding = ({navigation, route}) => {
     route?.params?.inputKeyword || null,
   );
   const [doctorsAddedinTodayPlan, updateTodayPlan] = useState([]);
-  let filterPrefix;
   const dispatch = useDispatch(); // For dispatching the action
   useEffect(() => {
     if (!!searchKeyword && searchKeyword !== '') {
-      filterPrefix = checkForDrPrefix(searchKeyword);
+      let filterPrefix = checkForDrPrefix(searchKeyword);
       dispatch(
         fetchSearchDoctors({
           staffPositionId: 1,
@@ -50,10 +56,13 @@ const DirectoryLanding = ({navigation, route}) => {
     return () => {
       dispatch(searchDoctorActions.clearSearch());
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
   const doctorList = useSelector(searchDocSelector.getSearchDocList());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
+
   const data = [
     {
       text: `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`,
@@ -142,15 +151,20 @@ const DirectoryLanding = ({navigation, route}) => {
   };
 
   // Function to be called on click of eDetail button
-  const edetailHandler = (doctorData) => {
+  const edetailHandler = doctorData => {
     let isDocScheduleToday = false;
     if (doctorData.isScheduledToday) {
       isDocScheduleToday = true;
+    } else {
+      isDocScheduleToday = isDoctorAddedinTodayPlan(doctorData.id);
     }
-    else {
-      isDocScheduleToday = isDoctorAddedinTodayPlan(doctorData.id)
-    }
-    navigation.navigate(ROUTE_EDETAILING, { data: { doctorID: doctorData.id, isScheduledToday: isDocScheduleToday,updateCallbk:updateDocTodayPlan } });
+    navigation.navigate(ROUTE_EDETAILING, {
+      data: {
+        doctorID: doctorData.id,
+        isScheduledToday: isDocScheduleToday,
+        updateCallbk: updateDocTodayPlan,
+      },
+    });
   };
 
   // If image is not received from server
@@ -166,7 +180,7 @@ const DirectoryLanding = ({navigation, route}) => {
 
   // Function for infinite scrolling
   const handleLoadMore = () => {
-    filterPrefix = checkForDrPrefix(searchKeyword);
+    let filterPrefix = checkForDrPrefix(searchKeyword);
     if (skip < docCount) {
       dispatch(
         fetchSearchDoctors({
@@ -179,12 +193,12 @@ const DirectoryLanding = ({navigation, route}) => {
       );
       setSkip(prev => prev + LIMIT);
     }
-  }
-  
+  };
+
   // Callback Function to update doctorsAddedinTodayPlan
-  const updateDocTodayPlan = (doctorID) => {
+  const updateDocTodayPlan = doctorID => {
     updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
-  }
+  };
 
   // Function to add doctor to Today's plan
   const addToTodayPlan = doctorID => {
@@ -223,6 +237,115 @@ const DirectoryLanding = ({navigation, route}) => {
     }
   };
 
+  // Function to render today plan button
+  const renderTodayButton = item => {
+    return (
+      <Button
+        title={Strings.directory.btns.addTodayPlan}
+        mode="contained"
+        contentStyle={styles.todayPlanbuttonLayout}
+        onPress={() => addToTodayPlan(item.id)}
+      />
+    );
+  };
+
+  // Function to render doctor list
+  const docList = () => {
+    if (fetchState == 'FETCHING') {
+      return (
+        <ActivityIndicator
+          animating={true}
+          color={theme.colors.darkBlue}
+          size="large"
+          style={styles.activityIndicator}
+        />
+      );
+    }
+    return (
+      <View style={styles.listBody}>
+        <FlatList
+          nestedScrollEnabled
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.scrollPad}
+          data={doctorList}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          renderItem={({item, index}) => {
+            return (
+              <View style={styles.doctorDataRow}>
+                <View style={styles.kycCatContainer}>
+                  {item?.isKyc && (
+                    <View
+                      style={[
+                        styles.category,
+                        {
+                          backgroundColor: getDivisionColor(
+                            Constants.DIVISION_COLOR.KYC,
+                          ),
+                        },
+                      ]}>
+                      <Label
+                        variant={LabelVariant.h6}
+                        textColor={theme.colors.white}
+                        title={Strings.kyc}
+                        type={'bold'}
+                      />
+                    </View>
+                  )}
+
+                  {item.category !== '' && (
+                    <View
+                      style={[
+                        styles.category,
+                        ,
+                        {
+                          backgroundColor: getDivisionColor(item?.category),
+                        },
+                      ]}>
+                      <Label
+                        variant={LabelVariant.h6}
+                        textColor={theme.colors.white}
+                        style={styles.divisionText}
+                        title={item?.category?.toUpperCase()}
+                      />
+                    </View>
+                  )}
+                </View>
+                <Image
+                  style={[styles.docImage]}
+                  source={item.imageUrl ? item.imageUrl : OnErrorHandler(index)}
+                />
+                <Label style={styles.dataStyle} title={item.name} />
+                <Label
+                  style={styles.dataStyle}
+                  title={(item?.specialities || [])
+                    .map(spec => spec.name)
+                    .join(', ')}
+                />
+                <Label
+                  style={styles.dataStyle}
+                  title={(item?.areas || []).map(area => area.name).join(', ')}
+                />
+                <View style={styles.btnsContainer}>
+                  {!item?.isScheduledToday &&
+                    !isDoctorAddedinTodayPlan(item.id) &&
+                    renderTodayButton(item)}
+                  <Button
+                    title={Strings.directory.btns.startEdetail}
+                    mode="contained"
+                    contentStyle={styles.eDetailbuttonLayout}
+                    onPress={() => edetailHandler(item)}
+                    labelStyle={styles.btnContent}
+                  />
+                </View>
+              </View>
+            );
+          }}
+        />
+      </View>
+    );
+  };
+
   // Below is the doctor tab under directory page
   const doctorTab = () => {
     return (
@@ -257,101 +380,7 @@ const DirectoryLanding = ({navigation, route}) => {
             />
           </View>
 
-          {!!doctorList && (
-            <View style={styles.listBody}>
-              <FlatList
-                nestedScrollEnabled
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.scrollPad}
-                data={doctorList}
-                onEndReached={handleLoadMore}
-                onEndReachedThreshold={0.5}
-                renderItem={({item, index}) => {
-                  return (
-                    <View style={styles.doctorDataRow}>
-                      <View style={styles.kycCatContainer}>
-                        {item?.isKyc && (
-                          <View
-                            style={[
-                              styles.category,
-                              {
-                                backgroundColor: getDivisionColor(
-                                  Constants.DIVISION_COLOR.KYC,
-                                ),
-                              },
-                            ]}>
-                            <Label
-                              variant={LabelVariant.h6}
-                              textColor={theme.colors.white}
-                              title={Strings.kyc}
-                              type={'bold'}
-                            />
-                          </View>
-                        )}
-
-                        {item.category !== '' && (
-                          <View
-                            style={[
-                              styles.category,
-                              ,
-                              {
-                                backgroundColor: getDivisionColor(
-                                  item?.category,
-                                ),
-                              },
-                            ]}>
-                            <Label
-                              variant={LabelVariant.h6}
-                              textColor={theme.colors.white}
-                              style={styles.divisionText}
-                              title={item?.category?.toUpperCase()}
-                            />
-                          </View>
-                        )}
-                      </View>
-                      <Image
-                        style={[styles.docImage]}
-                        source={
-                          item.imageUrl ? item.imageUrl : OnErrorHandler(index)
-                        }
-                      />
-                      <Label style={styles.dataStyle} title={item.name} />
-                      <Label
-                        style={styles.dataStyle}
-                        title={(item?.specialities || [])
-                          .map(spec => spec.name)
-                          .join(', ')}
-                      />
-                      <Label
-                        style={styles.dataStyle}
-                        title={(item?.areas || [])
-                          .map(area => area.name)
-                          .join(', ')}
-                      />
-                      <View style={styles.btnsContainer}>
-                        {!item?.isScheduledToday &&
-                          !isDoctorAddedinTodayPlan(item.id) && (
-                            <Button
-                              title={Strings.directory.btns.addTodayPlan}
-                              mode="contained"
-                              contentStyle={styles.todayPlanbuttonLayout}
-                              onPress={() => addToTodayPlan(item.id)}
-                            />
-                          )}
-                        <Button
-                          title={Strings.directory.btns.startEdetail}
-                          mode="contained"
-                          contentStyle={styles.eDetailbuttonLayout}
-                          onPress={()=>edetailHandler(item)}
-                          labelStyle={styles.btnContent}
-                        />
-                      </View>
-                    </View>
-                  );
-                }}
-              />
-            </View>
-          )}
+          {!!doctorList && docList()}
 
           {!!doctorList && doctorList.length === 0 && (
             <View>

@@ -31,7 +31,7 @@ const DoctorFeedback = ({navigation, route}) => {
           <Text style={styles.question}>
             <Text style={{fontFamily: themes.fonts.fontBold}}>
               {index + 1}.
-            </Text>{' '}
+            </Text>
             {`${Strings.doctorDetail.dcr.what} `}
             <Text style={{fontFamily: themes.fonts.fontBold}}>
               {`${Strings.doctorDetail.dcr.kindOfVisit} `}
