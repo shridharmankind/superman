@@ -1,9 +1,10 @@
 import React, {useEffect, useReducer} from 'react';
+import {useDispatch} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {DoctorDetails} from 'components/elements';
-
+import {standardPlanActions} from 'screens/tourPlan/standard/redux';
 function reducer(state, action) {
   switch (action.type) {
     case 'increment':
@@ -61,6 +62,7 @@ const DoctorDetailsWrapper = ({
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
+  const dispatch = useDispatch();
   const [state, dispatchFn] = useReducer(reducer, {
     ...party,
     alreadyVisitedCount: party?.alreadyVisited,
@@ -95,6 +97,11 @@ const DoctorDetailsWrapper = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
+
+  useEffect(() => {
+    dispatch(standardPlanActions.updatePartyAreasOnSelection(state));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, state]);
 
   const getSelectedFrequency = () => {
     if (isSameDayPatch && isPatchedData) {
