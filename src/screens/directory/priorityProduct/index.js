@@ -37,7 +37,7 @@ const PriorityProduct = ({staffPostionId = 1, partyId}) => {
       const result = priorityProductList.slice(0, 4);
       setList(result);
     } else {
-      setList(priorityProductList);
+      setList(priorityProductList || []);
     }
   }, [priorityProductList]);
 
