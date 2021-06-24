@@ -33,8 +33,12 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
     productSelector.getPriorityProductList(),
   );
   useEffect(() => {
-    const result = priorityProductList.slice(0, 4);
-    setList(result);
+    if (priorityProductList?.length > 4) {
+      const result = priorityProductList.slice(0, 4);
+      setList(result);
+    } else {
+      setList(priorityProductList || []);
+    }
   }, [priorityProductList]);
 
   /**
