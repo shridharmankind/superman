@@ -25,16 +25,19 @@ import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
 import NetInfo from '@react-native-community/netinfo';
 import {Sync} from 'database';
-import {showToastie,
+import {
+  showToastie,
   setOnDemandSyncStatusRunning,
   getOnDemandSyncStatus,
-  getBackgrounTaskValue} from 'utils/backgroundTask';
+  getBackgrounTaskValue,
+} from 'utils/backgroundTask';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
+  const [onDemandSync, setOnDemandSync] = useState(true);
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
@@ -44,28 +47,36 @@ const Dashboard = ({navigation}) => {
 
   const onSyncPress = () => {
     if (!isWeb()) {
-      NetInfo.fetch().then(async (state) => {
-        if (state.isConnected) {
-            let backgroundTaskStatus = await getBackgrounTaskValue();
-            if(backgroundTaskStatus == Constants.BACKGROUND_TASK.NOT_RUNNING){
-              await setOnDemandSyncStatusRunning();
-              let onDemandValue = await getOnDemandSyncStatus();
-              if(onDemandValue == Constants.BACKGROUND_TASK.RUNNING){
-                showToastie(Constants.TOAST_TYPES.SUCCESS,Strings.backgroundTask.toastBtns.syncInitiatedMessage);
-                Sync.SyncService.syncNow();
+      NetInfo.fetch().then(async state => {
+        if (state.isConnected && onDemandSync) {
+          let backgroundTaskStatus = await getBackgrounTaskValue();
+          if (backgroundTaskStatus == Constants.BACKGROUND_TASK.NOT_RUNNING) {
+            setOnDemandSync(false);
+            await setOnDemandSyncStatusRunning();
+            let onDemandValue = await getOnDemandSyncStatus();
+            if (onDemandValue == Constants.BACKGROUND_TASK.RUNNING) {
+              showToastie(
+                Constants.TOAST_TYPES.SUCCESS,
+                Strings.backgroundTask.toastBtns.syncInitiatedMessage,
+              );
+              Sync.SyncService.syncNow();
+              const getBackgroundSync = await getBackgrounTaskValue();
+              if (getBackgroundSync == Constants.BACKGROUND_TASK.NOT_RUNNING) {
+                setOnDemandSync(true);
               }
             }
-            else{
-              showToastie(Constants.TOAST_TYPES.WARNING,Strings.backgroundTask.toastBtns.syncInitiatedMessage);
-            }
+          } else {
+            showToastie(
+              Constants.TOAST_TYPES.WARNING,
+              Strings.backgroundTask.toastBtns.syncInitiatedMessage,
+            );
+          }
         } else {
-          Alert.alert(Strings.noInternet,Strings.checkInternet);
+          Alert.alert(Strings.noInternet, Strings.checkInternet);
         }
       });
     }
   };
-
-
 
   const onActivePageChanged = (route, itemId) => {
     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
@@ -142,10 +153,7 @@ const Dashboard = ({navigation}) => {
 
   // Function to validate the search input
   const validateSearchKeyword = () => {
-    const [isValid] = validateSearch(
-      searhInput,
-      clearInputSearch,
-    );
+    const [isValid] = validateSearch(searhInput, clearInputSearch);
     if (isValid) {
       return searhInput.trim();
     } else {

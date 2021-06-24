@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {View} from 'react-native';
 import {Card} from 'react-native-paper';
 import NetInfo from '@react-native-community/netinfo';
@@ -45,33 +45,32 @@ const HomeLanding = ({navigation}) => {
     if (!isWeb()) {
       loadData();
       fetchSyncTime();
-      subscribeNetworkCheck = NetInfo.addEventListener(handleConnectivityChange);
+      subscribeNetworkCheck = NetInfo.addEventListener(
+        handleConnectivityChange,
+      );
       Sync.SyncService.RegisterBackgroundTask();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     return async () => {
-      if(!isWeb()){
-        if(subscribeNetworkCheck){
+      if (!isWeb()) {
+        if (subscribeNetworkCheck) {
           subscribeNetworkCheck();
           subscribeNetworkCheck = null;
         }
       }
-    }
-  }, []);
+    };
+  }, [setSyncListener]);
 
   useEffect(() => {
-    if(isConnected){
+    if (isConnected) {
       Sync.SyncService.syncNow();
     }
-  },[isConnected]);
+  }, [isConnected]);
 
-
-  const handleConnectivityChange = (connection) => {
+  const handleConnectivityChange = connection => {
     setConnected(connection.isConnected);
-  }
+  };
 
-
-  const setSyncListener = masterData => {
+  const setSyncListener = useCallback(masterData => {
     masterData.addListener((masterData, changes) => {
       changes.insertions.forEach(index => {
         const modifiedData = masterData[index];
@@ -82,7 +81,7 @@ const HomeLanding = ({navigation}) => {
         setSync(modifiedData);
       });
     });
-  };
+  }, []);
 
   const setSync = syncRecord => {
     if (syncRecord.name == DBConstants.APPLICATION_SYNC_STATUS) {
@@ -106,7 +105,10 @@ const HomeLanding = ({navigation}) => {
     if (!isWeb()) {
       return (
         <>
-          <Label size={10.5} title={`${Strings.backgroundTask.lastSync} ${lastSync}`} />
+          <Label
+            size={10.5}
+            title={`${Strings.backgroundTask.lastSync} ${lastSync}`}
+          />
         </>
       );
     }

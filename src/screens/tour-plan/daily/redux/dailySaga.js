@@ -59,6 +59,7 @@ export function* fetchDoctorDetailWorker(action) {
         return data;
       });
     }
+
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {
@@ -97,11 +98,17 @@ export function* deletePartyWorker(action) {
       matched => valueMap[matched],
     );
 
-    const response = yield call(NetworkService.Delete, url, {
-      day: day,
-      month: month,
-      year: year,
-    },{},API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN);
+    const response = yield call(
+      NetworkService.Delete,
+      url,
+      {
+        day: day,
+        month: month,
+        year: year,
+      },
+      {},
+      API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN,
+    );
     if (response.status === Constants.HTTP_OK) {
       yield put(doctorDetailActions.doctorRemoved(action.payload));
     }

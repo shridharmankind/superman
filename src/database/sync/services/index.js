@@ -4,7 +4,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Constants} from 'common';
 import {TASK_NAME} from 'utils/backgroundTask';
 
-BackgroundFetch.setMinimumIntervalAsync(Constants.BACKGROUND_TASK.SYNC_INTERVAL); //This Background Fetch is used when app goes in background.
+BackgroundFetch.setMinimumIntervalAsync(
+  Constants.BACKGROUND_TASK.SYNC_INTERVAL,
+); //This Background Fetch is used when app goes in background.
 
 const syncInterval = Constants.BACKGROUND_TASK.SYNC_INTERVAL;
 const syncFlexTime = Constants.BACKGROUND_TASK.SYNC_FLEX_TIME;
@@ -29,15 +31,19 @@ export const syncInit = () => {
   });
 };
 
-
-
 /**
  * This method will be used if we want to run background sync if app is in background.
  */
 export const RegisterBackgroundTask = async () => {
   try {
-    await AsyncStorage.setItem(Constants.BACKGROUND_TASK.TASK_NAME, Constants.BACKGROUND_TASK.NOT_RUNNING);
-    await AsyncStorage.setItem(Constants.BACKGROUND_TASK.ON_DEMAND_TASK_NAME,Constants.BACKGROUND_TASK.NOT_RUNNING);
+    await AsyncStorage.setItem(
+      Constants.BACKGROUND_TASK.TASK_NAME,
+      Constants.BACKGROUND_TASK.NOT_RUNNING,
+    );
+    await AsyncStorage.setItem(
+      Constants.BACKGROUND_TASK.ON_DEMAND_TASK_NAME,
+      Constants.BACKGROUND_TASK.NOT_RUNNING,
+    );
     await BackgroundFetch.registerTaskAsync(TASK_NAME, {
       minimumInterval: 50, // seconds,
     });

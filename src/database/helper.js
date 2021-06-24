@@ -84,7 +84,7 @@ export const syncParameters = {
 export const getUserFirstName = async () => {
   try {
     const user = await getActiveUser();
-    return user.firstName || '';
+    return user.firstName + ' ' + user.lastName || '';
   } catch (error) {}
 };
 

@@ -30,9 +30,9 @@ const searchDoctorSlice = createSlice({
         },
       };
     },
-    clearSearch:() =>{
-      return {docList:{searchCount:0,doctors:[]}}
-    }
+    clearSearch: () => {
+      return {docList: {searchCount: 0, doctors: []}};
+    },
   },
 });
 

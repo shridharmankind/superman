@@ -44,7 +44,7 @@ const Login = ({navigation}) => {
       }
     }
     fetchAccessToken();
-  }, []);
+  }, [navigation]);
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);

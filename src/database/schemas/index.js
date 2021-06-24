@@ -100,6 +100,7 @@ export const partyMaster = {
     isKyc: 'bool?',
     shortName: 'string?',
     birthday: 'string?',
+    gender: 'string?',
     anniversary: 'string?',
     selfDispensing: 'bool',
     partyTypeId: 'int',
@@ -125,7 +126,6 @@ export const partyMaster = {
   },
   primaryKey: 'id',
 };
-
 
 export const specialities = {
   name: Constants.MASTER_TABLE_SPECIALITY,

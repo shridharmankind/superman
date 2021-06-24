@@ -37,9 +37,7 @@ const singleDailyRecord = async (
         schema[0].name,
         monthlyObjectId,
       );
-      console.log(monthlyPlanObject);
       monthlyPlanObject.dailyPlannedActivities.push(dailyPlannedActivity);
-      console.log('after ', monthlyPlanObject);
       dbInstance.create(schema[0].name, monthlyPlanObject, 'modified');
     });
   } catch (err) {

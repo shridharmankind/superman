@@ -11,7 +11,7 @@ import {
   commonSyncRecordCRUDMethod,
   deleteExistingRecord,
   deleteDBObject,
-  modifyDBObject
+  modifyDBObject,
 } from './common';
 
 let realm = null;
@@ -123,7 +123,6 @@ export const createUserInfoRecord = async (schema, data) => {
   }
 };
 
-
 export const createPartyMasterRecord = async (schema, data) => {
   try {
     await openSchema();
@@ -136,7 +135,6 @@ export const createPartyMasterRecord = async (schema, data) => {
     //await insertPartyTableData(schema, -1);
     await realm.write(() => {
       data.forEach((object, index) => {
-        //console.log("object -- ",object);
         partyTypeGroup = realm.create(
           schema[4].name,
           object.partyTypes?.partyTypeGroup,
@@ -171,6 +169,7 @@ export const createPartyMasterRecord = async (schema, data) => {
             qualification: object.qualification,
             frequency: object.frequency,
             category: object.category,
+            gender: object.gender,
             potential: object.potential,
             isKyc: object.isKyc,
             syncParameters:
@@ -341,11 +340,13 @@ export const closeDB = () => {
 // };
 export {default as qualificationOperations} from './qualificationOperations';
 export {default as monthlyPlanOperations} from './MonthlyPlanOperations';
-export {commonSyncRecordCRUDMethod,
-   generateUUID, 
-   deleteExistingRecord,
-   deleteDBObject,
-   modifyDBObject};
+export {
+  commonSyncRecordCRUDMethod,
+  generateUUID,
+  deleteExistingRecord,
+  deleteDBObject,
+  modifyDBObject,
+};
 export {default as organizationOperations} from './organizationOperations';
 export {default as divisionOperations} from './divisionOperations';
 export {default as specialityOperations} from './specialityOperations';

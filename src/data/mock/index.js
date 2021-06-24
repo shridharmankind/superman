@@ -22,7 +22,6 @@ import stpData from './api/stpData.js';
 import stpStatus from './api/stpStatus.json';
 import submitStpMock from './api/submitStp.json';
 
-
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
 import visitMockData from './api/timeline.json';

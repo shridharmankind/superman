@@ -71,8 +71,9 @@ const DoctorDetails = ({
    *
    * Handle image error & return default image
    */
-   const OnErrorHandler = () => {
+  const OnErrorHandler = () => {
     if (!isImageErrror) {
+      console.log('doctor title', title, gender);
       const genderImage =
         Constants.GENDER.MALE === (gender || '').toUpperCase()
           ? require('assets/images/male.png')
@@ -85,7 +86,7 @@ const DoctorDetails = ({
       setImageSrc(src);
       setIsImageErrror(true);
     }
-   };
+  };
 
   /**
    * Function to render the visits planned - upcoming, today, missed, completed

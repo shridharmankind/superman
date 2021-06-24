@@ -164,7 +164,7 @@ const Strings = {
       addTodayPlan: "Add to Today's Plan",
       startEdetail: 'eDetail',
     },
-    docAddedTodayPlan:'Doctor added successfully',
+    docAddedTodayPlan: 'Doctor added successfully',
   },
   searchBar: {
     errors: {
@@ -174,7 +174,7 @@ const Strings = {
     },
     toastBtns: {
       clear: 'Clear',
-      continue: 'Continue'
+      continue: 'Continue',
     },
     searchPlaceholder: 'Search Doctors Here',
   },
@@ -197,11 +197,11 @@ const Strings = {
       successMessage: 'Requested sync has been completed successfully.',
       conflictMessage: 'Sync activity was completed with a conflict.',
       failureMessage: 'Sync activity could not be completed.',
-      alreadRunningMessage: 'Sync activity is already in progress.'
-    }
+      alreadRunningMessage: 'Sync activity is already in progress.',
+    },
   },
   noInternet: 'No Internet',
-  checkInternet: 'Check you internet connection'
+  checkInternet: 'Check you internet connection',
 };
 
 export default Strings;

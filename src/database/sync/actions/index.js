@@ -11,33 +11,32 @@ const syncDifference = 1; // minutes
  * In this list we mention all the Schema's Name for which we want to run the Sync activity.
  */
 const SYNC_TASK_LIST = [
-  DBConstants.MASTER_TABLE_PARTY,         //partyMaster Table
-  DBConstants.MASTER_MONTHLY_TABLE_PLAN,  //monthlyMaster Table
+  DBConstants.MASTER_TABLE_PARTY, //partyMaster Table
+  DBConstants.MASTER_MONTHLY_TABLE_PLAN, //monthlyMaster Table
 ];
 
-
 export const checkMinimumTimeConstraint = async () => {
-  try{
+  try {
     const record = await Operations.getRecord(
       Schemas.masterTablesDownLoadStatus,
       DBConstants.APPLICATION_SYNC_STATUS,
     );
 
-    //Set the time constraints 
+    //Set the time constraints
     let lastSyncRecordTime = new Date(record.lastSync);
     let constraintTime = new Date(lastSyncRecordTime);
     constraintTime.setMinutes(lastSyncRecordTime.getMinutes() + syncDifference);
     return constraintTime;
-  }catch(err){
-    console.log("checkMinimumTimeConstraint",err);
+  } catch (err) {
+    console.log('checkMinimumTimeConstraint', err);
   }
-}
+};
 
 /**
  * This method first check the time different between last sync and current time.
  * Secondly, it will call the runBackgrounTask() method as per the schemas mentioned in SYNC_TASK_LIST.
  * Thirdly, It will update the Master Table time for 'Application Sync' record for showing last sync Value.
- * @returns 
+ * @returns
  */
 export const syncTableTask = async () => {
   try {
@@ -46,25 +45,22 @@ export const syncTableTask = async () => {
     let constraintTime = await checkMinimumTimeConstraint();
     let currentTime = new Date();
     let onDemandSyncStatus = await getOnDemandSyncStatus();
-    console.log("onDemand ",onDemandSyncStatus);
-    console.log(constraintTime,"constraintTime",currentTime);
-    // if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING || 
+    // if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
     //     (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
-      for (const table of SYNC_TASK_LIST) {
-        await runBackgroundTask(table).then(result => {
-          resultArray = [...resultArray, ...result]; //collecting result to show toastie
-        });
-      }
-      await Operations.updateRecord(
-        Schemas.masterTablesDownLoadStatus,
-        DBConstants.downloadStatus.DOWNLOADED,
-        DBConstants.APPLICATION_SYNC_STATUS,
-      );
+    for (const table of SYNC_TASK_LIST) {
+      await runBackgroundTask(table).then(result => {
+        resultArray = [...resultArray, ...result]; //collecting result to show toastie
+      });
+    }
+    await Operations.updateRecord(
+      Schemas.masterTablesDownLoadStatus,
+      DBConstants.downloadStatus.DOWNLOADED,
+      DBConstants.APPLICATION_SYNC_STATUS,
+    );
     //}
     // else{
     //   console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
     // }
-    console.log("result arry ",[])
     return resultArray;
   } catch (err) {
     console.log('Error ', err);
@@ -73,12 +69,12 @@ export const syncTableTask = async () => {
 
 /**
  * Configuring param for POST api for different tables.
- * 
- * @param {*} item 
- * @param {*} staffPositionId 
- * @param {*} lastSync 
- * @param {*} data 
- * @returns 
+ *
+ * @param {*} item
+ * @param {*} staffPositionId
+ * @param {*} lastSync
+ * @param {*} data
+ * @returns
  */
 const configParam = (item, staffPositionId, lastSync, data) => {
   let postData = {};
@@ -98,40 +94,32 @@ const configParam = (item, staffPositionId, lastSync, data) => {
 
 /**
  * This method will hit post data with configured postData.
- * @param {*} item 
- * @param {*} lastSync 
- * @param {*} data 
- * @returns 
+ * @param {*} item
+ * @param {*} lastSync
+ * @param {*} data
+ * @returns
  */
-const syncPostRequest = async (item, lastSync, data ) => {
+const syncPostRequest = async (item, lastSync, data) => {
   const staffPositionId = await Helper.getStaffPositionId();
-  let postData = configParam(
-    item,
-    staffPositionId,
-    lastSync,
-    data,
-  );
-  const response = await NetworkService.post(
-    item.syncApiPath,
-    postData,
-  );
+  let postData = configParam(item, staffPositionId, lastSync, data);
+  const response = await NetworkService.post(item.syncApiPath, postData);
   return response;
-}
+};
 
 /**
  * Get modified Records as per conditions from the schema
- * @param {*} schema 
- * @returns 
+ * @param {*} schema
+ * @returns
  */
-const getModifiedRecords = async (schema) => {
+const getModifiedRecords = async schema => {
   const tableRecord = await Operations.getAllRecord(schema);
-  console.log("tableRecord length ",tableRecord.length);
+  console.log('tableRecord length ', tableRecord.length);
   const modifiedRecords = await tableRecord.filtered(
     'syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true',
   );
-  console.log("modifiedRecords length ",modifiedRecords);
+  console.log('modifiedRecords length ', modifiedRecords);
   return modifiedRecords;
-}
+};
 
 /**
  * This method do three things :
@@ -153,7 +141,6 @@ const runBackgroundTask = async tableName => {
         item[0].name,
       );
       if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
-        
         let modifiedRecords = await getModifiedRecords(item[0].schema[0]);
         // if(modifiedRecords == []){
         //   await Operations.updateRecord(
@@ -164,7 +151,11 @@ const runBackgroundTask = async tableName => {
         //   return resultArray;
         // }
         //Hit Post API
-        const response = await syncPostRequest(item[0], record.lastSync, Array.from(modifiedRecords));
+        const response = await syncPostRequest(
+          item[0],
+          record.lastSync,
+          Array.from(modifiedRecords),
+        );
 
         if (response?.status === DBConstants.HTTP_OK) {
           await Operations.commonSyncRecordCRUDMethod(
@@ -188,7 +179,9 @@ const runBackgroundTask = async tableName => {
 
           return resultArray;
         } else {
-          console.log(`${item[0].name}'s response from API is ${response?.status}`);
+          console.log(
+            `${item[0].name}'s response from API is ${response?.status}`,
+          );
           return resultArray;
         }
       } else {

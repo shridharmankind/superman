@@ -13,6 +13,23 @@ import {KeyChain, isWeb} from 'helper';
 import {Offline} from 'database';
 import NetInfo from '@react-native-community/netinfo';
 
+client.interceptors.request.use(
+  config => {
+    console.log('req con ', config);
+  },
+  error => {
+    console.log('req', error);
+  },
+);
+client.interceptors.response.use(
+  config => {
+    console.log('res con ', config);
+  },
+  error => {
+    console.log('res', error);
+  },
+);
+
 const checkInternetConnectionForApp = async () => {
   return NetInfo.fetch().then(state => {
     if (!state.isConnected && !isWeb()) {
@@ -23,32 +40,32 @@ const checkInternetConnectionForApp = async () => {
   });
 };
 
-const getNetworkResponse = async (config,apiPath) => {
-  console.log("getNetowkr")
+const synchronizeDB = (response, config, apiPath) => {
+  switch (config.method) {
+    case 'DELETE':
+      if (response.status == 200) {
+        config.alreadyDeleted = true;
+        Offline.offlineData(config, apiPath);
+      }
+      break;
+    default:
+      break;
+  }
+};
+
+const getNetworkResponse = async (config, apiPath) => {
   return await client(config)
     .then(async function (response) {
       // handle success
-      switch(config.method){
-        case 'DELETE':
-          console.log("resp ",response.status);
-          if(response.status == 200){
-            console.log("200 new ")
-            config.alreadyDeleted = true;
-            let deleteResponse = Offline.offlineData(config, config.data, config.params, apiPath);
-            console.log("deleteresponse ",deleteResponse);
-          }
-          break;
-        default:
-          console.log("default");  
-          break;  
+      if (!isWeb()) {
+        synchronizeDB(response, config, apiPath);
       }
-      //console.log("finally",response.data);
       return response;
     })
     .catch(function (error) {
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
-    });  
+    });
 };
 
 /*
@@ -67,10 +84,11 @@ export const get = async (url, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    console.log("get Data");
-    return await getNetworkResponse(config,apiPath);
+    console.log('get Data');
+    return await getNetworkResponse(config, apiPath);
   } else {
-    return await Offline.offlineData(config, {}, params, apiPath);
+    console.log('offline');
+    return await Offline.offlineData(config, apiPath);
   }
 };
 
@@ -95,9 +113,9 @@ export const post = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    return await getNetworkResponse(config,apiPath);
+    return await getNetworkResponse(config, apiPath);
   } else {
-    return await Offline.offlineData(config, data, params, apiPath);
+    return await Offline.offlineData(config, apiPath);
   }
 };
 
@@ -124,9 +142,9 @@ export const put = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    return await getNetworkResponse(config,apiPath);
+    return await getNetworkResponse(config, apiPath);
   } else {
-    return await Offline.offlineData(config, data, params, apiPath);
+    return await Offline.offlineData(config, apiPath);
   }
 };
 
@@ -153,9 +171,9 @@ export const Delete = async (url, data = {}, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    return await getNetworkResponse(config,apiPath);
+    return await getNetworkResponse(config, apiPath);
   } else {
-    return await Offline.offlineData(config, data, params, apiPath);
+    return await Offline.offlineData(config, apiPath);
   }
 };
 

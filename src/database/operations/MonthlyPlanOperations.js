@@ -12,11 +12,7 @@ export default dbInstance => ({
   },
 });
 
-const getfilteredRecordBasedOnYear_Month_Day = (
-  dbInstance,
-  schema,
-  data,
-) => {
+const getfilteredRecordBasedOnYear_Month_Day = (dbInstance, schema, data) => {
   try {
     //["mtp", "2", "parties", "Month=6", "Year=2021", "Day=19"]
     let dailyRecords = [];

@@ -139,12 +139,11 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
               {
                 const staffPositionId = await Helper.getStaffPositionId();
-                console.log('MASTER_MONTHLY_TABLE_PLAN ', staffPositionId);
                 response = await NetworkService.get(
                   `${item.apiPath}${staffPositionId}`,
                 );
               }
-              break;  
+              break;
           }
           if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
@@ -171,7 +170,17 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 updateRecordDownloaded(item.name);
                 break;
-              
+              case DBConstants.MASTER_TABLE_DIVISION:
+                const divisionsUpdated = await Divisions.storeDivisions(
+                  JSON.parse(data),
+                );
+                divisionsUpdated && updateRecordDownloaded(item.name);
+                break;
+
+              case DBConstants.MASTER_TABLE_ORGANIZATION:
+                await Organizations.storeOrganizations(JSON.parse(data));
+                updateRecordDownloaded(item.name);
+                break;
             }
 
             if (i % progressBarSyncParam === 0) {
