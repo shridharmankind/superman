@@ -91,6 +91,7 @@ export const getSelectedPartyTypeData = (
   allParties,
   doctorsSelected,
   isAreaSelected,
+  dataChanged,
 ) => {
   const {
     DOCTOR,
@@ -126,7 +127,7 @@ export const getSelectedPartyTypeData = (
     }
     // for current selected  ==> IN A DAY
     if (doctorsSelected?.some(id => id.partyId === party.id)) {
-      if (party.frequency === party.alreadyVisited + 1) {
+      if (dataChanged && party.frequency === party.alreadyVisited + 1) {
         obj[FREQUENCY_MET] = obj[FREQUENCY_MET] + 1;
       }
       //If party which was initially not selected then update the count
