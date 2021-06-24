@@ -34,8 +34,13 @@ import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
 import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
-import {fetchPlanComplianceCreator} from 'screens/tourPlan/planCompliance/redux';
+import {
+  planComplianceSelector,
+  fetchPlanComplianceCreator,
+} from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
+import {translate} from 'locale';
+
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -72,14 +77,42 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
+  const [isAreaSelected, setIsAreaSelected] = useState(undefined);
   const weekNum = Number(week);
   const staffPositionId = 1;
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+  const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
 
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+
+  /**
+   * Show toast message to warn user that he has exceeded max doctor/chemist count
+   * once toast hides, save/update patch
+   */
+  const showRulesWarning = () => {
+    if ((rulesWarning || []).length > 0) {
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: true,
+        defaultVisibilityTime: 1000,
+        props: {
+          onClose: () => {
+            hideToast();
+            handleDonePress(doctorsSelected);
+          },
+          heading: translate('errorMessage.partiesExceedingMaxLimit'),
+        },
+        onHide: () => {
+          handleDonePress(doctorsSelected);
+        },
+      });
+    } else {
+      handleDonePress(doctorsSelected);
+    }
+  };
 
   /**
    * callback function to return direction left/right of day swiper
@@ -96,11 +129,12 @@ const StandardPlanModal = ({
         stpStatus?.status !== STP_STATUS.SUBMITTED
       ) {
         setSwipeDirection(direction);
-        handleDonePress(doctorsSelected);
+        showRulesWarning();
       } else {
         resetandChangePage(direction, dataChanged);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       patchSelected,
       dataChanged,
@@ -146,7 +180,6 @@ const StandardPlanModal = ({
     return true;
   }, [dispatch]);
 
-  //allParties :: dr list => alreadyVisited once
   const allParties = useSelector(standardTourPlanSelector.getParties());
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
@@ -259,8 +292,8 @@ const StandardPlanModal = ({
       const areaData = (allAreas || []).map(area => {
         return {
           ...area,
-          totalPartiesInArea: getDoctorsByArea(area.id).length,
-          totalUniqueParty: doctorsSelected && getSelectedPartyByArea(area.id),
+          totalPartiesInArea: getDoctorsByArea(area.id, false).length,
+          totalUniqueParty: doctorsSelected && getAreaCountOnFrequecy(area.id),
         };
       });
       return areaData;
@@ -269,9 +302,28 @@ const StandardPlanModal = ({
     getDoctorsByArea,
     allAreas,
     allParties,
-    getSelectedPartyByArea,
+    getAreaCountOnFrequecy,
     doctorsSelected,
   ]);
+
+  /**method to get doctor visited in area
+   * @param {String} id area id passed
+   * @return {String} count of doctor visited
+   */
+  const getAreaCountOnFrequecy = useCallback(
+    id => {
+      let count = 0;
+      allParties?.map(party => {
+        party.areas.map(area => {
+          if (area.id === id && party.alreadyVisited > 0) {
+            count = count + 1;
+          }
+        });
+      });
+      return count;
+    },
+    [allParties],
+  );
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
@@ -325,7 +377,7 @@ const StandardPlanModal = ({
    * @param {Number} area area id passed as number
    */
   const getDoctorsByArea = useCallback(
-    area => {
+    (area, totalCount) => {
       if (allParties.length > 0) {
         const partiesData = allParties.filter(party => {
           const isArea = party.areas.find(obj => {
@@ -340,7 +392,7 @@ const StandardPlanModal = ({
           }
         });
         let newPartiesData = partiesData;
-        if (!isSameDayPatch(patchValue)) {
+        if (totalCount && !isSameDayPatch(patchValue)) {
           newPartiesData = partiesData?.filter(
             par => par.frequency !== par.alreadyVisited,
           );
@@ -371,7 +423,6 @@ const StandardPlanModal = ({
             },
           });
           setDataChanged(false);
-          dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
           } else {
@@ -406,6 +457,7 @@ const StandardPlanModal = ({
           setPatchError(Strings.somethingWentWrong);
           setShowPatchError(true);
         }
+        dispatch(standardPlanActions.resetSavePatch());
       }
     },
     [
@@ -420,7 +472,6 @@ const StandardPlanModal = ({
     ],
   );
 
-  /** function to save the patch */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
@@ -721,6 +772,10 @@ const StandardPlanModal = ({
    * @param {Number} id party id passed as int
    */
   const handleDoctorCardPress = (id, area) => {
+    const isAreaAlreadySelected = doctorsSelected?.some(
+      party => party.areaId === area,
+    );
+    setIsAreaSelected(!isAreaAlreadySelected);
     const indexAvailable = doctorsSelected?.some(
       party => party.partyId === id && party.areaId === area,
     );
@@ -803,7 +858,7 @@ const StandardPlanModal = ({
   const getSelectedPartyByArea = useCallback(
     id => {
       let count = 0;
-      getDoctorsByArea(id).map(party => {
+      getDoctorsByArea(id, true).map(party => {
         if (
           doctorsSelected?.filter(
             doc => doc.partyId === party.id && doc.areaId === id,
@@ -911,7 +966,7 @@ const StandardPlanModal = ({
     return allParties.filter(party => {
       return ids?.some(
         par =>
-          par.partyId === party.id && party.frequency === party.alreadyVisited,
+          par.partyId === party.id && party.frequency <= party.alreadyVisited,
       );
     });
   };
@@ -993,7 +1048,7 @@ const StandardPlanModal = ({
               false
             }
             contentStyle={styles.doneBtn}
-            onPress={() => handleDonePress(doctorsSelected)}
+            onPress={() => showRulesWarning()}
           />
           <Button
             mode="outlined"
@@ -1087,7 +1142,11 @@ const StandardPlanModal = ({
             type={COMPLAINCE_TYPE.DAILY}
             week={week}
             weekDay={workingDays.indexOf(weekDay) + 1}
-            selectedData={getSelectedPartyTypeData(allParties, doctorsSelected)}
+            selectedData={getSelectedPartyTypeData(
+              allParties,
+              doctorsSelected,
+              isAreaSelected,
+            )}
           />
         </View>
       </View>

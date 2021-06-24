@@ -179,5 +179,6 @@ export const engagement = {
 export {default as Divisions} from './Divisions';
 export {default as Qualifications} from './Qualifications';
 export {MonthlySchema};
+export {default as PartyCategories} from './PartyCategories';
 export {default as Organizations} from './Organizations';
 export {default as Specialities} from './Specialities';

@@ -142,8 +142,15 @@ const DirectoryLanding = ({navigation, route}) => {
   };
 
   // Function to be called on click of eDetail button
-  const edetailHandler = () => {
-    navigation.navigate(ROUTE_EDETAILING);
+  const edetailHandler = (doctorData) => {
+    let isDocScheduleToday = false;
+    if (doctorData.isScheduledToday) {
+      isDocScheduleToday = true;
+    }
+    else {
+      isDocScheduleToday = isDoctorAddedinTodayPlan(doctorData.id)
+    }
+    navigation.navigate(ROUTE_EDETAILING, { data: { doctorID: doctorData.id, isScheduledToday: isDocScheduleToday,updateCallbk:updateDocTodayPlan } });
   };
 
   // If image is not received from server
@@ -172,7 +179,12 @@ const DirectoryLanding = ({navigation, route}) => {
       );
       setSkip(prev => prev + LIMIT);
     }
-  };
+  }
+  
+  // Callback Function to update doctorsAddedinTodayPlan
+  const updateDocTodayPlan = (doctorID) => {
+    updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
+  }
 
   // Function to add doctor to Today's plan
   const addToTodayPlan = doctorID => {
@@ -330,7 +342,7 @@ const DirectoryLanding = ({navigation, route}) => {
                           title={Strings.directory.btns.startEdetail}
                           mode="contained"
                           contentStyle={styles.eDetailbuttonLayout}
-                          onPress={edetailHandler}
+                          onPress={()=>edetailHandler(item)}
                           labelStyle={styles.btnContent}
                         />
                       </View>

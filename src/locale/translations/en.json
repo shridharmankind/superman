@@ -18,7 +18,8 @@
   "on": "On",
   "timeline": "Timeline",
   "errorMessage": {
-    "noRecords": "There are no records"
+    "noRecords": "There are no records",
+    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits"
   },
 
   "dr": "Doctor",
@@ -32,7 +33,7 @@
   "drCoveredInMonth": "doctors covered in month",
   "chCoveredInMonth": "chemist covered in month",
   "outStationPerMonth": "out-station visits per month",
-  "exStationPerMonth": "ex-station visits per month",
+  "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
   "frequencyMet": "frequency met",
   "": ""

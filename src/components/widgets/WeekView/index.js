@@ -19,8 +19,8 @@ const getPatchName = patchData => {
 
 //Defines prefix for party typa
 const PARTY_PREFIX = {
-  DOCTOR: 'D',
-  CHEMIST: 'C',
+  DOCTOR: 'Dr',
+  CHEMIST: 'Ch',
 };
 
 // max number of character for Days to show
@@ -105,12 +105,12 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
             {!isCompliant && <ErrorIcon width={20} height={20} />}
           </View>
 
-          {noOfKyc && (
+          {noOfKyc ? (
             <DoctorTag
               division={DivisionType.KYC}
               title={`${noOfKyc} ${DivisionType.KYC}`}
             />
-          )}
+          ) : null}
         </View>
 
         <View style={[styles.cellFooter]}>

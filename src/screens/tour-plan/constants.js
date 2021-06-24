@@ -68,3 +68,8 @@ export const RULE_KEY = {
 
 // Comparison check to  enable submit STP
 export const SUBMIT_STP_PLAN_THRESHOLD_VALUE = 100;
+
+export const ARRAY_OPERATION = {
+  PUSH: 'PUSH',
+  POP: 'POP',
+};

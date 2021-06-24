@@ -6,6 +6,7 @@ export default class QualificationsSchema {
     primaryKey: 'id',
     properties: {
       id: 'int',
+      qualificationId: 'int',
       name: 'string?',
       shortName: 'string?',
       divisionId: 'int?',

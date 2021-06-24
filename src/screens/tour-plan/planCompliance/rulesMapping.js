@@ -16,6 +16,7 @@ export const rulesMapping = {
     key: RULE_KEY.DOCTOR,
     showFraction: false,
     isDayCheck: true,
+    showWarningMessage: true,
   },
   MINIMUMPERDAYFORCHE: {
     title: 'minimum',
@@ -32,6 +33,7 @@ export const rulesMapping = {
     key: RULE_KEY.CHEMIST,
     showFraction: false,
     isDayCheck: true,
+    showWarningMessage: true,
   },
   DIFFERENCEOF4FORDOC: {
     title: 'daysGap',
