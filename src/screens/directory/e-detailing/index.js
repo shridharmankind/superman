@@ -130,7 +130,7 @@ const EDetailing = ({navigation, route}) => {
 
   const renderSwape = (item, index) => {
     return (
-      <View style={styles.swapMain} key={index}>
+      <View style={styles.swapMain} key={item.motherBrandId}>
         <Product
           title={item.name}
           isChecked={!!item.isFeatured}
@@ -146,7 +146,7 @@ const EDetailing = ({navigation, route}) => {
 
   const renderOtherSwape = (dataItem, index) => {
     return (
-      <View style={styles.swapMain} key={dataItem.id}>
+      <View style={styles.swapMain} key={dataItem.motherBrandId}>
         <Product
           style={styles.otherProduct}
           title={dataItem.name}

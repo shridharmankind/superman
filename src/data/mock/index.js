@@ -25,7 +25,6 @@ import stpData from './api/stpData.js';
 import stpStatus from './api/stpStatus.json';
 import submitStpMock from './api/submitStp.json';
 
-
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
 import visitMockData from './api/timeline.json';
@@ -150,22 +149,22 @@ const getMock = axios => {
     .reply(200, docList);
   mock
     .onGet(
-      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=true&IncludeDiscussedList=true&Skip=0&Limit=10',
     )
     .reply(200, EPriorityProductList);
   mock
     .onGet(
-      'eDetailing/priorityProduct?StaffPositionId=1&PartyId=1&Skip=10&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=true&Skip=0&Limit=10',
     )
     .reply(200, AllPriority);
   mock
     .onGet(
-      'eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=0&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&IncludeDiscussedList=true&Skip=0&Limit=10',
     )
     .reply(200, EOtherProductList);
   mock
     .onGet(
-      'eDetailing/otherProduct?StaffPositionId=1&PartyId=1&Skip=10&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&Skip=10&Limit=10',
     )
     .reply(200, AllPriority);
   mock

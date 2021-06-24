@@ -3,11 +3,15 @@ import {createAction, createSlice} from '@reduxjs/toolkit';
 /* Initial state of priority Product */
 export const eDetailingPriorityProduct = {
   detailingPriorityProduct: [],
+  totalCount: 0,
+  discussedBrandList: [],
 };
 
 /* Initial state of priority Product */
 export const eDetailingOtherProduct = {
   detailingOtherProduct: [],
+  otherTotalCount: 0,
+  otherDiscussedBrandList: [],
 };
 
 /* Action Creator for Edetailing Priority Products */
