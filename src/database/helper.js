@@ -3,7 +3,6 @@ import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
 import {MotherbrandsSchemaName} from './schemas/Motherbrands';
-import {Motherbrands} from 'database';
 
 import {NetworkService} from 'services';
 
@@ -55,9 +54,6 @@ export const MASTER_TABLES_DETAILS = [
 export const getUserName = async () => {
   try {
     const user = await getActiveUser();
-    //console.log('user user', user);
-    // const x = await Motherbrands.getAllMotherBrands();
-    // console.log('x xxxxx', x);
     const {firstName = '', lastName = ''} = user;
 
     return `${firstName} ${lastName}`;
