@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, FlatList, Image } from 'react-native';
-import { ContentWithSidePanel } from 'components/layouts';
-import { useDispatch, useSelector } from 'react-redux';
-import { Label, LabelVariant } from 'components/elements';
-import { Strings, Constants } from 'common';
+import React, {useEffect, useState} from 'react';
+import {View, Text, TextInput, FlatList, Image} from 'react-native';
+import {ContentWithSidePanel} from 'components/layouts';
+import {useDispatch, useSelector} from 'react-redux';
+import {Label, LabelVariant} from 'components/elements';
+import {Strings, Constants} from 'common';
 import styles from './styles';
-import { TabBar } from 'components/widgets';
-import { fetchSearchDoctors, clearSearchDoctors } from './redux/dirlandingSlice';
-import { searchDocSelector } from './redux/dirLandingSelector';
-import { validateSearch } from 'screens/directory/helper';
-import { SearchIcon } from 'assets';
-import { Button } from 'components/elements';
+import {TabBar} from 'components/widgets';
+import {fetchSearchDoctors, clearSearchDoctors} from './redux/dirlandingSlice';
+import {searchDocSelector} from './redux/dirLandingSelector';
+import {validateSearch} from 'screens/directory/helper';
+import {SearchIcon} from 'assets';
+import {Button} from 'components/elements';
 import theme from 'themes';
-import { getDivisionColor } from 'screens/directory/helper';
-import { ROUTE_EDETAILING } from 'screens/directory/routes';
-import { showToast, hideToast } from 'components/widgets/Toast';
-import { API_PATH } from 'screens/directory/apiPath';
-import { NetworkService } from 'services';
-import { searchDoctorActions } from 'screens/directory/landing/redux';
+import {getDivisionColor} from 'screens/directory/helper';
+import {ROUTE_EDETAILING} from 'screens/directory/routes';
+import {showToast, hideToast} from 'components/widgets/Toast';
+import {API_PATH} from 'screens/directory/apiPath';
+import {NetworkService} from 'services';
+import {searchDoctorActions} from 'screens/directory/landing/redux';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
  */
-const DirectoryLanding = ({ navigation, route }) => {
+const DirectoryLanding = ({navigation, route}) => {
   const LIMIT = 10;
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [skip, setSkip] = useState(0);
@@ -49,8 +49,7 @@ const DirectoryLanding = ({ navigation, route }) => {
 
     return () => {
       dispatch(searchDoctorActions.clearSearch());
-    }
-
+    };
   }, [dispatch]);
 
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
@@ -68,16 +67,15 @@ const DirectoryLanding = ({ navigation, route }) => {
   ];
 
   // Dunction to check the dr. prefix and remove it
-  const checkForDrPrefix = (searchKey) => {
-    if (!!searchKey) {
+  const checkForDrPrefix = searchKey => {
+    if (searchKey) {
       if (searchKey.toLowerCase().indexOf('dr.') === 0) {
         return searchKey.toLowerCase().replace('dr.', '').trim();
-      }
-      else {
+      } else {
         return searchKey.trim();
       }
     }
-  }
+  };
 
   // For rendering navbars
   const renderNavBar = () => {
@@ -116,7 +114,7 @@ const DirectoryLanding = ({ navigation, route }) => {
 
   // Function to be called on search icon
   const doSearch = () => {
-    if (!!searchKeyword) {
+    if (searchKeyword) {
       const [isValid, drPrefix] = validateSearch(
         searchKeyword,
         clearSearchInput,
@@ -126,8 +124,7 @@ const DirectoryLanding = ({ navigation, route }) => {
         let trimmedKeyword = '';
         if (drPrefix) {
           trimmedKeyword = searchKeyword.toLowerCase().replace('dr.', '');
-        }
-        else {
+        } else {
           trimmedKeyword = searchKeyword;
         }
         dispatch(
@@ -145,24 +142,29 @@ const DirectoryLanding = ({ navigation, route }) => {
   };
 
   // Function to be called on click of eDetail button
-  const edetailHandler = (doctorData) => {
+  const edetailHandler = doctorData => {
     let isDocScheduleToday = false;
     if (doctorData.isScheduledToday) {
       isDocScheduleToday = true;
+    } else {
+      isDocScheduleToday = isDoctorAddedinTodayPlan(doctorData.id);
     }
-    else {
-      isDocScheduleToday = isDoctorAddedinTodayPlan(doctorData.id)
-    }
-    navigation.navigate(ROUTE_EDETAILING, { data: { doctorID: doctorData.id, isScheduledToday: isDocScheduleToday,updateCallbk:updateDocTodayPlan } });
+    navigation.navigate(ROUTE_EDETAILING, {
+      data: {
+        doctorID: doctorData.id,
+        isScheduledToday: isDocScheduleToday,
+        updateCallbk: updateDocTodayPlan,
+      },
+    });
   };
 
   // If image is not received from server
-  const OnErrorHandler = (index) => {
+  const OnErrorHandler = index => {
     let genderImage = require('assets/images/male.png');
     if (doctorList[index]?.gender) {
       Constants.GENDER.MALE === doctorList[index].gender.toUpperCase()
-        ? genderImage = require('assets/images/male.png')
-        : genderImage = require('assets/images/female.png');
+        ? (genderImage = require('assets/images/male.png'))
+        : (genderImage = require('assets/images/female.png'));
     }
     return genderImage;
   };
@@ -182,17 +184,21 @@ const DirectoryLanding = ({ navigation, route }) => {
       );
       setSkip(prev => prev + LIMIT);
     }
-  }
-  
+  };
+
   // Callback Function to update doctorsAddedinTodayPlan
-  const updateDocTodayPlan = (doctorID) => {
+  const updateDocTodayPlan = doctorID => {
     updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
-  }
+  };
 
   // Function to add doctor to Today's plan
-  const addToTodayPlan = (doctorID) => {
+  const addToTodayPlan = doctorID => {
     const addDocToDailyPlan = async () => {
-      const result = await NetworkService.post(API_PATH.ADD_TODAY_PLAN, {}, { staffPositionId: 1, partyId: doctorID });
+      const result = await NetworkService.post(
+        API_PATH.ADD_TODAY_PLAN,
+        {},
+        {staffPositionId: 1, partyId: doctorID},
+      );
       if (result.status === Constants.HTTP_OK) {
         updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
         showToast({
@@ -201,24 +207,26 @@ const DirectoryLanding = ({ navigation, route }) => {
           props: {
             heading: Strings.directory.docAddedTodayPlan,
             onClose: () => hideToast(),
-          }
+          },
         });
       } else {
         console.log('error', result.statusText);
       }
     };
     addDocToDailyPlan();
-  }
+  };
 
   // Function to check if doctor is already added in today's plan
-  const isDoctorAddedinTodayPlan = (id) => {
-    if (doctorsAddedinTodayPlan.length > 0 && (doctorsAddedinTodayPlan.findIndex((item) => item === id) > -1)) {
+  const isDoctorAddedinTodayPlan = id => {
+    if (
+      doctorsAddedinTodayPlan.length > 0 &&
+      doctorsAddedinTodayPlan.findIndex(item => item === id) > -1
+    ) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
-  }
+  };
 
   // Below is the doctor tab under directory page
   const doctorTab = () => {
@@ -263,7 +271,7 @@ const DirectoryLanding = ({ navigation, route }) => {
                 data={doctorList}
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                   return (
                     <View style={styles.doctorDataRow}>
                       <View style={styles.kycCatContainer}>
@@ -313,26 +321,33 @@ const DirectoryLanding = ({ navigation, route }) => {
                         }
                       />
                       <Label style={styles.dataStyle} title={item.name} />
-                      <Label style={styles.dataStyle} title={(item?.specialities || [])
-                        .map(spec => spec.name)
-                        .join(', ')} />
-                      <Label style={styles.dataStyle} title={(item?.areas || [])
-                        .map(area => area.name)
-                        .join(', ')} />
+                      <Label
+                        style={styles.dataStyle}
+                        title={(item?.specialities || [])
+                          .map(spec => spec.name)
+                          .join(', ')}
+                      />
+                      <Label
+                        style={styles.dataStyle}
+                        title={(item?.areas || [])
+                          .map(area => area.name)
+                          .join(', ')}
+                      />
                       <View style={styles.btnsContainer}>
-                        {!item?.isScheduledToday && !isDoctorAddedinTodayPlan(item.id) && (
-                          <Button
-                            title={Strings.directory.btns.addTodayPlan}
-                            mode="contained"
-                            contentStyle={styles.todayPlanbuttonLayout}
-                            onPress={() => addToTodayPlan(item.id)}
-                          />
-                        )}
+                        {!item?.isScheduledToday &&
+                          !isDoctorAddedinTodayPlan(item.id) && (
+                            <Button
+                              title={Strings.directory.btns.addTodayPlan}
+                              mode="contained"
+                              contentStyle={styles.todayPlanbuttonLayout}
+                              onPress={() => addToTodayPlan(item.id)}
+                            />
+                          )}
                         <Button
                           title={Strings.directory.btns.startEdetail}
                           mode="contained"
                           contentStyle={styles.eDetailbuttonLayout}
-                          onPress={()=>edetailHandler(item)}
+                          onPress={() => edetailHandler(item)}
                           labelStyle={styles.btnContent}
                         />
                       </View>

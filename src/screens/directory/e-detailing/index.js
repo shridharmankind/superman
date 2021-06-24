@@ -4,18 +4,18 @@ import {ContentWithSidePanel} from 'components/layouts';
 import {Button, LabelVariant} from 'components/elements';
 import styles from './styles';
 import {TouchableOpacity, View} from 'react-native';
-import {Strings,Constants} from 'common';
+import {Strings, Constants} from 'common';
 import {ArrowBack} from 'assets';
 import {isWeb} from 'helper';
 import {API_PATH} from 'screens/directory/apiPath';
-import { NetworkService } from 'services';
-import { showToast, hideToast } from 'components/widgets/Toast';
+import {NetworkService} from 'services';
+import {showToast, hideToast} from 'components/widgets/Toast';
 /**
  * Render header
  *
  * @param {Object} {navigation}
  */
-const renderHeader = ({navigation,docData}) => (
+const renderHeader = ({navigation, docData}) => (
   <View style={[styles.eDetailingHead]}>
     <View style={[styles.eDetailingHeadCol]}>
       {isWeb() ? null : (
@@ -41,7 +41,7 @@ const renderHeader = ({navigation,docData}) => (
         mode="contained"
         contentStyle={styles.eDetailingStartContent}
         labelStyle={styles.eDetailingStartText}
-        onPress={()=>startPresentation(docData)}
+        onPress={() => startPresentation(docData)}
       />
     </View>
   </View>
@@ -53,10 +53,10 @@ const renderHeader = ({navigation,docData}) => (
  * @param {Object} {navigation}
  * @return {JSX} Edetailing component
  */
-const EDetailing = ({navigation,route}) => {
-  let docData = route?.params?.data||null;
+const EDetailing = ({navigation, route}) => {
+  let docData = route?.params?.data || null;
   return (
-    <ContentWithSidePanel header={renderHeader({navigation,docData})}>
+    <ContentWithSidePanel header={renderHeader({navigation, docData})}>
       <View style={[styles.eDetailingPriorityProducts]}>
         <Label
           testID="eDetail-priority-products"
@@ -75,10 +75,14 @@ const EDetailing = ({navigation,route}) => {
 };
 
 // Function to be called on Start Presentation
-const startPresentation = (docData) =>{
-  if(!!docData && !docData.isScheduledToday){
+const startPresentation = docData => {
+  if (!!docData && !docData.isScheduledToday) {
     const addDocToDailyPlan = async () => {
-      const result = await NetworkService.post(API_PATH.ADD_TODAY_PLAN,{},{staffPositionId:1,partyId:docData.doctorID});
+      const result = await NetworkService.post(
+        API_PATH.ADD_TODAY_PLAN,
+        {},
+        {staffPositionId: 1, partyId: docData.doctorID},
+      );
       if (result.status === Constants.HTTP_OK) {
         docData.updateCallbk(docData.doctorID);
         showToast({
@@ -87,7 +91,7 @@ const startPresentation = (docData) =>{
           props: {
             heading: Strings.directory.docAddedTodayPlan,
             onClose: () => hideToast(),
-          }
+          },
         });
       } else {
         console.log('error', result.statusText);
@@ -95,7 +99,6 @@ const startPresentation = (docData) =>{
     };
     addDocToDailyPlan();
   }
-  }
-  
+};
 
 export default EDetailing;
