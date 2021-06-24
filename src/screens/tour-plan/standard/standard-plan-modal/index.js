@@ -342,6 +342,12 @@ const StandardPlanModal = ({
         }
       });
       setDoctorsSelected(doctorArr);
+
+      if (doctorsSelected.length === doctorArr.length) {
+        setIsAreaSelected(null);
+      } else if (doctorsSelected.length > doctorArr.length) {
+        setIsAreaSelected(false);
+      }
     },
     [doctorsSelected, allParties],
   );
@@ -780,6 +786,8 @@ const StandardPlanModal = ({
       party => party.areaId === area && party.partyId !== id,
     );
 
+    console.log('areaselected', areaSelected);
+
     /**
      * first if - atleast one doctor in area is preset
      * second if - last doctor in the area is unchecked
@@ -1004,6 +1012,8 @@ const StandardPlanModal = ({
       />
     );
   }
+
+  console.log('render stp component', isAreaSelected);
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
