@@ -41,7 +41,7 @@ export const fetchPartiesByPatchIdCreatorType =
 export const savePatchCreator = createAction('SAVE_PATCH_CREATOR');
 export const savePatchCreatorType = savePatchCreator().type;
 
-const getUpdatedData = (data, partiesList) => {
+const getUpdatedData = (data, partiesList = []) => {
   let newList = [];
   partiesList.map(item => {
     if (item.id === data.id) {
