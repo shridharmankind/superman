@@ -1,5 +1,6 @@
 import {createSelector} from '@reduxjs/toolkit';
 import {sortByCategory} from 'screens/tourPlan/helper';
+import {PARTY_TYPE} from 'screens/tourPlan/constants';
 
 /**
  * selector function to retrieve data from redux store
@@ -22,13 +23,15 @@ const getSelectedDoctorCountSelector = createSelector(
   [getPartiesList],
   data => {
     return data.filter(
-      item => item.alreadyVisited > 0 && item.partyTypes.name === 'Doctor',
+      item =>
+        item.alreadyVisited > 0 && item.partyTypes.name === PARTY_TYPE.DOCTOR,
     );
   },
 );
 const getSelectedChemistCountSelector = createSelector([getPartiesList], data =>
   data.filter(
-    item => item.alreadyVisited > 0 && item.partyTypes.name === 'Chemist',
+    item =>
+      item.alreadyVisited > 0 && item.partyTypes.name === PARTY_TYPE.CHEMIST,
   ),
 );
 const getExhausetedFrequencyCountSelector = createSelector(
