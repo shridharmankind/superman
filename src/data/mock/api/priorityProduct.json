@@ -1,5 +1,4 @@
-{
-  "priorityProduct": [
+[
     {
       "productId": 1,
       "name": "LipKind - 10",
@@ -53,17 +52,20 @@
       "isGrowthIncrease": true
     },
     {
-      "productId": 5,
+      "id": 5,
       "name": "Amlokind AT",
-      "lastDetailed": "2021-05-19T18:25:11",
-      "isfocused": false,
-      "ispowered": false,
-      "ourratio": null,
-      "totalRatio": 100,
-      "priority": "p5",
-      "gx": 40,
-      "sow": 20,
-      "isGrowthIncrease": true
+      "detailedOn": "2021-05-19T18:25:11",
+      "isRxIncrease": false,
+      "isFocused": false,
+      "isPowered": false,
+      "prescription": null,
+      "totalPrescription": 100,
+      "priority": 5,
+      "rx": 8,
+      "growth": 20,
+      "isGrowthIncrease": true,
+      "thumbnailUrl": null,
+    "fileUrl": null,
+"isFeatured": false
     }
   ]
-}

@@ -16,7 +16,7 @@ import {fetchPriorityProductCreator, productSelector} from './redux';
  * @param {Number} partyId party id of particular doctor
  */
 
-const PriorityProduct = ({staffPostionId, partyId}) => {
+const PriorityProduct = ({staffPostionId = 1, partyId}) => {
   const dispatch = useDispatch();
   const [list, setList] = useState([]);
   const [viewFlag, setViewFlag] = useState(true);
@@ -69,11 +69,11 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
    */
   const product = data => {
     return (
-      <View style={[styles.cardMainContainer]} key={data.productId}>
+      <View style={[styles.cardMainContainer]} key={data.id}>
         <View
           style={[
             styles.cardContainer,
-            data.isfocused || data.ispowered ? styles.cardBackground : '',
+            data.isFocused || data.isPowered ? styles.cardBackground : '',
           ]}>
           <View style={styles.headerProduct}>
             <View style={styles.cardHeaderTitle}>
@@ -83,12 +83,12 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                 title={data.name}
               />
             </View>
-            {data.ispowered && (
+            {data.isPowered && (
               <View style={styles.powerIcon}>
                 <Power width={15} height={15} style={styles.power} />
               </View>
             )}
-            {data.isfocused && (
+            {data.isFocused && (
               <View style={styles.focus}>
                 <Label
                   variant={LabelVariant.label}
@@ -101,7 +101,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
               <View style={styles.cardHeaderRightTitle}>
                 <Label
                   style={styles.priorityLabel}
-                  title={data.priority.toUpperCase()}
+                  title={'P' + data.priority}
                 />
               </View>
             )}
@@ -113,7 +113,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
               style={styles.labelSubHeader}
               title={
                 Strings.priorityProductCard.description +
-                formatDate(data.lastDetailed)
+                (data.detailedOn ? formatDate(data.detailedOn) : '')
               }
             />
           </View>
@@ -122,21 +122,23 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
               <Label
                 style={[
                   styles.progressText,
-                  !data.ourratio ? styles.colorGrey : '',
+                  !data.prescription ? styles.colorGrey : '',
                 ]}
                 title={
-                  data.ourratio ? data.ourratio : Strings.priorityProductCard.na
+                  data.prescription
+                    ? data.prescription
+                    : Strings.priorityProductCard.na
                 }
               />
               <Label
                 style={[
                   styles.progressLightText,
-                  !data.ourratio ? styles.colorGrey : '',
+                  !data.prescription ? styles.colorGrey : '',
                 ]}
-                title={'/' + data.totalRatio}
+                title={'/' + data.totalPrescription}
               />
             </View>
-            {!data.ourratio && (
+            {!data.prescription && (
               <View style={styles.headerProduct}>
                 <Label
                   variant={LabelVariant.body}
@@ -145,10 +147,10 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                 />
               </View>
             )}
-            {data.ourratio && (
+            {!!data.prescription && (
               <View style={styles.gxClass}>
                 <ArrowUp style={styles.arrowUp} width={14} height={14} />
-                <Label style={styles.percentageText} title={data.gx + '%'} />
+                <Label style={styles.percentageText} title={data.rx + '%'} />
                 <Label
                   variant={LabelVariant.label}
                   style={styles.gxLabel}
@@ -156,7 +158,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                 />
               </View>
             )}
-            {data.ourratio && (
+            {!!data.prescription && (
               <View style={styles.gxClass}>
                 {data.isGrowthIncrease ? (
                   <ArrowUp style={styles.arrowUp} width={14} height={14} />
@@ -168,7 +170,7 @@ const PriorityProduct = ({staffPostionId, partyId}) => {
                     styles.percentageText,
                     !data.isGrowthIncrease ? styles.colorRed : '',
                   ]}
-                  title={data.sow + '%'}
+                  title={data.growth + '%'}
                 />
                 <Label
                   variant={LabelVariant.label}

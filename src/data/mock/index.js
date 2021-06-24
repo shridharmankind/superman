@@ -124,7 +124,7 @@ const getMock = axios => {
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock
-    .onGet('taskinfo/product?StaffPositionId=1&PartyId=1')
+    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1')
     .reply(200, product);
   mock
     .onGet(`${API_PATH.PATCH}/1/parties`)
