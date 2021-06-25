@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState, useReducer} from 'react';
 import {ProgressBar, useTheme} from 'react-native-paper';
 import {View} from 'react-native';
@@ -116,7 +115,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
 
     if (checkType && type === COMPLAINCE_TYPE.DAILY) {
       const isCompliant = getComparisonResult(
-        key === RULE_KEY.AREA ? state.areasCovered : selectedData[key],
+        selectedData[key], //TODO ::: key === RULE_KEY.AREA ? state.areasCovered : selectedData[key],
         rule?.ruleValues?.totalCount,
         checkType,
       );
