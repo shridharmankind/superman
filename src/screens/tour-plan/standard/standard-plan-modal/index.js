@@ -310,8 +310,6 @@ const StandardPlanModal = ({
   const getPartyCountFromArea = useCallback(() => {
     if (updatedPatchArray.length > 0 && allAreas.length > 0) {
       const areaData = (allAreas || []).map(area => {
-
-        console.log(doctorsSelected && getAreaCountOnFrequecy(area.id));
         return {
           ...area,
           totalPartiesInArea: getDoctorsByArea(area.id, false).length,
