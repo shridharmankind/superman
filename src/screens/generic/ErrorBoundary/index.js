@@ -1,7 +1,10 @@
-import {Label, LabelVariant} from 'components/elements';
-import {translate} from 'locale';
 import React from 'react';
-import {View} from 'react-native';
+import {View, Image} from 'react-native';
+
+import {Label, LabelVariant} from 'components/elements';
+
+import {LogoMankind} from 'assets';
+import {translate} from 'locale';
 
 import styles from './styles';
 
@@ -25,7 +28,12 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <View style={styles.container}>
-          <Label variant={LabelVariant.h3}>
+          <Image
+            source={LogoMankind}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <Label variant={LabelVariant.h3} style={styles.desc}>
             {translate('error.genericMsg')}
           </Label>
         </View>

@@ -1,7 +1,7 @@
 {
   "goodMorning": "Good morning",
   "error": {
-    "genericMsg": "Something doesn't seem right, please try restarting the application"
+    "genericMsg": "Something doesn't seem right, please try restarting the application."
   },
   "monthlyActions": {
     "save": "Save",
