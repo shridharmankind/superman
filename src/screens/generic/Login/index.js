@@ -18,6 +18,7 @@ import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
 import {authTokenActions} from '../RouteHandler/redux';
 import {useDispatch} from 'react-redux';
+import {Constants} from 'common';
 
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
@@ -27,7 +28,6 @@ const config = {
   additionalParameters: {prompt: 'login'},
 };
 
-export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
 export const USER_ID = 'USER_ID';
 export const AlertTitle = 'Info';
 
@@ -42,7 +42,10 @@ const Login = () => {
       await KeyChain.saveAccessToken(newAuthState.accessToken);
       dispatch(authTokenActions.signIn({userToken: newAuthState.accessToken}));
       const decoded = jwt_decode(newAuthState.accessToken);
-      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
+      AsyncStorage.setItem(
+        Constants.TOKEN_EXPIRY_TIME,
+        JSON.stringify(decoded.exp),
+      );
       AsyncStorage.setItem(USER_ID, decoded.sub);
       setAnimating(false);
     } catch (error) {
