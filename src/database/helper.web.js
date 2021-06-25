@@ -1,1 +1,1 @@
-export const getUserFirstName = () => '';
+export const getUserName = () => '';
