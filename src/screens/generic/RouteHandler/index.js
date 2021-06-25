@@ -21,7 +21,8 @@ export default function RouteHandler() {
     const logoutUser = async () => {
       try {
         const token = await KeyChain.getAccessToken();
-        if (token && (await revokeLogin(token))) {
+        if (token) {
+          await revokeLogin(token);
           dispatch(authTokenActions.removeToken());
         }
       } catch (error) {}
