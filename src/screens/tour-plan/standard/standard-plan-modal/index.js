@@ -79,7 +79,6 @@ const StandardPlanModal = ({
   const [stpStatus, setStpStatus] = useState();
   const [isAreaSelected, setIsAreaSelected] = useState(undefined);
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
-
   const weekNum = Number(week);
   const staffPositionId = 1;
 
@@ -309,8 +308,10 @@ const StandardPlanModal = ({
 
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
-    if (allParties.length > 0 && allAreas.length > 0) {
+    if (updatedPatchArray.length > 0 && allAreas.length > 0) {
       const areaData = (allAreas || []).map(area => {
+
+        console.log(doctorsSelected && getAreaCountOnFrequecy(area.id));
         return {
           ...area,
           totalPartiesInArea: getDoctorsByArea(area.id, false).length,
@@ -322,7 +323,7 @@ const StandardPlanModal = ({
   }, [
     getDoctorsByArea,
     allAreas,
-    allParties,
+    updatedPatchArray,
     getAreaCountOnFrequecy,
     doctorsSelected,
   ]);
@@ -334,16 +335,16 @@ const StandardPlanModal = ({
   const getAreaCountOnFrequecy = useCallback(
     id => {
       let count = 0;
-      allParties?.map(party => {
+      updatedPatchArray?.map(party => {
         party.areas.map(area => {
-          if (area.id === id && party.alreadyVisited > 0) {
+          if (area.id === id && party.alreadyVisitedCount > 0) {
             count = count + 1;
           }
         });
       });
       return count;
     },
-    [allParties],
+    [updatedPatchArray],
   );
 
   /** function to removed doctors from specific area on press
@@ -659,7 +660,7 @@ const StandardPlanModal = ({
    */
   const handleExhaustedParty = useCallback(
     (obj, exhaustedParty) => {
-      const updatedPartyList = doctorsSelected.filter(
+      const updatedPartyList = doctorsSelected?.filter(
         party => !exhaustedParty.some(par => par.id === party.partyId),
       );
       let message = null;
@@ -1176,6 +1177,7 @@ const StandardPlanModal = ({
               exhaustedDrFrequencyCount,
               selectedDayNumber,
               XMonthValue,
+              getPartyCountFromArea(),
             )}
           />
         </View>

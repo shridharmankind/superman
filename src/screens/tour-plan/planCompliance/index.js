@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useReducer} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ProgressBar, useTheme} from 'react-native-paper';
 import {View} from 'react-native';
 import styles from './styles';
@@ -20,20 +20,6 @@ import {
   ARRAY_OPERATION,
 } from 'screens/tourPlan/constants';
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'increment':
-      return {areasCovered: state.areasCovered + 1};
-    case 'decrement':
-      return {areasCovered: state.areasCovered - 1};
-
-    case 'init':
-      return {areasCovered: action.payload};
-    default:
-      return {areasCovered: state.areasCovered};
-  }
-}
-
 /**
  * Tab component rendering as a radio button
  * @param {Boolean} isChecked determines if radio button is selected or not
@@ -45,7 +31,6 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
-  const [state, dispatchFn] = useReducer(reducer, {areasCovered: 0});
   /**
    * Fetch complaince rules list
    */
@@ -60,21 +45,6 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     );
   }, [dispatch, type, week, weekDay]);
 
-  // TO UPDATE AREAS COVERED COUNT
-  useEffect(() => {
-    if (complianceData?.rules && selectedData) {
-      let data = complianceData?.rules.filter(
-        item => item.rulesShortName === 'AREASCOVERED',
-      );
-      if (selectedData.areas === undefined) {
-        dispatchFn({type: 'init', payload: data[0]?.ruleValues?.coveredCount});
-      } else if (selectedData.areas === true) {
-        dispatchFn({type: 'increment'});
-      } else if (selectedData.areas === false) {
-        dispatchFn({type: 'decrement'});
-      }
-    }
-  }, [complianceData, selectedData]);
   /**
    * fetch data from selector
    */
@@ -112,10 +82,11 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     if (type === COMPLAINCE_TYPE.MONTHLY || !checkType) {
       return renderIcon(rule?.isCompliant);
     }
-
     if (checkType && type === COMPLAINCE_TYPE.DAILY) {
       const isCompliant = getComparisonResult(
-        selectedData[key], //TODO ::: key === RULE_KEY.AREA ? state.areasCovered : selectedData[key],
+        key === RULE_KEY.AREA
+          ? selectedData[key] ?? rule?.ruleValues?.coveredCount
+          : selectedData[key],
         rule?.ruleValues?.totalCount,
         checkType,
       );
@@ -152,7 +123,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
 
   const getSelectedCount = (key, ruleValues) => {
     if (key === RULE_KEY.AREA) {
-      return state.areasCovered;
+      return selectedData[key] ?? ruleValues?.coveredCount;
     } else {
       return selectedData[key];
     }
@@ -209,7 +180,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
             <View>
               <Label variant={LabelVariant.label} style={styles.subtitle}>
                 {translate(ruleMappingValue.subTitle, {
-                  xValue: rule.ruleValues.xValue,
+                  xValue: rule?.ruleValues?.xValue,
                 })}
               </Label>
             </View>
