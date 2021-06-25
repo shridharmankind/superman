@@ -323,7 +323,8 @@ const MonthlyTourPlan = ({navigation}) => {
 
     if (isTourPlan && planOption.id !== 1) {
       if (
-        currentDate < MTP_LOCK_DATES_THRESHOLD.MIN &&
+        (currentDate < MTP_LOCK_DATES_THRESHOLD.MIN ||
+          currentDate > MTP_LOCK_DATES_THRESHOLD.MAX) &&
         planOption.month > currentMonth
       ) {
         return;
@@ -361,7 +362,11 @@ const MonthlyTourPlan = ({navigation}) => {
    */
   const renderMTPDueDate = option => {
     const dueDays = MTP_LOCK_DATES_THRESHOLD.MAX - currentDate;
-    if (option.month === currentMonth + 1) {
+    if (
+      option.month === currentMonth + 1 &&
+      currentDate < MTP_LOCK_DATES_THRESHOLD.MAX &&
+      currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN
+    ) {
       return (
         <Area
           title={`${translate('tourPlan.monthly.MTPDueOn', {
