@@ -121,7 +121,6 @@ export const getSelectedPartyTypeData = (
   if (!updatedPatchArray || !updatedPatchArray.length) {
     return;
   }
-console.log('XMonthValue',XMonthValue,'selectedDayNumber',selectedDayNumber)
   const isDayWithinXDays = selectedDayNumber <= XMonthValue?.xValue;
 
   updatedPatchArray.map(party => {
