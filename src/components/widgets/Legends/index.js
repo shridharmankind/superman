@@ -121,7 +121,9 @@ const renderMTPLegends = () => {
   return (
     <View style={[styles.container, styles.monthlycontainer]}>
       {renderKycVisit()}
+      {renderWarning()}
       {renderScheduleVisits()}
+      {renderExStation()}
       {renderEvents()}
       {renderHolidays()}
       {renderLeaves()}
