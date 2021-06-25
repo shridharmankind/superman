@@ -8,17 +8,17 @@ export default dbInstance => ({
 
     try {
       await dbInstance.write(() => {
-        qualifications.forEach(qualification => {
+        qualifications.forEach(async qualification => {
           const {divisions = []} = qualification;
 
-          const qualificationRecord = dbInstance.create(
+          const qualificationRecord = await dbInstance.create(
             QualificationsSchemaName,
             qualification,
             'modified',
           );
 
-          divisions.forEach(division => {
-            const divisionRecord = dbInstance.create(
+          divisions.forEach(async division => {
+            const divisionRecord = await dbInstance.create(
               DivisionSchemaName,
               division,
               'modified',
