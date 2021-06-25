@@ -32,7 +32,6 @@ import {translate} from 'locale';
 import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
-import dayjs from 'dayjs';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -318,8 +317,6 @@ const MonthlyTourPlan = ({navigation}) => {
   const selectedTourPlanHandler = planOption => {
     const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     let optionsToIterate = getOptionsToIterateForDropDown();
-
-    console.log('planoption', planOption, currentMonth);
 
     if (isTourPlan && planOption.id !== 1) {
       if (
