@@ -83,7 +83,7 @@ const Strings = {
     tabDes: 'Mankind/Total',
     foc: 'FOC',
     gx: '(Gx)',
-    sow: '(Sow)',
+    sow: '(SoW)',
     conductRcpa: 'Conduct RCPA',
     na: 'NA',
   },
@@ -120,7 +120,7 @@ const Strings = {
     dcr: {
       what: 'What',
       kindOfVisit: 'kind of visit',
-      wasIt: 'was it ?',
+      wasIt: 'was it?',
       regVisit: 'Regular Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
@@ -164,7 +164,7 @@ const Strings = {
       addTodayPlan: "Add to Today's Plan",
       startEdetail: 'eDetail',
     },
-    docAddedTodayPlan:'Doctor added successfully',
+    docAddedTodayPlan: 'Doctor added successfully',
   },
   searchBar: {
     errors: {

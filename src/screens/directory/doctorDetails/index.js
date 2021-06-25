@@ -27,7 +27,7 @@ const DoctorProfile = ({route}) => {
   useEffect(() => {
     (async () => {
       const id = await Helper.getStaffPositionId();
-      setStaffPositionId(id);
+      setStaffPositionId(id || 1);
     })();
   });
 
@@ -103,10 +103,12 @@ const DoctorProfile = ({route}) => {
       <View>
         <View style={styles.tabMainContainer}>
           <View style={styles.productMainContainer}>
-            <PriorityProduct
-              staffPostionId={1}
-              partyId={doctorData.partyTypes.id}
-            />
+            {staffPositionId && (
+              <PriorityProduct
+                staffPostionId={staffPositionId}
+                partyId={doctorData.id}
+              />
+            )}
           </View>
           <View style={styles.openMainTask}>{<OpenTask />}</View>
         </View>

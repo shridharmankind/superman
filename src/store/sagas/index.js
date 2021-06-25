@@ -23,6 +23,10 @@ import {fetchTaskWatcher} from 'screens/directory/doctorDetails/openTask/redux';
 import {fetchQueryDoctorsWatcher} from 'screens/directory/landing/redux';
 import {fetchPriorityProductWatcher} from 'screens/directory/priorityProduct/redux';
 import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
+import {
+  fetchEDetailingOtherProductWatcher,
+  fetchEDetailingPriorityProductWatcher,
+} from 'screens/directory/e-detailing/redux';
 
 export function* rootSaga() {
   /**
@@ -48,6 +52,8 @@ export function* rootSaga() {
     fetchSTPCalendarUpdateWatcher,
     fetchPlanComplianceWatcher,
     fetchQueryDoctorsWatcher,
+    fetchEDetailingPriorityProductWatcher,
+    fetchEDetailingOtherProductWatcher,
     fetchTimelineWatcher,
   ];
 
