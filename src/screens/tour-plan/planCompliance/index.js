@@ -232,4 +232,4 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   );
 };
 
-export default PlanCompliance;
+export default React.memo(PlanCompliance);
