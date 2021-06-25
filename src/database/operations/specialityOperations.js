@@ -1,4 +1,5 @@
 import {SpecialitiesSchemaName} from '../schemas/Specialities';
+import {DivisionSchemaName} from '../schemas/Divisions';
 import {getAllTableRecords} from './common';
 
 export default dbInstance => ({
@@ -7,8 +8,23 @@ export default dbInstance => ({
 
     try {
       await dbInstance.write(() => {
-        specialities.forEach(speciality => {
-          dbInstance.create(SpecialitiesSchemaName, speciality, 'modified');
+        specialities.forEach(async speciality => {
+          const {divisions = []} = speciality;
+
+          const specializationRecord = await dbInstance.create(
+            SpecialitiesSchemaName,
+            speciality,
+            'modified',
+          );
+
+          divisions.forEach(async division => {
+            const divisionRecord = await dbInstance.create(
+              DivisionSchemaName,
+              division,
+              'modified',
+            );
+            specializationRecord.divisions.push(divisionRecord);
+          });
         });
       });
     } catch (err) {
@@ -29,6 +45,6 @@ export default dbInstance => ({
   },
   getSpecialitiesByDivision: async divisionId => {
     const specialities = await getAllTableRecords(SpecialitiesSchemaName);
-    return await specialities.filtered(`divisionId = ${divisionId}`);
+    return await specialities.filtered(`divisions.id == ${divisionId}`);
   },
 });

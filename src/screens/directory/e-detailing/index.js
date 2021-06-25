@@ -346,7 +346,7 @@ const startPresentation = docData => {
       const result = await NetworkService.post(
         API_PATH.ADD_TODAY_PLAN,
         {},
-        {staffPositionId: 1, partyId: docData.doctorID},
+        {staffPositionId: docData.staffPositionId, partyId: docData.doctorID},
       );
       if (result.status === Constants.HTTP_OK) {
         docData.updateCallbk(docData.doctorID);
@@ -355,7 +355,6 @@ const startPresentation = docData => {
           autoHide: true,
           props: {
             heading: Strings.directory.docAddedTodayPlan,
-            onClose: () => hideToast(),
           },
         });
       } else {
