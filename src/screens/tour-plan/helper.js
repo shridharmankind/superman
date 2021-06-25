@@ -96,6 +96,8 @@ export const getSelectedPartyTypeData = (
   selectedDoctorCount,
   selectedChemistCount,
   exhaustedFrequencyCount,
+  selectedDayNumber,
+  XMonthValue,
 ) => {
   const {
     DOCTOR,
@@ -113,11 +115,12 @@ export const getSelectedPartyTypeData = (
     [FREQUENCY_MET]: exhaustedFrequencyCount,
     [DOCTOR_COVERED_IN_MONTH]: selectedDoctorCount.length,
     [CHEMIST_COVERED_IN_MONTH]: selectedChemistCount.length,
-    [DOCTOR_IN_X_DAYS]: 0,
+    [DOCTOR_IN_X_DAYS]: XMonthValue?.coveredCount,
   };
   if (!updatedPatchArray || !updatedPatchArray.length) {
     return;
   }
+  const isDayWithinXDays = selectedDayNumber <= XMonthValue.xValue;
   updatedPatchArray.map(party => {
     if (dataChanged) {
       if (party.alreadyVisited === 0 && party?.alreadyVisitedCount > 0) {
@@ -126,6 +129,9 @@ export const getSelectedPartyTypeData = (
         }
         if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
           obj[DOCTOR_COVERED_IN_MONTH] = obj[DOCTOR_COVERED_IN_MONTH] + 1;
+          if (isDayWithinXDays) {
+            obj[DOCTOR_IN_X_DAYS] = obj[DOCTOR_IN_X_DAYS] + 1;
+          }
         }
       }
       if (party.alreadyVisited > 0 && party?.alreadyVisitedCount === 0) {
@@ -134,6 +140,9 @@ export const getSelectedPartyTypeData = (
         }
         if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
           obj[DOCTOR_COVERED_IN_MONTH] = selectedDoctorCount.length - 1;
+          if (isDayWithinXDays) {
+            obj[DOCTOR_IN_X_DAYS] = obj[DOCTOR_IN_X_DAYS] - 1;
+          }
         }
       }
     }
