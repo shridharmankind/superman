@@ -167,7 +167,9 @@ const MasterDataDownload = ({navigation}) => {
                 divisionsUpdated && updateRecordDownloaded(item.name);
                 break;
               case DBConstants.MASTER_TABLE_MOTHERBRAND:
-                await Motherbrands.storeMotherBrands(JSON.parse(data));
+                const updatedmotherbrands =
+                  await Motherbrands.storeMotherBrands(JSON.parse(data));
+                updatedmotherbrands && updateRecordDownloaded(item.name);
                 break;
               case DBConstants.MASTER_TABLE_ORGANIZATION:
                 const organizationsUpdated =

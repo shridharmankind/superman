@@ -46,4 +46,4 @@ export const Qualifications = Operations.qualificationOperations(dbInstance);
 export const Organizations = Operations.organizationOperations(dbInstance);
 export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
-export const Motherbrands = Operations.motherbrandoperations(dbInstance);
+export const Motherbrands = Operations.motherbrandOperations(dbInstance);
