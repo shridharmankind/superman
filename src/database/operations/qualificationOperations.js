@@ -1,4 +1,5 @@
 import {QualificationsSchemaName} from '../schemas/Qualifications';
+import {DivisionSchemaName} from '../schemas/Divisions';
 import {getAllTableRecords} from './common';
 
 export default dbInstance => ({
@@ -7,12 +8,23 @@ export default dbInstance => ({
 
     try {
       await dbInstance.write(() => {
-        qualifications.forEach(qualification => {
-          dbInstance.create(
+        qualifications.forEach(async qualification => {
+          const {divisions = []} = qualification;
+
+          const qualificationRecord = await dbInstance.create(
             QualificationsSchemaName,
             qualification,
             'modified',
           );
+
+          divisions.forEach(async division => {
+            const divisionRecord = await dbInstance.create(
+              DivisionSchemaName,
+              division,
+              'modified',
+            );
+            qualificationRecord.divisions.push(divisionRecord);
+          });
         });
       });
     } catch (err) {
@@ -35,7 +47,7 @@ export default dbInstance => ({
   },
   getQualificationsByDivision: async divisionId => {
     const qualifications = await getAllTableRecords(QualificationsSchemaName);
-    return await qualifications.filtered(`divisionId = ${divisionId}`);
+    return await qualifications.filtered(`divisions.id == ${divisionId}`);
   },
 });
 
