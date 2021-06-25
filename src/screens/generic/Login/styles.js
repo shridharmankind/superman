@@ -1,5 +1,7 @@
-import {StyleSheet, Platform} from 'react-native';
+import {Platform, StyleSheet, Dimensions} from 'react-native';
 import theme from 'themes';
+
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -13,7 +15,6 @@ const styles = StyleSheet.create({
     height: 86,
     borderRadius: 10,
   },
-
   textStyle: {
     fontSize: 22,
     lineHeight: 27,
@@ -25,19 +26,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 80,
   },
-
   image: {
-    width: 810,
-    height: '100%',
+    height: 800,
+    width: 0.64 * width,
+    resizeMode: 'contain',
     justifyContent: 'flex-start',
     ...Platform.select({
       web: {
-        width: 750,
-        height: 650,
+        width: 0.64 * window.innerWidth,
       },
     }),
   },
-
   logo: {
     width: 133,
     height: 18,
@@ -45,21 +44,13 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
   loginViewContainer: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 60,
-  },
-
-  supermanTextStyle: {
-    justifyContent: 'center',
-    flex: 1,
   },
   loginButtonContainer: {
     position: 'absolute',
-    bottom: 40,
-  },
-  loginButtonContainerWeb: {
     bottom: 40,
   },
 });

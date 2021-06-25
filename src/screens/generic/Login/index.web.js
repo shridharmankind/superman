@@ -70,7 +70,7 @@ const Login = () => {
           />
         </View>
 
-        <View style={styles.loginButtonContainerWeb}>
+        <View style={styles.loginButtonContainer}>
           <Button
             title={Strings.login}
             uppercase={true}
