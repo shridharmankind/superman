@@ -24,6 +24,12 @@ export default dbInstance => ({
   getQualification: async id => {
     return await dbInstance.objectForPrimaryKey(QualificationsSchemaName, id);
   },
+  getQualificationById: async qualificationId => {
+    const qualifications = await getAllTableRecords(QualificationsSchemaName);
+    return await qualifications.filtered(
+      `qualificationId = ${qualificationId}`,
+    );
+  },
   getQualifications: async () => {
     return await getAllTableRecords(QualificationsSchemaName);
   },

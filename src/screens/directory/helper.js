@@ -45,7 +45,7 @@ export const validateSearch = (searchInput, clearSearch) => {
 };
 
 // Function to show error message as toast
- const showWarningToast = (message,clearSearch) => {
+const showWarningToast = (message, clearSearch) => {
   showToast({
     type: Constants.TOAST_TYPES.WARNING,
     autoHide: false,
