@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
   flexDirectionRow: {
     flexDirection: 'row',
   },
+  divisionContainer: {
+    flexDirection: 'column',
+  },
 });
 
 export default styles;
