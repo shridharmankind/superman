@@ -65,28 +65,9 @@ const MonthlyTourPlan = ({navigation}) => {
   const dispatch = useDispatch();
 
   const user = userMock.users[0];
-  // const currentDate = getFormatDate({format: 'D'});
-  // const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
-  // const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
-
-  const currentDate = parseInt(
-    getFormatDate({
-      date: dayjs().add(-17, 'day'),
-      format: 'D',
-    }),
-    10,
-  );
-  const currentMonth = parseInt(
-    getFormatDate({date: dayjs().add(-17, 'day'), format: 'M'}),
-    10,
-  );
-  const currentYear = parseInt(
-    getFormatDate({date: dayjs().add(-17, 'day'), format: 'YYYY'}),
-    10,
-  );
-
-  console.log('date', currentDate, currentMonth, currentYear);
-
+  const currentDate = parseInt(getFormatDate({format: 'D'}), 10);
+  const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
+  const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
@@ -97,7 +78,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [monthSelected, setMonthSelected] = useState();
 
   const previousMonthSelected = usePrevious(monthSelected);
-  const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
+  const [showCongratsModal, setShowCongratsModal] = useState(false);
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [submitSTP, setSubmitSTP] = useState();
@@ -373,6 +354,11 @@ const MonthlyTourPlan = ({navigation}) => {
     handleDialog();
   };
 
+  /**
+   * renders due date of mtp for upcoming month
+   * @param {Object} option dropdown option
+   * @returns Chip showing the due date of MTP
+   */
   const renderMTPDueDate = option => {
     const dueDays = MTP_LOCK_DATES_THRESHOLD.MAX - currentDate;
     if (option.month === currentMonth + 1) {
