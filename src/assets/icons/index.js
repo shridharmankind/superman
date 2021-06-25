@@ -26,3 +26,4 @@ export {default as Complaint} from './compliant';
 export {default as LockIcon} from './lock';
 export {default as DoctorVisit} from './doctorVisit';
 export {default as MissedVisit} from './missedVisit';
+export {default as Focus} from './focus';

@@ -305,7 +305,9 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData.birthday)}
+                title={
+                  doctorData.birthday ? dateFormat(doctorData.birthday) : ''
+                }
               />
             </View>
             <View style={styles.birthdayClass}>
