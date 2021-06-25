@@ -39,10 +39,10 @@ metadata:
   name: service-ingress
   annotations:
     #kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     cert-manager.io/cluster-issuer: letsencrypt-staging
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    #nginx.ingress.kubernetes.io/rewrite-target: /$1
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   tls:
@@ -61,7 +61,7 @@ spec:
             port:
               number: 80
               
-      - path: /(.*)
+      - path: /.*
         pathType: Prefix
         backend:
           service:
