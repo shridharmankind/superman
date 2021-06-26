@@ -30,7 +30,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 2253,
-        gender: 'Male',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -82,7 +82,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: false,
         potential: 22530,
-        gender: 'Female',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -134,7 +134,7 @@ export const partiesMock = {
         selfDispensing: true,
         isKyc: true,
         potential: 22000,
-        gender: 'Male',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -181,7 +181,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 100000,
-        gender: 'Male',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -231,6 +231,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 80000,
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -282,6 +283,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: false,
         potential: 34000,
+        gender: 'M',
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},

@@ -1,3 +1,5 @@
+import {DivisionSchemaName} from './Divisions';
+
 export const SpecialitiesSchemaName = 'Specializations';
 
 export default class SpecialitiesSchema {
@@ -6,10 +8,12 @@ export default class SpecialitiesSchema {
     primaryKey: 'id',
     properties: {
       id: 'int',
-      specialisationId: 'int',
       name: 'string?',
       shortName: 'string?',
-      divisionId: 'int?',
+      divisions: {
+        type: 'list',
+        objectType: DivisionSchemaName,
+      },
     },
   };
 }

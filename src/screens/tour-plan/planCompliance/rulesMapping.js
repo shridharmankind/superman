@@ -59,7 +59,6 @@ export const rulesMapping = {
     subTitle: 'drCovered',
     key: RULE_KEY.DOCTOR_IN_X_DAYS,
     showFraction: true,
-
     checkType: null,
   },
   MINIMUMOUTSTATIONVISIT: {

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.grey[700],
     justifyContent: 'flex-start',
     paddingHorizontal: theme.spacing(16),
-    paddingTop: theme.spacing(16),
+    paddingTop: theme.spacing(10),
     paddingBottom: theme.spacing(10),
     position: 'relative',
   },
