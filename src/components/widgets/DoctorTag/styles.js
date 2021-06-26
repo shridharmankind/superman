@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     height: 21.3,
     marginBottom: themes.spacing(2),
+    marginRight: themes.spacing(2),
   },
   labelContent: {
     textAlign: 'center',
