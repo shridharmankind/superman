@@ -190,46 +190,52 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     });
   };
 
-  if (!complianceData || !Object.values(complianceData)?.length) {
-    return null;
-  }
-
-  return (
-    <View style={styles.container}>
-      <View
-        style={[
-          styles.progressContainer,
-          complianceData?.totalPercent === 100
-            ? styles.completedComplaince
-            : styles.inProgressComplaince,
-        ]}>
-        <Label variant={LabelVariant.h1} style={styles.percentage}>
-          {Number.isInteger(complianceData?.totalPercent)
-            ? complianceData?.totalPercent
-            : complianceData?.totalPercent?.toFixed(2)}{' '}
-          %
-        </Label>
-        <ProgressBar
-          progress={complianceData?.totalPercent / 100}
-          color={colors.white}
-        />
-      </View>
-      <View style={styles.rulesContainer}>
-        <View style={styles.header}>
-          <Label
-            variant={LabelVariant.h6}
-            style={styles.rulesTitle}
-            isCapitalise={true}>
-            {type}{' '}
+  /**
+   *
+   * @returns render component when complaince data available
+   */
+  const render = () => {
+    return (
+      <View style={styles.container}>
+        <View
+          style={[
+            styles.progressContainer,
+            complianceData?.totalPercent === 100
+              ? styles.completedComplaince
+              : styles.inProgressComplaince,
+          ]}>
+          <Label variant={LabelVariant.h1} style={styles.percentage}>
+            {Number.isInteger(complianceData?.totalPercent)
+              ? complianceData?.totalPercent
+              : complianceData?.totalPercent?.toFixed(2)}{' '}
+            %
           </Label>
-          <Label variant={LabelVariant.h6} style={styles.rulesTitle}>
-            {Strings.tourPlanRules}
-          </Label>
+          <ProgressBar
+            progress={complianceData?.totalPercent / 100}
+            color={colors.white}
+          />
         </View>
-        {renderRules()}
+        <View style={styles.rulesContainer}>
+          <View style={styles.header}>
+            <Label
+              variant={LabelVariant.h6}
+              style={styles.rulesTitle}
+              isCapitalise={true}>
+              {type}{' '}
+            </Label>
+            <Label variant={LabelVariant.h6} style={styles.rulesTitle}>
+              {Strings.tourPlanRules}
+            </Label>
+          </View>
+          {renderRules()}
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
+
+  return !complianceData || !Object.values(complianceData)?.length
+    ? null
+    : render();
 };
 
 export default React.memo(PlanCompliance);
