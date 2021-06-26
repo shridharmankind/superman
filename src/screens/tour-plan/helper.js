@@ -89,7 +89,6 @@ export const getSelectedMonthIndex = month => {
  */
 export const getSelectedPartyTypeData = (
   doctorsSelected,
-  isAreaSelected,
   updatedPatchArray,
   dataChanged,
   selectedDoctorCount,
@@ -111,7 +110,7 @@ export const getSelectedPartyTypeData = (
   const obj = {
     [DOCTOR]: 0,
     [CHEMIST]: 0,
-    [AREA]: isAreaSelected,
+    [AREA]: undefined,
     [FREQUENCY_MET]: exhaustedFrequencyCount,
     [DOCTOR_COVERED_IN_MONTH]: selectedDoctorCount.length,
     [CHEMIST_COVERED_IN_MONTH]: selectedChemistCount.length,

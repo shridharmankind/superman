@@ -77,7 +77,6 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
-  const [isAreaSelected, setIsAreaSelected] = useState(undefined);
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
   const weekNum = Number(week);
   const staffPositionId = 1;
@@ -792,11 +791,6 @@ const StandardPlanModal = ({
    * @param {Number} id party id passed as int
    */
   const handleDoctorCardPress = (id, area) => {
-    const isAreaAlreadySelected = doctorsSelected?.some(
-      party => party.areaId === area,
-    );
-    setIsAreaSelected(!isAreaAlreadySelected);
-
     const indexAvailable = doctorsSelected?.some(
       party => party.partyId === id && party.areaId === area,
     );
@@ -986,7 +980,6 @@ const StandardPlanModal = ({
   const getSelectedPartyTypeHandler = useCallback(() => {
     return getSelectedPartyTypeData(
       doctorsSelected,
-      isAreaSelected,
       updatedPatchArray,
       dataChanged,
       selectedDoctorCount,
@@ -998,7 +991,6 @@ const StandardPlanModal = ({
     );
   }, [
     doctorsSelected,
-    isAreaSelected,
     updatedPatchArray,
     dataChanged,
     selectedDoctorCount,
