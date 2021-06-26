@@ -215,7 +215,7 @@ export const deleteExistingRecord = (schema, id) => {
   }
 };
 
-const createSinglePartyMasterRecord = async (schema, object) => {
+export const createSinglePartyMasterRecord = async (schema, object,dbInstance = null) => {
   try {
     let specialization,
       area,

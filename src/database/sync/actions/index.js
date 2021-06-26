@@ -2,9 +2,11 @@ import * as DBConstants from '../../constants';
 import * as Schemas from '../../schemas';
 import * as Helper from '../../helper';
 import * as Operations from '../../operations';
+import * as SyncOperations from './../operations';
 import {NetworkService} from 'services';
 import {Constants} from 'common';
 import {getOnDemandSyncStatus} from 'utils/backgroundTask';
+import {getSyncTaskList} from './../commonSyncMethods';
 
 const syncDifference = 1; // minutes
 /**
@@ -41,26 +43,29 @@ export const checkMinimumTimeConstraint = async () => {
 export const syncTableTask = async () => {
   try {
     let resultArray = [];
-
+    let syncTaskList = getSyncTaskList();
+    console.log(syncTaskList.size,"syncTaskList ",syncTaskList);
     let constraintTime = await checkMinimumTimeConstraint();
     let currentTime = new Date();
     let onDemandSyncStatus = await getOnDemandSyncStatus();
-    // if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
-    //     (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
-    for (const table of SYNC_TASK_LIST) {
-      await runBackgroundTask(table).then(result => {
-        resultArray = [...resultArray, ...result]; //collecting result to show toastie
-      });
+    if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
+        (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
+      for (let [key,value] of syncTaskList) {
+        console.log("syncTaskList -- ",key,value);
+        await runBackgroundTask(key,value).then(result => {
+          resultArray = [...resultArray, ...result]; //collecting result to show toastie
+        });
+      }
+      await Operations.updateRecord(
+        Schemas.masterTablesDownLoadStatus,
+        DBConstants.downloadStatus.DOWNLOADED,
+        DBConstants.APPLICATION_SYNC_STATUS,
+      );
     }
-    await Operations.updateRecord(
-      Schemas.masterTablesDownLoadStatus,
-      DBConstants.downloadStatus.DOWNLOADED,
-      DBConstants.APPLICATION_SYNC_STATUS,
-    );
-    //}
-    // else{
-    //   console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
-    // }
+    else{
+      console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
+    }
+    console.log("Result Array --",resultArray);
     return resultArray;
   } catch (err) {
     console.log('Error ', err);
@@ -129,7 +134,7 @@ const getModifiedRecords = async schema => {
  * @returns true : success
  * @returns false: failure
  */
-const runBackgroundTask = async tableName => {
+const runBackgroundTask = async (tableName,value) => {
   try {
     let resultArray = [];
     let item = await Helper.MASTER_TABLES_DETAILS.filter(obj => {
@@ -156,11 +161,11 @@ const runBackgroundTask = async tableName => {
           record.lastSync,
           Array.from(modifiedRecords),
         );
-
         if (response?.status === DBConstants.HTTP_OK) {
-          await Operations.commonSyncRecordCRUDMethod(
+          await SyncOperations.getSyncOperations(
             item[0],
             response.data,
+            value
           ).then(res => {
             resultArray = [...resultArray, ...res];
             //console.log(`${item[0].name} result `, resultArray);

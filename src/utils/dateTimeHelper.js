@@ -59,14 +59,12 @@ export const getDateFromMonthYear = ({month, year, date = '01'}) => {
 };
 
 export const getLocalTimeZone = date => {
-  console.log('new Date 0', date);
   let timeInHours = new Date(date).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
   });
   let newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
-  console.log('new Date ', newDate);
   let dateString =
     newDate.getUTCDate() +
     '/' +

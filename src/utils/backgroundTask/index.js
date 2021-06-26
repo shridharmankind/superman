@@ -46,7 +46,7 @@ export const getBackgrounTaskValue = async () => {
 /**
  * Set BACKGROUND_TASK value to RUNNING
  */
-export const setRunningBackgrounTaskValue = async () => {
+export const setRunningBackgroundTaskValue = async () => {
   const getAsyncValue = await AsyncStorage.getItem(
     Constants.BACKGROUND_TASK.TASK_NAME,
   );
@@ -62,7 +62,7 @@ export const setRunningBackgrounTaskValue = async () => {
 /**
  * Set BACKGROUND_TASK value to NOT_RUNNING
  */
-export const setNotRunningBackgrounTaskValue = async () => {
+export const setNotRunningBackgroundTaskValue = async () => {
   const getAsyncValue = await AsyncStorage.getItem(
     Constants.BACKGROUND_TASK.TASK_NAME,
   );
@@ -73,6 +73,7 @@ export const setNotRunningBackgrounTaskValue = async () => {
     );
     return Constants.BACKGROUND_TASK.NOT_RUNNING;
   }
+  return getAsyncValue;
 };
 
 /**
@@ -108,12 +109,10 @@ const setBackgroundTask = async () => {
       let getCurrentBackgrounStatus = await AsyncStorage.getItem(
         Constants.BACKGROUND_TASK.TASK_NAME,
       );
-      console.log('state', state.isConnected);
-      console.log('getCurrentBackgrounStatus ', getCurrentBackgrounStatus);
       if (
         state.isConnected &&
         getCurrentBackgrounStatus == Constants.BACKGROUND_TASK.NOT_RUNNING
-      ) {
+      ) { //check for internet connection and background Status if it is not running
         const accessToken = await KeyChain.getAccessToken();
         let getCurrentAsyncStorage = await AsyncStorage.getItem(
           Constants.BACKGROUND_TASK.TASK_NAME,
@@ -125,13 +124,13 @@ const setBackgroundTask = async () => {
           console.log(
             ` [${Constants.BACKGROUND_TASK.TASK_NAME}] STARTED ${Constants.BACKGROUND_TASK.RUNNING}`,
           );
-          getCurrentAsyncStorage = await setRunningBackgrounTaskValue();
+          getCurrentAsyncStorage = await setRunningBackgroundTaskValue();
           console.log(
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
           );
           await runBackgroundTask();
-          getCurrentAsyncStorage = await setNotRunningBackgrounTaskValue();
+          getCurrentAsyncStorage = await setNotRunningBackgroundTaskValue();
           console.log(
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
@@ -228,6 +227,5 @@ export const runBackgroundTask = async () => {
     }
   } catch (err) {
     console.log(err);
-    //showToastie('alert', FAILURE_MESSAGE);
   }
 };

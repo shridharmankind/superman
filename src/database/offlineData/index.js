@@ -108,6 +108,7 @@ const getPartiesFromMTU = async config => {
             schema[1].name,
             partyId,
           );
+          console.log("newPartyById",newPartyById)
           if (
             newPartyById &&
             !newPartyById.syncParameters.isDeleted &&

@@ -36,7 +36,7 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.MonthlySchema.dailyMaster,
     ],
   },
-  {  
+  {
     name: Constants.MASTER_TABLE_PARTY_CATEGORIES,
     apiPath: Constants.MASTER_TABLE_PARTY_CATEGORIES_API_PATH,
   },

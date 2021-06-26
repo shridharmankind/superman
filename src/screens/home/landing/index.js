@@ -58,7 +58,7 @@ const HomeLanding = ({navigation}) => {
         }
       }
     };
-  }, [setSyncListener]);
+  });
 
   useEffect(() => {
     if (isConnected) {

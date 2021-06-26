@@ -13,22 +13,24 @@ import {KeyChain, isWeb} from 'helper';
 import {Offline} from 'database';
 import NetInfo from '@react-native-community/netinfo';
 
-client.interceptors.request.use(
-  config => {
-    console.log('req con ', config);
-  },
-  error => {
-    console.log('req', error);
-  },
-);
-client.interceptors.response.use(
-  config => {
-    console.log('res con ', config);
-  },
-  error => {
-    console.log('res', error);
-  },
-);
+// client.interceptors.request.use(
+//   config => {
+//     console.log('req con ', config);
+//     return config;
+//   },
+//   error => {
+//     console.log('req', error);
+//   },
+// );
+// client.interceptors.response.use(
+//   config => {
+//     console.log('res con ', config);
+//     return config;
+//   },
+//   error => {
+//     console.log('res', error);
+//   },
+// );
 
 const checkInternetConnectionForApp = async () => {
   return NetInfo.fetch().then(state => {
@@ -63,6 +65,7 @@ const getNetworkResponse = async (config, apiPath) => {
       return response;
     })
     .catch(function (error) {
+      console.log("err ",error);
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
     });
@@ -84,10 +87,8 @@ export const get = async (url, params = {}, apiPath = null) => {
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
-    console.log('get Data');
     return await getNetworkResponse(config, apiPath);
   } else {
-    console.log('offline');
     return await Offline.offlineData(config, apiPath);
   }
 };

@@ -23,7 +23,7 @@ const store = getStore();
 
 const App = () => {
   LogBox.ignoreAllLogs();
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
   setI18nConfig();
   useEffect(() => {
@@ -37,6 +37,7 @@ const App = () => {
 
     return async () => {
       if (!isWeb()) {
+        console.log("removed App js");
         AsyncStorage.removeItem(TASK_NAME);
       }
     };
