@@ -88,10 +88,9 @@ export const getSelectedMonthIndex = month => {
  * @returns obj containing count of party types
  */
 export const getSelectedPartyTypeData = (
-  allParties,
   doctorsSelected,
   isAreaSelected,
-  updatedPatchArray = allParties,
+  updatedPatchArray,
   dataChanged,
   selectedDoctorCount,
   selectedChemistCount,

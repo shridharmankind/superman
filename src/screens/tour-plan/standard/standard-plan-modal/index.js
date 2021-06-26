@@ -980,6 +980,35 @@ const StandardPlanModal = ({
     [weekNum, weekDay, year],
   );
 
+  /**
+   * Returns data of selectedParty
+   */
+  const getSelectedPartyTypeHandler = useCallback(() => {
+    return getSelectedPartyTypeData(
+      doctorsSelected,
+      isAreaSelected,
+      updatedPatchArray,
+      dataChanged,
+      selectedDoctorCount,
+      selectedChemistCount,
+      exhaustedDrFrequencyCount,
+      selectedDayNumber,
+      XMonthValue,
+      getPartyCountFromArea(),
+    );
+  }, [
+    doctorsSelected,
+    isAreaSelected,
+    updatedPatchArray,
+    dataChanged,
+    selectedDoctorCount,
+    selectedChemistCount,
+    exhaustedDrFrequencyCount,
+    selectedDayNumber,
+    XMonthValue,
+    getPartyCountFromArea,
+  ]);
+
   /**method to check if party in doctorsSelected got exhausted
    * @param {Array} ids selected partys in array
    * @return {Array} exhausted party in array is returned
@@ -1164,19 +1193,7 @@ const StandardPlanModal = ({
             type={COMPLAINCE_TYPE.DAILY}
             week={week}
             weekDay={workingDays.indexOf(weekDay) + 1}
-            selectedData={getSelectedPartyTypeData(
-              allParties,
-              doctorsSelected,
-              isAreaSelected,
-              updatedPatchArray,
-              dataChanged,
-              selectedDoctorCount,
-              selectedChemistCount,
-              exhaustedDrFrequencyCount,
-              selectedDayNumber,
-              XMonthValue,
-              getPartyCountFromArea(),
-            )}
+            selectedData={getSelectedPartyTypeHandler()}
           />
         </View>
       </View>
