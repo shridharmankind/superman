@@ -43,5 +43,8 @@
   "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
   "frequencyMet": "frequency met",
-  "": ""
+  "": "",
+  "missedCalls": "Missed Calls",
+  "speciality": "Speciality",
+  "region": "Region"
 }

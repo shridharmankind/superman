@@ -20,7 +20,10 @@ import {
 } from 'screens/tourPlan/standard/redux';
 import {fetchPlanComplianceWatcher} from 'screens/tourPlan/planCompliance/redux';
 import {fetchTaskWatcher} from 'screens/directory/doctorDetails/openTask/redux';
-import {fetchQueryDoctorsWatcher} from 'screens/directory/landing/redux';
+import {
+  fetchQueryDoctorsWatcher,
+  fetchMissedCallsWatcher,
+} from 'screens/directory/landing/redux';
 import {fetchPriorityProductWatcher} from 'screens/directory/priorityProduct/redux';
 import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
 import {
@@ -52,6 +55,7 @@ export function* rootSaga() {
     fetchSTPCalendarUpdateWatcher,
     fetchPlanComplianceWatcher,
     fetchQueryDoctorsWatcher,
+    fetchMissedCallsWatcher,
     fetchEDetailingPriorityProductWatcher,
     fetchEDetailingOtherProductWatcher,
     fetchTimelineWatcher,
