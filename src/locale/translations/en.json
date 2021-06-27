@@ -1,10 +1,15 @@
 {
   "goodMorning": "Good morning",
-  "monthlyActions": {
-    "save": "Save",
-    "submitSTP": "Submit STP"
+  "tourPlan": {
+    "monthly": {
+      "actions": {
+        "save": "Save",
+        "submitSTP": "Submit STP"
+      },
+      "submittedOn": "Submitted on",
+      "MTPDueOn": "Due in {{X}} days"
+    }
   },
-  "submittedOn": "Submitted on",
   "missedVisit": "Missed Visit!",
   "upcomingVisit": "Upcoming Visit",
   "detailedProducts": "Detailed Products: ",
