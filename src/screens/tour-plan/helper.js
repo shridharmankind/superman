@@ -88,16 +88,15 @@ export const getSelectedMonthIndex = month => {
  * @returns obj containing count of party types
  */
 export const getSelectedPartyTypeData = (
-  allParties,
   doctorsSelected,
-  isAreaSelected,
-  updatedPatchArray = allParties,
+  updatedPatchArray,
   dataChanged,
   selectedDoctorCount,
   selectedChemistCount,
   exhaustedFrequencyCount,
   selectedDayNumber,
   XMonthValue,
+  areasCovered,
 ) => {
   const {
     DOCTOR,
@@ -111,7 +110,7 @@ export const getSelectedPartyTypeData = (
   const obj = {
     [DOCTOR]: 0,
     [CHEMIST]: 0,
-    [AREA]: isAreaSelected,
+    [AREA]: undefined,
     [FREQUENCY_MET]: exhaustedFrequencyCount,
     [DOCTOR_COVERED_IN_MONTH]: selectedDoctorCount.length,
     [CHEMIST_COVERED_IN_MONTH]: selectedChemistCount.length,
@@ -120,9 +119,11 @@ export const getSelectedPartyTypeData = (
   if (!updatedPatchArray || !updatedPatchArray.length) {
     return;
   }
-  const isDayWithinXDays = selectedDayNumber <= XMonthValue.xValue;
+  const isDayWithinXDays = selectedDayNumber <= XMonthValue?.xValue;
+
   updatedPatchArray.map(party => {
     if (dataChanged) {
+      obj[AREA] = areasCovered.filter(item => item.totalUniqueParty > 0).length;
       if (party.alreadyVisited === 0 && party?.alreadyVisitedCount > 0) {
         if (party.partyTypes.name === PARTY_TYPE.CHEMIST) {
           obj[CHEMIST_COVERED_IN_MONTH] = obj[CHEMIST_COVERED_IN_MONTH] + 1;
