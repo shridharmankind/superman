@@ -174,7 +174,8 @@ const MasterDataDownload = ({navigation}) => {
                 break;
 
               case DBConstants.MASTER_TABLE_SKU:
-                await Skus.storeSkus(JSON.parse(data));
+                const skusUpdated = await Skus.storeSkus(JSON.parse(data));
+                skusUpdated && updateRecordDownloaded(item.name);
                 break;
             }
 
