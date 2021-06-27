@@ -4,7 +4,9 @@
     "monthly": {
       "actions": {
         "save": "Save",
-        "submitSTP": "Submit STP"
+        "submitSTP": "Submit STP",
+        "addToTodayPlan": "Add to Today's Plan",
+        "reviewDCR": "Review DCR"
       },
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days"
