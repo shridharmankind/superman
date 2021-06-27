@@ -4,16 +4,16 @@ import {Constants, getDBInstance} from 'database';
 
 export const getSyncOperations = async (item, data, operationObject) => {
     try{
-        console.log("started",data);
         let resultArray = [];
         let schema = item.schema;
         await getDBInstance().write(() => {
             data.forEach(object => {
-                console.log("Objecct",object);
                 let existingRecord = getDBInstance().objectForPrimaryKey(
                   schema[0].name,
                   object.id,
                 );
+                // console.log("existing ",JSON.stringify(existingRecord));
+                // console.log("object",JSON.stringify(object));
                 /**
                  * Now, There can be two scenario's
                  * 1. If record doesn't exist.
@@ -69,7 +69,6 @@ const recordNotExist = async (item, schema, existingRecord, object, operationObj
           if (existingFERecord.length !== 0 && existingFERecord.length === 1) {
             const existingObjectId = existingFERecord[0].id;
             if(typeof operationObject.deleteExistingRecord === 'function'){
-                console.log("Internal");
                 operationObject.deleteExistingRecord(schema[0],existingObjectId);
             } else {
                 deleteExistingRecord(schema[0], existingObjectId);
@@ -143,10 +142,9 @@ const recordExist = async (item, schema, existingRecord, object, operationObject
       } //else ends here
       if (object !== null && object.syncParameters != null) {
             if(typeof operationObject.addModifiedRecord === 'function'){
-                operationObject.addModifiedRecord(dbInstance,schema,object);
+                operationObject.addModifiedRecord(getDBInstance,schema,object);
             }
             else{
-                console.log("common addModified workd");
                 getDBInstance().create(schema[0].name, object, 'modified');
             }
         result = result == '' ? Constants.SUCCESS : result;

@@ -1,5 +1,5 @@
 import {OrganizationSchemaName} from '../schemas/Organizations';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 
 export default dbInstance => ({
   storeOrganizations: async organizations => {
@@ -8,9 +8,10 @@ export default dbInstance => ({
       await dbInstance.write(() => {
         organizations.forEach(organization => {
           const {id, name, shortName} = organization;
+          let syncParameters = organization.syncParameters == undefined ? syncParametersObject(): organization.syncParameters;
           dbInstance.create(
             OrganizationSchemaName,
-            {id, name, shortName},
+            {id, name, shortName, syncParameters},
             'modified',
           );
         });

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
   Alert,
@@ -11,6 +11,7 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
+import {Label} from 'components/elements';
 import {NotificationIcon, SearchIcon, RefreshIcon} from 'assets';
 import {Routes} from 'navigations';
 import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
@@ -24,7 +25,11 @@ import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
 import NetInfo from '@react-native-community/netinfo';
-import {Sync} from 'database';
+import {getLocalTimeZone} from 'utils/dateTimeHelper';
+import {Sync,
+  Constants as DBConstants,
+  Schemas,
+  getDBInstance,} from 'database';
 import {
   showToastie,
   setOnDemandSyncStatusRunning,
@@ -38,12 +43,78 @@ const Dashboard = ({navigation}) => {
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
   const [onDemandSync, setOnDemandSync] = useState(true);
+  const [lastSync, setLastSync] = useState('--:--:--');
+  const [isConnected, setConnected] = useState(false);
+
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   });
+
+  useEffect(() => {
+
+    const fetchSyncTime = async () => {
+      let masterData = getDBInstance().objects(
+        Schemas.masterTablesDownLoadStatus.name,
+      );
+      setSyncListener(masterData);
+      masterData.forEach(modifiedData => {
+        if (modifiedData.name == DBConstants.APPLICATION_SYNC_STATUS) {
+          setSync(modifiedData);
+          return;
+        }
+      });
+      return;
+    };
+    let subscribeNetworkCheck = null;
+    if (!isWeb()) {
+      fetchSyncTime();
+      subscribeNetworkCheck = NetInfo.addEventListener(
+        handleConnectivityChange,
+      );
+      //Sync.SyncService.RegisterBackgroundTask();
+    }
+    return async () => {
+      if (!isWeb()) {
+        if (subscribeNetworkCheck) {
+          subscribeNetworkCheck();
+          subscribeNetworkCheck = null;
+        }
+      }
+    };
+  });
+
+  useEffect(() => {
+    if (isConnected) {
+      Sync.SyncService.syncNow();
+    }
+  }, [isConnected]);
+
+  const handleConnectivityChange = connection => {
+    setConnected(connection.isConnected);
+  };
+
+  const setSyncListener = useCallback(masterData => {
+    masterData.addListener((masterData, changes) => {
+      changes.insertions.forEach(index => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+      changes.modifications.forEach(index => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+    });
+  }, []);
+
+  const setSync = syncRecord => {
+    if (syncRecord.name == DBConstants.APPLICATION_SYNC_STATUS) {
+      let date = getLocalTimeZone(syncRecord.lastSync);
+      setLastSync(date);
+    }
+  };
 
   const onSyncPress = () => {
     if (!isWeb()) {
@@ -252,12 +323,26 @@ const Dashboard = ({navigation}) => {
     </DashboardStack.Navigator>
   );
 
+  const renderSyncTime = () => {
+    if(!isWeb()){
+      return (
+        <View style={styles.syncContainer}>
+          <Label
+            size={12.5}
+            title={`${Strings.backgroundTask.lastSync} ${lastSync}`}
+          />
+        </View>
+      );
+    }
+  }
+
   return (
     <TouchableWithoutFeedback onPress={closeSearchBar}>
       <View style={styles.container}>
         {renderSideMenu()}
         {renderNavigator()}
         {renderScreenActions()}
+        {renderSyncTime()}
       </View>
     </TouchableWithoutFeedback>
   );

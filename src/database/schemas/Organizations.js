@@ -1,3 +1,4 @@
+import * as Constants from '../constants';
 export const OrganizationSchemaName = 'Organizations';
 
 export default class OrganizationSchema {
@@ -8,6 +9,7 @@ export default class OrganizationSchema {
       id: 'int',
       name: 'string',
       shortName: 'string',
+      syncParameters: Constants.MASTER_SYNC_PARAMETERS
     },
   };
 }

@@ -12,10 +12,10 @@ const syncDifference = 1; // minutes
 /**
  * In this list we mention all the Schema's Name for which we want to run the Sync activity.
  */
-const SYNC_TASK_LIST = [
-  DBConstants.MASTER_TABLE_PARTY, //partyMaster Table
-  DBConstants.MASTER_MONTHLY_TABLE_PLAN, //monthlyMaster Table
-];
+// const SYNC_TASK_LIST = [
+//   DBConstants.MASTER_TABLE_PARTY, //partyMaster Table
+//   DBConstants.MASTER_MONTHLY_TABLE_PLAN, //monthlyMaster Table
+// ];
 
 export const checkMinimumTimeConstraint = async () => {
   try {
@@ -44,14 +44,12 @@ export const syncTableTask = async () => {
   try {
     let resultArray = [];
     let syncTaskList = getSyncTaskList();
-    console.log(syncTaskList.size,"syncTaskList ",syncTaskList);
     let constraintTime = await checkMinimumTimeConstraint();
     let currentTime = new Date();
     let onDemandSyncStatus = await getOnDemandSyncStatus();
     if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
         (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
       for (let [key,value] of syncTaskList) {
-        console.log("syncTaskList -- ",key,value);
         await runBackgroundTask(key,value).then(result => {
           resultArray = [...resultArray, ...result]; //collecting result to show toastie
         });
@@ -84,17 +82,42 @@ export const syncTableTask = async () => {
 const configParam = (item, staffPositionId, lastSync, data) => {
   let postData = {};
   switch (item.name) {
-    case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+    case DBConstants.MASTER_TABLE_DIVISION:
+      postData.method = 'GET';
+      return postData;
+    case DBConstants.MASTER_TABLE_ORGANIZATION:
+      postData.method = 'GET';
+      return postData;
+    default:
       postData.staffPositionId = staffPositionId;
       postData.lastSyncTime = lastSync;
       postData[item.syncParam] = data;
-      return postData;
-    case DBConstants.MASTER_TABLE_PARTY:
-      postData.staffPositionId = staffPositionId;
-      postData.lastSyncTime = lastSync;
-      postData[item.syncParam] = data;
-      return postData;
+      postData.method = 'POST';
+      return postData;  
   }
+};
+
+const callRequest = async (item, lastSync, data) => {
+  const staffPositionId = await Helper.getStaffPositionId();
+  let postData = configParam(item, staffPositionId, lastSync, data);
+  if(postData.method === 'GET'){
+    return await syncGetRequest(item);
+  }
+  else{
+    return await syncPostRequest(item, postData);
+  }
+}
+
+/**
+ * This method will hit get data with configured getData.
+ * @param {*} item
+ * @param {*} lastSync
+ * @param {*} data
+ * @returns
+ */
+ const syncGetRequest = async (item) => {
+  const response = await NetworkService.get(item.apiPath);
+  return response;
 };
 
 /**
@@ -104,9 +127,7 @@ const configParam = (item, staffPositionId, lastSync, data) => {
  * @param {*} data
  * @returns
  */
-const syncPostRequest = async (item, lastSync, data) => {
-  const staffPositionId = await Helper.getStaffPositionId();
-  let postData = configParam(item, staffPositionId, lastSync, data);
+const syncPostRequest = async (item, postData) => {
   const response = await NetworkService.post(item.syncApiPath, postData);
   return response;
 };
@@ -122,7 +143,7 @@ const getModifiedRecords = async schema => {
   const modifiedRecords = await tableRecord.filtered(
     'syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true',
   );
-  console.log('modifiedRecords length ', modifiedRecords);
+  console.log('modifiedRecords length ', modifiedRecords.length);
   return modifiedRecords;
 };
 
@@ -147,20 +168,12 @@ const runBackgroundTask = async (tableName,value) => {
       );
       if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
         let modifiedRecords = await getModifiedRecords(item[0].schema[0]);
-        // if(modifiedRecords == []){
-        //   await Operations.updateRecord(
-        //     Schemas.masterTablesDownLoadStatus,
-        //     DBConstants.downloadStatus.DOWNLOADED,
-        //     item[0].name,
-        //   );
-        //   return resultArray;
-        // }
-        //Hit Post API
-        const response = await syncPostRequest(
+
+        const response = await callRequest(
           item[0],
           record.lastSync,
-          Array.from(modifiedRecords),
-        );
+          Array.from(modifiedRecords));
+        
         if (response?.status === DBConstants.HTTP_OK) {
           await SyncOperations.getSyncOperations(
             item[0],

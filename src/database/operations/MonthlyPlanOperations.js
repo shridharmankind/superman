@@ -104,14 +104,14 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
     let syncParametersObject = {
       devicePartyId: null,
       isActive: true,
-      requireSync: false,
+      requireSync: true,
       lastModifiedOn: new Date(),
       isDeleted: false,
       errorInSync: false,
       syncErrorDetails: syncErrorDetailsObject,
     };
     await dbInstance.write(() => {
-      //singleRecord(dbInstance, schema, dummyObject);
+      singleRecord(dbInstance, schema, dummyObject);
       data.forEach(object => {
         let statusDetail = object.status;
 
@@ -123,7 +123,7 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
             year: object.year,
             month: object.month,
             statusId: object.statusId,
-            isLocked: object.isLocked,
+            isLocked: !object.isLocked,
             status: statusDetail,
             syncParameters: syncParametersObject,
           },
@@ -145,66 +145,72 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
   }
 };
 
-// let syncErrorDetailsObject = {
-//   conflictType: 'null',
-//   errorMessage: 'null',
-// };
-// let syncParametersObject = {
-//   devicePartyId: generateUUID(),
-//   isActive: true,
-//   requireSync: false,
-//   lastModifiedOn: new Date(),
-//   isDeleted: false,
-//   errorInSync: false,
-//   syncErrorDetails: syncErrorDetailsObject,
-// };
+let lastSyncRecordTime = new Date();
+let d2 = new Date(lastSyncRecordTime);
+d2.setMinutes(lastSyncRecordTime.getMinutes() + 10);
 
-// let dummyObject = {
-//   id: -1,
-//   staffPositionId: 1,
-//   year: 2104,
-//   month: 10,
-//   statusId: 0,
-//   isLocked: true,
-//   status: null,
-//   syncParameters: syncParametersObject,
-//   dailyPlannedActivities: [
-//     {
-//       id: -1,
-//       monthlyTourPlanId: 0,
-//       day: 1,
-//       date: new Date(),
-//       isJointVisit: true,
-//       activityTypeId: 0,
-//       partyId: 0,
-//       patchId: 0,
-//       nonFieldActvityId: 0,
-//       isMissed: true,
-//       isAdhoc: true,
-//       activityTypeDto: {
-//         id: 0,
-//         name: 'string',
-//         shortName: 'string',
-//         isActive: true,
-//         isFieldActivity: true,
-//         isDisplay: true,
-//       },
-//       nonFieldActivityDto: {
-//         id: 0,
-//         name: 'string',
-//         shortName: 'string',
-//         activityTypeId: 0,
-//         durationTypeId: 0,
-//       },
-//       syncParameters: {
-//         devicePartyId: generateUUID(),
-//         isActive: true,
-//         requireSync: true,
-//         lastModifiedOn: d2,
-//         isDeleted: false,
-//         errorInSync: false,
-//         syncErrorDetails: syncErrorDetailsObject,
-//       },
-//     },
-//   ],
-// };
+let syncErrorDetailsObject = {
+  conflictType: 'null',
+  errorMessage: 'null',
+};
+let syncParametersObject = {
+  devicePartyId: generateUUID(),
+  isActive: true,
+  requireSync: false,
+  lastModifiedOn: d2,
+  isDeleted: false,
+  errorInSync: false,
+  syncErrorDetails: syncErrorDetailsObject,
+};
+
+
+
+let dummyObject = {
+  id: -1,
+  staffPositionId: 1,
+  year: 2105,
+  month: 10,
+  statusId: 0,
+  isLocked: true,
+  status: null,
+  syncParameters: syncParametersObject,
+  dailyPlannedActivities: [
+    {
+      id: -1,
+      monthlyTourPlanId: 0,
+      day: 1,
+      date: new Date(),
+      isJointVisit: true,
+      activityTypeId: 0,
+      partyId: 0,
+      patchId: 0,
+      nonFieldActvityId: 0,
+      isMissed: true,
+      isAdhoc: true,
+      activityTypeDto: {
+        id: 0,
+        name: 'string',
+        shortName: 'string',
+        isActive: true,
+        isFieldActivity: true,
+        isDisplay: true,
+      },
+      nonFieldActivityDto: {
+        id: 0,
+        name: 'string',
+        shortName: 'string',
+        activityTypeId: 0,
+        durationTypeId: 0,
+      },
+      syncParameters: {
+        devicePartyId: generateUUID(),
+        isActive: true,
+        requireSync: true,
+        lastModifiedOn: d2,
+        isDeleted: false,
+        errorInSync: false,
+        syncErrorDetails: syncErrorDetailsObject,
+      },
+    },
+  ],
+};

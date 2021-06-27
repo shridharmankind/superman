@@ -139,7 +139,6 @@ export const createPartyMasterRecord = async (schema, data) => {
     await insertPartyTableData(schema, -1);
     await realm.write(() => {
       data.forEach((object, index) => {
-        console.log("data ", JSON.stringify(object));
         partyTypeGroup = realm.create(
           schema[4].name,
           object.partyTypes?.partyTypeGroup,
@@ -307,7 +306,7 @@ let dummyPartyData = {
     },
   },
   id: -1,
-  name: 'Ashi KUMAR',
+  name: 'AshiMa KUMAR',
   specialities: [],
   qualifications: [],
   frequency: 2,

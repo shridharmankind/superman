@@ -73,7 +73,6 @@ const DoctorDetails = ({
    */
   const OnErrorHandler = () => {
     if (!isImageErrror) {
-      console.log('doctor title', title, gender);
       const genderImage =
         Constants.GENDER.MALE === (gender || '').toUpperCase()
           ? require('assets/images/male.png')

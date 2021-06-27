@@ -43,10 +43,16 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_ORGANIZATION,
     apiPath: Constants.MASTER_TABLE_ORGANIZATION_API_PATH,
+    schema: [
+      Schemas.Organizations.schema
+    ]
   },
   {
     name: Constants.MASTER_TABLE_DIVISION,
     apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
+    schema: [
+      Schemas.Divisions.schema
+    ]
   },
   {
     name: Constants.QUALIFICATIONS,
