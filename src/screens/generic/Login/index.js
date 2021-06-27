@@ -19,6 +19,11 @@ import {LoginCover, LogoMankindWhite} from 'assets';
 import {authTokenActions} from '../RouteHandler/redux';
 import {useDispatch} from 'react-redux';
 import {Constants} from 'common';
+import {Helper} from 'database';
+import {
+  ROUTE_MASTER_DATA_DOWNLOAD,
+  ROUTE_DASHBOARD,
+} from '../../../navigations/routes';
 
 const config = {
   issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
@@ -40,7 +45,13 @@ const Login = () => {
       setAnimating(true);
       const newAuthState = await authorize(config);
       await KeyChain.saveAccessToken(newAuthState.accessToken);
-      dispatch(authTokenActions.signIn({userToken: newAuthState.accessToken}));
+      const isPending = await Helper.checkForPendingMasterDataDownload();
+      dispatch(
+        authTokenActions.signIn({
+          userToken: newAuthState.accessToken,
+          screen: isPending ? ROUTE_MASTER_DATA_DOWNLOAD : ROUTE_DASHBOARD,
+        }),
+      );
       const decoded = jwt_decode(newAuthState.accessToken);
       AsyncStorage.setItem(
         Constants.TOKEN_EXPIRY_TIME,

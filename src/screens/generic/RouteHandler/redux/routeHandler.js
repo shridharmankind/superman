@@ -1,10 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {Helper} from 'database';
-import {
-  ROUTE_DASHBOARD,
-  ROUTE_LOGIN,
-  ROUTE_MASTER_DATA_DOWNLOAD,
-} from '../../../../navigations/routes';
+import {ROUTE_LOGIN} from '../../../../navigations/routes';
 
 export const authInitialState = {
   userToken: null,
@@ -21,9 +16,7 @@ const authLoginHandler = createSlice({
       return {
         ...prevState,
         userToken: payload.userToken,
-        authScreen: isMasterDataDownloaded()
-          ? ROUTE_DASHBOARD
-          : ROUTE_MASTER_DATA_DOWNLOAD,
+        authScreen: payload.screen,
         logout: false,
       };
     },
@@ -40,13 +33,15 @@ const authLoginHandler = createSlice({
         userToken: null,
       };
     },
+    updateScreen: (prevState, action) => {
+      const {payload} = action;
+      return {
+        ...prevState,
+        authScreen: payload.screen,
+      };
+    },
   },
 });
 
 export const authTokenActions = authLoginHandler.actions;
 export const authTokenReducer = authLoginHandler.reducer;
-
-const isMasterDataDownloaded = async () => {
-  const isPending = await Helper.checkForPendingMasterDataDownload();
-  return isPending;
-};

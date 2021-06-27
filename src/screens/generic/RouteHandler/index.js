@@ -2,13 +2,17 @@ import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {authenticationConstants} from './constants';
-import {Login} from 'screens/generic';
-import ROUTES from '../../../navigations/routes';
+import {MasterDataDownload, Login} from 'screens/generic';
+import ROUTES, {
+  ROUTE_MASTER_DATA_DOWNLOAD,
+  ROUTE_DASHBOARD,
+} from '../../../navigations/routes';
 import {authTokenActions} from './redux';
 import {authSelector} from './redux/routeHandlerSelector';
 import {useSelector, useDispatch} from 'react-redux';
 import {KeyChain} from 'helper';
 import {revokeLogin, isAccessTokenValid} from '../../../utils/util';
+import {Helper} from 'database';
 
 const Stack = createStackNavigator();
 export default function RouteHandler() {
@@ -35,11 +39,13 @@ export default function RouteHandler() {
   React.useEffect(() => {
     const updateTokenAndScreen = async () => {
       try {
+        const isPending = await Helper.checkForPendingMasterDataDownload();
         const token = await KeyChain.getAccessToken();
         if (token && (await isAccessTokenValid())) {
           dispatch(
             authTokenActions.signIn({
               userToken: token,
+              screen: isPending ? ROUTE_MASTER_DATA_DOWNLOAD : ROUTE_DASHBOARD,
             }),
           );
         }
@@ -48,10 +54,35 @@ export default function RouteHandler() {
     updateTokenAndScreen();
   }, [dispatch]);
 
+  const renderLoggedComponent = () => {
+    if (screen === ROUTE_DASHBOARD) {
+      return ROUTES.map(route => (
+        <Stack.Screen
+          key={route.name}
+          name={route.name}
+          component={route.component}
+          options={{
+            headerShown: false,
+          }}
+        />
+      ));
+    } else {
+      return (
+        <Stack.Screen
+          name={ROUTE_MASTER_DATA_DOWNLOAD}
+          component={MasterDataDownload}
+          options={{
+            headerShown: false,
+          }}
+        />
+      );
+    }
+  };
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={screen}>
-        {!userToken ? (
+      <Stack.Navigator>
+        {!userToken || screen === authenticationConstants.LOGIN ? (
           <Stack.Screen
             name={authenticationConstants.LOGIN}
             component={Login}
@@ -60,16 +91,7 @@ export default function RouteHandler() {
             }}
           />
         ) : (
-          ROUTES.map(route => (
-            <Stack.Screen
-              key={route.name}
-              name={route.name}
-              component={route.component}
-              options={{
-                headerShown: false,
-              }}
-            />
-          ))
+          renderLoggedComponent()
         )}
       </Stack.Navigator>
     </NavigationContainer>
