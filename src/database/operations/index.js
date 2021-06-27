@@ -8,7 +8,6 @@ import {KeyChain} from 'helper';
 import {getDBInstance} from 'database';
 import {
   generateUUID,
-  commonSyncRecordCRUDMethod,
   deleteExistingRecord,
   deleteDBObject,
   modifyDBObject,
@@ -136,7 +135,7 @@ export const createPartyMasterRecord = async (schema, data) => {
       partyTypes,
       partyTypeGroup,
       engagement;
-    await insertPartyTableData(schema, -1);
+    //await insertPartyTableData(schema, -1);
     await realm.write(() => {
       data.forEach((object, index) => {
         partyTypeGroup = realm.create(
@@ -157,9 +156,9 @@ export const createPartyMasterRecord = async (schema, data) => {
         let syncParametersObject = {
           devicePartyId: null,
           isActive: true,
-          requireSync: (index % 2 == 0) ? true:false,
-          lastModifiedOn: d2,
-          isDeleted: (index % 5 == 0) ? true : false,
+          requireSync: false,
+          lastModifiedOn: new Date(),
+          isDeleted: false,
           errorInSync: false,
           syncErrorDetails: syncErrorDetailsObject,
         };
@@ -347,7 +346,6 @@ let dummyPartyData = {
 export {default as qualificationOperations} from './qualificationOperations';
 export {default as monthlyPlanOperations} from './MonthlyPlanOperations';
 export {
-  commonSyncRecordCRUDMethod,
   generateUUID,
   deleteExistingRecord,
   deleteDBObject,

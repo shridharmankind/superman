@@ -166,6 +166,11 @@ const Strings = {
     },
     docAddedTodayPlan: 'Doctor added successfully',
   },
+  setting: {
+    tab: {
+      conflicts: 'Conflict',
+    },
+  },
   searchBar: {
     errors: {
       validName: 'Please Enter Valid name',

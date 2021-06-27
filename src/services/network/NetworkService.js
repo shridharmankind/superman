@@ -13,25 +13,6 @@ import {KeyChain, isWeb} from 'helper';
 import {Offline} from 'database';
 import NetInfo from '@react-native-community/netinfo';
 
-// client.interceptors.request.use(
-//   config => {
-//     console.log('req con ', config);
-//     return config;
-//   },
-//   error => {
-//     console.log('req', error);
-//   },
-// );
-// client.interceptors.response.use(
-//   config => {
-//     console.log('res con ', config);
-//     return config;
-//   },
-//   error => {
-//     console.log('res', error);
-//   },
-// );
-
 const checkInternetConnectionForApp = async () => {
   return NetInfo.fetch().then(state => {
     if (!state.isConnected && !isWeb()) {
@@ -70,6 +51,7 @@ const getNetworkResponse = async (config, apiPath) => {
       return error.response || error.message;
     });
 };
+
 
 /*
 Function to handle HTTP GET request

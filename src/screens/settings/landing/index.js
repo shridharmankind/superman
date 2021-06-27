@@ -27,7 +27,7 @@ const SettingLanding = ({navigation, route}) => {
 
   const data = [
     {
-      text: `${Strings.directory.tab.doctors}`,
+      text: `${Strings.setting.tab.conflicts}`,
     },
   ];
 
@@ -56,14 +56,14 @@ const SettingLanding = ({navigation, route}) => {
   const renderChildView = () => {
     switch (selectedTabIndex) {
       case 0:
-        return doctorTab();
+        return conflictTab();
       default:
         return <Label title={Strings.comingSoon} />;
     }
   };
 
   // Below is the doctor tab under directory page
-  const doctorTab = () => {
+  const conflictTab = () => {
     return (
       <View style={styles.container}>
         <View style={styles.searchContainer}>
@@ -76,22 +76,6 @@ const SettingLanding = ({navigation, route}) => {
             height={16}
             width={16}
           />
-        </View>
-        <View>
-          <View style={styles.listHeader}>
-            <Label
-              style={styles.division}
-              title={Strings.directory.listHeader.doctor}
-            />
-            <Label
-              style={[styles.division, styles.colwidth]}
-              title={Strings.directory.listHeader.speciality}
-            />
-            <Label
-              style={[styles.division, styles.colwidth]}
-              title={Strings.directory.listHeader.region}
-            />
-          </View>
         </View>
       </View>
     );

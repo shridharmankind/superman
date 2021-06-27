@@ -104,14 +104,14 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
     let syncParametersObject = {
       devicePartyId: null,
       isActive: true,
-      requireSync: true,
+      requireSync: false,
       lastModifiedOn: new Date(),
       isDeleted: false,
       errorInSync: false,
       syncErrorDetails: syncErrorDetailsObject,
     };
     await dbInstance.write(() => {
-      singleRecord(dbInstance, schema, dummyObject);
+      //singleRecord(dbInstance, schema, dummyObject);
       data.forEach(object => {
         let statusDetail = object.status;
 
@@ -123,7 +123,7 @@ const monthlyMasterRecord = async (dbInstance, schema, data) => {
             year: object.year,
             month: object.month,
             statusId: object.statusId,
-            isLocked: !object.isLocked,
+            isLocked: object.isLocked,
             status: statusDetail,
             syncParameters: syncParametersObject,
           },
