@@ -29,6 +29,10 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_TABLE_SKU_API_PATH,
   },
   {
+    name: Constants.MASTER_TABLE_PARTY_CATEGORIES,
+    apiPath: Constants.MASTER_TABLE_PARTY_CATEGORIES_API_PATH,
+  },
+  {
     name: Constants.MASTER_TABLE_ORGANIZATION,
     apiPath: Constants.MASTER_TABLE_ORGANIZATION_API_PATH,
   },

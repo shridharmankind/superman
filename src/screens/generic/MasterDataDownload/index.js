@@ -15,6 +15,7 @@ import {
   Operations,
   Schemas,
   Skus,
+  PartyCategories,
   Organizations,
   Divisions,
   Qualifications,
@@ -128,6 +129,9 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_TABLE_SKU:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_ORGANIZATION:
               response = await NetworkService.get(item.apiPath);
               break;
@@ -176,6 +180,12 @@ const MasterDataDownload = ({navigation}) => {
               case DBConstants.MASTER_TABLE_SKU:
                 const skusUpdated = await Skus.storeSkus(JSON.parse(data));
                 skusUpdated && updateRecordDownloaded(item.name);
+                break;
+
+              case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
+                const partyCategoriesUpdated =
+                  await PartyCategories.storePartyCategories(JSON.parse(data));
+                partyCategoriesUpdated && updateRecordDownloaded(item.name);
                 break;
             }
 

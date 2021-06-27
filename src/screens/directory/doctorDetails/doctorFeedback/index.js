@@ -29,7 +29,10 @@ const DoctorFeedback = ({navigation, route}) => {
       <View style={[{width: width - 300}, styles.slideStyle]}>
         <View style={styles.questionSection}>
           <Text style={styles.question}>
-            <Text style={{fontFamily: themes.fonts.fontBold}}>{index + 1}.</Text> {`${Strings.doctorDetail.dcr.what} `}
+            <Text style={{fontFamily: themes.fonts.fontBold}}>
+              {index + 1}.
+            </Text>
+            {`${Strings.doctorDetail.dcr.what} `}
             <Text style={{fontFamily: themes.fonts.fontBold}}>
               {`${Strings.doctorDetail.dcr.kindOfVisit} `}
             </Text>
@@ -42,10 +45,14 @@ const DoctorFeedback = ({navigation, route}) => {
               <Image source={SingleAvtar} style={styles.avtarStyle} />
             </View>
             <View style={styles.heading}>
-              <Label style={styles.highlighted} variant={LabelVariant.subtitleLarge}>
+              <Label
+                style={styles.highlighted}
+                variant={LabelVariant.subtitleLarge}>
                 {Strings.doctorDetail.dcr.regVisit}
               </Label>
-              <Label style={styles.highlighted} variant={LabelVariant.subtitleLarge}>
+              <Label
+                style={styles.highlighted}
+                variant={LabelVariant.subtitleLarge}>
                 ({Strings.doctorDetail.dcr.justMe})
               </Label>
             </View>

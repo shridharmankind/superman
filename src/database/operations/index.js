@@ -182,6 +182,7 @@ export const closeDB = () => {
 
 export {default as qualificationOperations} from './qualificationOperations';
 export {default as skuOperations} from './skuOperations';
+export {default as partyCategoryOperations} from './partyCategoryOperations';
 export {default as organizationOperations} from './organizationOperations';
 export {default as divisionOperations} from './divisionOperations';
 export {default as specialityOperations} from './specialityOperations';

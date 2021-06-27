@@ -28,6 +28,9 @@ export const MASTER_TABLE_SKU = 'SKUs';
 export const MASTER_TABLE_SKU_API_PATH = 'sku';
 export const MASTER_TABLE_SUBBRAND = 'SubBrand';
 
+export const MASTER_TABLE_PARTY_CATEGORIES = 'PartyCategories';
+export const MASTER_TABLE_PARTY_CATEGORIES_API_PATH = 'party/categories';
+
 export const MASTER_TABLE_ORGANIZATION = 'Organizations';
 export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
 
