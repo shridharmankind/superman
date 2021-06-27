@@ -83,7 +83,7 @@ const Strings = {
     tabDes: 'Mankind/Total',
     foc: 'FOC',
     gx: '(Gx)',
-    sow: '(Sow)',
+    sow: '(SoW)',
     conductRcpa: 'Conduct RCPA',
     na: 'NA',
   },
@@ -120,7 +120,7 @@ const Strings = {
     dcr: {
       what: 'What',
       kindOfVisit: 'kind of visit',
-      wasIt: 'was it ?',
+      wasIt: 'was it?',
       regVisit: 'Regular Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
@@ -144,7 +144,7 @@ const Strings = {
   beginJourney: "Let's begin your journey",
   successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
-  tourPlanRules: 'Monthly tour plan rules',
+  tourPlanRules: 'tour plan rules',
   exStation: 'Ex',
   patchExhaustedForParty:
     'One or more doctors added in the patch do not have further visiting slots, do you want to create a new patch.',
@@ -164,6 +164,7 @@ const Strings = {
       addTodayPlan: "Add to Today's Plan",
       startEdetail: 'eDetail',
     },
+    docAddedTodayPlan: 'Doctor added successfully',
   },
   searchBar: {
     errors: {
@@ -184,21 +185,9 @@ const Strings = {
     save: 'Save',
     submitSTP: 'Submit STP',
   },
-  planComplaince: {
-    dr: 'Doctor',
-    minimum: 'minimum',
-    maximum: 'maximum',
-    doctorVisitsPerDay: 'doctor visits per day',
-    chemistVisitsPerDay: 'chemists visits per day',
-    daysGap: 'days',
-    minGap: 'minimum gap',
-    drCovered: 'Doctors covered',
-    chCovered: 'Chemist covered',
-    outStationPerMonth: 'Out-station visits per month',
-    exStationPerMonth: 'Ex-station visits per month',
-    areaCovered: 'areas covered',
-    frequencyMet: 'frequency met',
-  },
+  frquecySlotExhausted:
+    'Frequency slots for few doctors has been exhausted, a new patch name has been created',
+  selectDocToCreatePatch: 'Please select any doctor to create a patch.',
 };
 
 export default Strings;

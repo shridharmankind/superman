@@ -10,6 +10,10 @@ import {TabBar} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
 import {OpenTask, PriorityProduct} from 'screens/directory';
+import DocTimeline from '../doc-timeline';
+import {Helper} from 'database';
+import {useEffect} from 'react';
+import {translate} from 'locale';
 
 /**
  * Custom doctor details component render after click on doctor list.
@@ -18,6 +22,15 @@ import {OpenTask, PriorityProduct} from 'screens/directory';
  */
 
 const DoctorProfile = ({route}) => {
+  const [staffPositionId, setStaffPositionId] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      setStaffPositionId(id || 1);
+    })();
+  });
+
   const doctorData = route.params?.data || {};
   const navigation = useNavigation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -87,14 +100,43 @@ const DoctorProfile = ({route}) => {
    */
   const firstTab = () => {
     return (
-      <View style={styles.tabMainContainer}>
-        <View style={styles.productMainContainer}>
-          <PriorityProduct
-            staffPostionId={1}
-            partyId={doctorData.partyTypes.id}
-          />
+      <View>
+        <View style={styles.tabMainContainer}>
+          <View style={styles.productMainContainer}>
+            {staffPositionId && (
+              <PriorityProduct
+                staffPostionId={staffPositionId}
+                partyId={doctorData.id}
+              />
+            )}
+          </View>
+          <View style={styles.openMainTask}>{<OpenTask />}</View>
         </View>
-        <View style={styles.openMainTask}>{<OpenTask />}</View>
+        {renderTimeLine()}
+      </View>
+    );
+  };
+
+  /**
+   * Render timeline component
+   *
+   * @return {JSX} Timeline
+   */
+  const renderTimeLine = () => {
+    if (!staffPositionId) {
+      return null;
+    }
+    return (
+      <View>
+        <Label
+          variant={LabelVariant.h3}
+          style={styles.mainHeader}
+          title={translate('timeline')}
+        />
+        <DocTimeline
+          staffPositionId={staffPositionId}
+          partyId={doctorData.id}
+        />
       </View>
     );
   };

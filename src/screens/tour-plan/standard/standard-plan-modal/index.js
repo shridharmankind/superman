@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,7 +14,11 @@ import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {PARTY_TYPE} from 'screens/tourPlan/constants';
+import {
+  PARTY_TYPE,
+  STP_STATUS,
+  COMPLAINCE_TYPE,
+} from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
@@ -28,6 +33,14 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
 import PlanCompliance from 'screens/tourPlan/planCompliance';
+import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
+import {
+  planComplianceSelector,
+  fetchPlanComplianceCreator,
+} from 'screens/tourPlan/planCompliance/redux';
+import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
+import {translate} from 'locale';
+
 /**
  * Standard Plan Modal component for setting daily standard plan.
  * This component use DoctorDetails, AreaChip, Label and Button component
@@ -48,11 +61,9 @@ const StandardPlanModal = ({
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
-  const [areaList, setAreaList] = useState([]);
   const [patches, setPatches] = useState();
   const [patchSelected, setPatchSelected] = useState();
   const [patchDefaultValue, setPatchDefaultValue] = useState();
-  const [partiesList, setPartiesList] = useState([]);
   const [parties, setParties] = useState([]);
   const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
@@ -64,29 +75,78 @@ const StandardPlanModal = ({
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
+  const [submitSTP, setSubmitSTP] = useState();
+  const [stpStatus, setStpStatus] = useState();
+  const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
   const weekNum = Number(week);
   const staffPositionId = 1;
+  const weekDayCount = workingDays.indexOf(weekDay) + 1;
+  const selectedDayNumber = (weekNum - 1) * workingDays?.length + weekDayCount;
+
+  const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
+  const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+  const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
+  const XMonthValue = useSelector(planComplianceSelector.getXMonthValue());
+
+  useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
+  useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+
+  /**
+   * Show toast message to warn user that he has exceeded max doctor/chemist count
+   * once toast hides, save/update patch
+   */
+  const showRulesWarning = () => {
+    if ((rulesWarning || []).length > 0) {
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: true,
+        defaultVisibilityTime: 1000,
+        props: {
+          onClose: () => {
+            hideToast();
+            handleDonePress(doctorsSelected);
+          },
+          heading: translate('errorMessage.partiesExceedingMaxLimit'),
+        },
+        onHide: () => {
+          handleDonePress(doctorsSelected);
+        },
+      });
+    } else {
+      handleDonePress(doctorsSelected);
+    }
+  };
+
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
   const handleIndex = useCallback(
     async direction => {
-      if (patchSelected && dataChanged && !savePatchRes) {
+      if (
+        patchSelected &&
+        dataChanged &&
+        !savePatchRes &&
+        doctorsSelected.length > 0 &&
+        submitSTP?.status !== STP_STATUS.SUBMITTED &&
+        stpStatus?.status !== STP_STATUS.SUBMITTED
+      ) {
         setSwipeDirection(direction);
-
-        handleDonePress(doctorsSelected);
+        showRulesWarning();
       } else {
         resetandChangePage(direction, dataChanged);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      handleDonePress,
       patchSelected,
       dataChanged,
-      resetandChangePage,
       savePatchRes,
       doctorsSelected,
+      submitSTP?.status,
+      stpStatus?.status,
+      handleDonePress,
+      resetandChangePage,
     ],
   );
 
@@ -127,20 +187,43 @@ const StandardPlanModal = ({
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
   const savePatchRes = useSelector(standardTourPlanSelector.savePatch());
+  const getUpdatedPartyArray = useSelector(
+    standardTourPlanSelector.getUpdatedPartyArray(),
+  );
+  const selectedDoctorCount = useSelector(
+    standardTourPlanSelector.getSelectedDoctorCount(),
+  );
+  const selectedChemistCount = useSelector(
+    standardTourPlanSelector.getSelectedChemistCount(),
+  );
+  // number of doctors  for whom  frequency ehauseted
+  const exhaustedDrFrequencyCount = useSelector(
+    standardTourPlanSelector.getExhaustedDrFrequencyCount(),
+  );
 
   useEffect(() => {
-    dispatch(
+    setUpdatedPatchArray(getUpdatedPartyArray);
+  }, [getUpdatedPartyArray]);
+
+  useEffect(() => {
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /**mehtod to load the initial state of daily plan */
+  const loadData = useCallback(async () => {
+    await dispatch(
       fetchPartiesCreator({
         staffPositionId,
       }),
     );
 
-    dispatch(
+    await dispatch(
       fetchPatchesCreator({
         staffPositionId,
       }),
     );
-    dispatch(
+    await dispatch(
       fetchAreasCreator({
         staffPositionId,
       }),
@@ -148,13 +231,8 @@ const StandardPlanModal = ({
   }, [dispatch]);
 
   useEffect(() => {
-    setPartiesList(allParties);
     filterPartyByType(allParties);
   }, [allParties]);
-
-  useEffect(() => {
-    setAreaList(allAreas);
-  }, [allAreas]);
 
   useEffect(() => {
     setPatches(allPatches);
@@ -188,33 +266,31 @@ const StandardPlanModal = ({
   );
 
   useEffect(() => {
-    if (allPartiesByPatchID) {
+    if (allPartiesByPatchID && allParties.length > 0) {
       setDoctorsSelected(allPartiesByPatchID);
       getSelectedArea(allPartiesByPatchID);
     }
-  }, [getSelectedArea, allPartiesByPatchID]);
+  }, [getSelectedArea, allPartiesByPatchID, allParties]);
 
   /** function to set area selected on chip click and update areaSelected state*/
   const getSelectedArea = useCallback(
     ids => {
-      if (ids?.length > 0) {
+      if (ids?.length > 0 && allParties.length > 0) {
         let patchAreaList = [];
-        (partiesList || []).map(party => {
-          if (ids.some(id => id === party.id)) {
-            party.areas.map(area => {
-              if (patchAreaList.indexOf(area.id) === -1) {
-                patchAreaList.push(area.id);
-              }
-            });
-          }
+        (allParties || []).map(party => {
+          ids.map(id => {
+            if (id.partyId === party.id) {
+              patchAreaList.push(id.areaId);
+            }
+          });
         });
-        const a = areaList?.filter(
+        const a = allAreas?.filter(
           area => patchAreaList.indexOf(area.id) !== -1,
         );
         setAreaSelected(a);
       }
     },
-    [partiesList, areaList],
+    [allParties, allAreas],
   );
 
   /** function to filter party by type and update partiesType
@@ -232,23 +308,42 @@ const StandardPlanModal = ({
 
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
-    if (partiesList) {
-      const areaData = (areaList || []).map(area => {
+    if (updatedPatchArray.length > 0 && allAreas.length > 0) {
+      const areaData = (allAreas || []).map(area => {
         return {
           ...area,
-          totalPartiesInArea: getDoctorsByArea(area.id).length,
-          totalUniqueParty: doctorsSelected && getSelectedPartyByArea(area.id),
+          totalPartiesInArea: getDoctorsByArea(area.id, false).length,
+          totalUniqueParty: doctorsSelected && getAreaCountOnFrequecy(area.id),
         };
       });
       return areaData;
     }
   }, [
     getDoctorsByArea,
-    areaList,
-    partiesList,
-    getSelectedPartyByArea,
+    allAreas,
+    updatedPatchArray,
+    getAreaCountOnFrequecy,
     doctorsSelected,
   ]);
+
+  /**method to get doctor visited in area
+   * @param {String} id area id passed
+   * @return {String} count of doctor visited
+   */
+  const getAreaCountOnFrequecy = useCallback(
+    id => {
+      let count = 0;
+      updatedPatchArray?.map(party => {
+        party.areas.map(area => {
+          if (area.id === id && party.alreadyVisitedCount > 0) {
+            count = count + 1;
+          }
+        });
+      });
+      return count;
+    },
+    [updatedPatchArray],
+  );
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
@@ -256,17 +351,19 @@ const StandardPlanModal = ({
   const removeSelectedDoctorFromArea = useCallback(
     async areaId => {
       let doctorArr = doctorsSelected;
-      partiesList.map(party => {
+      allParties.map(party => {
         const doctorToRemove = doctorsSelected?.find(
-          obj => obj === party.id && party.areas.some(par => par.id === areaId),
+          obj => obj.partyId === party.id && obj.areaId === areaId,
         );
         if (doctorToRemove) {
-          doctorArr = doctorArr.filter(doc => doc !== doctorToRemove);
+          doctorArr = doctorArr.filter(
+            doc => doc.partyId !== doctorToRemove.partyId,
+          );
         }
       });
       setDoctorsSelected(doctorArr);
     },
-    [doctorsSelected, partiesList],
+    [doctorsSelected, allParties],
   );
 
   /** function to create patch string to be put in patch input field*/
@@ -275,8 +372,7 @@ const StandardPlanModal = ({
       .filter(area => {
         const partyData = partyList.find(party =>
           doctors?.some(
-            obj =>
-              obj === party.id && party.areas.some(par => par.id === area.id),
+            obj => obj.partyId === party.id && obj.areaId === area.id,
           ),
         );
         return partyData ? true : false;
@@ -297,58 +393,34 @@ const StandardPlanModal = ({
     return patchString;
   }, []);
 
-  useEffect(() => {
-    if (!isPatchedData && dataChanged && !isSameDayPatch(patchValue)) {
-      const string = createPatchString(
-        areaSelected,
-        doctorsSelected,
-        partiesList,
-        patches,
-      );
-      if (!patchEdited) {
-        setPatchSelected(string);
-      }
-      setPatchDefaultValue(string);
-    }
-  }, [
-    areaSelected,
-    isPatchedData,
-    doctorsSelected,
-    partiesList,
-    createPatchString,
-    patchEdited,
-    patchValue,
-    dataChanged,
-    isSameDayPatch,
-    patches,
-  ]);
-
   /** function to filter parties by area selected from area chiklets
    * @param {Number} area area id passed as number
    */
   const getDoctorsByArea = useCallback(
-    area => {
-      const partiesData = (partiesList || []).filter(party => {
-        const isArea = party.areas.find(obj => {
-          return (
-            obj.id === area &&
-            (party.partyTypes.name === selectedDoctorType ||
-              selectedDoctorType === Strings.all)
-          );
+    (area, totalCount) => {
+      if (allParties.length > 0) {
+        const partiesData = allParties.filter(party => {
+          const isArea = party.areas.find(obj => {
+            return (
+              obj.id === area &&
+              (party.partyTypes.name === selectedDoctorType ||
+                selectedDoctorType === Strings.all)
+            );
+          });
+          if (isArea) {
+            return party;
+          }
         });
-        if (isArea) {
-          return party;
+        let newPartiesData = partiesData;
+        if (totalCount && !isSameDayPatch(patchValue)) {
+          newPartiesData = partiesData?.filter(
+            par => par.frequency !== par.alreadyVisited,
+          );
         }
-      });
-      let newPartiesData = partiesData;
-      if (!isSameDayPatch(patchValue)) {
-        newPartiesData = partiesData?.filter(
-          par => par.frequency !== par.alreadyVisited,
-        );
+        return newPartiesData;
       }
-      return newPartiesData;
     },
-    [partiesList, selectedDoctorType, isSameDayPatch, patchValue],
+    [allParties, selectedDoctorType, isSameDayPatch, patchValue],
   );
 
   /** function to validate the response from endpoint in case of save and updating the patch */
@@ -371,11 +443,11 @@ const StandardPlanModal = ({
             },
           });
           setDataChanged(false);
-          dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
           } else {
-            setPatchValue(savePatchRes.data || obj);
+            resetState();
+            loadData();
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
@@ -405,6 +477,7 @@ const StandardPlanModal = ({
           setPatchError(Strings.somethingWentWrong);
           setShowPatchError(true);
         }
+        dispatch(standardPlanActions.resetSavePatch());
       }
     },
     [
@@ -414,16 +487,17 @@ const StandardPlanModal = ({
       resetandChangePage,
       patchSelected,
       dispatch,
+      loadData,
+      resetState,
     ],
   );
 
-  /** function to save the patch */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
         displayName: patchSelected,
         defaultName: patchDefaultValue,
-        partyIds: partyIds || doctorsSelected,
+        partyMapping: partyIds || doctorsSelected,
         week: weekNum,
         weekDay,
         year: year,
@@ -431,9 +505,12 @@ const StandardPlanModal = ({
       setPatchError(null);
       setPatchRequest(obj);
       const isPatchOfSameDay = isSameDayPatch(patchValue);
+      const isAnyPartyExhausted = checkPartyExhausted(partyIds);
 
       if (!patchValue) {
         savePatch(obj);
+      } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
+        handleExhaustedParty(obj, isAnyPartyExhausted);
       } else if (patchValue && isPatchOfSameDay && dataChanged) {
         updatePatch(obj, patchValue.id, false);
       } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
@@ -455,6 +532,8 @@ const StandardPlanModal = ({
       dataChanged,
       isPatchedData,
       doctorsSelected,
+      checkPartyExhausted,
+      handleExhaustedParty,
     ],
   );
 
@@ -484,7 +563,7 @@ const StandardPlanModal = ({
                 obj,
                 areaSelected,
                 doctorsSelected,
-                partiesList,
+                allParties,
                 patches,
               );
             } else {
@@ -508,14 +587,14 @@ const StandardPlanModal = ({
                 obj,
                 areaSelected,
                 doctorsSelected,
-                partiesList,
+                allParties,
                 patches,
               );
             } else {
               const docIds = errors.find(err => err.code === code);
               setDoctorsSelected(
                 doctorsSelected.filter(
-                  doc => docIds?.params?.partyIds.indexOf(doc) === -1,
+                  doc => docIds?.params?.partyIds.indexOf(doc.partyId) === -1,
                 ),
               );
               hideToast();
@@ -530,7 +609,7 @@ const StandardPlanModal = ({
       areaSelected,
       patches,
       doctorsSelected,
-      partiesList,
+      allParties,
       checkPatchExhausted,
     ],
   );
@@ -558,6 +637,63 @@ const StandardPlanModal = ({
     [showOverrideNotification],
   );
 
+  /**method to check if any party selected in a patch got exhausted
+   * @param {Array} ids selected doctors id passed as an Array
+   * @returns {Boolean} return Boolean if any party got exhausted
+   */
+  const checkPartyExhausted = useCallback(
+    ids => {
+      return allParties.filter(
+        party =>
+          ids.some(id => id.partyId === party.id) &&
+          party.frequency <= party.alreadyVisited,
+      );
+    },
+    [allParties],
+  );
+
+  /**method to handle done button in case of exhausted party
+   * @param {Object} obj request to pass as an object
+   * @param {Array} exhaustedParty list of exhausted party in an Array
+   */
+  const handleExhaustedParty = useCallback(
+    (obj, exhaustedParty) => {
+      const updatedPartyList = doctorsSelected?.filter(
+        party => !exhaustedParty.some(par => par.id === party.partyId),
+      );
+      let message = null;
+      if (
+        exhaustedParty.length >= 1 &&
+        doctorsSelected.length > 1 &&
+        exhaustedParty.length !== doctorsSelected.length
+      ) {
+        setDoctorsSelected(updatedPartyList);
+        handleNoPress(obj, allAreas, updatedPartyList, allParties, patches);
+        message = Strings.frquecySlotExhausted;
+      } else if (
+        (exhaustedParty.length === 1 && doctorsSelected.length === 1) ||
+        exhaustedParty.length === doctorsSelected.length
+      ) {
+        setDoctorsSelected(updatedPartyList);
+        message = Strings.selectDocToCreatePatch;
+      }
+
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: false,
+        props: {
+          onPress: () => {
+            hideToast();
+          },
+          onClose: () => hideToast(),
+          heading: Strings.warning,
+          subHeading: message,
+        },
+      });
+    },
+    [allAreas, doctorsSelected, handleNoPress, allParties, patches],
+  );
+
   /**function to create new patch on databse if No button on override notification is pressed
    * @param {Object} obj request obj to update
    * @param {Array} areas errors as Array got while updating
@@ -570,7 +706,12 @@ const StandardPlanModal = ({
       const string = createPatchString(areas, doctors, partyList, ptches);
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
-      savePatch({...obj, displayName: string, defaultName: string});
+      savePatch({
+        ...obj,
+        partyMapping: doctors,
+        displayName: string,
+        defaultName: string,
+      });
     },
     [createPatchString, savePatch],
   );
@@ -583,6 +724,12 @@ const StandardPlanModal = ({
       dispatch(
         fetchSTPCalendarUpdateCreator({
           staffPositionId,
+        }),
+      );
+      dispatch(
+        fetchPlanComplianceCreator({
+          staffPositionId,
+          type: 'monthly',
         }),
       );
     },
@@ -644,25 +791,46 @@ const StandardPlanModal = ({
    *  Handles Card click event& accept an id of party
    * @param {Number} id party id passed as int
    */
-  const handleDoctorCardPress = id => {
-    const indexAvailable = doctorsSelected?.some(party => party === id);
+  const handleDoctorCardPress = (id, area) => {
+    const indexAvailable = doctorsSelected?.some(
+      party => party.partyId === id && party.areaId === area,
+    );
     let selected = null;
     if (indexAvailable) {
-      selected = doctorsSelected?.filter(party => party !== id);
+      selected = doctorsSelected?.filter(
+        party => !(id === party.partyId && area === party.areaId),
+      );
     } else {
-      selected = [...doctorsSelected, id];
+      selected = [...doctorsSelected, {partyId: id, areaId: area}];
     }
-    setDoctorsSelected(selected);
+
+    const partyExhausted = checkSelectedPartyExhausted(selected);
+    if (partyExhausted.length > 0 && !isSameDayPatch(patchValue)) {
+      selected = selected?.filter(
+        party => !partyExhausted?.some(par => par.id === party.partyId),
+      );
+    }
+
+    setDoctorsSelected(selected || []);
     const string = createPatchString(
       areaSelected,
-      selected,
-      partiesList,
+      selected || [],
+      allParties,
       patches,
     );
-    setPatchDefaultValue(string);
-    if (!isSameDayPatch(patchValue)) {
+    if (isSameDayPatch(patchValue)) {
+      setPatchDefaultValue(string);
+    } else {
       setIsPatchedData(false);
+      if (!patchEdited) {
+        setPatchSelected(string);
+      }
+      if (string !== patchValue?.defaultName) {
+        setPatchValue(null);
+      }
+      setPatchDefaultValue(string);
     }
+
     setDataChanged(true);
   };
 
@@ -707,8 +875,12 @@ const StandardPlanModal = ({
   const getSelectedPartyByArea = useCallback(
     id => {
       let count = 0;
-      getDoctorsByArea(id).map(party => {
-        if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
+      getDoctorsByArea(id, true).map(party => {
+        if (
+          doctorsSelected?.filter(
+            doc => doc.partyId === party.id && doc.areaId === id,
+          ).length > 0
+        ) {
           count = count + 1;
         }
       });
@@ -726,18 +898,23 @@ const StandardPlanModal = ({
 
   /** function to filter parties by party type eg. doctors,chemist and all*/
   const getSelectedPartyByType = useCallback(() => {
-    if (patchSelected) {
-      const obj = {doctors: 0, chemist: 0};
-      partiesList.map(party => {
-        if (doctorsSelected?.some(id => id === party.id)) {
+    if (allParties.length > 0 && doctorsSelected.length > 0) {
+      const obj = {doctor: 0, chemist: 0};
+      allParties.map(party => {
+        if (
+          doctorsSelected?.some(
+            id =>
+              id.partyId === party.id &&
+              areaSelected.some(area => area.id === id.areaId),
+          )
+        ) {
           if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
-            obj.doctors = obj.doctors + 1;
+            obj.doctor = obj.doctor + 1;
           } else {
             obj.chemist = obj.chemist + 1;
           }
         }
       });
-
       if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
         let partyCount = obj.chemist;
         return (
@@ -747,7 +924,7 @@ const StandardPlanModal = ({
           )}`
         );
       } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
-        let partyCount = obj.doctors;
+        let partyCount = obj.doctor;
         return (
           partyCount > 0 &&
           ` - ${partyCount} ${PARTY_TYPE.DOCTOR.toLowerCase()}${getSuffix(
@@ -756,20 +933,22 @@ const StandardPlanModal = ({
         );
       }
       return `${
-        obj.doctors > 0 || obj.chemist > 0
-          ? ` - ${obj.doctors + obj.chemist} `
+        obj.doctor > 0 || obj.chemist > 0
+          ? ` - ${obj.doctor + obj.chemist} `
           : ''
       }${
-        obj.doctors > 0
-          ? `(${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
+        obj.doctor > 0
+          ? `(${obj.doctor} doctor${obj.doctor > 1 ? 's' : ''}`
           : ''
-      }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
-        obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
-      }${obj.doctors === 0 && obj.chemist > 0 ? '(' : ''}${
+      }${obj.doctor > 0 && obj.chemist > 0 ? ', ' : ''}${
+        obj.doctor > 0 && obj.chemist === 0 ? ')' : ''
+      }${obj.doctor === 0 && obj.chemist > 0 ? '(' : ''}${
         obj.chemist > 0 ? `${obj.chemist} chemist)` : ''
       }`;
+    } else {
+      return '';
     }
-  }, [doctorsSelected, partiesList, selectedDoctorType, patchSelected]);
+  }, [doctorsSelected, allParties, selectedDoctorType, areaSelected]);
 
   /**
    * function to close stp page
@@ -796,6 +975,56 @@ const StandardPlanModal = ({
     [weekNum, weekDay, year],
   );
 
+  /**
+   * Returns data of selectedParty
+   */
+  const getSelectedPartyTypeHandler = useCallback(() => {
+    return getSelectedPartyTypeData(
+      doctorsSelected,
+      updatedPatchArray,
+      dataChanged,
+      selectedDoctorCount,
+      selectedChemistCount,
+      exhaustedDrFrequencyCount,
+      selectedDayNumber,
+      XMonthValue,
+      getPartyCountFromArea(),
+    );
+  }, [
+    doctorsSelected,
+    updatedPatchArray,
+    dataChanged,
+    selectedDoctorCount,
+    selectedChemistCount,
+    exhaustedDrFrequencyCount,
+    selectedDayNumber,
+    XMonthValue,
+    getPartyCountFromArea,
+  ]);
+
+  /**method to check if party in doctorsSelected got exhausted
+   * @param {Array} ids selected partys in array
+   * @return {Array} exhausted party in array is returned
+   */
+  const checkSelectedPartyExhausted = ids => {
+    return allParties.filter(party => {
+      return ids?.some(
+        par =>
+          par.partyId === party.id && party.frequency <= party.alreadyVisited,
+      );
+    });
+  };
+
+  if (allParties.length === 0 || allAreas.length === 0) {
+    return (
+      <ActivityIndicator
+        animating={true}
+        color={themes.colors.darkBlue}
+        size="large"
+        style={styles.activityIndicator}
+      />
+    );
+  }
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
       <View style={styles.modalHeader}>
@@ -854,9 +1083,16 @@ const StandardPlanModal = ({
             mode="contained"
             title={Strings.done}
             uppercase={true}
-            disabled={!patchSelected || !dataChanged || false}
+            disabled={
+              !patchSelected ||
+              !dataChanged ||
+              doctorsSelected.length === 0 ||
+              submitSTP?.status === STP_STATUS.SUBMITTED ||
+              stpStatus?.status === STP_STATUS.SUBMITTED ||
+              false
+            }
             contentStyle={styles.doneBtn}
-            onPress={() => handleDonePress(doctorsSelected)}
+            onPress={() => showRulesWarning()}
           />
           <Button
             mode="outlined"
@@ -910,14 +1146,15 @@ const StandardPlanModal = ({
               </View>
               <DoctorsByArea
                 areaSelected={areaSelected}
-                doctorsByArea={getDoctorsByArea}
+                // doctorsByArea={getDoctorsByArea}
                 doctorsSelected={doctorsSelected}
                 handleDoctorCardPress={handleDoctorCardPress}
                 isPatchedData={isPatchedData}
                 selectedPartyByArea={getSelectedPartyByArea}
-                partiesList={partiesList}
+                partiesList={allParties}
                 selectedDoctorType={selectedDoctorType}
                 patchValue={patchValue}
+                allPartiesByPatchID={allPartiesByPatchID}
                 isSameDayPatch={isSameDayPatch(patchValue)}
               />
               <View styles={styles.bottom}>
@@ -930,7 +1167,7 @@ const StandardPlanModal = ({
                   />
                   <Button
                     mode="contained"
-                    title={`${Strings.doctorUniverse} (${partiesList.length})`}
+                    title={`${Strings.doctorUniverse} (${allParties.length})`}
                     uppercase={false}
                     contentStyle={styles.doneBtn}
                   />
@@ -945,7 +1182,12 @@ const StandardPlanModal = ({
             title={Strings.planCompliance}
             style={styles.planComplainceLabel}
           />
-          <PlanCompliance />
+          <PlanCompliance
+            type={COMPLAINCE_TYPE.DAILY}
+            week={week}
+            weekDay={weekDayCount}
+            selectedData={getSelectedPartyTypeHandler()}
+          />
         </View>
       </View>
     </ScrollView>

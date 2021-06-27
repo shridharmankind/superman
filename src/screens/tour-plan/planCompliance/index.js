@@ -5,9 +5,20 @@ import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchPlanComplianceCreator, planComplianceSelector} from './redux';
+import {
+  fetchPlanComplianceCreator,
+  planComplianceActions,
+  planComplianceSelector,
+} from './redux';
 import {rulesMapping} from './rulesMapping';
-import {ErrorIcon} from 'assets';
+import {ErrorIcon, Complaint} from 'assets';
+import {getComparisonResult} from 'screens/tourPlan/helper';
+import {translate} from 'locale';
+import {
+  COMPLAINCE_TYPE,
+  RULE_KEY,
+  ARRAY_OPERATION,
+} from 'screens/tourPlan/constants';
 
 /**
  * Tab component rendering as a radio button
@@ -16,7 +27,7 @@ import {ErrorIcon} from 'assets';
  * @param {Function} onTabPress click event
  * @returns button
  */
-const PlanCompliance = () => {
+const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
@@ -26,10 +37,13 @@ const PlanCompliance = () => {
   useEffect(() => {
     dispatch(
       fetchPlanComplianceCreator({
-        staffPositionId: 2,
+        staffPositionId: 1,
+        week,
+        weekDay,
+        type,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, type, week, weekDay]);
 
   /**
    * fetch data from selector
@@ -42,8 +56,102 @@ const PlanCompliance = () => {
    * effect to set fetched data in state
    */
   useEffect(() => {
-    setComplianceData(complianceRules);
-  }, [complianceRules]);
+    setComplianceData(complianceRules[type]);
+  }, [complianceRules, type]);
+
+  /**
+   *
+   * @param {Boolean} isCompliant
+   * @returns  Icon on basis of complain check
+   */
+  const renderIcon = isCompliant => {
+    return isCompliant ? (
+      <Complaint width={12} height={12} />
+    ) : (
+      <ErrorIcon width={12} height={12} />
+    );
+  };
+
+  /**
+   * @param {object} ruleMapping object of rule Mapping
+   * @param {object} rule defines rule
+   * @returns  check complaint and render icon
+   */
+  const getComplaintCheck = (rule, ruleMapping) => {
+    const {checkType, key, showWarningMessage} = ruleMapping;
+    if (type === COMPLAINCE_TYPE.MONTHLY || !checkType) {
+      return renderIcon(rule?.isCompliant);
+    }
+    if (checkType && type === COMPLAINCE_TYPE.DAILY) {
+      const isCompliant = getComparisonResult(
+        key === RULE_KEY.AREA
+          ? selectedData[key] ?? rule?.ruleValues?.coveredCount
+          : selectedData[key],
+        rule?.ruleValues?.totalCount,
+        checkType,
+      );
+      if (showWarningMessage && checkType && type === COMPLAINCE_TYPE.DAILY) {
+        if (!isCompliant) {
+          dispatch(
+            planComplianceActions.collectWarningOnRules({
+              rule: ruleMapping,
+              operation: ARRAY_OPERATION.PUSH,
+            }),
+          );
+        } else {
+          dispatch(
+            planComplianceActions.collectWarningOnRules({
+              rule: ruleMapping,
+              operation: ARRAY_OPERATION.POP,
+            }),
+          );
+        }
+      }
+      return renderIcon(isCompliant);
+    }
+  };
+  /**
+   *
+   * @param {Object} visitDays
+   * @returns
+   */
+  const getDayData = visitDays => {
+    return visitDays.filter(
+      item => item.weekNumber === week && item.weekDay === weekDay,
+    )[0]?.count;
+  };
+
+  const getSelectedCount = (key, ruleValues) => {
+    if (key === RULE_KEY.AREA) {
+      return selectedData[key] ?? ruleValues?.coveredCount;
+    } else {
+      return selectedData[key];
+    }
+  };
+  /**
+   *
+   * @param {Object} ruleValues
+   * @param {Object} ruleMapping
+   * @returns the value to render on basis of actual and covered data
+   */
+  const getActulaValue = (rule, ruleMapping) => {
+    const {ruleValues} = rule;
+    if (!ruleValues) {
+      return;
+    }
+    if (type === COMPLAINCE_TYPE.MONTHLY) {
+      return `${ruleValues.coveredCount}/${ruleValues.totalCount}`;
+    }
+    if (type === COMPLAINCE_TYPE.DAILY) {
+      const {key, isDayCheck} = ruleMapping;
+
+      return isDayCheck
+        ? `${getDayData(rule?.visitDays, ruleValues?.coveredCount)}/${
+            ruleValues.totalCount
+          }`
+        : `${getSelectedCount(key, ruleValues)}/${ruleValues.totalCount}`;
+    }
+  };
 
   /**
    * function to render UI of rules
@@ -51,20 +159,29 @@ const PlanCompliance = () => {
    */
   const renderRules = () => {
     return (complianceData?.rules || []).map(rule => {
+      const ruleMappingValue = rulesMapping[rule.rulesShortName];
+      if (!ruleMappingValue) {
+        return;
+      }
       return (
-        <View style={styles.rulesContainerSub}>
+        <View key={rule.ruleID} style={styles.rulesContainerSub}>
           <View style={styles.complianceIcon}>
-            <ErrorIcon width={12} height={12} />
+            {getComplaintCheck(rule, ruleMappingValue)}
           </View>
           <View style={styles.rule}>
             <View>
               <Label variant={LabelVariant.label} style={styles.title}>
-                {rule.ruleValue} {rulesMapping[rule.ruleShortName].title}
+                {ruleMappingValue?.showFraction
+                  ? getActulaValue(rule, ruleMappingValue)
+                  : rule.ruleValues.totalCount}{' '}
+                {ruleMappingValue.title && translate(ruleMappingValue.title)}
               </Label>
             </View>
             <View>
               <Label variant={LabelVariant.label} style={styles.subtitle}>
-                {rulesMapping[rule.ruleShortName].subTitle}
+                {translate(ruleMappingValue.subTitle, {
+                  xValue: rule?.ruleValues?.xValue,
+                })}
               </Label>
             </View>
           </View>
@@ -73,31 +190,52 @@ const PlanCompliance = () => {
     });
   };
 
-  return (
-    <View style={styles.container}>
-      <View
-        style={[
-          styles.progressContainer,
-          complianceData?.totalPercent === 100
-            ? styles.completedComplaince
-            : styles.inProgressComplaince,
-        ]}>
-        <Label variant={LabelVariant.h1} style={styles.percentage}>
-          {complianceData?.totalPercent} %
-        </Label>
-        <ProgressBar
-          progress={complianceData?.totalPercent / 100}
-          color={colors.white}
-        />
+  /**
+   *
+   * @returns render component when complaince data available
+   */
+  const render = () => {
+    return (
+      <View style={styles.container}>
+        <View
+          style={[
+            styles.progressContainer,
+            complianceData?.totalPercent === 100
+              ? styles.completedComplaince
+              : styles.inProgressComplaince,
+          ]}>
+          <Label variant={LabelVariant.h1} style={styles.percentage}>
+            {Number.isInteger(complianceData?.totalPercent)
+              ? complianceData?.totalPercent
+              : complianceData?.totalPercent?.toFixed(2)}{' '}
+            %
+          </Label>
+          <ProgressBar
+            progress={complianceData?.totalPercent / 100}
+            color={colors.white}
+          />
+        </View>
+        <View style={styles.rulesContainer}>
+          <View style={styles.header}>
+            <Label
+              variant={LabelVariant.h6}
+              style={styles.rulesTitle}
+              isCapitalise={true}>
+              {type}{' '}
+            </Label>
+            <Label variant={LabelVariant.h6} style={styles.rulesTitle}>
+              {Strings.tourPlanRules}
+            </Label>
+          </View>
+          {renderRules()}
+        </View>
       </View>
-      <View style={styles.rulesContainer}>
-        <Label variant={LabelVariant.h6} style={styles.rulesTitle}>
-          {Strings.tourPlanRules}
-        </Label>
-        {renderRules()}
-      </View>
-    </View>
-  );
+    );
+  };
+
+  return !complianceData || !Object.values(complianceData)?.length
+    ? null
+    : render();
 };
 
-export default PlanCompliance;
+export default React.memo(PlanCompliance);

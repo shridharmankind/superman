@@ -3,6 +3,8 @@ import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
 
+import {NetworkService} from 'services';
+
 export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_USER_INFO,
@@ -14,7 +16,7 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_TABLE_PARTY_API_PATH,
     schema: [
       Schemas.partyMaster,
-      Schemas.specialities,
+      Schemas.Specialities.schema,
       Schemas.areas,
       Schemas.Qualifications.schema,
       Schemas.partyTypeGroup,
@@ -22,16 +24,38 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.engagement,
     ],
   },
+  {
+    name: Constants.MASTER_TABLE_PARTY_CATEGORIES,
+    apiPath: Constants.MASTER_TABLE_PARTY_CATEGORIES_API_PATH,
+  },
+  {
+    name: Constants.MASTER_TABLE_ORGANIZATION,
+    apiPath: Constants.MASTER_TABLE_ORGANIZATION_API_PATH,
+  },
+  {
+    name: Constants.MASTER_TABLE_DIVISION,
+    apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
+  },
+  {
+    name: Constants.QUALIFICATIONS,
+    apiPath: NetworkService.API.FETCH_QUALIFICATIONS,
+  },
+  {
+    name: Constants.SPECIALITIES,
+    apiPath: NetworkService.API.FETCH_SPECIALITIES,
+  },
 ];
 
 /**
  * This function is get logged in user first name
  * @returns user first name
  */
-export const getUserFirstName = async () => {
+export const getUserName = async () => {
   try {
     const user = await getActiveUser();
-    return user.firstName || '';
+    const {firstName = '', lastName = ''} = user;
+
+    return `${firstName} ${lastName}`;
   } catch (error) {}
 };
 

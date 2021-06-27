@@ -1,10 +1,12 @@
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/en-in';
 
 dayjs.extend(localeData);
 dayjs.extend(advancedFormat);
+dayjs.extend(utc);
 
 /**
  * Utility file to handle Date/Time method
@@ -54,4 +56,37 @@ export const getMonthDiff = (current, previous) => {
  */
 export const getDateFromMonthYear = ({month, year, date = '01'}) => {
   return `${year}-${String(month).padStart(2, '0')}-${date}`;
+};
+
+/**
+ * @param {String} inputDate date in utc format
+ * @param {String} format expected format of date output
+ * @returns date formatted to local time
+ */
+export const returnUTCtoLocal = (inputDate, format) => {
+  const date = inputDate || dayjs.utc().format();
+  const localDate = dayjs.utc(date).local().format();
+  return getFormatDate({date: localDate, format: format || 'D MMM YYYY'});
+};
+
+/**
+ * Check if a date is after a particular date or note
+ *
+ * @param {Date} date - Date
+ * @param {Date} dateToCompare - Date to compare with
+ * @return {Boolean} Is After
+ */
+export const isAfter = (date, dateToCompare) => {
+  return dayjs(date).isAfter(dateToCompare);
+};
+
+/**
+ * Get start of month/day/year based upon unit for a date
+ *
+ * @param {Date} date
+ * @param {String} unit
+ * @return {dayjs.Dayjs} Start date
+ */
+export const startOf = (date, unit) => {
+  return dayjs(date).startOf(unit);
 };

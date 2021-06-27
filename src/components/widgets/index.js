@@ -8,3 +8,5 @@ export {default as Legends} from '../widgets/Legends';
 export {default as Toast} from '../widgets/Toast';
 export {default as CongratulatoryModal} from '../widgets/CongratulatoryModal';
 export {default as DoctorTag, DivisionType} from '../widgets/DoctorTag';
+export {default as Timeline} from '../widgets/timeline';
+export {default as Product} from '../widgets/Product';

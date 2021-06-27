@@ -1,3 +1,5 @@
+import {DivisionSchemaName} from './Divisions';
+
 export const QualificationsSchemaName = 'Qualifications';
 
 export default class QualificationsSchema {
@@ -8,6 +10,10 @@ export default class QualificationsSchema {
       id: 'int',
       name: 'string?',
       shortName: 'string?',
+      divisions: {
+        type: 'list',
+        objectType: DivisionSchemaName,
+      },
     },
   };
 }

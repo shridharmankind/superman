@@ -112,12 +112,9 @@ const Dashboard = ({navigation}) => {
 
   // Function to validate the search input
   const validateSearchKeyword = () => {
-    const [isValid, searchKeyword] = validateSearch(
-      searhInput,
-      clearInputSearch,
-    );
+    const [isValid] = validateSearch(searhInput, clearInputSearch);
     if (isValid) {
-      return searchKeyword;
+      return searhInput.trim();
     } else {
       return undefined;
     }
