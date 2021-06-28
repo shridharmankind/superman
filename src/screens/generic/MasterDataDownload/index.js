@@ -24,9 +24,12 @@ import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
 import {NetworkService} from 'services';
-import {Routes} from 'navigations';
+import {ROUTE_DASHBOARD} from '../../../navigations/routes';
+import {useDispatch} from 'react-redux';
+import {authTokenActions} from '../RouteHandler/redux';
 
-const MasterDataDownload = ({navigation}) => {
+const MasterDataDownload = () => {
+  const dispatch = useDispatch();
   const progressBarSyncParam = 10 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
   const [progress, setProgress] = useState(0);
   const [indeterminate, setIndeterminate] = useState(true);
@@ -45,9 +48,7 @@ const MasterDataDownload = ({navigation}) => {
       };
 
       const onDownloadComplete = () => {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
+        dispatch(authTokenActions.updateScreen({screen: ROUTE_DASHBOARD}));
       };
 
       try {
@@ -195,7 +196,7 @@ const MasterDataDownload = ({navigation}) => {
     return () => {
       isMounted = false;
     };
-  }, [navigation, progressBarSyncParam]);
+  }, [progressBarSyncParam, dispatch]);
 
   const initMasterTablesDownloadStatus = async () => {
     try {

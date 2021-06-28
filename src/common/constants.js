@@ -43,3 +43,6 @@ export const GENDER = {
   MALE: 'M',
   FEMALE: 'F',
 };
+
+export const revokeUrl =
+  'https://mankindpharma-sandbox.onelogin.com/oidc/2/logout?post_logout_redirect_uri=com.superman://callback&id_token_hint=';
