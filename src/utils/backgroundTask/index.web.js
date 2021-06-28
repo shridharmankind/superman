@@ -19,5 +19,3 @@ export const showToastie = () => {};
 export const showToastieWithButton = () => {};
 
 export const runBackgroundTask = () => {};
-
-
