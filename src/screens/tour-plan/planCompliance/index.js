@@ -10,6 +10,7 @@ import {
   planComplianceActions,
   planComplianceSelector,
 } from './redux';
+import {appSelector} from 'reducers';
 import {rulesMapping} from './rulesMapping';
 import {ErrorIcon, Complaint} from 'assets';
 import {getComparisonResult} from 'screens/tourPlan/helper';
@@ -31,19 +32,21 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   /**
    * Fetch complaince rules list
    */
   useEffect(() => {
-    dispatch(
-      fetchPlanComplianceCreator({
-        staffPositionId: 1,
-        week,
-        weekDay,
-        type,
-      }),
-    );
-  }, [dispatch, type, week, weekDay]);
+    staffPositionId &&
+      dispatch(
+        fetchPlanComplianceCreator({
+          staffPositionId,
+          week,
+          weekDay,
+          type,
+        }),
+      );
+  }, [dispatch, type, week, weekDay, staffPositionId]);
 
   /**
    * fetch data from selector

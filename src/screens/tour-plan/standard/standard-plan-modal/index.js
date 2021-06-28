@@ -39,6 +39,7 @@ import {
   fetchPlanComplianceCreator,
 } from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
+import {appSelector} from 'reducers';
 import {translate} from 'locale';
 
 /**
@@ -79,7 +80,7 @@ const StandardPlanModal = ({
   const [stpStatus, setStpStatus] = useState();
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
   const weekNum = Number(week);
-  const staffPositionId = 1;
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const weekDayCount = workingDays.indexOf(weekDay) + 1;
   const selectedDayNumber = (weekNum - 1) * workingDays?.length + weekDayCount;
 
@@ -228,7 +229,7 @@ const StandardPlanModal = ({
         staffPositionId,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionId]);
 
   useEffect(() => {
     filterPartyByType(allParties);
@@ -733,7 +734,7 @@ const StandardPlanModal = ({
         }),
       );
     },
-    [dispatch],
+    [dispatch, staffPositionId],
   );
 
   /** function to save patch
@@ -750,7 +751,7 @@ const StandardPlanModal = ({
       );
       hideToast();
     },
-    [dispatch],
+    [dispatch, staffPositionId],
   );
 
   /** function to update patch
@@ -771,7 +772,7 @@ const StandardPlanModal = ({
       );
       hideToast();
     },
-    [dispatch, patchRequest],
+    [dispatch, patchRequest, staffPositionId],
   );
 
   /** function to filter parties by doctors, chemist, all

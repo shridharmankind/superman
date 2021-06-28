@@ -7,23 +7,23 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-
+import {useDispatch} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
+
 import {Label} from 'components/elements';
 import {NotificationIcon, SearchIcon, RefreshIcon} from 'assets';
-import {Routes} from 'navigations';
 import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
 import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
 import theme from 'themes';
-import {KeyChain, isWeb} from 'helper';
-import AsyncStorage from '@react-native-community/async-storage';
+import {isWeb} from 'helper';
 import styles from './styles';
-import {Strings, Constants} from 'common';
+import {Strings} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
+import {authTokenActions} from '../RouteHandler/redux';
 import NetInfo from '@react-native-community/netinfo';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
 import {Sync, Constants as DBConstants, Schemas, getDBInstance} from 'database';
@@ -33,10 +33,13 @@ import {
   getOnDemandSyncStatus,
   getBackgrounTaskValue,
 } from 'utils/backgroundTask';
+import {Helper} from 'database';
+import {fetchStatusSliceActions} from 'reducers';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
+  const dispatch = useDispatch();
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
   const [onDemandSync, setOnDemandSync] = useState(true);
@@ -49,6 +52,13 @@ const Dashboard = ({navigation}) => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   });
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      dispatch(fetchStatusSliceActions.setStaffPositionId(id));
+    })();
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchSyncTime = async () => {
@@ -187,17 +197,18 @@ const Dashboard = ({navigation}) => {
         text: Strings.ok,
         onPress: async () => {
           try {
-            await KeyChain.resetPassword();
-            await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
-            setTimeout(() => {
-              navigation.navigate(Routes.ROUTE_LOGIN);
-            }, 2000);
+            signOutStateUpdate();
           } catch (error) {
             Alert.alert(Strings.error, error);
           }
         },
       },
     ]);
+  };
+
+  //sign out state update hook
+  const signOutStateUpdate = () => {
+    dispatch(authTokenActions.signOut());
   };
 
   // Function to open the search bar

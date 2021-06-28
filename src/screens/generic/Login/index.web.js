@@ -21,8 +21,9 @@ import theme from 'themes';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
-import {TOKEN_EXPIRY_TIME, USER_ID, LOGIN_STATUS} from './index';
+import {USER_ID, LOGIN_STATUS} from './index';
 import {isLocalHost} from 'utils/util';
+import {Constants} from 'common';
 
 const state = nanoid(32);
 const nonce = nanoid(32);
@@ -96,7 +97,10 @@ const AuthComp = ({navigation}) => {
       const hash = window.location.hash;
       const response = parse(hash);
       const decoded = jwt_decode(response.id_token);
-      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
+      AsyncStorage.setItem(
+        Constants.TOKEN_EXPIRY_TIME,
+        JSON.stringify(decoded.exp),
+      );
       AsyncStorage.setItem(USER_ID, decoded.sub);
       AsyncStorage.setItem(LOGIN_STATUS, 'true');
       window.location.assign(config.redirect_uri);

@@ -32,6 +32,7 @@ import {translate} from 'locale';
 import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
+import {appSelector} from 'reducers';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -93,23 +94,23 @@ const MonthlyTourPlan = ({navigation}) => {
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
-
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
-        staffPositionid: 1,
+        staffPositionid: staffPositionId,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionId]);
 
   useEffect(() => {
     dispatch(
       fetchSTPStatusCreator({
-        staffPositionId: 1,
+        staffPositionId,
         year: currentYear,
       }),
     );
-  }, [currentYear, dispatch]);
+  }, [currentYear, dispatch, staffPositionId]);
 
   /**
    *effect to set working Day
