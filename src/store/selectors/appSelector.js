@@ -6,7 +6,7 @@ const getFetchState = createSelector([getFetch], fetch =>
   fetch === {} ? 'FETCHING' : fetch,
 );
 
-export const appSelector = {
+export const appSelectors = {
   //App state
   makeGetAppFetch: () => {
     return getFetchState;

@@ -24,7 +24,7 @@ import {showToast} from 'components/widgets/Toast';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
 import {searchDoctorActions} from 'screens/directory/landing/redux';
-import {appSelector} from 'selectors';
+import {appSelectors} from 'selectors';
 import {Helper} from 'database';
 import {translate} from 'locale';
 import MissedCalls from 'screens/directory/landing/missedCalls';
@@ -73,7 +73,7 @@ const DirectoryLanding = ({navigation, route}) => {
 
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
   const doctorList = useSelector(searchDocSelector.getSearchDocList());
-  const fetchState = useSelector(appSelector.makeGetAppFetch());
+  const fetchState = useSelector(appSelectors.makeGetAppFetch());
 
   const data = [
     {

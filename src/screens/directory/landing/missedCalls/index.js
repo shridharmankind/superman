@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, ActivityIndicator, FlatList, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {Label, LabelVariant, Button} from 'components/elements';
+import {Label, Button} from 'components/elements';
 import {PartiesDirectory} from 'components/widgets';
 import styles from '../styles';
 import customStyles from './styles';
@@ -12,45 +12,47 @@ import {
   addPartyToDailyPlanCreator,
 } from '../redux';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {appSelector} from 'selectors';
+import {appSelectors} from 'selectors';
+import {appSelector} from 'reducers';
 import theme from 'themes';
 import {FetchEnumStatus} from 'reducers';
-import {getDivisionColor} from 'screens/directory/helper';
-import {Constants} from 'common';
 
+/**
+ * component to fetch missed calls to show on directory landing page
+ */
 const MissedCalls = () => {
   const dispatch = useDispatch();
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   useEffect(() => {
     dispatch(
       fetchMissedCallsCreator({
-        staffPositionId: 1,
+        staffPositionId: staffPositionId,
         month: parseInt(getFormatDate({format: 'M'}), 10),
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionId]);
 
   const missedCalls = useSelector(partySelector.getMissedCallsList());
-  const fetchState = useSelector(appSelector.makeGetAppFetch());
+  const fetchState = useSelector(appSelectors.makeGetAppFetch());
 
-  const OnErrorHandler = index => {
-    let genderImage = require('assets/images/male.png');
-    if (missedCalls[index]?.gender) {
-      Constants.GENDER.MALE === missedCalls[index].gender.toUpperCase()
-        ? (genderImage = require('assets/images/male.png'))
-        : (genderImage = require('assets/images/female.png'));
-    }
-    return genderImage;
-  };
-
+  /**
+   * click handler on party to move it to daily plan
+   * @param {Number} partyID uniquer id of the party
+   */
   const addToTodayPlan = partyID => {
     dispatch(
       addPartyToDailyPlanCreator({
-        staffPositionId: 1,
+        staffPositionId: staffPositionId,
         partyId: partyID,
       }),
     );
   };
 
+  /**
+   * returns jsx of button of add to today
+   * @param {Object} item party object
+   * @returns jsx of button
+   */
   const renderTodayButton = item => {
     return (
       <View>
@@ -64,6 +66,10 @@ const MissedCalls = () => {
     );
   };
 
+  /**
+   * renders missed calls parties list
+   * @retuns list of miss calls jsx
+   */
   const missedCallsList = () => {
     if (fetchState === FetchEnumStatus.FETCHING) {
       return (
@@ -76,8 +82,6 @@ const MissedCalls = () => {
       );
     }
 
-    console.log('missedcalls', missedCalls);
-
     return (
       <View>
         <FlatList
@@ -85,8 +89,6 @@ const MissedCalls = () => {
           keyExtractor={item => item.id}
           contentContainerStyle={styles.scrollPad}
           data={missedCalls}
-          // onEndReached={handleLoadMore}
-          // onEndReachedThreshold={0.5}
           renderItem={({item, index}) => {
             return (
               <View style={customStyles.doctorDetailWrapper}>
@@ -95,9 +97,9 @@ const MissedCalls = () => {
                   style={
                     index === 0
                       ? [
-                          customStyles.doctorDetailContainer,
-                          customStyles.doctorDetailContainerFirstChild,
-                        ]
+                                  customStyles.doctorDetailContainer,
+                                  customStyles.doctorDetailContainerFirstChild,
+                                ]
                       : customStyles.doctorDetailContainer
                   }>
                   <PartiesDirectory
@@ -119,6 +121,10 @@ const MissedCalls = () => {
     );
   };
 
+  /**
+   * renders entire view of missed calls component
+   * @retuns jsx
+   */
   const renderView = () => {
     return (
       <View style={styles.container}>
