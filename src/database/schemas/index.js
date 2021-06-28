@@ -1,5 +1,4 @@
 import * as Constants from '../constants';
-import {QualificationsSchemaName} from './Qualifications';
 import * as MonthlySchema from './MonthlyPlan';
 
 export const masterTablesDownLoadStatus = {

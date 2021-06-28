@@ -1,5 +1,5 @@
 import {DivisionSchemaName} from './Divisions';
-
+import * as Constants from '../constants';
 export const SpecialitiesSchemaName = 'Specializations';
 
 export default class SpecialitiesSchema {
@@ -14,6 +14,7 @@ export default class SpecialitiesSchema {
         type: 'list',
         objectType: DivisionSchemaName,
       },
+      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
     },
   };
 }
