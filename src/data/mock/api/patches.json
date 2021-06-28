@@ -113,6 +113,13 @@
     "weekDay": "Monday"
   },
   "getPartyByPatchId": [
-    13
+    {
+      "partyId": 13,
+      "areaId": 4
+    },
+    {
+      "partyId": 27,
+      "areaId": 4
+    }
   ]
 }

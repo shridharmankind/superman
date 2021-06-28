@@ -51,6 +51,15 @@ export const getMonthlySlice = createSlice({
         selectedPlanOption: action.payload,
       };
     },
+    setSTPShowComplete: (state, action) => {
+      return {
+        ...state,
+        submitSTP: {
+          ...state.submitSTP,
+          messageShown: action.payload,
+        },
+      };
+    },
   },
 });
 

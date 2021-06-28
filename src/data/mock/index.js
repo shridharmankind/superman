@@ -14,6 +14,9 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 import monthlyplanComplaince from './api/planComplaince.json';
 import dailyPlanComplaince from './api/dailyPlanComplaince.json';
 import docList from './api/searchDocList.json';
+import EPriorityProductList from './api/ePriorityProduct.json';
+import EOtherProductList from './api/eOtherProduct.json';
+import AllPriority from './api/AllPriority.json';
 import qualifications from './api/masterDataDownload/qualifications.json';
 import specialities from './api/masterDataDownload/specialities.json';
 
@@ -21,7 +24,6 @@ import {partiesMock} from './api/parties.js';
 import stpData from './api/stpData.js';
 import stpStatus from './api/stpStatus.json';
 import submitStpMock from './api/submitStp.json';
-
 
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
@@ -96,11 +98,10 @@ const getSTPStatusUrl = apiPath => {
 
 const getUrl = apiPath => {
   const valueMap = {
-    staffPositionId: 2,
+    staffPositionId: 1,
   };
   let url = apiPath;
   url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
-
   return url;
 };
 
@@ -123,7 +124,7 @@ const getMock = axios => {
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock
-    .onGet('taskinfo/product?StaffPositionId=1&PartyId=1')
+    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1')
     .reply(200, product);
   mock
     .onGet(`${API_PATH.PATCH}/1/parties`)
@@ -146,6 +147,26 @@ const getMock = axios => {
       'party/searchpartybyname?StaffPositionId=1&Keyword=ra&PartyTypeId=1&Skip=0&Limit=10',
     )
     .reply(200, docList);
+  mock
+    .onGet(
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=true&IncludeDiscussedList=true&Skip=0&Limit=10',
+    )
+    .reply(200, EPriorityProductList);
+  mock
+    .onGet(
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=true&Skip=0&Limit=10',
+    )
+    .reply(200, AllPriority);
+  mock
+    .onGet(
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&IncludeDiscussedList=true&Skip=0&Limit=10',
+    )
+    .reply(200, EOtherProductList);
+  mock
+    .onGet(
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&Skip=10&Limit=10',
+    )
+    .reply(200, AllPriority);
   mock
     .onGet(
       `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,

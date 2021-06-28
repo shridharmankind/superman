@@ -80,10 +80,10 @@ const Strings = {
     neurokind: 'Neurokind',
     nine: '9%',
     ten: '10%',
-    tabDes: 'Mankind/Total',
+    tabDes: 'MANKIND/TOTAL QUANTITY',
     foc: 'FOC',
     gx: '(Gx)',
-    sow: '(Sow)',
+    sow: '(SOW)',
     conductRcpa: 'Conduct RCPA',
     na: 'NA',
   },
@@ -120,7 +120,7 @@ const Strings = {
     dcr: {
       what: 'What',
       kindOfVisit: 'kind of visit',
-      wasIt: 'was it ?',
+      wasIt: 'was it?',
       regVisit: 'Regular Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
@@ -164,7 +164,12 @@ const Strings = {
       addTodayPlan: "Add to Today's Plan",
       startEdetail: 'eDetail',
     },
-    docAddedTodayPlan:'Doctor added successfully'
+    docAddedTodayPlan: 'Doctor added successfully',
+  },
+  setting: {
+    tab: {
+      conflicts: 'Conflict',
+    },
   },
   searchBar: {
     errors: {
@@ -185,25 +190,23 @@ const Strings = {
     save: 'Save',
     submitSTP: 'Submit STP',
   },
-  planComplaince: {
-    dr: 'dr',
-    minimum: 'minimum',
-    maximum: 'maximum',
-    doctorVisitsPerDay: 'doctorVisitsPerDay',
-    chemistVisitsPerDay: 'chemistVisitsPerDay',
-    daysGap: 'daysGap',
-    minGap: 'minGap',
-    drCovered:'drCovered',
-    drCoveredInMonth: 'drCoveredInMonth',
-    chCoveredInMonth: 'chCoveredInMonth',
-    outStationPerMonth: 'outStationPerMonth',
-    exStationPerMonth: 'exStationPerMonth',
-    areaCovered: 'areaCovered',
-    frequencyMet: 'frequencyMet',
-  },
   frquecySlotExhausted:
     'Frequency slots for few doctors has been exhausted, a new patch name has been created',
   selectDocToCreatePatch: 'Please select any doctor to create a patch.',
+  backgroundTask: {
+    lastSync: 'Last Synced:',
+    toastBtns: {
+      message: 'Sync Status',
+      viewSummary: 'View Summary',
+      syncInitiatedMessage: 'Sync request has been initiated.',
+      successMessage: 'Requested sync has been completed successfully.',
+      conflictMessage: 'Sync activity was completed with a conflict.',
+      failureMessage: 'Sync activity could not be completed.',
+      alreadRunningMessage: 'Sync activity is already in progress.',
+    },
+  },
+  noInternet: 'No Internet',
+  checkInternet: 'Check you internet connection',
 };
 
 export default Strings;

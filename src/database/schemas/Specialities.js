@@ -1,4 +1,6 @@
-export const SpecialitiesSchemaName = 'Specialities';
+import {DivisionSchemaName} from './Divisions';
+
+export const SpecialitiesSchemaName = 'Specializations';
 
 export default class SpecialitiesSchema {
   static schema = {
@@ -8,7 +10,10 @@ export default class SpecialitiesSchema {
       id: 'int',
       name: 'string?',
       shortName: 'string?',
-      divisionId: 'int?',
+      divisions: {
+        type: 'list',
+        objectType: DivisionSchemaName,
+      },
     },
   };
 }

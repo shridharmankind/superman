@@ -38,6 +38,8 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                   specialization={plan.specialities}
                   category={plan.category}
                   location={plan.location}
+                  isCampaign={plan.isCampaign}
+                  isKyc={plan.isKyc}
                   customStyle={doctorDetailStyleObject}
                   showFrequencyChiclet={false}
                   showVisitPlan={true}

@@ -69,11 +69,13 @@ const styles = StyleSheet.create({
   },
   saveBtn: {marginRight: theme.spacing(12)},
   actionBtn: {width: 165.3},
-  submittedChip: {
+  chip: {
     fontSize: 9.3,
     lineHeight: 10.7,
+    paddingHorizontal: theme.spacing(0),
+  },
+  submittedChip: {
     color: theme.colors.green[400],
-    paddingHorizontal: theme.spacing(5),
   },
   tourPlanOption: {
     flexDirection: 'row',
@@ -81,11 +83,14 @@ const styles = StyleSheet.create({
   },
   chipContainer: {
     height: 21.3,
-    marginLeft: theme.spacing(32),
+    marginLeft: theme.spacing(20),
   },
   lockIcon: {
     marginBottom: theme.spacing(5),
     marginLeft: theme.spacing(4),
+  },
+  dueDateChip: {
+    color: theme.colors.red[600],
   },
 });
 

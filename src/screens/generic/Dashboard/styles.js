@@ -36,7 +36,7 @@ export default StyleSheet.create({
     height: 37.3,
     borderWidth: 1,
     borderRadius: 13.3,
-    backgroundColor: theme.colors.grey[200],
+    backgroundColor: theme.colors.primary,
     paddingHorizontal: theme.spacing(16),
     paddingVertical: theme.spacing(10.7),
     color: theme.colors.white,
@@ -45,5 +45,12 @@ export default StyleSheet.create({
     position: 'absolute',
     right: 16,
     top: 10.7,
+  },
+  syncContainer: {
+    position: 'absolute',
+    top: theme.spacing(77.7),
+    right: theme.spacing(10.3),
+    display: 'flex',
+    flexDirection: 'row',
   },
 });

@@ -1,10 +1,15 @@
 {
   "goodMorning": "Good morning",
-  "monthlyActions": {
-    "save": "Save",
-    "submitSTP": "Submit STP"
+  "tourPlan": {
+    "monthly": {
+      "actions": {
+        "save": "Save",
+        "submitSTP": "Submit STP"
+      },
+      "submittedOn": "Submitted on",
+      "MTPDueOn": "Due in {{X}} days"
+    }
   },
-  "submittedOn": "Submitted on",
   "missedVisit": "Missed Visit!",
   "upcomingVisit": "Upcoming Visit",
   "detailedProducts": "Detailed Products: ",
@@ -18,7 +23,8 @@
   "on": "On",
   "timeline": "Timeline",
   "errorMessage": {
-    "noRecords": "There are no records"
+    "noRecords": "There are no records",
+    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits"
   },
 
   "dr": "Doctor",
@@ -26,12 +32,12 @@
   "maximum": "maximum",
   "doctorVisitsPerDay": "doctor visits per day",
   "chemistVisitsPerDay": "chemists visits per day",
-  "daysGap": "days",
+  "daysGap": "days ",
   "minGap": "minimum gap for {{xValue}} visit doctors",
-  "drCovered": "Doctors covered in {{xValue}} days",
-  "drCoveredInMonth": "Doctors covered in month",
-  "chCoveredInMonth": "Chemist covered in month",
-  "outStationPerMonth": "Out-station visits per month",
+  "drCovered": "doctors covered in {{xValue}} days",
+  "drCoveredInMonth": "doctors covered in month",
+  "chCoveredInMonth": "chemist covered in month",
+  "outStationPerMonth": "out-station visits per month",
   "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
   "frequencyMet": "frequency met"
