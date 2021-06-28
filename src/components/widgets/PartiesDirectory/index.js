@@ -7,14 +7,17 @@ import {DoctorTag, DivisionType} from 'components/widgets';
 import {Strings, Constants} from 'common';
 
 /**
- * Custom doctor details component using Chip from react-native-paper.
- * This serves the purpose to make the use of doctor details consistent throughtout the app
+ * component to return parties list
  * @param {String} title text of the chip
  * @param {String} gender gender of party
  * @param {Array} specialization doctor specialization eg. Cardiologist, Neurologist
  * @param {String} image doctor image
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
+ * @param {String} partyType type of party - doctor/chemist
+ * @param {Boolean} isKyc flag for kyc category
+ * @param {Boolean} isCampaign flag for campaign category
+ * @param {JSX} actionButton JSX for action button
  */
 
 const PartiesDirectory = ({
@@ -27,7 +30,7 @@ const PartiesDirectory = ({
   partyType,
   isKyc,
   isCampaign,
-  actionButton = null,
+  actionButton,
   ...props
 }) => {
   const [imageSrc, setImageSrc] = useState({uri: image});
@@ -120,8 +123,8 @@ const PartiesDirectory = ({
 };
 
 PartiesDirectory.defaultProps = {
-  division: '',
   gender: 'Male',
+  actionButton: null,
 };
 
 PartiesDirectory.propTypes = {

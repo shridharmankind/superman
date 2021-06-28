@@ -101,16 +101,6 @@ export function* addPartyToDailyPlanWorker(action) {
   const {staffPositionId, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    // const valueMap = {
-    //   staffPositionId: staffPositionId,
-    //   partyId: partyId,
-    // };
-    // let url = API_PATH.GET_MISSED_CALLS;
-    // url = url.replace(
-    //   /\b(?:staffPositionId|partyId)\b/gi,
-    //   matched => valueMap[matched],
-    // );
-
     const response = yield call(
       NetworkService.post,
       API_PATH.ADD_TODAY_PLAN,
@@ -120,8 +110,6 @@ export function* addPartyToDailyPlanWorker(action) {
         partyId: partyId,
       },
     );
-
-    console.log('response', response.data);
 
     if (response.data.id) {
       yield put(
@@ -138,7 +126,7 @@ export function* addPartyToDailyPlanWorker(action) {
     yield put(
       landingActions.addPartyToDailyPlan({
         parties: {
-          partyMovedToDaily: false,
+          partyMovedToDaily: null,
         },
       }),
     );

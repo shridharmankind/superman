@@ -58,7 +58,8 @@ const landingSlice = createSlice({
     },
     addPartyToDailyPlan: (state, action) => {
       const itemToRemoveIdx = state.parties.missedCalls.findIndex(
-        party => party.id === action.payload.parties.partyMovedToDaily.partyId,
+        party =>
+          party.id === action.payload?.parties?.partyMovedToDaily?.partyId,
       );
       state.parties.missedCalls.splice(itemToRemoveIdx, 1);
       void (state.parties.missedCalls = [...state.parties.missedCalls]);
