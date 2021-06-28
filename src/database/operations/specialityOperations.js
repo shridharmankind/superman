@@ -20,7 +20,7 @@ export default dbInstance => ({
           divisions.forEach(async division => {
             const divisionRecord = await dbInstance.create(
               DivisionSchemaName,
-              { ...division, syncParameters: syncParametersObject()},
+              {...division, syncParameters: syncParametersObject()},
               'modified',
             );
             specializationRecord.divisions.push(divisionRecord);

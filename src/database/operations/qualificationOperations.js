@@ -13,14 +13,14 @@ export default dbInstance => ({
 
           const qualificationRecord = await dbInstance.create(
             QualificationsSchemaName,
-            { ...qualification, syncParameters: syncParametersObject()},
+            {...qualification, syncParameters: syncParametersObject()},
             'modified',
           );
 
           divisions.forEach(async division => {
             const divisionRecord = await dbInstance.create(
               DivisionSchemaName,
-              { ...division, syncParameters: syncParametersObject()},
+              {...division, syncParameters: syncParametersObject()},
               'modified',
             );
             qualificationRecord.divisions.push(divisionRecord);
