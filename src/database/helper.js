@@ -55,7 +55,6 @@ export const getUserName = async () => {
   try {
     const user = await getActiveUser();
     const {firstName = '', lastName = ''} = user;
-
     return `${firstName} ${lastName}`;
   } catch (error) {}
 };
