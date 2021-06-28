@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -40,6 +40,17 @@ const Login = () => {
   const [animating, setAnimating] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    async function fetchAccessToken() {
+      let accessToken = await KeyChain.getAccessToken();
+      if (accessToken) {
+        navigation.reset({
+          routes: [{name: Routes.ROUTE_DASHBOARD}],
+        });
+      }
+    }
+    fetchAccessToken();
+  }, [navigation]);
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);
@@ -61,6 +72,7 @@ const Login = () => {
       setAnimating(false);
     } catch (error) {
       setAnimating(false);
+      console.log(error);
       Alert.alert(Strings.info, error.message);
     }
   }, [dispatch]);

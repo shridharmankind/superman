@@ -3,6 +3,7 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   toastStyleBase: {
+    minHeight: theme.spacing(120),
     maxWidth: theme.spacing(300),
     minWidth: theme.spacing(300),
     borderRadius: 13,
