@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
-import {DoctorVisitStates} from 'components/widgets';
+import {DoctorVisitStates, DoctorTag, DivisionType} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
 import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
@@ -49,6 +49,7 @@ const DoctorDetails = ({
   selectedVistedFrequency,
   partyType,
   isKyc,
+  isCampaign,
   ...props
 }) => {
   const [imageSrc, setImageSrc] = useState({uri: image});
@@ -138,37 +139,18 @@ const DoctorDetails = ({
                 customStyle && customStyle.divisionContainerCustom,
               ]}>
               {isKyc && (
-                <View
-                  style={[
-                    styles.divisionItem,
-                    {
-                      backgroundColor: getDivisionColor(
-                        Constants.DIVISION_COLOR.KYC,
-                      ),
-                    },
-                  ]}>
-                  <Label
-                    style={styles.divisionText}
-                    title={Strings.kyc}
-                    size={customStyle ? customStyle.divisionSize : 9}
-                    type={'bold'}
-                  />
-                </View>
+                <DoctorTag
+                  division={DivisionType.KYC}
+                  title={`${DivisionType.KYC}`}
+                />
               )}
-              {category != '' && (
-                <View
-                  style={[
-                    styles.divisionItem,
-                    {backgroundColor: getDivisionColor(category)},
-                  ]}>
-                  <Label
-                    style={styles.divisionText}
-                    title={category}
-                    size={customStyle ? customStyle.divisionSize : 9}
-                    type={'bold'}
-                  />
-                </View>
+              {isCampaign && (
+                <DoctorTag
+                  division={DivisionType.CAMPAIGN}
+                  title={`${DivisionType.CAMPAIGN}`}
+                />
               )}
+              {category && <DoctorTag division={category} title={category} />}
             </View>
           )}
 

@@ -51,6 +51,7 @@ const DoctorTag = ({
 const getDivisionColor = division => {
   switch (division && division.toLowerCase()) {
     case Constants.DIVISION_COLOR.KYC:
+    case Constants.DIVISION_COLOR.CAMPAIGN:
       return themes.colors.orange[100];
     case Constants.DIVISION_COLOR.A_PLUS:
       return themes.colors.darkBlue;
