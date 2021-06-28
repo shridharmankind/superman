@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-
+import {useDispatch} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
@@ -24,10 +24,13 @@ import styles from './styles';
 import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
+import {Helper} from 'database';
+import {fetchStatusSliceActions} from 'reducers';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
+  const dispatch = useDispatch();
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
   useEffect(() => {
@@ -36,6 +39,13 @@ const Dashboard = ({navigation}) => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   });
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      dispatch(fetchStatusSliceActions.setStaffPositionId(id));
+    })();
+  }, [dispatch]);
 
   const onActivePageChanged = (route, itemId) => {
     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
