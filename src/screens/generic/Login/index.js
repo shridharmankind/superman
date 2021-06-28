@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -38,18 +38,6 @@ export const AlertTitle = 'Info';
 
 const Login = () => {
   const [animating, setAnimating] = useState(false);
-  // useEffect(() => {
-  //   (async () => {
-  //     const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
-  //     console.log(
-  //       'isLoggedIn rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
-  //       isLoggedIn,
-  //     );
-  //     if (isLoggedIn === null) {
-  //       navigation.navigate('LocalAuthentication');
-  //     }
-  //   })();
-  // }, [navigation]);
   const dispatch = useDispatch();
 
   const loginHandler = useCallback(async () => {
@@ -73,6 +61,7 @@ const Login = () => {
       setAnimating(false);
     } catch (error) {
       setAnimating(false);
+      console.log(error);
       Alert.alert(Strings.info, error.message);
     }
   }, [dispatch]);
