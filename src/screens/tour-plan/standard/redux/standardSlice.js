@@ -66,7 +66,9 @@ export const getStandardPlanSlice = createSlice({
       return {
         ...state,
         parties: action.payload.parties,
-        updatedPartyArray: action.payload.parties,
+        updatedPartyArray: action.payload.parties.map(item => {
+          return {...item, alreadyVisitedCount: item.alreadyVisited};
+        }),
       };
     },
     getAreas: (state, action) => {
