@@ -55,6 +55,7 @@ const DoctorDetails = ({
   actionButton = null,
   ...props
 }) => {
+
   const [imageSrc, setImageSrc] = useState({uri: image});
   const [isImageErrror, setIsImageErrror] = useState(false);
   /**
@@ -131,7 +132,6 @@ const DoctorDetails = ({
     return (specialities || {}).map(spec => spec?.name || spec).join(', ');
   };
 
-  console.log('category', category);
 
   return (
     <View style={styles.container}>
@@ -203,7 +203,7 @@ const DoctorDetails = ({
               </View>
 
               {location && (
-                <>
+                <View style={{width: '25%'}}>
                   {getSpecialization(specialization) !== '' &&
                     locationSeperator && (
                       <Label
@@ -219,7 +219,7 @@ const DoctorDetails = ({
                       .join(', ')}
                     style={styles.capitalize}
                   />
-                </>
+                </View>
               )}
             </View>
           </View>
@@ -246,7 +246,7 @@ const DoctorDetails = ({
           </View>
         )}
         {showVisitPlan && renderVisitData()}
-        {showTodayPlanButton && actionButton()}
+        {showTodayPlanButton && actionButton && actionButton()}
       </View>
       {isWeb() && showTile && renderTile()}
     </View>
@@ -285,7 +285,7 @@ DoctorDetails.propTypes = {
   specialization: PropTypes.array,
   category: PropTypes.string,
   image: PropTypes.string,
-  location: PropTypes.string,
+  location: PropTypes.array,
   selected: PropTypes.bool,
   testID: PropTypes.string,
   onPress: PropTypes.func,

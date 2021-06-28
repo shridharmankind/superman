@@ -5,7 +5,11 @@ import {Label, LabelVariant, Button, DoctorDetails} from 'components/elements';
 import styles from '../styles';
 import customStyles from './styles';
 import {translate} from 'locale';
-import {fetchMissedCallsCreator, partySelector} from '../redux';
+import {
+  fetchMissedCallsCreator,
+  partySelector,
+  addPartyToDailyPlanCreator,
+} from '../redux';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {appSelector} from 'selectors';
 import theme from 'themes';
@@ -41,8 +45,6 @@ const MissedCalls = () => {
   const missedCalls = useSelector(partySelector.getMissedCallsList());
   const fetchState = useSelector(appSelector.makeGetAppFetch());
 
-  console.log(missedCalls);
-
   const OnErrorHandler = index => {
     let genderImage = require('assets/images/male.png');
     if (missedCalls[index]?.gender) {
@@ -53,6 +55,15 @@ const MissedCalls = () => {
     return genderImage;
   };
 
+  const addToTodayPlan = partyID => {
+    dispatch(
+      addPartyToDailyPlanCreator({
+        staffPositionId: 1,
+        partyId: partyID,
+      }),
+    );
+  };
+
   const renderTodayButton = item => {
     return (
       <View>
@@ -60,7 +71,7 @@ const MissedCalls = () => {
           title={translate('tourPlan.monthly.actions.addToTodayPlan')}
           mode="contained"
           contentStyle={customStyles.btnAddToToday}
-          // onPress={() => addToTodayPlan(item.id)}
+          onPress={() => addToTodayPlan(item.id)}
         />
       </View>
     );
@@ -108,7 +119,7 @@ const MissedCalls = () => {
                     showTile={false}
                     locationSeperator={false}
                     showTodayPlanButton={true}
-                    actionButton={renderTodayButton}
+                    actionButton={() => renderTodayButton(item)}
                   />
                 </View>
               </View>

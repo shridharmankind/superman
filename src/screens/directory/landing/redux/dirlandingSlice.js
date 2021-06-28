@@ -7,6 +7,9 @@ export const fetchSearchDoctorsTypeName = fetchSearchDoctors().type;
 export const fetchMissedCallsCreator = createAction('FETCH_MISSED_CALLS');
 export const fetchMissedCallsypeName = fetchMissedCallsCreator().type;
 
+export const addPartyToDailyPlanCreator = createAction('ADD_PARTY_TO_DAILY');
+export const addPartyToDailyPlanTypeName = addPartyToDailyPlanCreator().type;
+
 export const fetchQueryDoctorsState = {
   docList: {
     searchCount: 0,
@@ -17,6 +20,7 @@ export const fetchQueryDoctorsState = {
 export const landing = {
   parties: {
     missedCalls: [],
+    partyMovedToDaily: null,
   },
 };
 
@@ -51,6 +55,14 @@ const landingSlice = createSlice({
   reducers: {
     getMissedCalls: (state, action) => {
       return {...state, ...action.payload};
+    },
+    addPartyToDailyPlan: (state, action) => {
+      console.log(JSON.stringify(state));
+      // return {...state, ...action.payload};
+      return {
+        ...state,
+        partyMovedToDaily: action.payload,
+      };
     },
   },
 });

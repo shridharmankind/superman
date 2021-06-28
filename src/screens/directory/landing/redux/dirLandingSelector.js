@@ -4,10 +4,15 @@ const docCount = state => state.fetchQueryDoctorsState.docList.searchCount;
 const docList = state => state.fetchQueryDoctorsState.docList.doctors;
 
 const missedCallsList = state => state.landing.parties.missedCalls;
+const isPartyAddedToDaily = state => state.landing.parties.partyMovedToDaily;
 
 const docListSelector = createSelector([docList], list => list);
 const docCountSelector = createSelector([docCount], count => count);
 const missedCallsSelector = createSelector([missedCallsList], list => list);
+const isPartyAddedToDailySelector = createSelector(
+  [isPartyAddedToDaily],
+  data => data,
+);
 
 export const searchDocSelector = {
   getSearchDocCount: () => {
@@ -21,5 +26,8 @@ export const searchDocSelector = {
 export const partySelector = {
   getMissedCallsList: () => {
     return missedCallsSelector;
+  },
+  isPartyMovedToDaily: () => {
+    return isPartyAddedToDailySelector;
   },
 };
