@@ -50,6 +50,7 @@ const DoctorDetails = ({
   partyType,
   isKyc,
   isCampaign,
+  locationSeperator = true,
   ...props
 }) => {
   const [imageSrc, setImageSrc] = useState({uri: image});
@@ -124,6 +125,10 @@ const DoctorDetails = ({
     );
   };
 
+  const getSpecialization = specialities => {
+    return (specialities || {}).map(spec => spec?.name || spec).join(', ');
+  };
+
   return (
     <View style={styles.container}>
       <View
@@ -179,9 +184,10 @@ const DoctorDetails = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={(specialization || {})
-                  .map(spec => spec?.name || spec)
-                  .join(', ')}
+                // title={(specialization || {})
+                //   .map(spec => spec?.name || spec)
+                //   .join(', ')}
+                title={getSpecialization(specialization)}
                 style={[
                   styles.capitalize,
                   customStyle && customStyle.specialization,
@@ -191,14 +197,19 @@ const DoctorDetails = ({
 
               {location && (
                 <>
+                  {getSpecialization(specialization) !== '' &&
+                    locationSeperator && (
+                      <Label
+                        size={customStyle ? customStyle.subTitleSize : 18}
+                        title={'|'}
+                        style={styles.seperator}
+                      />
+                    )}
                   <Label
                     size={customStyle ? customStyle.subTitleSize : 18}
-                    title={'|'}
-                    style={styles.seperator}
-                  />
-                  <Label
-                    size={customStyle ? customStyle.subTitleSize : 18}
-                    title={location}
+                    title={(location || {})
+                      .map(spec => spec?.name || spec)
+                      .join(', ')}
                     style={styles.capitalize}
                   />
                 </>
@@ -258,6 +269,7 @@ DoctorDetails.defaultProps = {
   division: '',
   showTile: false,
   gender: 'Male',
+  locationSeperator: true,
 };
 
 DoctorDetails.propTypes = {

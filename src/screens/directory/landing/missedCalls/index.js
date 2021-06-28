@@ -40,6 +40,8 @@ const MissedCalls = () => {
   const missedCalls = useSelector(partySelector.getMissedCallsList());
   const fetchState = useSelector(appSelector.makeGetAppFetch());
 
+  console.log(missedCalls);
+
   const OnErrorHandler = index => {
     let genderImage = require('assets/images/male.png');
     if (missedCalls[index]?.gender) {
@@ -83,13 +85,14 @@ const MissedCalls = () => {
                     isKyc={item.isKyc}
                     gender={item.gender}
                     category={item.category}
-                    location={item.location}
+                    location={item.areas}
                     partyType={item?.partyTypes?.name}
                     customStyle={doctorDetailStyleObject}
                     showFrequencyChiclet={false}
                     showVisitPlan={true}
                     visitData={item.visitData}
                     showTile={false}
+                    locationSeperator={false}
                   />
                 </View>
               </View>
@@ -105,7 +108,10 @@ const MissedCalls = () => {
       <View style={styles.container}>
         <View>
           <View style={styles.listHeader}>
-            <Label style={customStyles.division} title={translate('dr')} />
+            <Label
+              style={[customStyles.division, styles.colwidth]}
+              title={translate('dr')}
+            />
             <Label
               style={[customStyles.division, styles.colwidth]}
               title={translate('speciality')}

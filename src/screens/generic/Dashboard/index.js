@@ -56,7 +56,8 @@ const Dashboard = ({navigation}) => {
   useEffect(() => {
     (async () => {
       const id = await Helper.getStaffPositionId();
-      dispatch(fetchStatusSliceActions.setStaffPositionId(id));
+
+      dispatch(fetchStatusSliceActions.setStaffPositionId(1));
     })();
   }, [dispatch]);
 

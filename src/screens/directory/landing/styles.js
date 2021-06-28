@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     marginRight: theme.spacing(10),
   },
   colwidth: {
-    width: '19%',
+    // width: '19%',
+    flex: 0.4,
   },
   doctorDataRow: {
     flexDirection: 'row',
