@@ -37,7 +37,7 @@ const App = () => {
 
     return async () => {
       if (!isWeb()) {
-        console.log("removed App js");
+        console.log('removed App js');
         AsyncStorage.removeItem(TASK_NAME);
       }
     };

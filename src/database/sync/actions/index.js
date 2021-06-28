@@ -47,10 +47,14 @@ export const syncTableTask = async () => {
     let constraintTime = await checkMinimumTimeConstraint();
     let currentTime = new Date();
     let onDemandSyncStatus = await getOnDemandSyncStatus();
-    if (onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
-        (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING && constraintTime < currentTime)) { // if current time is greater than the lastSync time + syncDifference
-      for (let [key,value] of syncTaskList) {
-        await runBackgroundTask(key,value).then(result => {
+    if (
+      onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
+      (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING &&
+        constraintTime < currentTime)
+    ) {
+      // if current time is greater than the lastSync time + syncDifference
+      for (let [key, value] of syncTaskList) {
+        await runBackgroundTask(key, value).then(result => {
           resultArray = [...resultArray, ...result]; //collecting result to show toastie
         });
       }
@@ -59,11 +63,13 @@ export const syncTableTask = async () => {
         DBConstants.downloadStatus.DOWNLOADED,
         DBConstants.APPLICATION_SYNC_STATUS,
       );
+    } else {
+      console.log(
+        'Sync Status',
+        `Minimum ${syncDifference} minutes difference from Last Sync Time is required.`,
+      );
     }
-    else{
-      console.log('Sync Status',`Minimum ${syncDifference} minutes difference from Last Sync Time is required.`)
-    }
-    console.log("Result Array --",resultArray);
+    console.log('Result Array --', resultArray);
     return resultArray;
   } catch (err) {
     console.log('Error ', err);
@@ -93,20 +99,19 @@ const configParam = (item, staffPositionId, lastSync, data) => {
       postData.lastSyncTime = lastSync;
       postData[item.syncParam] = data;
       postData.method = 'POST';
-      return postData;  
+      return postData;
   }
 };
 
 const callRequest = async (item, lastSync, data) => {
   const staffPositionId = await Helper.getStaffPositionId();
   let postData = configParam(item, staffPositionId, lastSync, data);
-  if(postData.method === 'GET'){
+  if (postData.method === 'GET') {
     return await syncGetRequest(item);
-  }
-  else{
+  } else {
     return await syncPostRequest(item, postData);
   }
-}
+};
 
 /**
  * This method will hit get data with configured getData.
@@ -115,7 +120,7 @@ const callRequest = async (item, lastSync, data) => {
  * @param {*} data
  * @returns
  */
- const syncGetRequest = async (item) => {
+const syncGetRequest = async item => {
   const response = await NetworkService.get(item.apiPath);
   return response;
 };
@@ -155,7 +160,7 @@ const getModifiedRecords = async schema => {
  * @returns true : success
  * @returns false: failure
  */
-const runBackgroundTask = async (tableName,value) => {
+const runBackgroundTask = async (tableName, value) => {
   try {
     let resultArray = [];
     let item = await Helper.MASTER_TABLES_DETAILS.filter(obj => {
@@ -172,13 +177,14 @@ const runBackgroundTask = async (tableName,value) => {
         const response = await callRequest(
           item[0],
           record.lastSync,
-          Array.from(modifiedRecords));
-        
+          Array.from(modifiedRecords),
+        );
+
         if (response?.status === DBConstants.HTTP_OK) {
           await SyncOperations.getSyncOperations(
             item[0],
             response.data,
-            value
+            value,
           ).then(res => {
             resultArray = [...resultArray, ...res];
             //console.log(`${item[0].name} result `, resultArray);

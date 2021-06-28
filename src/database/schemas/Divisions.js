@@ -11,7 +11,7 @@ export default class DivisionSchema {
       shortName: 'string',
       maxPatchCount: 'int?',
       kycPartyLimit: 'int?',
-      syncParameters: Constants.MASTER_SYNC_PARAMETERS
+      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
     },
   };
 }

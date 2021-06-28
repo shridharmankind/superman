@@ -163,8 +163,6 @@ let syncParametersObject = {
   syncErrorDetails: syncErrorDetailsObject,
 };
 
-
-
 let dummyObject = {
   id: -1,
   staffPositionId: 1,

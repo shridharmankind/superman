@@ -103,15 +103,16 @@ const getPartiesFromMTU = async config => {
     if (getFilteredRecord != []) {
       for (const dailyObject of getFilteredRecord) {
         let partyId = dailyObject.partyId;
-        if (partyId != null && !dailyObject.syncParameters.isDeleted && !dailyObject.isMissed) {
+        if (
+          partyId != null &&
+          !dailyObject.syncParameters.isDeleted &&
+          !dailyObject.isMissed
+        ) {
           let newPartyById = await getDBInstance().objectForPrimaryKey(
             schema[1].name,
             partyId,
           );
-          if (
-            newPartyById &&
-            !newPartyById.syncParameters.isDeleted
-          ) {
+          if (newPartyById && !newPartyById.syncParameters.isDeleted) {
             getPartiesById.push(newPartyById);
           }
         }

@@ -13,7 +13,6 @@ export const getActiveUser = async () => {
   return users[0] || {};
 };
 
-
 export const deleteDBObject = object => {
   try {
     if (object != undefined) {
@@ -43,7 +42,11 @@ export const deleteExistingRecord = (schema, id) => {
   }
 };
 
-export const createSinglePartyMasterRecord = async (schema, object,dbInstance = null) => {
+export const createSinglePartyMasterRecord = async (
+  schema,
+  object,
+  dbInstance = null,
+) => {
   try {
     let specialization,
       area,
@@ -155,5 +158,5 @@ export const syncParametersObject = () => {
     isDeleted: false,
     errorInSync: false,
     syncErrorDetails: syncErrorDetailsObject,
-  }
+  };
 };

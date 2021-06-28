@@ -26,10 +26,7 @@ import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
 import NetInfo from '@react-native-community/netinfo';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
-import {Sync,
-  Constants as DBConstants,
-  Schemas,
-  getDBInstance,} from 'database';
+import {Sync, Constants as DBConstants, Schemas, getDBInstance} from 'database';
 import {
   showToastie,
   setOnDemandSyncStatusRunning,
@@ -54,7 +51,6 @@ const Dashboard = ({navigation}) => {
   });
 
   useEffect(() => {
-
     const fetchSyncTime = async () => {
       let masterData = getDBInstance().objects(
         Schemas.masterTablesDownLoadStatus.name,
@@ -324,7 +320,7 @@ const Dashboard = ({navigation}) => {
   );
 
   const renderSyncTime = () => {
-    if(!isWeb()){
+    if (!isWeb()) {
       return (
         <View style={styles.syncContainer}>
           <Label
@@ -334,7 +330,7 @@ const Dashboard = ({navigation}) => {
         </View>
       );
     }
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={closeSearchBar}>

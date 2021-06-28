@@ -46,12 +46,11 @@ const getNetworkResponse = async (config, apiPath) => {
       return response;
     })
     .catch(function (error) {
-      console.log("err ",error);
+      console.log('err ', error);
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
     });
 };
-
 
 /*
 Function to handle HTTP GET request

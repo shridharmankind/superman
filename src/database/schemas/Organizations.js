@@ -9,7 +9,7 @@ export default class OrganizationSchema {
       id: 'int',
       name: 'string',
       shortName: 'string',
-      syncParameters: Constants.MASTER_SYNC_PARAMETERS
+      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
     },
   };
 }

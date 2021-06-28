@@ -8,7 +8,10 @@ export default dbInstance => ({
       await dbInstance.write(() => {
         divisions.forEach(division => {
           const {id, name, shortName, maxPatchCount, kycPartyLimit} = division;
-          let syncParameters = division.syncParameters == undefined ? syncParametersObject(): division.syncParameters;
+          let syncParameters =
+            division.syncParameters == undefined
+              ? syncParametersObject()
+              : division.syncParameters;
           dbInstance.create(
             DivisionSchemaName,
             {id, name, shortName, maxPatchCount, kycPartyLimit, syncParameters},

@@ -11,7 +11,7 @@ import {
   deleteExistingRecord,
   deleteDBObject,
   modifyDBObject,
-  createSinglePartyMasterRecord
+  createSinglePartyMasterRecord,
 } from './common';
 
 let realm = null;
@@ -217,8 +217,6 @@ export const closeDB = () => {
   }
 };
 
-
-
 export async function insertPartyTableData(schema, id) {
   let object = dummyPartyData;
   let specialization,
@@ -350,7 +348,7 @@ export {
   deleteExistingRecord,
   deleteDBObject,
   modifyDBObject,
-  createSinglePartyMasterRecord
+  createSinglePartyMasterRecord,
 };
 export {default as partyCategoryOperations} from './partyCategoryOperations';
 export {default as organizationOperations} from './organizationOperations';

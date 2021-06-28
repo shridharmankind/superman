@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  TextInput,
-} from 'react-native';
+import {View, TextInput} from 'react-native';
 import {ContentWithSidePanel} from 'components/layouts';
 import {Label, LabelVariant} from 'components/elements';
 import {Strings, Constants} from 'common';
@@ -30,7 +27,6 @@ const SettingLanding = ({navigation, route}) => {
       text: `${Strings.setting.tab.conflicts}`,
     },
   ];
-
 
   // For rendering navbars
   const renderNavBar = () => {
@@ -71,11 +67,7 @@ const SettingLanding = ({navigation, route}) => {
             placeholder={Strings.searchBar.searchPlaceholder}
             style={styles.searchBar}
           />
-          <SearchIcon
-            style={styles.searchIcon}
-            height={16}
-            width={16}
-          />
+          <SearchIcon style={styles.searchIcon} height={16} width={16} />
         </View>
       </View>
     );

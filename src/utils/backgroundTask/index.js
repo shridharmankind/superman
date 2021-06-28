@@ -112,7 +112,8 @@ const setBackgroundTask = async () => {
       if (
         state.isConnected &&
         getCurrentBackgrounStatus == Constants.BACKGROUND_TASK.NOT_RUNNING
-      ) { //check for internet connection and background Status if it is not running
+      ) {
+        //check for internet connection and background Status if it is not running
         const accessToken = await KeyChain.getAccessToken();
         let getCurrentAsyncStorage = await AsyncStorage.getItem(
           Constants.BACKGROUND_TASK.TASK_NAME,

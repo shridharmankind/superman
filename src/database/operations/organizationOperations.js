@@ -8,7 +8,10 @@ export default dbInstance => ({
       await dbInstance.write(() => {
         organizations.forEach(organization => {
           const {id, name, shortName} = organization;
-          let syncParameters = organization.syncParameters == undefined ? syncParametersObject(): organization.syncParameters;
+          let syncParameters =
+            organization.syncParameters == undefined
+              ? syncParametersObject()
+              : organization.syncParameters;
           dbInstance.create(
             OrganizationSchemaName,
             {id, name, shortName, syncParameters},
