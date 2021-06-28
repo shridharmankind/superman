@@ -50,7 +50,7 @@ const landingSlice = createSlice({
   initialState: landing,
   reducers: {
     getMissedCalls: (state, action) => {
-      return state;
+      return {...state, ...action.payload};
     },
   },
 });

@@ -46,5 +46,9 @@
   "": "",
   "missedCalls": "Missed Calls",
   "speciality": "Speciality",
-  "region": "Region"
+  "region": "Region",
+  "categories": {
+    "kyc": "KYC",
+    "campaign": "Campaign"
+  }
 }

@@ -72,6 +72,8 @@ export function* fetchMissedCallsWorker(action) {
 
     const response = yield call(NetworkService.get, url);
 
+    // console.log('response', response.data);
+
     yield put(
       landingActions.getMissedCalls({
         parties: {

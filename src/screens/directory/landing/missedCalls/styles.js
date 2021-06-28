@@ -6,6 +6,11 @@ const styles = StyleSheet.create({
     ...parentStyles.division,
     textTransform: 'uppercase',
   },
+  doctorDataRowFirstChild: {
+    ...parentStyles.doctorDataRow,
+    borderRadius: 6.7,
+    borderTopWidth: 2,
+  },
 });
 
 export default styles;
