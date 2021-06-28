@@ -9,14 +9,11 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
-import {useDispatch} from 'react-redux';
 
 import NavMenu from './components/NavMenu';
-import {NotificationIcon, SearchIcon} from 'assets';
 
 import {Label} from 'components/elements';
 import {NotificationIcon, SearchIcon, RefreshIcon} from 'assets';
-import {Routes} from 'navigations';
 import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
 import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
