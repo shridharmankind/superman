@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
   Alert,
@@ -11,31 +11,139 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
-import {NotificationIcon, SearchIcon} from 'assets';
-
+import {Label} from 'components/elements';
+import {NotificationIcon, SearchIcon, RefreshIcon} from 'assets';
 import {Routes} from 'navigations';
 import ROUTES_DASHBOARD, {ROUTE_DIRECTORY} from './routes';
 import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 
 import theme from 'themes';
-import {KeyChain} from 'helper';
+import {KeyChain, isWeb} from 'helper';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
+import NetInfo from '@react-native-community/netinfo';
+import {getLocalTimeZone} from 'utils/dateTimeHelper';
+import {Sync, Constants as DBConstants, Schemas, getDBInstance} from 'database';
+import {
+  showToastie,
+  setOnDemandSyncStatusRunning,
+  getOnDemandSyncStatus,
+  getBackgrounTaskValue,
+} from 'utils/backgroundTask';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
+  const [onDemandSync, setOnDemandSync] = useState(true);
+  const [lastSync, setLastSync] = useState('--:--:--');
+  const [isConnected, setConnected] = useState(false);
+
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return function cleanup() {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   });
+
+  useEffect(() => {
+    const fetchSyncTime = async () => {
+      let masterData = getDBInstance().objects(
+        Schemas.masterTablesDownLoadStatus.name,
+      );
+      setSyncListener(masterData);
+      masterData.forEach(modifiedData => {
+        if (modifiedData.name == DBConstants.APPLICATION_SYNC_STATUS) {
+          setSync(modifiedData);
+          return;
+        }
+      });
+      return;
+    };
+    let subscribeNetworkCheck = null;
+    if (!isWeb()) {
+      fetchSyncTime();
+      subscribeNetworkCheck = NetInfo.addEventListener(
+        handleConnectivityChange,
+      );
+      //Sync.SyncService.RegisterBackgroundTask();
+    }
+    return async () => {
+      if (!isWeb()) {
+        if (subscribeNetworkCheck) {
+          subscribeNetworkCheck();
+          subscribeNetworkCheck = null;
+        }
+      }
+    };
+  });
+
+  useEffect(() => {
+    if (isConnected) {
+      Sync.SyncService.syncNow();
+    }
+  }, [isConnected]);
+
+  const handleConnectivityChange = connection => {
+    setConnected(connection.isConnected);
+  };
+
+  const setSyncListener = useCallback(masterData => {
+    masterData.addListener((masterData, changes) => {
+      changes.insertions.forEach(index => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+      changes.modifications.forEach(index => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+    });
+  }, []);
+
+  const setSync = syncRecord => {
+    if (syncRecord.name == DBConstants.APPLICATION_SYNC_STATUS) {
+      let date = getLocalTimeZone(syncRecord.lastSync);
+      setLastSync(date);
+    }
+  };
+
+  const onSyncPress = () => {
+    if (!isWeb()) {
+      NetInfo.fetch().then(async state => {
+        if (state.isConnected && onDemandSync) {
+          let backgroundTaskStatus = await getBackgrounTaskValue();
+          if (backgroundTaskStatus == Constants.BACKGROUND_TASK.NOT_RUNNING) {
+            setOnDemandSync(false);
+            await setOnDemandSyncStatusRunning();
+            let onDemandValue = await getOnDemandSyncStatus();
+            if (onDemandValue == Constants.BACKGROUND_TASK.RUNNING) {
+              showToastie(
+                Constants.TOAST_TYPES.SUCCESS,
+                Strings.backgroundTask.toastBtns.syncInitiatedMessage,
+              );
+              Sync.SyncService.syncNow();
+              const getBackgroundSync = await getBackgrounTaskValue();
+              if (getBackgroundSync == Constants.BACKGROUND_TASK.NOT_RUNNING) {
+                setOnDemandSync(true);
+              }
+            }
+          } else {
+            showToastie(
+              Constants.TOAST_TYPES.WARNING,
+              Strings.backgroundTask.toastBtns.syncInitiatedMessage,
+            );
+          }
+        } else {
+          Alert.alert(Strings.noInternet, Strings.checkInternet);
+        }
+      });
+    }
+  };
 
   const onActivePageChanged = (route, itemId) => {
     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
@@ -148,6 +256,16 @@ const Dashboard = ({navigation}) => {
     </View>
   );
 
+  const renderSyncButton = () => {
+    if (!isWeb()) {
+      return (
+        <View style={[styles.action, styles.actionPadding]}>
+          <RefreshIcon height={21.3} width={21.3} onPress={onSyncPress} />
+        </View>
+      );
+    }
+  };
+
   const renderScreenActions = () => (
     <View style={styles.actionsContainer}>
       {!searchState && (
@@ -179,6 +297,7 @@ const Dashboard = ({navigation}) => {
       <View style={[styles.action, styles.actionPadding]}>
         <NotificationIcon height={21.3} width={21.3} />
       </View>
+      {renderSyncButton()}
     </View>
   );
 
@@ -200,12 +319,26 @@ const Dashboard = ({navigation}) => {
     </DashboardStack.Navigator>
   );
 
+  const renderSyncTime = () => {
+    if (!isWeb()) {
+      return (
+        <View style={styles.syncContainer}>
+          <Label
+            size={12.5}
+            title={`${Strings.backgroundTask.lastSync} ${lastSync}`}
+          />
+        </View>
+      );
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={closeSearchBar}>
       <View style={styles.container}>
         {renderSideMenu()}
         {renderNavigator()}
         {renderScreenActions()}
+        {renderSyncTime()}
       </View>
     </TouchableWithoutFeedback>
   );

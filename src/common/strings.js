@@ -166,6 +166,11 @@ const Strings = {
     },
     docAddedTodayPlan: 'Doctor added successfully',
   },
+  setting: {
+    tab: {
+      conflicts: 'Conflict',
+    },
+  },
   searchBar: {
     errors: {
       validName: 'Please Enter Valid name',
@@ -188,6 +193,20 @@ const Strings = {
   frquecySlotExhausted:
     'Frequency slots for few doctors has been exhausted, a new patch name has been created',
   selectDocToCreatePatch: 'Please select any doctor to create a patch.',
+  backgroundTask: {
+    lastSync: 'Last Synced:',
+    toastBtns: {
+      message: 'Sync Status',
+      viewSummary: 'View Summary',
+      syncInitiatedMessage: 'Sync request has been initiated.',
+      successMessage: 'Requested sync has been completed successfully.',
+      conflictMessage: 'Sync activity was completed with a conflict.',
+      failureMessage: 'Sync activity could not be completed.',
+      alreadRunningMessage: 'Sync activity is already in progress.',
+    },
+  },
+  noInternet: 'No Internet',
+  checkInternet: 'Check you internet connection',
 };
 
 export default Strings;

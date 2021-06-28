@@ -1,6 +1,15 @@
 export const HTTP_OK = 200;
 export const TOKEN_EXPIRY_TIME = 'TOKEN_EXPIRY_TIME';
 
+export const BACKGROUND_TASK = {
+  TASK_NAME: 'BACKGROUND_TASK', //Task Name for running background task
+  ON_DEMAND_TASK_NAME: 'ON_DEMAND_TASK',
+  NOT_RUNNING: 'NOT_RUNNING',
+  RUNNING: 'RUNNING',
+  SYNC_FLEX_TIME: 50, //seconds    //The amount of flex time in seconds before syncInterval that you permit for the sync to take place. Must be less than syncInterval
+  SYNC_INTERVAL: 120, //seconds   //The amount of time in seconds that you wish to elapse between periodic syncs
+};
+
 export const TOAST_TYPES = {
   SUCCESS: 'success',
   NOTIFICATION: 'notification',
@@ -43,4 +52,19 @@ export const PARTY_TYPE = {
 export const GENDER = {
   MALE: 'M',
   FEMALE: 'F',
+};
+
+export const API_PATH = {
+  GET_PARTIES:
+    'mtp/staffpositionid/parties?Month=monthVal&Year=yearVal&Day=dayVal',
+  GET_SUBORDINATES: 'staff/getsubordinates',
+  WORKING_DAY: 'stp/workingday',
+  REMOVE_PARTY_FROM_DAILY_PLAN: 'mtp/staffpositionid/party/partyid',
+  PATCH: '/patch',
+  AREA_BY_SPID: '/party/areabyspid',
+  PARTY_BY_SPID: '/party/partybyspid',
+  STP_CALENDAR_UPDATE: 'stp/calendar/staffPositionId/updates',
+  COMPLAINCE_DAILY:
+    'standardtourplan/staffPositionId/daily?week=weekVal&weekday=weekdayVal',
+  COMPLAINCE_MONTHLY: 'standardtourplan/staffPositionId/month',
 };
