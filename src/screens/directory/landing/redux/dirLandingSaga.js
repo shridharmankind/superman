@@ -123,11 +123,11 @@ export function* addPartyToDailyPlanWorker(action) {
 
     console.log('response', response.data);
 
-    if (response.data.id && !response.data.isMissed) {
+    if (response.data.id) {
       yield put(
         landingActions.addPartyToDailyPlan({
           parties: {
-            partyMovedToDaily: true,
+            partyMovedToDaily: response.data,
           },
         }),
       );
