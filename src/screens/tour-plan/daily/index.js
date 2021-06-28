@@ -21,9 +21,9 @@ import {appSelector} from 'reducers';
  */
 const DailyTourPlan = () => {
   const dispatch = useDispatch();
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const navigation = useNavigation();
   const [dayPlanData, setDayPlanData] = useState([]);
-  const staffPositionId = useSelector(appSelector.getStaffPositionId());
 
   const onTileNameHandler = data => {
     navigation.navigate('Directory', {
