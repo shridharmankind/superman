@@ -10,7 +10,6 @@ const SYNC_TASK_LIST = new Map();
 export const getSyncTaskList = () => {
   /** Add Operation List here */
   if (SYNC_TASK_LIST.size <= 0) {
-    console.log('new created');
     SYNC_TASK_LIST.set(
       DBConstants.MASTER_TABLE_PARTY,
       new PartyTableOperations(),

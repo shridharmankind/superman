@@ -47,20 +47,6 @@ export const doctorDetailSlice = createSlice({
       state.doctorDetail.data.splice(itemIndexToRemove, 1);
     },
     doctorRemoved: (state, action) => {
-      const itemIndexToRemove = state.doctorDetail.data.findIndex(d => {
-        return d.id === action.payload.partyId;
-      });
-      // console.log("data ",state.doctorDetail.data.length)
-      // state.doctorDetail.deletedItem = {
-      //   item: state.doctorDetail.data.slice(
-      //     itemIndexToRemove,
-      //     itemIndexToRemove + 1,
-      //   )[0],
-      //   index: itemIndexToRemove,
-      // };
-      // state.doctorDetail.data.splice(itemIndexToRemove, 1);
-      // console.log("data 1",state.doctorDetail.data.length)
-      // console.log("remve ",JSON.stringify(state.doctorDetail.data,null,2));
       void (state.doctorDetail.data = [...state.doctorDetail.data]);
     },
     addDeletedParty: (state, action) => {

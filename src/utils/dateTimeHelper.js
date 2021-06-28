@@ -75,18 +75,6 @@ export const getLocalTimeZone = date => {
   return dateString;
 };
 
-const getTimeFormatOnDevice = () => {
-  var date, timeType;
-  // Creating Date() function object.
-  date = new Date();
-  let hour = date.getHours();
-  if (hour <= 11) {
-    timeType = 'AM';
-  } else {
-    timeType = 'PM';
-  }
-  return timeType;
-};
 /**
  * @param {String} inputDate date in utc format
  * @param {String} format expected format of date output
