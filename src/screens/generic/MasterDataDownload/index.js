@@ -292,5 +292,3 @@ const MasterDataDownload = ({navigation}) => {
 };
 
 export default MasterDataDownload;
-
-//  divisionsUpdated && updateRecordDownloaded(item.name);
