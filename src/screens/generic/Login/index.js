@@ -56,7 +56,12 @@ const Login = ({navigation}) => {
       }
     } catch (error) {
       setAnimating(false);
-      Alert.alert(Strings.info, error.message);
+
+      if (error.message === 'Network error') {
+        console.log('error', error.message);
+      } else {
+        Alert.alert(Strings.info, error.message);
+      }
     }
   }, [navigation]);
 
