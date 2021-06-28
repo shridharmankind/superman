@@ -90,7 +90,16 @@ const MissedCalls = () => {
           renderItem={({item, index}) => {
             return (
               <View style={customStyles.doctorDetailWrapper}>
-                <View key={item.key} style={customStyles.doctorDetailContainer}>
+                <View
+                  key={item.key}
+                  style={
+                    index === 0
+                      ? [
+                          customStyles.doctorDetailContainer,
+                          customStyles.doctorDetailContainerFirstChild,
+                        ]
+                      : customStyles.doctorDetailContainer
+                  }>
                   <PartiesDirectory
                     title={item.name}
                     specialization={item.specialities}

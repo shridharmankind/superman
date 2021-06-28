@@ -13,15 +13,8 @@ import {Strings, Constants} from 'common';
  * @param {String} gender gender of party
  * @param {Array} specialization doctor specialization eg. Cardiologist, Neurologist
  * @param {String} image doctor image
- * @param {Boolean} selected doctor is selected or not
  * @param {String} category category of doctor eg: KYC, AA, A+
  * @param {String} location location of the doctor
- * @param {Object} customStyle style object passed fro consumer component
- * @param {Boolean} showFrequencyChiclet flag to show/hide frequency chiclet
- * @param {Boolean} showVisitPlan flag to show/hide doctor's daily visit plan
- * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
- * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
- * @param {Function} onTileNamePress Fire when click on tile name
  */
 
 const PartiesDirectory = ({
@@ -30,24 +23,10 @@ const PartiesDirectory = ({
   specialization,
   image,
   category,
-  selected,
   location,
-  customStyle,
-  showFrequencyChiclet,
-  showVisitPlan,
-  visitData,
-  isTicked,
-  showTile,
-  onTilePress,
-  onTileNamePress,
-  alreadyVisited,
-  frequency,
-  selectedVistedFrequency,
   partyType,
   isKyc,
   isCampaign,
-  locationSeperator = true,
-  showTodayPlanButton = false,
   actionButton = null,
   ...props
 }) => {
@@ -72,10 +51,6 @@ const PartiesDirectory = ({
       setImageSrc(src);
       setIsImageErrror(true);
     }
-  };
-
-  const getSpecialization = specialities => {
-    return (specialities || {}).map(spec => spec?.name || spec).join(', ');
   };
 
   return (
@@ -114,7 +89,6 @@ const PartiesDirectory = ({
                     ? `${Strings.dr} ${title}`
                     : title
                 }
-                // size={customStyle ? customStyle.titleSize : 17}
                 style={styles.name}
                 type={'medium'}
                 numberOfLines={2}
@@ -122,8 +96,9 @@ const PartiesDirectory = ({
             </View>
             <View style={styles.itemContainer}>
               <Label
-                size={customStyle ? customStyle.subTitleSize : 12}
-                title={getSpecialization(specialization)}
+                title={(specialization || {})
+                  .map(spec => spec?.name || spec)
+                  .join(', ')}
                 style={[styles.capitalize, styles.name]}
                 numberOfLines={1}
               />
@@ -145,13 +120,8 @@ const PartiesDirectory = ({
 };
 
 PartiesDirectory.defaultProps = {
-  showFrequencyChiclet: true,
-  showVisitPlan: false,
-  selected: false,
   division: '',
-  showTile: false,
   gender: 'Male',
-  locationSeperator: true,
 };
 
 PartiesDirectory.propTypes = {
@@ -160,14 +130,6 @@ PartiesDirectory.propTypes = {
   category: PropTypes.string,
   image: PropTypes.string,
   location: PropTypes.array,
-  selected: PropTypes.bool,
-  testID: PropTypes.string,
-  onPress: PropTypes.func,
-  customStyle: PropTypes.object,
-  showFrequencyChiclet: PropTypes.bool,
-  showVisitPlan: PropTypes.bool,
-  isTicked: PropTypes.bool,
-  onTileNamePress: PropTypes.func,
 };
 
 export default PartiesDirectory;

@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   details: {
     flex: 1,
     flexDirection: 'row',
+    // alignSelf: 'center',
   },
   image: {
     marginRight: 21,
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
   nameContainer: {
     width: '100%',
     flexDirection: 'row',
+    alignSelf: 'center',
   },
   divisionContainer: {
     position: 'absolute',
@@ -29,12 +31,6 @@ const styles = StyleSheet.create({
     paddingVertical: themes.spacing(5),
     paddingHorizontal: themes.spacing(10),
     left: -43,
-  },
-  borderOuterContainer: {
-    height: 1,
-    overflow: 'hidden',
-    marginTop: themes.spacing(2),
-    paddingBottom: themes.spacing(5),
   },
   container: {
     flex: 1,

@@ -6,13 +6,7 @@ const styles = StyleSheet.create({
     ...parentStyles.division,
     textTransform: 'uppercase',
     marginRight: 0,
-    // flex: 0.25,
     width: '100%',
-  },
-  doctorDataRowFirstChild: {
-    ...parentStyles.doctorDataRow,
-    borderRadius: 6.7,
-    borderTopWidth: 2,
   },
   doctorDetailWrapper: {
     flexDirection: 'row',
@@ -26,11 +20,21 @@ const styles = StyleSheet.create({
     paddingLeft: theme.spacing(32),
     paddingRight: theme.spacing(16),
     paddingVertical: theme.spacing(20),
+    shadowColor: theme.colors.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 3,
     borderColor: theme.colors.grey[400],
-    borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 0.5,
     width: '100%',
-    // marginBottom: theme.spacing(15),
+  },
+  doctorDetailContainerFirstChild: {
+    borderTopLeftRadius: 6.7,
+    borderTopRightRadius: 6.7,
   },
   btnAddToToday: {
     height: 42.7,
