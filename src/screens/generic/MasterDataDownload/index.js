@@ -25,7 +25,6 @@ import {
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
-import {NetworkService} from 'services';
 import {ROUTE_DASHBOARD} from '../../../navigations/routes';
 import {useDispatch} from 'react-redux';
 import {authTokenActions} from '../RouteHandler/redux';

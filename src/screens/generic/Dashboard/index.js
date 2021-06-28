@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
-import {useDispatch} from 'react-redux';
 
 import NavMenu from './components/NavMenu';
 import {NotificationIcon, SearchIcon} from 'assets';
