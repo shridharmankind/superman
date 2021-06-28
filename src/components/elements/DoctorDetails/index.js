@@ -178,7 +178,8 @@ const DoctorDetails = ({
             onError={OnErrorHandler()}
           />
 
-          <View style={styles.nameContainer}>
+          <View
+            style={[styles.nameContainer, customStyle && customStyle.nameRow]}>
             <Label
               title={
                 partyType === Constants.PARTY_TYPE.DOCTOR
@@ -186,7 +187,7 @@ const DoctorDetails = ({
                   : title
               }
               size={customStyle ? customStyle.titleSize : 17}
-              style={styles.name}
+              style={[styles.name, customStyle && customStyle.nameCustom]}
               onPress={() => {
                 onTileNamePress && onTileNamePress();
               }}

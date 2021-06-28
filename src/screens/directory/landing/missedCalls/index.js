@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, ActivityIndicator, FlatList, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {Label, LabelVariant, Button} from 'components/elements';
+import {Label, LabelVariant, Button, DoctorDetails} from 'components/elements';
 import styles from '../styles';
 import customStyles from './styles';
 import {translate} from 'locale';
@@ -23,6 +23,19 @@ const MissedCalls = () => {
       }),
     );
   }, [dispatch]);
+
+  const doctorDetailStyleObject = {
+    nameContainerCustom: customStyles.nameContainer,
+    specialization: customStyles.specialization,
+    divisionContainerCustom: customStyles.divisionContainer,
+    imageCustom: customStyles.image,
+    detailsContainerCustom: customStyles.detailsContainer,
+    nameRow: customStyles.nameRow,
+    nameCustom: customStyles.name,
+    titleSize: 12,
+    subTitleSize: 12,
+    divisionSize: 9.3,
+  };
 
   const missedCalls = useSelector(partySelector.getMissedCallsList());
   const fetchState = useSelector(appSelector.makeGetAppFetch());
@@ -62,70 +75,21 @@ const MissedCalls = () => {
           onEndReachedThreshold={0.5}
           renderItem={({item, index}) => {
             return (
-              <View
-                style={
-                  index === 0
-                    ? customStyles.doctorDataRowFirstChild
-                    : styles.doctorDataRow
-                }>
-                <View style={styles.kycCatContainer}>
-                  {item?.isKyc && (
-                    <View
-                      style={[
-                        styles.category,
-                        {
-                          backgroundColor: getDivisionColor(
-                            Constants.DIVISION_COLOR.KYC,
-                          ),
-                        },
-                      ]}>
-                      <Label
-                        variant={LabelVariant.h6}
-                        textColor={theme.colors.white}
-                        title={translate('categories.kyc')}
-                        type={'bold'}
-                      />
-                    </View>
-                  )}
-
-                  {item.category !== '' && (
-                    <View
-                      style={[
-                        styles.category,
-                        {
-                          backgroundColor: getDivisionColor(item?.category),
-                        },
-                      ]}>
-                      <Label
-                        variant={LabelVariant.h6}
-                        textColor={theme.colors.white}
-                        style={styles.divisionText}
-                        title={item?.category?.toUpperCase()}
-                      />
-                    </View>
-                  )}
-                </View>
-                <Image
-                  style={[styles.docImage]}
-                  source={item.imageUrl ? item.imageUrl : OnErrorHandler(index)}
-                />
-                <Label style={styles.dataStyle} title={item.name} />
-                <Label
-                  style={styles.dataStyle}
-                  title={(item?.specialities || [])
-                    .map(spec => spec.name)
-                    .join(', ')}
-                />
-                <Label
-                  style={styles.dataStyle}
-                  title={(item?.areas || []).map(area => area.name).join(', ')}
-                />
-                <View style={styles.btnsContainer}>
-                  <Button
-                    title={translate('tourPlan.monthly.actions.addToTodayPlan')}
-                    mode="contained"
-                    contentStyle={styles.todayPlanbuttonLayout}
-                    // onPress={() => addToTodayPlan(item.id)}
+              <View style={customStyles.doctorDetailWrapper}>
+                <View key={item.key} style={customStyles.doctorDetailContainer}>
+                  <DoctorDetails
+                    title={item.name}
+                    specialization={item.specialities}
+                    isKyc={item.isKyc}
+                    gender={item.gender}
+                    category={item.category}
+                    location={item.location}
+                    partyType={item?.partyTypes?.name}
+                    customStyle={doctorDetailStyleObject}
+                    showFrequencyChiclet={false}
+                    showVisitPlan={true}
+                    visitData={item.visitData}
+                    showTile={false}
                   />
                 </View>
               </View>
