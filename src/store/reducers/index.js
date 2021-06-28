@@ -16,6 +16,7 @@ import {
   eOtherProductReducer,
 } from 'screens/directory/e-detailing/redux';
 import {timelineReducer} from 'screens/directory/doc-timeline/redux';
+import {authTokenReducer} from 'screens/generic/RouteHandler/redux';
 
 export const rootReducer = combineReducers({
   todoState: updateTodoDataReducer,
@@ -31,6 +32,7 @@ export const rootReducer = combineReducers({
   ePriorityProductList: ePriorityProductReducer,
   eOtherProductList: eOtherProductReducer,
   timeline: timelineReducer,
+  authState: authTokenReducer,
 });
 
 export {fetchStatusSliceActions, FetchEnumStatus} from './appSlice';

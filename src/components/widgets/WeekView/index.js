@@ -51,7 +51,8 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
    */
   const getCellData = (data, column, row) =>
     data &&
-    data?.filter(item => item.week === column && item.weekDay === row)[0];
+    data.length &&
+    data.filter(item => item.week === column && item.weekDay === row)[0];
 
   /**
    *

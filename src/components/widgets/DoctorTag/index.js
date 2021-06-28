@@ -61,6 +61,8 @@ const getDivisionColor = division => {
       return themes.colors.lightBlue;
     case Constants.DIVISION_COLOR.C:
       return themes.colors.grey[1200];
+    case Constants.DIVISION_COLOR.D:
+      return themes.colors.blue[100];
     default:
       return 'pink'; //themes.colors.transparent;
   }
