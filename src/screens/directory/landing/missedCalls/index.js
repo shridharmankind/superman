@@ -32,6 +32,7 @@ const MissedCalls = () => {
     detailsContainerCustom: customStyles.detailsContainer,
     nameRow: customStyles.nameRow,
     nameCustom: customStyles.name,
+    detailsCustom: customStyles.details,
     titleSize: 12,
     subTitleSize: 12,
     divisionSize: 9.3,
@@ -50,6 +51,19 @@ const MissedCalls = () => {
         : (genderImage = require('assets/images/female.png'));
     }
     return genderImage;
+  };
+
+  const renderTodayButton = item => {
+    return (
+      <View>
+        <Button
+          title={translate('tourPlan.monthly.actions.addToTodayPlan')}
+          mode="contained"
+          contentStyle={customStyles.btnAddToToday}
+          // onPress={() => addToTodayPlan(item.id)}
+        />
+      </View>
+    );
   };
 
   const missedCallsList = () => {
@@ -74,7 +88,7 @@ const MissedCalls = () => {
           contentContainerStyle={styles.scrollPad}
           data={missedCalls}
           // onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
+          // onEndReachedThreshold={0.5}
           renderItem={({item, index}) => {
             return (
               <View style={customStyles.doctorDetailWrapper}>
@@ -93,6 +107,8 @@ const MissedCalls = () => {
                     visitData={item.visitData}
                     showTile={false}
                     locationSeperator={false}
+                    showTodayPlanButton={true}
+                    actionButton={renderTodayButton}
                   />
                 </View>
               </View>

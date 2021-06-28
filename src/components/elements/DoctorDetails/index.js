@@ -51,6 +51,8 @@ const DoctorDetails = ({
   isKyc,
   isCampaign,
   locationSeperator = true,
+  showTodayPlanButton = false,
+  actionButton = null,
   ...props
 }) => {
   const [imageSrc, setImageSrc] = useState({uri: image});
@@ -129,6 +131,8 @@ const DoctorDetails = ({
     return (specialities || {}).map(spec => spec?.name || spec).join(', ');
   };
 
+  console.log('category', category);
+
   return (
     <View style={styles.container}>
       <View
@@ -136,7 +140,8 @@ const DoctorDetails = ({
           styles.detailsContainer,
           customStyle && customStyle.detailsContainerCustom,
         ]}>
-        <View style={styles.details}>
+        <View
+          style={[styles.details, customStyle && customStyle.detailsCustom]}>
           {partyType === Constants.PARTY_TYPE.DOCTOR && (
             <View
               style={[
@@ -182,18 +187,20 @@ const DoctorDetails = ({
               numberOfLines={2}
             />
             <View style={customStyle && customStyle.nameContainerCustom}>
-              <Label
-                size={customStyle ? customStyle.subTitleSize : 12}
-                // title={(specialization || {})
-                //   .map(spec => spec?.name || spec)
-                //   .join(', ')}
-                title={getSpecialization(specialization)}
-                style={[
-                  styles.capitalize,
-                  customStyle && customStyle.specialization,
-                ]}
-                numberOfLines={1}
-              />
+              <View style={{width: '25%'}}>
+                <Label
+                  size={customStyle ? customStyle.subTitleSize : 12}
+                  // title={(specialization || {})
+                  //   .map(spec => spec?.name || spec)
+                  //   .join(', ')}
+                  title={getSpecialization(specialization)}
+                  style={[
+                    styles.capitalize,
+                    customStyle && customStyle.specialization,
+                  ]}
+                  numberOfLines={1}
+                />
+              </View>
 
               {location && (
                 <>
@@ -239,6 +246,7 @@ const DoctorDetails = ({
           </View>
         )}
         {showVisitPlan && renderVisitData()}
+        {showTodayPlanButton && actionButton()}
       </View>
       {isWeb() && showTile && renderTile()}
     </View>
@@ -258,7 +266,7 @@ const getDivisionColor = division => {
     case Constants.DIVISION_COLOR.C:
       return themes.colors.grey[1200];
     default:
-      return themes.colors.transparent;
+      return 'pink'; //themes.colors.transparent;
   }
 };
 

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   colwidth: {
     // width: '19%',
-    flex: 0.4,
+    flex: 0.25,
   },
   doctorDataRow: {
     flexDirection: 'row',

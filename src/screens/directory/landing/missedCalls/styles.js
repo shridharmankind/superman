@@ -5,6 +5,8 @@ const styles = StyleSheet.create({
   division: {
     ...parentStyles.division,
     textTransform: 'uppercase',
+    // flex: 0.25,
+    width: '100%',
   },
   doctorDataRowFirstChild: {
     ...parentStyles.doctorDataRow,
@@ -20,7 +22,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingHorizontal: theme.spacing(32),
+    paddingLeft: theme.spacing(32),
+    paddingRight: theme.spacing(16),
     paddingVertical: theme.spacing(20),
     borderColor: theme.colors.grey[400],
     borderRadius: 10,
@@ -35,6 +38,8 @@ const styles = StyleSheet.create({
   specialization: {
     paddingRight: theme.spacing(10),
     textTransform: 'capitalize',
+    // width: '40%',
+    // flex: 0.36,
   },
   divisionContainer: {
     paddingVertical: theme.spacing(5),
@@ -49,12 +54,21 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     // width: '100%',
+    // paddingLeft: 20,
   },
   nameRow: {
     flexDirection: 'row',
   },
   name: {
-    flex: 0.4,
+    flex: 0.7,
+    // width: '20%',
+  },
+  details: {
+    paddingLeft: theme.spacing(20),
+  },
+  btnAddToToday: {
+    height: 42.7,
+    width: 150,
   },
 });
 

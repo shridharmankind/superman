@@ -62,7 +62,7 @@ const getDivisionColor = division => {
     case Constants.DIVISION_COLOR.C:
       return themes.colors.grey[1200];
     default:
-      return themes.colors.transparent;
+      return 'pink'; //themes.colors.transparent;
   }
 };
 DoctorTag.propTypes = {
