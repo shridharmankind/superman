@@ -55,6 +55,7 @@ const DoctorDetailsWrapper = ({
   party,
   isPatchedData,
   isKyc,
+  isCampaign,
   containerStyle,
   isSameDayPatch,
   isPartyInPatch,
@@ -146,6 +147,7 @@ const DoctorDetailsWrapper = ({
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}
+        isCampaign={isCampaign}
         onTileNamePress={() => handleDoctorSelection(!selected)}
         {...props}
       />

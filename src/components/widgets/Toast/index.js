@@ -14,15 +14,17 @@ const CustomToast = () => {
   const getToastView = (type, props) => {
     return (
       <View style={[styles.toastStyleBase, styles[type]]}>
-         {props?.onClose && <TouchableOpacity style={styles.closeIcon} onPress={props?.onClose}>
-          <CloseIcon width={24} height={24} />
-        </TouchableOpacity>}
+        {props?.onClose && (
+          <TouchableOpacity style={styles.closeIcon} onPress={props?.onClose}>
+            <CloseIcon width={24} height={24} />
+          </TouchableOpacity>
+        )}
         <Label
           title={props.heading}
           style={styles.toastText}
           variant={LabelVariant.subtitleSmall}
         />
-         <Label title={props.subHeading} style={styles.toastText} size={11} />
+        <Label title={props.subHeading} style={styles.toastText} size={11} />
         <View style={[styles.btnContainer, props?.btnContainerStyle]}>
           {props.actionLeftTitle && (
             <Button
