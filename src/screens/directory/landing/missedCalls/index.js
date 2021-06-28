@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {View, ActivityIndicator, FlatList, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {Label, LabelVariant, Button, DoctorDetails} from 'components/elements';
+import {Label, LabelVariant, Button} from 'components/elements';
+import {PartiesDirectory} from 'components/widgets';
 import styles from '../styles';
 import customStyles from './styles';
 import {translate} from 'locale';
@@ -27,20 +28,6 @@ const MissedCalls = () => {
       }),
     );
   }, [dispatch]);
-
-  const doctorDetailStyleObject = {
-    nameContainerCustom: customStyles.nameContainer,
-    specialization: customStyles.specialization,
-    divisionContainerCustom: customStyles.divisionContainer,
-    imageCustom: customStyles.image,
-    detailsContainerCustom: customStyles.detailsContainer,
-    nameRow: customStyles.nameRow,
-    nameCustom: customStyles.name,
-    detailsCustom: customStyles.details,
-    titleSize: 12,
-    subTitleSize: 12,
-    divisionSize: 9.3,
-  };
 
   const missedCalls = useSelector(partySelector.getMissedCallsList());
   const fetchState = useSelector(appSelector.makeGetAppFetch());
@@ -92,9 +79,9 @@ const MissedCalls = () => {
     console.log('missedcalls', missedCalls);
 
     return (
-      <View style={styles.listBody}>
+      <View>
         <FlatList
-          nestedScrollEnabled
+          // nestedScrollEnabled
           keyExtractor={item => item.id}
           contentContainerStyle={styles.scrollPad}
           data={missedCalls}
@@ -104,7 +91,7 @@ const MissedCalls = () => {
             return (
               <View style={customStyles.doctorDetailWrapper}>
                 <View key={item.key} style={customStyles.doctorDetailContainer}>
-                  <DoctorDetails
+                  <PartiesDirectory
                     title={item.name}
                     specialization={item.specialities}
                     isKyc={item.isKyc}
@@ -112,13 +99,6 @@ const MissedCalls = () => {
                     category={item.category}
                     location={item.areas}
                     partyType={item?.partyTypes?.name}
-                    customStyle={doctorDetailStyleObject}
-                    showFrequencyChiclet={false}
-                    showVisitPlan={true}
-                    visitData={item.visitData}
-                    showTile={false}
-                    locationSeperator={false}
-                    showTodayPlanButton={true}
                     actionButton={() => renderTodayButton(item)}
                   />
                 </View>
@@ -133,30 +113,36 @@ const MissedCalls = () => {
   const renderView = () => {
     return (
       <View style={styles.container}>
-        <View>
-          <View style={styles.listHeader}>
+        {/* <View> */}
+        <View style={styles.listHeader}>
+          <View style={customStyles.listHeaderSpacing1}>
             <Label
               style={[customStyles.division, styles.colwidth]}
               title={translate('dr')}
             />
+          </View>
+          <View style={customStyles.listHeaderSpacing2}>
             <Label
               style={[customStyles.division, styles.colwidth]}
               title={translate('speciality')}
             />
+          </View>
+          <View>
             <Label
               style={[customStyles.division, styles.colwidth]}
               title={translate('region')}
             />
           </View>
-
-          {missedCallsList()}
-
-          {!!missedCalls && missedCalls.length === 0 && (
-            <View>
-              <Label title={translate('errorMessage.noRecords')} />
-            </View>
-          )}
         </View>
+
+        {missedCallsList()}
+
+        {!!missedCalls && missedCalls.length === 0 && (
+          <View>
+            <Label title={translate('errorMessage.noRecords')} />
+          </View>
+        )}
+        {/* </View> */}
       </View>
     );
   };

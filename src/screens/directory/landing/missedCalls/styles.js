@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     ...parentStyles.division,
     textTransform: 'uppercase',
     // flex: 0.25,
-    width: '100%',
+    // width: '100%',
   },
   doctorDataRowFirstChild: {
     ...parentStyles.doctorDataRow,
@@ -31,44 +31,15 @@ const styles = StyleSheet.create({
     width: '100%',
     // marginBottom: theme.spacing(15),
   },
-  nameContainer: {
-    flexDirection: 'row',
-    // minWidth: 350,
-  },
-  specialization: {
-    paddingRight: theme.spacing(10),
-    textTransform: 'capitalize',
-    // width: '40%',
-    // flex: 0.36,
-  },
-  divisionContainer: {
-    paddingVertical: theme.spacing(5),
-    paddingHorizontal: theme.spacing(10),
-    left: -43,
-  },
-  image: {
-    width: 26.7,
-    height: 26.7,
-    borderRadius: 26.7,
-    marginTop: theme.spacing(8),
-  },
-  detailsContainer: {
-    // width: '100%',
-    // paddingLeft: 20,
-  },
-  nameRow: {
-    flexDirection: 'row',
-  },
-  name: {
-    flex: 0.7,
-    // width: '20%',
-  },
-  details: {
-    paddingLeft: theme.spacing(20),
-  },
   btnAddToToday: {
     height: 42.7,
     width: 150,
+  },
+  listHeaderSpacing1: {
+    width: '30%',
+  },
+  listHeaderSpacing2: {
+    width: '23%',
   },
 });
 

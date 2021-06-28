@@ -32,21 +32,26 @@ const styles = StyleSheet.create({
     right: 18.7,
   },
   listHeader: {
+    // flexDirection: 'row',
+    // marginBottom: theme.spacing(16),
+    marginLeft: theme.spacing(34),
     flexDirection: 'row',
-    marginBottom: theme.spacing(16),
-    marginLeft: theme.spacing(57.3),
+    // justifyContent: 'flex-start',
+    // alignItems: 'flex-start',
+    // alignContent: 'center',
+    // alignSelf: 'center',
   },
   listBody: {maxHeight: 500},
   division: {
-    width: '23%',
+    // width: '23%',
     fontSize: 10.7,
     fontFamily: theme.fonts.fontSemiBold,
     color: theme.colors.grey[1600],
-    marginRight: theme.spacing(10),
+    // marginRight: theme.spacing(10),
   },
   colwidth: {
     // width: '19%',
-    flex: 0.25,
+    // flex: 0.26,
   },
   doctorDataRow: {
     flexDirection: 'row',
@@ -125,6 +130,10 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 100,
   },
+  // container: {
+  //   flex: 1,
+  //   // flexDire/ction: 'row',
+  // },
 });
 
 export default styles;
