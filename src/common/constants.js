@@ -24,6 +24,9 @@ export const HTTP_PATCH_CODE = {
   ALREADY_EXITS: '103',
   PATCH_EXITS_FOR_OTHER_DAY: '107',
   PATCH_EXHAUSTED: '111',
+  VisitFor2Doc: '113',
+  VisitFor3Doc: '114',
+  VisitFor4Doc: '115',
 };
 
 export const DIRECTION = {
