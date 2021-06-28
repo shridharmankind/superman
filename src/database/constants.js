@@ -3,7 +3,7 @@ import {QualificationsSchemaName} from './schemas/Qualifications';
 import {SpecialitiesSchemaName} from './schemas/Specialities';
 import {MotherbrandsSchemaName} from './schemas/Motherbrands';
 import {MotherbrandTypeName} from './schemas/MotherbrandType';
-import {MoleculeName} from './schemas/MoleculeSchema';
+import {MoleculeName} from './schemas/Molecule';
 //Common
 export const downloadStatus = Object.freeze({
   DOWNLOADED: 'DOWNLOADED',

@@ -28,7 +28,7 @@ const dbInstance = new Realm({
     Schemas.Divisions.schema,
     Schemas.Motherbrands.schema,
     Schemas.MotherbrandType.schema,
-    Schemas.MoleculeSchema.schema,
+    Schemas.Molecule.schema,
   ],
   schemaVersion,
 });
