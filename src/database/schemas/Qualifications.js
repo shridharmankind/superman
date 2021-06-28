@@ -1,5 +1,5 @@
 import {DivisionSchemaName} from './Divisions';
-
+import * as Constants from '../constants';
 export const QualificationsSchemaName = 'Qualifications';
 
 export default class QualificationsSchema {
@@ -14,6 +14,7 @@ export default class QualificationsSchema {
         type: 'list',
         objectType: DivisionSchemaName,
       },
+      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
     },
   };
 }

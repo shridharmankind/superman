@@ -23,6 +23,8 @@ export const getSyncTaskList = () => {
       new DivisionSyncOperations(),
     );
     SYNC_TASK_LIST.set(DBConstants.MASTER_TABLE_ORGANIZATION, {});
+    SYNC_TASK_LIST.set(DBConstants.SPECIALITIES, {});
+    SYNC_TASK_LIST.set(DBConstants.QUALIFICATIONS, {});
   }
   return SYNC_TASK_LIST;
 };
