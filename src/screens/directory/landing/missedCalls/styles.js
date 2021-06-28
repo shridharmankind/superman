@@ -5,8 +5,9 @@ const styles = StyleSheet.create({
   division: {
     ...parentStyles.division,
     textTransform: 'uppercase',
+    marginRight: 0,
     // flex: 0.25,
-    // width: '100%',
+    width: '100%',
   },
   doctorDataRowFirstChild: {
     ...parentStyles.doctorDataRow,
@@ -40,6 +41,10 @@ const styles = StyleSheet.create({
   },
   listHeaderSpacing2: {
     width: '23%',
+  },
+  listHeader: {
+    ...parentStyles.listHeader,
+    marginLeft: theme.spacing(34),
   },
 });
 

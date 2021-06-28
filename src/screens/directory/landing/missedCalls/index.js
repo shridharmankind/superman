@@ -81,7 +81,7 @@ const MissedCalls = () => {
     return (
       <View>
         <FlatList
-          // nestedScrollEnabled
+          nestedScrollEnabled
           keyExtractor={item => item.id}
           contentContainerStyle={styles.scrollPad}
           data={missedCalls}
@@ -113,25 +113,18 @@ const MissedCalls = () => {
   const renderView = () => {
     return (
       <View style={styles.container}>
-        {/* <View> */}
-        <View style={styles.listHeader}>
+        <View style={customStyles.listHeader}>
           <View style={customStyles.listHeaderSpacing1}>
-            <Label
-              style={[customStyles.division, styles.colwidth]}
-              title={translate('dr')}
-            />
+            <Label style={customStyles.division} title={translate('dr')} />
           </View>
           <View style={customStyles.listHeaderSpacing2}>
             <Label
-              style={[customStyles.division, styles.colwidth]}
+              style={customStyles.division}
               title={translate('speciality')}
             />
           </View>
           <View>
-            <Label
-              style={[customStyles.division, styles.colwidth]}
-              title={translate('region')}
-            />
+            <Label style={customStyles.division} title={translate('region')} />
           </View>
         </View>
 
@@ -142,7 +135,6 @@ const MissedCalls = () => {
             <Label title={translate('errorMessage.noRecords')} />
           </View>
         )}
-        {/* </View> */}
       </View>
     );
   };
