@@ -1,3 +1,4 @@
+import {GeoLocationConfigurationName} from './GeoLocationConfiguration';
 export const WeeklyoffSchemaName = 'Weeklyoff';
 export default class WeeklyOffSchema {
   static schema = {
@@ -7,7 +8,7 @@ export default class WeeklyOffSchema {
       id: 'int',
       name: 'string',
       shortName: 'string',
-      geoLocationConfiguration: 'GeoLocationConfiguration',
+      geoLocationConfiguration: GeoLocationConfigurationName,
     },
   };
 }

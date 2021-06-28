@@ -119,8 +119,7 @@ const MasterDataDownload = ({navigation}) => {
               response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.MASTER_TABLE_WEEKLYOFF:
-              response = await NetworkService.get(item.apiPath);
-              response && updateRecordDownloaded(item.name);
+              await NetworkService.get(item.apiPath);
               break;
             case DBConstants.MASTER_TABLE_PARTY:
               {
@@ -197,7 +196,10 @@ const MasterDataDownload = ({navigation}) => {
                 partyCategoriesUpdated && updateRecordDownloaded(item.name);
                 break;
               case DBConstants.MASTER_TABLE_WEEKLYOFF:
-                await Weeklyoff.storeWeeklyoffs(JSON.parse(data));
+                const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
+                  JSON.parse(data),
+                );
+                weeklyresponse && updateRecordDownloaded(item.name);
                 break;
             }
 
