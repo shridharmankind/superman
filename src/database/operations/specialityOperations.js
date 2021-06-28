@@ -1,6 +1,6 @@
 import {SpecialitiesSchemaName} from '../schemas/Specialities';
 import {DivisionSchemaName} from '../schemas/Divisions';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 
 export default dbInstance => ({
   storeSpecialities: async specialities => {
@@ -13,14 +13,14 @@ export default dbInstance => ({
 
           const specializationRecord = await dbInstance.create(
             SpecialitiesSchemaName,
-            speciality,
+            {...speciality, syncParameters: syncParametersObject()},
             'modified',
           );
 
           divisions.forEach(async division => {
             const divisionRecord = await dbInstance.create(
               DivisionSchemaName,
-              division,
+              { ...division, syncParameters: syncParametersObject()},
               'modified',
             );
             specializationRecord.divisions.push(divisionRecord);

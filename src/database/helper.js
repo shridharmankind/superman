@@ -53,10 +53,12 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.QUALIFICATIONS,
     apiPath: NetworkService.API.FETCH_QUALIFICATIONS,
+    schema: [Schemas.Qualifications.schema]
   },
   {
     name: Constants.SPECIALITIES,
     apiPath: NetworkService.API.FETCH_SPECIALITIES,
+    schema: [Schemas.Specialities.schema]
   },
 ];
 

@@ -30,7 +30,7 @@ const singleDailyRecord = async (
         syncParameters:
           object.syncParameters != null
             ? object.syncParameters
-            : syncParametersObject,
+            : syncParametersObject(),
       };
       dbInstance.create(schema[1].name, dailyPlannedActivity, 'modified');
       let monthlyPlanObject = dbInstance.objectForPrimaryKey(
