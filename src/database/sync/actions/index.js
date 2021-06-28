@@ -150,7 +150,7 @@ const getModifiedRecords = async schema => {
   const modifiedRecords = await tableRecord.filtered(
     'syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true',
   );
-  console.log('modifiedRecords length ', modifiedRecords.length);
+  console.log('modifiedRecords length ', modifiedRecords);
   return modifiedRecords;
 };
 
@@ -181,7 +181,7 @@ const runBackgroundTask = async (tableName, value) => {
           record.lastSync,
           Array.from(modifiedRecords),
         );
-
+        console.log("response ",JSON.stringify(response.data,null,2));
         if (response?.status === DBConstants.HTTP_OK) {
           await SyncOperations.getSyncOperations(
             item[0],

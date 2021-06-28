@@ -10,8 +10,8 @@ export const getSyncOperations = async (item, data, operationObject) => {
           schema[0].name,
           object.id,
         );
-        // console.log("existing ",JSON.stringify(existingRecord));
-        // console.log("object",JSON.stringify(object));
+        console.log("existing ",JSON.stringify(existingRecord));
+        console.log("object",JSON.stringify(object));
         /**
          * Now, There can be two scenario's
          * 1. If record doesn't exist.
@@ -19,7 +19,7 @@ export const getSyncOperations = async (item, data, operationObject) => {
          */
         //Case 1
         if (existingRecord == undefined || existingRecord == null) {
-          //console.log('record not exist');
+          console.log('record not exist');
           recordNotExist(
             item,
             schema,
@@ -31,7 +31,7 @@ export const getSyncOperations = async (item, data, operationObject) => {
           });
         } else {
           //case 2
-          //console.log('record exist');
+          console.log('record exist');
           recordExist(
             item,
             schema,
@@ -61,6 +61,7 @@ const recordNotExist = async (
     if (existingRecord == undefined || existingRecord == null) {
       //Check if server sends its deleting confirmation on server DB side
       if (object.syncParameters != null && object.syncParameters.isDeleted) {
+        console.log("64----")
         return Constants.SUCCESS;
       }
       /**
@@ -129,6 +130,7 @@ const recordExist = async (
       /**
        * This scenario will occur when records are successfully update in DB end.
        */
+      console.log("133-----")
       object.syncParameters = existingRecord.syncParameters;
       if (object.syncParameters != null) {
         object.syncParameters.requireSync = false;
@@ -148,6 +150,7 @@ const recordExist = async (
       ) {
         let deleteResult = deleteExistingRecord(schema[0], object.id);
         result = deleteResult;
+        console.log("153 ----- ",result);
         if (deleteResult == Constants.SUCCESS) {
           object = null;
         } else {

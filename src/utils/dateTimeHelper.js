@@ -71,10 +71,38 @@ export const getLocalTimeZone = date => {
     (newDate.getMonth() + 1) +
     '/' +
     newDate.getFullYear();
-  dateString = dateString + ' ' + timeInHours;
+  dateString = dateString + ' ' + tConvert(timeInHours);
   return dateString;
 };
 
+function tConvert (time) {
+  // Check correct time format and split into components
+  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+  if (time.length > 1) { // If time format correct
+    time = time.slice (1);  // Remove full string match value
+    console.log("tiem ",time);
+    time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+    console.log("time ",time);
+    time[3] = " ";
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  console.log("time111 ",time);
+  return time.join (''); // return adjusted time or original string
+}
+
+const getTimeFormatOnDevice = () => {
+  var date, timeType;
+  // Creating Date() function object.
+  date = new Date();
+  let hour = date.getHours();
+  if (hour <= 11) {
+    timeType = 'AM';
+  } else {
+    timeType = 'PM';
+  }
+  return timeType;
+};
 /**
  * @param {String} inputDate date in utc format
  * @param {String} format expected format of date output
