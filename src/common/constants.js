@@ -37,6 +37,7 @@ export const DIVISION_COLOR = {
   B: 'b',
   A: 'a',
   C: 'c',
+  D: 'd',
   CAMPAIGN: 'campaign',
 };
 

@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 7,
     paddingVertical: themes.spacing(4),
     paddingHorizontal: themes.spacing(6),
+    minWidth: 37.3,
     alignSelf: 'flex-end',
     height: 21.3,
     marginBottom: themes.spacing(2),
