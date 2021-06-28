@@ -70,6 +70,7 @@ const DoctorsByArea = ({
                 specialization={party.specialities}
                 category={party.category}
                 isKyc={party.isKyc}
+                isCampaign={party.isCampaign}
                 selected={isDoctorSelected(party.id, area.id)}
                 testID={`card_standard_plan_doctor_${party.id}_test`}
                 party={party}
