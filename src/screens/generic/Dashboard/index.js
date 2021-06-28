@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-
+import {useDispatch} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import NavMenu from './components/NavMenu';
@@ -33,10 +33,13 @@ import {
   getOnDemandSyncStatus,
   getBackgrounTaskValue,
 } from 'utils/backgroundTask';
+import {Helper} from 'database';
+import {fetchStatusSliceActions} from 'reducers';
 
 export const DashboardStack = createStackNavigator();
 
 const Dashboard = ({navigation}) => {
+  const dispatch = useDispatch();
   const [searchState, toggleSearch] = useState(false);
   const [searhInput, updateVal] = useState(null);
   const [onDemandSync, setOnDemandSync] = useState(true);
@@ -49,6 +52,13 @@ const Dashboard = ({navigation}) => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
   });
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      dispatch(fetchStatusSliceActions.setStaffPositionId(id));
+    })();
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchSyncTime = async () => {
