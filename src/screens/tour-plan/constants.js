@@ -37,6 +37,8 @@ export const PARTY_TYPE = {
   CHEMIST: 'Chemist',
 };
 
+export const PARTY_TYPES = ['All', 'Doctor', 'Chemist'];
+
 export const COMPLAINCE_TYPE = {
   MONTHLY: 'monthly',
   DAILY: 'daily',
