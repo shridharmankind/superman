@@ -99,7 +99,7 @@ const Strings = {
   somethingWentWrong: 'Something went wrong. Please try again!',
   confirmation: 'Confirmation',
   patchUsedForOtherWeekDay:
-    'This patch is used for other Week>days. Do you want to make changes in all the days?',
+    'This patch is used for other Weekdays. Do you want to make changes in all the days?',
   yes: 'Yes',
   no: 'No',
   tillDate: 'Till Date',
