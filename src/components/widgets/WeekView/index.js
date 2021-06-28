@@ -92,7 +92,13 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
     if (!cellData) {
       return;
     }
-    const {parties, noOfKyc, patch, isCompliant} = cellData;
+    const {
+      parties,
+      noOfKyc,
+      patch,
+      isCompliant,
+      noOfCampaign = null,
+    } = cellData;
 
     return (
       <View style={styles.cellDataContainer}>
@@ -104,13 +110,20 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
             />
             {!isCompliant && <ErrorIcon width={20} height={20} />}
           </View>
-
-          {noOfKyc ? (
-            <DoctorTag
-              division={DivisionType.KYC}
-              title={`${noOfKyc} ${DivisionType.KYC}`}
-            />
-          ) : null}
+          <View style={styles.divisionContainer}>
+            {noOfCampaign ? (
+              <DoctorTag
+                division={DivisionType.CAMPAIGN}
+                title={`${noOfCampaign} ${DivisionType.CAMPAIGN}`}
+              />
+            ) : null}
+            {noOfKyc ? (
+              <DoctorTag
+                division={DivisionType.KYC}
+                title={`${noOfKyc} ${DivisionType.KYC}`}
+              />
+            ) : null}
+          </View>
         </View>
 
         <View style={[styles.cellFooter]}>

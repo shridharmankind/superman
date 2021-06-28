@@ -6,7 +6,7 @@ import styles from './styles';
 import {ArrowBack, Birthday, Anniversary, WorkOutline} from 'assets';
 import {Strings, Constants} from 'common';
 import {ContentWithSidePanel} from 'components/layouts';
-import {TabBar} from 'components/widgets';
+import {TabBar, DoctorTag, DivisionType} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {useNavigation} from '@react-navigation/native';
 import {OpenTask, PriorityProduct} from 'screens/directory';
@@ -189,38 +189,22 @@ const DoctorProfile = ({route}) => {
         <View style={styles.tabContainer}>
           <View style={styles.divisionContainer}>
             {doctorData?.isKyc && (
-              <View
-                style={[
-                  styles.divisionItem,
-                  {
-                    backgroundColor: getDivisionColor(
-                      Constants.DIVISION_COLOR.KYC,
-                    ),
-                  },
-                ]}>
-                <Label
-                  variant={LabelVariant.h6}
-                  textColor={themes.colors.white}
-                  title={Strings.kyc}
-                  type={'bold'}
-                />
-              </View>
+              <DoctorTag
+                division={DivisionType.KYC}
+                title={`${DivisionType.KYC}`}
+              />
+            )}
+            {doctorData?.isCampaign && (
+              <DoctorTag
+                division={DivisionType.CAMPAIGN}
+                title={`${DivisionType.CAMPAIGN}`}
+              />
             )}
             {doctorData?.category && (
-              <View
-                style={[
-                  styles.divisionItem,
-                  {
-                    backgroundColor: getDivisionColor(doctorData?.category),
-                  },
-                ]}>
-                <Label
-                  variant={LabelVariant.h6}
-                  textColor={themes.colors.white}
-                  style={styles.divisionText}
-                  title={doctorData?.category?.toUpperCase()}
-                />
-              </View>
+              <DoctorTag
+                division={doctorData?.category}
+                title={doctorData?.category?.toUpperCase()}
+              />
             )}
           </View>
           <View style={styles.leftTabContainer}>
@@ -305,7 +289,9 @@ const DoctorProfile = ({route}) => {
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData.birthday)}
+                title={
+                  doctorData.birthday ? dateFormat(doctorData.birthday) : ''
+                }
               />
             </View>
             <View style={styles.birthdayClass}>

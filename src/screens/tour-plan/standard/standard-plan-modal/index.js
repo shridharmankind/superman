@@ -39,6 +39,7 @@ import {
   fetchPlanComplianceCreator,
 } from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
+import {appSelector} from 'reducers';
 import {translate} from 'locale';
 
 /**
@@ -77,11 +78,11 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
-  const [isAreaSelected, setIsAreaSelected] = useState(undefined);
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
-
   const weekNum = Number(week);
-  const staffPositionId = 1;
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const weekDayCount = workingDays.indexOf(weekDay) + 1;
+  const selectedDayNumber = (weekNum - 1) * workingDays?.length + weekDayCount;
 
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
@@ -90,8 +91,7 @@ const StandardPlanModal = ({
 
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
-  const selectedDayNumber =
-    (weekNum - 1) * workingDays?.length + (workingDays.indexOf(weekDay) + 1);
+
   /**
    * Show toast message to warn user that he has exceeded max doctor/chemist count
    * once toast hides, save/update patch
@@ -229,7 +229,7 @@ const StandardPlanModal = ({
         staffPositionId,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionId]);
 
   useEffect(() => {
     filterPartyByType(allParties);
@@ -309,7 +309,7 @@ const StandardPlanModal = ({
 
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
-    if (allParties.length > 0 && allAreas.length > 0) {
+    if (updatedPatchArray.length > 0 && allAreas.length > 0) {
       const areaData = (allAreas || []).map(area => {
         return {
           ...area,
@@ -322,7 +322,7 @@ const StandardPlanModal = ({
   }, [
     getDoctorsByArea,
     allAreas,
-    allParties,
+    updatedPatchArray,
     getAreaCountOnFrequecy,
     doctorsSelected,
   ]);
@@ -334,16 +334,16 @@ const StandardPlanModal = ({
   const getAreaCountOnFrequecy = useCallback(
     id => {
       let count = 0;
-      allParties?.map(party => {
+      updatedPatchArray?.map(party => {
         party.areas.map(area => {
-          if (area.id === id && party.alreadyVisited > 0) {
+          if (area.id === id && party.alreadyVisitedCount > 0) {
             count = count + 1;
           }
         });
       });
       return count;
     },
-    [allParties],
+    [updatedPatchArray],
   );
 
   /** function to removed doctors from specific area on press
@@ -659,7 +659,7 @@ const StandardPlanModal = ({
    */
   const handleExhaustedParty = useCallback(
     (obj, exhaustedParty) => {
-      const updatedPartyList = doctorsSelected.filter(
+      const updatedPartyList = doctorsSelected?.filter(
         party => !exhaustedParty.some(par => par.id === party.partyId),
       );
       let message = null;
@@ -734,7 +734,7 @@ const StandardPlanModal = ({
         }),
       );
     },
-    [dispatch],
+    [dispatch, staffPositionId],
   );
 
   /** function to save patch
@@ -751,7 +751,7 @@ const StandardPlanModal = ({
       );
       hideToast();
     },
-    [dispatch],
+    [dispatch, staffPositionId],
   );
 
   /** function to update patch
@@ -772,7 +772,7 @@ const StandardPlanModal = ({
       );
       hideToast();
     },
-    [dispatch, patchRequest],
+    [dispatch, patchRequest, staffPositionId],
   );
 
   /** function to filter parties by doctors, chemist, all
@@ -793,11 +793,6 @@ const StandardPlanModal = ({
    * @param {Number} id party id passed as int
    */
   const handleDoctorCardPress = (id, area) => {
-    const isAreaAlreadySelected = doctorsSelected?.some(
-      party => party.areaId === area,
-    );
-    setIsAreaSelected(!isAreaAlreadySelected);
-
     const indexAvailable = doctorsSelected?.some(
       party => party.partyId === id && party.areaId === area,
     );
@@ -980,6 +975,33 @@ const StandardPlanModal = ({
     },
     [weekNum, weekDay, year],
   );
+
+  /**
+   * Returns data of selectedParty
+   */
+  const getSelectedPartyTypeHandler = useCallback(() => {
+    return getSelectedPartyTypeData(
+      doctorsSelected,
+      updatedPatchArray,
+      dataChanged,
+      selectedDoctorCount,
+      selectedChemistCount,
+      exhaustedDrFrequencyCount,
+      selectedDayNumber,
+      XMonthValue,
+      getPartyCountFromArea(),
+    );
+  }, [
+    doctorsSelected,
+    updatedPatchArray,
+    dataChanged,
+    selectedDoctorCount,
+    selectedChemistCount,
+    exhaustedDrFrequencyCount,
+    selectedDayNumber,
+    XMonthValue,
+    getPartyCountFromArea,
+  ]);
 
   /**method to check if party in doctorsSelected got exhausted
    * @param {Array} ids selected partys in array
@@ -1164,19 +1186,8 @@ const StandardPlanModal = ({
           <PlanCompliance
             type={COMPLAINCE_TYPE.DAILY}
             week={week}
-            weekDay={workingDays.indexOf(weekDay) + 1}
-            selectedData={getSelectedPartyTypeData(
-              allParties,
-              doctorsSelected,
-              isAreaSelected,
-              updatedPatchArray,
-              dataChanged,
-              selectedDoctorCount,
-              selectedChemistCount,
-              exhaustedDrFrequencyCount,
-              selectedDayNumber,
-              XMonthValue,
-            )}
+            weekDay={weekDayCount}
+            selectedData={getSelectedPartyTypeHandler()}
           />
         </View>
       </View>
