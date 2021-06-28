@@ -20,7 +20,7 @@ import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
 import theme from 'themes';
 import {isWeb} from 'helper';
 import styles from './styles';
-import {Strings} from 'common';
+import {Strings, Constants} from 'common';
 import {LOGOUT_ITEM_ID} from './constants';
 import {validateSearch} from 'screens/directory/helper';
 import {authTokenActions} from '../RouteHandler/redux';

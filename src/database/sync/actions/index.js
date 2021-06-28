@@ -91,18 +91,17 @@ const configParam = (item, staffPositionId, lastSync, data) => {
     DBConstants.MASTER_TABLE_DIVISION,
     DBConstants.MASTER_TABLE_ORGANIZATION,
     DBConstants.QUALIFICATIONS,
-    DBConstants.SPECIALITIES
-    ];
+    DBConstants.SPECIALITIES,
+  ];
 
-  if(GET_CASE.includes(item.name)){
+  if (GET_CASE.includes(item.name)) {
     postData.method = 'GET';
-  }
-  else{
+  } else {
     postData.staffPositionId = staffPositionId;
     postData.lastSyncTime = lastSync;
     postData[item.syncParam] = data;
     postData.method = 'POST';
-  } 
+  }
   return postData;
 };
 
