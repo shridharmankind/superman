@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Label, LabelVariant} from 'components/elements';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './style';
-import {ArrowUp, Power, ArrowDownRed} from 'assets';
+import {ArrowUp, Power, ArrowDownRed, Focus} from 'assets';
 import {Strings} from 'common';
 import theme from 'themes';
 import {getFormatDate} from 'utils/dateTimeHelper';
@@ -90,11 +90,7 @@ const PriorityProduct = ({staffPostionId = 1, partyId}) => {
             )}
             {data.isFocused && (
               <View style={styles.focus}>
-                <Label
-                  variant={LabelVariant.label}
-                  style={styles.focusLabel}
-                  title={Strings.priorityProductCard.foc}
-                />
+                <Focus width={27} height={27} style={styles.focusIcon} />
               </View>
             )}
             {data.priority && (
