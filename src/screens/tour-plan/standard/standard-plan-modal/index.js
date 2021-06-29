@@ -38,6 +38,7 @@ import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
 import {
   planComplianceSelector,
   fetchPlanComplianceCreator,
+  planComplianceActions,
 } from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 import {appSelector} from 'selectors';
@@ -88,7 +89,6 @@ const StandardPlanModal = ({
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
   const XMonthValue = useSelector(planComplianceSelector.getXMonthValue());
-
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
 
@@ -121,21 +121,27 @@ const StandardPlanModal = ({
   /**
    * To render error when min Gap rule is not met
    */
-  const showGapRulesErrror = () => {
-    showToast({
-      type: Constants.TOAST_TYPES.ALERT,
-      autoHide: true,
-      defaultVisibilityTime: 1000,
-      props: {
-        onClose: () => {
-          hideToast();
+  const showGapRulesErrror = useCallback(
+    code => {
+      dispatchGapRule(code);
+      showToast({
+        type: Constants.TOAST_TYPES.ALERT,
+        autoHide: true,
+        defaultVisibilityTime: 1000,
+        props: {
+          onClose: () => {
+            hideToast();
+            dispatchGapRule(null);
+          },
+          heading: translate('errorMessage.gapRule'),
         },
-        heading: translate('errorMessage.gapRule'),
-      },
-      onHide: () => {},
-    });
-  };
-
+        onHide: () => {
+          dispatchGapRule(null);
+        },
+      });
+    },
+    [dispatchGapRule],
+  );
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -229,26 +235,6 @@ const StandardPlanModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**mehtod to load the initial state of daily plan */
-  const loadData = useCallback(async () => {
-    await dispatch(
-      fetchPartiesCreator({
-        staffPositionId,
-      }),
-    );
-
-    await dispatch(
-      fetchPatchesCreator({
-        staffPositionId,
-      }),
-    );
-    await dispatch(
-      fetchAreasCreator({
-        staffPositionId,
-      }),
-    );
-  }, [dispatch, staffPositionId]);
-
   useEffect(() => {
     setPatches(allPatches);
   }, [allPatches]);
@@ -286,6 +272,33 @@ const StandardPlanModal = ({
       getSelectedArea(allPartiesByPatchID);
     }
   }, [getSelectedArea, allPartiesByPatchID, allParties]);
+
+  const dispatchGapRule = useCallback(
+    code => {
+      dispatch(planComplianceActions.setGapRuleErrorCode(code));
+    },
+    [dispatch],
+  );
+
+  /**mehtod to load the initial state of daily plan */
+  const loadData = useCallback(async () => {
+    await dispatch(
+      fetchPartiesCreator({
+        staffPositionId,
+      }),
+    );
+
+    await dispatch(
+      fetchPatchesCreator({
+        staffPositionId,
+      }),
+    );
+    await dispatch(
+      fetchAreasCreator({
+        staffPositionId,
+      }),
+    );
+  }, [dispatch, staffPositionId]);
 
   /** function to set area selected on chip click and update areaSelected state*/
   const getSelectedArea = useCallback(
@@ -481,7 +494,7 @@ const StandardPlanModal = ({
               savePatchRes?.data?.details,
             );
           } else if (isGapRuleWarning(savePatchRes?.data?.details[0]?.code)) {
-            showGapRulesErrror();
+            showGapRulesErrror(savePatchRes?.data?.details[0]?.code);
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
@@ -494,13 +507,14 @@ const StandardPlanModal = ({
     },
     [
       savePatchRes,
-      showOverrideNotification,
-      swiperDirection,
-      resetandChangePage,
       patchSelected,
       dispatch,
-      loadData,
+      swiperDirection,
+      resetandChangePage,
       resetState,
+      loadData,
+      showOverrideNotification,
+      showGapRulesErrror,
     ],
   );
 
