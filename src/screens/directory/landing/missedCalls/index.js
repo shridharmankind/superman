@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator, FlatList, Image} from 'react-native';
+import {View, ActivityIndicator, FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Label, Button} from 'components/elements';
 import {PartiesDirectory} from 'components/widgets';
@@ -16,7 +16,6 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 import {appSelector} from 'selectors';
 import theme from 'themes';
 import {FetchEnumStatus} from 'reducers';
-import {landing} from '../redux/dirlandingSlice';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 

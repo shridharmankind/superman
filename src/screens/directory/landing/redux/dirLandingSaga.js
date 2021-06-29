@@ -7,7 +7,7 @@ import {
 } from './dirlandingSlice';
 import {call, takeEvery, put} from '@redux-saga/core/effects';
 import {NetworkService} from 'services';
-import {API_PATH} from 'screens/directory/apiPath';
+import API_PATHS from 'services/network/apiPaths';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 
 export function* fetchQueryDoctorsWatcher() {
@@ -29,7 +29,7 @@ function* fetchSearchDoctorsHandler(action) {
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.GET_SEARCH_DOCTORS}?StaffPositionId=${staffPositionId}&Keyword=${searchKeyword}&PartyTypeId=${partyTypeId}&Skip=${skip}&Limit=${limit}`,
+      `${API_PATHS.GET_SEARCH_DOCTORS}?StaffPositionId=${staffPositionId}&Keyword=${searchKeyword}&PartyTypeId=${partyTypeId}&Skip=${skip}&Limit=${limit}`,
     );
     if (skip === 0) {
       yield put(
@@ -68,7 +68,7 @@ export function* fetchMissedCallsWorker(action) {
       staffPositionId: staffPositionId,
       month: month,
     };
-    let url = API_PATH.GET_MISSED_CALLS;
+    let url = API_PATHS.GET_MISSED_CALLS;
     url = url.replace(
       /\b(?:staffPositionId|month)\b/gi,
       matched => valueMap[matched],
@@ -103,7 +103,7 @@ export function* addPartyToDailyPlanWorker(action) {
   try {
     const response = yield call(
       NetworkService.post,
-      API_PATH.ADD_TODAY_PLAN,
+      API_PATHS.ADD_TODAY_PLAN,
       {},
       {
         staffPositionId: staffPositionId,

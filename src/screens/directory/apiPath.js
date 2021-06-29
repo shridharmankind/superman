@@ -4,6 +4,4 @@ export const API_PATH = {
   GET_PRODUCT: '/product/partyproduct',
   GET_TIMELINE: 'mtp/timeline/visit',
   ADD_TODAY_PLAN: 'dailyplanactivity/adhocplan',
-  GET_MISSED_CALLS:
-    'dailyplanactivity/staffPositionId/month/missedCall/parties',
 };
