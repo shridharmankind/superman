@@ -54,6 +54,7 @@ export const COMPARISION_TYPE = {
   MIN: 'minimum',
   MAX: 'maximum',
   EQUAL: 'equal',
+  MINGAP: 'minGap',
 };
 
 export const RULE_KEY = {
@@ -82,6 +83,7 @@ export const MTP_LOCK_DATES_THRESHOLD = {
 };
 
 export const PARTY_PREFIX = {
+  //TODO:: to fetch from translation
   DOCTOR: 'Dr',
   CHEMIST: 'Ch',
 };
