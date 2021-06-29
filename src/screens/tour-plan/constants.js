@@ -54,6 +54,7 @@ export const COMPARISION_TYPE = {
   MIN: 'minimum',
   MAX: 'maximum',
   EQUAL: 'equal',
+  MINGAP: 'minGap',
 };
 
 export const RULE_KEY = {
