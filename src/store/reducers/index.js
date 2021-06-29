@@ -32,4 +32,3 @@ export const rootReducer = combineReducers({
 });
 
 export {fetchStatusSliceActions, FetchEnumStatus} from './appSlice';
-export {appSelector} from './appSelector';

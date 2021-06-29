@@ -1,5 +1,5 @@
 FROM node:12 as build-deps
-# WORKDIR /usr/src/app
+WORKDIR ./
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . ./
