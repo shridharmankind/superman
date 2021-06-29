@@ -40,5 +40,12 @@
   "outStationPerMonth": "out-station visits per month",
   "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
-  "frequencyMet": "frequency met"
+  "frequencyMet": "frequency met",
+  "dcrSecondTab": {
+    "priorityProduct": "eDetailed Products",
+    "discussedProduct": "Discussed Products",
+    "listOfProduct": "List Of Products",
+    "done": "Done",
+    "SelectBrandLabel": "Select Sub-brands"
+  }
 }
