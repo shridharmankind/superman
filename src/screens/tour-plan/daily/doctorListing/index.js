@@ -11,7 +11,7 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 import {CloseIcon} from 'assets';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 
 /**
  * render list of doctors
