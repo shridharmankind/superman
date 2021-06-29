@@ -24,7 +24,8 @@
   "timeline": "Timeline",
   "errorMessage": {
     "noRecords": "There are no records",
-    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits"
+    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits",
+    "gapRule": "Min gap between visits not met"
   },
 
   "dr": "Doctor",
@@ -40,5 +41,8 @@
   "outStationPerMonth": "out-station visits per month",
   "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
-  "frequencyMet": "frequency met"
+  "frequencyMet": "frequency met",
+  "responseStatus": {
+    "error": "ERROR"
+  }
 }
