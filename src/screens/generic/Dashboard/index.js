@@ -80,7 +80,7 @@ const Dashboard = ({navigation}) => {
       subscribeNetworkCheck = NetInfo.addEventListener(
         handleConnectivityChange,
       );
-      Sync.SyncService.RegisterBackgroundTask();
+      //Sync.SyncService.RegisterBackgroundTask();
     }
     return async () => {
       if (!isWeb()) {
