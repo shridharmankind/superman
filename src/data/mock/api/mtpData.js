@@ -4,7 +4,7 @@ const mtpData = [
     displayName: 'Patch1',
     defaultName: 'DefPatch1',
     dated: '1-jun-2021',
-    date: {day: 1, month: 'June', year: 2021},
+    date: {day: 1, month: '6', year: 2021},
     parties: [
       {
         partyType: 'Doctor',
@@ -37,7 +37,7 @@ const mtpData = [
     displayName: 'Patch2',
     defaultName: 'DefPatch2',
     dated: '2-jun-2021',
-    date: {day: 2, month: 'June', year: 2021},
+    date: {day: 2, month: '6', year: 2021},
     parties: [
       {
         partyType: 'Doctor',
@@ -51,7 +51,6 @@ const mtpData = [
       },
     ],
     noOfKyc: 2,
-    noOfCampaign: 2,
     patch: {
       id: 418,
 
@@ -70,7 +69,7 @@ const mtpData = [
     displayName: 'Patch2',
     defaultName: 'DefPatch2',
     dated: '3-jun-2021',
-    date: {day: 3, month: 'June', year: 2021},
+    date: {day: 3, month: '6', year: 2021},
     parties: [
       {
         partyType: 'Doctor',
@@ -83,7 +82,6 @@ const mtpData = [
         count: 1,
       },
     ],
-    noOfKyc: 3,
     noOfCampaign: 3,
     patch: {
       id: 418,
@@ -103,7 +101,7 @@ const mtpData = [
     displayName: 'Patch2',
     defaultName: 'DefPatch2',
     dated: '5-jun-2021',
-    date: {day: 5, month: 'June', year: 2021},
+    date: {day: 5, month: '6', year: 2021},
     parties: [
       {
         partyType: 'Doctor',

@@ -13,10 +13,15 @@ import {getMonthDiff, getDateFromMonthYear} from 'utils/dateTimeHelper';
 
 const MonthlyView = ({
   workingDays = [],
-  DayComponent = DailyView,
-  previousMonthSelected,
   monthSelected,
+  previousMonthSelected,
+  monthlyCalendarData,
+  DayComponent = DailyView,
 }) => {
+  console.log(
+    'monthlyCalendarDatamonthlyCalendarDatamonthlyCalendarData',
+    monthlyCalendarData,
+  );
   const textInput = React.useRef(null);
   const currentDate = getDateFromMonthYear(monthSelected);
   // effect to update month on change of date
@@ -71,6 +76,7 @@ const MonthlyView = ({
           props={props}
           selectedMonth={monthSelected?.month}
           workingDays={workingDays}
+          monthlyCalendarData={monthlyCalendarData}
         />
       )}
       renderHeader={() => null}
