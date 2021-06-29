@@ -37,13 +37,13 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                   gender={plan.gender}
                   specialization={plan.specialities}
                   category={plan.category}
-                  location={plan.location}
+                  location={plan.areas}
                   isCampaign={plan.isCampaign}
                   isKyc={plan.isKyc}
                   customStyle={doctorDetailStyleObject}
                   showFrequencyChiclet={false}
                   showVisitPlan={true}
-                  visitData={plan.visitData}
+                  visitData={plan.visits}
                   showTile={true}
                   onTileNamePress={() => {
                     onTileNamePress(plan);

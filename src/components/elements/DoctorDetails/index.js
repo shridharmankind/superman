@@ -2,13 +2,15 @@ import React, {useState} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
-import {Frequency, Label} from 'components/elements';
+import {Frequency, Label, LabelVariant} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates, DoctorTag, DivisionType} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
 import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
+import {returnUTCtoLocal} from 'utils/dateTimeHelper';
+import {translate} from 'locale';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -88,21 +90,57 @@ const DoctorDetails = ({
     }
   };
 
+  const getAdhocCallTitle = () => {
+    let adhocCallTitle = '';
+    if (visitData.length > 0) {
+      const month = returnUTCtoLocal(visitData[0].date, 'MMM');
+      const adhocCallDates = visitData.reduce((accumulator, visit) => {
+        if (!visit.isAdhoc) {
+          const visitDate = returnUTCtoLocal(visit.date, 'D');
+          const adhocList =
+            accumulator === ''
+              ? accumulator.concat(visitDate)
+              : accumulator.concat(',').concat(visitDate);
+          return adhocList;
+        }
+      }, '');
+
+      if (adhocCallDates !== '') {
+        adhocCallTitle = translate('tourPlan.monthly.adhocCalls', {
+          data: `${adhocCallDates} ${month}`,
+        });
+      }
+    }
+
+    return adhocCallTitle;
+  };
+
   /**
    * Function to render the visits planned - upcoming, today, missed, completed
    * @returns the list of visits metadata
    */
   const renderVisitData = () => {
     return (
-      <View style={styles.visitContainer}>
-        {(visitData || []).map((visit, index) => (
-          <DoctorVisitStates
-            key={index}
-            visitDate={visit.date}
-            visitMonth={visit.month}
-            visitState={visit.state}
+      <View style={styles.visitsPanel}>
+        <View style={styles.visitContainer}>
+          {(visitData || []).map((visit, index) => (
+            <DoctorVisitStates
+              key={index}
+              visitDate={returnUTCtoLocal(visit.date, 'D')}
+              visitMonth={returnUTCtoLocal(visit.date, 'MMM')}
+              visitState={visit.status}
+            />
+          ))}
+        </View>
+        <View>
+          <Label
+            style={styles.labelContent}
+            variant={LabelVariant.h6}
+            textColor={'red'}
+            title={getAdhocCallTitle()}
+            type={'bold'}
           />
-        ))}
+        </View>
       </View>
     );
   };
@@ -197,7 +235,9 @@ const DoctorDetails = ({
                   />
                   <Label
                     size={customStyle ? customStyle.subTitleSize : 18}
-                    title={location}
+                    title={(location || {})
+                      .map(spec => spec?.name || spec)
+                      .join(', ')}
                     style={styles.capitalize}
                   />
                 </>
