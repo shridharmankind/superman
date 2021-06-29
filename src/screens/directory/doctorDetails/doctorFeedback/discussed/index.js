@@ -1,11 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {
-  View,
-  SafeAreaView,
-  Text,
-  VirtualizedList,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './style';
 import {Strings} from 'common';
 import themes from 'themes';
@@ -20,15 +14,16 @@ import ProductModal from '../ProductModal';
  */
 
 const EDetailingDCR = ({}) => {
-  const getItemCount = data => data.length;
-  const getItem = (data, index) => data[index];
   const [otherProductList, setOtherProductList] = useState(
     JSON.parse(JSON.stringify(EDetailedList)),
   );
   const [discussedList, setDiscussedList] = useState([]);
-  const [eDetailedIndex, setEDetailedIndex] = useState(0);
-  const [otherProductIndex, setOtherProductIndex] = useState(0);
-  const [discussedIndex, setDiscussedIndex] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const [scrollDiscussedOffset, setScrollDiscussedOffset] = useState(0);
+  const [scrollOtherOffset, setScrollOtherOffset] = useState(0);
+  const [hideEdtailRightArrow, setHideEdtailRightArrow] = useState(false);
+  const [hideDiscussedRightArrow, setHideDiscussedRightArrow] = useState(false);
+  const [hideOtherRightArrow, setHideOtherRightArrow] = useState(false);
   const eDetailedRef = useRef(null);
   const otherProduct = useRef(null);
   const discussproduct = useRef(null);
@@ -38,80 +33,66 @@ const EDetailingDCR = ({}) => {
     <Icon name={icon} size={10} color={themes.colors.blue} />
   );
   const handleOtherAreaLeftArrow = () => {
-    const eDetailedValue = eDetailedIndex - 2 < 0 ? 0 : eDetailedIndex - 2;
-    if (eDetailedIndex) {
-      eDetailedRef.current.scrollToIndex({
-        index: eDetailedValue,
-      });
-      setEDetailedIndex(eDetailedValue);
-    }
+    eDetailedRef.current.scrollTo({
+      x: scrollOffset - 150,
+      y: 0,
+      animated: true,
+    });
+    setScrollOffset(scrollOffset - 100);
   };
 
   const handleDiscussedAreaLeftArrow = () => {
-    const eDetailedValue = discussedIndex - 2 < 0 ? 0 : discussedIndex - 2;
-    if (discussedIndex) {
-      discussproduct.current.scrollToIndex({
-        index: eDetailedValue,
-      });
-      setDiscussedIndex(eDetailedValue);
-    }
+    discussproduct.current.scrollTo({
+      x: scrollDiscussedOffset - 150,
+      y: 0,
+      animated: true,
+    });
+    setScrollDiscussedOffset(scrollDiscussedOffset - 100);
   };
   const handleDiscussedAreaRightArrow = () => {
-    const otherProductValue =
-      discussedList.length - 1 <= discussedIndex
-        ? discussedList.length - 1
-        : discussedIndex + 2;
-    if (discussedList.length - 1 > otherProductValue) {
-      discussproduct.current.scrollToIndex({
-        index: otherProductValue,
-      });
-      setDiscussedIndex(otherProductValue);
-    }
+    discussproduct.current.scrollTo({
+      x: scrollDiscussedOffset + 150,
+      y: 0,
+      animated: true,
+    });
+    setScrollDiscussedOffset(scrollDiscussedOffset + 100);
   };
   const handleAreaLeftArrow = () => {
-    const otherProductValue =
-      otherProductIndex - 2 < 0 ? 0 : otherProductIndex - 2;
-    if (otherProductIndex) {
-      otherProduct.current.scrollToIndex({
-        index: otherProductValue,
-      });
-      setOtherProductIndex(otherProductValue);
-    }
+    otherProduct.current.scrollTo({
+      x: scrollOtherOffset - 150,
+      y: 0,
+      animated: true,
+    });
+    setScrollOtherOffset(scrollOtherOffset - 100);
   };
   const handleOtherAreaRightArrow = () => {
-    const otherProductValue =
-      EDetailedList.length - 1 <= otherProductIndex
-        ? EDetailedList.length - 1
-        : otherProductIndex + 2;
-    if (EDetailedList.length - 1 > otherProductValue) {
-      otherProduct.current.scrollToIndex({
-        index: otherProductValue,
-      });
-      setOtherProductIndex(otherProductValue);
-    }
+    otherProduct.current.scrollTo({
+      x: scrollOtherOffset + 150,
+      y: 0,
+      animated: true,
+    });
+    setScrollOtherOffset(scrollOtherOffset + 100);
   };
   const handleAreaRightArrow = () => {
-    const eDetailedValue =
-      EDetailedList.length - 1 <= eDetailedIndex
-        ? EDetailedList.length - 1
-        : eDetailedIndex + 2;
-    if (EDetailedList.length - 1 > eDetailedValue) {
-      eDetailedRef.current.scrollToIndex({
-        index: eDetailedValue,
-      });
-      setEDetailedIndex(eDetailedValue);
-    }
+    eDetailedRef.current.scrollTo({
+      x: scrollOffset + 150,
+      y: 0,
+      animated: true,
+    });
+    setScrollOffset(scrollOffset + 100);
   };
-  const renderDiscussedList = (item, index) => {
-    return (
-      <View key={item.motherBrandId}>
-        <Label
-          variant={LabelVariant.subtitleLarge}
-          style={styles.discussList}
-          title={item.name}
-        />
-      </View>
-    );
+  const renderDiscussedList = () => {
+    return discussedList.map(dataItem => {
+      return (
+        <View key={dataItem.motherBrandId}>
+          <Label
+            variant={LabelVariant.subtitleLarge}
+            style={styles.discussList}
+            title={dataItem.name}
+          />
+        </View>
+      );
+    });
   };
   const renderEDetailed = (item, index) => {
     return (
@@ -127,11 +108,9 @@ const EDetailingDCR = ({}) => {
     );
   };
   const renderEdetailedProduct = (item, index) => {
-    return (
-      <View style={styles.swapMain} key={item.motherBrandId}>
-        {renderEDetailed(item)}
-      </View>
-    );
+    return EDetailedList.map(value => {
+      return <View key={value.motherBrandId}>{renderEDetailed(value)}</View>;
+    });
   };
 
   const onCloseHandler = () => {
@@ -155,28 +134,66 @@ const EDetailingDCR = ({}) => {
     setDiscussedList([...discussList]);
     setShowModal(false);
   };
+  const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
+    if (
+      Math.ceil(layoutMeasurement.width + contentOffset.x) >= contentSize.width
+    ) {
+      setHideEdtailRightArrow(true);
+    } else {
+      setHideEdtailRightArrow(false);
+    }
+  };
 
-  const renderOtherProduct = (item, index) => {
-    return (
-      <View style={styles.swapMain} key={item.motherBrandId}>
-        <View>
-          <Label
-            variant={LabelVariant.subtitleLarge}
-            style={styles.eDetailedNonFeature}
-            title={item.name}
-            onPress={() => {
-              setCurrentProduct({...item});
-              setShowModal(true);
-            }}
-          />
+  const hideDiscussedScrollArrow = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }) => {
+    if (
+      Math.ceil(layoutMeasurement.width + contentOffset.x) >= contentSize.width
+    ) {
+      setHideDiscussedRightArrow(true);
+    } else {
+      setHideDiscussedRightArrow(false);
+    }
+  };
+
+  const hideOtherScrollArrow = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }) => {
+    if (
+      Math.ceil(layoutMeasurement.width + contentOffset.x) >= contentSize.width
+    ) {
+      setHideOtherRightArrow(true);
+    } else {
+      setHideOtherRightArrow(false);
+    }
+  };
+  const renderOtherProduct = () => {
+    return otherProductList.map(otherItem => {
+      return (
+        <View key={otherItem.motherBrandId}>
+          <View>
+            <Label
+              variant={LabelVariant.subtitleLarge}
+              style={styles.eDetailedNonFeature}
+              title={otherItem.name}
+              onPress={() => {
+                setCurrentProduct({...otherItem});
+                setShowModal(true);
+              }}
+            />
+          </View>
         </View>
-      </View>
-    );
+      );
+    });
   };
 
   return (
     <View>
-      <View style={styles.questionSection}>
+      <View>
         <Text style={styles.question}>
           <Text style={{fontFamily: themes.fonts.fontBold}}>{'2 '}</Text>
           {`${Strings.captureDCRSlideTwo.slideTitle} `}
@@ -191,38 +208,42 @@ const EDetailingDCR = ({}) => {
         </Text>
       </View>
       <View>
-        <View style={styles.questionSection}>
+        <View>
           <Label
             variant={LabelVariant.subtitleLarge}
             style={styles.priorityProduct}
             title={translate('dcrSecondTab.priorityProduct')}
           />
         </View>
-        <SafeAreaView style={styles.virtualList}>
-          <View style={[styles.arrowContainer, styles.leftArrow]}>
-            <TouchableOpacity onPress={() => handleOtherAreaLeftArrow()}>
-              <View style={[styles.swiperArrow]}>
-                {renderArrow('chevron-left')}
-              </View>
-            </TouchableOpacity>
-          </View>
-          <VirtualizedList
-            data={EDetailedList}
-            initialNumToRender={6}
-            renderItem={({item}) => renderEdetailedProduct(item)}
-            getItemCount={getItemCount}
-            getItem={getItem}
+        <View style={styles.virtualList}>
+          {scrollOffset > 0 && (
+            <View style={[styles.arrowContainer, styles.leftArrow]}>
+              <TouchableOpacity onPress={() => handleOtherAreaLeftArrow()}>
+                <View style={[styles.swiperArrow]}>
+                  {renderArrow('chevron-left')}
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+          <ScrollView
             horizontal={true}
             ref={eDetailedRef}
-          />
-          <View style={[styles.arrowContainer, styles.rightArrow]}>
-            <TouchableOpacity onPress={() => handleAreaRightArrow()}>
-              <View style={[styles.swiperArrow]}>
-                {renderArrow('chevron-right')}
-              </View>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
+            onScroll={({nativeEvent}) => {
+              hideScrollArrow(nativeEvent);
+            }}
+            showsHorizontalScrollIndicator={false}>
+            {renderEdetailedProduct()}
+          </ScrollView>
+          {!hideEdtailRightArrow && (
+            <View style={[styles.arrowContainer, styles.rightArrow]}>
+              <TouchableOpacity onPress={() => handleAreaRightArrow()}>
+                <View style={[styles.swiperArrow]}>
+                  {renderArrow('chevron-right')}
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
         <View style={styles.discussedMain}>
           <Label
             variant={LabelVariant.subtitleLarge}
@@ -230,8 +251,8 @@ const EDetailingDCR = ({}) => {
             title={translate('dcrSecondTab.discussedProduct')}
           />
         </View>
-        <SafeAreaView style={styles.virtualList}>
-          {!!(discussedList.length > 6) && (
+        <View style={styles.virtualList}>
+          {scrollDiscussedOffset > 0 && discussedList.length > 5 && (
             <View style={[styles.arrowContainer, styles.leftArrow]}>
               <TouchableOpacity onPress={() => handleDiscussedAreaLeftArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -240,16 +261,16 @@ const EDetailingDCR = ({}) => {
               </TouchableOpacity>
             </View>
           )}
-          <VirtualizedList
-            data={discussedList}
-            initialNumToRender={6}
-            renderItem={({item}) => renderDiscussedList(item)}
-            getItemCount={getItemCount}
-            getItem={getItem}
+          <ScrollView
             horizontal={true}
             ref={discussproduct}
-          />
-          {!!(discussedList.length > 6) && (
+            onScroll={({nativeEvent}) => {
+              hideDiscussedScrollArrow(nativeEvent);
+            }}
+            showsHorizontalScrollIndicator={false}>
+            {renderDiscussedList()}
+          </ScrollView>
+          {!hideDiscussedRightArrow && discussedList.length > 5 && (
             <View style={[styles.arrowContainer, styles.rightArrow]}>
               <TouchableOpacity onPress={() => handleDiscussedAreaRightArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -258,7 +279,7 @@ const EDetailingDCR = ({}) => {
               </TouchableOpacity>
             </View>
           )}
-        </SafeAreaView>
+        </View>
         <View>
           <Label
             variant={LabelVariant.subtitleLarge}
@@ -266,31 +287,35 @@ const EDetailingDCR = ({}) => {
             title={translate('dcrSecondTab.listOfProduct')}
           />
         </View>
-        <SafeAreaView style={styles.virtualList}>
-          <View style={[styles.arrowContainer, styles.leftArrow]}>
-            <TouchableOpacity onPress={() => handleAreaLeftArrow()}>
-              <View style={[styles.swiperArrow]}>
-                {renderArrow('chevron-left')}
-              </View>
-            </TouchableOpacity>
-          </View>
-          <VirtualizedList
-            data={otherProductList}
-            initialNumToRender={6}
-            renderItem={({item}) => renderOtherProduct(item)}
-            getItemCount={getItemCount}
-            getItem={getItem}
+        <View style={styles.virtualList}>
+          {scrollOtherOffset > 0 && (
+            <View style={[styles.arrowContainer, styles.leftArrow]}>
+              <TouchableOpacity onPress={() => handleAreaLeftArrow()}>
+                <View style={[styles.swiperArrow]}>
+                  {renderArrow('chevron-left')}
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+          <ScrollView
             horizontal={true}
             ref={otherProduct}
-          />
-          <View style={[styles.arrowContainer, styles.rightArrow]}>
-            <TouchableOpacity onPress={() => handleOtherAreaRightArrow()}>
-              <View style={[styles.swiperArrow]}>
-                {renderArrow('chevron-right')}
-              </View>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
+            onScroll={({nativeEvent}) => {
+              hideOtherScrollArrow(nativeEvent);
+            }}
+            showsHorizontalScrollIndicator={false}>
+            {renderOtherProduct()}
+          </ScrollView>
+          {!hideOtherRightArrow && (
+            <View style={[styles.arrowContainer, styles.rightArrow]}>
+              <TouchableOpacity onPress={() => handleOtherAreaRightArrow()}>
+                <View style={[styles.swiperArrow]}>
+                  {renderArrow('chevron-right')}
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </View>
       {showModal && (
         <ProductModal

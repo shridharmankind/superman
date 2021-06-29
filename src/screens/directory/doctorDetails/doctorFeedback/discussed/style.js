@@ -2,16 +2,8 @@ import {StyleSheet} from 'react-native';
 import themes from 'themes';
 
 const styles = StyleSheet.create({
-  questionSection: {
-    // marginBottom: themes.spacing(16),
-  },
   question: {
     fontSize: 22.7,
-  },
-  swapMain: {
-    // marginBottom: themes.spacing(20),
-    // flexDirection: 'row',
-    // width: '10%',
   },
   priorityProduct: {
     fontSize: 16,
@@ -58,17 +50,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   virtualList: {
-    // flex: 1,
-    //zIndex: 9999,
     marginBottom: themes.spacing(20),
   },
   item: {
     backgroundColor: '#f9c2ff',
     height: 150,
     justifyContent: 'center',
-    marginVertical: 8,
-    marginHorizontal: 16,
-    padding: 20,
+    marginVertical: themes.spacing(8),
+    marginHorizontal: themes.spacing(16),
+    padding: themes.spacing(20),
   },
   title: {
     fontSize: 32,
@@ -92,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: themes.spacing(22),
   },
   modalTitleDone: {
     position: 'absolute',
