@@ -54,15 +54,33 @@ const landingSlice = createSlice({
   initialState: landing,
   reducers: {
     getMissedCalls: (state, action) => {
-      return {...state, ...action.payload};
+      return {
+        ...state,
+        parties: {
+          ...state.parties,
+          missedCalls: [...action.payload.parties.missedCalls],
+        },
+      };
     },
     addPartyToDailyPlan: (state, action) => {
+      console.log('testing action', action);
       const itemToRemoveIdx = state.parties.missedCalls.findIndex(
-        party =>
-          party.id === action.payload?.parties?.partyMovedToDaily?.partyId,
+        party => party.id === action.payload?.partyMovedToDaily?.partyId,
       );
       state.parties.missedCalls.splice(itemToRemoveIdx, 1);
-      void (state.parties.missedCalls = [...state.parties.missedCalls]);
+      void (state.parties = {
+        missedCalls: [...state.parties.missedCalls],
+        partyMovedToDaily: action.payload.partyMovedToDaily,
+      });
+    },
+    resetStateForDailyPlan: (state, action) => {
+      return {
+        ...state,
+        parties: {
+          ...state.parties,
+          partyMovedToDaily: action.payload,
+        },
+      };
     },
   },
 });

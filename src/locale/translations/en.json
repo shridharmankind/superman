@@ -28,7 +28,9 @@
     "noRecords": "There are no records",
     "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits"
   },
-
+  "message": {
+    "partyAdded": "Party added successfully"
+  },
   "dr": "Doctor",
   "minimum": "minimum",
   "maximum": "maximum",

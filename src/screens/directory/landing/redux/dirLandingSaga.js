@@ -110,13 +110,10 @@ export function* addPartyToDailyPlanWorker(action) {
         partyId: partyId,
       },
     );
-
     if (response.data.id) {
       yield put(
         landingActions.addPartyToDailyPlan({
-          parties: {
-            partyMovedToDaily: response.data,
-          },
+          partyMovedToDaily: response.data,
         }),
       );
     }
@@ -133,5 +130,3 @@ export function* addPartyToDailyPlanWorker(action) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
-
-
