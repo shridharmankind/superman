@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   details: {
     flex: 1,
     flexDirection: 'row',
-    // alignSelf: 'center',
   },
   image: {
     marginRight: 21,
