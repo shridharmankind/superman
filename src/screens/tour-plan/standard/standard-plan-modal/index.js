@@ -119,6 +119,24 @@ const StandardPlanModal = ({
   };
 
   /**
+   * To render error when min Gap rule is not met
+   */
+  const showGapRulesErrror = () => {
+    showToast({
+      type: Constants.TOAST_TYPES.ALERT,
+      autoHide: true,
+      defaultVisibilityTime: 1000,
+      props: {
+        onClose: () => {
+          hideToast();
+        },
+        heading: translate('errorMessage.gapRule'),
+      },
+      onHide: () => {},
+    });
+  };
+
+  /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
@@ -408,6 +426,13 @@ const StandardPlanModal = ({
     [allParties, selectedDoctorType, isSameDayPatch, patchValue],
   );
 
+  const isGapRuleWarning = code => {
+    const ShowGapRuleWarning =
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_2_DOC ||
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_3_DOC ||
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_4_DOC;
+    return ShowGapRuleWarning;
+  };
   /** function to validate the response from endpoint in case of save and updating the patch */
   const validateSaveResponse = useCallback(
     async (obj, id) => {
@@ -455,6 +480,8 @@ const StandardPlanModal = ({
               savePatchRes?.data?.details[0]?.code,
               savePatchRes?.data?.details,
             );
+          } else if (isGapRuleWarning(savePatchRes?.data?.details[0]?.code)) {
+            showGapRulesErrror();
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
