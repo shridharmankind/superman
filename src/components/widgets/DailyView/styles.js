@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   locationContent: {
-    backgroundColor: 'pink',
     flexDirection: 'row',
   },
 });
