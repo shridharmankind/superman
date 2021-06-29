@@ -13,8 +13,7 @@ import {
   landingActions,
 } from '../redux';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {appSelectors} from 'selectors';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 import theme from 'themes';
 import {FetchEnumStatus} from 'reducers';
 import {landing} from '../redux/dirlandingSlice';
@@ -37,7 +36,7 @@ const MissedCalls = () => {
   }, [dispatch, staffPositionId]);
 
   const missedCalls = useSelector(partySelector.getMissedCallsList());
-  const fetchState = useSelector(appSelectors.makeGetAppFetch());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
   const isPartyAddedToDaily = useSelector(partySelector.isPartyMovedToDaily());
 
   useEffect(() => {
@@ -52,6 +51,9 @@ const MissedCalls = () => {
             hideToast();
             dispatch(landingActions.resetStateForDailyPlan(null));
           },
+        },
+        onHide: () => {
+          dispatch(landingActions.resetStateForDailyPlan(null));
         },
       });
     }

@@ -9,7 +9,7 @@ import {Constants, Strings} from 'common';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchTodoActionCreator, updateTodoDataActions} from './redux/todoSlice';
 import {todoSelector} from './redux/todoSelector';
-import {appSelectors} from 'selectors';
+import {appSelector} from 'selectors';
 
 export default function Reference({navigation}) {
   const {colors} = useTheme();
@@ -19,7 +19,7 @@ export default function Reference({navigation}) {
   const dispatch = useDispatch();
   const todos1 = useSelector(todoSelector.makeGetPagedTodos());
   const selectedValue = useSelector(todoSelector.makeGetTodoSelectedState());
-  const fetchState = useSelector(appSelectors.makeGetAppFetch());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
 
   useEffect(() => {
     dispatch(fetchTodoActionCreator());
