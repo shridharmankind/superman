@@ -96,6 +96,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  calendarContainer: {
+    position: 'absolute',
+    justifyContent: 'center',
+    top: 20,
+    left: -29,
+    zIndex: 9999,
+    width: 500,
+  },
+  calendar: {
+    borderColor: theme.colors.borderColor,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.9,
+    shadowRadius: 20,
+    elevation: 3,
+  },
+  swapDate: {
+    paddingVertical: theme.spacing(10),
+    borderWidth: 1,
+    borderColor: theme.colors.grey[300],
+    marginBottom: theme.spacing(20),
+  },
+  swapDateText: {
+    paddingHorizontal: theme.spacing(10),
+  },
+  swapContent: {
+    paddingVertical: theme.spacing(50),
+  },
 });
 
 export default styles;

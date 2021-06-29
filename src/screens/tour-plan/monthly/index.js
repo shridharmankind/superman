@@ -1,6 +1,12 @@
 /* eslint-disable indent */
 import React, {useState, useEffect, useRef} from 'react';
-import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import {
+  View,
+  TouchableWithoutFeedback,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
 import {Modal, Label, Button, Area} from 'components/elements';
@@ -34,6 +40,7 @@ import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 import {appSelector} from 'reducers';
+import {Calendar} from 'react-native-calendars';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -84,6 +91,10 @@ const MonthlyTourPlan = ({navigation}) => {
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [submitSTP, setSubmitSTP] = useState();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [dateSelected, setDateSelected] = useState(null);
+  const [swapObj, setSwapObj] = useState({source: {}, destination: {}});
+  const [date, setDate] = useState({source: null, destination: null});
 
   // Selectors
   const subOrdinatesList = useSelector(
@@ -520,13 +531,12 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderActionButton = () => {
     return (
       <View style={styles.actionButtonGroup}>
-        <Button //NOT REQUIRED CURRENTLY
-          title={translate('tourPlan.monthly.actions.swap')}
+        {/* <Button //NOT REQUIRED CURRENTLY
+          title={translate('tourPlan.monthly.actions.save')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
           labelStyle={styles.buttonTabBarText}
-          onPress={() => handleSwapDialog()}
-        />
+        /> */}
         <Button
           title={translate('tourPlan.monthly.actions.submitSTP')}
           mode="contained"
@@ -579,12 +589,38 @@ const MonthlyTourPlan = ({navigation}) => {
 
   const getSwapModalContent = () => {
     return (
-      <View>
+      <View style={styles.swapContent}>
         <View>
           <Label type="bold" title={translate('tourPlan.monthly.from')} />
+          <TouchableOpacity
+            style={styles.swapDate}
+            onPress={() => handleDatePress('source')}>
+            <Label
+              style={styles.swapDateText}
+              textColor={theme.colors.grey[600]}
+              title={
+                date.source
+                  ? date.source
+                  : translate('tourPlan.monthly.selectDate')
+              }
+            />
+          </TouchableOpacity>
         </View>
         <View>
           <Label type="bold" title={translate('tourPlan.monthly.to')} />
+          <TouchableOpacity
+            style={styles.swapDate}
+            onPress={() => handleDatePress('destination')}>
+            <Label
+              style={styles.swapDateText}
+              textColor={theme.colors.grey[600]}
+              title={
+                date.destination
+                  ? date.destination
+                  : translate('tourPlan.monthly.selectDate')
+              }
+            />
+          </TouchableOpacity>
         </View>
         <Button
           title={translate('tourPlan.monthly.submit')}
@@ -593,8 +629,14 @@ const MonthlyTourPlan = ({navigation}) => {
           labelStyle={styles.buttonTabBarText}
           onPress={() => handleSwapSubmit()}
         />
+        {showCalendar && renderCalendar()}
       </View>
     );
+  };
+
+  const handleDatePress = type => {
+    setDateSelected(type);
+    setShowCalendar(true);
   };
 
   const handleSwapSubmit = () => {
@@ -617,6 +659,33 @@ const MonthlyTourPlan = ({navigation}) => {
         staffPositionId: staffPositionId,
       }),
     );
+  };
+
+  const renderCalendar = () => {
+    return (
+      <View style={styles.calendarContainer}>
+        <Calendar
+          // Initially visible month. Default = Date()
+          current={'2012-03-01'}
+          hideArrows={true}
+          hideExtraDays={true}
+          disableMonthChange={true}
+          firstDay={1}
+          hideDayNames={true}
+          showWeekNumbers={false}
+          enableSwipeMonths={false}
+          onDayPress={day => handleDayPress(day)}
+          style={styles.calendar}
+        />
+      </View>
+    );
+  };
+
+  const handleDayPress = ({day, month, dateString}) => {
+    const obj = {...swapObj, [dateSelected]: {patchId: '', day, month}};
+    setDate({...date, [dateSelected]: dateString});
+    setSwapObj(obj);
+    setShowCalendar(false);
   };
 
   return (
