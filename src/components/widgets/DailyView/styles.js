@@ -65,7 +65,9 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing(4),
   },
   cellFooter: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
 });
 

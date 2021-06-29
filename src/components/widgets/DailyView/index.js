@@ -116,7 +116,7 @@ const DailyView = ({
           ) : null}
         </View>
         {dayCellData?.patch ? (
-          <View style={styles.cellFooter}>
+          <View style={styles.content}>
             <LocationIcon width={16} height={16} />
             <Label
               testID={`label_dailyView_patch_test_${dayCellData?.patchId}`}

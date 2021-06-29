@@ -18,10 +18,6 @@ const MonthlyView = ({
   monthlyCalendarData,
   DayComponent = DailyView,
 }) => {
-  console.log(
-    'monthlyCalendarDatamonthlyCalendarDatamonthlyCalendarData',
-    monthlyCalendarData,
-  );
   const textInput = React.useRef(null);
   const currentDate = getDateFromMonthYear(monthSelected);
   // effect to update month on change of date
