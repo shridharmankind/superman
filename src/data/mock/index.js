@@ -149,7 +149,7 @@ const getMock = axios => {
     .reply(200, docList);
   mock
     .onGet(
-      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=true&IncludeDiscussedList=true&Skip=0&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&IsPriority=true&PartyId=1&IncludeDiscussedList=true&Skip=0&Limit=0',
     )
     .reply(200, EPriorityProductList);
   mock
@@ -159,7 +159,7 @@ const getMock = axios => {
     .reply(200, AllPriority);
   mock
     .onGet(
-      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&IncludeDiscussedList=true&Skip=0&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&IncludeDiscussedList=true&IsPriority=false&PartyId=1&Skip=0&Limit=0',
     )
     .reply(200, EOtherProductList);
   mock
