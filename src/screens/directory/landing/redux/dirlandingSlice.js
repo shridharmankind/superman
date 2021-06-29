@@ -54,18 +54,13 @@ const landingSlice = createSlice({
   initialState: landing,
   reducers: {
     getMissedCalls: (state, action) => {
-      console.log('######', JSON.stringify({...state, ...action.payload}));
       return {
         ...state,
         parties: {
           ...state.parties,
-          missedCalls: [
-            // ...state.parties.missedCalls,
-            ...action.payload.parties.missedCalls,
-          ],
+          missedCalls: [...action.payload.parties.missedCalls],
         },
       };
-      // return {...state, ...action.payload};
     },
     addPartyToDailyPlan: (state, action) => {
       console.log('testing action', action);

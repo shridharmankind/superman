@@ -110,9 +110,7 @@ export function* addPartyToDailyPlanWorker(action) {
         partyId: partyId,
       },
     );
-    console.log('saga', response.data);
     if (response.data.id) {
-      console.log('test', response.data.id);
       yield put(
         landingActions.addPartyToDailyPlan({
           partyMovedToDaily: response.data,
@@ -122,7 +120,6 @@ export function* addPartyToDailyPlanWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log('errorerrorerrorerrorerror', error);
     yield put(
       landingActions.addPartyToDailyPlan({
         parties: {

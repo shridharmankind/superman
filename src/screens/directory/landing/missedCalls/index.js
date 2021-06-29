@@ -41,21 +41,14 @@ const MissedCalls = () => {
   const isPartyAddedToDaily = useSelector(partySelector.isPartyMovedToDaily());
 
   useEffect(() => {
-    console.log('*********missedc', missedCalls);
-  }, [missedCalls]);
-
-  useEffect(() => {
-    console.log('testtesttesttest', isPartyAddedToDaily);
     if (isPartyAddedToDaily?.id) {
       showToast({
         type: Constants.TOAST_TYPES.SUCCESS,
         visibilityTime: 2000,
         autoHide: true,
         props: {
-          // visibilityTime: 2000,
           heading: translate('message.partyAdded'),
           onClose: () => {
-            console.log('closing toast');
             hideToast();
             dispatch(landingActions.resetStateForDailyPlan(null));
           },
@@ -69,7 +62,6 @@ const MissedCalls = () => {
    * @param {Number} partyID uniquer id of the party
    */
   const addToTodayPlan = partyID => {
-    console.log('clicked', partyID);
     dispatch(landingActions.resetStateForDailyPlan(null));
     dispatch(
       addPartyToDailyPlanCreator({
@@ -77,7 +69,7 @@ const MissedCalls = () => {
         partyId: partyID,
       }),
     );
-  };;
+  };
 
   /**
    * returns jsx of button of add to today
