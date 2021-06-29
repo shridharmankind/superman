@@ -183,7 +183,7 @@ export const getComparisonResult = (value1, value2, checkType) => {
 
 const getPartyData = (partyData, type) =>
   partyData?.filter(
-    item => item?.partyType.toLowerCase() === type.toLowerCase(),
+    item => item?.partyType?.toLowerCase() === type.toLowerCase(),
   )[0]?.count;
 
 /**
