@@ -37,6 +37,8 @@ export const PARTY_TYPE = {
   CHEMIST: 'Chemist',
 };
 
+export const PARTY_TYPES = ['All', 'Doctor', 'Chemist'];
+
 export const COMPLAINCE_TYPE = {
   MONTHLY: 'monthly',
   DAILY: 'daily',
@@ -72,4 +74,9 @@ export const SUBMIT_STP_PLAN_THRESHOLD_VALUE = 100;
 export const ARRAY_OPERATION = {
   PUSH: 'PUSH',
   POP: 'POP',
+};
+
+export const MTP_LOCK_DATES_THRESHOLD = {
+  MIN: 8,
+  MAX: 20,
 };

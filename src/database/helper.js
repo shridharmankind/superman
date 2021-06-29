@@ -14,6 +14,8 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_PARTY,
     apiPath: Constants.MASTER_TABLE_PARTY_API_PATH,
+    syncApiPath: Constants.MASTER_TABLE_PARTY_SYNC_API_PATH,
+    syncParam: Constants.MASTER_TABLE_PARTY_SYNC_PARAM,
     schema: [
       Schemas.partyMaster,
       Schemas.Specialities.schema,
@@ -25,26 +27,63 @@ export const MASTER_TABLES_DETAILS = [
     ],
   },
   {
+    name: Constants.MASTER_MONTHLY_TABLE_PLAN,
+    apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
+    syncApiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_SYNC_API_PATH,
+    syncParam: Constants.MASTER_MONTHLY_TABLE_SYNC_PARAM,
+    schema: [
+      Schemas.MonthlySchema.monthlyMaster,
+      Schemas.MonthlySchema.dailyMaster,
+    ],
+  },
+  {
     name: Constants.MASTER_TABLE_PARTY_CATEGORIES,
     apiPath: Constants.MASTER_TABLE_PARTY_CATEGORIES_API_PATH,
   },
   {
     name: Constants.MASTER_TABLE_ORGANIZATION,
     apiPath: Constants.MASTER_TABLE_ORGANIZATION_API_PATH,
+    schema: [Schemas.Organizations.schema],
   },
   {
     name: Constants.MASTER_TABLE_DIVISION,
     apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
+    schema: [Schemas.Divisions.schema],
   },
   {
     name: Constants.QUALIFICATIONS,
     apiPath: NetworkService.API.FETCH_QUALIFICATIONS,
+    schema: [Schemas.Qualifications.schema],
   },
   {
     name: Constants.SPECIALITIES,
     apiPath: NetworkService.API.FETCH_SPECIALITIES,
+    schema: [Schemas.Specialities.schema],
   },
 ];
+
+export const syncErrorDetails = {
+  name: Constants.MASTER_SYNC_ERROR_DETAIL,
+  embedded: true,
+  properties: {
+    conflictType: 'string',
+    errorMessage: 'string',
+  },
+};
+
+export const syncParameters = {
+  name: Constants.MASTER_SYNC_PARAMETERS,
+  embedded: true, // default: false
+  properties: {
+    devicePartyId: 'string?',
+    isActive: 'bool',
+    requireSync: 'bool',
+    lastModifiedOn: 'date',
+    isDeleted: 'bool',
+    errorInSync: 'bool',
+    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL,
+  },
+};
 
 /**
  * This function is get logged in user first name
@@ -72,7 +111,6 @@ export const getStaffPositionId = async () => {
         staffPosition => staffPosition.isPrimary,
       )) || [];
     const primaryStaffPosition = primaryStaffPositions[0] || {};
-
     return primaryStaffPosition?.id;
   } catch (error) {}
 };

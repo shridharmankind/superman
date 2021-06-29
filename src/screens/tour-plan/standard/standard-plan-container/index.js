@@ -6,13 +6,14 @@ import {
   fetchSTPCalendarUpdateCreator,
   standardTourPlanSelector,
 } from '../redux';
-
+import {appSelector} from 'selectors';
 /**
  * Standard Tour Plan container
  */
 const StandardPlanContainer = ({workingDays, navigation}) => {
   const dispatch = useDispatch();
   const [weekDayData, setWeekDayData] = useState([]);
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const weekDayDataSelector = useSelector(
     standardTourPlanSelector.getSTPData(),
   );
@@ -20,10 +21,10 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
   useEffect(() => {
     dispatch(
       fetchSTPCalendarUpdateCreator({
-        staffPositionId: 1,
+        staffPositionId,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionId]);
 
   useEffect(() => {
     setWeekDayData(weekDayDataSelector);

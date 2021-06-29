@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Constants} from 'common';
+import {Linking} from 'react-native';
+import {KeyChain} from 'helper';
 
 export const isAccessTokenValid = async () => {
   const tokenExpiryTime = await AsyncStorage.getItem(
@@ -10,6 +12,15 @@ export const isAccessTokenValid = async () => {
   if (diff <= 0) {
     return true;
   }
+};
+
+export const revokeLogin = async userToken => {
+  try {
+    const url = Constants.revokeUrl + userToken;
+    await Linking.openURL(url);
+    await KeyChain.resetPassword();
+    await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
+  } catch (error) {}
 };
 
 export const isLocalHost = () =>

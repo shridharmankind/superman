@@ -7,12 +7,14 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
+import {NetworkService} from 'services';
 import {Label} from 'components/elements';
 import themes from 'themes';
 import {
   Helper,
   Constants as DBConstants,
   Operations,
+  MonthlyPlan,
   PartyCategories,
   Schemas,
   Organizations,
@@ -23,11 +25,13 @@ import {
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
-import {NetworkService} from 'services';
-import {Routes} from 'navigations';
+import {ROUTE_DASHBOARD} from '../../../navigations/routes';
+import {useDispatch} from 'react-redux';
+import {authTokenActions} from '../RouteHandler/redux';
 
-const MasterDataDownload = ({navigation}) => {
-  const progressBarSyncParam = 10 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
+const MasterDataDownload = () => {
+  const dispatch = useDispatch();
+  const progressBarSyncParam = 60 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
   const [progress, setProgress] = useState(0);
   const [indeterminate, setIndeterminate] = useState(true);
 
@@ -45,9 +49,7 @@ const MasterDataDownload = ({navigation}) => {
       };
 
       const onDownloadComplete = () => {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
+        dispatch(authTokenActions.updateScreen({screen: ROUTE_DASHBOARD}));
       };
 
       try {
@@ -108,7 +110,6 @@ const MasterDataDownload = ({navigation}) => {
             Schemas.masterTablesDownLoadStatus,
             item.name,
           );
-
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
@@ -140,6 +141,14 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.SPECIALITIES:
               fetchSpecialities(item);
               break;
+            case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+              {
+                const staffPositionId = await Helper.getStaffPositionId();
+                response = await NetworkService.get(
+                  `${item.apiPath}${staffPositionId}`,
+                );
+              }
+              break;
           }
           if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
@@ -159,7 +168,13 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 updateRecordDownloaded(item.name);
                 break;
-
+              case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+                await MonthlyPlan.createMonthlyMasterRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_DIVISION:
                 const divisionsUpdated = await Divisions.storeDivisions(
                   JSON.parse(data),
@@ -186,6 +201,11 @@ const MasterDataDownload = ({navigation}) => {
             onDownloadError(item.name);
           }
         }
+        await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
+          name: DBConstants.APPLICATION_SYNC_STATUS,
+          status: DBConstants.downloadStatus.DOWNLOADED,
+          lastSync: new Date(),
+        });
         onDownloadComplete();
       } catch (error) {
         onDownloadError(error);
@@ -195,7 +215,7 @@ const MasterDataDownload = ({navigation}) => {
     return () => {
       isMounted = false;
     };
-  }, [navigation, progressBarSyncParam]);
+  }, [progressBarSyncParam, dispatch]);
 
   const initMasterTablesDownloadStatus = async () => {
     try {
@@ -208,6 +228,7 @@ const MasterDataDownload = ({navigation}) => {
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
           status: DBConstants.downloadStatus.PENDING,
+          lastSync: new Date(),
         });
       });
     } catch (error) {

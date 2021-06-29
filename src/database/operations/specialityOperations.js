@@ -1,5 +1,5 @@
 import {SpecialitiesSchemaName} from '../schemas/Specialities';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 
 export default dbInstance => ({
   storeSpecialities: async specialities => {
@@ -8,7 +8,11 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         specialities.forEach(speciality => {
-          dbInstance.create(SpecialitiesSchemaName, speciality, 'modified');
+          dbInstance.create(
+            SpecialitiesSchemaName,
+            {...speciality, syncParameters: syncParametersObject()},
+            'modified',
+          );
         });
       });
     } catch (err) {

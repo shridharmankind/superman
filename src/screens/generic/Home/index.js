@@ -17,7 +17,7 @@ const Home = ({navigation}) => {
   const handleLogOff = async () => {
     try {
       await KeyChain.resetPassword();
-      await AsyncStorage.removeItem('token_expiry_time');
+      await AsyncStorage.removeItem('TOKEN_EXPIRY_TIME');
       await AsyncStorage.removeItem('isLogged');
       navigation.navigate('Login');
     } catch (error) {

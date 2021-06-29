@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
   focus: {
     flexDirection: 'column',
   },
+  focusIcon: {
+    marginTop: theme.spacing(-3),
+  },
   focusLabel: {
     fontFamily: theme.fonts.fontBold,
     backgroundColor: theme.colors.grey[1500],
