@@ -5,6 +5,9 @@ import {Button} from 'components/elements';
 import {TabBar} from 'components/widgets';
 import {DailyTourPlan, MonthlyTourPlan} from 'screens/tourPlan';
 import {Strings} from 'common';
+import {translate} from 'locale';
+import {ROUTE_DIRECTORY_LANDING} from 'screens/directory/routes';
+import {ROUTE_DIRECTORY} from 'screens/generic/Dashboard/routes';
 
 /**
  * This file renders the tabs for daily or monthly tour plan and renders corresponding child views
@@ -22,6 +25,15 @@ const Schedule = ({navigation}) => {
   const [showButtons, setShowButtons] = useState(true);
 
   /**
+   * Navigate to Directory landing page
+   */
+  const navigateToDirectory = () => {
+    navigation.navigate(ROUTE_DIRECTORY, {
+      screen: ROUTE_DIRECTORY_LANDING,
+    });
+  };
+
+  /**
    * function to render tabs and buttons
    * @retuns tabs view
    */
@@ -32,16 +44,17 @@ const Schedule = ({navigation}) => {
         {showButtons && (
           <View style={styles.tabContainer}>
             <Button
-              title={Strings.reviewDCR}
+              title={translate('tourPlan.monthly.actions.reviewDCR')}
               mode="outlined"
               contentStyle={styles.buttonTabBar}
               labelStyle={styles.buttonTabBarText}
             />
             <Button
-              title={Strings.addToTodayPlan}
+              title={translate('tourPlan.monthly.actions.addToTodayPlan')}
               mode="contained"
               contentStyle={styles.buttonTabBar}
               labelStyle={styles.buttonTabBarText}
+              onPress={navigateToDirectory}
             />
           </View>
         )}
