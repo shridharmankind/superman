@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     borderColor: theme.colors.grey[100],
-    minHeight: 95,
+    height: 95,
     minWidth: 100,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
@@ -27,10 +27,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignContent: 'flex-start',
   },
-  bottomContent: {
+  categoryContent: {
     flexDirection: 'column',
     alignSelf: 'stretch',
     justifyContent: 'space-between',
+    height: 40,
   },
   disabled: {
     color: theme.colors.grey[100],
@@ -68,6 +69,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
+  },
+  locationContent: {
+    backgroundColor: 'pink',
+    flexDirection: 'row',
   },
 });
 
