@@ -5,6 +5,7 @@ import {
   fetchWorkingDayCreatorType,
   fetchSTPStatusCreatorType,
   submitSTPCreatorType,
+  swapCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
@@ -27,6 +28,10 @@ export function* fetchSTPStatusWatcher() {
 
 export function* submitSTPWatcher() {
   yield takeEvery(submitSTPCreatorType, submitSTPWorker);
+}
+
+export function* setSwapWatcher() {
+  yield takeEvery(swapCreatorType, swapWorker);
 }
 
 /**
@@ -116,6 +121,29 @@ export function* submitSTPWorker(action) {
     yield put(
       monthlyActions.submitSTP({
         submitSTP: response.data,
+      }),
+    );
+
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    console.log(error);
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+export function* swapWorker(action) {
+  const {staffPositionId, obj} = action.payload;
+  const valueMap = {
+    staffPositionId: staffPositionId,
+  };
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  let url = API_PATH.SWAP;
+  url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
+  try {
+    const response = yield call(NetworkService.put, url, obj);
+    yield put(
+      monthlyActions.setSwap({
+        setSwap: response.data,
       }),
     );
 

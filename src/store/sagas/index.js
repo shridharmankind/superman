@@ -9,6 +9,7 @@ import {
   fetchWorkingDayWatcher,
   fetchSTPStatusWatcher,
   submitSTPWatcher,
+  setSwapWatcher,
 } from 'screens/tourPlan/monthly/redux';
 import {
   fetchPartiesWatcher,
@@ -55,6 +56,7 @@ export function* rootSaga() {
     fetchEDetailingPriorityProductWatcher,
     fetchEDetailingOtherProductWatcher,
     fetchTimelineWatcher,
+    setSwapWatcher,
   ];
 
   /**

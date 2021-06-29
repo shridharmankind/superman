@@ -4,10 +4,14 @@
     "monthly": {
       "actions": {
         "save": "Save",
-        "submitSTP": "Submit STP"
+        "submitSTP": "Submit STP",
+        "swap": "Swap"
       },
       "submittedOn": "Submitted on",
-      "MTPDueOn": "Due in {{X}} days"
+      "MTPDueOn": "Due in {{X}} days",
+      "from":"From",
+      "to": "To",
+      "submit": "Submit"
     }
   },
   "missedVisit": "Missed Visit!",

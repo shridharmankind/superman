@@ -24,6 +24,7 @@ import {
   fetchWorkingDayCreator,
   fetchSTPStatusCreator,
   submitSTPCreator,
+  swapCreator,
 } from './redux';
 import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
@@ -73,6 +74,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [selectedTourPlan, setSelectedTourPlan] = useState({});
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
   const [visible, setVisible] = useState(false);
+  const [swapModalVisible, setSwapModalVisible] = useState(false);
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
@@ -518,12 +520,13 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderActionButton = () => {
     return (
       <View style={styles.actionButtonGroup}>
-        {/* <Button  //NOT REQUIRED CURRENTLY
-          title={translate('tourPlan.monthly.actions.save')}
+        <Button //NOT REQUIRED CURRENTLY
+          title={translate('tourPlan.monthly.actions.swap')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
           labelStyle={styles.buttonTabBarText}
-        /> */}
+          onPress={() => handleSwapDialog()}
+        />
         <Button
           title={translate('tourPlan.monthly.actions.submitSTP')}
           mode="contained"
@@ -536,13 +539,82 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  const renderSwapButton = () => {
+    return (
+      <Button
+        title={translate('tourPlan.monthly.actions.swap')}
+        mode="outlined"
+        contentStyle={[styles.actionBtn, styles.saveBtn]}
+        labelStyle={styles.buttonTabBarText}
+        onPress={() => handleSwapDialog()}
+      />
+    );
+  };
+
+  const swapModal = () => {
+    return (
+      <Modal
+        open={swapModalVisible}
+        onClose={handleSwapDialog}
+        closeAction={true}
+        modalTitle={getSwapModalTitle()}
+        modalContent={getSwapModalContent()}
+        customModalCenteredView={styles.centeredView}
+      />
+    );
+  };
+
+  const getSwapModalTitle = () => {
+    return (
+      <View>
+        <Label
+          type="bold"
+          title={translate('tourPlan.monthly.actions.swap')}
+          size={14}
+          style={styles.modalTitleText}
+        />
+      </View>
+    );
+  };
+
+  const getSwapModalContent = () => {
+    return (
+      <View>
+        <View>
+          <Label type="bold" title={translate('tourPlan.monthly.from')} />
+        </View>
+        <View>
+          <Label type="bold" title={translate('tourPlan.monthly.to')} />
+        </View>
+        <Button
+          title={translate('tourPlan.monthly.submit')}
+          mode="contained"
+          contentStyle={styles.actionBtn}
+          labelStyle={styles.buttonTabBarText}
+          onPress={() => handleSwapSubmit()}
+        />
+      </View>
+    );
+  };
+
+  const handleSwapSubmit = () => {
+    dispatch(
+      swapCreator({
+        staffPositionId: staffPositionId,
+        obj: {},
+      }),
+    );
+  };
+
+  const handleSwapDialog = () => setSwapModalVisible(!swapModalVisible);
+
   /**
    * Submit STP to BE
    */
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({
-        staffPositionId: 1,
+        staffPositionId: staffPositionId,
       }),
     );
   };
@@ -555,7 +627,7 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
-        {selectedTourPlan.id === 1 && renderActionButton()}
+        {selectedTourPlan.id === 1 ? renderActionButton() : renderSwapButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
         selectedTourPlan.id === 1 && (
@@ -582,6 +654,7 @@ const MonthlyTourPlan = ({navigation}) => {
           setShowCongratsModal(false);
         }}
       />
+      {swapModal()}
     </View>
   );
 };

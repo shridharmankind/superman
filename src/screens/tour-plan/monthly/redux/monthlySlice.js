@@ -32,6 +32,10 @@ export const fetchSTPStatusCreatorType = fetchSTPStatusCreator().type;
 export const submitSTPCreator = createAction('SUBMIT_STP');
 export const submitSTPCreatorType = submitSTPCreator().type;
 
+// Action Creator and type to swap
+export const swapCreator = createAction('SWAP');
+export const swapCreatorType = swapCreator().type;
+
 /**
  *  create subordinate slice defining the intial state, reducers
  */
@@ -60,6 +64,7 @@ export const getMonthlySlice = createSlice({
         },
       };
     },
+    setSwap: (state, action) => merge(state, action.payload),
   },
 });
 

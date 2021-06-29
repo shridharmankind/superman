@@ -178,6 +178,7 @@ const getMock = axios => {
     .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
     .reply(200, qualifications);
   mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
+  mock.onPut(getUrl(API_PATH.SWAP)).reply(200, true);
 };
 
 export default getMock;

@@ -92,6 +92,10 @@ const styles = StyleSheet.create({
   dueDateChip: {
     color: theme.colors.red[600],
   },
+  centeredView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default styles;
