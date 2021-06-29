@@ -341,7 +341,11 @@ const StandardPlanModal = ({
         );
         if (doctorToRemove) {
           doctorArr = doctorArr.filter(
-            doc => doc.partyId !== doctorToRemove.partyId,
+            doc =>
+              !(
+                doc.partyId === doctorToRemove.partyId &&
+                doc.areaId === doctorToRemove.areaId
+              ),
           );
         }
       });
