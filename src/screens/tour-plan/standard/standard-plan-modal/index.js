@@ -40,7 +40,7 @@ import {
   fetchPlanComplianceCreator,
 } from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 import {translate} from 'locale';
 
 /**
