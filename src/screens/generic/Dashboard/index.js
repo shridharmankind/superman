@@ -77,16 +77,16 @@ const Dashboard = ({navigation}) => {
     let subscribeNetworkCheck = null;
     if (!isWeb()) {
       fetchSyncTime();
-      // subscribeNetworkCheck = NetInfo.addEventListener(
-      //   handleConnectivityChange,
-      // );
+      subscribeNetworkCheck = NetInfo.addEventListener(
+        handleConnectivityChange,
+      );
       //Sync.SyncService.RegisterBackgroundTask();
     }
     return async () => {
       if (!isWeb()) {
         if (subscribeNetworkCheck) {
-         // subscribeNetworkCheck();
-         // subscribeNetworkCheck = null;
+          subscribeNetworkCheck();
+          subscribeNetworkCheck = null;
         }
       }
     };
