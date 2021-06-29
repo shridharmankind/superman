@@ -18,6 +18,7 @@ import {
   PARTY_TYPE,
   STP_STATUS,
   COMPLAINCE_TYPE,
+  PARTY_TYPES,
 } from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
@@ -39,7 +40,7 @@ import {
   fetchPlanComplianceCreator,
 } from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 import {translate} from 'locale';
 
 /**
@@ -66,7 +67,6 @@ const StandardPlanModal = ({
   const [patchSelected, setPatchSelected] = useState();
   const [patchDefaultValue, setPatchDefaultValue] = useState();
   const [parties, setParties] = useState([]);
-  const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
   const [doctorsSelected, setDoctorsSelected] = useState([]);
   const [showPatchError, setShowPatchError] = useState(false);
@@ -232,10 +232,6 @@ const StandardPlanModal = ({
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
-    filterPartyByType(allParties);
-  }, [allParties]);
-
-  useEffect(() => {
     setPatches(allPatches);
   }, [allPatches]);
 
@@ -294,19 +290,6 @@ const StandardPlanModal = ({
     [allParties, allAreas],
   );
 
-  /** function to filter party by type and update partiesType
-   * @param {Array} partyList list of parties passed
-   */
-  const filterPartyByType = partyList => {
-    const doctorType = [Strings.all];
-    partyList.map(party => {
-      if (doctorType.indexOf(party.partyTypes.name) === -1) {
-        doctorType.push(party.partyTypes.name);
-      }
-    });
-    setPartiesType(doctorType);
-  };
-
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
     if (updatedPatchArray.length > 0 && allAreas.length > 0) {
@@ -363,8 +346,9 @@ const StandardPlanModal = ({
         }
       });
       setDoctorsSelected(doctorArr);
+      updateString(doctorArr);
     },
-    [doctorsSelected, allParties],
+    [doctorsSelected, allParties, updateString],
   );
 
   /** function to create patch string to be put in patch input field*/
@@ -382,7 +366,7 @@ const StandardPlanModal = ({
       .join(' + ');
     const patchCount = (ptches || []).filter(
       p =>
-        p.displayName === patchString ||
+        p.displayName?.split(' (')[0] === patchString ||
         p.defaultName?.split(' (')[0] === patchString,
     );
     if (patchCount) {
@@ -458,6 +442,7 @@ const StandardPlanModal = ({
             Constants.HTTP_PATCH_CODE.ALREADY_EXITS
           ) {
             setPatchError(Strings.patchAlreadyExists);
+            setShowPatchError(true);
           } else if (
             savePatchRes?.data?.details[0]?.code ===
               Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY ||
@@ -473,7 +458,6 @@ const StandardPlanModal = ({
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
-          setShowPatchError(true);
         } else {
           setPatchError(Strings.somethingWentWrong);
           setShowPatchError(true);
@@ -813,27 +797,54 @@ const StandardPlanModal = ({
     }
 
     setDoctorsSelected(selected || []);
-    const string = createPatchString(
-      areaSelected,
-      selected || [],
-      allParties,
-      patches,
-    );
-    if (isSameDayPatch(patchValue)) {
-      setPatchDefaultValue(string);
-    } else {
-      setIsPatchedData(false);
-      if (!patchEdited) {
-        setPatchSelected(string);
-      }
-      if (string !== patchValue?.defaultName) {
-        setPatchValue(null);
-      }
-      setPatchDefaultValue(string);
-    }
-
+    updateString(selected);
     setDataChanged(true);
   };
+
+  /**method to update the string for display and default name
+   * @param {Array} partArr selected doctor list passed as an array
+   */
+  const updateString = useCallback(
+    partyArr => {
+      const string = createPatchString(
+        areaSelected,
+        partyArr || [],
+        allParties,
+        patches,
+      );
+      if (isSameDayPatch(patchValue)) {
+        if (patchValue?.defaultName === patchValue?.displayName) {
+          setPatchDefaultValue(string);
+          if (
+            patchValue?.defaultName.split(' (')[0] === string.split(' (')[0]
+          ) {
+            setPatchSelected(patchValue?.defaultName);
+            setPatchDefaultValue(patchValue?.defaultName);
+          } else {
+            setPatchSelected(string);
+          }
+        }
+      } else {
+        setIsPatchedData(false);
+        if (!patchEdited) {
+          setPatchSelected(string);
+        }
+        if (string !== patchValue?.defaultName) {
+          setPatchValue(null);
+        }
+        setPatchDefaultValue(string);
+      }
+    },
+    [
+      allParties,
+      areaSelected,
+      createPatchString,
+      isSameDayPatch,
+      patchEdited,
+      patchValue,
+      patches,
+    ],
+  );
 
   /** function to handle value of patch input field and check validation on string
    * @param {String} val string passed from input field
@@ -1128,7 +1139,7 @@ const StandardPlanModal = ({
                   />
                 </View>
                 <View style={styles.categoryFilterContainer}>
-                  {partiesType.map((type, i) => (
+                  {PARTY_TYPES.map((type, i) => (
                     <Area
                       key={i}
                       selectedTextColor={themes.colors.white}

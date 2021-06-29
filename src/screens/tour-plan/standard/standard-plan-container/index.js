@@ -6,7 +6,7 @@ import {
   fetchSTPCalendarUpdateCreator,
   standardTourPlanSelector,
 } from '../redux';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 /**
  * Standard Tour Plan container
  */

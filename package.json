@@ -16,7 +16,8 @@
     "rn-android": "react-native run-android",
     "android": "yarn env-dev && yarn rn-android",
     "android-static": "yarn env-static && yarn rn-android",
-    "android-staging": "yarn env-staging && yarn rn-android"
+    "android-staging": "yarn env-staging && yarn rn-android",
+    "postinstall": "cp -R android/app/src/main/res/mipmap node_modules/react-native-sync-adapter/android/src/main/res/mipmap"
   },
   "dependencies": {
     "@react-native-community/art": "^1.2.0",

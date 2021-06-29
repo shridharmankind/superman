@@ -10,7 +10,7 @@ import {
   planComplianceActions,
   planComplianceSelector,
 } from './redux';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 import {rulesMapping} from './rulesMapping';
 import {ErrorIcon, Complaint} from 'assets';
 import {getComparisonResult} from 'screens/tourPlan/helper';
