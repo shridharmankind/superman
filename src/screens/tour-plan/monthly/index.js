@@ -32,7 +32,7 @@ import {translate} from 'locale';
 import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
