@@ -10,12 +10,14 @@ import {
   fetchMissedCallsCreator,
   partySelector,
   addPartyToDailyPlanCreator,
+  landingActions,
 } from '../redux';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {appSelectors} from 'selectors';
 import {appSelector} from 'reducers';
 import theme from 'themes';
 import {FetchEnumStatus} from 'reducers';
+import {landing} from '../redux/dirlandingSlice';
 
 /**
  * component to fetch missed calls to show on directory landing page
@@ -35,18 +37,24 @@ const MissedCalls = () => {
   const missedCalls = useSelector(partySelector.getMissedCallsList());
   const fetchState = useSelector(appSelectors.makeGetAppFetch());
 
+  useEffect(() => {
+    console.log('*********missedc', missedCalls);
+  }, [missedCalls]);
+
   /**
    * click handler on party to move it to daily plan
    * @param {Number} partyID uniquer id of the party
    */
   const addToTodayPlan = partyID => {
+    console.log('clicked', partyID);
+    // dispatch(landingActions.resetStateForDailyPlan(null));
     dispatch(
       addPartyToDailyPlanCreator({
         staffPositionId: staffPositionId,
         partyId: partyID,
       }),
     );
-  };
+  };;
 
   /**
    * returns jsx of button of add to today

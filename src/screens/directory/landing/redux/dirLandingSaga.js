@@ -110,28 +110,26 @@ export function* addPartyToDailyPlanWorker(action) {
         partyId: partyId,
       },
     );
-
+    console.log('saga', response.data);
     if (response.data.id) {
+      console.log('test', response.data.id);
       yield put(
         landingActions.addPartyToDailyPlan({
-          parties: {
-            partyMovedToDaily: response.data,
-          },
+          partyMovedToDaily: response.data,
         }),
       );
     }
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    yield put(
-      landingActions.addPartyToDailyPlan({
-        parties: {
-          partyMovedToDaily: null,
-        },
-      }),
-    );
+    console.log('errorerrorerrorerrorerror', error);
+    // yield put(
+    //   landingActions.addPartyToDailyPlan({
+    //     parties: {
+    //       partyMovedToDaily: null,
+    //     },
+    //   }),
+    // );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
-
-

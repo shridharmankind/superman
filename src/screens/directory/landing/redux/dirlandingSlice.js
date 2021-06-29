@@ -54,15 +54,71 @@ const landingSlice = createSlice({
   initialState: landing,
   reducers: {
     getMissedCalls: (state, action) => {
-      return {...state, ...action.payload};
+      console.log('######', JSON.stringify({...state, ...action.payload}));
+      return {
+        ...state,
+        parties: {
+          ...state.parties,
+          missedCalls: [
+            // ...state.parties.missedCalls,
+            ...action.payload.parties.missedCalls,
+          ],
+        },
+      };
+      // return {...state, ...action.payload};
     },
     addPartyToDailyPlan: (state, action) => {
+      console.log('testing action', action);
       const itemToRemoveIdx = state.parties.missedCalls.findIndex(
-        party =>
-          party.id === action.payload?.parties?.partyMovedToDaily?.partyId,
+        party => party.id === action.payload?.partyMovedToDaily?.partyId,
       );
       state.parties.missedCalls.splice(itemToRemoveIdx, 1);
-      void (state.parties.missedCalls = [...state.parties.missedCalls]);
+      state.parties.partyMovedToDaily =
+        action.payload.parties.partyMovedToDaily;
+      console.log('state******', JSON.stringify(state.parties));
+      console.log('&&&&&&&&', JSON.stringify(action.payload));
+      // void (state.parties.partyMovedToDaily = action.payload);
+      // return {
+      //   ...state,
+      //   parties: {
+      //     ...state.parties,
+      //   },
+      // };
+      // return {
+      //   ...state,
+      //   parties: {
+      //     ...state.parties,
+      //     missedCalls: [...state.parties.missedCalls],
+      //     partyMovedToDaily: action.payload,
+      //   },
+      // };
+
+      // return {
+      //   ...state,
+      //   parties: {
+      //     // ...state.parties,
+      //     missedCalls: [...state.parties.missedCalls],
+      //     partyMovedToDaily: action.payload,
+      //   },
+      // };
+      // return {
+      //   ...state,
+      //   parties: {
+      //     missedCalls: state.parties.missedCalls.splice(itemToRemoveIdx, 1),
+      //     partyMovedToDaily: action.payload.parties.parties,
+      //   },
+      // };
+      // // return {...state};
+      void (state.parties = [...state.parties]);
+    },
+    resetStateForDailyPlan: (state, action) => {
+      return {
+        ...state,
+        parties: {
+          ...state.parties,
+          partyMovedToDaily: action.payload,
+        },
+      };
     },
   },
 });
