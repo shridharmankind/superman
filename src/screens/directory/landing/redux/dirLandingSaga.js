@@ -1,14 +1,25 @@
 import {
   fetchSearchDoctorsTypeName,
   searchDoctorActions,
+  landingActions,
+  fetchMissedCallsypeName,
+  addPartyToDailyPlanTypeName,
 } from './dirlandingSlice';
 import {call, takeEvery, put} from '@redux-saga/core/effects';
 import {NetworkService} from 'services';
-import {API_PATH} from 'screens/directory/apiPath';
+import API_PATHS from 'services/network/apiPaths';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 
 export function* fetchQueryDoctorsWatcher() {
   yield takeEvery(fetchSearchDoctorsTypeName, fetchSearchDoctorsHandler);
+}
+
+export function* fetchMissedCallsWatcher() {
+  yield takeEvery(fetchMissedCallsypeName, fetchMissedCallsWorker);
+}
+
+export function* addPartyToDailyPlanWatcher() {
+  yield takeEvery(addPartyToDailyPlanTypeName, addPartyToDailyPlanWorker);
 }
 
 function* fetchSearchDoctorsHandler(action) {
@@ -18,7 +29,7 @@ function* fetchSearchDoctorsHandler(action) {
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.GET_SEARCH_DOCTORS}?StaffPositionId=${staffPositionId}&Keyword=${searchKeyword}&PartyTypeId=${partyTypeId}&Skip=${skip}&Limit=${limit}`,
+      `${API_PATHS.GET_SEARCH_DOCTORS}?StaffPositionId=${staffPositionId}&Keyword=${searchKeyword}&PartyTypeId=${partyTypeId}&Skip=${skip}&Limit=${limit}`,
     );
     if (skip === 0) {
       yield put(
@@ -42,6 +53,80 @@ function* fetchSearchDoctorsHandler(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+/**
+ * worker function to send the api call to fetch missed calls list
+ */
+export function* fetchMissedCallsWorker(action) {
+  const {staffPositionId, month} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  try {
+    const valueMap = {
+      staffPositionId: staffPositionId,
+      month: month,
+    };
+    let url = API_PATHS.GET_MISSED_CALLS;
+    url = url.replace(
+      /\b(?:staffPositionId|month)\b/gi,
+      matched => valueMap[matched],
+    );
+
+    const response = yield call(NetworkService.get, url);
+
+    yield put(
+      landingActions.getMissedCalls({
+        parties: {
+          missedCalls: response.data || [],
+        },
+      }),
+    );
+
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    yield put(
+      landingActions.getMissedCalls({
+        parties: {
+          missedCalls: [],
+        },
+      }),
+    );
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+export function* addPartyToDailyPlanWorker(action) {
+  const {staffPositionId, partyId} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  try {
+    const response = yield call(
+      NetworkService.post,
+      API_PATHS.ADD_TODAY_PLAN,
+      {},
+      {
+        staffPositionId: staffPositionId,
+        partyId: partyId,
+      },
+    );
+    if (response.data.id) {
+      yield put(
+        landingActions.addPartyToDailyPlan({
+          partyMovedToDaily: response.data,
+        }),
+      );
+    }
+
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    yield put(
+      landingActions.addPartyToDailyPlan({
+        parties: {
+          partyMovedToDaily: null,
+        },
+      }),
+    );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }

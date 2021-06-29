@@ -1,7 +1,18 @@
 // export watchers
-export {fetchQueryDoctorsWatcher} from './dirLandingSaga';
+export {
+  fetchQueryDoctorsWatcher,
+  fetchMissedCallsWatcher,
+  addPartyToDailyPlanWatcher,
+} from './dirLandingSaga';
 //export selectors
-export {searchDocSelector} from './dirLandingSelector';
+export {searchDocSelector, partySelector} from './dirLandingSelector';
 
 //export actions and reducers
-export {searchDoctorActions, searchDoctorReducer} from './dirlandingSlice';
+export {
+  searchDoctorActions,
+  searchDoctorReducer,
+  landingActions,
+  landingReducer,
+  fetchMissedCallsCreator,
+  addPartyToDailyPlanCreator,
+} from './dirlandingSlice';
