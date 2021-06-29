@@ -123,13 +123,13 @@ export function* addPartyToDailyPlanWorker(action) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     console.log('errorerrorerrorerrorerror', error);
-    // yield put(
-    //   landingActions.addPartyToDailyPlan({
-    //     parties: {
-    //       partyMovedToDaily: null,
-    //     },
-    //   }),
-    // );
+    yield put(
+      landingActions.addPartyToDailyPlan({
+        parties: {
+          partyMovedToDaily: null,
+        },
+      }),
+    );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }

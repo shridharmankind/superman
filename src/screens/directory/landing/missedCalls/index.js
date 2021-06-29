@@ -18,6 +18,8 @@ import {appSelector} from 'reducers';
 import theme from 'themes';
 import {FetchEnumStatus} from 'reducers';
 import {landing} from '../redux/dirlandingSlice';
+import {showToast, hideToast} from 'components/widgets/Toast';
+import {Constants} from 'common';
 
 /**
  * component to fetch missed calls to show on directory landing page
@@ -36,10 +38,31 @@ const MissedCalls = () => {
 
   const missedCalls = useSelector(partySelector.getMissedCallsList());
   const fetchState = useSelector(appSelectors.makeGetAppFetch());
+  const isPartyAddedToDaily = useSelector(partySelector.isPartyMovedToDaily());
 
   useEffect(() => {
     console.log('*********missedc', missedCalls);
   }, [missedCalls]);
+
+  useEffect(() => {
+    console.log('testtesttesttest', isPartyAddedToDaily);
+    if (isPartyAddedToDaily?.id) {
+      showToast({
+        type: Constants.TOAST_TYPES.SUCCESS,
+        visibilityTime: 2000,
+        autoHide: true,
+        props: {
+          // visibilityTime: 2000,
+          heading: translate('message.partyAdded'),
+          onClose: () => {
+            console.log('closing toast');
+            hideToast();
+            dispatch(landingActions.resetStateForDailyPlan(null));
+          },
+        },
+      });
+    }
+  }, [dispatch, isPartyAddedToDaily]);
 
   /**
    * click handler on party to move it to daily plan
@@ -47,7 +70,7 @@ const MissedCalls = () => {
    */
   const addToTodayPlan = partyID => {
     console.log('clicked', partyID);
-    // dispatch(landingActions.resetStateForDailyPlan(null));
+    dispatch(landingActions.resetStateForDailyPlan(null));
     dispatch(
       addPartyToDailyPlanCreator({
         staffPositionId: staffPositionId,

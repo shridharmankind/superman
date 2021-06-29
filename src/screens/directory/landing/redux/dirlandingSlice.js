@@ -73,43 +73,10 @@ const landingSlice = createSlice({
         party => party.id === action.payload?.partyMovedToDaily?.partyId,
       );
       state.parties.missedCalls.splice(itemToRemoveIdx, 1);
-      state.parties.partyMovedToDaily =
-        action.payload.parties.partyMovedToDaily;
-      console.log('state******', JSON.stringify(state.parties));
-      console.log('&&&&&&&&', JSON.stringify(action.payload));
-      // void (state.parties.partyMovedToDaily = action.payload);
-      // return {
-      //   ...state,
-      //   parties: {
-      //     ...state.parties,
-      //   },
-      // };
-      // return {
-      //   ...state,
-      //   parties: {
-      //     ...state.parties,
-      //     missedCalls: [...state.parties.missedCalls],
-      //     partyMovedToDaily: action.payload,
-      //   },
-      // };
-
-      // return {
-      //   ...state,
-      //   parties: {
-      //     // ...state.parties,
-      //     missedCalls: [...state.parties.missedCalls],
-      //     partyMovedToDaily: action.payload,
-      //   },
-      // };
-      // return {
-      //   ...state,
-      //   parties: {
-      //     missedCalls: state.parties.missedCalls.splice(itemToRemoveIdx, 1),
-      //     partyMovedToDaily: action.payload.parties.parties,
-      //   },
-      // };
-      // // return {...state};
-      void (state.parties = [...state.parties]);
+      void (state.parties = {
+        missedCalls: [...state.parties.missedCalls],
+        partyMovedToDaily: action.payload.partyMovedToDaily,
+      });
     },
     resetStateForDailyPlan: (state, action) => {
       return {
