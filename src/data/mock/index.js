@@ -19,7 +19,7 @@ import EOtherProductList from './api/eOtherProduct.json';
 import AllPriority from './api/AllPriority.json';
 import qualifications from './api/masterDataDownload/qualifications.json';
 import specialities from './api/masterDataDownload/specialities.json';
-
+import mtpData from './api/mtpData.js';
 import {partiesMock} from './api/parties.js';
 import stpData from './api/stpData.js';
 import stpStatus from './api/stpStatus.json';
@@ -28,6 +28,8 @@ import submitStpMock from './api/submitStp.json';
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
 import visitMockData from './api/timeline.json';
+
+import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
 
 const getPartiesUrl = () => {
   const valueMap = {
@@ -105,6 +107,18 @@ const getUrl = apiPath => {
   return url;
 };
 
+const getMTPCalendarUpdateUrl = apiPath => {
+  const valueMap = {
+    staffPositionId: 1,
+    month: 6,
+  };
+  let url = apiPath;
+  url = url.replace(
+    /\b(?:staffPositionId|month)\b/gi,
+    matched => valueMap[matched],
+  );
+  return url;
+};
 const getMock = axios => {
   const mock = new MockAdapter(axios);
 
@@ -135,6 +149,9 @@ const getMock = axios => {
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
+  mock
+    .onGet(getMTPCalendarUpdateUrl(NETWORK_APIS.MTP_CALENDAR))
+    .reply(200, mtpData);
   mock.onGet(getDailyComplainceUrl()).reply(200, dailyPlanComplaince);
   mock
     .onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY))

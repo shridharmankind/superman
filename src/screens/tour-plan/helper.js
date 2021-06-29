@@ -3,6 +3,7 @@ import {
   PARTY_TYPE,
   COMPARISION_TYPE,
   RULE_KEY,
+  PARTY_PREFIX,
 } from 'screens/tourPlan/constants';
 /**
  * This function fetches the current date and give us the month-year array for MR to plan his work
@@ -170,5 +171,40 @@ export const getComparisonResult = (value1, value2, checkType) => {
       return !(value1 > value2);
     default:
       return value1 === value2;
+  }
+};
+
+/**
+ *
+ * @param {Object} partyData
+ * @param {String} type
+ * @returns  count for specific party Type
+ */
+
+const getPartyData = (partyData, type) =>
+  partyData?.filter(
+    item => item?.partyType.toLowerCase() === type.toLowerCase(),
+  )[0]?.count;
+
+/**
+ *
+ * @param {Object} parties
+ * @returns  party Name with respectpective suffix
+ */
+export const getPartyTitle = parties => {
+  if (!parties) {
+    return null;
+  }
+  const drCount = getPartyData(parties, PARTY_TYPE.DOCTOR);
+  const ChemistCount = getPartyData(parties, PARTY_TYPE.CHEMIST);
+
+  if (drCount && !ChemistCount) {
+    return `${drCount} ${PARTY_PREFIX.DOCTOR} `;
+  } else if (!drCount && ChemistCount) {
+    return `${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+  } else if (drCount && ChemistCount) {
+    return `${drCount}  ${PARTY_PREFIX.DOCTOR}, ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+  } else {
+    return null;
   }
 };
