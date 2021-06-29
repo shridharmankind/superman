@@ -60,6 +60,10 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: NetworkService.API.FETCH_SPECIALITIES,
     schema: [Schemas.Specialities.schema],
   },
+  {
+    name: Constants.MASTER_TABLE_HOLIDAY_PER_GEOLOCATION,
+    apiPath: Constants.MASTER_TABLE_HOLIDAY_PER_GEOLOCATION_API_PATH,
+  },
 ];
 
 export const syncErrorDetails = {

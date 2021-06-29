@@ -181,3 +181,5 @@ export {MonthlySchema};
 export {default as PartyCategories} from './PartyCategories';
 export {default as Organizations} from './Organizations';
 export {default as Specialities} from './Specialities';
+export {default as HolidayPerGeolocation} from './HolidayPerGeolocation';
+export {default as GeoLocation} from './GeoLocation';

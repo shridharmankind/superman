@@ -1,6 +1,8 @@
 import {DivisionSchemaName} from './schemas/Divisions';
 import {QualificationsSchemaName} from './schemas/Qualifications';
 import {SpecialitiesSchemaName} from './schemas/Specialities';
+import {HolidayPerGeolocationName} from './schemas/HolidayPerGeolocation';
+import {GeoLocationName} from './schemas/GeoLocation';
 
 //Common
 export const downloadStatus = Object.freeze({
@@ -58,3 +60,6 @@ export const MASTER_TABLE_DIVISION_API_PATH = 'division';
 
 export const QUALIFICATIONS = QualificationsSchemaName;
 export const SPECIALITIES = SpecialitiesSchemaName;
+export const MASTER_TABLE_HOLIDAY_PER_GEOLOCATION = HolidayPerGeolocationName;
+export const MASTER_TABLE_HOLIDAY_PER_GEOLOCATION_API_PATH = '';
+export const MASTER_TABLE_GEOLOCATIONS = GeoLocationName;
