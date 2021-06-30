@@ -13,7 +13,6 @@ const DoctorsByArea = ({
   partiesList,
   selectedDoctorType,
   isSameDayPatch,
-  allPartiesByPatchID,
 }) => {
   const isDoctorSelected = useCallback(
     (partyId, area) => {
