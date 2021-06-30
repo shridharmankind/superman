@@ -197,7 +197,9 @@ const DoctorDetails = ({
                   />
                   <Label
                     size={customStyle ? customStyle.subTitleSize : 18}
-                    title={location}
+                    title={(location || {})
+                      .map(spec => spec?.name || spec)
+                      .join(', ')}
                     style={styles.capitalize}
                   />
                 </>

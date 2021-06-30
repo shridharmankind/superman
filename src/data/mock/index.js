@@ -27,7 +27,10 @@ import submitStpMock from './api/submitStp.json';
 
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
+import API_PATHS from 'services/network/apiPaths';
 import visitMockData from './api/timeline.json';
+import missedCallMockData from './api/missedCalls.json';
+import addToTodayMockData from './api/addToToday.json';
 
 const getPartiesUrl = () => {
   const valueMap = {
@@ -90,6 +93,20 @@ const getSTPStatusUrl = apiPath => {
   let url = apiPath;
   url = url.replace(
     /\b(?:staffPositionId|year)\b/gi,
+    matched => valueMap[matched],
+  );
+
+  return url;
+};
+
+const getMissedCallUrl = apipath => {
+  const valueMap = {
+    staffPositionId: 1,
+    month: parseInt(getFormatDate({format: 'M'}), 10),
+  };
+  let url = apipath;
+  url = url.replace(
+    /\b(?:staffPositionId|month)\b/gi,
     matched => valueMap[matched],
   );
 
@@ -178,6 +195,12 @@ const getMock = axios => {
     .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
     .reply(200, qualifications);
   mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
+  mock
+    .onGet(getMissedCallUrl(API_PATHS.GET_MISSED_CALLS))
+    .reply(200, missedCallMockData);
+  mock
+    .onPost(`${API_PATHS.ADD_TODAY_PLAN}?staffPositionId=1&partyId=2`)
+    .reply(200, addToTodayMockData);
 };
 
 export default getMock;
