@@ -207,12 +207,6 @@ const Strings = {
   },
   noInternet: 'No Internet',
   checkInternet: 'Check you internet connection',
-  captureDCRSlideTwo: {
-    slideTitle: 'Which products did you',
-    detail: 'detail',
-    discuss: 'discuss',
-    toDoctor: 'to the doctor?',
-  },
 };
 
 export default Strings;

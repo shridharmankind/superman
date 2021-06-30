@@ -51,7 +51,11 @@
     "discussedProduct": "Discussed Products",
     "listOfProduct": "List Of Products",
     "done": "Done",
-    "SelectBrandLabel": "Select Sub-brands"
+    "SelectBrandLabel": "Select Sub-brands",
+    "slideTitle": "Which products did you",
+    "detail": "detail",
+    "discuss": "discuss",
+    "toDoctor": "to the doctor?"
   },
   "speciality": "Speciality",
   "region": "Region",

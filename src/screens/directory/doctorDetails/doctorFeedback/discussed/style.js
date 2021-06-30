@@ -27,10 +27,6 @@ const styles = StyleSheet.create({
     marginBottom: themes.spacing(13.3),
   },
   eDetailed: {
-    paddingVertical: themes.spacing(20),
-    paddingHorizontal: themes.spacing(50),
-    borderRadius: themes.spacing(5),
-    marginRight: themes.spacing(10),
     color: themes.colors.white,
     backgroundColor: themes.colors.primary,
   },
@@ -39,14 +35,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: themes.spacing(50),
     borderRadius: themes.spacing(5),
     marginRight: themes.spacing(10),
+  },
+  featureItem: {
     color: themes.colors.white,
     backgroundColor: themes.colors.blue[100],
   },
   eDetailedNonFeature: {
-    paddingVertical: themes.spacing(20),
-    paddingHorizontal: themes.spacing(50),
-    borderRadius: themes.spacing(5),
-    marginRight: themes.spacing(10),
     borderWidth: 1,
   },
   virtualList: {

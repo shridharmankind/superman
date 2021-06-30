@@ -3,13 +3,12 @@ import {View, Text, Dimensions, Image} from 'react-native';
 import styles from './styles';
 import {Label, Button, LabelVariant} from 'components/elements';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import {SingleAvtar, JointAvtar} from 'assets';
+import {SingleAvtar, JointAvtar, ArrowBack} from 'assets';
 import dayjs from 'dayjs';
 import themes from 'themes';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {ArrowBack} from 'assets';
 import EDetailingDCR from './discussed';
 
 const DoctorFeedback = ({navigation, route}) => {

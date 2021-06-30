@@ -1,7 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './style';
-import {Strings} from 'common';
 import themes from 'themes';
 import {Label, LabelVariant} from 'components/elements';
 import {translate} from 'locale';
@@ -87,27 +86,25 @@ const EDetailingDCR = ({}) => {
         <View key={dataItem.motherBrandId}>
           <Label
             variant={LabelVariant.subtitleLarge}
-            style={styles.discussList}
+            style={[styles.discussList, styles.featureItem]}
             title={dataItem.name}
           />
         </View>
       );
     });
   };
-  const renderEDetailed = (item, index) => {
+  const renderEDetailed = item => {
     return (
       <View>
         <Label
           variant={LabelVariant.subtitleLarge}
-          style={
-            item.isFeatured ? styles.eDetailed : styles.eDetailedNonFeature
-          }
+          style={[styles.discussList, item.isFeatured ? styles.eDetailed : '']}
           title={item.name}
         />
       </View>
     );
   };
-  const renderEdetailedProduct = (item, index) => {
+  const renderEdetailedProduct = () => {
     return EDetailedList.map(value => {
       return <View key={value.motherBrandId}>{renderEDetailed(value)}</View>;
     });
@@ -135,13 +132,10 @@ const EDetailingDCR = ({}) => {
     setShowModal(false);
   };
   const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {
-    if (
-      Math.ceil(layoutMeasurement.width + contentOffset.x) >= contentSize.width
-    ) {
-      setHideEdtailRightArrow(true);
-    } else {
-      setHideEdtailRightArrow(false);
-    }
+    const hideFlag = Math.ceil(
+      layoutMeasurement.width + contentOffset.x >= contentSize.width,
+    );
+    setHideEdtailRightArrow(hideFlag);
   };
 
   const hideDiscussedScrollArrow = ({
@@ -149,13 +143,10 @@ const EDetailingDCR = ({}) => {
     contentOffset,
     contentSize,
   }) => {
-    if (
-      Math.ceil(layoutMeasurement.width + contentOffset.x) >= contentSize.width
-    ) {
-      setHideDiscussedRightArrow(true);
-    } else {
-      setHideDiscussedRightArrow(false);
-    }
+    const hideFlag = Math.ceil(
+      layoutMeasurement.width + contentOffset.x >= contentSize.width,
+    );
+    setHideDiscussedRightArrow(hideFlag);
   };
 
   const hideOtherScrollArrow = ({
@@ -163,13 +154,10 @@ const EDetailingDCR = ({}) => {
     contentOffset,
     contentSize,
   }) => {
-    if (
-      Math.ceil(layoutMeasurement.width + contentOffset.x) >= contentSize.width
-    ) {
-      setHideOtherRightArrow(true);
-    } else {
-      setHideOtherRightArrow(false);
-    }
+    const hideFlag = Math.ceil(
+      layoutMeasurement.width + contentOffset.x >= contentSize.width,
+    );
+    setHideOtherRightArrow(hideFlag);
   };
   const renderOtherProduct = () => {
     return otherProductList.map(otherItem => {
@@ -178,7 +166,7 @@ const EDetailingDCR = ({}) => {
           <View>
             <Label
               variant={LabelVariant.subtitleLarge}
-              style={styles.eDetailedNonFeature}
+              style={[styles.discussList, styles.eDetailedNonFeature]}
               title={otherItem.name}
               onPress={() => {
                 setCurrentProduct({...otherItem});
@@ -196,15 +184,15 @@ const EDetailingDCR = ({}) => {
       <View>
         <Text style={styles.question}>
           <Text style={{fontFamily: themes.fonts.fontBold}}>{'2 '}</Text>
-          {`${Strings.captureDCRSlideTwo.slideTitle} `}
+          {translate('dcrSecondTab.slideTitle')}
           <Text style={{fontFamily: themes.fonts.fontBold}}>
-            {`${Strings.captureDCRSlideTwo.detail} `}
+            {translate('dcrSecondTab.detail')}
           </Text>
           {'& '}
           <Text style={{fontFamily: themes.fonts.fontBold}}>
-            {`${Strings.captureDCRSlideTwo.discuss} `}
+            {translate('dcrSecondTab.discuss')}
           </Text>
-          {`${Strings.captureDCRSlideTwo.toDoctor} `}
+          {translate('dcrSecondTab.toDoctor')}
         </Text>
       </View>
       <View>
