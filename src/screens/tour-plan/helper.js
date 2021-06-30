@@ -208,3 +208,14 @@ export const getPartyTitle = parties => {
     return null;
   }
 };
+
+/**capitlize text
+ * @param {String} input string to capitalize
+ * @return {String}
+ */
+export const capitalize = input => {
+  input = input === undefined || input === null ? '' : input;
+  return input.toString().replace(/(^|\. *)([a-z])/g, function (match) {
+    return match.toUpperCase();
+  });
+};
