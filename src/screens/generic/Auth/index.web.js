@@ -5,11 +5,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import jwt_decode from 'jwt-decode';
 import {parse} from 'query-string';
 
-import {Routes} from 'navigations';
 import {Constants} from 'common';
 import {KeyChain} from 'helper';
 import {authTokenActions} from '../RouteHandler/redux';
-import {ROUTE_DASHBOARD} from 'src/navigations/routes';
+import {ROUTE_DASHBOARD, ROUTE_LOGIN} from 'src/navigations/routes';
 
 const Auth = ({navigation}) => {
   const dispatch = useDispatch();
@@ -40,9 +39,7 @@ const Auth = ({navigation}) => {
         }),
       );
     } else {
-      navigation.reset({
-        routes: [{name: Routes.ROUTE_LOGIN}],
-      });
+      dispatch(authTokenActions.updateScreen({screen: ROUTE_LOGIN}));
     }
   }, [dispatch, navigation]);
 
