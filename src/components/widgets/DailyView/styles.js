@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
   categoryContent: {
     flexDirection: 'column',
     alignSelf: 'stretch',
-    justifyContent: 'space-between',
     height: 40,
   },
   disabled: {
@@ -68,7 +67,9 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'stretch',
     marginTop: theme.spacing(3),
+    justifyContent: 'flex-start',
   },
   cellFooter: {
     flexDirection: 'row',
@@ -77,6 +78,10 @@ const styles = StyleSheet.create({
   },
   locationContent: {
     flexDirection: 'row',
+    marginTop: theme.spacing(3),
+  },
+  labelTextSpacing: {
+    paddingHorizontal: theme.spacing(2),
   },
 });
 

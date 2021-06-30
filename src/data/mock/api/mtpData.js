@@ -30,7 +30,7 @@ const mtpData = [
 
       isNoOfVisitHigh: false,
     },
-    dayType: 'weekDay',
+    dayType: 'Working',
   },
   {
     patchId: 2,
@@ -62,14 +62,14 @@ const mtpData = [
 
       isNoOfVisitHigh: false,
     },
-    dayType: 'weekDay',
+    dayType: 'Working',
   },
   {
     patchId: 3,
     displayName: 'Patch2',
     defaultName: 'DefPatch2',
-    dated: '3-jun-2021',
-    date: {day: 3, month: '6', year: 2021},
+    dated: '6-jun-2021',
+    date: {day: 6, month: '6', year: 2021},
     parties: [
       {
         partyType: 'Doctor',

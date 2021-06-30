@@ -5,9 +5,10 @@ import styles from './styles';
 import {isSameDate, getFormatDate} from 'utils/dateTimeHelper';
 import {getPartyTitle} from 'screens/tourPlan/helper';
 import {DivisionType} from 'components/widgets';
-import {LocationIcon, Star} from 'assets';
+import {LocationIcon, StarIcon} from 'assets';
 import {Strings} from 'common';
 import theme from 'themes';
+import {DAY_TYPE} from 'screens/tourPlan/constants';
 /**
  *
  * @param {number} month
@@ -53,10 +54,71 @@ const getCellData = (date, monthlyCalendarData) => {
 };
 
 /**
+ * @param {Object} dayCellData
+ * @returns  category block
+ */
+const renderCategory = dayCellData => {
+  return (
+    <View style={styles.categoryContent}>
+      {dayCellData?.noOfKyc ? (
+        <View style={styles.content}>
+          {renderIcon(StarIcon)}
+          <Label
+            testID={`label_dailyView_noOfKyc_test_${dayCellData?.patchId}`}
+            title={`${dayCellData?.noOfKyc} ${DivisionType.KYC}`}
+            variant={LabelVariant.label}
+            style={styles.labelTextSpacing}
+          />
+        </View>
+      ) : null}
+      {dayCellData?.noOfCampaign ? (
+        <View style={styles.content}>
+          {renderIcon(StarIcon)}
+          <Label
+            testID={`label_dailyView_noOfCampaign_test_${dayCellData?.patchId}`}
+            title={`${dayCellData?.noOfCampaign} ${DivisionType.CAMPAIGN}`}
+            variant={LabelVariant.label}
+            style={styles.labelTextSpacing}
+          />
+        </View>
+      ) : null}
+    </View>
+  );
+};
+
+/**
+ * Renders patch object
+ * @param {Object} dayCellData
+ * @returns JSX
+ */
+const renderPatch = dayCellData => {
+  return (
+    <View style={styles.locationContent}>
+      {renderIcon(LocationIcon)}
+      <Label
+        testID={`label_dailyView_patch_test_${dayCellData?.patchId}`}
+        variant={LabelVariant.label}
+        title={getPatchName(dayCellData?.patch)}
+        numberOfLines={1}
+        style={styles.locationLabelText}
+        textColor={theme.colors.grey[900]}
+      />
+    </View>
+  );
+};
+
+/**
+ * @param {Icon} Icon
+ * @returns  Icon with width & height
+ */
+const renderIcon = (Icon, width = 14, height = 14) => (
+  <Icon width={width} height={height} />
+);
+
+/**
  * Render Daily Container
  * @param {Object} props
  */
-
 const DailyView = ({
   props,
   selectedMonth,
@@ -64,70 +126,52 @@ const DailyView = ({
   monthlyCalendarData,
 }) => {
   const dayCellData = getCellData(props.date, monthlyCalendarData);
-
+  const isSameDayDate = isSameDate(props.date.dateString);
+  const isWorkingDayDate = isWorkingDay(props.date, workingDays);
+  const isWorkingDayType =
+    dayCellData?.dayType?.toLowerCase() === DAY_TYPE.WORKING.toLowerCase() &&
+    isWorkingDayDate;
+  const isLeaveType =
+    dayCellData?.dayType?.toLowerCase() === DAY_TYPE.LEAVE.toLowerCase();
+  const isHolidayType =
+    dayCellData?.dayType?.toLowerCase() === DAY_TYPE.HOLIDAY.toLowerCase();
   return (
     <View
       style={[
         styles.dailyViewContainer,
+        isWorkingDayType && dayCellData?.isNoOfVisitHigh && styles.highVisitBar,
         isDisabled(props.date.month, selectedMonth) && styles.disabled,
-        !isWorkingDay(props.date, workingDays) && styles.weekendContainer,
+        !isWorkingDayDate && isHolidayType && styles.weekendContainer,
       ]}>
       <View
         style={[
           styles.innerContainer,
-          isSameDate(props.date.dateString) && styles.currentDailyContainer,
+          isSameDayDate && styles.currentDailyContainer,
         ]}>
         <View style={styles.headerContent}>
+          {isWorkingDayType && (
+            <Label
+              testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
+              title={getPartyTitle(dayCellData?.parties)}
+              variant={LabelVariant.h6}
+            />
+          )}
+          {isLeaveType && (
+            <Label
+              testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
+              title={'Leave'}
+              variant={LabelVariant.h6}
+            />
+          )}
           <Label
-            testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
-            title={getPartyTitle(dayCellData?.parties)}
+            testID={`label_dailyView_date_test_${props.date.day}`}
             variant={LabelVariant.h6}
-          />
-          <Label
-            testID={`label_dailyView_date_test_${dayCellData?.patchId}`}
-            variant={LabelVariant.h6}
-            style={[
-              styles.activeText,
-              isSameDate(props.date.dateString) && styles.currentDate,
-            ]}
+            style={[styles.activeText, isSameDayDate && styles.currentDate]}
             title={props.date.day}
           />
         </View>
-        <View style={styles.categoryContent}>
-          {dayCellData?.noOfKyc ? (
-            <View style={styles.content}>
-              <Star width={16} height={16} />
-              <Label
-                testID={`label_dailyView_noOfKyc_test_${dayCellData?.patchId}`}
-                title={`${dayCellData?.noOfKyc} ${DivisionType.KYC}`}
-                variant={LabelVariant.label}
-              />
-            </View>
-          ) : null}
-          {dayCellData?.noOfCampaign ? (
-            <View style={styles.content}>
-              <Star width={16} height={16} />
-              <Label
-                testID={`label_dailyView_noOfCampaign_test_${dayCellData?.patchId}`}
-                title={`${dayCellData?.noOfCampaign} ${DivisionType.CAMPAIGN}`}
-                variant={LabelVariant.label}
-              />
-            </View>
-          ) : null}
-        </View>
-        {dayCellData?.patch ? (
-          <View style={styles.locationContent}>
-            <LocationIcon width={16} height={16} />
-            <Label
-              testID={`label_dailyView_patch_test_${dayCellData?.patchId}`}
-              variant={LabelVariant.label}
-              title={getPatchName(dayCellData?.patch)}
-              numberOfLines={1}
-              style={styles.locationLabelText}
-              textColor={theme.colors.grey[900]}
-            />
-          </View>
-        ) : null}
+        {isWorkingDayType && renderCategory(dayCellData)}
+        {isWorkingDayType && dayCellData?.patch && renderPatch(dayCellData)}
       </View>
     </View>
   );
