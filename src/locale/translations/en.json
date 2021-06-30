@@ -55,5 +55,18 @@
   },
   "responseStatus": {
     "error": "ERROR"
+  },
+  "backgroundTask": {
+    "lastSync": "Last Synced:",
+    "syncNow" : "Sync Now",
+    "toastBtns": {
+      "message": "Sync Statu",
+      "viewSummary": "View Summary",
+      "syncInitiatedMessage": "Sync request has been initiated.",
+      "successMessage": "Requested sync has been completed successfully.",
+      "conflictMessage": "ync activity was completed with a conflict.",
+      "failureMessage": "Sync activity could not be completed.",
+      "alreadRunningMessage": "Sync activity is already in progress."
+    }
   }
 }

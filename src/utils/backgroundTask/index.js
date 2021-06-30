@@ -111,7 +111,7 @@ const setBackgroundTask = async () => {
       );
       if (
         state.isConnected &&
-        getCurrentBackgrounStatus == Constants.BACKGROUND_TASK.NOT_RUNNING
+        getCurrentBackgrounStatus === Constants.BACKGROUND_TASK.NOT_RUNNING
       ) {
         //check for internet connection and background Status if it is not running
         const accessToken = await KeyChain.getAccessToken();
@@ -200,8 +200,8 @@ export const runBackgroundTask = async () => {
     });
     let isDemandSync = await getOnDemandSyncStatus();
     console.log(isDemandSync, 'Overall result ', resultArray);
-    if (isDemandSync == Constants.BACKGROUND_TASK.RUNNING) {
-      if (resultArray.length == 0) {
+    if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
+      if (resultArray.length === 0) {
         console.log('Overall result ', resultArray);
         showToastie(
           Constants.TOAST_TYPES.SUCCESS,

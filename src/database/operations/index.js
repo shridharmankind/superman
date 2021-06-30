@@ -12,6 +12,7 @@ import {
   deleteDBObject,
   modifyDBObject,
   createSinglePartyMasterRecord,
+  getLastSyncTime,
 } from './common';
 
 let realm = null;
@@ -349,6 +350,7 @@ export {
   deleteDBObject,
   modifyDBObject,
   createSinglePartyMasterRecord,
+  getLastSyncTime,
 };
 export {default as partyCategoryOperations} from './partyCategoryOperations';
 export {default as organizationOperations} from './organizationOperations';

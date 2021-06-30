@@ -24,7 +24,7 @@ export class MonthlyTableOperations {
     const syncParametersObject = {
       devicePartyId: null,
       isActive: true,
-      requireSync: true,
+      requireSync: false,
       lastModifiedOn: new Date(),
       isDeleted: false,
       errorInSync: false,

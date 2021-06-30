@@ -4,8 +4,8 @@ import * as Helper from '../../helper';
 import * as Operations from '../../operations';
 import * as SyncOperations from './../operations';
 import {NetworkService} from 'services';
-import {Constants} from 'common';
-import {getOnDemandSyncStatus} from 'utils/backgroundTask';
+// import {Constants} from 'common';
+// import {getOnDemandSyncStatus} from 'utils/backgroundTask';
 import {getSyncTaskList} from './../commonSyncMethods';
 
 const syncDifference = 1; // minutes
@@ -44,9 +44,9 @@ export const syncTableTask = async () => {
   try {
     let resultArray = [];
     let syncTaskList = getSyncTaskList();
-    let constraintTime = await checkMinimumTimeConstraint();
-    let currentTime = new Date();
-    let onDemandSyncStatus = await getOnDemandSyncStatus();
+    // let constraintTime = await checkMinimumTimeConstraint();
+    // let currentTime = new Date();
+    // let onDemandSyncStatus = await getOnDemandSyncStatus();
     // if (
     //   onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
     //   (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING &&
@@ -181,7 +181,7 @@ const runBackgroundTask = async (tableName, value) => {
           record.lastSync,
           Array.from(modifiedRecords),
         );
-        console.log("response ",JSON.stringify(response.data,null,2));
+
         if (response?.status === DBConstants.HTTP_OK) {
           await SyncOperations.getSyncOperations(
             item[0],
