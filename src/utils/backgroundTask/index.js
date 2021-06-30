@@ -208,23 +208,24 @@ export const runBackgroundTask = async () => {
           Strings.backgroundTask.toastBtns.successMessage,
         );
       }
-      if (resultArray && resultArray.includes(CONFLICT)) {
-        showToastieWithButton(
-          Constants.TOAST_TYPES.WARNING,
-          Strings.backgroundTask.toastBtns.conflictMessage,
-        );
-      } else if (resultArray && resultArray.includes(FAILURE)) {
-        showToastieWithButton(
-          Constants.TOAST_TYPES.ALERT,
-          Strings.backgroundTask.toastBtns.failureMessage,
-        );
-      } else if (resultArray && resultArray.includes(SUCCESS)) {
+      if (resultArray && resultArray.includes(SUCCESS)) {
         showToastie(
           Constants.TOAST_TYPES.SUCCESS,
           Strings.backgroundTask.toastBtns.successMessage,
         );
       }
       await setOnDemandSyncStatusNotRunning();
+    }
+    if (resultArray && resultArray.includes(CONFLICT)) {
+      showToastieWithButton(
+        Constants.TOAST_TYPES.WARNING,
+        Strings.backgroundTask.toastBtns.conflictMessage,
+      );
+    } else if (resultArray && resultArray.includes(FAILURE)) {
+      showToastieWithButton(
+        Constants.TOAST_TYPES.ALERT,
+        Strings.backgroundTask.toastBtns.failureMessage,
+      );
     }
   } catch (err) {
     console.log(err);

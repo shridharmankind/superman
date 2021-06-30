@@ -531,6 +531,7 @@ const StandardPlanModal = ({
         week: weekNum,
         weekDay,
         year: year,
+        patchAlreadyExist: false,
       };
       setPatchError(null);
       setPatchRequest(obj);
@@ -595,6 +596,7 @@ const StandardPlanModal = ({
                 doctorsSelected,
                 allParties,
                 patches,
+                false,
               );
             } else {
               const isPatchExhausted = errors.some(
@@ -619,6 +621,7 @@ const StandardPlanModal = ({
                 doctorsSelected,
                 allParties,
                 patches,
+                true,
               );
             } else {
               const docIds = errors.find(err => err.code === code);
@@ -698,7 +701,14 @@ const StandardPlanModal = ({
         exhaustedParty.length !== doctorsSelected.length
       ) {
         setDoctorsSelected(updatedPartyList);
-        handleNoPress(obj, allAreas, updatedPartyList, allParties, patches);
+        handleNoPress(
+          obj,
+          allAreas,
+          updatedPartyList,
+          allParties,
+          patches,
+          false,
+        );
         message = Strings.frquecySlotExhausted;
       } else if (
         (exhaustedParty.length === 1 && doctorsSelected.length === 1) ||
@@ -732,7 +742,7 @@ const StandardPlanModal = ({
    * @param {Array} ptches lsit of patches
    */
   const handleNoPress = useCallback(
-    async (obj, areas, doctors, partyList, ptches) => {
+    async (obj, areas, doctors, partyList, ptches, patchExists) => {
       const string = createPatchString(areas, doctors, partyList, ptches);
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
@@ -741,6 +751,7 @@ const StandardPlanModal = ({
         partyMapping: doctors,
         displayName: string,
         defaultName: string,
+        patchAlreadyExist: patchExists,
       });
     },
     [createPatchString, savePatch],
