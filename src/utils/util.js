@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Constants} from 'common';
 import {Linking} from 'react-native';
-import {KeyChain} from 'helper';
+import {isWeb, KeyChain} from 'helper';
+import env from '../../env.json';
 
 export const isAccessTokenValid = async () => {
   const tokenExpiryTime = await AsyncStorage.getItem(
@@ -16,10 +17,17 @@ export const isAccessTokenValid = async () => {
 
 export const revokeLogin = async userToken => {
   try {
-    const url = Constants.revokeUrl + userToken;
+    const {oneLogin = {}} = env;
+    const {revokeUrl, web = {}} = oneLogin;
+    const {redirectURL, revokeUrlWeb} = web;
+
+    const url = isWeb()
+      ? `${revokeUrlWeb}?post_logout_redirect_uri=${window.location.origin}${redirectURL}&id_token_hint=${userToken}`
+      : `${revokeUrl}${userToken}`;
     await Linking.openURL(url);
     await KeyChain.resetPassword();
     await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
+    await AsyncStorage.removeItem(Constants.USER_ID);
   } catch (error) {}
 };
 

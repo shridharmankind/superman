@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   Image,
   View,
-  Alert,
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
@@ -25,6 +24,7 @@ import {
   ROUTE_DASHBOARD,
 } from '../../../navigations/routes';
 import env from '../../../../env.json';
+import {Alert} from 'components/widgets';
 
 const {oneLogin = {}} = env;
 const {authority, clientID, redirectURL} = oneLogin;
@@ -65,7 +65,7 @@ const Login = () => {
     } catch (error) {
       setAnimating(false);
       console.log(error);
-      Alert.alert(Strings.info, error.message);
+      Alert(Strings.info, error.message);
     }
   }, [dispatch]);
 
