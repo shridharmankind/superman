@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {translate} from 'locale';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */

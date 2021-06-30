@@ -13,9 +13,10 @@ import {getMonthDiff, getDateFromMonthYear} from 'utils/dateTimeHelper';
 
 const MonthlyView = ({
   workingDays = [],
-  DayComponent = DailyView,
-  previousMonthSelected,
   monthSelected,
+  previousMonthSelected,
+  monthlyCalendarData,
+  DayComponent = DailyView,
 }) => {
   const textInput = React.useRef(null);
   const currentDate = getDateFromMonthYear(monthSelected);
@@ -71,6 +72,7 @@ const MonthlyView = ({
           props={props}
           selectedMonth={monthSelected?.month}
           workingDays={workingDays}
+          monthlyCalendarData={monthlyCalendarData}
         />
       )}
       renderHeader={() => null}

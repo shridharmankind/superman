@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   standard: {backgroundColor: theme.colors.grey[700]},
   confirm: {backgroundColor: theme.colors.yellow[200]},
   button: {
-    height: theme.spacing(20),
+    height: theme.spacing(25),
     alignItems: 'flex-start',
     paddingTop: theme.spacing(4),
   },
