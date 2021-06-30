@@ -1,4 +1,5 @@
 import {Operations} from 'database';
+import {deleteExistingRecord} from './operationFactory';
 export class MonthlyTableOperations {
   constructor() {
     console.log('MonthlyTableSyncOperations Created');
@@ -29,16 +30,18 @@ export class MonthlyTableOperations {
       errorInSync: false,
       syncErrorDetails: syncErrorDetailsObject,
     };
-    // object.dailyPlannedActivities = [
-    //   ...objecct.dailyPlannedActivities.filter(dailyPlan => {
-    //     if(!dailyPlan.isMissed || (!dailyPlan.syncParameters.isDeleted && dailyPlan.syncParameters.errorInSync)){
-    //       return dailyPlan;
-    //     }
-    //     else{
-    //       dbInstance().delete(dailyPlan);
-    //     }
-    //   })
-    // ];
+    
+    object.dailyPlannedActivities = [
+      ...object.dailyPlannedActivities.filter(dailyPlan => {
+        if(dailyPlan.syncParameters === null){
+          return dailyPlan;
+        }
+        else if(dailyPlan.syncParameters.isDeleted){
+          deleteExistingRecord(schema[1],dailyPlan.id);
+        }
+      })
+    ];
+    
     object.dailyPlannedActivities = [
       ...object.dailyPlannedActivities.map(dailyPlan => {
         if (dailyPlan.syncParameters != null) {

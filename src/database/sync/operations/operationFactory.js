@@ -176,10 +176,10 @@ const recordExist = async (
   }
 };
 
-const deleteExistingRecord = (schema, id) => {
+export const deleteExistingRecord = (schema, id) => {
   try {
     let newData = getDBInstance().objects(schema.name).filtered(`id == ${id}`);
-    if (newData != undefined) {
+    if (newData.length > 0 && newData != undefined) {
       getDBInstance().delete(newData[0]);
       newData = null;
       return Constants.SUCCESS;
