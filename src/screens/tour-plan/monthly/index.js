@@ -549,6 +549,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**render swap button on top of MTP */
   const renderSwapButton = () => {
     return (
       <Button
@@ -561,6 +562,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**render Swap Modal on click of  swap button*/
   const swapModal = () => {
     return (
       <Modal
@@ -574,6 +576,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**return title for swap modal */
   const getSwapModalTitle = () => {
     return (
       <View>
@@ -587,6 +590,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**retrun swap modal content */
   const getSwapModalContent = () => {
     return (
       <View style={styles.swapContent}>
@@ -634,11 +638,13 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /** handle input date press and open the calendar */
   const handleDatePress = type => {
     setDateSelected(type);
     setShowCalendar(true);
   };
 
+  /**handle submit of swap date*/
   const handleSwapSubmit = () => {
     dispatch(
       swapCreator({
@@ -648,6 +654,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**handle swap modal visibility */
   const handleSwapDialog = () => setSwapModalVisible(!swapModalVisible);
 
   /**
@@ -661,6 +668,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**render calendar on click of date input press*/
   const renderCalendar = () => {
     return (
       <View style={styles.calendarContainer}>
@@ -681,6 +689,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**handle day press on calendar and set date and swap objext */
   const handleDayPress = ({day, month, dateString}) => {
     const obj = {...swapObj, [dateSelected]: {patchId: '', day, month}};
     setDate({...date, [dateSelected]: dateString});
