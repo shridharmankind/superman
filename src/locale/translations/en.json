@@ -65,5 +65,8 @@
   },
   "responseStatus": {
     "error": "ERROR"
+  },
+  "error": {
+    "genericMsg": "Something doesn't seem right, please try restarting the application."
   }
 }
