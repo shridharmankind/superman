@@ -3,6 +3,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {authenticationConstants} from './constants';
 import {MasterDataDownload, Login} from 'screens/generic';
+import {linking} from 'navigations';
 import ROUTES, {
   ROUTE_MASTER_DATA_DOWNLOAD,
   ROUTE_DASHBOARD,
@@ -13,6 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {KeyChain} from 'helper';
 import {revokeLogin, isAccessTokenValid} from '../../../utils/util';
 import {Helper} from 'database';
+import Auth from '../Auth';
 
 const Stack = createStackNavigator();
 export default function RouteHandler() {
@@ -80,16 +82,25 @@ export default function RouteHandler() {
   };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator>
         {!userToken || screen === authenticationConstants.LOGIN ? (
-          <Stack.Screen
-            name={authenticationConstants.LOGIN}
-            component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
+          <>
+            <Stack.Screen
+              name={authenticationConstants.LOGIN}
+              component={Login}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name={authenticationConstants.AUTH}
+              component={Auth}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </>
         ) : (
           renderLoggedComponent()
         )}
