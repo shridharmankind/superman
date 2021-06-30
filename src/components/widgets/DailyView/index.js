@@ -120,6 +120,22 @@ const renderIcon = (Icon, width = 14, height = 14) => (
 );
 
 /**
+ *
+ * @param {Boolean} isSameDayDate
+ * @param {Booelan} isWorkingDayType
+ * @param {Boolean} isNoOfVisitHigh
+ * @returns style for high Visit bar
+ */
+const highVisitStyle = (isSameDayDate, isWorkingDayType, isNoOfVisitHigh) => {
+  if (!isNoOfVisitHigh) {
+    return null;
+  } else if (!isSameDayDate && isWorkingDayType) {
+    return styles.highVisitBar;
+  } else if (isSameDayDate) {
+    return styles.sameDayHightVisit;
+  }
+};
+/**
  * Render Daily Container
  * @param {Object} props
  */
@@ -129,30 +145,48 @@ const DailyView = ({
   workingDays,
   monthlyCalendarData,
 }) => {
+  // store value cell Data  on basis of date
   const dayCellData = getCellData(props.date, monthlyCalendarData);
+  //store value for current day
   const isSameDayDate = isSameDate(props.date.dateString);
+  // check if day is working or not on basis of working Day api data
   const isWorkingDayDate = isWorkingDay(props.date, workingDays);
+  // check working day type on basis of dayType value
   const isWorkingDayType =
     dayCellData?.dayType?.toLowerCase() === DAY_TYPE.WORKING.toLowerCase() &&
     isWorkingDayDate;
+  // check leave for day type on basis of dayType value
   const isLeaveType =
     dayCellData?.dayType?.toLowerCase() === DAY_TYPE.LEAVE.toLowerCase();
+  // check holiday for day type on basis of dayType value
   const isHolidayType =
     dayCellData?.dayType?.toLowerCase() === DAY_TYPE.HOLIDAY.toLowerCase();
+  // store value for date that need to be disabled (previous month , leave & holiday)
+  const isDisabledDate =
+    isDisabled(props.date.month, selectedMonth) || isLeaveType || isHolidayType;
+  // Get style for high Vists
+  const containterHighVisitStyle = highVisitStyle(
+    isSameDayDate,
+    isWorkingDayType,
+    dayCellData?.patch?.isNoOfVisitHigh,
+  );
+
   return (
     <View
       style={[
         styles.dailyViewContainer,
-        isWorkingDayType &&
-          dayCellData?.patch?.isNoOfVisitHigh &&
-          styles.highVisitBar,
-        isDisabled(props.date.month, selectedMonth) && styles.disabled,
+        containterHighVisitStyle,
+        isDisabledDate && styles.disabled,
         !isWorkingDayDate && isHolidayType && styles.weekendContainer,
       ]}>
       <View
         style={[
           styles.innerContainer,
           isSameDayDate && styles.currentDailyContainer,
+          isSameDayDate &&
+            isWorkingDayType &&
+            dayCellData?.patch?.isNoOfVisitHigh &&
+            styles.highVisitBar,
         ]}>
         <View style={styles.headerContent}>
           {isWorkingDayType && (

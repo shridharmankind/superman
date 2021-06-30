@@ -16,9 +16,15 @@ const styles = StyleSheet.create({
     borderLeftColor: theme.colors.orange[300],
     borderLeftWidth: 5,
   },
+  sameDayHightVisit: {
+    borderLeftColor: theme.colors.primary,
+  },
   currentDailyContainer: {
     borderWidth: 1,
-    borderColor: theme.colors.primary,
+    borderTopColor: theme.colors.primary,
+    borderLeftColor: theme.colors.primary,
+    borderRightColor: theme.colors.primary,
+    borderBottomColor: theme.colors.primary,
     alignSelf: 'stretch',
     flex: 1,
   },
