@@ -14,6 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {KeyChain} from 'helper';
 import {revokeLogin, isAccessTokenValid} from '../../../utils/util';
 import {Helper} from 'database';
+import Auth from '../Auth';
 
 const Stack = createStackNavigator();
 export default function RouteHandler() {
@@ -84,13 +85,22 @@ export default function RouteHandler() {
     <NavigationContainer linking={linking}>
       <Stack.Navigator>
         {!userToken || screen === authenticationConstants.LOGIN ? (
-          <Stack.Screen
-            name={authenticationConstants.LOGIN}
-            component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
+          <>
+            <Stack.Screen
+              name={authenticationConstants.LOGIN}
+              component={Login}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name={authenticationConstants.AUTH}
+              component={Auth}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </>
         ) : (
           renderLoggedComponent()
         )}

@@ -13,6 +13,7 @@ import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import theme from 'themes';
 import {LoginCover, LogoMankindWhite} from 'assets';
+import env from '../../../../env.json';
 
 import styles from './styles';
 
@@ -20,12 +21,14 @@ const state = nanoid(32);
 const nonce = nanoid(32);
 
 const isLocalhost = ['localhost'].includes(window.location.hostname);
+const {oneLogin = {}} = env;
+const {authority, web = {}} = oneLogin;
+const {localhostClientID, clientID, redirectURL} = web;
+
 const config = {
-  authority: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  client_id: isLocalhost
-    ? '4cadc330-b176-0139-61ed-066569480319186786'
-    : '9dcc6560-9a92-0139-202d-0a8697f39ec7186786',
-  redirect_uri: `${window.location.origin}/auth`,
+  authority,
+  client_id: isLocalhost ? localhostClientID : clientID,
+  redirect_uri: `${window.location.origin}${redirectURL}`,
   state,
   nonce,
   response_type: 'id_token',
@@ -39,7 +42,7 @@ const Login = () => {
     try {
       setAnimating(true);
       const params = stringify(config);
-      const authUrl = `${config.authority}/auth?${params}`;
+      const authUrl = `${authority}${redirectURL}?${params}`;
       window.location.assign(authUrl);
     } catch (error) {
       setAnimating(false);

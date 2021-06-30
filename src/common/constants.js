@@ -1,5 +1,8 @@
 export const HTTP_OK = 200;
 export const TOKEN_EXPIRY_TIME = 'TOKEN_EXPIRY_TIME';
+export const ACCESS_TOKEN = 'ACCESS_TOKEN';
+export const USER_INFO = 'USER_INFO';
+export const USER_ID = 'USER_ID';
 
 export const BACKGROUND_TASK = {
   TASK_NAME: 'BACKGROUND_TASK', //Task Name for running background task
