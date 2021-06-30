@@ -7,12 +7,16 @@ import {standardPlanReducer} from 'screens/tourPlan/standard/redux/standardSlice
 import {openTasksReducer} from 'screens/directory/doctorDetails/openTask/redux';
 import {priorityProductReducer} from 'screens/directory/priorityProduct/redux';
 import {planComplianceReducer} from 'screens/tourPlan/planCompliance/redux';
-import {searchDoctorReducer} from 'screens/directory/landing/redux';
+import {
+  searchDoctorReducer,
+  landingReducer,
+} from 'screens/directory/landing/redux';
 import {
   ePriorityProductReducer,
   eOtherProductReducer,
 } from 'screens/directory/e-detailing/redux';
 import {timelineReducer} from 'screens/directory/doc-timeline/redux';
+import {authTokenReducer} from 'screens/generic/RouteHandler/redux';
 
 export const rootReducer = combineReducers({
   todoState: updateTodoDataReducer,
@@ -24,9 +28,11 @@ export const rootReducer = combineReducers({
   productList: priorityProductReducer,
   planCompliance: planComplianceReducer,
   fetchQueryDoctorsState: searchDoctorReducer,
+  landing: landingReducer,
   ePriorityProductList: ePriorityProductReducer,
   eOtherProductList: eOtherProductReducer,
   timeline: timelineReducer,
+  authState: authTokenReducer,
 });
 
 export {fetchStatusSliceActions, FetchEnumStatus} from './appSlice';

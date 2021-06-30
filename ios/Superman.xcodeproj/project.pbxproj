@@ -19,6 +19,7 @@
 		A30793A99A12726820119E61 /* libPods-Superman-SupermanTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 447AA07FDB920014812F1E0B /* libPods-Superman-SupermanTests.a */; };
 		C303AEFBDE40405C87321202 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07E4D2266D6C4FC7B20593DA /* Poppins-SemiBold.ttf */; };
 		E116F8587943484497CCD091 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C9C6F70871E45BAAE6D4C25 /* Poppins-Italic.ttf */; };
+		C9C5ACEB54EB41ED9A4A0AE3 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C4AEDA39551439E8FB37EF6 /* Poppins-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		BC94281EF12147D3BBD3D357 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		E8DA8CBD7DF64B95AA44A575 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../src/assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		3C4AEDA39551439E8FB37EF6 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; name = "Poppins-Medium.ttf"; path = "../src/assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				3C275C4161D846A78BBF5458 /* Poppins-Light.ttf */,
 				2030F602C0F84263BB3CCF27 /* Poppins-Regular.ttf */,
 				07E4D2266D6C4FC7B20593DA /* Poppins-SemiBold.ttf */,
+				3C4AEDA39551439E8FB37EF6 /* Poppins-Medium.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				48135760A23B4065BE97A495 /* Poppins-Light.ttf in Resources */,
 				12DDCB4E95A24473B176523B /* Poppins-Regular.ttf in Resources */,
 				C303AEFBDE40405C87321202 /* Poppins-SemiBold.ttf in Resources */,
+				C9C5ACEB54EB41ED9A4A0AE3 /* Poppins-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 import {QualificationsSchemaName} from '../schemas/Qualifications';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 
 export default dbInstance => ({
   storeQualifications: async qualifications => {
@@ -10,7 +10,7 @@ export default dbInstance => ({
         qualifications.forEach(qualification => {
           dbInstance.create(
             QualificationsSchemaName,
-            qualification,
+            {...qualification, syncParameters: syncParametersObject()},
             'modified',
           );
         });
@@ -35,7 +35,7 @@ export default dbInstance => ({
   },
   getQualificationsByDivision: async divisionId => {
     const qualifications = await getAllTableRecords(QualificationsSchemaName);
-    return await qualifications.filtered(`divisionId = ${divisionId}`);
+    return await qualifications.filtered('divisions.id == $0', divisionId);
   },
 });
 

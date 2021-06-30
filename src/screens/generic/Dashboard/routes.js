@@ -1,4 +1,4 @@
-import {Home, TourPlanning, Performance, Directory} from 'screens';
+import {Home, TourPlanning, Performance, Directory, Setting} from 'screens';
 
 export const ROUTE_HOME = 'Home';
 export const ROUTE_TOUR_PLAN = 'TourPlan';
@@ -46,7 +46,7 @@ const ROUTES_DASHBOARD = [
   },
   {
     name: ROUTE_SETTINGS,
-    component: Performance,
+    component: Setting,
   },
 ];
 

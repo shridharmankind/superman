@@ -1,36 +1,29 @@
 import 'react-native-gesture-handler';
-import React, {useEffect} from 'react';
-import {LogBox} from 'react-native';
+import React from 'react';
+// import {LogBox} from 'react-native';
 
 import {Provider} from 'react-redux';
-
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
 import {Provider as PaperProvider} from 'react-native-paper';
-
 import SplashScreen from 'react-native-splash-screen';
 
 import theme from 'themes';
-import {Routes, linking, NavigationService} from 'navigations';
+import AsyncStorage from '@react-native-community/async-storage';
 import {getStore} from './store/getStore';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
 
 import {Toast} from 'components/widgets';
 import ErrorBoundary from 'screens/generic/ErrorBoundary';
+import RouteHandler from './screens/generic/RouteHandler';
+import {TASK_NAME} from 'utils/backgroundTask';
 
-const Stack = createStackNavigator();
 const store = getStore();
 
 const App = () => {
-  LogBox.ignoreAllLogs();
-
-  const isLoggedIn = false;
-  const initialRoute = isLoggedIn ? Routes.ROUTE_DASHBOARD : Routes.ROUTE_LOGIN;
-
+  // LogBox.ignoreAllLogs(); // enable this for demo
   setI18nConfig();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
@@ -38,31 +31,19 @@ const App = () => {
         });
       }, 2000);
     }
+
+    return async () => {
+      if (!isWeb()) {
+        AsyncStorage.removeItem(TASK_NAME);
+      }
+    };
   }, []);
 
   return (
     <ErrorBoundary>
       <Provider store={store}>
         <PaperProvider theme={theme}>
-          <NavigationContainer
-            ref={NavigationService.navigationRef}
-            onReady={() => {
-              NavigationService.isReadyRef.current = true;
-            }}
-            linking={linking}>
-            <Stack.Navigator initialRouteName={initialRoute}>
-              {Routes.default.map(route => (
-                <Stack.Screen
-                  key={route.name}
-                  name={route.name}
-                  component={route.component}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-              ))}
-            </Stack.Navigator>
-          </NavigationContainer>
+          <RouteHandler />
           <Toast />
         </PaperProvider>
       </Provider>

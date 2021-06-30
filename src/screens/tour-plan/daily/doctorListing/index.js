@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {View, TouchableOpacity, TouchableHighlight} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
@@ -6,11 +7,11 @@ import styles from '../styles';
 import {Strings} from 'common';
 import {Label, DoctorDetails} from 'components/elements';
 import {deletePartyCreator, doctorDetailActions} from '../redux';
-import {useDispatch} from 'react-redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 import {CloseIcon} from 'assets';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {appSelector} from 'selectors';
 
 /**
  * render list of doctors
@@ -21,6 +22,7 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const [isDeleteOperationInProgress, setIsDeleteOperationInProgress] =
     useState(false);
 
@@ -56,7 +58,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     setIsDeleteOperationInProgress(true);
     dispatch(
       doctorDetailActions.tempStoreRemovedDoctor({
-        staffPositionid: 1,
+        staffPositionid: staffPositionId,
         day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
@@ -87,7 +89,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         if (!undoclicked) {
           dispatch(
             deletePartyCreator({
-              staffPositionid: 1,
+              staffPositionid: staffPositionId,
               day: parseInt(getFormatDate({format: 'D'}), 10),
               month: parseInt(getFormatDate({format: 'M'}), 10),
               year: parseInt(getFormatDate({format: 'YYYY'}), 10),
@@ -135,9 +137,10 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                 title={data.item.name}
                 specialization={data.item.specialities}
                 isKyc={data.item.isKyc}
+                isCampaign={data.item.isCampaign}
                 gender={data.item.gender}
                 category={data.item.category}
-                location={data.item.location}
+                location={data.item.areas}
                 partyType={data?.item?.partyTypes?.name}
                 customStyle={doctorDetailStyleObject}
                 showFrequencyChiclet={false}

@@ -20,11 +20,14 @@ import {Button} from 'components/elements';
 import theme from 'themes';
 import {getDivisionColor} from 'screens/directory/helper';
 import {ROUTE_EDETAILING} from 'screens/directory/routes';
-import {showToast, hideToast} from 'components/widgets/Toast';
+import {showToast} from 'components/widgets/Toast';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
 import {searchDoctorActions} from 'screens/directory/landing/redux';
 import {appSelector} from 'selectors';
+import {Helper} from 'database';
+import {translate} from 'locale';
+import MissedCalls from 'screens/directory/landing/missedCalls';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
@@ -32,18 +35,27 @@ import {appSelector} from 'selectors';
 const DirectoryLanding = ({navigation, route}) => {
   const LIMIT = 10;
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [staffPositionId, setStaffPositionId] = useState(null);
   const [skip, setSkip] = useState(0);
   const [searchKeyword, updateSearchKeyword] = useState(
     route?.params?.inputKeyword || null,
   );
   const [doctorsAddedinTodayPlan, updateTodayPlan] = useState([]);
   const dispatch = useDispatch(); // For dispatching the action
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      setStaffPositionId(id);
+    })();
+  });
+
   useEffect(() => {
     if (!!searchKeyword && searchKeyword !== '') {
       let filterPrefix = checkForDrPrefix(searchKeyword);
       dispatch(
         fetchSearchDoctors({
-          staffPositionId: 1,
+          staffPositionId: staffPositionId,
           searchKeyword: filterPrefix,
           partyTypeId: 1,
           skip: 0,
@@ -64,6 +76,9 @@ const DirectoryLanding = ({navigation, route}) => {
   const fetchState = useSelector(appSelector.makeGetAppFetch());
 
   const data = [
+    {
+      text: `${translate('missedCalls')}`,
+    },
     {
       text: `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`,
     },
@@ -110,6 +125,8 @@ const DirectoryLanding = ({navigation, route}) => {
   const renderChildView = () => {
     switch (selectedTabIndex) {
       case 0:
+        return <MissedCalls />;
+      case 1:
         return doctorTab();
       default:
         return <Label title={Strings.comingSoon} />;
@@ -138,7 +155,7 @@ const DirectoryLanding = ({navigation, route}) => {
         }
         dispatch(
           fetchSearchDoctors({
-            staffPositionId: 1,
+            staffPositionId: staffPositionId,
             searchKeyword: trimmedKeyword.trim(),
             partyTypeId: 1,
             skip: 0,
@@ -160,6 +177,7 @@ const DirectoryLanding = ({navigation, route}) => {
     }
     navigation.navigate(ROUTE_EDETAILING, {
       data: {
+        staffPositionId: staffPositionId,
         doctorID: doctorData.id,
         isScheduledToday: isDocScheduleToday,
         updateCallbk: updateDocTodayPlan,
@@ -184,7 +202,7 @@ const DirectoryLanding = ({navigation, route}) => {
     if (skip < docCount) {
       dispatch(
         fetchSearchDoctors({
-          staffPositionId: 1,
+          staffPositionId: staffPositionId,
           searchKeyword: filterPrefix,
           partyTypeId: 1,
           skip: skip,
@@ -206,7 +224,7 @@ const DirectoryLanding = ({navigation, route}) => {
       const result = await NetworkService.post(
         API_PATH.ADD_TODAY_PLAN,
         {},
-        {staffPositionId: 1, partyId: doctorID},
+        {staffPositionId: staffPositionId, partyId: doctorID},
       );
       if (result.status === Constants.HTTP_OK) {
         updateTodayPlan([...doctorsAddedinTodayPlan, doctorID]);
@@ -215,7 +233,6 @@ const DirectoryLanding = ({navigation, route}) => {
           autoHide: true,
           props: {
             heading: Strings.directory.docAddedTodayPlan,
-            onClose: () => hideToast(),
           },
         });
       } else {

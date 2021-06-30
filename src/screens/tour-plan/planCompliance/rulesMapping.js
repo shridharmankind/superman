@@ -1,4 +1,5 @@
 import {COMPARISION_TYPE, RULE_KEY} from 'screens/tourPlan/constants';
+import {Constants} from 'common';
 
 export const rulesMapping = {
   MINIMUMPERDAYFORDOC: {
@@ -39,20 +40,22 @@ export const rulesMapping = {
     title: 'daysGap',
     subTitle: 'minGap',
     showFraction: false,
-    checkType: null,
+    checkType: COMPARISION_TYPE.MINGAP,
+    errorCode: Constants.HTTP_PATCH_CODE.VISIT_FOR_4_DOC,
   },
   DIFFERENCEOF3FORDOC: {
     title: 'daysGap',
     subTitle: 'minGap',
     showFraction: false,
-    checkType: null,
+    checkType: COMPARISION_TYPE.MINGAP,
+    errorCode: Constants.HTTP_PATCH_CODE.VISIT_FOR_3_DOC,
   },
   DIFFERENCEOF2FORDOC: {
     title: 'daysGap',
     subTitle: 'minGap',
     showFraction: false,
-
-    checkType: null,
+    checkType: COMPARISION_TYPE.MINGAP,
+    errorCode: Constants.HTTP_PATCH_CODE.VISIT_FOR_2_DOC,
   },
   DOCTORCOVEREDINXDAYS: {
     title: '',
