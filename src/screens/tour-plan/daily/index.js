@@ -23,7 +23,6 @@ const DailyTourPlan = () => {
   const dispatch = useDispatch();
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const navigation = useNavigation();
-  const [dayPlanData, setDayPlanData] = useState([]);
 
   const onTileNameHandler = data => {
     navigation.navigate('Directory', {
@@ -63,12 +62,6 @@ const DailyTourPlan = () => {
     }
   }, [doctorRemoveError]);
 
-  /**
-   * set parties list in state
-   */
-  useEffect(() => {
-    setDayPlanData(allDoctorDetail);
-  }, [allDoctorDetail]);
 
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();
@@ -110,15 +103,15 @@ const DailyTourPlan = () => {
     let doctorString = '';
     let chemistString = '';
     let result = '';
-    if (dayPlanData?.length > 0) {
-      const doctorCount = dayPlanData?.filter(plan => {
+    if (allDoctorDetail.allRecords?.length > 0) {
+      const doctorCount = allDoctorDetail.allRecords?.filter(plan => {
         return (
           (plan.partyTypes?.name || '').toLowerCase() ===
           Constants.PARTY_TYPE.DOCTOR.toLowerCase()
         );
       });
 
-      const chemistCount = dayPlanData?.filter(plan => {
+      const chemistCount = allDoctorDetail.allRecords?.filter(plan => {
         return (
           (plan.partyTypes?.name || '').toLowerCase() ===
           Constants.PARTY_TYPE.CHEMIST.toLowerCase()
@@ -265,14 +258,14 @@ const DailyTourPlan = () => {
         />
         {getVisitBifurcationLabel()}
       </View>
-      {dayPlanData.length > 0 && (
+      {allDoctorDetail.allRecords.length > 0 && (
         <PartyList
-          dayPlanData={dayPlanData}
+          dayPlanData={allDoctorDetail}
           onTileNamePress={onTileNameHandler}
           onTilePress={onTilePressHandler}
         />
       )}
-      {dayPlanData.length === 0 && (
+      {allDoctorDetail.allRecords.length === 0 && (
         <Label
           title={translate('errorMessage.noRecords')}
           variant={LabelVariant.subtitleLarge}

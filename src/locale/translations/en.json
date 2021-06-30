@@ -10,7 +10,8 @@
       },
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days",
-      "adhocCalls": "Adhoc calls: {{data}}"
+      "adhocCalls": "Adhoc calls: {{data}}",
+      "visitCompleted": "Visit Completed"
     }
   },
   "missedVisit": "Missed Visit!",

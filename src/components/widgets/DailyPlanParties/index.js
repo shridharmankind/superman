@@ -260,7 +260,7 @@ DailyPlanParties.propTypes = {
   specialization: PropTypes.array,
   category: PropTypes.string,
   image: PropTypes.string,
-  location: PropTypes.string,
+  location: PropTypes.array,
   customStyle: PropTypes.object,
   showVisitPlan: PropTypes.bool,
   onTileNamePress: PropTypes.func,
