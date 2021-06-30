@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   },
   priorityProducts: {
     paddingVertical: theme.spacing(15),
+    paddingHorizontal: theme.spacing(10),
   },
   otherProduct: {
     elevation: 0,
