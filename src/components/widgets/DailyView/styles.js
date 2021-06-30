@@ -5,11 +5,16 @@ const styles = StyleSheet.create({
   dailyViewContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    borderColor: theme.colors.grey[100],
+    borderBottomColor: theme.colors.grey[100],
+    borderLeftColor: theme.colors.grey[100],
     height: 95,
     minWidth: 100,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
+  },
+  highVisitBar: {
+    borderLeftColor: theme.colors.orange[300],
+    borderLeftWidth: 5,
   },
   currentDailyContainer: {
     borderWidth: 1,
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(3),
   },
   cellFooter: {
     flexDirection: 'row',
