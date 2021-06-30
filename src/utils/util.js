@@ -18,12 +18,12 @@ export const isAccessTokenValid = async () => {
 export const revokeLogin = async userToken => {
   try {
     const {oneLogin = {}} = env;
-    const {revokeUrl, web = {}} = oneLogin;
-    const {logoutRedirectURL, revokeUrl: revokeUrlWeb} = web;
+    const {revokeUrlBase, revokeUrl, web = {}} = oneLogin;
+    const {logoutRedirectURL} = web;
 
     const url = isWeb()
-      ? `${revokeUrlWeb}${window.location.origin}${logoutRedirectURL}&id_token_hint=${userToken}`
-      : `${revokeUrl}${userToken}`;
+      ? `${revokeUrlBase}${window.location.origin}${logoutRedirectURL}&id_token_hint=${userToken}`
+      : `${revokeUrlBase}${revokeUrl}${userToken}`;
 
     isWeb() ? window.location.replace(url) : await Linking.openURL(url);
     await KeyChain.resetPassword();
