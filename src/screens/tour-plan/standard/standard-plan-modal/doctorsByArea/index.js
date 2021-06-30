@@ -48,6 +48,10 @@ const DoctorsByArea = ({
         );
       }
 
+      newPartiesData = newPartiesData.sort(party =>
+        party.frequency > party.alreadyVisited ? -1 : 0,
+      );
+
       return newPartiesData;
     },
     [partiesList, selectedDoctorType, isPatchedData],
