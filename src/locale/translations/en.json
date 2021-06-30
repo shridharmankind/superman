@@ -55,5 +55,12 @@
   },
   "responseStatus": {
     "error": "ERROR"
+  },
+  "dayType": {
+    "leave": "Leave"
+  },
+  "categoriesCount": {
+    "kyc": "{{value}} Kyc",
+    "campaign": "{{Value}} Campaign"
   }
 }

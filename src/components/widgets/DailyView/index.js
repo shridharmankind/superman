@@ -4,11 +4,11 @@ import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
 import {isSameDate, getFormatDate} from 'utils/dateTimeHelper';
 import {getPartyTitle} from 'screens/tourPlan/helper';
-import {DivisionType} from 'components/widgets';
 import {LocationIcon, StarIcon} from 'assets';
 import {Strings} from 'common';
 import theme from 'themes';
 import {DAY_TYPE} from 'screens/tourPlan/constants';
+import {translate} from 'locale';
 /**
  *
  * @param {number} month
@@ -65,7 +65,9 @@ const renderCategory = dayCellData => {
           {renderIcon(StarIcon)}
           <Label
             testID={`label_dailyView_noOfKyc_test_${dayCellData?.patchId}`}
-            title={`${dayCellData?.noOfKyc} ${DivisionType.KYC}`}
+            title={translate('categoriesCount.kyc', {
+              value: dayCellData?.noOfKyc,
+            })}
             variant={LabelVariant.label}
             style={styles.labelTextSpacing}
           />
@@ -76,7 +78,9 @@ const renderCategory = dayCellData => {
           {renderIcon(StarIcon)}
           <Label
             testID={`label_dailyView_noOfCampaign_test_${dayCellData?.patchId}`}
-            title={`${dayCellData?.noOfCampaign} ${DivisionType.CAMPAIGN}`}
+            title={translate('categoriesCount.campaign', {
+              value: dayCellData?.noOfCampaign,
+            })}
             variant={LabelVariant.label}
             style={styles.labelTextSpacing}
           />
@@ -159,7 +163,7 @@ const DailyView = ({
           {isLeaveType && (
             <Label
               testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
-              title={'Leave'}
+              title={translate('dayType.leave')}
               variant={LabelVariant.h6}
             />
           )}
