@@ -32,6 +32,7 @@ import {translate} from 'locale';
 import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
+import mtpData from '../../../data/mock/api/mtpData'; //Development IN PROGRESS - remove after API integration
 import {appSelector} from 'selectors';
 /**
  * Check if same month is selected
@@ -486,6 +487,7 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
+              monthlyCalendarData={mtpData}
             />
 
             <Legends />
