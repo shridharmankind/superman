@@ -41,20 +41,19 @@ const DoctorsByArea = ({
           return party;
         }
       });
-      let newPartiesData = partiesData;
-      if (!isPatchedData) {
-        newPartiesData = partiesData?.filter(
-          par => par.frequency > par.alreadyVisited,
-        );
-      }
 
-      newPartiesData = newPartiesData.sort(party =>
-        party.frequency > party.alreadyVisited ? -1 : 0,
-      );
+      const newPartiesData = partiesData.filter(party => {
+        const isPatchedParty =
+          doctorsSelected.length > 0 && isPartyInPatch(party.id, area);
+        return (
+          party.frequency > party.alreadyVisited ||
+          (party.frequency === party.alreadyVisited && isPatchedParty)
+        );
+      });
 
       return newPartiesData;
     },
-    [partiesList, selectedDoctorType, isPatchedData],
+    [partiesList, selectedDoctorType, isPartyInPatch, doctorsSelected],
   );
 
   /** function to render parties by area selected from area chiklets
@@ -82,7 +81,7 @@ const DoctorsByArea = ({
                 onPress={id => handleDoctorCardPress(id, area.id)}
                 containerStyle={index % 2 === 0 ? styles.left : styles.right}
                 isSameDayPatch={isSameDayPatch}
-                isPartyInPatch={isPartyInPatch(party.id)}
+                isPartyInPatch={isPartyInPatch(party.id, area.id)}
               />
             ))}
           </View>
@@ -124,10 +123,12 @@ const DoctorsByArea = ({
    * @return {Boolean}
    */
   const isPartyInPatch = useCallback(
-    id => {
-      return allPartiesByPatchID?.some(party => party.partyId === id);
+    (id, area) => {
+      return doctorsSelected?.some(
+        party => party.partyId === id && area === party.areaId,
+      );
     },
-    [allPartiesByPatchID],
+    [doctorsSelected],
   );
 
   return (
