@@ -62,8 +62,12 @@ const styles = StyleSheet.create({
   },
   visitContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+  },
+  visitsPanel: {
     alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: themes.spacing(8),
   },
   seperator: {
     paddingRight: themes.spacing(10),
@@ -106,7 +110,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    flex: 1,
     textTransform: 'capitalize',
   },
   capitalize: {textTransform: 'capitalize'},
