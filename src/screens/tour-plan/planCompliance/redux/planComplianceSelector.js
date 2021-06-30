@@ -28,8 +28,8 @@ const XMonthValueSelector = createSelector([getCompliance], data => {
     data &&
     data?.monthly?.rules?.filter(
       item => item.rulesShortName === 'DOCTORCOVEREDINXDAYS',
-    )[0].ruleValues;
-  return val;
+    );
+  return val && val[0]?.ruleValues;
 });
 const warningOnRules = state => state.planCompliance.rules.warningOnRules;
 

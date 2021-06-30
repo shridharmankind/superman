@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
-  Alert,
   BackHandler,
   TextInput,
   TouchableOpacity,
@@ -35,6 +34,7 @@ import {
 } from 'utils/backgroundTask';
 import {Helper} from 'database';
 import {fetchStatusSliceActions} from 'reducers';
+import {Alert} from 'components/widgets';
 
 export const DashboardStack = createStackNavigator();
 
@@ -149,7 +149,7 @@ const Dashboard = ({navigation}) => {
             );
           }
         } else {
-          Alert.alert(Strings.noInternet, Strings.checkInternet);
+          Alert(Strings.noInternet, Strings.checkInternet);
         }
       });
     }
@@ -166,7 +166,7 @@ const Dashboard = ({navigation}) => {
   };
 
   const handleBackButton = () => {
-    Alert.alert(
+    Alert(
       Strings.info,
       Strings.exitConfirmation,
       [
@@ -187,7 +187,7 @@ const Dashboard = ({navigation}) => {
   };
 
   const showLogOffConfirmationDialog = () => {
-    Alert.alert(Strings.info, Strings.logOffmsg, [
+    Alert(Strings.info, Strings.logOffmsg, [
       {
         text: Strings.cancel,
         onPress: () => {},
@@ -195,11 +195,11 @@ const Dashboard = ({navigation}) => {
       },
       {
         text: Strings.ok,
-        onPress: async () => {
+        onPress: () => {
           try {
             signOutStateUpdate();
           } catch (error) {
-            Alert.alert(Strings.error, error);
+            Alert(Strings.error);
           }
         },
       },
