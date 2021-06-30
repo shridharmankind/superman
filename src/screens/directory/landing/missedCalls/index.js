@@ -121,9 +121,9 @@ const MissedCalls = () => {
                   style={
                     index === 0
                       ? [
-                                  customStyles.doctorDetailContainer,
-                                  customStyles.doctorDetailContainerFirstChild,
-                                ]
+                          customStyles.doctorDetailContainer,
+                          customStyles.doctorDetailContainerFirstChild,
+                        ]
                       : customStyles.doctorDetailContainer
                   }>
                   <PartiesDirectory

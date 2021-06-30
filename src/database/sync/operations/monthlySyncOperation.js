@@ -30,18 +30,17 @@ export class MonthlyTableOperations {
       errorInSync: false,
       syncErrorDetails: syncErrorDetailsObject,
     };
-    
+
     object.dailyPlannedActivities = [
       ...object.dailyPlannedActivities.filter(dailyPlan => {
-        if(dailyPlan.syncParameters === null){
+        if (dailyPlan.syncParameters === null) {
           return dailyPlan;
+        } else if (dailyPlan.syncParameters.isDeleted) {
+          deleteExistingRecord(schema[1], dailyPlan.id);
         }
-        else if(dailyPlan.syncParameters.isDeleted){
-          deleteExistingRecord(schema[1],dailyPlan.id);
-        }
-      })
+      }),
     ];
-    
+
     object.dailyPlannedActivities = [
       ...object.dailyPlannedActivities.map(dailyPlan => {
         if (dailyPlan.syncParameters != null) {
