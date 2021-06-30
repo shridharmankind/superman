@@ -56,7 +56,7 @@ const Dashboard = ({navigation}) => {
   useEffect(() => {
     (async () => {
       const id = await Helper.getStaffPositionId();
-      dispatch(fetchStatusSliceActions.setStaffPositionId(id));
+      dispatch(fetchStatusSliceActions.setStaffPositionId(1));
     })();
   }, [dispatch]);
 
@@ -77,9 +77,9 @@ const Dashboard = ({navigation}) => {
     let subscribeNetworkCheck = null;
     if (!isWeb()) {
       fetchSyncTime();
-      subscribeNetworkCheck = NetInfo.addEventListener(
-        handleConnectivityChange,
-      );
+      // subscribeNetworkCheck = NetInfo.addEventListener(
+      //   handleConnectivityChange,
+      // );
       //Sync.SyncService.RegisterBackgroundTask();
     }
     return async () => {

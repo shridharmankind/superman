@@ -6,6 +6,7 @@ import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from '../styles';
 import {Strings} from 'common';
 import {Label, DoctorDetails} from 'components/elements';
+import {DailyPlanParties} from 'components/widgets';
 import {deletePartyCreator, doctorDetailActions} from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
@@ -133,7 +134,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           underlayColor={colors.transparent}>
           <View style={styles.doctorDetailWrapper}>
             <View key={data.item.key} style={styles.doctorDetailContainer}>
-              <DoctorDetails
+              <DailyPlanParties
                 title={data.item.name}
                 specialization={data.item.specialities}
                 isKyc={data.item.isKyc}
