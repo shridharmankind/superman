@@ -24,6 +24,9 @@ export const HTTP_PATCH_CODE = {
   ALREADY_EXITS: '103',
   PATCH_EXITS_FOR_OTHER_DAY: '107',
   PATCH_EXHAUSTED: '111',
+  VISIT_FOR_2_DOC: '113',
+  VISIT_FOR_3_DOC: '114',
+  VISIT_FOR_4_DOC: '115',
 };
 
 export const DIRECTION = {
@@ -37,6 +40,7 @@ export const DIVISION_COLOR = {
   B: 'b',
   A: 'a',
   C: 'c',
+  D: 'd',
   CAMPAIGN: 'campaign',
 };
 
@@ -54,6 +58,8 @@ export const GENDER = {
   FEMALE: 'F',
 };
 
+export const revokeUrl =
+  'https://mankindpharma-sandbox.onelogin.com/oidc/2/logout?post_logout_redirect_uri=com.superman://callback&id_token_hint=';
 export const API_PATH = {
   GET_PARTIES:
     'mtp/staffpositionid/parties?Month=monthVal&Year=yearVal&Day=dayVal',

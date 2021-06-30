@@ -4,7 +4,9 @@
     "monthly": {
       "actions": {
         "save": "Save",
-        "submitSTP": "Submit STP"
+        "submitSTP": "Submit STP",
+        "addToTodayPlan": "Add to Today's Plan",
+        "reviewDCR": "Review DCR"
       },
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days"
@@ -24,9 +26,12 @@
   "timeline": "Timeline",
   "errorMessage": {
     "noRecords": "There are no records",
-    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits"
+    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits",
+    "gapRule": "Min gap between visits not met"
   },
-
+  "message": {
+    "partyAdded": "Party added successfully"
+  },
   "dr": "Doctor",
   "minimum": "minimum",
   "maximum": "maximum",
@@ -47,5 +52,14 @@
     "listOfProduct": "List Of Products",
     "done": "Done",
     "SelectBrandLabel": "Select Sub-brands"
+  },
+  "speciality": "Speciality",
+  "region": "Region",
+  "categories": {
+    "kyc": "KYC",
+    "campaign": "Campaign"
+  },
+  "responseStatus": {
+    "error": "ERROR"
   }
 }

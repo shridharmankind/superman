@@ -37,6 +37,8 @@ export const PARTY_TYPE = {
   CHEMIST: 'Chemist',
 };
 
+export const PARTY_TYPES = ['All', 'Doctor', 'Chemist'];
+
 export const COMPLAINCE_TYPE = {
   MONTHLY: 'monthly',
   DAILY: 'daily',
@@ -52,6 +54,7 @@ export const COMPARISION_TYPE = {
   MIN: 'minimum',
   MAX: 'maximum',
   EQUAL: 'equal',
+  MINGAP: 'minGap',
 };
 
 export const RULE_KEY = {

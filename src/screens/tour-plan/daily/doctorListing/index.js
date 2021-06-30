@@ -11,7 +11,7 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 import {CloseIcon} from 'assets';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {appSelector} from 'reducers';
+import {appSelector} from 'selectors';
 
 /**
  * render list of doctors
@@ -140,7 +140,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                 isCampaign={data.item.isCampaign}
                 gender={data.item.gender}
                 category={data.item.category}
-                location={data.item.location}
+                location={data.item.areas}
                 partyType={data?.item?.partyTypes?.name}
                 customStyle={doctorDetailStyleObject}
                 showFrequencyChiclet={false}

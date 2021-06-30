@@ -1,6 +1,5 @@
 import {QualificationsSchemaName} from '../schemas/Qualifications';
-import {DivisionSchemaName} from '../schemas/Divisions';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 
 export default dbInstance => ({
   storeQualifications: async qualifications => {
@@ -8,23 +7,12 @@ export default dbInstance => ({
 
     try {
       await dbInstance.write(() => {
-        qualifications.forEach(async qualification => {
-          const {divisions = []} = qualification;
-
-          const qualificationRecord = await dbInstance.create(
+        qualifications.forEach(qualification => {
+          dbInstance.create(
             QualificationsSchemaName,
-            qualification,
+            {...qualification, syncParameters: syncParametersObject()},
             'modified',
           );
-
-          divisions.forEach(async division => {
-            const divisionRecord = await dbInstance.create(
-              DivisionSchemaName,
-              division,
-              'modified',
-            );
-            qualificationRecord.divisions.push(divisionRecord);
-          });
         });
       });
     } catch (err) {
@@ -47,7 +35,7 @@ export default dbInstance => ({
   },
   getQualificationsByDivision: async divisionId => {
     const qualifications = await getAllTableRecords(QualificationsSchemaName);
-    return await qualifications.filtered(`divisions.id == ${divisionId}`);
+    return await qualifications.filtered('divisions.id == $0', divisionId);
   },
 });
 
