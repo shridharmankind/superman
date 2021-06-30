@@ -606,7 +606,7 @@ const MonthlyTourPlan = ({navigation}) => {
               textColor={theme.colors.grey[600]}
               title={
                 date.source
-                  ? date.source
+                  ? date?.source
                   : translate('tourPlan.monthly.selectDate')
               }
             />
@@ -622,7 +622,7 @@ const MonthlyTourPlan = ({navigation}) => {
               textColor={theme.colors.grey[600]}
               title={
                 date.destination
-                  ? date.destination
+                  ? date?.destination
                   : translate('tourPlan.monthly.selectDate')
               }
             />
@@ -651,13 +651,16 @@ const MonthlyTourPlan = ({navigation}) => {
     dispatch(
       swapCreator({
         staffPositionId: staffPositionId,
-        obj: {},
+        obj: swapObj,
       }),
     );
   };
 
   /**handle swap modal visibility */
-  const handleSwapDialog = () => setSwapModalVisible(!swapModalVisible);
+  const handleSwapDialog = () => {
+    setSwapModalVisible(!swapModalVisible);
+    setShowCalendar(false);
+  };
 
   /**
    * Submit STP to BE
@@ -672,11 +675,30 @@ const MonthlyTourPlan = ({navigation}) => {
 
   /**render calendar on click of date input press*/
   const renderCalendar = () => {
+    const month = `${monthSelected?.year}-${
+      monthSelected?.month < 10
+        ? `0${monthSelected?.month}`
+        : monthSelected?.month
+    }-01`;
+
+    const disableDates = {};
+    mtpData.map(data => {
+      if (data.dayType === 'holiday' || data.dayType === 'leave') {
+        disableDates[
+          `${data.date.year}-${
+            data.date.month < 10 ? `0${data.date.month}` : data.date.month
+          }-${data.date.day < 10 ? `0${data.date.day}` : data.date.day}`
+        ] = {
+          disabled: true,
+          disableTouchEvent: true,
+          textColor: theme.colors.grey[600],
+        };
+      }
+    });
     return (
       <View style={styles.calendarContainer}>
         <Calendar
-          // Initially visible month. Default = Date()
-          current={'2012-03-01'}
+          current={month}
           hideArrows={true}
           hideExtraDays={true}
           disableMonthChange={true}
@@ -686,14 +708,22 @@ const MonthlyTourPlan = ({navigation}) => {
           enableSwipeMonths={false}
           onDayPress={day => handleDayPress(day)}
           style={styles.calendar}
+          markedDates={disableDates}
+          markingType={'dot'}
         />
       </View>
     );
   };
 
   /**handle day press on calendar and set date and swap objext */
-  const handleDayPress = ({day, month, dateString}) => {
-    const obj = {...swapObj, [dateSelected]: {patchId: '', day, month}};
+  const handleDayPress = ({day, month, dateString, year}) => {
+    const patchId = mtpData.find(
+      data => data.date.month === month && data.date.year === year,
+    );
+    const obj = {
+      ...swapObj,
+      [dateSelected]: {patchId: patchId?.patchId, day, month},
+    };
     setDate({...date, [dateSelected]: dateString});
     setSwapObj(obj);
     setShowCalendar(false);
