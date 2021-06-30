@@ -10,7 +10,6 @@ import {TOKEN_EXPIRY_TIME, USER_ID} from 'screens/generic/Login';
 const Auth = ({navigation}) => {
   useEffect(() => {
     const hash = window.location.hash;
-    console.log('rishabh auth', hash);
     if (hash && !hash.includes('error')) {
       const response = parse(hash);
       const decoded = jwt_decode(response.id_token);
