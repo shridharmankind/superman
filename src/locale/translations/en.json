@@ -61,16 +61,16 @@
   "region": "Region",
   "categories": {
     "kyc": "KYC",
-    "campaign": "Campaign"
+    "campaign": "Campaign",
+    "count": {
+      "kyc": "{{value}} Kyc",
+      "campaign": "{{value}} Campaign"
+    }
   },
   "responseStatus": {
     "error": "ERROR"
   },
   "dayType": {
     "leave": "Leave"
-  },
-  "categoriesCount": {
-    "kyc": "{{value}} Kyc",
-    "campaign": "{{value}} Campaign"
   }
 }

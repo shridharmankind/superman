@@ -65,7 +65,7 @@ const renderCategory = dayCellData => {
           {renderIcon(StarIcon)}
           <Label
             testID={`label_dailyView_noOfKyc_test_${dayCellData?.patchId}`}
-            title={translate('categoriesCount.kyc', {
+            title={translate('categories.count.kyc', {
               value: dayCellData?.noOfKyc,
             })}
             variant={LabelVariant.label}
@@ -78,7 +78,7 @@ const renderCategory = dayCellData => {
           {renderIcon(StarIcon)}
           <Label
             testID={`label_dailyView_noOfCampaign_test_${dayCellData?.patchId}`}
-            title={translate('categoriesCount.campaign', {
+            title={translate('categories.count.campaign', {
               value: dayCellData?.noOfCampaign,
             })}
             variant={LabelVariant.label}
