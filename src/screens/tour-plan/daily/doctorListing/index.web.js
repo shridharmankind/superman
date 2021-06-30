@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from '../styles';
-import {DoctorDetails} from 'components/elements';
+import {DailyPlanParties} from 'components/widgets';
 
 /**
  * render list of doctors
@@ -32,7 +32,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           return (
             <View style={styles.doctorDetailWrapper} key={index}>
               <View key={index} style={styles.doctorDetailContainer}>
-                <DoctorDetails
+                <DailyPlanParties
                   title={plan.name}
                   gender={plan.gender}
                   specialization={plan.specialities}

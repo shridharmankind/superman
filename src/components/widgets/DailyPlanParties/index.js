@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
-import {Frequency, Label, LabelVariant} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates, DoctorTag, DivisionType} from 'components/widgets';
@@ -149,6 +148,9 @@ const DailyPlanParties = ({
     );
   };
 
+  /**
+   * Return string of specializations of parties
+   */
   const getSpecialization = () => {
     return (specialization || {}).map(spec => spec?.name || spec).join(', ');
   };
@@ -246,7 +248,6 @@ const DailyPlanParties = ({
     </View>
   );
 };
-
 
 DailyPlanParties.defaultProps = {
   showVisitPlan: false,

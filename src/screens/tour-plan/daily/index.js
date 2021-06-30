@@ -39,7 +39,7 @@ const DailyTourPlan = () => {
     dispatch(
       fetchDoctorDetailCreator({
         staffPositionid: staffPositionId,
-        day: 29, //parseInt(getFormatDate({format: 'D'}), 10),
+        day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),

@@ -5,7 +5,7 @@ import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from '../styles';
 import {Strings} from 'common';
-import {Label, DoctorDetails} from 'components/elements';
+import {Label} from 'components/elements';
 import {DailyPlanParties} from 'components/widgets';
 import {deletePartyCreator, doctorDetailActions} from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
