@@ -35,7 +35,7 @@ export class MonthlyTableOperations {
       ...object.dailyPlannedActivities.filter(dailyPlan => {
         if (dailyPlan.syncParameters === null) {
           return dailyPlan;
-        } else if (dailyPlan.syncParameters.isDeleted) {
+        } else if (dailyPlan?.syncParameters?.isDeleted) {
           deleteExistingRecord(schema[1], dailyPlan.id);
         }
       }),
