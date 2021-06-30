@@ -118,14 +118,10 @@ const MissedCalls = () => {
               <View style={customStyles.doctorDetailWrapper}>
                 <View
                   key={item.key}
-                  style={
-                    index === 0
-                      ? [
-                          customStyles.doctorDetailContainer,
-                          customStyles.doctorDetailContainerFirstChild,
-                        ]
-                      : customStyles.doctorDetailContainer
-                  }>
+                  style={[
+                    customStyles.doctorDetailContainer,
+                    index === 0 && customStyles.doctorDetailContainerFirstChild,
+                  ]}>
                   <PartiesDirectory
                     title={item.name}
                     specialization={item.specialities}
