@@ -4,13 +4,10 @@ const Alert = (title, description, options) => {
     [title, description].filter(Boolean).join('\n'),
   );
 
-  if (result) {
-    const confirmOption = options.find(({style}) => style !== 'Cancel');
-    confirmOption && confirmOption.onPress();
-  } else {
-    const cancelOption = options.find(({style}) => style === 'Cancel');
-    cancelOption && cancelOption.onPress();
-  }
+  const option = result
+    ? options.find(({style}) => style !== 'Cancel')
+    : options.find(({style}) => style === 'Cancel');
+  option && option.onPress && option.onPress();
 };
 
 export default Alert;
