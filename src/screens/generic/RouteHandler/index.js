@@ -3,6 +3,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {authenticationConstants} from './constants';
 import {MasterDataDownload, Login} from 'screens/generic';
+import {linking} from 'navigations';
 import ROUTES, {
   ROUTE_MASTER_DATA_DOWNLOAD,
   ROUTE_DASHBOARD,
@@ -80,7 +81,7 @@ export default function RouteHandler() {
   };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator>
         {!userToken || screen === authenticationConstants.LOGIN ? (
           <Stack.Screen

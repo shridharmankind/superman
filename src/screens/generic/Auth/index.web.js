@@ -5,7 +5,8 @@ import jwt_decode from 'jwt-decode';
 import {parse} from 'query-string';
 
 import {Routes} from 'navigations';
-import {TOKEN_EXPIRY_TIME, USER_ID} from 'screens/generic/Login';
+import {Constants} from 'common';
+import {USER_ID} from 'screens/generic/Login';
 
 const Auth = ({navigation}) => {
   useEffect(() => {
@@ -14,7 +15,10 @@ const Auth = ({navigation}) => {
       const response = parse(hash);
       const decoded = jwt_decode(response.id_token);
 
-      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
+      AsyncStorage.setItem(
+        Constants.TOKEN_EXPIRY_TIME,
+        JSON.stringify(decoded.exp),
+      );
       AsyncStorage.setItem(USER_ID, decoded.sub);
 
       navigation.reset({
