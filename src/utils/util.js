@@ -24,7 +24,8 @@ export const revokeLogin = async userToken => {
     const url = isWeb()
       ? `${revokeUrlWeb}?post_logout_redirect_uri=${window.location.origin}${redirectURL}&id_token_hint=${userToken}`
       : `${revokeUrl}${userToken}`;
-    await Linking.openURL(url);
+
+    isWeb() ? window.location.replace(url) : await Linking.openURL(url);
     await KeyChain.resetPassword();
     await AsyncStorage.removeItem(Constants.TOKEN_EXPIRY_TIME);
     await AsyncStorage.removeItem(Constants.USER_ID);
