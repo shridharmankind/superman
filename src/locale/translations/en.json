@@ -61,6 +61,6 @@
   },
   "categoriesCount": {
     "kyc": "{{value}} Kyc",
-    "campaign": "{{Value}} Campaign"
+    "campaign": "{{value}} Campaign"
   }
 }

@@ -143,7 +143,9 @@ const DailyView = ({
     <View
       style={[
         styles.dailyViewContainer,
-        isWorkingDayType && dayCellData?.isNoOfVisitHigh && styles.highVisitBar,
+        isWorkingDayType &&
+          dayCellData?.patch?.isNoOfVisitHigh &&
+          styles.highVisitBar,
         isDisabled(props.date.month, selectedMonth) && styles.disabled,
         !isWorkingDayDate && isHolidayType && styles.weekendContainer,
       ]}>
