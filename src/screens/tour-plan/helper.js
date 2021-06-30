@@ -215,9 +215,7 @@ export const getPartyTitle = parties => {
  */
 export const capitalize = input => {
   input = input === undefined || input === null ? '' : input;
-  const string = input.toString().replace(/(^|\. *)([a-z])/g, function (match) {
+  return input.toString().replace(/(^|\. *)([a-z])/g, function (match) {
     return match.toUpperCase();
   });
-  console.log(string);
-  return string;
 };
