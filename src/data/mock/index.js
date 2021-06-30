@@ -36,7 +36,7 @@ import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
 
 const getPartiesUrl = () => {
   const valueMap = {
-    staffpositionid: 2,
+    staffpositionid: 1,
     monthVal: parseInt(getFormatDate({format: 'M'}), 10),
     yearVal: parseInt(getFormatDate({format: 'YYYY'}), 10),
     dayVal: parseInt(getFormatDate({format: 'D'}), 10),
