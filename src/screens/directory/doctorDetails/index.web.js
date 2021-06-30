@@ -281,7 +281,7 @@ const DoctorProfile = ({route, navigation}) => {
                 <View style={styles.location}>
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={doctorData.specialization
+                    title={(doctorData?.specialization || [])
                       .map(spec => spec)
                       .join(', ')}
                   />
