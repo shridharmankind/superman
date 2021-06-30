@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
   },
   name: {
     flex: 1,
-    textTransform: 'capitalize',
   },
   capitalize: {textTransform: 'capitalize'},
   visitsPanel: {

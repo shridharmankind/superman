@@ -81,3 +81,15 @@ export const MTP_LOCK_DATES_THRESHOLD = {
   MIN: 8,
   MAX: 20,
 };
+
+export const PARTY_PREFIX = {
+  //TODO:: to fetch from translation
+  DOCTOR: 'Dr',
+  CHEMIST: 'Ch',
+};
+
+export const DAY_TYPE = {
+  WORKING: 'working',
+  LEAVE: 'leave',
+  HOLIDAY: 'holiday',
+};

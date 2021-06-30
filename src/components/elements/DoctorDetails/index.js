@@ -11,6 +11,7 @@ import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
 import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 import {translate} from 'locale';
+import {capitalize} from 'screens/tour-plan/helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -202,8 +203,8 @@ const DoctorDetails = ({
             <Label
               title={
                 partyType === Constants.PARTY_TYPE.DOCTOR
-                  ? `${Strings.dr} ${title}`
-                  : title
+                  ? `${Strings.dr} ${capitalize(title)}`
+                  : capitalize(title)
               }
               size={customStyle ? customStyle.titleSize : 17}
               style={styles.name}

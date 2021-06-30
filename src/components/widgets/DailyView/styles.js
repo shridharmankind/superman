@@ -5,11 +5,16 @@ const styles = StyleSheet.create({
   dailyViewContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    borderColor: theme.colors.grey[100],
-    minHeight: 93.3,
+    borderBottomColor: theme.colors.grey[100],
+    borderLeftColor: theme.colors.grey[100],
+    height: 95,
     minWidth: 100,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
+  },
+  highVisitBar: {
+    borderLeftColor: theme.colors.orange[300],
+    borderLeftWidth: 5,
   },
   currentDailyContainer: {
     borderWidth: 1,
@@ -27,10 +32,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignContent: 'flex-start',
   },
-  bottomContent: {
-    flexDirection: 'row',
+  categoryContent: {
+    flexDirection: 'column',
     alignSelf: 'stretch',
     justifyContent: 'space-between',
+    height: 40,
   },
   disabled: {
     color: theme.colors.grey[100],
@@ -53,6 +59,24 @@ const styles = StyleSheet.create({
   weekendContainer: {
     backgroundColor: theme.colors.blueShades[100],
     opacity: 0.5,
+  },
+
+  locationLabelText: {
+    paddingHorizontal: theme.spacing(2),
+    alignContent: 'center',
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: theme.spacing(3),
+  },
+  cellFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  locationContent: {
+    flexDirection: 'row',
   },
 });
 
