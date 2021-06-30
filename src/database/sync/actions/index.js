@@ -69,7 +69,6 @@ export const syncTableTask = async () => {
     //     `Minimum ${syncDifference} minutes difference from Last Sync Time is required.`,
     //   );
     // }
-    console.log('Result Array --', resultArray);
     return resultArray;
   } catch (err) {
     console.log('Error ', err);

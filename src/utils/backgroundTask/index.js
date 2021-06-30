@@ -199,10 +199,8 @@ export const runBackgroundTask = async () => {
       resultArray = result || [];
     });
     let isDemandSync = await getOnDemandSyncStatus();
-    console.log(isDemandSync, 'Overall result ', resultArray);
     if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
       if (resultArray.length === 0) {
-        console.log('Overall result ', resultArray);
         showToastie(
           Constants.TOAST_TYPES.SUCCESS,
           Strings.backgroundTask.toastBtns.successMessage,
