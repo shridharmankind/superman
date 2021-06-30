@@ -29,7 +29,6 @@ import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
-import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 import mtpData from '../../../data/mock/api/mtpData'; //Development IN PROGRESS - remove after API integration
@@ -428,7 +427,7 @@ const MonthlyTourPlan = ({navigation}) => {
                           submitSTP?.submitedDate || stpStatus?.submitedDate,
                         )}`}
                         value={'1'}
-                        bgColor={theme.colors.green[300]}
+                        bgColor={themes.colors.green[300]}
                         textStyle={[styles.chip, styles.submittedChip]}
                         chipContainerCustomStyle={styles.chipContainer}
                       />
