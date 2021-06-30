@@ -11,6 +11,7 @@
       "localhostClientID": "4cadc330-b176-0139-61ed-066569480319186786",
       "clientID": "9dcc6560-9a92-0139-202d-0a8697f39ec7186786",
       "redirectURL": "/auth",
+      "logoutRedirectURL": "/login",
       "revokeUrl": "https://mankindpharma-sandbox.onelogin.com/oidc/2/logout?post_logout_redirect_uri="
     }
   }

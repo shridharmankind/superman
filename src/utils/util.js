@@ -19,10 +19,10 @@ export const revokeLogin = async userToken => {
   try {
     const {oneLogin = {}} = env;
     const {revokeUrl, web = {}} = oneLogin;
-    const {redirectURL, revokeUrlWeb} = web;
+    const {logoutRedirectURL, revokeUrl: revokeUrlWeb} = web;
 
     const url = isWeb()
-      ? `${revokeUrlWeb}?post_logout_redirect_uri=${window.location.origin}${redirectURL}&id_token_hint=${userToken}`
+      ? `${revokeUrlWeb}${window.location.origin}${logoutRedirectURL}&id_token_hint=${userToken}`
       : `${revokeUrl}${userToken}`;
 
     isWeb() ? window.location.replace(url) : await Linking.openURL(url);
