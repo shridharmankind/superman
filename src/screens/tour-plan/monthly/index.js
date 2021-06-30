@@ -33,6 +33,7 @@ import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 import mtpData from '../../../data/mock/api/mtpData'; //Development IN PROGRESS - remove after API integration
 import {appSelector} from 'selectors';
+
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -95,6 +96,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({

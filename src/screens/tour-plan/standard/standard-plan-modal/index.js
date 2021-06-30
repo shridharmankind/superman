@@ -1019,10 +1019,18 @@ const StandardPlanModal = ({
   }, [doctorsSelected, allParties, selectedDoctorType, areaSelected]);
 
   /**
+   * Reset STP data on click of close
+   */
+  const resetSTPState = useCallback(async () => {
+    await dispatch(standardPlanActions.STPCalendarUpdate({stpData: []}));
+    return true;
+  }, [dispatch]);
+  /**
    * function to close stp page
    */
   const handleClose = () => {
     resetState();
+    resetSTPState();
     updateSTPCalendar();
     navigation.pop();
   };
