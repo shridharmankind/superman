@@ -96,7 +96,6 @@ const MonthlyTourPlan = ({navigation}) => {
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
-  const fetchState = useSelector(appSelector.makeGetAppFetch());
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
@@ -202,8 +201,8 @@ const MonthlyTourPlan = ({navigation}) => {
 
   //Effect to get working Days from API on load of page
   useEffect(() => {
-    dispatch(fetchWorkingDayCreator({userId: 1}));
-  }, [dispatch]);
+    dispatch(fetchWorkingDayCreator({userId: staffPositionId}));
+  }, [dispatch, staffPositionId]);
 
   useEffect(() => {
     if (!selectedTourPlan) {

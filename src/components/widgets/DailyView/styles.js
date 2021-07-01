@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 
   weekendContainer: {
     backgroundColor: theme.colors.blueShades[100],
-    opacity: 0.5,
+    opacity: 0.7,
   },
 
   locationLabelText: {
