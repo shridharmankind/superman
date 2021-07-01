@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
-    backgroundColor: '#000',
+    backgroundColor: themes.colors.black,
     left: 0,
     top: 0,
     zIndex: 1,
