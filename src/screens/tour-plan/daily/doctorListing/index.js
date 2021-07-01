@@ -23,6 +23,7 @@ import {translate} from 'locale';
  */
 const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const {colors} = useTheme();
+  const {toDoVisits, completedVisits} = dayPlanData;
   const dispatch = useDispatch();
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const [isDeleteOperationInProgress, setIsDeleteOperationInProgress] =
@@ -107,7 +108,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
    * Render UI for completed visits
    */
   const renderCompletedVisits = () => {
-    return dayPlanData?.completedVisits.map((data, index) => (
+    return completedVisits.map((data, index) => (
       <View style={styles.doctorDetailWrapper}>
         <View key={index} style={styles.doctorDetailContainer}>
           <DailyPlanParties
@@ -202,12 +203,12 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   return (
     <>
       <SwipeListView
-        data={dayPlanData.toDoVisits}
+        data={toDoVisits}
         renderItem={renderItem}
         stopLeftSwipe={isDeleteOperationInProgress}
       />
 
-      {dayPlanData?.completedVisits.length > 0 && (
+      {completedVisits.length > 0 && (
         <Label
           variant={LabelVariant.h6}
           style={styles.visitCompleted}
