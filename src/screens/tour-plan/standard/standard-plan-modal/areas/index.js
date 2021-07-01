@@ -36,8 +36,6 @@ const Areas = forwardRef(
     const swiperRef = useRef(null);
     const [hideRightArrow, setHideRightArrow] = useState(false);
     const [scrollOffset, setScrollOffset] = useState(0);
-    // const [hideDropDown, setHideDropDown] = useState(false);
-    // const dropDownRef = useRef(null);
 
     /** function to hide/show right arrow of area scroll
      * @param {Object} nativeEvent native events of scrollView passed
@@ -186,33 +184,8 @@ const Areas = forwardRef(
       <Icon name={icon} size={10} color={themes.colors.blue} />
     );
 
-    // const handleDropdownOutSideClick = childerIds => {
-    //   dropDownRef = childerIds;
-    // };
-
-    // const handleDropDownRef = useCallback(
-    //   e => {
-    //     e.persist();
-    //     const ids =
-    //       dropDownRef &&
-    //       dropDownRef.current._children &&
-    //       dropDownRef.current._children[0]._children.map(el => el._nativeTag);
-
-    //     if (ids && ids.length) {
-    //       if (ids.includes(e.target)) {
-    //         return;
-    //       }
-    //       setHideDropDown(true);
-    //     }
-    //   },
-    //   [setHideDropDown],
-    // );
-
     return (
-      <View
-        style={styles.selectAreaContainer}
-        // onStartShouldSetResponder={evt => handleDropDownRef(evt)}>
-      >
+      <View style={styles.selectAreaContainer}>
         <Label
           title={Strings.selectArea}
           variant={LabelVariant.subtitleSmall}
