@@ -16,7 +16,7 @@ const allDoctorDetailSelector = createSelector([getDoctorDetailList], data => {
   /** Fetch parties having completed visits from all visits */
   const completedVisits = (data || []).filter(d => {
     const isPartyFound = (d?.visits || []).find(visit => {
-      return visit.status.toLowerCase() === completedStatus;
+      return (visit?.status || '').toLowerCase() === completedStatus;
     });
     return isPartyFound;
   });
