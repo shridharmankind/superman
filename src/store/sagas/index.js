@@ -31,7 +31,14 @@ import {
   fetchEDetailingOtherProductWatcher,
   fetchEDetailingPriorityProductWatcher,
 } from 'screens/directory/e-detailing/redux';
-
+import {
+  fetchDcrWatcher,
+  setVisitWatcher,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
+import {
+  searchSamplesWatcher,
+  selectSamplesWatcher,
+} from 'screens/directory/doctorDetails/doctorFeedback/sampleRequest/redux';
 export function* rootSaga() {
   /**
    *
@@ -61,6 +68,10 @@ export function* rootSaga() {
     fetchEDetailingPriorityProductWatcher,
     fetchEDetailingOtherProductWatcher,
     fetchTimelineWatcher,
+    fetchDcrWatcher,
+    setVisitWatcher,
+    searchSamplesWatcher,
+    selectSamplesWatcher,
   ];
 
   /**
