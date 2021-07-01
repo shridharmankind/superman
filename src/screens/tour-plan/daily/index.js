@@ -15,11 +15,13 @@ import {useNavigation} from '@react-navigation/native';
 import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {translate} from 'locale';
+import {appSelector} from 'selectors';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
   const dispatch = useDispatch();
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const navigation = useNavigation();
   const [dayPlanData, setDayPlanData] = useState([]);
 
@@ -36,13 +38,13 @@ const DailyTourPlan = () => {
   useEffect(() => {
     dispatch(
       fetchDoctorDetailCreator({
-        staffPositionid: 2,
+        staffPositionid: staffPositionId,
         day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionId]);
 
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
   const doctorRemoveError = useSelector(dailySelector.doctorDetailError());
@@ -202,7 +204,7 @@ const DailyTourPlan = () => {
           onPress={() => {
             dispatch(
               deletePartyCreator({
-                staffPositionid: 2,
+                staffPositionid: staffPositionId,
                 day: parseInt(
                   getFormatDate({date: new Date(), format: 'D'}),
                   10,

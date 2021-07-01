@@ -37,6 +37,8 @@ export const PARTY_TYPE = {
   CHEMIST: 'Chemist',
 };
 
+export const PARTY_TYPES = ['All', 'Doctor', 'Chemist'];
+
 export const COMPLAINCE_TYPE = {
   MONTHLY: 'monthly',
   DAILY: 'daily',
@@ -52,6 +54,7 @@ export const COMPARISION_TYPE = {
   MIN: 'minimum',
   MAX: 'maximum',
   EQUAL: 'equal',
+  MINGAP: 'minGap',
 };
 
 export const RULE_KEY = {
@@ -64,4 +67,29 @@ export const RULE_KEY = {
   DOCTOR_COVERED_IN_MONTH: 'doctorCoveredInMonth',
   CHEMIST_COVERED_IN_MONTH: 'chemistCoveredInMonth',
   DOCTOR_IN_X_DAYS: 'doctorInXDays',
+};
+
+// Comparison check to  enable submit STP
+export const SUBMIT_STP_PLAN_THRESHOLD_VALUE = 100;
+
+export const ARRAY_OPERATION = {
+  PUSH: 'PUSH',
+  POP: 'POP',
+};
+
+export const MTP_LOCK_DATES_THRESHOLD = {
+  MIN: 8,
+  MAX: 20,
+};
+
+export const PARTY_PREFIX = {
+  //TODO:: to fetch from translation
+  DOCTOR: 'Dr',
+  CHEMIST: 'Ch',
+};
+
+export const DAY_TYPE = {
+  WORKING: 'working',
+  LEAVE: 'leave',
+  HOLIDAY: 'holiday',
 };

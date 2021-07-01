@@ -1,0 +1,192 @@
+{
+  "totalCount": 4,
+  "brandList": [
+    {
+      "motherBrandId": 1,
+      "subBrandId": 0,
+      "skuId": 0,
+      "name": "Alzone",
+      "isFeatured": true,
+      "isFocused": false,
+      "isPowered": false,
+      "priority": 0,
+      "isSelected": false,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "subList": [
+        {
+          "motherBrandId": 1,
+          "subBrandId": 1,
+          "skuId": 0,
+          "name": "Alzone-A",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        },
+        {
+          "motherBrandId": 1,
+          "subBrandId": 1,
+          "skuId": 1,
+          "name": "SKU-1",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        },
+        {
+          "motherBrandId": 1,
+          "subBrandId": 2,
+          "skuId": 0,
+          "name": "Alzone-B",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        },
+        {
+          "motherBrandId": 1,
+          "subBrandId": 2,
+          "skuId": 2,
+          "name": "SKU-5",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        }
+      ]
+    },
+    {
+      "motherBrandId": 4,
+      "subBrandId": 0,
+      "skuId": 0,
+      "name": "MB4",
+      "isFeatured": true,
+      "isFocused": false,
+      "isPowered": false,
+      "priority": 0,
+      "isSelected": false,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "subList": [
+        {
+          "motherBrandId": 4,
+          "subBrandId": 7,
+          "skuId": 0,
+          "name": "MB-4",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        }
+      ]
+    },
+    {
+      "motherBrandId": 2,
+      "subBrandId": 0,
+      "skuId": 0,
+      "name": "Zinco",
+      "isFeatured": false,
+      "isFocused": true,
+      "isPowered": false,
+      "priority": 0,
+      "isSelected": false,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "subList": [
+        {
+          "motherBrandId": 2,
+          "subBrandId": 3,
+          "skuId": 0,
+          "name": "Zinco-A",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        },
+        {
+          "motherBrandId": 2,
+          "subBrandId": 4,
+          "skuId": 0,
+          "name": "Zinco-B",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        }
+      ]
+    },
+    {
+      "motherBrandId": 3,
+      "subBrandId": 0,
+      "skuId": 0,
+      "name": "MB3",
+      "isFeatured": false,
+      "isFocused": false,
+      "isPowered": true,
+      "priority": 0,
+      "isSelected": false,
+      "thumbnailUrl": "",
+      "fileUrl": "",
+      "subList": [
+        {
+          "motherBrandId": 3,
+          "subBrandId": 5,
+          "skuId": 0,
+          "name": "MB3-A",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        },
+        {
+          "motherBrandId": 3,
+          "subBrandId": 6,
+          "skuId": 0,
+          "name": "MB3-B",
+          "isFeatured": false,
+          "isFocused": false,
+          "isPowered": false,
+          "priority": 0,
+          "isSelected": false,
+          "thumbnailUrl": "",
+          "fileUrl": "",
+          "subList": []
+        }
+      ]
+    }
+  ],
+  "discussedBrandList": []
+}

@@ -13,6 +13,8 @@ import {
   STAFF_CODES,
   TOUR_PLAN_TYPE,
   STP_STATUS,
+  SUBMIT_STP_PLAN_THRESHOLD_VALUE,
+  MTP_LOCK_DATES_THRESHOLD,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -27,9 +29,11 @@ import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
-import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
+import mtpData from '../../../data/mock/api/mtpData'; //Development IN PROGRESS - remove after API integration
+import {appSelector} from 'selectors';
+
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -62,10 +66,12 @@ const MonthlyTourPlan = ({navigation}) => {
   const dispatch = useDispatch();
 
   const user = userMock.users[0];
-
+  const currentDate = parseInt(getFormatDate({format: 'D'}), 10);
+  const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
+  const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
-  const [selectedTourPlan, setSelectedTourPlan] = useState({});
+  const [selectedTourPlan, setSelectedTourPlan] = useState(null);
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
   const [visible, setVisible] = useState(false);
   const [myPlanOptions, setMyPlanOptions] = useState([]);
@@ -73,7 +79,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [monthSelected, setMonthSelected] = useState();
 
   const previousMonthSelected = usePrevious(monthSelected);
-  const [showCongratsModal, setShowCongratsModal] = useState(false); // TODO - to open congratulatory modal need to setShowCongratsModal to true
+  const [showCongratsModal, setShowCongratsModal] = useState(false);
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [submitSTP, setSubmitSTP] = useState();
@@ -89,23 +95,24 @@ const MonthlyTourPlan = ({navigation}) => {
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
-
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
-        staffPositionid: 2,
+        staffPositionid: staffPositionId,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, staffPositionId]);
 
   useEffect(() => {
     dispatch(
       fetchSTPStatusCreator({
-        staffPositionId: 2,
-        year: parseInt(getFormatDate({format: 'YYYY'}), 10),
+        staffPositionId,
+        year: currentYear,
       }),
     );
-  }, [dispatch]);
+  }, [currentYear, dispatch, staffPositionId]);
 
   /**
    *effect to set working Day
@@ -137,8 +144,9 @@ const MonthlyTourPlan = ({navigation}) => {
   }, [complaincePercentage]);
 
   useEffect(() => {
-    dispatch(monthlyActions.setSelectedPlanOption({...selectedTourPlan}));
-
+    if (selectedTourPlan !== null) {
+      dispatch(monthlyActions.setSelectedPlanOption({...selectedTourPlan}));
+    }
     return () => dispatch(monthlyActions.setSelectedPlanOption(null));
   }, [dispatch, selectedTourPlan]);
 
@@ -198,6 +206,9 @@ const MonthlyTourPlan = ({navigation}) => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (!selectedTourPlan) {
+      return;
+    }
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
       return schedule.text.indexOf(selectedTourPlan.text) > -1;
     });
@@ -234,7 +245,7 @@ const MonthlyTourPlan = ({navigation}) => {
             <Label
               type="bold"
               title={
-                selectedTourPlan.id === 1 &&
+                selectedTourPlan?.id === 1 &&
                 user.staffPositions[0].staffCode === STAFF_CODES.MR
                   ? `${Strings.stp}`
                   : (selectedTourPlan?.text || '').split(' ').join(', ')
@@ -313,6 +324,24 @@ const MonthlyTourPlan = ({navigation}) => {
   const selectedTourPlanHandler = planOption => {
     const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     let optionsToIterate = getOptionsToIterateForDropDown();
+
+    if (isTourPlan && planOption.id !== 1) {
+      if (
+        (currentDate < MTP_LOCK_DATES_THRESHOLD.MIN ||
+          currentDate > MTP_LOCK_DATES_THRESHOLD.MAX) &&
+        planOption.month > currentMonth
+      ) {
+        return;
+      }
+      if (
+        currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
+        currentDate <= MTP_LOCK_DATES_THRESHOLD.MAX &&
+        planOption.month > currentMonth + 1
+      ) {
+        return;
+      }
+    }
+
     const newOptions = optionsToIterate.map(o => {
       o.selected = o.id === planOption.id;
       return o;
@@ -328,6 +357,32 @@ const MonthlyTourPlan = ({navigation}) => {
     }
 
     handleDialog();
+  };
+
+  /**
+   * renders due date of mtp for upcoming month
+   * @param {Object} option dropdown option
+   * @returns Chip showing the due date of MTP
+   */
+  const renderMTPDueDate = option => {
+    const dueDays = MTP_LOCK_DATES_THRESHOLD.MAX - currentDate;
+    if (
+      option.month === currentMonth + 1 &&
+      currentDate < MTP_LOCK_DATES_THRESHOLD.MAX &&
+      currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN
+    ) {
+      return (
+        <Area
+          title={`${translate('tourPlan.monthly.MTPDueOn', {
+            X: dueDays,
+          })}`}
+          value={'1'}
+          bgColor={'rgba(255, 14, 2, 0.1)'}
+          textStyle={[styles.chip, styles.dueDateChip]}
+          chipContainerCustomStyle={styles.chipContainer}
+        />
+      );
+    }
   };
 
   /**
@@ -354,6 +409,7 @@ const MonthlyTourPlan = ({navigation}) => {
                       : styles.modalText
                   }
                 />
+                {renderMTPDueDate(option)}
                 {stpStatus?.status === STP_STATUS.INPROGRESS && index === 0 && (
                   <></>
                 )}
@@ -367,12 +423,14 @@ const MonthlyTourPlan = ({navigation}) => {
                         style={styles.lockIcon}
                       />
                       <Area
-                        title={`${translate('submittedOn')} ${returnUTCtoLocal(
+                        title={`${translate(
+                          'tourPlan.monthly.submittedOn',
+                        )} ${returnUTCtoLocal(
                           submitSTP?.submitedDate || stpStatus?.submitedDate,
                         )}`}
                         value={'1'}
-                        bgColor={theme.colors.green[300]}
-                        textStyle={styles.submittedChip}
+                        bgColor={themes.colors.green[300]}
+                        textStyle={[styles.chip, styles.submittedChip]}
                         chipContainerCustomStyle={styles.chipContainer}
                       />
                     </>
@@ -434,6 +492,7 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
+              monthlyCalendarData={mtpData}
             />
 
             <Legends />
@@ -466,18 +525,18 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderActionButton = () => {
     return (
       <View style={styles.actionButtonGroup}>
-        <Button
-          title={translate('monthlyActions.save')}
+        {/* <Button  //NOT REQUIRED CURRENTLY
+          title={translate('tourPlan.monthly.actions.save')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
           labelStyle={styles.buttonTabBarText}
-        />
+        /> */}
         <Button
-          title={translate('monthlyActions.submitSTP')}
+          title={translate('tourPlan.monthly.actions.submitSTP')}
           mode="contained"
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
-          disabled={compliancePercentage !== 100}
+          disabled={compliancePercentage <= SUBMIT_STP_PLAN_THRESHOLD_VALUE}
           onPress={submitSTPHandler}
         />
       </View>
@@ -490,7 +549,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({
-        staffPositionId: 2,
+        staffPositionId: 1,
       }),
     );
   };
@@ -503,10 +562,10 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
-        {selectedTourPlan.id === 1 && renderActionButton()}
+        {selectedTourPlan?.id === 1 && renderActionButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
-        selectedTourPlan.id === 1 && (
+        selectedTourPlan?.id === 1 && (
           <Label
             title={Strings.createNewStp}
             size={10}

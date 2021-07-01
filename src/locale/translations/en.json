@@ -1,10 +1,17 @@
 {
   "goodMorning": "Good morning",
-  "monthlyActions": {
-    "save": "Save",
-    "submitSTP": "Submit STP"
+  "tourPlan": {
+    "monthly": {
+      "actions": {
+        "save": "Save",
+        "submitSTP": "Submit STP",
+        "addToTodayPlan": "Add to Today's Plan",
+        "reviewDCR": "Review DCR"
+      },
+      "submittedOn": "Submitted on",
+      "MTPDueOn": "Due in {{X}} days"
+    }
   },
-  "submittedOn": "Submitted on",
   "missedVisit": "Missed Visit!",
   "upcomingVisit": "Upcoming Visit",
   "detailedProducts": "Detailed Products: ",
@@ -18,9 +25,13 @@
   "on": "On",
   "timeline": "Timeline",
   "errorMessage": {
-    "noRecords": "There are no records"
+    "noRecords": "There are no records",
+    "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits",
+    "gapRule": "Min gap between visits not met"
   },
-
+  "message": {
+    "partyAdded": "Party added successfully"
+  },
   "dr": "Doctor",
   "minimum": "minimum",
   "maximum": "maximum",
@@ -28,12 +39,41 @@
   "chemistVisitsPerDay": "chemists visits per day",
   "daysGap": "days ",
   "minGap": "minimum gap for {{xValue}} visit doctors",
-  "drCovered": "Doctors covered in {{xValue}} days",
-  "drCoveredInMonth": "Doctors covered in month",
-  "chCoveredInMonth": "Chemist covered in month",
-  "outStationPerMonth": "Out-station visits per month",
+  "drCovered": "doctors covered in {{xValue}} days",
+  "drCoveredInMonth": "doctors covered in month",
+  "chCoveredInMonth": "chemist covered in month",
+  "outStationPerMonth": "out-station visits per month",
   "exStationPerMonth": "Ex-station visits per month",
-  "areaCovered": "Areas covered",
-  "frequencyMet": "Frequency met",
-  "": ""
+  "areaCovered": "areas covered",
+  "frequencyMet": "frequency met",
+  "dcrSecondTab": {
+    "priorityProduct": "eDetailed Products",
+    "discussedProduct": "Discussed Products",
+    "listOfProduct": "List Of Products",
+    "done": "Done",
+    "SelectBrandLabel": "Select Sub-brands",
+    "slideTitle": "Which products did you",
+    "detail": "detail",
+    "discuss": "discuss",
+    "toDoctor": "to the doctor?"
+  },
+  "speciality": "Speciality",
+  "region": "Region",
+  "categories": {
+    "kyc": "KYC",
+    "campaign": "Campaign",
+    "count": {
+      "kyc": "{{value}} Kyc",
+      "campaign": "{{value}} Campaign"
+    }
+  },
+  "responseStatus": {
+    "error": "ERROR"
+  },
+  "error": {
+    "genericMsg": "Something doesn't seem right, please try restarting the application."
+  },
+  "dayType": {
+    "leave": "Leave"
+  }
 }

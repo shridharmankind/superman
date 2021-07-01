@@ -1,8 +1,29 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useReducer} from 'react';
+import {useDispatch} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {DoctorDetails} from 'components/elements';
+import {standardPlanActions} from 'screens/tourPlan/standard/redux';
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {
+        ...state,
+        alreadyVisitedCount: state.alreadyVisitedCount + 1,
+      };
+    case 'decrement':
+      return {
+        ...state,
+        alreadyVisitedCount: state.alreadyVisitedCount - 1,
+      };
+
+    case 'init':
+      return {...state, alreadyVisitedCount: action.value};
+    default:
+      return {...state, alreadyVisitedCount: state.alreadyVisited};
+  }
+}
 
 /**
  * Wrapper component of doctor details giving the click event over the detail box
@@ -34,6 +55,7 @@ const DoctorDetailsWrapper = ({
   party,
   isPatchedData,
   isKyc,
+  isCampaign,
   containerStyle,
   isSameDayPatch,
   isPartyInPatch,
@@ -41,8 +63,14 @@ const DoctorDetailsWrapper = ({
 }) => {
   //TO DO: not required - remove after team discusssion
   const {frequency, alreadyVisited} = party;
-  const [count, setCount] = useState();
-  const isDisabled = !isSameDayPatch && frequency <= alreadyVisited;
+  const dispatch = useDispatch();
+  const [state, dispatchFn] = useReducer(reducer, {
+    ...party,
+    alreadyVisitedCount: party?.alreadyVisited,
+  });
+  const isDisabled =
+    (!isSameDayPatch && frequency === alreadyVisited && isPartyInPatch) ||
+    (!isPartyInPatch && frequency <= alreadyVisited);
   const showTicked =
     (selected && frequency > alreadyVisited) ||
     (isSameDayPatch && selected && frequency <= alreadyVisited);
@@ -62,27 +90,32 @@ const DoctorDetailsWrapper = ({
       (frequency === alreadyVisited && isSameDayPatch)
     ) {
       if (selected) {
-        setCount(count + 1);
+        dispatchFn({type: 'increment'});
       }
       if (!selected) {
-        setCount(count - 1);
+        dispatchFn({type: 'decrement'});
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
+  useEffect(() => {
+    dispatch(standardPlanActions.updatePartyAreasOnSelection(state));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, state]);
+
   const getSelectedFrequency = () => {
     if (isSameDayPatch && isPatchedData) {
-      setCount(alreadyVisited);
+      dispatchFn({type: 'init', value: alreadyVisited});
     } else if (!isSameDayPatch && isPatchedData) {
       if (selected && frequency > alreadyVisited) {
-        setCount(alreadyVisited + 1);
+        dispatchFn({type: 'init', value: alreadyVisited + 1});
       } else {
-        setCount(alreadyVisited);
+        dispatchFn({type: 'init', value: alreadyVisited});
       }
     } else {
       const countData = selected ? alreadyVisited + 1 : alreadyVisited;
-      setCount(countData);
+      dispatchFn({type: 'init', value: countData});
     }
   };
 
@@ -91,10 +124,6 @@ const DoctorDetailsWrapper = ({
     // TO BE CALLED ONCE hence disabling dep hooks
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (!isPartyInPatch && frequency <= alreadyVisited && !isSameDayPatch) {
-    return null;
-  }
 
   return (
     <TouchableOpacity
@@ -110,10 +139,11 @@ const DoctorDetailsWrapper = ({
         category={category}
         location={location}
         isTicked={showTicked || false}
-        selectedVistedFrequency={count}
+        selectedVistedFrequency={state?.alreadyVisitedCount}
         frequency={frequency}
         partyType={party.partyTypes.name}
         isKyc={isKyc}
+        isCampaign={isCampaign}
         onTileNamePress={() => handleDoctorSelection(!selected)}
         {...props}
       />
