@@ -2,7 +2,6 @@ import {createSelector} from '@reduxjs/toolkit';
 import {sortByCategory} from 'screens/tourPlan/helper';
 import {DOCTOR_VISIT_STATES} from 'screens/tourPlan/constants';
 
-
 /**
  * selector function to retrieve data from redux store
  **/

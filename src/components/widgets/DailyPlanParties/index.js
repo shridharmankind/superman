@@ -45,6 +45,8 @@ const DailyPlanParties = ({
   partyType,
   isKyc,
   isCampaign,
+  showCompletedTitle,
+  showAdhocTitle,
   ...props
 }) => {
   const [imageSrc, setImageSrc] = useState({uri: image});
@@ -87,6 +89,7 @@ const DailyPlanParties = ({
               : accumulator.concat(',').concat(visitDate);
           return adhocList;
         }
+        return accumulator;
       }, '');
 
       if (adhocCallDates && adhocCallDates !== '') {
@@ -116,13 +119,15 @@ const DailyPlanParties = ({
             />
           ))}
         </View>
-        <Label
-          style={styles.labelContent}
-          variant={LabelVariant.h6}
-          textColor={themes.colors.orange[300]}
-          title={getAdhocCallTitle()}
-          type={'bold'}
-        />
+        {showAdhocTitle && (
+          <Label
+            style={styles.labelContent}
+            variant={LabelVariant.h6}
+            textColor={themes.colors.orange[300]}
+            title={getAdhocCallTitle()}
+            type={'bold'}
+          />
+        )}
       </View>
     );
   };
@@ -139,9 +144,21 @@ const DailyPlanParties = ({
         </View>
         <View style={styles.tileContainer}>
           <View style={styles.tileRight}>
-            <TouchableOpacity onPress={onTilePress}>
-              <MoreVerticalIcon width={20} height={20} />
-            </TouchableOpacity>
+            {showCompletedTitle && (
+              <Label
+                variant={LabelVariant.h6}
+                title={translate('tourPlan.daily.completed')}
+                style={[styles.completed, isWeb() && styles.completedWeb]}
+                type={'semiBold'}
+              />
+            )}
+            <View style={isWeb() && styles.verticalIcon}>
+              {isWeb() && (
+                <TouchableOpacity onPress={onTilePress}>
+                  <MoreVerticalIcon width={20} height={20} />
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
         </View>
       </View>
@@ -244,7 +261,7 @@ const DailyPlanParties = ({
         </View>
         {showVisitPlan && renderVisitData()}
       </View>
-      {isWeb() && showTile && renderTile()}
+      {showTile && renderTile()}
     </View>
   );
 };

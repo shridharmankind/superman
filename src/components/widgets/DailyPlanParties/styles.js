@@ -110,6 +110,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   capitalize: {textTransform: 'capitalize'},
+  completed: {
+    color: themes.colors.limeGreen,
+    textTransform: 'uppercase',
+    fontSize: 10.7,
+    lineHeight: themes.spacing(20),
+  },
+  tileRight: {
+    flexDirection: 'row',
+  },
+  verticalIcon: {
+    paddingLeft: themes.spacing(20),
+  },
 });
 
 export default styles;

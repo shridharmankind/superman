@@ -1,5 +1,7 @@
-
-    {"seniors": [{"id":1,"name":"Tarun Sharma","role":"FLM"},
-        {"id":2,"name":"Badri Tomar","role":"TLM"},
-        {"id":3,"name":"Prem Khurana","role":"SLM"}]
-    }
+{
+  "seniors": [
+    {"id": 1, "name": "Tarun Sharma", "role": "FLM"},
+    {"id": 2, "name": "Badri Tomar", "role": "TLM"},
+    {"id": 3, "name": "Prem Khurana", "role": "SLM"}
+  ]
+}

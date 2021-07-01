@@ -124,6 +124,8 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
             showVisitPlan={true}
             visitData={data.visits}
             showTile={true}
+            showCompletedTitle={true}
+            showAdhocTitle={false}
             onTileNamePress={() => {
               onTileNamePress(data);
             }}
@@ -182,6 +184,8 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                 showVisitPlan={true}
                 visitData={data.item.visits}
                 showTile={true}
+                showCompletedTitle={false}
+                showAdhocTitle={true}
                 onTileNamePress={() => {
                   onTileNamePress(data.item);
                 }}

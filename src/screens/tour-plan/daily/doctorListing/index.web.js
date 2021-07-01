@@ -1,7 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
+import {Label, LabelVariant} from 'components/elements';
 import styles from '../styles';
 import {DailyPlanParties} from 'components/widgets';
+import {translate} from 'locale';
 
 /**
  * render list of doctors
@@ -22,13 +24,48 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   };
 
   /**
+   * Render UI for completed visits
+   */
+  const renderCompletedVisits = () => {
+    return dayPlanData?.completedVisits.map((data, index) => (
+      <View style={styles.doctorDetailWrapper}>
+        <View key={index} style={styles.doctorDetailContainer}>
+          <DailyPlanParties
+            title={data.name}
+            specialization={data.specialities}
+            isKyc={data.isKyc}
+            isCampaign={data.isCampaign}
+            gender={data.gender}
+            category={data.category}
+            location={data.areas}
+            partyType={data?.partyTypes?.name}
+            customStyle={doctorDetailStyleObject}
+            showFrequencyChiclet={false}
+            showVisitPlan={true}
+            visitData={data.visits}
+            showTile={true}
+            showCompletedTitle={true}
+            showAdhocTitle={false}
+            onTileNamePress={() => {
+              onTileNamePress(data);
+            }}
+            onTilePress={() => {
+              onTilePress(data);
+            }}
+          />
+        </View>
+      </View>
+    ));
+  };
+
+  /**
    * function to render the list of doctor's planned visits
    * @returns list of doctors planned for current day visit
    */
   const renderDayPlan = () => {
     return (
       <View style={styles.contentView}>
-        {(dayPlanData || []).map((plan, index) => {
+        {(dayPlanData?.toDoVisits || []).map((plan, index) => {
           return (
             <View style={styles.doctorDetailWrapper} key={index}>
               <View key={index} style={styles.doctorDetailContainer}>
@@ -45,6 +82,8 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                   showVisitPlan={true}
                   visitData={plan.visits}
                   showTile={true}
+                  showCompletedTitle={false}
+                  showAdhocTitle={true}
                   onTileNamePress={() => {
                     onTileNamePress(plan);
                   }}
@@ -59,7 +98,19 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
       </View>
     );
   };
-  return renderDayPlan();
+  return (
+    <>
+      {renderDayPlan()}
+      <Label
+        variant={LabelVariant.h6}
+        style={styles.visitCompleted}
+        title={translate('tourPlan.monthly.visitCompleted')}
+        type={'regular'}
+      />
+
+      {renderCompletedVisits()}
+    </>
+  );
 };
 
 export default PartyList;
