@@ -62,7 +62,6 @@ const DailyTourPlan = () => {
     }
   }, [doctorRemoveError]);
 
-
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();
 
