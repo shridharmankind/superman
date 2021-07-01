@@ -27,7 +27,8 @@ const Dropdown = forwardRef((props, ref) => {
     testID,
     data,
     isPatchedData,
-    highDropDown,
+    hideDropdown,
+    setHideDropDown,
   } = props;
 
   const handleValueSelected = val => {
@@ -38,10 +39,11 @@ const Dropdown = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
-    if (highDropDown) {
+    if (hideDropdown) {
       setTogglePicker(false);
+      setHideDropDown(false);
     }
-  }, [highDropDown]);
+  }, [hideDropdown, setHideDropDown]);
 
   useEffect(() => {
     if (!isPatchedData) {
@@ -108,7 +110,7 @@ const Dropdown = forwardRef((props, ref) => {
         </TouchableOpacity>
       )}
       {togglePicker && (
-        <View
+        <ScrollView
           style={styles.pickerContainer}
           // ref={component => {
           //   childrenIds =
@@ -118,7 +120,7 @@ const Dropdown = forwardRef((props, ref) => {
           // }}>
           ref={ref}>
           {(dropDownData.length > 0 ? dropDownData : data)?.map((option, i) => (
-            <ScrollView>
+            <View>
               <TouchableOpacity
                 key={option.displayName}
                 style={[
@@ -131,9 +133,9 @@ const Dropdown = forwardRef((props, ref) => {
                   variant={LabelVariant.subtitleSmall}
                 />
               </TouchableOpacity>
-            </ScrollView>
+            </View>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );

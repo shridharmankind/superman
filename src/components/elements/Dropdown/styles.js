@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 20,
     elevation: 3,
+    height: 400,
   },
   selectContainer: {
     flexDirection: 'row',

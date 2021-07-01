@@ -29,6 +29,7 @@ const Areas = forwardRef(
       isPatchedData,
       partyInArea,
       hideDropDown,
+      setHideDropDown,
     },
     ref,
   ) => {
@@ -223,6 +224,7 @@ const Areas = forwardRef(
             defaultLabel={Strings.selectPatch}
             isPatchedData={isPatchedData}
             hideDropdown={hideDropDown}
+            setHideDropDown={setHideDropDown}
             ref={ref}
           />
           {scrollableViewWithArea()}
