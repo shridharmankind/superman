@@ -1,5 +1,9 @@
 import 'react-native';
-import {getMonthList, getFormatDate} from 'utils/dateTimeHelper';
+import {
+  getMonthList,
+  getFormatDate,
+  returnUTCtoLocal,
+} from 'utils/dateTimeHelper';
 
 it('monthList', () => {
   const result = getMonthList();
@@ -24,4 +28,14 @@ it('getFormatDate - get year only', () => {
     format: 'YYYY',
   });
   expect(result).toEqual('2011');
+});
+
+it('returnUTCtoLocal', () => {
+  const result = returnUTCtoLocal('2011-02-11T10:20:30Z');
+  expect(result).toEqual('11 Feb 2011');
+});
+
+it('returnUTCtoLocal date only', () => {
+  const result = returnUTCtoLocal('2011-02-11T10:20:30Z', 'D');
+  expect(result).toEqual('11');
 });

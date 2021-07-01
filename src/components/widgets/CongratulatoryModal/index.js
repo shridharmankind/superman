@@ -22,6 +22,8 @@ const CongratulatoryModal = ({
   bottomText,
   btnAction,
   open,
+  onClose,
+  closeAction,
 }) => {
   const opacity = new Animated.Value(0);
   useEffect(() => {
@@ -101,6 +103,8 @@ const CongratulatoryModal = ({
         btnStyle: styles.button,
         mode: 'contained',
       }}
+      closeAction={closeAction}
+      onClose={onClose}
     />
   );
 };

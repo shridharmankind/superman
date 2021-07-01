@@ -1,0 +1,15 @@
+{
+  "id": 243,
+  "monthlyTourPlanId": 1,
+  "day": 29,
+  "date": "2021-06-29T06:21:43",
+  "isJointVisit": false,
+  "activityTypeId": 1,
+  "partyId": 2,
+  "patchId": null,
+  "nonFieldActvityId": null,
+  "isMissed": false,
+  "isAdhoc": true,
+  "activityTypeDto": null,
+  "nonFieldActivityDto": null
+}

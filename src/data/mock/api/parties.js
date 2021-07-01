@@ -30,7 +30,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 2253,
-        gender: 'Male',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -46,7 +46,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-4).date,
             month: getDate(-4).month,
@@ -82,7 +82,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: false,
         potential: 22530,
-        gender: 'Female',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -98,7 +98,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-2).date,
             month: getDate(-2).month,
@@ -134,7 +134,7 @@ export const partiesMock = {
         selfDispensing: true,
         isKyc: true,
         potential: 22000,
-        gender: 'Male',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -150,7 +150,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(0).date,
             month: getDate(0).month,
@@ -181,7 +181,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 100000,
-        gender: 'Male',
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -197,7 +197,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-2).date,
             month: getDate(-2).month,
@@ -231,6 +231,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: true,
         potential: 80000,
+        gender: 'M',
         partyTypes: {
           id: 1,
           name: 'Doctor',
@@ -248,7 +249,7 @@ export const partiesMock = {
         ],
         category: 'B',
         location: 'Karol Bagh',
-        visitData: [
+        visits: [
           {
             date: getDate(-6).date,
             month: getDate(-6).month,
@@ -282,6 +283,7 @@ export const partiesMock = {
         selfDispensing: false,
         isKyc: false,
         potential: 34000,
+        gender: 'M',
         engagement: [
           {startDate: '2020-01-19T00:00:00', endDate: null},
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
@@ -299,7 +301,7 @@ export const partiesMock = {
             shortName: 'Group1',
           },
         },
-        visitData: [
+        visits: [
           {
             date: getDate(0).date,
             month: getDate(0).month,

@@ -1,11 +1,12 @@
 import * as Constants from '../constants';
-import {QualificationsSchemaName} from './Qualifications';
+import * as MonthlySchema from './MonthlyPlan';
 
 export const masterTablesDownLoadStatus = {
   name: Constants.MASTER_TABLES_DOWNLOAD_STATUS,
   properties: {
     name: 'string',
     status: 'string',
+    lastSync: 'date',
   },
   primaryKey: 'name',
 };
@@ -55,6 +56,37 @@ export const designation = {
   primaryKey: 'id',
 };
 
+export const errorDetailsObject = {
+  name: 'errorDetailsObject',
+  properties: {
+    errorCode: 'string',
+    message: 'string',
+  },
+};
+
+export const syncErrorDetails = {
+  name: Constants.MASTER_SYNC_ERROR_DETAIL,
+  embedded: true,
+  properties: {
+    conflictType: 'string?',
+    errorMessage: 'string?',
+  },
+};
+
+export const syncParameters = {
+  name: Constants.MASTER_SYNC_PARAMETERS,
+  embedded: true, // default: false
+  properties: {
+    devicePartyId: 'string?',
+    isActive: 'bool',
+    requireSync: 'bool',
+    lastModifiedOn: 'date',
+    isDeleted: 'bool',
+    errorInSync: 'bool',
+    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL,
+  },
+};
+
 export const partyMaster = {
   name: Constants.MASTER_TABLE_PARTY,
   properties: {
@@ -67,9 +99,11 @@ export const partyMaster = {
     isKyc: 'bool?',
     shortName: 'string?',
     birthday: 'string?',
+    gender: 'string?',
     anniversary: 'string?',
     selfDispensing: 'bool',
     partyTypeId: 'int',
+    syncParameters: Constants.MASTER_SYNC_PARAMETERS,
 
     partyTypes: Constants.MASTER_TABLE_PARTY_TYPES,
     areas: {
@@ -78,11 +112,11 @@ export const partyMaster = {
     },
     specialities: {
       type: 'list',
-      objectType: Constants.MASTER_TABLE_SPECIALITY,
+      objectType: Constants.SPECIALITIES,
     },
     qualifications: {
       type: 'list',
-      objectType: QualificationsSchemaName,
+      objectType: Constants.QUALIFICATIONS,
     },
     engagement: {
       type: 'list',
@@ -141,4 +175,11 @@ export const engagement = {
   },
 };
 
+export {default as Divisions} from './Divisions';
 export {default as Qualifications} from './Qualifications';
+export {MonthlySchema};
+export {default as PartyCategories} from './PartyCategories';
+export {default as Organizations} from './Organizations';
+export {default as Specialities} from './Specialities';
+export {default as WeeklyOffSchema} from './Weeklyoffcountrywise';
+export {default as GeoLocationConfiguration} from './GeoLocationConfiguration';

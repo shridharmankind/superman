@@ -23,7 +23,7 @@ function* fetchPriorityProductHandler(action) {
     );
     yield put(
       priorityProductActions.getPriorityProduct({
-        priorityProduct: response.data.priorityProduct,
+        priorityProduct: response.data || [],
       }),
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));

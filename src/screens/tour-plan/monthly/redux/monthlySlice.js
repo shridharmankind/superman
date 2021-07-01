@@ -9,7 +9,10 @@ export const monthlyTourPlan = {
     data: [],
   },
   workingDay: [],
+  stpStatus: null,
+  submitSTP: null,
   selectedPlanOption: null,
+  mtpData: null,
 };
 
 /**
@@ -22,6 +25,19 @@ export const getSubordinatesTypeName = getSubordinatesCreator().type;
 export const fetchWorkingDayCreator = createAction('WORKING_DAY_CREATOR');
 export const fetchWorkingDayCreatorType = fetchWorkingDayCreator().type;
 
+// Action Creator and type to get stp status
+export const fetchSTPStatusCreator = createAction('STP_STATUS');
+export const fetchSTPStatusCreatorType = fetchSTPStatusCreator().type;
+
+// Action Creator and type to submit STP
+export const submitSTPCreator = createAction('SUBMIT_STP');
+export const submitSTPCreatorType = submitSTPCreator().type;
+
+// Action Creator and type for MTP Update
+export const fetchMTPCalendarUpdateCreator = createAction('MTP_UPDATE_CREATOR');
+export const fetchMTPCalendarUpdateCreatorType =
+  fetchMTPCalendarUpdateCreator().type;
+
 /**
  *  create subordinate slice defining the intial state, reducers
  */
@@ -33,10 +49,27 @@ export const getMonthlySlice = createSlice({
     getWorkingDay: (state, action) => {
       return merge(state, action.payload);
     },
+    getSTPStatus: (state, action) => merge(state, action.payload),
+    submitSTP: (state, action) => merge(state, action.payload),
     setSelectedPlanOption: (state, action) => {
       return {
         ...state,
         selectedPlanOption: action.payload,
+      };
+    },
+    setSTPShowComplete: (state, action) => {
+      return {
+        ...state,
+        submitSTP: {
+          ...state.submitSTP,
+          messageShown: action.payload,
+        },
+      };
+    },
+    MTPCalendarUpdate: (state, action) => {
+      return {
+        ...state,
+        mtpData: action.payload.mtpData,
       };
     },
   },
