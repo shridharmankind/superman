@@ -200,7 +200,7 @@ const DailyPlanParties = ({
                     : title
                 }
                 size={customStyle ? customStyle.titleSize : 17}
-                style={styles.name}
+                style={styles.capitalize}
                 onPress={() => {
                   onTileNamePress && onTileNamePress();
                 }}
@@ -252,7 +252,7 @@ const DailyPlanParties = ({
 DailyPlanParties.defaultProps = {
   showVisitPlan: false,
   showTile: false,
-  gender: 'Male',
+  gender: Constants.GENDER.MALE,
 };
 
 DailyPlanParties.propTypes = {
