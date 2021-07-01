@@ -107,3 +107,11 @@ export const isAfter = (date, dateToCompare) => {
 export const startOf = (date, unit) => {
   return dayjs(date).startOf(unit);
 };
+
+export const getDateIntoObject = date => {
+  return {
+    day: dayjs(date).get('date'),
+    month: dayjs(date).get('month'),
+    year: dayjs(date).get('year'),
+  };
+};
