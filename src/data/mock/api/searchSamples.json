@@ -1,11 +1,6 @@
 {
-    "samples":[
-        {"SKUId":12,
-        "SKUName":"Amlokind",
-        "StockQty":200
-         },
-        {"SKUId":21,
-            "SKUName":"Amlokind",
-        "StockQty":300}
-    ]
+  "samples": [
+    {"SKUId": 12, "SKUName": "Amlokind", "StockQty": 200},
+    {"SKUId": 21, "SKUName": "Amlokind", "StockQty": 300}
+  ]
 }

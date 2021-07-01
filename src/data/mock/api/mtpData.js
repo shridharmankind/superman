@@ -101,7 +101,7 @@ const mtpData = [
     displayName: 'Patch2',
     defaultName: 'DefPatch2',
     dated: '5-jun-2021',
-    date: {day: 5, month:7, year: 2021},
+    date: {day: 5, month: 7, year: 2021},
     parties: [
       {
         partyType: 'Doctor',
