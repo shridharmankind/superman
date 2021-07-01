@@ -199,20 +199,14 @@ export const runBackgroundTask = async () => {
       resultArray = result || [];
     });
     let isDemandSync = await getOnDemandSyncStatus();
-    if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
-      if (resultArray.length === 0) {
-        showToastie(
-          Constants.TOAST_TYPES.SUCCESS,
-          Strings.backgroundTask.toastBtns.successMessage,
-        );
-      }
-      if (resultArray && resultArray.includes(SUCCESS)) {
-        showToastie(
-          Constants.TOAST_TYPES.SUCCESS,
-          Strings.backgroundTask.toastBtns.successMessage,
-        );
-      }
-      await setOnDemandSyncStatusNotRunning();
+    if (
+      resultArray.length === 0 &&
+      isDemandSync === Constants.BACKGROUND_TASK.RUNNING
+    ) {
+      showToastie(
+        Constants.TOAST_TYPES.SUCCESS,
+        Strings.backgroundTask.toastBtns.successMessage,
+      );
     }
     if (resultArray && resultArray.includes(CONFLICT)) {
       showToastieWithButton(
@@ -224,6 +218,18 @@ export const runBackgroundTask = async () => {
         Constants.TOAST_TYPES.ALERT,
         Strings.backgroundTask.toastBtns.failureMessage,
       );
+    } else if (
+      resultArray &&
+      resultArray.includes(SUCCESS) &&
+      isDemandSync === Constants.BACKGROUND_TASK.RUNNING
+    ) {
+      showToastie(
+        Constants.TOAST_TYPES.SUCCESS,
+        Strings.backgroundTask.toastBtns.successMessage,
+      );
+    }
+    if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
+      await setOnDemandSyncStatusNotRunning();
     }
   } catch (err) {
     console.log(err);

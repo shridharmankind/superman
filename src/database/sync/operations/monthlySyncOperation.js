@@ -31,30 +31,34 @@ export class MonthlyTableOperations {
       syncErrorDetails: syncErrorDetailsObject,
     };
 
-    object.dailyPlannedActivities = [
-      ...object.dailyPlannedActivities.filter(dailyPlan => {
-        if (dailyPlan.syncParameters === null) {
-          return dailyPlan;
-        } else if (dailyPlan?.syncParameters?.isDeleted) {
-          deleteExistingRecord(schema[1], dailyPlan.id);
-        }
-      }),
-    ];
+    if (!object.syncParameters.errorInSync) {
+      object.dailyPlannedActivities = [
+        ...object.dailyPlannedActivities.filter(dailyPlan => {
+          if (dailyPlan.syncParameters === null) {
+            return dailyPlan;
+          } else if (dailyPlan?.syncParameters?.isDeleted) {
+            deleteExistingRecord(schema[1], dailyPlan.id);
+          } else if (dailyPlan?.syncParameters !== null) {
+            return dailyPlan;
+          }
+        }),
+      ];
 
-    object.dailyPlannedActivities = [
-      ...object.dailyPlannedActivities.map(dailyPlan => {
-        if (dailyPlan.syncParameters != null) {
-          return dailyPlan;
-        }
-        syncParametersObject.lastModifiedOn = new Date();
-        let dailyObject = {
-          ...dailyPlan,
-          syncParameters: syncParametersObject,
-        };
-        dbInstance().create(schema[1].name, dailyObject, 'modified');
-        return dailyObject;
-      }),
-    ];
+      object.dailyPlannedActivities = [
+        ...object.dailyPlannedActivities.map(dailyPlan => {
+          if (dailyPlan.syncParameters != null) {
+            return dailyPlan;
+          }
+          syncParametersObject.lastModifiedOn = new Date();
+          let dailyObject = {
+            ...dailyPlan,
+            syncParameters: syncParametersObject,
+          };
+          dbInstance().create(schema[1].name, dailyObject, 'modified');
+          return dailyObject;
+        }),
+      ];
+    }
     return dbInstance().create(schema[0].name, object, 'modified');
   }
 }

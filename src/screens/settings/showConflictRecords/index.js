@@ -37,7 +37,6 @@ const ShowConflictRecords = ({records}) => {
         data={records}
         onEndReachedThreshold={0.5}
         renderItem={({item, index}) => {
-          console.log(item);
           return (
             <View style={styles.conflictRow}>
               <Label
