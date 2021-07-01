@@ -91,6 +91,7 @@
   },
   "eDetailing": {
     "modalTitle": "Select Sub-brands",
-    "done": "Done"
+    "done": "Done",
+    "prodValidation": "Please select atleast one product!"
   }
 }
