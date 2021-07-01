@@ -98,7 +98,6 @@ const MonthlyTourPlan = ({navigation}) => {
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
 
-
   useEffect(() => {
     dispatch(
       fetchMTPCalendarUpdateCreator({
@@ -503,7 +502,7 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
-              monthlyCalendarData={mtpDataSelector}
+              monthlyCalendarData={mtpDataSelector ?? mtpData}
             />
 
             <Legends />
