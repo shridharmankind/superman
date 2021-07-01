@@ -120,6 +120,9 @@ const EDetailing = ({navigation, route}) => {
   const selectedOtherSKUs = useSelector(
     eDetailingSelector.getOtherSelectedSKUs(),
   );
+  const isFeaturedEditable = useSelector(
+    eDetailingSelector.getIsFeaturedEditable(),
+  );
 
   const otherProductList = useSelector(eDetailingSelector.getOtherProduct());
 
@@ -406,7 +409,7 @@ const EDetailing = ({navigation, route}) => {
    * @return {*}
    */
   const isInvalid = () => {
-    if (isPriority && currentProduct.isFeatured) {
+    if (isPriority && currentProduct.isFeatured && !isFeaturedEditable) {
       const SKUs = Object.keys(selectedSKUs);
       const selectedSKU = SKUs.filter(item => selectedSKUs[item]).length;
       const subs = Object.keys(selectedSubBrands);

@@ -29,6 +29,7 @@ function* fetchEPriorityProductHandler(action) {
         detailingPriorityProduct: response.data.brandList,
         totalCount: response.data.brandList?.length,
         discussedBrandList: response.data.discussedBrandList,
+        isFeaturedEditable: response.data.isFeaturedEditable || false,
       }),
     );
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));

@@ -30,6 +30,10 @@ const prioritySKUsSelector = createSelector(
   [ePriorityProductSection],
   section => section?.selectedSKUs,
 );
+const isFeaturedEditableSelector = createSelector(
+  [ePriorityProductSection],
+  section => section.isFeaturedEditable,
+);
 
 const eOtherProductSection = state => state?.eOtherProductList;
 
@@ -98,5 +102,8 @@ export const eDetailingSelector = {
   },
   getOtherSelectedSKUs: () => {
     return otherSKUsSelector;
+  },
+  getIsFeaturedEditable: () => {
+    return isFeaturedEditableSelector;
   },
 };
