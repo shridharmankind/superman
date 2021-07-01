@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, forwardRef} from 'react';
 import {ScrollView, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {TextInput} from 'react-native-paper';
@@ -16,29 +16,35 @@ import {Strings} from 'common';
  * @param {String} testID testID to pass
  */
 
-const Dropdown = ({
-  defaultLabel,
-  valueSelected,
-  testID,
-  data,
-  isPatchedData,
-}) => {
-  const [value, setValue] = useState();
+const Dropdown = forwardRef((props, ref) => {
   const [togglePicker, setTogglePicker] = useState(false);
   const [dropDownData, setDropDownData] = useState(data);
   const [dropDownText, setDropdownText] = useState(defaultLabel);
-  let childrenIds;
+  const {
+    defaultLabel,
+    valueSelected,
+    testID,
+    data,
+    isPatchedData,
+    hideDropdown,
+    setHideDropDown,
+  } = props;
 
   const handleValueSelected = val => {
     setDropdownText(val?.value || defaultLabel);
     setTogglePicker(false);
-    setValue(val);
     valueSelected(val);
   };
 
   useEffect(() => {
+    if (hideDropdown) {
+      setTogglePicker(false);
+      setHideDropDown(false);
+    }
+  }, [hideDropdown, setHideDropDown]);
+
+  useEffect(() => {
     if (!isPatchedData) {
-      setValue(null);
       setDropdownText(defaultLabel);
     }
   }, [isPatchedData, defaultLabel]);
@@ -70,18 +76,7 @@ const Dropdown = ({
   );
 
   return (
-    <View
-      style={styles.container}
-      onStartShouldSetResponder={evt => {
-        evt.persist();
-        if (childrenIds && childrenIds.length) {
-          if (childrenIds.includes(evt.target)) {
-            return;
-          }
-          setDropdownText((value && value.displayName) || defaultLabel);
-          setTogglePicker(false);
-        }
-      }}>
+    <View style={styles.container}>
       {data?.length > 6 ? (
         <TextInput
           testID={testID}
@@ -112,16 +107,9 @@ const Dropdown = ({
         </TouchableOpacity>
       )}
       {togglePicker && (
-        <View
-          style={styles.pickerContainer}
-          ref={component => {
-            childrenIds =
-              component &&
-              component._children[0] &&
-              component._children[0]._children.map(el => el._nativeTag);
-          }}>
+        <ScrollView style={styles.pickerContainer} ref={ref}>
           {(dropDownData.length > 0 ? dropDownData : data)?.map((option, i) => (
-            <ScrollView>
+            <View>
               <TouchableOpacity
                 key={option.displayName}
                 style={[
@@ -134,13 +122,13 @@ const Dropdown = ({
                   variant={LabelVariant.subtitleSmall}
                 />
               </TouchableOpacity>
-            </ScrollView>
+            </View>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );
-};
+});
 
 Dropdown.defaultProps = {
   pickerWidth: 220,
