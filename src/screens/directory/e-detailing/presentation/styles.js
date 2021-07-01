@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   paginationItemActive: {
-    width: 72,
+    width: 48,
     backgroundColor: theme.colors.primary,
     opacity: 1,
   },

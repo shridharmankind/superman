@@ -40,7 +40,7 @@ const Presentation = () => {
             }}
           />
         ) : (
-          <Text>Testing</Text>
+          <Text>Loading...</Text>
         )}
       </View>
     );
