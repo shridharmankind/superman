@@ -103,7 +103,7 @@ const Dashboard = ({navigation}) => {
   };
 
   const setSyncListener = useCallback(masterData => {
-    masterData.addListener((masterData, changes) => {
+    masterData.addListener((masterDataRecord, changes) => {
       changes.insertions.forEach(index => {
         const modifiedData = masterData[index];
         setSync(modifiedData);

@@ -4,18 +4,9 @@ import * as Helper from '../../helper';
 import * as Operations from '../../operations';
 import * as SyncOperations from './../operations';
 import {NetworkService} from 'services';
-import {Constants} from 'common';
-import {getOnDemandSyncStatus} from 'utils/backgroundTask';
 import {getSyncTaskList} from './../commonSyncMethods';
 
 const syncDifference = 1; // minutes
-/**
- * In this list we mention all the Schema's Name for which we want to run the Sync activity.
- */
-// const SYNC_TASK_LIST = [
-//   DBConstants.MASTER_TABLE_PARTY, //partyMaster Table
-//   DBConstants.MASTER_MONTHLY_TABLE_PLAN, //monthlyMaster Table
-// ];
 
 export const checkMinimumTimeConstraint = async () => {
   try {
@@ -44,15 +35,6 @@ export const syncTableTask = async () => {
   try {
     let resultArray = [];
     let syncTaskList = getSyncTaskList();
-    let constraintTime = await checkMinimumTimeConstraint();
-    let currentTime = new Date();
-    let onDemandSyncStatus = await getOnDemandSyncStatus();
-    // if (
-    //   onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
-    //   (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING &&
-    //     constraintTime < currentTime)
-    // ) {
-    // if current time is greater than the lastSync time + syncDifference
     for (let [key, value] of syncTaskList) {
       await runBackgroundTask(key, value).then(result => {
         resultArray = [...resultArray, ...result]; //collecting result to show toastie
@@ -63,13 +45,6 @@ export const syncTableTask = async () => {
       DBConstants.downloadStatus.DOWNLOADED,
       DBConstants.APPLICATION_SYNC_STATUS,
     );
-    // } else {
-    //   console.log(
-    //     'Sync Status',
-    //     `Minimum ${syncDifference} minutes difference from Last Sync Time is required.`,
-    //   );
-    // }
-    console.log('Result Array --', resultArray);
     return resultArray;
   } catch (err) {
     console.log('Error ', err);

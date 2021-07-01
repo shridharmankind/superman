@@ -207,6 +207,11 @@ const Strings = {
   selectDocToCreatePatch: 'Please select any doctor to create a patch.',
   backgroundTask: {
     lastSync: 'Last Synced:',
+    lastModifiedTime: 'Last Modified On',
+    conflictMessage: 'Conflict Message',
+    errorMessage: 'Error Message',
+    useDevice: 'Use Device',
+    useServer: 'Use Server',
     toastBtns: {
       message: 'Sync Status',
       viewSummary: 'View Summary',
