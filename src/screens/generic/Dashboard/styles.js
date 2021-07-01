@@ -46,4 +46,11 @@ export default StyleSheet.create({
     right: 16,
     top: 10.7,
   },
+  syncContainer: {
+    position: 'absolute',
+    top: theme.spacing(77.7),
+    right: theme.spacing(10.3),
+    display: 'flex',
+    flexDirection: 'row',
+  },
 });

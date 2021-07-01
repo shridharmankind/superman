@@ -80,10 +80,10 @@ const Strings = {
     neurokind: 'Neurokind',
     nine: '9%',
     ten: '10%',
-    tabDes: 'Mankind/Total',
+    tabDes: 'MANKIND/TOTAL QUANTITY',
     foc: 'FOC',
     gx: '(Gx)',
-    sow: '(SoW)',
+    sow: '(SOW)',
     conductRcpa: 'Conduct RCPA',
     na: 'NA',
   },
@@ -99,7 +99,7 @@ const Strings = {
   somethingWentWrong: 'Something went wrong. Please try again!',
   confirmation: 'Confirmation',
   patchUsedForOtherWeekDay:
-    'This patch is used for other Week>days. Do you want to make changes in all the days?',
+    'This patch is used for other Weekdays. Do you want to make changes in all the days?',
   yes: 'Yes',
   no: 'No',
   tillDate: 'Till Date',
@@ -121,13 +121,25 @@ const Strings = {
       what: 'What',
       kindOfVisit: 'kind of visit',
       wasIt: 'was it?',
-      regVisit: 'Regular Visit',
+      regVisit: 'Independent Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
       posts: 'FLM/SLM/TLM',
       addDoctor: 'ADD A DOCTOR',
       btnDone: 'Done',
       feedback: 'Feedback',
+      addMore: 'ADD MORE',
+      sampleReq: {
+        addSample: '+ ADD a Sample',
+        addSampleBtn: 'Add Selected',
+        searchPlaceholder: 'Search Samples here',
+        question: {
+          leftPart: 'Did you provide',
+          midPart: 'any samples',
+          rightPart: 'to the doctor ?',
+        },
+        error: 'Sample Already Exists',
+      },
     },
   },
   dr: 'Dr.',
@@ -166,6 +178,11 @@ const Strings = {
     },
     docAddedTodayPlan: 'Doctor added successfully',
   },
+  setting: {
+    tab: {
+      conflicts: 'Conflict',
+    },
+  },
   searchBar: {
     errors: {
       validName: 'Please Enter Valid name',
@@ -188,6 +205,25 @@ const Strings = {
   frquecySlotExhausted:
     'Frequency slots for few doctors has been exhausted, a new patch name has been created',
   selectDocToCreatePatch: 'Please select any doctor to create a patch.',
+  backgroundTask: {
+    lastSync: 'Last Synced:',
+    lastModifiedTime: 'Last Modified On',
+    conflictMessage: 'Conflict Message',
+    errorMessage: 'Error Message',
+    useDevice: 'Use Device',
+    useServer: 'Use Server',
+    toastBtns: {
+      message: 'Sync Status',
+      viewSummary: 'View Summary',
+      syncInitiatedMessage: 'Sync request has been initiated.',
+      successMessage: 'Requested sync has been completed successfully.',
+      conflictMessage: 'Sync activity was completed with a conflict.',
+      failureMessage: 'Sync activity could not be completed.',
+      alreadRunningMessage: 'Sync activity is already in progress.',
+    },
+  },
+  noInternet: 'No Internet',
+  checkInternet: 'Check you internet connection',
 };
 
 export default Strings;

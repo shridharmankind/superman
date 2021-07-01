@@ -17,6 +17,7 @@ module.exports = {
           'screens/tourPlan': './src/screens/tour-plan',
           'screens/directory': './src/screens/directory',
           'screens/home': './src/screens/home',
+          'screens/settings': './src/screens/settings',
           screens: './src/screens',
           navigations: './src/navigations',
           services: './src/services',

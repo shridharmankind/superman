@@ -1,4 +1,6 @@
-[
+{
+  "discussedBrandList": [],
+  "brandList": [
     {
       "id": 113,
       "eDetailId": 0,
@@ -184,4 +186,4 @@
       "subBrandList": []
     }
   ]
-  
+}

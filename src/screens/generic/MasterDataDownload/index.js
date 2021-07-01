@@ -7,28 +7,34 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
+import {NetworkService} from 'services';
 import {Label} from 'components/elements';
 import themes from 'themes';
 import {
   Helper,
   Constants as DBConstants,
   Operations,
+  MonthlyPlan,
+  PartyCategories,
   Schemas,
   Skus,
-  PartyCategories,
   Organizations,
   Divisions,
+  MotherBrands,
+  Weeklyoff,
   Qualifications,
   Specialities,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
 import {Constants} from 'common';
-import {NetworkService} from 'services';
-import {Routes} from 'navigations';
+import {ROUTE_DASHBOARD} from '../../../navigations/routes';
+import {useDispatch} from 'react-redux';
+import {authTokenActions} from '../RouteHandler/redux';
 
-const MasterDataDownload = ({navigation}) => {
-  const progressBarSyncParam = 10 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
+const MasterDataDownload = () => {
+  const dispatch = useDispatch();
+  const progressBarSyncParam = 60 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
   const [progress, setProgress] = useState(0);
   const [indeterminate, setIndeterminate] = useState(true);
 
@@ -46,9 +52,7 @@ const MasterDataDownload = ({navigation}) => {
       };
 
       const onDownloadComplete = () => {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
+        dispatch(authTokenActions.updateScreen({screen: ROUTE_DASHBOARD}));
       };
 
       try {
@@ -109,7 +113,6 @@ const MasterDataDownload = ({navigation}) => {
             Schemas.masterTablesDownLoadStatus,
             item.name,
           );
-
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
@@ -117,6 +120,9 @@ const MasterDataDownload = ({navigation}) => {
           switch (item.name) {
             case DBConstants.MASTER_TABLE_USER_INFO:
               response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.MASTER_TABLE_WEEKLYOFF:
+              await NetworkService.get(item.apiPath);
               break;
             case DBConstants.MASTER_TABLE_PARTY:
               {
@@ -138,11 +144,22 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_TABLE_DIVISION:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.QUALIFICATIONS:
               fetchQualifications(item);
               break;
             case DBConstants.SPECIALITIES:
               fetchSpecialities(item);
+              break;
+            case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+              {
+                const staffPositionId = await Helper.getStaffPositionId();
+                response = await NetworkService.get(
+                  `${item.apiPath}${staffPositionId}`,
+                );
+              }
               break;
           }
           if (response && response.status === Constants.HTTP_OK) {
@@ -163,14 +180,24 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 updateRecordDownloaded(item.name);
                 break;
-
+              case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+                await MonthlyPlan.createMonthlyMasterRecord(
+                  item.schema,
+                  JSON.parse(data),
+                );
+                updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_DIVISION:
                 const divisionsUpdated = await Divisions.storeDivisions(
                   JSON.parse(data),
                 );
                 divisionsUpdated && updateRecordDownloaded(item.name);
                 break;
-
+              case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+                const updatedMotherBrands =
+                  await MotherBrands.storeMotherBrands(JSON.parse(data));
+                updatedMotherBrands && updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_ORGANIZATION:
                 const organizationsUpdated =
                   await Organizations.storeOrganizations(JSON.parse(data));
@@ -187,6 +214,12 @@ const MasterDataDownload = ({navigation}) => {
                   await PartyCategories.storePartyCategories(JSON.parse(data));
                 partyCategoriesUpdated && updateRecordDownloaded(item.name);
                 break;
+              case DBConstants.MASTER_TABLE_WEEKLYOFF:
+                const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
+                  JSON.parse(data),
+                );
+                weeklyresponse && updateRecordDownloaded(item.name);
+                break;
             }
 
             if (i % progressBarSyncParam === 0) {
@@ -196,6 +229,11 @@ const MasterDataDownload = ({navigation}) => {
             onDownloadError(item.name);
           }
         }
+        await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
+          name: DBConstants.APPLICATION_SYNC_STATUS,
+          status: DBConstants.downloadStatus.DOWNLOADED,
+          lastSync: new Date(),
+        });
         onDownloadComplete();
       } catch (error) {
         onDownloadError(error);
@@ -205,7 +243,7 @@ const MasterDataDownload = ({navigation}) => {
     return () => {
       isMounted = false;
     };
-  }, [navigation, progressBarSyncParam]);
+  }, [progressBarSyncParam, dispatch]);
 
   const initMasterTablesDownloadStatus = async () => {
     try {
@@ -218,6 +256,7 @@ const MasterDataDownload = ({navigation}) => {
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
           name: item.name,
           status: DBConstants.downloadStatus.PENDING,
+          lastSync: new Date(),
         });
       });
     } catch (error) {

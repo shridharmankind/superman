@@ -10,6 +10,7 @@ import {
   planComplianceActions,
   planComplianceSelector,
 } from './redux';
+import {appSelector} from 'selectors';
 import {rulesMapping} from './rulesMapping';
 import {ErrorIcon, Complaint} from 'assets';
 import {getComparisonResult} from 'screens/tourPlan/helper';
@@ -18,6 +19,7 @@ import {
   COMPLAINCE_TYPE,
   RULE_KEY,
   ARRAY_OPERATION,
+  COMPARISION_TYPE,
 } from 'screens/tourPlan/constants';
 
 /**
@@ -31,20 +33,29 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const gapRuleErrorCode = useSelector(
+    planComplianceSelector.getGapRuleError(),
+  );
+  const [gapRuleCode, setGapRuleCode] = useState();
   /**
    * Fetch complaince rules list
    */
   useEffect(() => {
-    dispatch(
-      fetchPlanComplianceCreator({
-        staffPositionId: 1,
-        week,
-        weekDay,
-        type,
-      }),
-    );
-  }, [dispatch, type, week, weekDay]);
+    staffPositionId &&
+      dispatch(
+        fetchPlanComplianceCreator({
+          staffPositionId,
+          week,
+          weekDay,
+          type,
+        }),
+      );
+  }, [dispatch, type, week, weekDay, staffPositionId]);
 
+  useEffect(() => {
+    setGapRuleCode(gapRuleErrorCode);
+  }, [gapRuleErrorCode]);
   /**
    * fetch data from selector
    */
@@ -82,32 +93,38 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     if (type === COMPLAINCE_TYPE.MONTHLY || !checkType) {
       return renderIcon(rule?.isCompliant);
     }
-    if (checkType && type === COMPLAINCE_TYPE.DAILY) {
-      const isCompliant = getComparisonResult(
-        key === RULE_KEY.AREA
-          ? selectedData[key] ?? rule?.ruleValues?.coveredCount
-          : selectedData[key],
-        rule?.ruleValues?.totalCount,
-        checkType,
-      );
-      if (showWarningMessage && checkType && type === COMPLAINCE_TYPE.DAILY) {
-        if (!isCompliant) {
-          dispatch(
-            planComplianceActions.collectWarningOnRules({
-              rule: ruleMapping,
-              operation: ARRAY_OPERATION.PUSH,
-            }),
-          );
-        } else {
-          dispatch(
-            planComplianceActions.collectWarningOnRules({
-              rule: ruleMapping,
-              operation: ARRAY_OPERATION.POP,
-            }),
-          );
+    if (type === COMPLAINCE_TYPE.DAILY) {
+      if (checkType === COMPARISION_TYPE.MINGAP) {
+        const compliantCheckForMinGap =
+          gapRuleCode !== null && gapRuleCode === ruleMapping?.errorCode;
+        return renderIcon(!compliantCheckForMinGap);
+      } else if (checkType) {
+        const isCompliant = getComparisonResult(
+          key === RULE_KEY.AREA
+            ? selectedData[key] ?? rule?.ruleValues?.coveredCount
+            : selectedData[key],
+          rule?.ruleValues?.totalCount,
+          checkType,
+        );
+        if (showWarningMessage && checkType) {
+          if (!isCompliant) {
+            dispatch(
+              planComplianceActions.collectWarningOnRules({
+                rule: ruleMapping,
+                operation: ARRAY_OPERATION.PUSH,
+              }),
+            );
+          } else {
+            dispatch(
+              planComplianceActions.collectWarningOnRules({
+                rule: ruleMapping,
+                operation: ARRAY_OPERATION.POP,
+              }),
+            );
+          }
         }
+        return renderIcon(isCompliant);
       }
-      return renderIcon(isCompliant);
     }
   };
   /**
