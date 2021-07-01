@@ -19,6 +19,8 @@ import {
   Schemas,
   Organizations,
   Divisions,
+  MotherBrands,
+  Weeklyoff,
   Qualifications,
   Specialities,
 } from 'database';
@@ -118,6 +120,9 @@ const MasterDataDownload = () => {
             case DBConstants.MASTER_TABLE_USER_INFO:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_WEEKLYOFF:
+              await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_PARTY:
               {
                 const staffPositionId = await Helper.getStaffPositionId();
@@ -133,6 +138,9 @@ const MasterDataDownload = () => {
               response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.MASTER_TABLE_DIVISION:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
               response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.QUALIFICATIONS:
@@ -181,7 +189,11 @@ const MasterDataDownload = () => {
                 );
                 divisionsUpdated && updateRecordDownloaded(item.name);
                 break;
-
+              case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+                const updatedMotherBrands =
+                  await MotherBrands.storeMotherBrands(JSON.parse(data));
+                updatedMotherBrands && updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_ORGANIZATION:
                 const organizationsUpdated =
                   await Organizations.storeOrganizations(JSON.parse(data));
@@ -191,6 +203,12 @@ const MasterDataDownload = () => {
                 const partyCategoriesUpdated =
                   await PartyCategories.storePartyCategories(JSON.parse(data));
                 partyCategoriesUpdated && updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.MASTER_TABLE_WEEKLYOFF:
+                const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
+                  JSON.parse(data),
+                );
+                weeklyresponse && updateRecordDownloaded(item.name);
                 break;
             }
 

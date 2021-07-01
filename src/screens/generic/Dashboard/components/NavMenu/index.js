@@ -5,9 +5,7 @@ import {Label, LabelVariant} from 'components/elements';
 import {LogoMankind} from 'assets';
 
 import styles from './styles';
-import {LOGOUT_ITEM_ID} from '../../constants';
 
-// TODO - mankind logo not showing on web
 const NavMenu = ({onNavItemPress}) => {
   const [activeItem, setActiveItem] = useState(0);
   const navMenuData = require('./navMenuData').default;
