@@ -101,12 +101,14 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   return (
     <>
       {renderDayPlan()}
-      <Label
-        variant={LabelVariant.h6}
-        style={styles.visitCompleted}
-        title={translate('tourPlan.monthly.visitCompleted')}
-        type={'regular'}
-      />
+      {dayPlanData?.completedVisits.length > 0 && (
+        <Label
+          variant={LabelVariant.h6}
+          style={styles.visitCompleted}
+          title={translate('tourPlan.monthly.visitCompleted')}
+          type={'regular'}
+        />
+      )}
 
       {renderCompletedVisits()}
     </>
