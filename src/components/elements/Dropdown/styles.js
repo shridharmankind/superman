@@ -2,6 +2,15 @@ import {StyleSheet} from 'react-native';
 import themes from 'themes';
 
 const styles = StyleSheet.create({
+  backgroundLayout: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    backgroundColor: themes.colors.black,
+    left: 0,
+    top: 0,
+    zIndex: 1,
+  },
   container: {
     minWidth: 250,
     paddingRight: themes.spacing(20),
@@ -26,6 +35,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 20,
     elevation: 3,
+    height: 400,
   },
   selectContainer: {
     flexDirection: 'row',
