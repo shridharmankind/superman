@@ -178,7 +178,7 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     return (complianceData?.rules || []).map(rule => {
       const ruleMappingValue = rulesMapping[rule.rulesShortName];
       if (!ruleMappingValue) {
-        return;
+        return '';
       }
       return (
         <View key={rule.ruleID} style={styles.rulesContainerSub}>
