@@ -1,14 +1,21 @@
 import React from 'react';
 import {View, FlatList} from 'react-native';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import {Button} from 'components/elements';
 import {Strings} from 'common';
+import {translate} from 'locale';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
 import styles from './styles';
 
 const ShowConflictRecords = ({records}) => {
   return (
     <View style={styles.listBody}>
+      <View style={styles.subHeading}>
+        <Label
+          title={translate('backgroundTask.syncConflict')}
+          variant={LabelVariant.h2}
+        />
+      </View>
       <View style={styles.listHeader}>
         <Label
           style={styles.division}
@@ -32,7 +39,7 @@ const ShowConflictRecords = ({records}) => {
         renderItem={({item, index}) => {
           console.log(item);
           return (
-            <View style={styles.doctorDataRow}>
+            <View style={styles.conflictRow}>
               <Label
                 style={styles.dataStyle}
                 title={`${getLocalTimeZone(
@@ -51,7 +58,7 @@ const ShowConflictRecords = ({records}) => {
                 <Button
                   title={Strings.backgroundTask.useDevice}
                   mode="contained"
-                  contentStyle={styles.eDetailbuttonLayout}
+                  contentStyle={styles.buttonLayout}
                   labelStyle={styles.btnContent}
                 />
               </View>
@@ -59,7 +66,7 @@ const ShowConflictRecords = ({records}) => {
                 <Button
                   title={Strings.backgroundTask.useServer}
                   mode="contained"
-                  contentStyle={styles.eDetailbuttonLayout}
+                  contentStyle={styles.buttonLayout}
                   labelStyle={styles.btnContent}
                 />
               </View>

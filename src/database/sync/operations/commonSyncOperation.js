@@ -75,5 +75,6 @@ const getModifiedRecords = async schema => {
   const modifiedRecords = await tableRecord.filtered(
     'syncParameters.errorInSync = true',
   );
+  console.log('modified', modifiedRecords);
   return modifiedRecords;
 };

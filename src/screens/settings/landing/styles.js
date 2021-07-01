@@ -17,8 +17,14 @@ const styles = StyleSheet.create({
   heading: {
     flexDirection: 'row',
     width: '100%',
-    marginBottom: theme.spacing(24),
+    marginBottom: theme.spacing(0),
     justifyContent: 'space-between',
+  },
+  subHeading: {
+    flexDirection: 'row',
+    width: '100%',
+    padding: theme.spacing(5),
+    marginTop: theme.spacing(10),
   },
   buttonTabBar: {
     width: 165,

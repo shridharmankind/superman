@@ -14,22 +14,11 @@ const styles = StyleSheet.create({
     paddingRight: theme.spacing(26.7),
     paddingTop: theme.spacing(32),
   },
-  searchContainer: {
+  subHeading: {
     flexDirection: 'row',
-    width: '80%',
-    marginBottom: theme.spacing(24),
-  },
-  searchBar: {
     width: '100%',
-    height: 42.7,
-    borderRadius: 6.7,
-    backgroundColor: theme.colors.grey[1700],
-    paddingLeft: theme.spacing(24),
-  },
-  searchIcon: {
-    position: 'absolute',
-    top: 14,
-    right: 18.7,
+    padding: theme.spacing(5),
+    marginTop: theme.spacing(10),
   },
   listHeader: {
     flexDirection: 'row',
@@ -47,7 +36,7 @@ const styles = StyleSheet.create({
   colwidth: {
     width: '19%',
   },
-  doctorDataRow: {
+  conflictRow: {
     flexDirection: 'row',
     paddingLeft: theme.spacing(57.3),
     paddingTop: theme.spacing(30),
@@ -66,19 +55,7 @@ const styles = StyleSheet.create({
     width: '19%',
     marginRight: theme.spacing(10),
   },
-  docImage: {
-    width: 26.7,
-    height: 26.7,
-    marginRight: theme.spacing(4),
-  },
-  todayPlanbuttonLayout: {
-    marginRight: theme.spacing(8),
-    paddingHorizontal: theme.spacing(8),
-    width: 155,
-    height: 35,
-    alignSelf: 'flex-end',
-  },
-  eDetailbuttonLayout: {
+  buttonLayout: {
     marginRight: theme.spacing(8),
     paddingHorizontal: theme.spacing(8),
     width: 120,
@@ -87,20 +64,6 @@ const styles = StyleSheet.create({
   },
   scrollPad: {
     paddingRight: theme.spacing(10),
-  },
-  category: {
-    borderTopLeftRadius: 7,
-    borderBottomRightRadius: 7,
-    backgroundColor: theme.colors.orange[100],
-    paddingHorizontal: theme.spacing(10),
-    paddingVertical: theme.spacing(4),
-    marginRight: theme.spacing(5),
-  },
-  kycCatContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    flexDirection: 'row',
   },
   btnContent: {
     textAlign: 'center',

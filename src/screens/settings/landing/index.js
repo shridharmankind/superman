@@ -7,6 +7,7 @@ import {translate} from 'locale';
 import styles from './styles';
 import {TabBar} from 'components/widgets';
 import {Operations, Constants, Sync} from 'database';
+import {isWeb} from 'helper';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
 import ShowConflictRecords from 'screens/settings/showConflictRecords';
 
@@ -20,15 +21,16 @@ const SettingLanding = ({navigation, route}) => {
   const [getConflictRecords, setConflictRecords] = useState([]);
 
   useEffect(() => {
-    (async () => {
+    const fetchDbRecords = async () => {
       const recordList = await Sync.SyncOperation.getAllConflictRecords();
-      console.log('getConflicct recrod ', recordList);
       setConflictRecords(recordList);
-    })();
+    };
+    if (!isWeb()) {
+      fetchDbRecords();
+    }
   }, []);
 
   useEffect(() => {
-    console.log('fetch Time');
     fetchSyncTime();
   }, [fetchSyncTime]);
 

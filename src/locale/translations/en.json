@@ -69,8 +69,14 @@
   "backgroundTask": {
     "lastSync": "Last Synced:",
     "syncNow" : "Sync Now",
+    "syncConflict": "Sync Conflicts",
+    "lastModifiedTime": "Last Modified On",
+    "conflictMessage": "Conflict Message",
+    "errorMessage": "Error Message",
+    "useDevice": "Use Device",
+    "useServer": "Use Server",
     "toastBtns": {
-      "message": "Sync Statu",
+      "message": "Sync Status",
       "viewSummary": "View Summary",
       "syncInitiatedMessage": "Sync request has been initiated.",
       "successMessage": "Requested sync has been completed successfully.",
