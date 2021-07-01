@@ -36,7 +36,7 @@ const StandardPlan = ({navigation, route}) => {
         setShowRightSwiper(index !== totalIndex);
       }
       setActiveIndex(index);
-      visitedDayIndex(index);
+      visitedDayIndex(index, false);
       setIndexChanged(null);
       swiperRef.current.scrollToIndex({index});
     },
@@ -48,11 +48,18 @@ const StandardPlan = ({navigation, route}) => {
   };
 
   const visitedDayIndex = useCallback(
-    i => {
+    (i, prev) => {
       const day = route.params.workingDays[i];
       const index = visitedDays.some(d => d === i);
       if (!index) {
         setVisitedDays([day]);
+      }
+      if (prev !== false) {
+        if (i > prev) {
+          handleSliderNavigation(Constants.DIRECTION.RIGHT);
+        } else {
+          handleSliderNavigation(Constants.DIRECTION.LEFT);
+        }
       }
     },
     [visitedDays, route.params.workingDays],
@@ -96,7 +103,9 @@ const StandardPlan = ({navigation, route}) => {
         showPagination
         renderAll={false}
         index={getIndexOfDay()}
-        onChangeIndex={({index}) => visitedDayIndex(index)}
+        onChangeIndex={({index, prevIndex}) =>
+          visitedDayIndex(index, prevIndex)
+        }
         paginationStyleItemActive={styles.activePaginationItem}
         paginationStyleItem={styles.paginationItem}
         paginationStyle={styles.paginationStyle}>
