@@ -71,7 +71,11 @@
   "region": "Region",
   "categories": {
     "kyc": "KYC",
-    "campaign": "Campaign"
+    "campaign": "Campaign",
+    "count": {
+      "kyc": "{{value}} Kyc",
+      "campaign": "{{value}} Campaign"
+    }
   },
   "responseStatus": {
     "error": "ERROR"
@@ -80,5 +84,8 @@
     "genericMsg": "Something doesn't seem right, please try restarting the application."
   },
   "proceed": "Proceed",
-
+  "missedCalls": "Missed Calls",
+  "dayType": {
+    "leave": "Leave"
+  }
 }
