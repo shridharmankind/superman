@@ -16,11 +16,14 @@ function* fetchDcrHandler(action) {
   const {staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    const response = yield call(NetworkService.get, `${API_PATH.GET_SENIOR}/1`);
+    const response = yield call(
+      NetworkService.get,
+      `${API_PATH.GET_SENIOR}/${staffPositionId}`,
+    );
 
     yield put(
       dcrActions.getSeniors({
-        seniorList: [...response.data.seniors],
+        seniorList: [...response.data],
       }),
     );
 
