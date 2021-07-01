@@ -1,89 +1,66 @@
-import React from 'react';
-import {View, Text, Dimensions, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Dimensions} from 'react-native';
 import styles from './styles';
 import {Label, Button, LabelVariant} from 'components/elements';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import {SingleAvtar, JointAvtar, ArrowBack} from 'assets';
+import {ArrowBack} from 'assets';
 import dayjs from 'dayjs';
-import themes from 'themes';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import EDetailingDCR from './discussed';
 
+import VisitDetail from './visitDetail';
+import SampleRequest from './sampleRequest';
+import {fetchDcrDetail} from './redux/dcrSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {dcrSelector} from './redux';
+import {Helper} from 'database';
+
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
+  const [staffPositionId, setStaffPositionId] = useState(null);
+  const [disableSwipeGesture, updateSwipeGesture] = useState(false);
   const items = [
     {name: 'question1', key: 1},
     {name: 'question1', key: 2},
   ];
   const {width} = Dimensions.get('window');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      setStaffPositionId(id);
+    })();
+  });
+
+  useEffect(() => {
+    dispatch(fetchDcrDetail({staffPositionId: staffPositionId}));
+  }, [dispatch, staffPositionId]);
 
   // To close Feedback screen
   const closeFeedback = () => {
     navigation.pop();
   };
 
+  const swipeGestureClk = isSwipe => {
+    updateSwipeGesture(isSwipe);
+  };
+
+  const seniorList = useSelector(dcrSelector.getSeniors());
+
   const renderSlide = index => {
     if (index === 0) {
       return (
-        <View style={[{width: width - 300}, styles.slideStyle]}>
-          <View style={styles.questionSection}>
-            <Text style={styles.question}>
-              <Text style={{fontFamily: themes.fonts.fontBold}}>
-                {index + 1}.
-              </Text>
-              {`${Strings.doctorDetail.dcr.what} `}
-              <Text style={{fontFamily: themes.fonts.fontBold}}>
-                {`${Strings.doctorDetail.dcr.kindOfVisit} `}
-              </Text>
-              {`${Strings.doctorDetail.dcr.wasIt}`}
-            </Text>
-          </View>
-          <View style={styles.answerSection}>
-            <View style={styles.leftAlign}>
-              <View style={styles.imgContainer}>
-                <Image source={SingleAvtar} style={styles.avtarStyle} />
-              </View>
-              <View style={styles.heading}>
-                <Label
-                  style={styles.highlighted}
-                  variant={LabelVariant.subtitleLarge}>
-                  {Strings.doctorDetail.dcr.regVisit}
-                </Label>
-                <Label
-                  style={styles.highlighted}
-                  variant={LabelVariant.subtitleLarge}>
-                  ({Strings.doctorDetail.dcr.justMe})
-                </Label>
-              </View>
-            </View>
-
-            <View style={styles.rightAlign}>
-              <View style={styles.imgContainer}>
-                <Image source={JointAvtar} style={styles.jointavtarStyle} />
-              </View>
-              <View style={styles.heading}>
-                <Label variant={LabelVariant.subtitleLarge}>
-                  {Strings.doctorDetail.dcr.jointVisit}
-                </Label>
-                <Label variant={LabelVariant.subtitleLarge}>
-                  ({Strings.doctorDetail.dcr.posts})
-                </Label>
-              </View>
-            </View>
-          </View>
-          <View style={styles.footerSection}>
-            <Label
-              testID="Add_Doctor_link"
-              style={{
-                color: themes.colors.primary,
-                fontFamily: themes.fonts.fontSemiBold,
-              }}
-              title={`+ ${Strings.doctorDetail.dcr.addDoctor}`}
-            />
-          </View>
-        </View>
+        <VisitDetail
+          index={index}
+          width={width}
+          seniorList={seniorList}
+          disSwipeGesture={disable => {
+            swipeGestureClk(disable);
+          }}
+        />
       );
     } else if (index === 1) {
       return (
@@ -138,6 +115,7 @@ const DoctorFeedback = ({navigation, route}) => {
           paginationStyle={styles.paginationStyle}
           style={styles.swiperListStyle}
           renderItem={({index}) => renderSlide(index)}
+          disableGesture={disableSwipeGesture}
         />
       </View>
     </View>

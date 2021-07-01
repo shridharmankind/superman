@@ -5,13 +5,15 @@ import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from '../styles';
 import {Strings} from 'common';
-import {Label, DoctorDetails} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
+import {DailyPlanParties} from 'components/widgets';
 import {deletePartyCreator, doctorDetailActions} from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 import {CloseIcon} from 'assets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {appSelector} from 'selectors';
+import {translate} from 'locale';
 
 /**
  * render list of doctors
@@ -102,6 +104,41 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   };
 
   /**
+   * Render UI for completed visits
+   */
+  const renderCompletedVisits = () => {
+    return dayPlanData?.completedVisits.map((data, index) => (
+      <View style={styles.doctorDetailWrapper}>
+        <View key={index} style={styles.doctorDetailContainer}>
+          <DailyPlanParties
+            title={data.name}
+            specialization={data.specialities}
+            isKyc={data.isKyc}
+            isCampaign={data.isCampaign}
+            gender={data.gender}
+            category={data.category}
+            location={data.areas}
+            partyType={data?.partyTypes?.name}
+            customStyle={doctorDetailStyleObject}
+            showFrequencyChiclet={false}
+            showVisitPlan={true}
+            visitData={data.visits}
+            showTile={true}
+            showCompletedTitle={true}
+            showAdhocTitle={false}
+            onTileNamePress={() => {
+              onTileNamePress(data);
+            }}
+            onTilePress={() => {
+              onTilePress(data);
+            }}
+          />
+        </View>
+      </View>
+    ));
+  };
+
+  /**
    * Function to render parties list in swipe list view
    * @param {Object} data party data
    * @param {Object} rowMap object containing mapping of rows
@@ -133,7 +170,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           underlayColor={colors.transparent}>
           <View style={styles.doctorDetailWrapper}>
             <View key={data.item.key} style={styles.doctorDetailContainer}>
-              <DoctorDetails
+              <DailyPlanParties
                 title={data.item.name}
                 specialization={data.item.specialities}
                 isKyc={data.item.isKyc}
@@ -145,8 +182,10 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
                 customStyle={doctorDetailStyleObject}
                 showFrequencyChiclet={false}
                 showVisitPlan={true}
-                visitData={data.item.visitData}
+                visitData={data.item.visits}
                 showTile={true}
+                showCompletedTitle={false}
+                showAdhocTitle={true}
                 onTileNamePress={() => {
                   onTileNamePress(data.item);
                 }}
@@ -161,11 +200,22 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     );
   };
   return (
-    <SwipeListView
-      data={dayPlanData}
-      renderItem={renderItem}
-      stopLeftSwipe={isDeleteOperationInProgress}
-    />
+    <>
+      <SwipeListView
+        data={dayPlanData.toDoVisits}
+        renderItem={renderItem}
+        stopLeftSwipe={isDeleteOperationInProgress}
+      />
+
+      <Label
+        variant={LabelVariant.h6}
+        style={styles.visitCompleted}
+        title={translate('tourPlan.monthly.visitCompleted')}
+        type={'regular'}
+      />
+
+      {renderCompletedVisits()}
+    </>
   );
 };
 

@@ -114,7 +114,7 @@ export const getStandardPlanSlice = createSlice({
     STPCalendarUpdate: (state, action) => {
       return {
         ...state,
-        stpData: action.payload.stpData, //TO DO :: update on responsenfromm API
+        stpData: action.payload.stpData,
       };
     },
     updatePartyAreasOnSelection: (state, action) => {
