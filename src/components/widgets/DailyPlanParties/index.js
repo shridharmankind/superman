@@ -138,10 +138,12 @@ const DailyPlanParties = ({
    */
   const renderTile = () => {
     return (
-      <View style={styles.doctorTile}>
-        <View style={styles.borderOuterContainer}>
-          <View style={styles.borderInnerContainer} />
-        </View>
+      <View style={[(isWeb() || showCompletedTitle) && styles.doctorTile]}>
+        {(isWeb() || showCompletedTitle) && (
+          <View style={styles.borderOuterContainer}>
+            <View style={styles.borderInnerContainer} />
+          </View>
+        )}
         <View style={styles.tileContainer}>
           <View style={styles.tileRight}>
             {showCompletedTitle && (
