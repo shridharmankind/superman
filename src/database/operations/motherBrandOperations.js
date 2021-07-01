@@ -7,40 +7,7 @@ export default dbInstance => ({
     let recordsUpdated = true;
     try {
       await dbInstance.write(() => {
-        motherBrands.forEach(motherBrand => {
-          const {
-            id,
-            name,
-            shortName,
-            isFocused,
-            isPower,
-            molecule,
-            motherBrandType,
-          } = motherBrand;
-          const moleculeChild = dbInstance.create(
-            Constants.MOLECULES,
-            molecule,
-            'modified',
-          );
-          const motherBrandTypeChild = dbInstance.create(
-            Constants.MOTHER_BRAND_TYPE,
-            motherBrandType,
-            'modified',
-          );
-          dbInstance.create(
-            MotherBrandsSchemaName,
-            {
-              id,
-              name,
-              shortName,
-              isFocused,
-              isPower,
-              molecule: moleculeChild,
-              motherBrandType: motherBrandTypeChild,
-            },
-            'modified',
-          );
-        });
+        getMotherBrandsDataToWrite(motherBrands, dbInstance);
       });
     } catch (err) {
       recordsUpdated = false;
@@ -57,3 +24,45 @@ export default dbInstance => ({
     return motherBrands.filtered(`id = ${motherBrandId}`);
   },
 });
+
+// Re-usability for SUB_BRAND
+export const getMotherBrandsDataToWrite = (
+  motherBrands,
+  dbInstance,
+  toBeReturn = false,
+) => {
+  let data;
+  motherBrands.forEach(motherBrand => {
+    const {id, name, shortName, isFocused, isPower, molecule, motherBrandType} =
+      motherBrand;
+    const moleculeChild = dbInstance.create(
+      Constants.MOLECULES,
+      molecule,
+      'modified',
+    );
+    const motherBrandTypeChild = dbInstance.create(
+      Constants.MOTHER_BRAND_TYPE,
+      motherBrandType,
+      'modified',
+    );
+    data = dbInstance.create(
+      Constants.MASTER_TABLE_MOTHER_BRAND,
+      {
+        id,
+        name,
+        shortName,
+        isFocused,
+        isPower,
+        molecule: moleculeChild,
+        motherBrandType: motherBrandTypeChild,
+      },
+      'modified',
+    );
+  });
+
+  // Need to pass single object for SKU operations
+  // For mapping under sub_brand
+  if (toBeReturn) {
+    return data;
+  }
+};

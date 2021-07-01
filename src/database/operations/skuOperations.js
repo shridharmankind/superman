@@ -1,13 +1,14 @@
 import * as Constants from '../constants';
 import {SkuSchemaName} from '../schemas/Skus';
 import {getAllTableRecords} from './common';
+import {getMotherBrandsDataToWrite} from './motherBrandOperations';
 
 export default dbInstance => ({
   storeSkus: async skus => {
     let recordsUpdated = true;
     try {
       await dbInstance.write(() => {
-        skus?.forEach(sku => {
+        skus.forEach(sku => {
           const {
             id,
             name,
@@ -19,12 +20,37 @@ export default dbInstance => ({
             isPower,
             isSample,
             subBrand,
+            divisions,
           } = sku;
+
+          const {moleculeId, motherBrandId, motherBrand} = subBrand;
+
           const subBrandData = dbInstance.create(
-            Constants.MASTER_TABLE_SUBBRAND,
-            subBrand,
+            Constants.MASTER_TABLE_SUB_BRAND,
+            {
+              id: subBrand.id,
+              name: subBrand.name,
+              shortName: subBrand.shortName,
+              moleculeId,
+              motherBrandId,
+              isFocused: subBrand.isFocused,
+              isPower: subBrand.isPower,
+              motherBrand: getMotherBrandsDataToWrite(
+                [motherBrand],
+                dbInstance,
+                true,
+              ),
+            },
             'modified',
           );
+
+          const divisionData = divisions?.forEach(division => {
+            dbInstance.create(
+              Constants.MASTER_TABLE_DIVISION,
+              division,
+              'modified',
+            );
+          });
 
           dbInstance.create(
             Constants.MASTER_TABLE_SKU,
@@ -39,6 +65,7 @@ export default dbInstance => ({
               isPower,
               isSample,
               subBrand: subBrandData,
+              divisions: divisionData,
             },
             'modified',
           );

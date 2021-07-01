@@ -1,4 +1,5 @@
 export const SubBrandSchemaName = 'SubBrand';
+import {MASTER_TABLE_MOTHER_BRAND} from '../constants';
 
 export default class SubBrandSchema {
   static schema = {
@@ -12,6 +13,7 @@ export default class SubBrandSchema {
       motherBrandId: 'int',
       isFocused: 'int?',
       isPower: 'int?',
+      motherBrand: MASTER_TABLE_MOTHER_BRAND,
     },
   };
 }

@@ -1,4 +1,4 @@
-import {MASTER_TABLE_SUBBRAND} from '../constants';
+import {MASTER_TABLE_DIVISION, MASTER_TABLE_SUB_BRAND} from '../constants';
 export const SkuSchemaName = 'SKUs';
 
 export default class SkuSchema {
@@ -15,7 +15,8 @@ export default class SkuSchema {
       isFocused: 'int?',
       isPower: 'int?',
       isSample: 'int?',
-      subBrand: MASTER_TABLE_SUBBRAND,
+      subBrand: MASTER_TABLE_SUB_BRAND,
+      divisions: MASTER_TABLE_DIVISION,
     },
   };
 }
