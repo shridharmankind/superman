@@ -61,12 +61,19 @@
   "region": "Region",
   "categories": {
     "kyc": "KYC",
-    "campaign": "Campaign"
+    "campaign": "Campaign",
+    "count": {
+      "kyc": "{{value}} Kyc",
+      "campaign": "{{value}} Campaign"
+    }
   },
   "responseStatus": {
     "error": "ERROR"
   },
   "error": {
     "genericMsg": "Something doesn't seem right, please try restarting the application."
+  },
+  "dayType": {
+    "leave": "Leave"
   }
 }
