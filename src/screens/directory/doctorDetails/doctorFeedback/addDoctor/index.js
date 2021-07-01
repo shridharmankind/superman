@@ -23,7 +23,7 @@ const AddDoctor = ({showModal, closeModal}) => {
         dataItem => dataItem.id === item.id,
       );
       partyJson.splice(partyIndex, 1);
-      item['isChecked'] = true;
+      item.isChecked = true;
       setPartyJson(partyJson);
       setSelectedList([...selectedList, item]);
     } else {
@@ -31,7 +31,7 @@ const AddDoctor = ({showModal, closeModal}) => {
         dataItem => dataItem.id === item.id,
       );
       selectedList.splice(selectedIndex, 1);
-      item['isChecked'] = false;
+      item.isChecked = false;
       setPartyJson([...partyJson, item]);
       setSelectedList(selectedList);
     }
@@ -79,7 +79,7 @@ const AddDoctor = ({showModal, closeModal}) => {
         </View>
         <View style={styles.mainCheckBox}>
           <Checkbox
-            status={!!item.isChecked ? 'checked' : 'unchecked'}
+            status={item.isChecked ? 'checked' : 'unchecked'}
             onPress={() => {
               onChecked(item, !item.isChecked);
             }}
