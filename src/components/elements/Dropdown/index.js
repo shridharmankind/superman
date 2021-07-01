@@ -17,7 +17,6 @@ import {Strings} from 'common';
  */
 
 const Dropdown = forwardRef((props, ref) => {
-  const [value, setValue] = useState();
   const [togglePicker, setTogglePicker] = useState(false);
   const [dropDownData, setDropDownData] = useState(data);
   const [dropDownText, setDropdownText] = useState(defaultLabel);
@@ -34,7 +33,6 @@ const Dropdown = forwardRef((props, ref) => {
   const handleValueSelected = val => {
     setDropdownText(val?.value || defaultLabel);
     setTogglePicker(false);
-    setValue(val);
     valueSelected(val);
   };
 
@@ -47,7 +45,6 @@ const Dropdown = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (!isPatchedData) {
-      setValue(null);
       setDropdownText(defaultLabel);
     }
   }, [isPatchedData, defaultLabel]);
@@ -110,15 +107,7 @@ const Dropdown = forwardRef((props, ref) => {
         </TouchableOpacity>
       )}
       {togglePicker && (
-        <ScrollView
-          style={styles.pickerContainer}
-          // ref={component => {
-          //   childrenIds =
-          //     component &&
-          //     component._children[0] &&
-          //     component._children[0]._children.map(el => el._nativeTag);
-          // }}>
-          ref={ref}>
+        <ScrollView style={styles.pickerContainer} ref={ref}>
           {(dropDownData.length > 0 ? dropDownData : data)?.map((option, i) => (
             <View>
               <TouchableOpacity
