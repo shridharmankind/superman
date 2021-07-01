@@ -149,7 +149,7 @@ const getModifiedRecords = async schema => {
   const modifiedRecords = await tableRecord.filtered(
     'syncParameters.isDeleted = true OR syncParameters.requireSync = true OR syncParameters.errorInSync = true',
   );
-  console.log('modifiedRecords length ', modifiedRecords);
+  console.log('modifiedRecords length ', modifiedRecords.length);
   return modifiedRecords;
 };
 
