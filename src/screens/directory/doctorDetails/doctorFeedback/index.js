@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Dimensions, Image} from 'react-native';
 import styles from './styles';
 import {Label, Button, LabelVariant} from 'components/elements';
@@ -10,9 +10,11 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {ArrowBack} from 'assets';
+import AddDoctor from './addDoctor';
 
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
+  const [showModal, setShowModal] = useState(false);
   const items = [
     {name: 'question1', key: 1},
     {name: 'question2', key: 2},
@@ -22,6 +24,13 @@ const DoctorFeedback = ({navigation, route}) => {
   // To close Feedback screen
   const closeFeedback = () => {
     navigation.pop();
+  };
+
+  const closeAddHandler = () => {
+    setShowModal(false);
+  };
+  const AddDoctorHandler = () => {
+    setShowModal(true);
   };
 
   const renderSlide = index => {
@@ -80,59 +89,67 @@ const DoctorFeedback = ({navigation, route}) => {
               fontFamily: themes.fonts.fontSemiBold,
             }}
             title={`+ ${Strings.doctorDetail.dcr.addDoctor}`}
+            onPress={AddDoctorHandler}
           />
         </View>
       </View>
     );
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <View style={styles.headerDataStyle}>
-            <TouchableOpacity
-              style={styles.backArrow}
-              onPress={closeFeedback}
-              testID="back_btn">
-              <ArrowBack width={34.7} height={34.7} />
-            </TouchableOpacity>
-            <Label
-              variant={LabelVariant.h2}
-              title={`${Strings.doctorDetail.dcr.feedback} - `}
-            />
-            <Label
-              style={styles.nameStyling}
-              variant={LabelVariant.h2}
-              testID="doctor_name"
-              title={`Dr. ${doctorData.name}`}
-            />
-          </View>
+    <>
+      <View style={styles.container}>
+        <View style={styles.header}>
           <View>
-            <Label
-              style={styles.dateStyling}
-              title={getFormatDate({date: dayjs(), format: 'DD MMM YYYY'})}
-            />
+            <View style={styles.headerDataStyle}>
+              <TouchableOpacity
+                style={styles.backArrow}
+                onPress={closeFeedback}
+                testID="back_btn">
+                <ArrowBack width={34.7} height={34.7} />
+              </TouchableOpacity>
+              <Label
+                variant={LabelVariant.h2}
+                title={`${Strings.doctorDetail.dcr.feedback} - `}
+              />
+              <Label
+                style={styles.nameStyling}
+                variant={LabelVariant.h2}
+                testID="doctor_name"
+                title={`Dr. ${doctorData.name}`}
+              />
+            </View>
+            <View>
+              <Label
+                style={styles.dateStyling}
+                title={getFormatDate({date: dayjs(), format: 'DD MMM YYYY'})}
+              />
+            </View>
           </View>
+          <Button
+            title={Strings.doctorDetail.dcr.btnDone}
+            disabled={true}
+            contentStyle={styles.button}
+          />
         </View>
-        <Button
-          title={Strings.doctorDetail.dcr.btnDone}
-          disabled={true}
-          contentStyle={styles.button}
-        />
+        <View style={styles.section}>
+          <SwiperFlatList
+            data={items}
+            renderAll={false}
+            showPagination
+            paginationStyleItemActive={styles.activePaginationItem}
+            paginationStyleItem={styles.paginationItem}
+            paginationStyle={styles.paginationStyle}
+            style={styles.swiperListStyle}
+            renderItem={({index}) => renderSlide(index)}
+          />
+        </View>
       </View>
-      <View style={styles.section}>
-        <SwiperFlatList
-          data={items}
-          renderAll={false}
-          showPagination
-          paginationStyleItemActive={styles.activePaginationItem}
-          paginationStyleItem={styles.paginationItem}
-          paginationStyle={styles.paginationStyle}
-          style={styles.swiperListStyle}
-          renderItem={({index}) => renderSlide(index)}
-        />
+      <View>
+        {showModal && (
+          <AddDoctor showModal={showModal} closeModal={closeAddHandler} />
+        )}
       </View>
-    </View>
+    </>
   );
 };
 
