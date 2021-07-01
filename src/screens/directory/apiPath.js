@@ -5,4 +5,5 @@ export const API_PATH = {
   GET_TIMELINE: 'mtp/timeline/visit',
   ADD_TODAY_PLAN: 'dailyplanactivity/adhocplan',
   GET_SENIOR: 'staff/getreporters',
+  GET_EDETAILING_PRODUCT: '/edetailing/motherbrands',
 };

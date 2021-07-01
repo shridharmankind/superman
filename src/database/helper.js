@@ -2,9 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
-import {WeeklyoffSchemaName} from './schemas/Weeklyoffcountrywise';
 import {NetworkService} from 'services';
-import {Weeklyoff} from 'database';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -64,6 +62,10 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_WEEKLYOFF,
     apiPath: Constants.MASTER_TABLE_WEEKLYOFF_API_PATH,
+  },
+  {
+    name: Constants.MASTER_TABLE_MOTHER_BRAND,
+    apiPath: Constants.MASTER_TABLE_MOTHER_BRAND_API_PATH,
   },
 ];
 

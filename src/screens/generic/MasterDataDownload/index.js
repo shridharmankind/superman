@@ -19,6 +19,7 @@ import {
   Schemas,
   Organizations,
   Divisions,
+  MotherBrands,
   Weeklyoff,
   Qualifications,
   Specialities,
@@ -139,6 +140,9 @@ const MasterDataDownload = () => {
             case DBConstants.MASTER_TABLE_DIVISION:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.QUALIFICATIONS:
               fetchQualifications(item);
               break;
@@ -185,7 +189,11 @@ const MasterDataDownload = () => {
                 );
                 divisionsUpdated && updateRecordDownloaded(item.name);
                 break;
-
+              case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+                const updatedMotherBrands =
+                  await MotherBrands.storeMotherBrands(JSON.parse(data));
+                updatedMotherBrands && updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_ORGANIZATION:
                 const organizationsUpdated =
                   await Organizations.storeOrganizations(JSON.parse(data));
