@@ -35,6 +35,9 @@ const dbInstance = new Realm({
     Schemas.PartyCategories.schema,
     Schemas.Organizations.schema,
     Schemas.Divisions.schema,
+    Schemas.ActivityTypes.schema,
+    Schemas.ActivityType.schema,
+    Schemas.DurationType.schema,
   ],
   schemaVersion,
 });
@@ -54,3 +57,4 @@ export const PartyCategories = Operations.partyCategoryOperations(dbInstance);
 export const Organizations = Operations.organizationOperations(dbInstance);
 export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
+export const ActivityTypes = Operations.activityTypesOperations(dbInstance);

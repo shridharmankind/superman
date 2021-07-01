@@ -1,6 +1,9 @@
 import {DivisionSchemaName} from './schemas/Divisions';
 import {QualificationsSchemaName} from './schemas/Qualifications';
 import {SpecialitiesSchemaName} from './schemas/Specialities';
+import {ActivityTypesSchemaName} from './schemas/ActivityTypes';
+import {ActivityType} from './schemas/ActivityType';
+import {DurationType} from './schemas/DurationType';
 
 //Common
 export const downloadStatus = Object.freeze({
@@ -55,6 +58,11 @@ export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
 
 export const MASTER_TABLE_DIVISION = DivisionSchemaName;
 export const MASTER_TABLE_DIVISION_API_PATH = 'division';
+
+export const MASTER_TABLE_ACTIVITY_TYPES = ActivityTypesSchemaName;
+export const MASTER_TABLE_ACTIVITY_TYPES_API_PATH = 'activity';
+export const ACTIVITY_TYPE = ActivityType;
+export const DURATION_TYPE = DurationType;
 
 export const QUALIFICATIONS = QualificationsSchemaName;
 export const SPECIALITIES = SpecialitiesSchemaName;

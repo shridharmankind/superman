@@ -354,3 +354,4 @@ export {default as partyCategoryOperations} from './partyCategoryOperations';
 export {default as organizationOperations} from './organizationOperations';
 export {default as divisionOperations} from './divisionOperations';
 export {default as specialityOperations} from './specialityOperations';
+export {default as activityTypesOperations} from './ActivityTypeOperations';
