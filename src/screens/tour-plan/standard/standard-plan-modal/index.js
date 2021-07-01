@@ -1125,8 +1125,10 @@ const StandardPlanModal = ({
   }
 
   return (
-    <View onStartShouldSetResponder={evt => handleDropDownRef(evt)}>
-      <ScrollView style={[styles.containerStyle, {height}]}>
+    <View
+      style={styles.containerStyle}
+      onStartShouldSetResponder={evt => handleDropDownRef(evt)}>
+      <ScrollView>
         <View style={styles.modalHeader}>
           <View>
             <Label title={Strings.selectDoctorAndChemist} size={18.7} />
