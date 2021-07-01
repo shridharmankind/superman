@@ -33,10 +33,12 @@ import missedCallMockData from './api/missedCalls.json';
 import addToTodayMockData from './api/addToToday.json';
 
 import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
+import staff from './api/staff.json';
+import searchSamples from './api/searchSamples.json';
 
 const getPartiesUrl = () => {
   const valueMap = {
-    staffpositionid: 2,
+    staffpositionid: 1,
     monthVal: parseInt(getFormatDate({format: 'M'}), 10),
     yearVal: parseInt(getFormatDate({format: 'YYYY'}), 10),
     dayVal: parseInt(getFormatDate({format: 'D'}), 10),
@@ -167,7 +169,7 @@ const getMock = axios => {
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
   mock
-    .onGet(getMTPCalendarUpdateUrl(NETWORK_APIS.MTP_CALENDAR))
+    .onGet(getMTPCalendarUpdateUrl(API_PATHS.MTP_CALENDAR))
     .reply(200, mtpData);
   mock.onGet(getDailyComplainceUrl()).reply(200, dailyPlanComplaince);
   mock
@@ -218,6 +220,10 @@ const getMock = axios => {
   mock
     .onPost(`${API_PATHS.ADD_TODAY_PLAN}?staffPositionId=1&partyId=2`)
     .reply(200, addToTodayMockData);
+  mock.onGet('staff/getreporters/1').reply(200, staff);
+  mock
+    .onGet('getsamples?StaffPositionId=1&searchKeyword=a')
+    .reply(200, searchSamples);
 };
 
 export default getMock;

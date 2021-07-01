@@ -5,11 +5,12 @@ import {
   fetchWorkingDayCreatorType,
   fetchSTPStatusCreatorType,
   submitSTPCreatorType,
+  fetchMonthlyCalendarUpdateCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
-
+import API_PATHS from 'services/network/apiPaths';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -29,6 +30,15 @@ export function* submitSTPWatcher() {
   yield takeEvery(submitSTPCreatorType, submitSTPWorker);
 }
 
+/**
+ * Function to fetch stp update worker
+ */
+export function* fetchMonthlyCalendarUpdateWatcher() {
+  yield takeEvery(
+    fetchMonthlyCalendarUpdateCreatorType,
+    updateMTPCalendarWorker,
+  );
+}
 /**
  * worker function to send the api call to get all subordinates list
  */
@@ -122,6 +132,36 @@ export function* submitSTPWorker(action) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     console.log(error);
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+/**
+ * Handles STP handle action
+ * @param {Object} action
+ */
+export function* updateMTPCalendarWorker(action) {
+  const {staffPositionId, month} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  const valueMap = {
+    staffPositionId,
+    month,
+  };
+  let url = API_PATHS.MTP_CALENDAR;
+  url = url.replace(
+    /\b(?:staffpositionId|month)\b/gi,
+    matched => valueMap[matched],
+  );
+
+  try {
+    const response = yield call(NetworkService.get, url);
+    yield put(
+      monthlyActions.MonthlyCalendarUpdate({
+        mtpData: response.data,
+      }),
+    );
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }

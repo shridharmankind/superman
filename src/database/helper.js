@@ -2,8 +2,9 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
-
+import {WeeklyoffSchemaName} from './schemas/Weeklyoffcountrywise';
 import {NetworkService} from 'services';
+import {Weeklyoff} from 'database';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -60,6 +61,10 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: NetworkService.API.FETCH_SPECIALITIES,
     schema: [Schemas.Specialities.schema],
   },
+  {
+    name: Constants.MASTER_TABLE_WEEKLYOFF,
+    apiPath: Constants.MASTER_TABLE_WEEKLYOFF_API_PATH,
+  },
 ];
 
 export const syncErrorDetails = {
@@ -93,7 +98,6 @@ export const getUserName = async () => {
   try {
     const user = await getActiveUser();
     const {firstName = '', lastName = ''} = user;
-
     return `${firstName} ${lastName}`;
   } catch (error) {}
 };

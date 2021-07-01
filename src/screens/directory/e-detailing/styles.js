@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   modalTitleDone: {
     position: 'absolute',
-    right: -80,
+    right: 0,
   },
   subBrandList: {
     display: 'flex',

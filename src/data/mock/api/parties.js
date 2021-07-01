@@ -46,7 +46,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-4).date,
             month: getDate(-4).month,
@@ -98,7 +98,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-2).date,
             month: getDate(-2).month,
@@ -150,7 +150,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(0).date,
             month: getDate(0).month,
@@ -197,7 +197,7 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-2).date,
             month: getDate(-2).month,
@@ -249,7 +249,7 @@ export const partiesMock = {
         ],
         category: 'B',
         location: 'Karol Bagh',
-        visitData: [
+        visits: [
           {
             date: getDate(-6).date,
             month: getDate(-6).month,
@@ -301,7 +301,7 @@ export const partiesMock = {
             shortName: 'Group1',
           },
         },
-        visitData: [
+        visits: [
           {
             date: getDate(0).date,
             month: getDate(0).month,

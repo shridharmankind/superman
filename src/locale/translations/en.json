@@ -9,7 +9,17 @@
         "reviewDCR": "Review DCR"
       },
       "submittedOn": "Submitted on",
-      "MTPDueOn": "Due in {{X}} days"
+      "MTPDueOn": "Due in {{X}} days",
+      "adhocCalls": "Adhoc calls: {{data}}",
+      "visitCompleted": "Visit Completed"
+    },
+    "daily": {
+      "youHave": "You have",
+      "and": "and",
+      "visits": "visits",
+      "today": "Today",
+      "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
+      "completed": "Completed"
     }
   },
   "missedVisit": "Missed Visit!",
@@ -33,6 +43,7 @@
     "partyAdded": "Party added successfully"
   },
   "dr": "Doctor",
+  "ch": "Chemist",
   "minimum": "minimum",
   "maximum": "maximum",
   "doctorVisitsPerDay": "doctor visits per day",
@@ -46,15 +57,37 @@
   "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
   "frequencyMet": "frequency met",
-  "missedCalls": "Missed Calls",
+  "dcrSecondTab": {
+    "priorityProduct": "eDetailed Products",
+    "discussedProduct": "Discussed Products",
+    "listOfProduct": "List Of Products",
+    "done": "Done",
+    "SelectBrandLabel": "Select Sub-brands",
+    "slideTitle": "Which products did you",
+    "detail": "detail",
+    "discuss": "discuss",
+    "toDoctor": "to the doctor?"
+  },
   "speciality": "Speciality",
   "region": "Region",
   "categories": {
     "kyc": "KYC",
-    "campaign": "Campaign"
+    "campaign": "Campaign",
+    "count": {
+      "kyc": "{{value}} Kyc",
+      "campaign": "{{value}} Campaign"
+    }
   },
   "responseStatus": {
     "error": "ERROR"
+  },
+  "error": {
+    "genericMsg": "Something doesn't seem right, please try restarting the application."
+  },
+  "proceed": "Proceed",
+  "missedCalls": "Missed Calls",
+  "dayType": {
+    "leave": "Leave"
   },
   "eDetailing": {
     "modalTitle": "Select Sub-brands",
