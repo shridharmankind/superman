@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   Image,
   View,
-  Alert,
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
@@ -16,49 +15,59 @@ import {KeyChain} from 'helper';
 import {Button, Label} from 'components/elements';
 import {Strings} from 'common';
 import {LoginCover, LogoMankindWhite} from 'assets';
+import {authTokenActions} from '../RouteHandler/redux';
+import {useDispatch} from 'react-redux';
+import {Constants} from 'common';
 import {Helper} from 'database';
-import {Routes} from 'navigations';
+import {
+  ROUTE_MASTER_DATA_DOWNLOAD,
+  ROUTE_DASHBOARD,
+} from '../../../navigations/routes';
+import env from '../../../../env.json';
+import {Alert} from 'components/widgets';
+
+const {oneLogin = {}} = env;
+const {authority, clientID, redirectURL} = oneLogin;
 
 const config = {
-  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
-  redirectUrl: 'com.superman://callback',
+  issuer: authority,
+  clientId: clientID,
+  redirectUrl: redirectURL,
   scopes: ['openid', 'profile'],
   additionalParameters: {prompt: 'login'},
 };
 
-export const TOKEN_EXPIRY_TIME = 'token_expiry_time';
-export const USER_ID = 'USER_ID';
 export const AlertTitle = 'Info';
 
-const Login = ({navigation}) => {
+const Login = () => {
   const [animating, setAnimating] = useState(false);
+  const dispatch = useDispatch();
 
   const loginHandler = useCallback(async () => {
     try {
       setAnimating(true);
       const newAuthState = await authorize(config);
       await KeyChain.saveAccessToken(newAuthState.accessToken);
-      const decoded = jwt_decode(newAuthState.accessToken);
-      AsyncStorage.setItem(TOKEN_EXPIRY_TIME, JSON.stringify(decoded.exp));
-      AsyncStorage.setItem(USER_ID, decoded.sub);
-      setAnimating(false);
-
       const isPending = await Helper.checkForPendingMasterDataDownload();
-      if (isPending) {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_MASTER_DATA_DOWNLOAD}],
-        });
-      } else {
-        navigation.reset({
-          routes: [{name: Routes.ROUTE_DASHBOARD}],
-        });
-      }
+      dispatch(
+        authTokenActions.signIn({
+          userToken: newAuthState.accessToken,
+          screen: isPending ? ROUTE_MASTER_DATA_DOWNLOAD : ROUTE_DASHBOARD,
+        }),
+      );
+      const decoded = jwt_decode(newAuthState.accessToken);
+      AsyncStorage.setItem(
+        Constants.TOKEN_EXPIRY_TIME,
+        JSON.stringify(decoded.exp),
+      );
+      AsyncStorage.setItem(Constants.USER_ID, decoded.sub);
+      setAnimating(false);
     } catch (error) {
       setAnimating(false);
-      Alert.alert(Strings.info, error.message);
+      console.log(error);
+      Alert(Strings.info, error.message);
     }
-  }, [navigation]);
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,14 +76,12 @@ const Login = ({navigation}) => {
       </ImageBackground>
 
       <View style={styles.loginViewContainer}>
-        <View style={styles.supermanTextStyle}>
-          <Label
-            title={Strings.superman}
-            size={105}
-            textColor={theme.colors.primary}
-            type="semiBold"
-          />
-        </View>
+        <Label
+          title={Strings.superman}
+          size={80}
+          textColor={theme.colors.primary}
+          type="semiBold"
+        />
 
         <View style={styles.loginButtonContainer}>
           <Button

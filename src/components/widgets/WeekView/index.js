@@ -6,7 +6,8 @@ import styles from './styles';
 import theme from 'themes';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import {LocationIcon, ErrorIcon} from 'assets';
-import {Strings, Constants} from 'common';
+import {Strings} from 'common';
+import {getPartyTitle} from 'screens/tourPlan/helper';
 
 /**
  * @param {Object} patchData
@@ -15,12 +16,6 @@ import {Strings, Constants} from 'common';
 const getPatchName = patchData => {
   const {isExStation, displayName = ''} = patchData;
   return isExStation ? `(${Strings.exStation}) ${displayName}` : displayName;
-};
-
-//Defines prefix for party typa
-const PARTY_PREFIX = {
-  DOCTOR: 'Dr',
-  CHEMIST: 'Ch',
 };
 
 // max number of character for Days to show
@@ -51,39 +46,9 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
    */
   const getCellData = (data, column, row) =>
     data &&
+    data.length &&
     data.filter(item => item.week === column && item.weekDay === row)[0];
 
-  /**
-   *
-   * @param {Object} partyData
-   * @param {String} type
-   * @returns  count for specific party Type
-   */
-
-  const getPartyData = (partyData, type) =>
-    partyData?.filter(
-      item => item?.partyType.toLowerCase() === type.toLowerCase(),
-    )[0]?.count;
-
-  /**
-   *
-   * @param {Object} parties
-   * @returns  party Name with respectpective suffix
-   */
-  const getPartyTitle = parties => {
-    const drCount = getPartyData(parties, Constants.PARTY_TYPE.DOCTOR);
-    const ChemistCount = getPartyData(parties, Constants.PARTY_TYPE.CHEMIST);
-
-    if (drCount && !ChemistCount) {
-      return `${drCount} ${PARTY_PREFIX.DOCTOR} `;
-    } else if (!drCount && ChemistCount) {
-      return `${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
-    } else if (drCount && ChemistCount) {
-      return `${drCount}  ${PARTY_PREFIX.DOCTOR}, ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
-    } else {
-      return null;
-    }
-  };
   /**
    * Renders data of each cell
    * @param {cellData} represnt cell info
@@ -92,7 +57,13 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
     if (!cellData) {
       return;
     }
-    const {parties, noOfKyc, patch, isCompliant} = cellData;
+    const {
+      parties,
+      noOfKyc,
+      patch,
+      isCompliant,
+      noOfCampaign = null,
+    } = cellData;
 
     return (
       <View style={styles.cellDataContainer}>
@@ -104,13 +75,20 @@ const WeekView = ({workingDays, columnHeader, onPressHandler, weekData}) => {
             />
             {!isCompliant && <ErrorIcon width={20} height={20} />}
           </View>
-
-          {noOfKyc ? (
-            <DoctorTag
-              division={DivisionType.KYC}
-              title={`${noOfKyc} ${DivisionType.KYC}`}
-            />
-          ) : null}
+          <View style={styles.divisionContainer}>
+            {noOfCampaign ? (
+              <DoctorTag
+                division={DivisionType.CAMPAIGN}
+                title={`${noOfCampaign} ${DivisionType.CAMPAIGN}`}
+              />
+            ) : null}
+            {noOfKyc ? (
+              <DoctorTag
+                division={DivisionType.KYC}
+                title={`${noOfKyc} ${DivisionType.KYC}`}
+              />
+            ) : null}
+          </View>
         </View>
 
         <View style={[styles.cellFooter]}>

@@ -6,6 +6,13 @@ import {sha512} from 'react-native-sha512';
 
 import {KeyChain} from 'helper';
 import {getDBInstance} from 'database';
+import {
+  generateUUID,
+  deleteExistingRecord,
+  deleteDBObject,
+  modifyDBObject,
+  createSinglePartyMasterRecord,
+} from './common';
 
 let realm = null;
 
@@ -53,12 +60,18 @@ export const getRecord = async (schema, recordId) => {
     console.log('getRecord', error);
   }
 };
-export const updateRecord = async (schema, updatedvalue, idToUpdate) => {
+export const updateRecord = async (
+  schema,
+  updatedvalue,
+  idToUpdate,
+  lastSync = new Date(),
+) => {
   await openSchema();
   try {
     await realm.write(() => {
       let recordToUpdate = realm.objectForPrimaryKey(schema.name, idToUpdate);
       recordToUpdate.status = updatedvalue;
+      recordToUpdate.lastSync = lastSync;
     });
   } catch (error) {
     console.log('updateRecord', error);
@@ -91,7 +104,7 @@ export const createUserInfoRecord = async (schema, data) => {
         {
           id: data.id,
           firstName: data.firstName,
-          middleName: data.middleName,
+          middleName: `${data.middleName}`,
           lastName: data.lastName,
           userName: data.userName,
           ssoUserId: data.ssoUserId,
@@ -109,6 +122,10 @@ export const createUserInfoRecord = async (schema, data) => {
   }
 };
 
+let lastSyncRecordTime = new Date();
+let d2 = new Date(lastSyncRecordTime);
+d2.setMinutes(lastSyncRecordTime.getMinutes() + 10);
+
 export const createPartyMasterRecord = async (schema, data) => {
   try {
     await openSchema();
@@ -118,8 +135,9 @@ export const createPartyMasterRecord = async (schema, data) => {
       partyTypes,
       partyTypeGroup,
       engagement;
+    //await insertPartyTableData(schema, -1);
     await realm.write(() => {
-      data.forEach(object => {
+      data.forEach((object, index) => {
         partyTypeGroup = realm.create(
           schema[4].name,
           object.partyTypes?.partyTypeGroup,
@@ -131,19 +149,38 @@ export const createPartyMasterRecord = async (schema, data) => {
           'modified',
         );
 
+        let syncErrorDetailsObject = {
+          conflictType: 'null',
+          errorMessage: 'null',
+        };
+        let syncParametersObject = {
+          devicePartyId: null,
+          isActive: true,
+          requireSync: false,
+          lastModifiedOn: new Date(),
+          isDeleted: false,
+          errorInSync: false,
+          syncErrorDetails: syncErrorDetailsObject,
+        };
+
         let partyMaster = realm.create(
           schema[0].name,
           {
             id: object.id,
+            shortName: object.shortName,
             name: object.name,
             qualification: object.qualification,
             frequency: object.frequency,
             category: object.category,
+            gender: object.gender,
             potential: object.potential,
             isKyc: object.isKyc,
+            syncParameters:
+              object.syncParameters != null
+                ? object.syncParameters
+                : syncParametersObject,
             partyTypes: partyTypes,
             alreadyVisited: object.alreadyVisited,
-            shortName: object.shortName,
             birthday: object.birthday,
             anniversary: object.anniversary,
             selfDispensing: object.selfDispensing,
@@ -180,8 +217,142 @@ export const closeDB = () => {
   }
 };
 
+export async function insertPartyTableData(schema, id) {
+  let object = dummyPartyData;
+  let specialization,
+    area,
+    qualification,
+    partyTypes,
+    partyTypeGroup,
+    engagement;
+  await realm.write(() => {
+    partyTypeGroup = realm.create(
+      schema[4].name,
+      object.partyTypes?.partyTypeGroup,
+      'modified',
+    );
+    partyTypes = realm.create(
+      schema[5].name,
+      {...object.partyTypes, ...partyTypeGroup},
+      'modified',
+    );
+
+    let syncErrorDetailsObject = {
+      conflictType: 'null',
+      errorMessage: 'null',
+    };
+    let syncParametersObject = {
+      devicePartyId: generateUUID(),
+      isActive: true,
+      requireSync: true,
+      lastModifiedOn: d2,
+      isDeleted: false,
+      errorInSync: false,
+      syncErrorDetails: syncErrorDetailsObject,
+    };
+
+    let partyMaster = realm.create(
+      schema[0].name,
+      {
+        id: object.id,
+        partyTypeId: object.partyTypeId,
+        shortName: 'DOC',
+        name: object.name,
+        qualification: object.qualification,
+        frequency: object.frequency,
+        category: object.category,
+        potential: object.potential,
+        isKyc: object.isKyc,
+        syncParameters: syncParametersObject,
+        partyTypes: partyTypes,
+        alreadyVisited: object.alreadyVisited,
+        birthday: object.birthday,
+        anniversary: object.anniversary,
+        selfDispensing: object.selfDispensing,
+      },
+      'modified',
+    );
+
+    object.specialities.forEach(obj => {
+      specialization = realm.create(schema[1].name, obj, 'modified');
+      partyMaster.specialities.push(specialization);
+    });
+    object.areas.forEach(obj => {
+      area = realm.create(schema[2].name, obj, 'modified');
+      partyMaster.areas.push(area);
+    });
+    object.qualifications.forEach(obj => {
+      qualification = realm.create(schema[3].name, obj, 'modified');
+      partyMaster.qualifications.push(qualification);
+    });
+    return;
+  });
+}
+
+let dummyPartyData = {
+  syncParameters: {
+    devicePartyId: generateUUID(),
+    isActive: true,
+    requireSync: true,
+    lastModifiedOn: d2,
+    isDeleted: false,
+    errorInSync: false,
+    syncErrorDetails: {
+      conflictType: 'null',
+      errorMessage: 'null',
+    },
+  },
+  id: -1,
+  name: 'AshiMa KUMAR',
+  specialities: [],
+  qualifications: [],
+  frequency: 2,
+  alreadyVisited: 0,
+  partyTypes: {
+    id: 1,
+    name: 'Doctor',
+    shortName: 'Che',
+    partyTypeGroup: {
+      id: 2,
+      name: 'Chemist',
+      shortName: 'Chemist',
+    },
+  },
+  category: 'B',
+  potential: 600000,
+  isKyc: false,
+  areas: [
+    {
+      id: 9,
+      name: 'Noida Sector 8',
+      shortName: 'sec8',
+    },
+    {
+      id: 10,
+      name: 'Noida Sector 9',
+      shortName: 'sec9',
+    },
+  ],
+  shortName: 'null',
+  birthday: null,
+  anniversary: null,
+  engagement: null,
+  selfDispensing: false,
+  staffPositionId: 1,
+  partyTypeId: 1,
+};
 export {default as qualificationOperations} from './qualificationOperations';
+export {default as monthlyPlanOperations} from './MonthlyPlanOperations';
+export {
+  generateUUID,
+  deleteExistingRecord,
+  deleteDBObject,
+  modifyDBObject,
+  createSinglePartyMasterRecord,
+};
+export {default as partyCategoryOperations} from './partyCategoryOperations';
 export {default as organizationOperations} from './organizationOperations';
 export {default as divisionOperations} from './divisionOperations';
 export {default as specialityOperations} from './specialityOperations';
 export {default as motherBrandOperations} from './motherBrandOperations';
+export {default as weeklyoffOperations} from './weeklyoffOperation';

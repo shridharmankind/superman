@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {View, TouchableOpacity, TouchableHighlight} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from '../styles';
 import {Strings} from 'common';
-import {Label, DoctorDetails} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
+import {DailyPlanParties} from 'components/widgets';
 import {deletePartyCreator, doctorDetailActions} from '../redux';
-import {useDispatch} from 'react-redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 import {CloseIcon} from 'assets';
 import {getFormatDate} from 'utils/dateTimeHelper';
+import {appSelector} from 'selectors';
+import {translate} from 'locale';
 
 /**
  * render list of doctors
@@ -21,6 +24,7 @@ import {getFormatDate} from 'utils/dateTimeHelper';
 const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const {colors} = useTheme();
   const dispatch = useDispatch();
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const [isDeleteOperationInProgress, setIsDeleteOperationInProgress] =
     useState(false);
 
@@ -56,7 +60,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     setIsDeleteOperationInProgress(true);
     dispatch(
       doctorDetailActions.tempStoreRemovedDoctor({
-        staffPositionid: 1,
+        staffPositionid: staffPositionId,
         day: parseInt(getFormatDate({format: 'D'}), 10),
         month: parseInt(getFormatDate({format: 'M'}), 10),
         year: parseInt(getFormatDate({format: 'YYYY'}), 10),
@@ -87,7 +91,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         if (!undoclicked) {
           dispatch(
             deletePartyCreator({
-              staffPositionid: 1,
+              staffPositionid: staffPositionId,
               day: parseInt(getFormatDate({format: 'D'}), 10),
               month: parseInt(getFormatDate({format: 'M'}), 10),
               year: parseInt(getFormatDate({format: 'YYYY'}), 10),
@@ -97,6 +101,41 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
         }
       },
     });
+  };
+
+  /**
+   * Render UI for completed visits
+   */
+  const renderCompletedVisits = () => {
+    return dayPlanData?.completedVisits.map((data, index) => (
+      <View style={styles.doctorDetailWrapper}>
+        <View key={index} style={styles.doctorDetailContainer}>
+          <DailyPlanParties
+            title={data.name}
+            specialization={data.specialities}
+            isKyc={data.isKyc}
+            isCampaign={data.isCampaign}
+            gender={data.gender}
+            category={data.category}
+            location={data.areas}
+            partyType={data?.partyTypes?.name}
+            customStyle={doctorDetailStyleObject}
+            showFrequencyChiclet={false}
+            showVisitPlan={true}
+            visitData={data.visits}
+            showTile={true}
+            showCompletedTitle={true}
+            showAdhocTitle={false}
+            onTileNamePress={() => {
+              onTileNamePress(data);
+            }}
+            onTilePress={() => {
+              onTilePress(data);
+            }}
+          />
+        </View>
+      </View>
+    ));
   };
 
   /**
@@ -131,19 +170,22 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
           underlayColor={colors.transparent}>
           <View style={styles.doctorDetailWrapper}>
             <View key={data.item.key} style={styles.doctorDetailContainer}>
-              <DoctorDetails
+              <DailyPlanParties
                 title={data.item.name}
                 specialization={data.item.specialities}
                 isKyc={data.item.isKyc}
+                isCampaign={data.item.isCampaign}
                 gender={data.item.gender}
                 category={data.item.category}
-                location={data.item.location}
+                location={data.item.areas}
                 partyType={data?.item?.partyTypes?.name}
                 customStyle={doctorDetailStyleObject}
                 showFrequencyChiclet={false}
                 showVisitPlan={true}
-                visitData={data.item.visitData}
+                visitData={data.item.visits}
                 showTile={true}
+                showCompletedTitle={false}
+                showAdhocTitle={true}
                 onTileNamePress={() => {
                   onTileNamePress(data.item);
                 }}
@@ -158,11 +200,22 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
     );
   };
   return (
-    <SwipeListView
-      data={dayPlanData}
-      renderItem={renderItem}
-      stopLeftSwipe={isDeleteOperationInProgress}
-    />
+    <>
+      <SwipeListView
+        data={dayPlanData.toDoVisits}
+        renderItem={renderItem}
+        stopLeftSwipe={isDeleteOperationInProgress}
+      />
+
+      <Label
+        variant={LabelVariant.h6}
+        style={styles.visitCompleted}
+        title={translate('tourPlan.monthly.visitCompleted')}
+        type={'regular'}
+      />
+
+      {renderCompletedVisits()}
+    </>
   );
 };
 

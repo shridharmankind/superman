@@ -10,6 +10,7 @@ export const standardTourPlan = {
   patches: [],
   partyByPatchID: null,
   stpData: [],
+  updatedPartyArray: [],
 };
 
 // Action Creator and type for STP Update
@@ -40,6 +41,20 @@ export const fetchPartiesByPatchIdCreatorType =
 export const savePatchCreator = createAction('SAVE_PATCH_CREATOR');
 export const savePatchCreatorType = savePatchCreator().type;
 
+const getUpdatedData = (data, partiesList = []) => {
+  let newList = [];
+  partiesList.map(item => {
+    if (item.id === data.id) {
+      newList.push({
+        ...item,
+        alreadyVisitedCount: data.alreadyVisitedCount,
+      });
+    } else {
+      newList.push(item);
+    }
+  });
+  return newList;
+};
 /**
  *  create subordinate slice defining the intial state, reducers
  */
@@ -48,7 +63,13 @@ export const getStandardPlanSlice = createSlice({
   initialState: standardTourPlan,
   reducers: {
     getParties: (state, action) => {
-      return merge(state, action.payload);
+      return {
+        ...state,
+        parties: action.payload.parties,
+        updatedPartyArray: action.payload.parties.map(item => {
+          return {...item, alreadyVisitedCount: item.alreadyVisited};
+        }),
+      };
     },
     getAreas: (state, action) => {
       return merge(state, action.payload);
@@ -84,6 +105,7 @@ export const getStandardPlanSlice = createSlice({
       return {
         ...state,
         parties: [],
+        updatedPartyArray: [],
         savePatch: null,
         patches: [],
         partyByPatchID: null,
@@ -92,7 +114,16 @@ export const getStandardPlanSlice = createSlice({
     STPCalendarUpdate: (state, action) => {
       return {
         ...state,
-        stpData: action.payload.stpData, //TO DO :: update on responsenfromm API
+        stpData: action.payload.stpData,
+      };
+    },
+    updatePartyAreasOnSelection: (state, action) => {
+      return {
+        ...state,
+        updatedPartyArray: getUpdatedData(
+          action.payload,
+          state.updatedPartyArray,
+        ),
       };
     },
   },
