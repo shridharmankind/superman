@@ -98,7 +98,6 @@ const MonthlyTourPlan = ({navigation}) => {
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
 
-console.log('mtpDataSelectormtpDataSelectormtpDataSelector',mtpDataSelector)
 
   useEffect(() => {
     dispatch(
