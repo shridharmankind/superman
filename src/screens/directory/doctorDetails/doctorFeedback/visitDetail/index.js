@@ -18,16 +18,12 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
 
   // TO DO
   // useEffect(() => {
-  //   if (typeOfVisit === 'joint') {
-  //     if (visitors.length > 0) {
-  //       disSwipeGesture(false);
-  //     } else {
-  //       disSwipeGesture(true);
-  //     }
-  //   } else {
+  //   if (visitors.length >= 1) {
   //     disSwipeGesture(false);
+  //   } else {
+  //     disSwipeGesture(true);
   //   }
-  // }, [typeOfVisit, visitors]);
+  // }, [disSwipeGesture, visitors]);
 
   const updateVisit = visitType => {
     updateVisitType(visitType);
@@ -165,7 +161,7 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
                         <View style={styles.heading}>
                           <Label
                             variant={LabelVariant.subtitleLarge}
-                            title={senior.name}
+                            title={`${senior.firstName} ${senior.lastName}`}
                           />
                           <Label
                             variant={LabelVariant.subtitleLarge}

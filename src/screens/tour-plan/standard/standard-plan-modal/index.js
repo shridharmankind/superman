@@ -60,6 +60,7 @@ const StandardPlanModal = ({
   weekDay,
   year,
   workingDays,
+  indexChanged,
 }) => {
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
@@ -174,6 +175,13 @@ const StandardPlanModal = ({
       resetandChangePage,
     ],
   );
+
+  useEffect(() => {
+    if (indexChanged) {
+      handleIndex(indexChanged);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [indexChanged]);
 
   /**
    * function to reset data
@@ -1117,8 +1125,10 @@ const StandardPlanModal = ({
   }
 
   return (
-    <View onStartShouldSetResponder={evt => handleDropDownRef(evt)}>
-      <ScrollView style={[styles.containerStyle, {height}]}>
+    <View
+      style={styles.containerStyle}
+      onStartShouldSetResponder={evt => handleDropDownRef(evt)}>
+      <ScrollView>
         <View style={styles.modalHeader}>
           <View>
             <Label title={Strings.selectDoctorAndChemist} size={18.7} />
