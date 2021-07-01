@@ -9,7 +9,17 @@
         "reviewDCR": "Review DCR"
       },
       "submittedOn": "Submitted on",
-      "MTPDueOn": "Due in {{X}} days"
+      "MTPDueOn": "Due in {{X}} days",
+      "adhocCalls": "Adhoc calls: {{data}}",
+      "visitCompleted": "Visit Completed"
+    },
+    "daily": {
+      "youHave": "You have",
+      "and": "and",
+      "visits": "visits",
+      "today": "Today",
+      "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
+      "completed": "Completed"
     }
   },
   "missedVisit": "Missed Visit!",
@@ -33,6 +43,7 @@
     "partyAdded": "Party added successfully"
   },
   "dr": "Doctor",
+  "ch": "Chemist",
   "minimum": "minimum",
   "maximum": "maximum",
   "doctorVisitsPerDay": "doctor visits per day",
@@ -73,6 +84,8 @@
   "error": {
     "genericMsg": "Something doesn't seem right, please try restarting the application."
   },
+  "proceed": "Proceed",
+  "missedCalls": "Missed Calls",
   "dayType": {
     "leave": "Leave"
   }

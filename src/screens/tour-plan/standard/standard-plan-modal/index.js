@@ -80,9 +80,10 @@ const StandardPlanModal = ({
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [hideDropDown, setHideDropDown] = useState(false);
+  const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
+  const [gapRuleWarningCode, setGapRuleWarningCode] = useState(null);
   const weekNum = Number(week);
   const dropDownRef = useRef(null);
-  const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const weekDayCount = workingDays.indexOf(weekDay) + 1;
   const selectedDayNumber = (weekNum - 1) * workingDays?.length + weekDayCount;
@@ -123,27 +124,24 @@ const StandardPlanModal = ({
   /**
    * To render error when min Gap rule is not met
    */
-  const showGapRulesErrror = useCallback(
-    code => {
-      dispatchGapRule(code);
-      showToast({
-        type: Constants.TOAST_TYPES.ALERT,
-        autoHide: true,
-        defaultVisibilityTime: 1000,
-        props: {
-          onClose: () => {
-            hideToast();
-            dispatchGapRule(null);
-          },
-          heading: translate('errorMessage.gapRule'),
+  const showGapRulesErrror = useCallback(code => {
+    setGapRuleWarningCode(code);
+    showToast({
+      type: Constants.TOAST_TYPES.ALERT,
+      autoHide: true,
+      defaultVisibilityTime: 1000,
+      props: {
+        onClose: () => {
+          hideToast();
+          setGapRuleWarningCode(null);
         },
-        onHide: () => {
-          dispatchGapRule(null);
-        },
-      });
-    },
-    [dispatchGapRule],
-  );
+        heading: translate('errorMessage.gapRule'),
+      },
+      onHide: () => {
+        setGapRuleWarningCode(null);
+      },
+    });
+  }, []);
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
@@ -275,13 +273,9 @@ const StandardPlanModal = ({
     }
   }, [getSelectedArea, allPartiesByPatchID, allParties]);
 
-  const dispatchGapRule = useCallback(
-    code => {
-      dispatch(planComplianceActions.setGapRuleErrorCode(code));
-    },
-    [dispatch],
-  );
-
+  useEffect(() => {
+    dispatch(planComplianceActions.setGapRuleErrorCode(gapRuleWarningCode));
+  }, [dispatch, gapRuleWarningCode]);
   /**mehtod to load the initial state of daily plan */
   const loadData = useCallback(async () => {
     await dispatch(
