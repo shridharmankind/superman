@@ -54,7 +54,7 @@ const recordNotExist = async (
   operationObject,
 ) => {
   try {
-    if (existingRecord === undefined || existingRecord == null) {
+    if (!existingRecord) {
       //Check if server sends its deleting confirmation on server DB side
       if (object.syncParameters != null && object.syncParameters.isDeleted) {
         return Constants.SUCCESS;

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingLeft: theme.spacing(57.3),
     paddingTop: theme.spacing(30),
     paddingBottom: theme.spacing(13.3),
-    shadowColor: '#000',
+    shadowColor: theme.colors.grey[200],
     shadowOpacity: 0.1,
     elevation: 1,
     alignItems: 'center',
