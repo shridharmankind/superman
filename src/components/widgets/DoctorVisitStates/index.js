@@ -25,7 +25,10 @@ const DoctorVisitStates = ({
       testID={testID}
       style={[
         styles.container,
-        visitState && styles[DOCTOR_VISIT_STATES[visitState].toLowerCase()],
+        visitState &&
+          styles[
+            DOCTOR_VISIT_STATES[(visitState || '').toUpperCase()].toLowerCase()
+          ],
       ]}>
       <View style={styles.visitContainer}>
         <Label

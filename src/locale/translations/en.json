@@ -9,7 +9,17 @@
         "reviewDCR": "Review DCR"
       },
       "submittedOn": "Submitted on",
-      "MTPDueOn": "Due in {{X}} days"
+      "MTPDueOn": "Due in {{X}} days",
+      "adhocCalls": "Adhoc calls: {{data}}",
+      "visitCompleted": "Visit Completed"
+    },
+    "daily": {
+      "youHave": "You have",
+      "and": "and",
+      "visits": "visits",
+      "today": "Today",
+      "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
+      "completed": "Completed"
     }
   },
   "missedVisit": "Missed Visit!",
@@ -33,6 +43,7 @@
     "partyAdded": "Party added successfully"
   },
   "dr": "Doctor",
+  "ch": "Chemist",
   "minimum": "minimum",
   "maximum": "maximum",
   "doctorVisitsPerDay": "doctor visits per day",
@@ -61,12 +72,44 @@
   "region": "Region",
   "categories": {
     "kyc": "KYC",
-    "campaign": "Campaign"
+    "campaign": "Campaign",
+    "count": {
+      "kyc": "{{value}} Kyc",
+      "campaign": "{{value}} Campaign"
+    }
   },
   "responseStatus": {
     "error": "ERROR"
   },
+  "backgroundTask": {
+    "lastSync": "Last Synced:",
+    "syncNow": "Sync Now",
+    "syncConflict": "Sync Conflicts",
+    "lastModifiedTime": "Last Modified On",
+    "conflictMessage": "Conflict Message",
+    "errorMessage": "Error Message",
+    "useDevice": "Use Device",
+    "useServer": "Use Server",
+    "toastBtns": {
+      "message": "Sync Status",
+      "viewSummary": "View Summary",
+      "syncInitiatedMessage": "Sync request has been initiated.",
+      "successMessage": "Requested sync has been completed successfully.",
+      "conflictMessage": "ync activity was completed with a conflict.",
+      "failureMessage": "Sync activity could not be completed.",
+      "alreadRunningMessage": "Sync activity is already in progress."
+    }
+  },
   "error": {
     "genericMsg": "Something doesn't seem right, please try restarting the application."
+  },
+  "proceed": "Proceed",
+  "missedCalls": "Missed Calls",
+  "dayType": {
+    "leave": "Leave"
+  },
+  "eDetailing": {
+    "modalTitle": "Select Sub-brands",
+    "done": "Done"
   }
 }

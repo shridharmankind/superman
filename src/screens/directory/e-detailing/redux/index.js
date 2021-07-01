@@ -10,4 +10,6 @@ export {
   fetchDetailingOtherProductCreator,
   ePriorityProductReducer,
   eOtherProductReducer,
+  ePriorityProductActions,
+  eOtherProductActions,
 } from './eDetailingSlice';

@@ -39,6 +39,7 @@ module.exports = override(
         'screens/tourPlan': './src/screens/tour-plan',
         'screens/home': './src/screens/home',
         'screens/directory': './src/screens/directory',
+        'screens/settings': './src/screens/settings',
         screens: './src/screens',
         navigations: './src/navigations',
         services: './src/services',

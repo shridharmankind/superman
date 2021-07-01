@@ -159,6 +159,12 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing(10),
     fontFamily: theme.fonts.fontBold,
   },
+  visitCompleted: {
+    paddingTop: theme.spacing(16),
+    paddingBottom: theme.spacing(8),
+    fontSize: 14,
+    color: theme.colors.black,
+  },
 });
 
 export default styles;
