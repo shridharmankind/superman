@@ -16,7 +16,7 @@ import {
   Organizations,
   Schemas,
   Divisions,
-  Motherbrands,
+  MotherBrands,
   Qualifications,
   Specialities,
 } from 'database';
@@ -131,7 +131,7 @@ const MasterDataDownload = ({navigation}) => {
             case DBConstants.MASTER_TABLE_DIVISION:
               response = await NetworkService.get(item.apiPath);
               break;
-            case DBConstants.MASTER_TABLE_MOTHERBRAND:
+            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
               response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.QUALIFICATIONS:
@@ -166,10 +166,10 @@ const MasterDataDownload = ({navigation}) => {
                 );
                 divisionsUpdated && updateRecordDownloaded(item.name);
                 break;
-              case DBConstants.MASTER_TABLE_MOTHERBRAND:
-                const updatedmotherbrands =
-                  await Motherbrands.storeMotherBrands(JSON.parse(data));
-                updatedmotherbrands && updateRecordDownloaded(item.name);
+              case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+                const updatedMotherBrands =
+                  await MotherBrands.storeMotherBrands(JSON.parse(data));
+                updatedMotherBrands && updateRecordDownloaded(item.name);
                 break;
               case DBConstants.MASTER_TABLE_ORGANIZATION:
                 const organizationsUpdated =

@@ -1,4 +1,4 @@
-import {MotherbrandsSchemaName} from '../schemas/Motherbrands';
+import {MotherBrandsSchemaName} from '../schemas/MotherBrands';
 import {getAllTableRecords} from './common';
 import * as Constants from '../constants';
 
@@ -28,7 +28,7 @@ export default dbInstance => ({
             'modified',
           );
           dbInstance.create(
-            MotherbrandsSchemaName,
+            MotherBrandsSchemaName,
             {
               id,
               name,
@@ -49,11 +49,11 @@ export default dbInstance => ({
   },
 
   getAllMotherBrands: async () => {
-    return await getAllTableRecords(MotherbrandsSchemaName);
+    return await getAllTableRecords(MotherBrandsSchemaName);
   },
 
   getMotherBrandById: async motherBrandId => {
-    const motherBrands = await getAllTableRecords(MotherbrandsSchemaName);
+    const motherBrands = await getAllTableRecords(MotherBrandsSchemaName);
     return motherBrands.filtered(`id = ${motherBrandId}`);
   },
 });

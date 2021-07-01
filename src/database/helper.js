@@ -2,7 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
-import {MotherbrandsSchemaName} from './schemas/Motherbrands';
+import {MotherBrandsSchemaName} from './schemas/MotherBrands';
 
 import {NetworkService} from 'services';
 
@@ -42,8 +42,8 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: NetworkService.API.FETCH_SPECIALITIES,
   },
   {
-    name: MotherbrandsSchemaName,
-    apiPath: Constants.MASTER_TABLE_MOTHERBRAND_API_PATH,
+    name: MotherBrandsSchemaName,
+    apiPath: Constants.MASTER_TABLE_MOTHER_BRAND_API_PATH,
   },
 ];
 

@@ -1,8 +1,8 @@
-export const MoleculeName = 'Molecule';
+export const MoleculeSchemaName = 'Molecule';
 export default class MoleculeSchema {
   static schema = {
-    name: MoleculeName,
+    name: MoleculeSchemaName,
     primaryKey: 'id',
-    properties: {id: 'int', name: 'string', shortName: 'string'},
+    properties: {id: 'int', name: 'string?', shortName: 'string?'},
   };
 }

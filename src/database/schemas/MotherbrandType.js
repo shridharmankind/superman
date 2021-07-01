@@ -1,8 +1,8 @@
-export const MotherbrandType = 'MotherbrandType';
-export default class MotherbrandTypeSchema {
+export const MotherBrandSchemaName = 'MotherBrandType';
+export default class MotherBrandTypeSchema {
   static schema = {
-    name: MotherbrandType,
+    name: MotherBrandSchemaName,
     primaryKey: 'id',
-    properties: {id: 'int', name: 'string', shortName: 'string'},
+    properties: {id: 'int', name: 'string?', shortName: 'string?'},
   };
 }
