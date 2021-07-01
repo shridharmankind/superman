@@ -12,7 +12,7 @@ import {isWeb} from 'helper';
 import theme from 'themes';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
-import {showToast, hideToast} from 'components/widgets/Toast';
+import {showToast} from 'components/widgets/Toast';
 import {
   fetchDetailingPriorityProductCreator,
   fetchDetailingOtherProductCreator,
@@ -21,6 +21,7 @@ import {
   eOtherProductActions,
 } from './redux';
 import {Product} from 'components/widgets';
+import {translate} from 'locale';
 
 /**
  * Render header
@@ -122,6 +123,11 @@ const EDetailing = ({navigation, route}) => {
 
   const otherProductList = useSelector(eDetailingSelector.getOtherProduct());
 
+  /**
+   * find selected for prority products
+   *
+   * @param {Object} prod
+   */
   const findPrioritySelected = prod => {
     const prodSKUs = {};
     const prodSubs = {};
@@ -139,6 +145,11 @@ const EDetailing = ({navigation, route}) => {
     setSelectedSubBrands(prodSubs);
   };
 
+  /**
+   * Find others selected
+   *
+   * @param {Object} prod
+   */
   const findOtherSelected = prod => {
     const prodSKUs = {};
     const prodSubs = {};
@@ -156,6 +167,13 @@ const EDetailing = ({navigation, route}) => {
     setSelectedSubBrands(prodSubs);
   };
 
+  /**
+   * Render priority products
+   *
+   * @param {Object} item
+   * @param {number} index
+   * @return {JSX} Product
+   */
   const renderSwape = (item, index) => {
     return (
       <View style={styles.swapMain} key={item.motherBrandId}>
@@ -175,6 +193,13 @@ const EDetailing = ({navigation, route}) => {
     );
   };
 
+  /**
+   * render other product
+   *
+   * @param {Object} dataItem
+   * @param {number} index
+   * @return {JSX} Other product
+   */
   const renderOtherSwape = (dataItem, index) => {
     return (
       <View style={styles.swapMain} key={dataItem.motherBrandId}>
@@ -196,6 +221,10 @@ const EDetailing = ({navigation, route}) => {
     );
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleAreaRightArrow = () => {
     swiperRef.current.scrollToOffset({
       offset: scrollOffset + 150,
@@ -204,6 +233,10 @@ const EDetailing = ({navigation, route}) => {
     setScrollOffset(scrollOffset + 100);
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleOtherAreaRightArrow = () => {
     swiperOtherRef.current.scrollToOffset({
       offset: scrollOtherOffset + 150,
@@ -212,6 +245,10 @@ const EDetailing = ({navigation, route}) => {
     setScrollOtherOffset(scrollOtherOffset + 100);
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleOtherAreaLeftArrow = () => {
     swiperOtherRef.current.scrollToOffset({
       offset: scrollOtherOffset + 150,
@@ -220,6 +257,10 @@ const EDetailing = ({navigation, route}) => {
     setScrollOtherOffset(scrollOtherOffset - 100);
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleAreaLeftArrow = () => {
     swiperRef.current.scrollToOffset({
       offset: scrollOffset + 150,
@@ -227,6 +268,7 @@ const EDetailing = ({navigation, route}) => {
     });
     setScrollOffset(scrollOffset - 100);
   };
+
   /**function to return renderAreas() with scollable View
    * @param {String} icon name of icon to use
    */
@@ -234,6 +276,12 @@ const EDetailing = ({navigation, route}) => {
     <Icon name={icon} size={10} color={theme.colors.blue} />
   );
 
+  /**
+   * Get if item is checked
+   *
+   * @param {Object} item
+   * @return {Boolean} isChecked
+   */
   const getChecked = item => {
     if (item.skuId > 0) {
       return selectedSKUs[item.skuId] || false;
@@ -242,6 +290,11 @@ const EDetailing = ({navigation, route}) => {
     }
   };
 
+  /**
+   * Perform selection
+   *
+   * @param {Object} item
+   */
   const performSelection = item => {
     if (item.skuId > 0) {
       setSelectedSKUs(old => {
@@ -258,6 +311,11 @@ const EDetailing = ({navigation, route}) => {
     }
   };
 
+  /**
+   * Get modal content
+   *
+   * @return {JSX} Modal content
+   */
   const getModalContent = () => {
     return (
       <View style={[styles.subBrandList]}>
@@ -276,12 +334,21 @@ const EDetailing = ({navigation, route}) => {
     );
   };
 
+  /**
+   * Close modal
+   *
+   */
   const closeModal = () => {
     setShowModal(false);
     setCurrentProduct(null);
     setIsPriority(null);
   };
 
+  /**
+   * Get modal title
+   *
+   * @return {JSX} modal title
+   */
   const getModalTitle = () => {
     return (
       <View style={styles.modalTitle}>
@@ -296,12 +363,12 @@ const EDetailing = ({navigation, route}) => {
         <Label
           testID="eDetail-modal-title"
           variant={LabelVariant.h2}
-          title="Select Sub-brands"
+          title={translate('eDetailing.modalTitle')}
         />
         <View style={[styles.modalTitleDone]}>
           <Button
             testID="eDetail-done"
-            title="Done"
+            title={translate('eDetailing.done')}
             mode="contained"
             contentStyle={styles.eDetailingStartContent}
             labelStyle={styles.eDetailingStartText}
@@ -313,6 +380,11 @@ const EDetailing = ({navigation, route}) => {
     );
   };
 
+  /**
+   * Render modal
+   *
+   * @return {JSX} Modal
+   */
   const renderModal = () => {
     return (
       <Modal
@@ -328,6 +400,11 @@ const EDetailing = ({navigation, route}) => {
     );
   };
 
+  /**
+   * Check if sub brand and SKU selection is valid
+   *
+   * @return {*}
+   */
   const isInvalid = () => {
     if (isPriority && currentProduct.isFeatured) {
       const SKUs = Object.keys(selectedSKUs);
@@ -339,6 +416,10 @@ const EDetailing = ({navigation, route}) => {
     return false;
   };
 
+  /**
+   * Make selction
+   *
+   */
   const makeSelection = () => {
     if (isInvalid()) {
       return;

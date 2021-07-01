@@ -7,7 +7,7 @@ import {
   eOtherProductActions,
 } from './eDetailingSlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
-import {API_PATH} from 'screens/directory/apiPath';
+import API_PATHS from 'services/network/apiPaths';
 
 // Watcher function for priority Product
 export function* fetchEDetailingPriorityProductWatcher() {
@@ -22,7 +22,7 @@ function* fetchEPriorityProductHandler(action) {
   const {staffPositionID, partyId, skip, limit} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    const apiUrl = `${API_PATH.GET_EDETAILING_PRODUCT}?StaffPositionId=${staffPositionID}&IsPriority=true&PartyId=${partyId}&IncludeDiscussedList=true&Skip=${skip}&Limit=${limit}`;
+    const apiUrl = `${API_PATHS.GET_EDETAILING_PRODUCT}?StaffPositionId=${staffPositionID}&IsPriority=true&PartyId=${partyId}&IncludeDiscussedList=true&Skip=${skip}&Limit=${limit}`;
     const response = yield call(NetworkService.get, apiUrl);
     yield put(
       ePriorityProductActions.getDetailingPriorityProduct({
@@ -51,7 +51,7 @@ function* fetchEOtherProductHandler(action) {
   const {staffPositionID, partyId, skip, limit} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    const apiUrl = `${API_PATH.GET_EDETAILING_PRODUCT}?StaffPositionId=${staffPositionID}&IncludeDiscussedList=true&IsPriority=false&PartyId=${partyId}&Skip=${skip}&Limit=${limit}`;
+    const apiUrl = `${API_PATHS.GET_EDETAILING_PRODUCT}?StaffPositionId=${staffPositionID}&IncludeDiscussedList=true&IsPriority=false&PartyId=${partyId}&Skip=${skip}&Limit=${limit}`;
     const response = yield call(NetworkService.get, apiUrl);
     yield put(
       eOtherProductActions.getDetailingOtherProduct({

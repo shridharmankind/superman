@@ -55,5 +55,9 @@
   },
   "responseStatus": {
     "error": "ERROR"
+  },
+  "eDetailing": {
+    "modalTitle": "Select Sub-brands",
+    "done": "Done"
   }
 }

@@ -4,64 +4,63 @@ import {createSelector} from '@reduxjs/toolkit';
  * selector function to retrieve data from redux store
  **/
 
-const ePriorityProduct = state =>
-  state.ePriorityProductList.detailingPriorityProduct;
-const ePriorityCount = state => state.ePriorityProductList.totalCount;
-const ePriorityDiscussedList = state =>
-  state.ePriorityProductList.discussedBrandList;
-const priorityMotherBrands = state =>
-  state.ePriorityProductList.selectedMotherBrands;
-const prioritySubBrands = state => state.ePriorityProductList.selectedSubbrands;
-const prioritySKUs = state => state.ePriorityProductList.selectedSKUs;
+const ePriorityProductSection = state => state?.ePriorityProductList;
 
 const ePriorityProductSelector = createSelector(
-  [ePriorityProduct],
-  list => list,
+  [ePriorityProductSection],
+  section => section?.detailingPriorityProduct,
 );
-const ePriorityCountSelector = createSelector([ePriorityCount], count => count);
+const ePriorityCountSelector = createSelector(
+  [ePriorityProductSection],
+  section => section?.totalCount,
+);
 const ePriorityDiscussedSelector = createSelector(
-  [ePriorityDiscussedList],
-  discussedList => discussedList,
+  [ePriorityProductSection],
+  section => section?.discussedBrandList,
 );
-
 const priorityMotherBrandsSelector = createSelector(
-  [priorityMotherBrands],
-  brands => brands,
+  [ePriorityProductSection],
+  section => section?.selectedMotherBrands,
 );
-
 const prioritySubBrandsSelector = createSelector(
-  [prioritySubBrands],
-  brands => brands,
+  [ePriorityProductSection],
+  section => section?.selectedSubbrands,
+);
+const prioritySKUsSelector = createSelector(
+  [ePriorityProductSection],
+  section => section?.selectedSKUs,
 );
 
-const prioritySKUsSelector = createSelector([prioritySKUs], brands => brands);
+const eOtherProductSection = state => state?.eOtherProductList;
 
-const eOtherProduct = state => state.eOtherProductList.detailingOtherProduct;
-const eOtherCount = state => state.eOtherProductList.totalCount;
-const eOtherDiscussedList = state => state.eOtherProductList.discussedBrandList;
-const otherMotherBrands = state => state.eOtherProductList.selectedMotherBrands;
-const otherSubBrands = state => state.eOtherProductList.selectedSubbrands;
-const otherSKUs = state => state.eOtherProductList.selectedSKUs;
-
-const eOtherCountSelector = createSelector([eOtherCount], count => count);
+const eOtherCountSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.totalCount,
+);
 const eOtherDiscussedSelector = createSelector(
-  [eOtherDiscussedList],
-  discussedList => discussedList,
+  [eOtherProductSection],
+  section => section?.discussedBrandList,
 );
 
-const eOtherProductSelector = createSelector([eOtherProduct], list => list);
+const eOtherProductSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.detailingOtherProduct,
+);
 
 const otherMotherBrandsSelector = createSelector(
-  [otherMotherBrands],
-  brands => brands,
+  [eOtherProductSection],
+  section => section?.selectedMotherBrands,
 );
 
 const otherSubBrandsSelector = createSelector(
-  [otherSubBrands],
-  brands => brands,
+  [eOtherProductSection],
+  section => section?.selectedSubbrands,
 );
 
-const otherSKUsSelector = createSelector([otherSKUs], brands => brands);
+const otherSKUsSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.selectedSKUs,
+);
 
 export const eDetailingSelector = {
   getPriorityProduct: () => {

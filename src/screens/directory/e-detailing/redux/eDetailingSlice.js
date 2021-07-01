@@ -104,7 +104,6 @@ const parseSelectedProducts = (data, discussedList, isPriority) => {
       }
     }
   }
-  console.log({selectedMotherBrands, selectedSubbrands, selectedSKUs});
   return {selectedMotherBrands, selectedSubbrands, selectedSKUs};
 };
 
