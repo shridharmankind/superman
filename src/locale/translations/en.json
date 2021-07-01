@@ -88,5 +88,9 @@
   "missedCalls": "Missed Calls",
   "dayType": {
     "leave": "Leave"
+  },
+  "eDetailing": {
+    "modalTitle": "Select Sub-brands",
+    "done": "Done"
   }
 }

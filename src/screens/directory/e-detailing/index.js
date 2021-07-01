@@ -5,20 +5,23 @@ import {ContentWithSidePanel} from 'components/layouts';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Button, LabelVariant, Modal} from 'components/elements';
 import styles from './styles';
-import {TouchableOpacity, View, FlatList} from 'react-native';
+import {TouchableOpacity, View, VirtualizedList} from 'react-native';
 import {Strings, Constants} from 'common';
 import {ArrowBack} from 'assets';
 import {isWeb} from 'helper';
 import theme from 'themes';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
-import {showToast, hideToast} from 'components/widgets/Toast';
+import {showToast} from 'components/widgets/Toast';
 import {
   fetchDetailingPriorityProductCreator,
   fetchDetailingOtherProductCreator,
   eDetailingSelector,
+  ePriorityProductActions,
+  eOtherProductActions,
 } from './redux';
 import {Product} from 'components/widgets';
+import {translate} from 'locale';
 
 /**
  * Render header
@@ -65,16 +68,17 @@ const renderHeader = ({navigation, docData}) => (
  */
 const EDetailing = ({navigation, route}) => {
   let docData = route?.params?.data || null;
-  const LIMIT = 10; // limit of priority to be fetched from server
+  const LIMIT = 0; // limit of priority to be fetched from server
   const dispatch = useDispatch();
   const [scrollOffset, setScrollOffset] = useState(0);
   const [scrollOtherOffset, setScrollOtherOffset] = useState(0);
-  const [skip, setSkip] = useState(0);
-  const [otherSkip, setOtherSkip] = useState(0);
   const swiperRef = useRef(null);
   const swiperOtherRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
+  const [isPriority, setIsPriority] = useState(null);
+  const [selectedSKUs, setSelectedSKUs] = useState({});
+  const [selectedSubBrands, setSelectedSubBrands] = useState({});
 
   useEffect(() => {
     dispatch(
@@ -93,75 +97,134 @@ const EDetailing = ({navigation, route}) => {
         limit: LIMIT,
       }),
     );
-    setSkip(prev => prev + LIMIT);
-    setOtherSkip(prev => prev + LIMIT);
   }, [dispatch]);
 
   const priorityProductList = useSelector(
     eDetailingSelector.getPriorityProduct(),
   );
+  const selectedPriorityMotherBrands = useSelector(
+    eDetailingSelector.getPrioritySelectedMotherBrands(),
+  );
+  const selectedPrioritySubBrands = useSelector(
+    eDetailingSelector.getPrioritySelectedSubBrands(),
+  );
+  const selectedPrioritySKUs = useSelector(
+    eDetailingSelector.getPrioritySelectedSKUs(),
+  );
+  const selectedOtherMotherBrands = useSelector(
+    eDetailingSelector.getOtherSelectedMotherBrands(),
+  );
+  const selectedOtherSubBrands = useSelector(
+    eDetailingSelector.getOtherSelectedSubBrands(),
+  );
+  const selectedOtherSKUs = useSelector(
+    eDetailingSelector.getOtherSelectedSKUs(),
+  );
 
   const otherProductList = useSelector(eDetailingSelector.getOtherProduct());
-  const hideScrollArrow = () => {
-    dispatch(
-      fetchDetailingPriorityProductCreator({
-        staffPositionID: 1,
-        partyId: 1,
-        skip: skip,
-        limit: LIMIT,
-      }),
-    );
-    //Once API Done I will Uncomment this
-    // setSkip(prev => prev + LIMIT);
+
+  /**
+   * find selected for prority products
+   *
+   * @param {Object} prod
+   */
+  const findPrioritySelected = prod => {
+    const prodSKUs = {};
+    const prodSubs = {};
+    if (prod?.subList) {
+      for (const sub of prod?.subList) {
+        if (sub.skuId > 0) {
+          prodSKUs[sub.skuId] = selectedPrioritySKUs[sub.skuId] || false;
+        } else {
+          prodSubs[sub.subBrandId] =
+            selectedPrioritySubBrands[sub.subBrandId] || false;
+        }
+      }
+    }
+    setSelectedSKUs(prodSKUs);
+    setSelectedSubBrands(prodSubs);
   };
 
-  const hideOtherScrollArrow = () => {
-    dispatch(
-      fetchDetailingOtherProductCreator({
-        staffPositionID: 1,
-        partyId: 1,
-        skip: otherSkip,
-        limit: LIMIT,
-      }),
-    );
-    //Once API Done I will Uncomment this
-    // setSkip(prev => prev + LIMIT);
+  /**
+   * Find others selected
+   *
+   * @param {Object} prod
+   */
+  const findOtherSelected = prod => {
+    const prodSKUs = {};
+    const prodSubs = {};
+    if (prod?.subList) {
+      for (const sub of prod?.subList) {
+        if (sub.skuId > 0) {
+          prodSKUs[sub.skuId] = selectedOtherSKUs[sub.skuId] || false;
+        } else {
+          prodSubs[sub.subBrandId] =
+            selectedOtherSubBrands[sub.subBrandId] || false;
+        }
+      }
+    }
+    setSelectedSKUs(prodSKUs);
+    setSelectedSubBrands(prodSubs);
   };
 
+  /**
+   * Render priority products
+   *
+   * @param {Object} item
+   * @param {number} index
+   * @return {JSX} Product
+   */
   const renderSwape = (item, index) => {
     return (
       <View style={styles.swapMain} key={item.motherBrandId}>
         <Product
           title={item.name}
-          isChecked={!!item.isFeatured}
+          isChecked={(() =>
+            selectedPriorityMotherBrands[item.motherBrandId] || false)()}
           tags={[`P${item.priority}`]}
           onProductClick={() => {
             setCurrentProduct(item);
             setShowModal(true);
+            setIsPriority(true);
+            findPrioritySelected(item);
           }}
         />
       </View>
     );
   };
 
+  /**
+   * render other product
+   *
+   * @param {Object} dataItem
+   * @param {number} index
+   * @return {JSX} Other product
+   */
   const renderOtherSwape = (dataItem, index) => {
     return (
       <View style={styles.swapMain} key={dataItem.motherBrandId}>
         <Product
           style={styles.otherProduct}
           title={dataItem.name}
-          isChecked={false}
+          isChecked={(() =>
+            selectedOtherMotherBrands[dataItem.motherBrandId] || false)()}
           imageStyle={styles.otherProductImage}
           productTitleStyle={styles.otherProductTitle}
           onProductClick={() => {
             setCurrentProduct(dataItem);
             setShowModal(true);
+            setIsPriority(false);
+            findOtherSelected(dataItem);
           }}
         />
       </View>
     );
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleAreaRightArrow = () => {
     swiperRef.current.scrollToOffset({
       offset: scrollOffset + 150,
@@ -170,6 +233,10 @@ const EDetailing = ({navigation, route}) => {
     setScrollOffset(scrollOffset + 100);
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleOtherAreaRightArrow = () => {
     swiperOtherRef.current.scrollToOffset({
       offset: scrollOtherOffset + 150,
@@ -178,6 +245,10 @@ const EDetailing = ({navigation, route}) => {
     setScrollOtherOffset(scrollOtherOffset + 100);
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleOtherAreaLeftArrow = () => {
     swiperOtherRef.current.scrollToOffset({
       offset: scrollOtherOffset + 150,
@@ -186,6 +257,10 @@ const EDetailing = ({navigation, route}) => {
     setScrollOtherOffset(scrollOtherOffset - 100);
   };
 
+  /**
+   * Handle arrow click
+   *
+   */
   const handleAreaLeftArrow = () => {
     swiperRef.current.scrollToOffset({
       offset: scrollOffset + 150,
@@ -193,6 +268,7 @@ const EDetailing = ({navigation, route}) => {
     });
     setScrollOffset(scrollOffset - 100);
   };
+
   /**function to return renderAreas() with scollable View
    * @param {String} icon name of icon to use
    */
@@ -200,13 +276,57 @@ const EDetailing = ({navigation, route}) => {
     <Icon name={icon} size={10} color={theme.colors.blue} />
   );
 
+  /**
+   * Get if item is checked
+   *
+   * @param {Object} item
+   * @return {Boolean} isChecked
+   */
+  const getChecked = item => {
+    if (item.skuId > 0) {
+      return selectedSKUs[item.skuId] || false;
+    } else {
+      return selectedSubBrands[item.subBrandId] || false;
+    }
+  };
+
+  /**
+   * Perform selection
+   *
+   * @param {Object} item
+   */
+  const performSelection = item => {
+    if (item.skuId > 0) {
+      setSelectedSKUs(old => {
+        const selected = {...old};
+        selected[item.skuId] = !selected[item.skuId];
+        return selected;
+      });
+    } else {
+      setSelectedSubBrands(old => {
+        const selected = {...old};
+        selected[item.subBrandId] = !selected[item.subBrandId];
+        return selected;
+      });
+    }
+  };
+
+  /**
+   * Get modal content
+   *
+   * @return {JSX} Modal content
+   */
   const getModalContent = () => {
     return (
       <View style={[styles.subBrandList]}>
-        {currentProduct?.subBrandList.map(item => (
+        {currentProduct?.subList?.map((item, index) => (
           <Product
+            key={index}
             title={item.name}
-            isChecked={!!item.isFeatured}
+            isChecked={(() => getChecked(item))()}
+            onProductClick={() => {
+              performSelection(item);
+            }}
             style={styles.subProduct}
           />
         ))}
@@ -214,16 +334,28 @@ const EDetailing = ({navigation, route}) => {
     );
   };
 
+  /**
+   * Close modal
+   *
+   */
+  const closeModal = () => {
+    setShowModal(false);
+    setCurrentProduct(null);
+    setIsPriority(null);
+  };
+
+  /**
+   * Get modal title
+   *
+   * @return {JSX} modal title
+   */
   const getModalTitle = () => {
     return (
       <View style={styles.modalTitle}>
         {isWeb() ? null : (
           <TouchableOpacity
             testID="eDetail-modal-back"
-            onPress={() => {
-              setShowModal(false);
-              setCurrentProduct(null);
-            }}
+            onPress={closeModal}
             style={[styles.modalTitleBack]}>
             <ArrowBack width={24} height={24} />
           </TouchableOpacity>
@@ -231,30 +363,34 @@ const EDetailing = ({navigation, route}) => {
         <Label
           testID="eDetail-modal-title"
           variant={LabelVariant.h2}
-          title="Select Sub-brands"
+          title={translate('eDetailing.modalTitle')}
         />
         <View style={[styles.modalTitleDone]}>
           <Button
             testID="eDetail-done"
-            title="Done"
+            title={translate('eDetailing.done')}
             mode="contained"
             contentStyle={styles.eDetailingStartContent}
             labelStyle={styles.eDetailingStartText}
+            disabled={isInvalid()}
+            onPress={makeSelection}
           />
         </View>
       </View>
     );
   };
 
+  /**
+   * Render modal
+   *
+   * @return {JSX} Modal
+   */
   const renderModal = () => {
     return (
       <Modal
         animationType="fade"
         open={showModal}
-        onClose={() => {
-          setShowModal(false);
-          setCurrentProduct(null);
-        }}
+        onClose={closeModal}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
         presentationStyle="fullScreen"
@@ -262,6 +398,57 @@ const EDetailing = ({navigation, route}) => {
         customModalCenteredView={styles.centerModal}
       />
     );
+  };
+
+  /**
+   * Check if sub brand and SKU selection is valid
+   *
+   * @return {*}
+   */
+  const isInvalid = () => {
+    if (isPriority && currentProduct.isFeatured) {
+      const SKUs = Object.keys(selectedSKUs);
+      const selectedSKU = SKUs.filter(item => selectedSKUs[item]).length;
+      const subs = Object.keys(selectedSubBrands);
+      const selectedSubs = subs.filter(item => selectedSubBrands[item]).length;
+      return selectedSKU + selectedSubs === 0;
+    }
+    return false;
+  };
+
+  /**
+   * Make selction
+   *
+   */
+  const makeSelection = () => {
+    if (isInvalid()) {
+      return;
+    }
+    const SKUs = Object.keys(selectedSKUs);
+    const selectedSKU = SKUs.filter(item => selectedSKUs[item]).length;
+    const subs = Object.keys(selectedSubBrands);
+    const selectedSubs = subs.filter(item => selectedSubBrands[item]).length;
+    const selectedMotherBrands = {};
+    selectedMotherBrands[currentProduct.motherBrandId] =
+      selectedSKU + selectedSubs > 0;
+    if (isPriority) {
+      dispatch(
+        ePriorityProductActions.setSelectedSubbrands({
+          selectedMotherBrands,
+          selectedSubbrands: selectedSubBrands,
+          selectedSKUs,
+        }),
+      );
+    } else {
+      dispatch(
+        eOtherProductActions.setSelectedSubbrands({
+          selectedMotherBrands,
+          selectedSubbrands: selectedSubBrands,
+          selectedSKUs,
+        }),
+      );
+    }
+    closeModal();
   };
 
   return (
@@ -280,13 +467,13 @@ const EDetailing = ({navigation, route}) => {
               </View>
             </TouchableOpacity>
           </View>
-          <FlatList
+          <VirtualizedList
             horizontal
             ref={swiperRef}
             data={priorityProductList}
             showsHorizontalScrollIndicator={true}
-            onEndReached={hideScrollArrow}
-            onEndReachedThreshold={0.5}
+            getItemCount={() => priorityProductList?.length}
+            getItem={(data, index) => data[index]}
             renderItem={({item, index}) => {
               return renderSwape(item, index);
             }}
@@ -314,16 +501,17 @@ const EDetailing = ({navigation, route}) => {
             </View>
           </TouchableOpacity>
         </View>
-        <FlatList
+        <VirtualizedList
           horizontal
           ref={swiperOtherRef}
           data={otherProductList}
           showsHorizontalScrollIndicator={true}
-          onEndReached={hideOtherScrollArrow}
-          onEndReachedThreshold={0.5}
+          getItemCount={() => otherProductList?.length}
+          getItem={(data, index) => data[index]}
           renderItem={({item, index}) => {
             return renderOtherSwape(item, index);
           }}
+          initialNumToRender={7}
           contentContainerStyle={[styles.priorityProducts]}
         />
         <View style={[styles.arrowContainer, styles.rightArrow]}>
