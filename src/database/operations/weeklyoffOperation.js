@@ -1,16 +1,20 @@
 import * as Constants from '../constants';
 import {WeeklyoffSchemaName} from '../schemas/Weeklyoffcountrywise';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 export default dbInstance => ({
   storeWeeklyoffs: async weeklyoffs => {
     let recordsUpdated = true;
     try {
       await dbInstance.write(() => {
+        console.log('weeklyOf', weeklyoffs);
         weeklyoffs?.forEach(geoLocation => {
           const {id, name, shortName, geoLocationConfiguration} = geoLocation;
           const configuration = dbInstance.create(
             Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
-            geoLocationConfiguration,
+            {
+              ...geoLocationConfiguration,
+              syncParameters: syncParametersObject(),
+            },
             'modified',
           );
           dbInstance.create(
@@ -20,6 +24,7 @@ export default dbInstance => ({
               name: name,
               shortName: shortName,
               geoLocationConfiguration: configuration,
+              syncParameters: syncParametersObject(),
             },
             'modified',
           );

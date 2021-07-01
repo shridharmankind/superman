@@ -64,6 +64,10 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_WEEKLYOFF,
     apiPath: Constants.MASTER_TABLE_WEEKLYOFF_API_PATH,
+    schema: [
+      Schemas.WeeklyOffSchema.schema,
+      Schemas.GeoLocationConfiguration.schema,
+    ],
   },
 ];
 

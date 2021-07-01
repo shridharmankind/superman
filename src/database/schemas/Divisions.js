@@ -1,4 +1,4 @@
-import * as Constants from '../constants';
+const MASTER_SYNC_PARAMETERS = 'SYNC_PARAMETER';
 export const DivisionSchemaName = 'Divisions';
 
 export default class DivisionSchema {
@@ -11,7 +11,7 @@ export default class DivisionSchema {
       shortName: 'string',
       maxPatchCount: 'int?',
       kycPartyLimit: 'int?',
-      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
+      syncParameters: MASTER_SYNC_PARAMETERS,
     },
   };
 }
