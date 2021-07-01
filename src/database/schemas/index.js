@@ -181,3 +181,5 @@ export {MonthlySchema};
 export {default as PartyCategories} from './PartyCategories';
 export {default as Organizations} from './Organizations';
 export {default as Specialities} from './Specialities';
+export {default as WeeklyOffSchema} from './Weeklyoffcountrywise';
+export {default as GeoLocationConfiguration} from './GeoLocationConfiguration';
