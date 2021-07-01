@@ -128,7 +128,6 @@ export function* submitSTPWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -148,11 +147,26 @@ export function* updateMTPCalendarWorker(action) {
   url = url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
   try {
     const response = yield call(NetworkService.get, url);
-    yield put(
-      monthlyActions.MTPCalendarUpdate({
-        mtpData: response.data,
-      }),
-    );
+
+    if (response.data.error) {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: null,
+            error: response.data.error,
+          },
+        }),
+      );
+    } else {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: response.data,
+            error: null,
+          },
+        }),
+      );
+    }
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));

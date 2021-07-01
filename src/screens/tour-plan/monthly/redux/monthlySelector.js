@@ -7,16 +7,13 @@ import {getDateIntoObject} from 'utils/dateTimeHelper';
 const getMonthlyState = state => state.monthlyState;
 
 const getMTPDataSelector = createSelector([getMonthlyState], data => {
-  return (
-    data && !data.mtpData?.error &&
-    data?.mtpData?.map(item => {
-      return {
-        ...item,
+  return data?.mtpData?.data?.map(item => {
+    return {
+      ...item,
 
-        date: getDateIntoObject(item?.dated),
-      };
-    })
-  );
+      date: getDateIntoObject(item?.dated),
+    };
+  });
 });
 
 const workingDaySelector = createSelector(
