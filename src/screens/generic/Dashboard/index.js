@@ -56,7 +56,7 @@ const Dashboard = ({navigation}) => {
   useEffect(() => {
     (async () => {
       const id = await Helper.getStaffPositionId();
-      dispatch(fetchStatusSliceActions.setStaffPositionId(id));
+      dispatch(fetchStatusSliceActions.setStaffPositionId(id ?? 1)); //TODO : fix mock then will remove(workaround for static)
     })();
   }, [dispatch]);
 
@@ -103,7 +103,7 @@ const Dashboard = ({navigation}) => {
   };
 
   const setSyncListener = useCallback(masterData => {
-    masterData.addListener((masterData, changes) => {
+    masterData.addListener((masterDataRecord, changes) => {
       changes.insertions.forEach(index => {
         const modifiedData = masterData[index];
         setSync(modifiedData);

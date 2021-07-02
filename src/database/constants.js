@@ -48,6 +48,10 @@ export const MASTER_TABLE_USER_INFO = 'UserInfo';
 export const MASTER_TABLE_STAFF_POSITIONS = 'StaffPositions';
 export const MASTER_TABLE_STAFF_DESIGNATION = 'Designation';
 
+export const MASTER_TABLE_SKU = 'SKUs';
+export const MASTER_TABLE_SKU_API_PATH = 'sku';
+export const MASTER_TABLE_SUB_BRAND = 'SubBrand';
+
 export const MASTER_TABLE_PARTY_CATEGORIES = 'PartyCategories';
 export const MASTER_TABLE_PARTY_CATEGORIES_API_PATH = 'party/categories';
 
@@ -56,6 +60,11 @@ export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
 
 export const MASTER_TABLE_DIVISION = DivisionSchemaName;
 export const MASTER_TABLE_DIVISION_API_PATH = 'division';
+
+export const MASTER_TABLE_MOTHER_BRAND = 'MotherBrands';
+export const MASTER_TABLE_MOTHER_BRAND_API_PATH = 'motherBrand';
+export const MOTHER_BRAND_TYPE = 'MotherBrandType';
+export const MOLECULES = 'Molecule';
 
 export const MASTER_TABLE_WEEKLYOFF = WeeklyoffSchemaName;
 export const MASTER_TABLE_WEEKLYOFF_API_PATH =

@@ -56,7 +56,7 @@
   "outStationPerMonth": "out-station visits per month",
   "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
-  "frequencyMet": "frequency met",
+  "frequencyMet": "doctor frequency met",
   "dcrSecondTab": {
     "priorityProduct": "eDetailed Products",
     "discussedProduct": "Discussed Products",
@@ -80,6 +80,25 @@
   },
   "responseStatus": {
     "error": "ERROR"
+  },
+  "backgroundTask": {
+    "lastSync": "Last Synced:",
+    "syncNow": "Sync Now",
+    "syncConflict": "Sync Conflicts",
+    "lastModifiedTime": "Last Modified On",
+    "conflictMessage": "Conflict Message",
+    "errorMessage": "Error Message",
+    "useDevice": "Use Device",
+    "useServer": "Use Server",
+    "toastBtns": {
+      "message": "Sync Status",
+      "viewSummary": "View Summary",
+      "syncInitiatedMessage": "Sync request has been initiated.",
+      "successMessage": "Requested sync has been completed successfully.",
+      "conflictMessage": "ync activity was completed with a conflict.",
+      "failureMessage": "Sync activity could not be completed.",
+      "alreadRunningMessage": "Sync activity is already in progress."
+    }
   },
   "error": {
     "genericMsg": "Something doesn't seem right, please try restarting the application."

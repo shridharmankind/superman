@@ -1,7 +1,20 @@
-{
-  "seniors": [
-    {"id": 1, "name": "Tarun Sharma", "role": "FLM"},
-    {"id": 2, "name": "Badri Tomar", "role": "TLM"},
-    {"id": 3, "name": "Prem Khurana", "role": "SLM"}
-  ]
-}
+[
+  {
+    "id": 2,
+    "firstName": "Subash",
+    "lastName": "Ghai",
+    "role": "SLM"
+  },
+  {
+    "id": 3,
+    "firstName": "Virat",
+    "lastName": "Sharma",
+    "role": "MR"
+  },
+  {
+    "id": 5,
+    "firstName": "Nana",
+    "lastName": "Gupta",
+    "role": "TLM"
+  }
+]

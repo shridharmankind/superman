@@ -88,7 +88,6 @@ export function* deletePartyWorker(action) {
   const {staffPositionid, day, month, year, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    console.log('911111111111111');
     const valueMap = {
       staffpositionid: staffPositionid,
       partyid: partyId,

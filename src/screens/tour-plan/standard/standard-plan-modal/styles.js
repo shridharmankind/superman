@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
     marginTop: 40,
     marginBottom: 100,
+    flex: 1,
   },
   container: {
     flexDirection: 'column',
