@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   pagination: {
     position: 'absolute',
-    bottom: 0,
+    bottom: -23,
   },
   swiperList: {
     overflow: 'visible',
@@ -61,6 +61,39 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     right: 0,
+  },
+  hamburger: {
+    backgroundColor: theme.colors.primary,
+    width: 48.3,
+    height: 48.3,
+    borderRadius: 6.7,
+    padding: 10,
+    paddingHorizontal: 12,
+    position: 'absolute',
+    bottom: 10,
+    right: 30,
+  },
+  modalPosition: {
+    width: '30%',
+    right: 0,
+    position: 'absolute',
+    top: 0,
+    height: '100%',
+  },
+  centerModal: {
+    flex: 1,
+    marginTop: 0,
+  },
+  modalTitle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  titleCol: {
+    flexGrow: 1,
+    flexDirection: 'column',
+  },
+  modalTitleText: {
+    lineHeight: 50,
   },
 });
 
