@@ -17,6 +17,7 @@ import {
   MonthlyPlan,
   PartyCategories,
   Schemas,
+  Skus,
   Organizations,
   Divisions,
   MotherBrands,
@@ -131,6 +132,9 @@ const MasterDataDownload = () => {
                 );
               }
               break;
+            case DBConstants.MASTER_TABLE_SKU:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
               response = await NetworkService.get(item.apiPath);
               break;
@@ -199,6 +203,12 @@ const MasterDataDownload = () => {
                   await Organizations.storeOrganizations(JSON.parse(data));
                 organizationsUpdated && updateRecordDownloaded(item.name);
                 break;
+
+              case DBConstants.MASTER_TABLE_SKU:
+                const skusUpdated = await Skus.storeSkus(JSON.parse(data));
+                skusUpdated && updateRecordDownloaded(item.name);
+                break;
+
               case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
                 const partyCategoriesUpdated =
                   await PartyCategories.storePartyCategories(JSON.parse(data));

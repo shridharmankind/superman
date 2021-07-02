@@ -343,6 +343,7 @@ let dummyPartyData = {
   partyTypeId: 1,
 };
 export {default as qualificationOperations} from './qualificationOperations';
+export {default as skuOperations} from './skuOperations';
 export {default as monthlyPlanOperations} from './MonthlyPlanOperations';
 export {
   generateUUID,
