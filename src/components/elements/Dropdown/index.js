@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
-import {Strings} from 'common';
+import {translate} from 'locale';
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
  * This serves the purpose to make the use of Dropdown throughout the app
@@ -14,6 +14,9 @@ import {Strings} from 'common';
  * @param {Array} data pass data as an array eg: [{value: test}]
  * @param {Function} valueSelected value to pass to parent component
  * @param {String} testID testID to pass
+ * @param {Boolean} hideDropdown to hide dropdown when clicked outside
+ * @param {Function} setHideDropDown to hide dropdown if clicked outside
+ * @param {Boolean} isPatchedData if patched is selected or not
  */
 
 const Dropdown = forwardRef((props, ref) => {
@@ -125,7 +128,7 @@ const Dropdown = forwardRef((props, ref) => {
             ))
           ) : (
             <Label
-              title={Strings.noPatchFound}
+              title={translate('tourPlan.standard.noPatchFound')}
               variant={LabelVariant.subtitleSmall}
             />
           )}

@@ -20,6 +20,10 @@
       "today": "Today",
       "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
       "completed": "Completed"
+    },
+    "standard": {
+      "noRecordsForSelection":"No records for current selection",
+      "noPatchFound": "No patch found"
     }
   },
   "missedVisit": "Missed Visit!",

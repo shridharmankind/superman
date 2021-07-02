@@ -15,6 +15,7 @@ import styles from './styles';
  * @param {Function} handleDropDownValue callBack method to handle patch value selected in dropdown
  * @param {Array} allPatches list of patches
  * @param {Boolean} isPatchedData is existing patched is selected
+ * @param {Object} dropDownRef ref for dropdown passed
  */
 
 const Areas = ({

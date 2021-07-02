@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import {Label, DoctorDetailsWrapper, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import styles from './styles';
+import {translate} from 'locale';
 
 const DoctorsByArea = ({
   areaSelected,
@@ -64,7 +65,7 @@ const DoctorsByArea = ({
   const renderDoctors = useCallback(
     area => {
       const doctorInArea = getDoctorsByArea(area?.id);
-      return doctorInArea.length > 0 ? (
+      return doctorInArea?.length > 0 ? (
         <View style={styles.doctorDetails}>
           {doctorInArea.map((party, index) => (
             <DoctorDetailsWrapper
@@ -92,7 +93,7 @@ const DoctorsByArea = ({
         </View>
       ) : (
         <Label
-          title={Strings.noRecordsForSelection}
+          title={translate('tourPlan.standard.noRecordsForSelection')}
           variant={LabelVariant.h4}
           type={'bold'}
         />
@@ -167,7 +168,7 @@ const DoctorsByArea = ({
         ))
       ) : (
         <Label
-          title={Strings.noRecordsForSelection}
+          title={translate('tourPlan.standard.noRecordsForSelection')}
           variant={LabelVariant.h4}
           type={'bold'}
         />

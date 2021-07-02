@@ -40,6 +40,7 @@ function reducer(state, action) {
  * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
  * @param {Object} party party information is passed as an object
  * @param {Boolean} isPartyInPatch is party is availble in patch
+ * @param {Boolean} isSameDoctorSelected is same doctore is selected in other area
  */
 
 const DoctorDetailsWrapper = ({

@@ -1130,6 +1130,7 @@ const StandardPlanModal = ({
     );
   }
 
+  /**view gesture handlers for click */
   const _gestureHandlers = {
     onStartShouldSetResponder: () => true,
     onMoveShouldSetResponder: () => true,
