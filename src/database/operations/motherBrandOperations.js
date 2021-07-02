@@ -1,18 +1,64 @@
 import {MotherBrandsSchemaName} from '../schemas/MotherBrands';
 import {getAllTableRecords} from './common';
 import * as Constants from '../constants';
+import {MotherBrands} from 'database';
 
 export default dbInstance => ({
   storeMotherBrands: async motherBrands => {
     let recordsUpdated = true;
     try {
       await dbInstance.write(() => {
-        getMotherBrandsDataToWrite(motherBrands, dbInstance);
+        MotherBrands.writeDataMapping(motherBrands, dbInstance);
       });
     } catch (err) {
       recordsUpdated = false;
     }
     return recordsUpdated;
+  },
+
+  // Re-usable for SUB_BRAND
+  writeDataMapping: (motherBrands, toBeReturn = false) => {
+    let data;
+    motherBrands.forEach(motherBrand => {
+      const {
+        id,
+        name,
+        shortName,
+        isFocused,
+        isPower,
+        molecule,
+        motherBrandType,
+      } = motherBrand;
+      const moleculeChild = dbInstance.create(
+        Constants.MOLECULES,
+        molecule,
+        'modified',
+      );
+      const motherBrandTypeChild = dbInstance.create(
+        Constants.MOTHER_BRAND_TYPE,
+        motherBrandType,
+        'modified',
+      );
+      data = dbInstance.create(
+        Constants.MASTER_TABLE_MOTHER_BRAND,
+        {
+          id,
+          name,
+          shortName,
+          isFocused,
+          isPower,
+          molecule: moleculeChild,
+          motherBrandType: motherBrandTypeChild,
+        },
+        'modified',
+      );
+    });
+
+    // Need to pass single object for SKU operations
+    // For mapping under sub_brand
+    if (toBeReturn) {
+      return data;
+    }
   },
 
   getAllMotherBrands: async () => {
@@ -24,45 +70,3 @@ export default dbInstance => ({
     return motherBrands.filtered(`id = ${motherBrandId}`);
   },
 });
-
-// Re-usability for SUB_BRAND
-export const getMotherBrandsDataToWrite = (
-  motherBrands,
-  dbInstance,
-  toBeReturn = false,
-) => {
-  let data;
-  motherBrands.forEach(motherBrand => {
-    const {id, name, shortName, isFocused, isPower, molecule, motherBrandType} =
-      motherBrand;
-    const moleculeChild = dbInstance.create(
-      Constants.MOLECULES,
-      molecule,
-      'modified',
-    );
-    const motherBrandTypeChild = dbInstance.create(
-      Constants.MOTHER_BRAND_TYPE,
-      motherBrandType,
-      'modified',
-    );
-    data = dbInstance.create(
-      Constants.MASTER_TABLE_MOTHER_BRAND,
-      {
-        id,
-        name,
-        shortName,
-        isFocused,
-        isPower,
-        molecule: moleculeChild,
-        motherBrandType: motherBrandTypeChild,
-      },
-      'modified',
-    );
-  });
-
-  // Need to pass single object for SKU operations
-  // For mapping under sub_brand
-  if (toBeReturn) {
-    return data;
-  }
-};

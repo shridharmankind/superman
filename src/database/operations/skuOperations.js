@@ -1,7 +1,7 @@
 import * as Constants from '../constants';
 import {SkuSchemaName} from '../schemas/Skus';
 import {getAllTableRecords} from './common';
-import {getMotherBrandsDataToWrite} from './motherBrandOperations';
+import {MotherBrands} from 'database';
 
 export default dbInstance => ({
   storeSkus: async skus => {
@@ -35,11 +35,7 @@ export default dbInstance => ({
               motherBrandId,
               isFocused: subBrand.isFocused,
               isPower: subBrand.isPower,
-              motherBrand: getMotherBrandsDataToWrite(
-                [motherBrand],
-                dbInstance,
-                true,
-              ),
+              motherBrand: MotherBrands.writeDataMapping([motherBrand], true),
             },
             'modified',
           );
