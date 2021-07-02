@@ -12,7 +12,7 @@ export const monthlyTourPlan = {
   stpStatus: null,
   submitSTP: null,
   selectedPlanOption: null,
-  mtpData: null,
+  mtpData: {data: null, error: null},
 };
 
 /**
