@@ -82,6 +82,7 @@ const StandardPlanModal = ({
   const [hideDropDown, setHideDropDown] = useState(false);
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
   const [gapRuleWarningCode, setGapRuleWarningCode] = useState(null);
+  const [isPatchExist, setIsPatchExist] = useState(false);
   const weekNum = Number(week);
   const dropDownRef = useRef(null);
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
@@ -378,6 +379,7 @@ const StandardPlanModal = ({
       });
       setDoctorsSelected(doctorArr);
       updateString(doctorArr);
+      setDataChanged(true);
     },
     [doctorsSelected, allParties, updateString],
   );
@@ -527,7 +529,7 @@ const StandardPlanModal = ({
         week: weekNum,
         weekDay,
         year: year,
-        patchAlreadyExist: false,
+        patchAlreadyExist: isPatchExist,
       };
       setPatchError(null);
       setPatchRequest(obj);
@@ -561,6 +563,7 @@ const StandardPlanModal = ({
       doctorsSelected,
       checkPartyExhausted,
       handleExhaustedParty,
+      isPatchExist,
     ],
   );
 
@@ -742,15 +745,18 @@ const StandardPlanModal = ({
       const string = createPatchString(areas, doctors, partyList, ptches);
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
-      savePatch({
-        ...obj,
-        partyMapping: doctors,
-        displayName: string,
-        defaultName: string,
-        patchAlreadyExist: patchExists,
-      });
+      setIsPatchExist(patchExists);
+
+      //TO-DO - Will remove this once QA confirmed the flow
+      // savePatch({
+      //   ...obj,
+      //   partyMapping: doctors,
+      //   displayName: string,
+      //   defaultName: string,
+      //   patchAlreadyExist: patchExists,
+      // });
     },
-    [createPatchString, savePatch],
+    [createPatchString],
   );
 
   /** function to save patch
@@ -866,16 +872,15 @@ const StandardPlanModal = ({
       );
       if (isSameDayPatch(patchValue)) {
         if (patchValue?.defaultName === patchValue?.displayName) {
-          setPatchDefaultValue(string);
           if (
             patchValue?.defaultName.split(' (')[0] === string.split(' (')[0]
           ) {
             setPatchSelected(patchValue?.defaultName);
-            setPatchDefaultValue(patchValue?.defaultName);
           } else {
             setPatchSelected(string);
           }
         }
+        setPatchDefaultValue(string);
       } else {
         setIsPatchedData(false);
         if (!patchEdited) {
@@ -906,6 +911,7 @@ const StandardPlanModal = ({
     if (val.length < 64 && regex.test(val)) {
       setPatchSelected(val);
       setPatchEdited(true);
+      setDataChanged(true);
     }
   };
 
@@ -1058,7 +1064,7 @@ const StandardPlanModal = ({
       dropDownRef.current?._children[0]._children.map(el => el._nativeTag);
 
     if (ids && ids.length) {
-      if (ids.includes(e.target)) {
+      if (ids.includes(e.target._nativeTag)) {
         return;
       }
       setHideDropDown(true);
@@ -1116,9 +1122,17 @@ const StandardPlanModal = ({
     );
   }
 
+  const _gestureHandlers = {
+    onStartShouldSetResponder: () => true,
+    onMoveShouldSetResponder: () => true,
+    onResponderRelease: e => {
+      handleDropDownRef(e);
+    },
+  };
+
   return (
-    <View onStartShouldSetResponder={evt => handleDropDownRef(evt)}>
-      <ScrollView style={[styles.containerStyle, {height}]}>
+    <ScrollView style={[styles.containerStyle, {height}]}>
+      <View style={{zIndex: 1}} {..._gestureHandlers}>
         <View style={styles.modalHeader}>
           <View>
             <Label title={Strings.selectDoctorAndChemist} size={18.7} />
@@ -1208,7 +1222,7 @@ const StandardPlanModal = ({
               partyInArea={id => getSelectedPartyByArea(id)}
               hideDropDown={hideDropDown}
               setHideDropDown={setHideDropDown}
-              ref={dropDownRef}
+              dropDownRef={dropDownRef}
             />
             <View style={styles.doctorDetailsContainer}>
               <View>
@@ -1284,8 +1298,8 @@ const StandardPlanModal = ({
             />
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 

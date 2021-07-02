@@ -13,11 +13,14 @@ const DoctorsByArea = ({
   partiesList,
   selectedDoctorType,
   isSameDayPatch,
+  allPartiesByPatchID,
 }) => {
   const isDoctorSelected = useCallback(
     (partyId, area) => {
       return (doctorsSelected || []).some(
-        party => party.partyId === partyId && party.areaId === area,
+        party =>
+          (party.partyId === partyId && party.areaId === area) ||
+          (party.partyId === partyId && party.areaId !== area),
       );
     },
     [doctorsSelected],
@@ -43,7 +46,7 @@ const DoctorsByArea = ({
 
       const newPartiesData = partiesData.filter(party => {
         const isPatchedParty =
-          doctorsSelected.length > 0 && isPartyInPatch(party.id, area);
+          allPartiesByPatchID?.length > 0 && isPartyInPatch(party.id, area);
         return (
           party.frequency > party.alreadyVisited ||
           (party.frequency === party.alreadyVisited && isPatchedParty)
@@ -52,7 +55,7 @@ const DoctorsByArea = ({
 
       return newPartiesData;
     },
-    [partiesList, selectedDoctorType, isPartyInPatch, doctorsSelected],
+    [partiesList, selectedDoctorType, isPartyInPatch, allPartiesByPatchID],
   );
 
   /** function to render parties by area selected from area chiklets
@@ -61,30 +64,38 @@ const DoctorsByArea = ({
   const renderDoctors = useCallback(
     area => {
       const doctorInArea = getDoctorsByArea(area?.id);
-      return (
-        doctorInArea.length > 0 && (
-          <View style={styles.doctorDetails}>
-            {doctorInArea.map((party, index) => (
-              <DoctorDetailsWrapper
-                key={party.id + area.id}
-                id={party.id}
-                title={party.shortName || party.name}
-                specialization={party.specialities}
-                category={party.category}
-                isKyc={party.isKyc}
-                isCampaign={party.isCampaign}
-                selected={isDoctorSelected(party.id, area.id)}
-                testID={`card_standard_plan_doctor_${party.id}_test`}
-                party={party}
-                isPatchedData={isPatchedData}
-                onPress={id => handleDoctorCardPress(id, area.id)}
-                containerStyle={index % 2 === 0 ? styles.left : styles.right}
-                isSameDayPatch={isSameDayPatch}
-                isPartyInPatch={isPartyInPatch(party.id, area.id)}
-              />
-            ))}
-          </View>
-        )
+      return doctorInArea.length > 0 ? (
+        <View style={styles.doctorDetails}>
+          {doctorInArea.map((party, index) => (
+            <DoctorDetailsWrapper
+              key={party.id + area.id}
+              id={party.id}
+              title={party.shortName || party.name}
+              specialization={party.specialities}
+              category={party.category}
+              isKyc={party.isKyc}
+              isCampaign={party.isCampaign}
+              selected={isDoctorSelected(party.id, area.id)}
+              testID={`card_standard_plan_doctor_${party.id}_test`}
+              party={party}
+              isPatchedData={isPatchedData}
+              onPress={id => handleDoctorCardPress(id, area.id)}
+              containerStyle={index % 2 === 0 ? styles.left : styles.right}
+              isSameDayPatch={isSameDayPatch}
+              isPartyInPatch={isPartyInPatch(party.id, area.id)}
+              isSameDoctorSelected={isSamePartySelectedInOtherArea(
+                party.id,
+                area.id,
+              )}
+            />
+          ))}
+        </View>
+      ) : (
+        <Label
+          title={Strings.noRecordsForSelection}
+          variant={LabelVariant.h4}
+          type={'bold'}
+        />
       );
     },
     [
@@ -94,6 +105,7 @@ const DoctorsByArea = ({
       isPatchedData,
       isSameDayPatch,
       isPartyInPatch,
+      isSamePartySelectedInOtherArea,
     ],
   );
 
@@ -123,8 +135,22 @@ const DoctorsByArea = ({
    */
   const isPartyInPatch = useCallback(
     (id, area) => {
-      return doctorsSelected?.some(
+      return allPartiesByPatchID?.some(
         party => party.partyId === id && area === party.areaId,
+      );
+    },
+    [allPartiesByPatchID],
+  );
+
+  /**check if party selected is also in other area
+   * @param {String} id party id to check
+   * @param {String} area party area id to check
+   * @return {Boolean}
+   */
+  const isSamePartySelectedInOtherArea = useCallback(
+    (id, area) => {
+      return doctorsSelected?.some(
+        par => par.partyId === id && par.areaId !== area,
       );
     },
     [doctorsSelected],
