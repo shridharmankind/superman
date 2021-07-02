@@ -111,7 +111,7 @@ const setBackgroundTask = async () => {
       );
       if (
         state.isConnected &&
-        getCurrentBackgrounStatus == Constants.BACKGROUND_TASK.NOT_RUNNING
+        getCurrentBackgrounStatus === Constants.BACKGROUND_TASK.NOT_RUNNING
       ) {
         //check for internet connection and background Status if it is not running
         const accessToken = await KeyChain.getAccessToken();
@@ -199,22 +199,14 @@ export const runBackgroundTask = async () => {
       resultArray = result || [];
     });
     let isDemandSync = await getOnDemandSyncStatus();
-    console.log(isDemandSync, 'Overall result ', resultArray);
-    if (isDemandSync == Constants.BACKGROUND_TASK.RUNNING) {
-      if (resultArray.length == 0) {
-        console.log('Overall result ', resultArray);
-        showToastie(
-          Constants.TOAST_TYPES.SUCCESS,
-          Strings.backgroundTask.toastBtns.successMessage,
-        );
-      }
-      if (resultArray && resultArray.includes(SUCCESS)) {
-        showToastie(
-          Constants.TOAST_TYPES.SUCCESS,
-          Strings.backgroundTask.toastBtns.successMessage,
-        );
-      }
-      await setOnDemandSyncStatusNotRunning();
+    if (
+      resultArray.length === 0 &&
+      isDemandSync === Constants.BACKGROUND_TASK.RUNNING
+    ) {
+      showToastie(
+        Constants.TOAST_TYPES.SUCCESS,
+        Strings.backgroundTask.toastBtns.successMessage,
+      );
     }
     if (resultArray && resultArray.includes(CONFLICT)) {
       showToastieWithButton(
@@ -226,6 +218,18 @@ export const runBackgroundTask = async () => {
         Constants.TOAST_TYPES.ALERT,
         Strings.backgroundTask.toastBtns.failureMessage,
       );
+    } else if (
+      resultArray &&
+      resultArray.includes(SUCCESS) &&
+      isDemandSync === Constants.BACKGROUND_TASK.RUNNING
+    ) {
+      showToastie(
+        Constants.TOAST_TYPES.SUCCESS,
+        Strings.backgroundTask.toastBtns.successMessage,
+      );
+    }
+    if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
+      await setOnDemandSyncStatusNotRunning();
     }
   } catch (err) {
     console.log(err);
