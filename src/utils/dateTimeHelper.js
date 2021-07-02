@@ -108,6 +108,11 @@ export const startOf = (date, unit) => {
   return dayjs(date).startOf(unit);
 };
 
+/**
+ *
+ * @param {Date} date
+ * @returns Date as an object with day , month & year value
+ */
 export const getDateIntoObject = date => {
   return {
     day: dayjs(date).get('date'),
