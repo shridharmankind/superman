@@ -5,7 +5,7 @@ import {
   fetchWorkingDayCreatorType,
   fetchSTPStatusCreatorType,
   submitSTPCreatorType,
-  fetchMonthlyCalendarUpdateCreatorType,
+  fetchMTPCalendarUpdateCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
@@ -33,11 +33,8 @@ export function* submitSTPWatcher() {
 /**
  * Function to fetch stp update worker
  */
-export function* fetchMonthlyCalendarUpdateWatcher() {
-  yield takeEvery(
-    fetchMonthlyCalendarUpdateCreatorType,
-    updateMTPCalendarWorker,
-  );
+export function* fetchMTPCalendarUpdateWatcher() {
+  yield takeEvery(fetchMTPCalendarUpdateCreatorType, updateMTPCalendarWorker);
 }
 /**
  * worker function to send the api call to get all subordinates list
@@ -131,7 +128,6 @@ export function* submitSTPWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -147,19 +143,29 @@ export function* updateMTPCalendarWorker(action) {
     staffPositionId,
     month,
   };
-  let url = API_PATHS.MTP_CALENDAR;
-  url = url.replace(
-    /\b(?:staffpositionId|month)\b/gi,
-    matched => valueMap[matched],
-  );
-
+  let url = API_PATHS.MTP_ROLLOVER;
+  url = url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
   try {
     const response = yield call(NetworkService.get, url);
-    yield put(
-      monthlyActions.MonthlyCalendarUpdate({
-        mtpData: response.data,
-      }),
-    );
+    if (response.data.error || response.status !== 200) {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: null,
+            error: response.data.error,
+          },
+        }),
+      );
+    } else {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: response.data,
+            error: null,
+          },
+        }),
+      );
+    }
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
