@@ -40,6 +40,7 @@ function reducer(state, action) {
  * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
  * @param {Object} party party information is passed as an object
  * @param {Boolean} isPartyInPatch is party is availble in patch
+ * @param {Boolean} isSameDoctorSelected is same doctore is selected in other area
  */
 
 const DoctorDetailsWrapper = ({
@@ -59,6 +60,7 @@ const DoctorDetailsWrapper = ({
   containerStyle,
   isSameDayPatch,
   isPartyInPatch,
+  isSameDoctorSelected,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
@@ -70,10 +72,12 @@ const DoctorDetailsWrapper = ({
   });
   const isDisabled =
     (!isSameDayPatch && frequency === alreadyVisited && isPartyInPatch) ||
-    (!isPartyInPatch && frequency <= alreadyVisited);
+    (!isPartyInPatch && frequency <= alreadyVisited) ||
+    isSameDoctorSelected;
   const showTicked =
-    (selected && frequency > alreadyVisited) ||
-    (isSameDayPatch && selected && frequency <= alreadyVisited);
+    ((selected && frequency > alreadyVisited) ||
+      (isSameDayPatch && selected && frequency <= alreadyVisited)) &&
+    !isDisabled;
 
   /**
    *  Select and deselect the card ,also
@@ -96,6 +100,7 @@ const DoctorDetailsWrapper = ({
         dispatchFn({type: 'decrement'});
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
@@ -128,7 +133,7 @@ const DoctorDetailsWrapper = ({
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(!selected)}
+      onPress={() => !isDisabled && handleDoctorSelection(!selected)}
       style={[styles.container, containerStyle, isDisabled && styles.disabled]}
       disabled={isDisabled}
       activeOpacity={1}>
