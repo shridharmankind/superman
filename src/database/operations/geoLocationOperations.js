@@ -7,27 +7,9 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         geoLocations.forEach(geoLocation => {
-          const {
-            id,
-            name,
-            shortName,
-            parentGeoLocationId,
-            divisionId,
-            geoLocationConfiguration,
-            geoLocationType,
-          } = geoLocation;
-
           dbInstance.create(
             Constants.MASTER_TABLE_GEO_LOCATIONS,
-            {
-              id,
-              name,
-              shortName,
-              parentGeoLocationId,
-              divisionId,
-              geoLocationConfiguration: geoLocationConfiguration,
-              geoLocationType: geoLocationType,
-            },
+            geoLocation,
             'modified',
           );
         });
