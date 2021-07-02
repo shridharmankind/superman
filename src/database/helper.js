@@ -70,6 +70,11 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_MOTHER_BRAND,
     apiPath: Constants.MASTER_TABLE_MOTHER_BRAND_API_PATH,
+    schema: [
+      Schemas.MotherBrands.schema,
+      Schemas.MotherBrandType.schema,
+      Schemas.Molecule.schema,
+    ],
   },
 ];
 

@@ -122,7 +122,6 @@ const MasterDataDownload = () => {
               break;
             case DBConstants.MASTER_TABLE_WEEKLYOFF:
               response = await NetworkService.get(item.apiPath);
-              console.log('response', response);
               break;
             case DBConstants.MASTER_TABLE_PARTY:
               {

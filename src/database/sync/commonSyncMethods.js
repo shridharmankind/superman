@@ -2,6 +2,7 @@ import {
   PartyTableOperations,
   MonthlyTableOperations,
   DivisionSyncOperations,
+  OrganizationSyncOperations,
 } from './operations';
 import * as DBConstants from '../constants';
 
@@ -22,9 +23,13 @@ export const getSyncTaskList = () => {
       DBConstants.MASTER_TABLE_DIVISION,
       new DivisionSyncOperations(),
     );
-    SYNC_TASK_LIST.set(DBConstants.MASTER_TABLE_ORGANIZATION, {});
+    SYNC_TASK_LIST.set(
+      DBConstants.MASTER_TABLE_ORGANIZATION,
+      new OrganizationSyncOperations(),
+    );
     SYNC_TASK_LIST.set(DBConstants.SPECIALITIES, {});
     SYNC_TASK_LIST.set(DBConstants.QUALIFICATIONS, {});
+    //SYNC_TASK_LIST.set(DBConstants.MASTER_TABLE_MOTHER_BRAND, {});
   }
   return SYNC_TASK_LIST;
 };

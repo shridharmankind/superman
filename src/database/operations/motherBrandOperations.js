@@ -1,5 +1,5 @@
 import {MotherBrandsSchemaName} from '../schemas/MotherBrands';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 import * as Constants from '../constants';
 
 export default dbInstance => ({
@@ -19,12 +19,12 @@ export default dbInstance => ({
           } = motherBrand;
           const moleculeChild = dbInstance.create(
             Constants.MOLECULES,
-            molecule,
+            {...molecule, syncParameters: syncParametersObject()},
             'modified',
           );
           const motherBrandTypeChild = dbInstance.create(
             Constants.MOTHER_BRAND_TYPE,
-            motherBrandType,
+            {...motherBrandType, syncParameters: syncParametersObject()},
             'modified',
           );
           dbInstance.create(
@@ -37,6 +37,7 @@ export default dbInstance => ({
               isPower,
               molecule: moleculeChild,
               motherBrandType: motherBrandTypeChild,
+              syncParameters: syncParametersObject(),
             },
             'modified',
           );
