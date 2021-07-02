@@ -147,8 +147,7 @@ export function* updateMTPCalendarWorker(action) {
   url = url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
   try {
     const response = yield call(NetworkService.get, url);
-
-    if (response.data.error) {
+    if (response.data.error || response.status !== 200) {
       yield put(
         monthlyActions.MTPCalendarUpdate({
           mtpData: {
