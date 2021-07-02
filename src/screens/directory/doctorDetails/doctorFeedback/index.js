@@ -8,7 +8,6 @@ import dayjs from 'dayjs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import {ArrowBack} from 'assets';
 import AddDoctor from './addDoctor';
 import VisitDetail from './visitDetail';
 import SampleRequest from './sampleRequest';
@@ -16,6 +15,7 @@ import {fetchDcrDetail} from './redux/dcrSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {dcrSelector} from './redux';
 import {Helper} from 'database';
+import EDetailingDCR from './discussed';
 
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
@@ -68,6 +68,7 @@ const DoctorFeedback = ({navigation, route}) => {
           disSwipeGesture={disable => {
             swipeGestureClk(disable);
           }}
+          addDoctorHandler={AddDoctorHandler}
         />
       );
     } else if (index === 1) {
@@ -128,11 +129,9 @@ const DoctorFeedback = ({navigation, route}) => {
           />
         </View>
       </View>
-      <View>
-        {showModal && (
-          <AddDoctor showModal={showModal} closeModal={closeAddHandler} />
-        )}
-      </View>
+      {!!showModal && (
+        <AddDoctor showModal={showModal} closeModal={closeAddHandler} />
+      )}
     </>
   );
 };
