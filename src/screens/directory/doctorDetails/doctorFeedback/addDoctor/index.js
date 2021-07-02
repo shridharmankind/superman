@@ -1,48 +1,65 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, TextInput, FlatList, Image} from 'react-native';
 import {Modal, Button, LabelVariant, Label} from 'components/elements';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import styles from './styles';
 import {SearchIcon} from 'assets';
-import {partiesMock} from '../../../../../data/mock/api/parties.js';
 import {Checkbox} from 'react-native-paper';
 import theme from 'themes';
 import {Constants} from 'common';
+import {dcrSelector} from 'screens/directory/doctorDetails/doctorFeedback/redux';
+import {useSelector} from 'react-redux';
+import {translate} from 'locale';
 
-const AddDoctor = ({showModal, closeModal}) => {
-  const [partyJson, setPartyJson] = useState([
-    ...partiesMock.getParties.response,
-  ]);
+const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
+  const [partyJson, setPartyJson] = useState([]);
   const [searchText, setSearchText] = useState('');
 
   const [selectedList, setSelectedList] = useState([]);
+
+  const doctorList = useSelector(dcrSelector.getDoctors());
+  const selectedDocList = useSelector(dcrSelector.getSelectedDoc());
+  useEffect(() => {
+    if (doctorList?.length > 0) {
+      setPartyJson([...doctorList]);
+    }
+  }, [doctorList]);
+  useEffect(() => {
+    if (selectedDocList?.length > 0) {
+      setSelectedList([...selectedDocList]);
+    }
+  }, [selectedDocList]);
+
+  const addSelectedHandler = () => {
+    updateSelectedData(partyJson, selectedList);
+  };
 
   const onChecked = (item, checked) => {
     if (checked) {
       const partyIndex = partyJson.findIndex(
         dataItem => dataItem.id === item.id,
       );
+      const itemObject = {...item, isChecked: true};
       partyJson.splice(partyIndex, 1);
-      item.isChecked = true;
       setPartyJson(partyJson);
-      setSelectedList([...selectedList, item]);
+      setSelectedList([...selectedList, itemObject]);
     } else {
       const selectedIndex = selectedList.findIndex(
         dataItem => dataItem.id === item.id,
       );
       selectedList.splice(selectedIndex, 1);
-      item.isChecked = false;
-      setPartyJson([...partyJson, item]);
+      const itemObject = {...item, isChecked: false};
+      setPartyJson([...partyJson, itemObject]);
       setSelectedList(selectedList);
     }
   };
 
   const updateSearch = text => {
-    let partyResult = [...partiesMock.getParties.response];
-    partyResult = partyResult.filter(dataItem => !dataItem.isChecked);
+    let partyResult = [...doctorList];
+    partyResult = partyResult?.filter(dataItem => !dataItem.isChecked);
     if (text?.length) {
-      const seractText = text.trim().toLowerCase();
-      const result = partyResult.filter(dataValue => {
+      const seractText = text?.trim().toLowerCase();
+      const result = partyResult?.filter(dataValue => {
         const name = dataValue.name?.toLowerCase();
         return name.includes(seractText);
       });
@@ -58,19 +75,19 @@ const AddDoctor = ({showModal, closeModal}) => {
     return (
       <View style={styles.item}>
         <View style={styles.divisionContainer}>
-          {item?.isKyc && (
+          {!!item?.isKyc && (
             <DoctorTag
               division={DivisionType.KYC}
-              title={`${DivisionType.KYC}`}
+              title={translate('categories.kyc')}
             />
           )}
-          {item?.isCampaign && (
+          {!!item?.isCampaign && (
             <DoctorTag
               division={DivisionType.CAMPAIGN}
-              title={`${DivisionType.CAMPAIGN}`}
+              title={translate('categories.campaign')}
             />
           )}
-          {item?.category && (
+          {!!item?.category && (
             <DoctorTag
               division={item?.category}
               title={item?.category?.toUpperCase()}
@@ -79,14 +96,14 @@ const AddDoctor = ({showModal, closeModal}) => {
         </View>
         <View style={styles.mainCheckBox}>
           <Checkbox
-            status={item.isChecked ? 'checked' : 'unchecked'}
+            status={item?.isChecked ? 'checked' : 'unchecked'}
             onPress={() => {
               onChecked(item, !item.isChecked);
             }}
             color={theme.colors.blue[100]}
           />
         </View>
-        <View style={{marginTop: 0, alignItems: 'center'}}>
+        <View style={styles.avtarClass}>
           <Image
             style={[styles.image]}
             source={
@@ -96,14 +113,14 @@ const AddDoctor = ({showModal, closeModal}) => {
             }
           />
         </View>
-        <View style={{alignItems: 'center', marginTop: 5}}>
+        <View style={styles.avtarName}>
           <Label
             variant={LabelVariant.body}
             style={styles.name}
-            title={'Dr. ' + item.name}
+            title={translate('AddDoctor.DR') + item.name}
           />
         </View>
-        <View style={{alignItems: 'center', marginTop: 5}}>
+        <View style={styles.avtarName}>
           <Label
             variant={LabelVariant.label}
             title={
@@ -120,18 +137,18 @@ const AddDoctor = ({showModal, closeModal}) => {
     return (
       <View style={styles.modalTitle}>
         <Label
-          testID="eDetail-modal-title"
+          testID="adddoctor-modal-title"
           variant={LabelVariant.h3}
-          title="+ Add Doctor"
+          title={'+' + translate('AddDoctor.label')}
         />
         <View style={[styles.modalTitleDone]}>
           <Button
-            testID="eDetail-done"
+            testID="adddoctor-done"
             title={
-              'Add Selected  ' +
+              translate('AddDoctor.addSelected') +
               (selectedList.length > 0 ? `(${selectedList.length})` : '')
             }
-            onPress={closeModal}
+            onPress={addSelectedHandler}
             mode="outlined"
             contentStyle={styles.eDetailingStartContent}
             labelStyle={styles.eDetailingStartText}
@@ -146,16 +163,16 @@ const AddDoctor = ({showModal, closeModal}) => {
       <View style={styles.modelContent}>
         <View>
           <TextInput
-            placeholder={'Search Doctors here'}
+            placeholder={translate('AddDoctor.searchText')}
             style={styles.searchBar}
             value={searchText}
             onChangeText={text => updateSearch(text)}
           />
           <SearchIcon style={styles.searchIcon} height={18} width={18} />
         </View>
-        {!!selectedList.length && (
+        {!!selectedList?.length && (
           <>
-            <View style={{maxHeight: 250, marginTop: 20}}>
+            <View style={styles.selectedMainList}>
               <FlatList
                 data={selectedList}
                 renderItem={renderItem}
@@ -163,15 +180,13 @@ const AddDoctor = ({showModal, closeModal}) => {
                 numColumns={5}
               />
             </View>
-            <View
-              style={{
-                borderBottomColor: theme.colors.grey[1000],
-                borderBottomWidth: 1,
-              }}
-            />
+            <View style={styles.horizontal} />
           </>
         )}
-        <View style={{maxHeight: 450, marginTop: 20}}>
+        <View
+          style={
+            selectedList?.length > 0 ? styles.maxClass : styles.mainMaxClass
+          }>
           <FlatList
             data={partyJson}
             renderItem={renderItem}

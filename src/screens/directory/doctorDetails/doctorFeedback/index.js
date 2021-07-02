@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Dimensions, Image} from 'react-native';
+import {View, Dimensions} from 'react-native';
 import styles from './styles';
 import {Label, Button, LabelVariant} from 'components/elements';
 import SwiperFlatList from 'react-native-swiper-flatlist';
@@ -10,10 +10,9 @@ import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import AddDoctor from './addDoctor';
 import VisitDetail from './visitDetail';
-import SampleRequest from './sampleRequest';
-import {fetchDcrDetail} from './redux/dcrSlice';
+import {fetchDcrDetail, fetchDoctorList} from './redux/dcrSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {dcrSelector} from './redux';
+import {dcrSelector, dcrActions} from './redux';
 import {Helper} from 'database';
 import EDetailingDCR from './discussed';
 
@@ -36,6 +35,15 @@ const DoctorFeedback = ({navigation, route}) => {
     })();
   });
 
+  // dispatching the action
+  useEffect(() => {
+    dispatch(
+      fetchDoctorList({
+        staffPositionId: staffPositionId,
+      }),
+    );
+  }, [dispatch, staffPositionId]);
+
   useEffect(() => {
     dispatch(fetchDcrDetail({staffPositionId: staffPositionId}));
   }, [dispatch, staffPositionId]);
@@ -52,6 +60,15 @@ const DoctorFeedback = ({navigation, route}) => {
     setShowModal(true);
   };
 
+  const updateSelectedData = (doctorData, selectedDocData) => {
+    setShowModal(false);
+    dispatch(
+      dcrActions.setDoctorList({
+        doctorData: doctorData,
+        selectedDocData: selectedDocData,
+      }),
+    );
+  };
   const swipeGestureClk = isSwipe => {
     updateSwipeGesture(isSwipe);
   };
@@ -130,7 +147,11 @@ const DoctorFeedback = ({navigation, route}) => {
         </View>
       </View>
       {!!showModal && (
-        <AddDoctor showModal={showModal} closeModal={closeAddHandler} />
+        <AddDoctor
+          showModal={showModal}
+          closeModal={closeAddHandler}
+          updateSelectedData={updateSelectedData}
+        />
       )}
     </>
   );

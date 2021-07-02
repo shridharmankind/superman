@@ -6,12 +6,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: theme.spacing(22),
   },
   modalPosition: {
     width: '85%',
     left: '4%',
     height: 700,
+  },
+  maxClass: {
+    maxHeight: 350,
+    marginTop: theme.spacing(20),
+  },
+  mainMaxClass: {
+    maxHeight: 500,
+    marginTop: theme.spacing(20),
   },
   modalTitle: {
     flexDirection: 'row',
@@ -48,15 +56,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  location: {},
+  horizontal: {
+    borderBottomColor: theme.colors.grey[1000],
+    borderBottomWidth: 1,
+  },
+  selectedMainList: {
+    maxHeight: 250,
+    marginTop: theme.spacing(20),
+  },
   item: {
     height: 120,
     width: 180,
     justifyContent: 'center',
-    marginVertical: 8,
-    marginLeft: 6,
-    marginRight: 20,
-    padding: 20,
+    marginVertical: theme.spacing(8),
+    marginLeft: theme.spacing(6),
+    marginRight: theme.spacing(20),
+    padding: theme.spacing(20),
     borderWidth: 0,
     borderRadius: 20,
     elevation: 10,
@@ -90,6 +105,14 @@ const styles = StyleSheet.create({
   },
   name: {
     color: theme.colors.grey[200],
+  },
+  avtarClass: {
+    marginTop: 0,
+    alignItems: 'center',
+  },
+  avtarName: {
+    alignItems: 'center',
+    marginTop: theme.spacing(5),
   },
 });
 

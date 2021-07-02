@@ -115,5 +115,11 @@
   "eDetailing": {
     "modalTitle": "Select Sub-brands",
     "done": "Done"
+  },
+  "AddDoctor": {
+    "DR": "Dr.",
+    "label": "Add Doctor",
+    "addSelected": "Add Selected ",
+    "searchText": "Search Doctors here"
   }
 }
