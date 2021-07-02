@@ -45,7 +45,7 @@ const isWorkingDay = (date, workingDays) => {
  * @returns selected date data
  */
 const getCellData = (date, monthlyCalendarData) => {
-  return monthlyCalendarData.filter(item => {
+  return monthlyCalendarData?.filter(item => {
     return (
       item.date?.day?.toString() === date.day?.toString() &&
       item.date?.month?.toString() === date.month?.toString()

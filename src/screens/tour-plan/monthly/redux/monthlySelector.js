@@ -1,15 +1,20 @@
 import {createSelector} from '@reduxjs/toolkit';
-
+import {getDateIntoObject} from 'utils/dateTimeHelper';
 /**
  * selector function to retrieve data from redux store
  **/
 
 const getMonthlyState = state => state.monthlyState;
 
-const getMTPDataSelector = createSelector(
-  [getMonthlyState],
-  data => data?.mtpData,
-);
+const getMTPDataSelector = createSelector([getMonthlyState], data => {
+  return data?.mtpData?.data?.map(item => {
+    return {
+      ...item,
+
+      date: getDateIntoObject(item?.dated),
+    };
+  });
+});
 
 const workingDaySelector = createSelector(
   [getMonthlyState],

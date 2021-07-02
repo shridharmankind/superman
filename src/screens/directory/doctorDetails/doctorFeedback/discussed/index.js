@@ -122,7 +122,7 @@ const EDetailingDCR = ({}) => {
             item => subProduct.name === item.name,
           );
           if (findIndex !== -1) {
-            subProduct['isChecked'] = currentList[findIndex].isChecked;
+            subProduct.isChecked = currentList[findIndex].isChecked;
           }
         }
       }

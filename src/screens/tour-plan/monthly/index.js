@@ -24,6 +24,7 @@ import {
   fetchWorkingDayCreator,
   fetchSTPStatusCreator,
   submitSTPCreator,
+  fetchMTPCalendarUpdateCreator,
 } from './redux';
 import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
@@ -83,7 +84,6 @@ const MonthlyTourPlan = ({navigation}) => {
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [submitSTP, setSubmitSTP] = useState();
-
   // Selectors
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
@@ -95,7 +95,18 @@ const MonthlyTourPlan = ({navigation}) => {
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
+  const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
+
+  useEffect(() => {
+    dispatch(
+      fetchMTPCalendarUpdateCreator({
+        staffPositionId: staffPositionId,
+        month: monthSelected?.month,
+      }),
+    );
+  }, [dispatch, staffPositionId, monthSelected]);
+
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
@@ -491,7 +502,7 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
-              monthlyCalendarData={mtpData}
+              monthlyCalendarData={mtpDataSelector ?? mtpData}
             />
 
             <Legends />
