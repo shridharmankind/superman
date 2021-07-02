@@ -99,7 +99,11 @@ function tConvert(time) {
 export const returnUTCtoLocal = (inputDate, format) => {
   const date = inputDate || dayjs.utc().format();
   const localDate = dayjs.utc(date).local().format();
-  return getFormatDate({date: localDate, format: format || 'D MMM YYYY'});
+  const formattedDate = getFormatDate({
+    date: localDate,
+    format: format || 'D MMM YYYY',
+  });
+  return formattedDate === 'Invalid Date' ? '-' : formattedDate; //TO DO : Temp fix for web
 };
 
 /**
