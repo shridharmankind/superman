@@ -42,6 +42,8 @@ const dbInstance = new Realm({
     Schemas.Molecule.schema,
     Schemas.WeeklyOffSchema.schema,
     Schemas.GeoLocationConfiguration.schema,
+    Schemas.GeoLocations.schema,
+    Schemas.GeoLocationType.schema,
   ],
   schemaVersion,
 });
@@ -64,3 +66,4 @@ export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
 export const MotherBrands = Operations.motherBrandOperations(dbInstance);
 export const Weeklyoff = Operations.weeklyoffOperations(dbInstance);
+export const geoLocations = Operations.geoLocationOperations(dbInstance);

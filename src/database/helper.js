@@ -71,6 +71,10 @@ export const MASTER_TABLES_DETAILS = [
     name: Constants.MASTER_TABLE_MOTHER_BRAND,
     apiPath: Constants.MASTER_TABLE_MOTHER_BRAND_API_PATH,
   },
+  {
+    name: Constants.MASTER_TABLE_GEO_LOCATIONS,
+    apiPath: Constants.MASTER_TABLE_GEO_LOCATIONS_API_PATH,
+  },
 ];
 
 export const syncErrorDetails = {

@@ -9,7 +9,7 @@ export default dbInstance => ({
         weeklyoffs?.forEach(geoLocation => {
           const {id, name, shortName, geoLocationConfiguration} = geoLocation;
           const configuration = dbInstance.create(
-            Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
+            Constants.MASTER_TABLE_GEO_LOCATIONS_CONFIGURATION,
             geoLocationConfiguration,
             'modified',
           );

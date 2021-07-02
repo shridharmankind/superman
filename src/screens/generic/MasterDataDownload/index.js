@@ -24,6 +24,7 @@ import {
   Weeklyoff,
   Qualifications,
   Specialities,
+  geoLocations,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -147,6 +148,9 @@ const MasterDataDownload = () => {
             case DBConstants.MASTER_TABLE_MOTHER_BRAND:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.QUALIFICATIONS:
               fetchQualifications(item);
               break;
@@ -213,6 +217,12 @@ const MasterDataDownload = () => {
                 const partyCategoriesUpdated =
                   await PartyCategories.storePartyCategories(JSON.parse(data));
                 partyCategoriesUpdated && updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
+                const geoLocationUpdated = await geoLocations.storeGeoLocations(
+                  JSON.parse(data),
+                );
+                geoLocationUpdated && updateRecordDownloaded(item.name);
                 break;
               case DBConstants.MASTER_TABLE_WEEKLYOFF:
                 const weeklyresponse = await Weeklyoff.storeWeeklyoffs(

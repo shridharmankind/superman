@@ -359,3 +359,4 @@ export {default as divisionOperations} from './divisionOperations';
 export {default as specialityOperations} from './specialityOperations';
 export {default as motherBrandOperations} from './motherBrandOperations';
 export {default as weeklyoffOperations} from './weeklyoffOperation';
+export {default as geoLocationOperations} from './geoLocationOperations';
