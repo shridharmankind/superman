@@ -16,7 +16,10 @@ export default class SkuSchema {
       isPower: 'int?',
       isSample: 'int?',
       subBrand: MASTER_TABLE_SUB_BRAND,
-      divisions: MASTER_TABLE_DIVISION,
+      divisions: {
+        type: 'list',
+        objectType: MASTER_TABLE_DIVISION,
+      },
     },
   };
 }

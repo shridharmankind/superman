@@ -1,6 +1,6 @@
 import * as Constants from '../constants';
 import {SkuSchemaName} from '../schemas/Skus';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 import {MotherBrands} from 'database';
 
 export default dbInstance => ({
@@ -40,15 +40,7 @@ export default dbInstance => ({
             'modified',
           );
 
-          const divisionData = divisions?.forEach(division => {
-            dbInstance.create(
-              Constants.MASTER_TABLE_DIVISION,
-              division,
-              'modified',
-            );
-          });
-
-          dbInstance.create(
+          let parent = dbInstance.create(
             Constants.MASTER_TABLE_SKU,
             {
               id,
@@ -61,10 +53,25 @@ export default dbInstance => ({
               isPower,
               isSample,
               subBrand: subBrandData,
-              divisions: divisionData,
             },
             'modified',
           );
+
+          divisions.forEach(division => {
+            let syncParameters =
+              division.syncParameters == undefined
+                ? syncParametersObject()
+                : division.syncParameters;
+            let child = dbInstance.create(
+              Constants.MASTER_TABLE_DIVISION,
+              {
+                ...division,
+                syncParameters,
+              },
+              'modified',
+            );
+            parent.divisions.push(child);
+          });
         });
       });
     } catch (err) {
