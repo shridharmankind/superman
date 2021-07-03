@@ -78,7 +78,7 @@ const DailyPlanParties = ({
    */
   const getAdhocCallTitle = () => {
     let adhocCallTitle = '';
-    if (visitData.length > 0) {
+    if (visitData && visitData.length > 0) {
       const month = returnUTCtoLocal(visitData[0].date, 'MMM');
       const adhocCallDates = visitData.reduce((accumulator, visit) => {
         if (visit.isAdhoc) {

@@ -3,6 +3,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import theme from 'themes';
 export {default as showConflictRecords} from './showConflictRecords';
+export {default as ShowSuccessfullSync} from './showSuccessfullSync';
 
 const SettingStack = createStackNavigator();
 

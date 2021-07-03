@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   conflictRow: {
     flexDirection: 'row',
     paddingLeft: theme.spacing(10.3),
-    paddingTop: theme.spacing(30),
+    paddingTop: theme.spacing(10),
     paddingBottom: theme.spacing(13.3),
     shadowColor: theme.colors.grey[200],
     shadowOpacity: 0.1,
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
   },
   scrollPad: {
     paddingRight: theme.spacing(10),
+  },
+  leftPadding: {
+    paddingLeft: theme.spacing(40), 
   },
   btnContent: {
     textAlign: 'center',

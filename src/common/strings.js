@@ -221,6 +221,12 @@ const Strings = {
       failureMessage: 'Sync activity could not be completed.',
       alreadRunningMessage: 'Sync activity is already in progress.',
     },
+    conflictScreen: {
+      tableName: 'Table Name',
+      lastModifiedTime: 'Last Modified (Device DB)',
+      conflictType: 'Type of Conflict',
+      conflictDesc: 'Conflict Description',
+    },
   },
   noInternet: 'No Internet',
   checkInternet: 'Check you internet connection',

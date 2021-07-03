@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
   buttonTabBarText: {
     fontSize: 12,
   },
+  syncHeading: {
+    marginTop: theme.spacing(50),
+    marginBottom: theme.spacing(10),
+  },
 });
 
 export default styles;
