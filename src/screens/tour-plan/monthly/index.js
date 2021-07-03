@@ -24,15 +24,17 @@ import {
   fetchWorkingDayCreator,
   fetchSTPStatusCreator,
   submitSTPCreator,
+  fetchMTPCalendarUpdateCreator,
 } from './redux';
 import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
 import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
-import theme from 'themes';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
-import {appSelector} from 'reducers';
+import mtpData from '../../../data/mock/api/mtpData'; //Development IN PROGRESS - remove after API integration
+import {appSelector} from 'selectors';
+
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -70,7 +72,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
-  const [selectedTourPlan, setSelectedTourPlan] = useState({});
+  const [selectedTourPlan, setSelectedTourPlan] = useState(null);
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
   const [visible, setVisible] = useState(false);
   const [myPlanOptions, setMyPlanOptions] = useState([]);
@@ -82,7 +84,6 @@ const MonthlyTourPlan = ({navigation}) => {
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [stpStatus, setStpStatus] = useState();
   const [submitSTP, setSubmitSTP] = useState();
-
   // Selectors
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
@@ -94,7 +95,18 @@ const MonthlyTourPlan = ({navigation}) => {
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
+  const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
+
+  useEffect(() => {
+    dispatch(
+      fetchMTPCalendarUpdateCreator({
+        staffPositionId: staffPositionId,
+        month: monthSelected?.month,
+      }),
+    );
+  }, [dispatch, staffPositionId, monthSelected]);
+
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
@@ -142,8 +154,9 @@ const MonthlyTourPlan = ({navigation}) => {
   }, [complaincePercentage]);
 
   useEffect(() => {
-    dispatch(monthlyActions.setSelectedPlanOption({...selectedTourPlan}));
-
+    if (selectedTourPlan !== null) {
+      dispatch(monthlyActions.setSelectedPlanOption({...selectedTourPlan}));
+    }
     return () => dispatch(monthlyActions.setSelectedPlanOption(null));
   }, [dispatch, selectedTourPlan]);
 
@@ -199,10 +212,13 @@ const MonthlyTourPlan = ({navigation}) => {
 
   //Effect to get working Days from API on load of page
   useEffect(() => {
-    dispatch(fetchWorkingDayCreator({userId: 1}));
-  }, [dispatch]);
+    dispatch(fetchWorkingDayCreator({userId: staffPositionId}));
+  }, [dispatch, staffPositionId]);
 
   useEffect(() => {
+    if (!selectedTourPlan) {
+      return;
+    }
     const monthFound = getTourPlanScheduleMonths().find(schedule => {
       return schedule.text.indexOf(selectedTourPlan.text) > -1;
     });
@@ -239,7 +255,7 @@ const MonthlyTourPlan = ({navigation}) => {
             <Label
               type="bold"
               title={
-                selectedTourPlan.id === 1 &&
+                selectedTourPlan?.id === 1 &&
                 user.staffPositions[0].staffCode === STAFF_CODES.MR
                   ? `${Strings.stp}`
                   : (selectedTourPlan?.text || '').split(' ').join(', ')
@@ -423,7 +439,7 @@ const MonthlyTourPlan = ({navigation}) => {
                           submitSTP?.submitedDate || stpStatus?.submitedDate,
                         )}`}
                         value={'1'}
-                        bgColor={theme.colors.green[300]}
+                        bgColor={themes.colors.green[300]}
                         textStyle={[styles.chip, styles.submittedChip]}
                         chipContainerCustomStyle={styles.chipContainer}
                       />
@@ -486,6 +502,7 @@ const MonthlyTourPlan = ({navigation}) => {
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
+              monthlyCalendarData={mtpDataSelector ?? mtpData}
             />
 
             <Legends />
@@ -555,10 +572,10 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
-        {selectedTourPlan.id === 1 && renderActionButton()}
+        {selectedTourPlan?.id === 1 && renderActionButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
-        selectedTourPlan.id === 1 && (
+        selectedTourPlan?.id === 1 && (
           <Label
             title={Strings.createNewStp}
             size={10}

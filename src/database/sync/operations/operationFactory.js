@@ -10,16 +10,13 @@ export const getSyncOperations = async (item, data, operationObject) => {
           schema[0].name,
           object.id,
         );
-        // console.log("existing ",JSON.stringify(existingRecord));
-        // console.log("object",JSON.stringify(object));
         /**
          * Now, There can be two scenario's
          * 1. If record doesn't exist.
          * 2. If record exist.
          */
         //Case 1
-        if (existingRecord == undefined || existingRecord == null) {
-          //console.log('record not exist');
+        if (existingRecord === undefined || existingRecord == null) {
           recordNotExist(
             item,
             schema,
@@ -31,7 +28,6 @@ export const getSyncOperations = async (item, data, operationObject) => {
           });
         } else {
           //case 2
-          //console.log('record exist');
           recordExist(
             item,
             schema,
@@ -58,7 +54,7 @@ const recordNotExist = async (
   operationObject,
 ) => {
   try {
-    if (existingRecord == undefined || existingRecord == null) {
+    if (!existingRecord) {
       //Check if server sends its deleting confirmation on server DB side
       if (object.syncParameters != null && object.syncParameters.isDeleted) {
         return Constants.SUCCESS;
@@ -73,7 +69,7 @@ const recordNotExist = async (
        */
       if (
         object.syncParameters != null &&
-        object.syncParameters.devicePartyId != ''
+        object.syncParameters.devicePartyId !== ''
       ) {
         //case 1.1
         const existingFERecord = getDBInstance()
@@ -140,7 +136,6 @@ const recordExist = async (
     } //syncParameters are null
     else {
       //If syncParameters are not null then records are not successfully updated
-
       //check if isDelete is true and there is no errorInSync
       if (
         object.syncParameters.isDeleted &&
@@ -148,7 +143,7 @@ const recordExist = async (
       ) {
         let deleteResult = deleteExistingRecord(schema[0], object.id);
         result = deleteResult;
-        if (deleteResult == Constants.SUCCESS) {
+        if (deleteResult === Constants.SUCCESS) {
           object = null;
         } else {
           result = Constants.FAILURE;
@@ -167,7 +162,7 @@ const recordExist = async (
       } else {
         getDBInstance().create(schema[0].name, object, 'modified');
       }
-      result = result == '' ? Constants.SUCCESS : result;
+      result = result === '' ? Constants.SUCCESS : result;
     }
     return result;
   } catch (err) {
@@ -176,10 +171,10 @@ const recordExist = async (
   }
 };
 
-const deleteExistingRecord = (schema, id) => {
+export const deleteExistingRecord = (schema, id) => {
   try {
     let newData = getDBInstance().objects(schema.name).filtered(`id == ${id}`);
-    if (newData != undefined) {
+    if (newData !== undefined && newData.length > 0) {
       getDBInstance().delete(newData[0]);
       newData = null;
       return Constants.SUCCESS;

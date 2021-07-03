@@ -13,6 +13,17 @@ export const getActiveUser = async () => {
   return users[0] || {};
 };
 
+export const getLastSyncTime = async () => {
+  try {
+    const record = await getDBInstance().objects(
+      Constants.MASTER_TABLES_DOWNLOAD_STATUS,
+    );
+    return record;
+  } catch (error) {
+    console.log('getLastSyncTime', error);
+  }
+};
+
 export const deleteDBObject = object => {
   try {
     if (object != undefined) {

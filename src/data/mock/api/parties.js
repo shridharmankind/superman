@@ -46,21 +46,24 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-4).date,
             month: getDate(-4).month,
-            state: 'COMPLETED',
+            status: 'COMPLETED',
+            isAdhoc: true,
           },
           {
             date: getDate(0).date,
             month: getDate(0).month,
-            state: 'TODAY',
+            status: 'TODAY',
+            isAdhoc: true,
           },
           {
             date: getDate(5).date,
             month: getDate(5).month,
-            state: 'UPCOMING',
+            status: 'UPCOMING',
+            isAdhoc: false,
           },
         ],
       },
@@ -98,21 +101,24 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-2).date,
             month: getDate(-2).month,
-            state: 'MISSED',
+            status: 'MISSED',
+            isAdhoc: false,
           },
           {
             date: getDate(0).date,
             month: getDate(0).month,
-            state: 'TODAY',
+            status: 'TODAY',
+            isAdhoc: false,
           },
           {
             date: getDate(6).date,
             month: getDate(6).month,
-            state: 'UPCOMING',
+            status: 'UPCOMING',
+            isAdhoc: false,
           },
         ],
       },
@@ -150,16 +156,18 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(0).date,
             month: getDate(0).month,
-            state: 'TODAY',
+            status: 'TODAY',
+            isAdhoc: true,
           },
           {
             date: getDate(8).date,
             month: getDate(8).month,
-            state: 'UPCOMING',
+            status: 'UPCOMING',
+            isAdhoc: false,
           },
         ],
       },
@@ -197,21 +205,24 @@ export const partiesMock = {
           {startDate: '2019-01-20T00:00:00', endDate: '2019-12-30T00:00:00'},
           {startDate: '2018-04-25T00:00:00', endDate: '2018-10-20T00:00:00'},
         ],
-        visitData: [
+        visits: [
           {
             date: getDate(-2).date,
             month: getDate(-2).month,
-            state: 'COMPLETED',
+            status: 'COMPLETED',
+            isAdhoc: true,
           },
           {
             date: getDate(0).date,
             month: getDate(0).month,
-            state: 'TODAY',
+            status: 'TODAY',
+            isAdhoc: false,
           },
           {
             date: getDate(3).date,
             month: getDate(3).month,
-            state: 'UPCOMING',
+            status: 'UPCOMING',
+            isAdhoc: true,
           },
         ],
       },
@@ -249,21 +260,24 @@ export const partiesMock = {
         ],
         category: 'B',
         location: 'Karol Bagh',
-        visitData: [
+        visits: [
           {
             date: getDate(-6).date,
             month: getDate(-6).month,
-            state: 'MISSED',
+            status: 'MISSED',
+            isAdhoc: false,
           },
           {
             date: getDate(0).date,
             month: getDate(0).month,
-            state: 'TODAY',
+            status: 'TODAY',
+            isAdhoc: false,
           },
           {
             date: getDate(5).date,
             month: getDate(5).month,
-            state: 'UPCOMING',
+            status: 'UPCOMING',
+            isAdhoc: true,
           },
         ],
       },
@@ -301,16 +315,18 @@ export const partiesMock = {
             shortName: 'Group1',
           },
         },
-        visitData: [
+        visits: [
           {
             date: getDate(0).date,
             month: getDate(0).month,
-            state: 'TODAY',
+            status: 'TODAY',
+            isAdhoc: true,
           },
           {
             date: getDate(9).date,
             month: getDate(9).month,
-            state: 'UPCOMING',
+            status: 'UPCOMING',
+            isAdhoc: false,
           },
         ],
       },

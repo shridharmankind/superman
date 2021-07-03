@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   details: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   image: {
     width: 48,
@@ -107,7 +108,6 @@ const styles = StyleSheet.create({
   },
   name: {
     flex: 1,
-    textTransform: 'capitalize',
   },
   capitalize: {textTransform: 'capitalize'},
 });

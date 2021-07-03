@@ -20,12 +20,14 @@ import {Button} from 'components/elements';
 import theme from 'themes';
 import {getDivisionColor} from 'screens/directory/helper';
 import {ROUTE_EDETAILING} from 'screens/directory/routes';
-import {showToast, hideToast} from 'components/widgets/Toast';
+import {showToast} from 'components/widgets/Toast';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
 import {searchDoctorActions} from 'screens/directory/landing/redux';
 import {appSelector} from 'selectors';
 import {Helper} from 'database';
+import {translate} from 'locale';
+import MissedCalls from 'screens/directory/landing/missedCalls';
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
@@ -75,6 +77,9 @@ const DirectoryLanding = ({navigation, route}) => {
 
   const data = [
     {
+      text: `${translate('missedCalls')}`,
+    },
+    {
       text: `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`,
     },
     {
@@ -120,6 +125,8 @@ const DirectoryLanding = ({navigation, route}) => {
   const renderChildView = () => {
     switch (selectedTabIndex) {
       case 0:
+        return <MissedCalls />;
+      case 1:
         return doctorTab();
       default:
         return <Label title={Strings.comingSoon} />;

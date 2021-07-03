@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   Image,
   View,
-  Alert,
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
@@ -24,16 +23,20 @@ import {
   ROUTE_MASTER_DATA_DOWNLOAD,
   ROUTE_DASHBOARD,
 } from '../../../navigations/routes';
+import env from '../../../../env.json';
+import {Alert} from 'components/widgets';
+
+const {oneLogin = {}} = env;
+const {authority, clientID, redirectURL} = oneLogin;
 
 const config = {
-  issuer: 'https://mankindpharma-sandbox.onelogin.com/oidc/2',
-  clientId: '49ec86f0-96aa-0139-a9f5-02c2731a1c49186786',
-  redirectUrl: 'com.superman://callback',
+  issuer: authority,
+  clientId: clientID,
+  redirectUrl: redirectURL,
   scopes: ['openid', 'profile'],
   additionalParameters: {prompt: 'login'},
 };
 
-export const USER_ID = 'USER_ID';
 export const AlertTitle = 'Info';
 
 const Login = () => {
@@ -57,12 +60,12 @@ const Login = () => {
         Constants.TOKEN_EXPIRY_TIME,
         JSON.stringify(decoded.exp),
       );
-      AsyncStorage.setItem(USER_ID, decoded.sub);
+      AsyncStorage.setItem(Constants.USER_ID, decoded.sub);
       setAnimating(false);
     } catch (error) {
       setAnimating(false);
       console.log(error);
-      Alert.alert(Strings.info, error.message);
+      Alert(Strings.info, error.message);
     }
   }, [dispatch]);
 
@@ -73,14 +76,12 @@ const Login = () => {
       </ImageBackground>
 
       <View style={styles.loginViewContainer}>
-        <View style={styles.supermanTextStyle}>
-          <Label
-            title={Strings.superman}
-            size={105}
-            textColor={theme.colors.primary}
-            type="semiBold"
-          />
-        </View>
+        <Label
+          title={Strings.superman}
+          size={80}
+          textColor={theme.colors.primary}
+          type="semiBold"
+        />
 
         <View style={styles.loginButtonContainer}>
           <Button
