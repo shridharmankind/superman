@@ -26,6 +26,10 @@ export const MASTER_TABLES_DETAILS = [
     ],
   },
   {
+    name: Constants.MASTER_TABLE_SKU,
+    apiPath: Constants.MASTER_TABLE_SKU_API_PATH,
+  },
+  {
     name: Constants.MASTER_MONTHLY_TABLE_PLAN,
     apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
     syncApiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_SYNC_API_PATH,

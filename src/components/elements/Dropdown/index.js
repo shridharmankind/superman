@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
-import {Strings} from 'common';
+import {translate} from 'locale';
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
  * This serves the purpose to make the use of Dropdown throughout the app
@@ -14,6 +14,9 @@ import {Strings} from 'common';
  * @param {Array} data pass data as an array eg: [{value: test}]
  * @param {Function} valueSelected value to pass to parent component
  * @param {String} testID testID to pass
+ * @param {Boolean} hideDropdown to hide dropdown when clicked outside
+ * @param {Function} setHideDropDown to hide dropdown if clicked outside
+ * @param {Boolean} isPatchedData if patched is selected or not
  */
 
 const Dropdown = forwardRef((props, ref) => {
@@ -59,13 +62,13 @@ const Dropdown = forwardRef((props, ref) => {
     text => {
       if (text) {
         setDropdownText(text);
-        const filteredData = data.filter(val =>
+        const filteredData = data?.filter(val =>
           val.displayName.toLowerCase().includes(text.toLowerCase()),
         );
-        if (filteredData.length > 0) {
+        if (filteredData?.length > 0) {
           setDropDownData(filteredData);
         } else {
-          setDropDownData([{displayName: Strings.noPatchFound}]);
+          setDropDownData([]);
         }
       } else {
         setDropdownText('');
@@ -108,10 +111,10 @@ const Dropdown = forwardRef((props, ref) => {
       )}
       {togglePicker && (
         <ScrollView style={styles.pickerContainer} ref={ref}>
-          {(dropDownData.length > 0 ? dropDownData : data)?.map((option, i) => (
-            <View>
+          {dropDownData?.length > 0 ? (
+            dropDownData?.map((option, i) => (
               <TouchableOpacity
-                key={option.displayName}
+                key={option.id}
                 style={[
                   styles.pickerLabel,
                   data.length === i + 1 ? styles.noBorder : null,
@@ -122,8 +125,13 @@ const Dropdown = forwardRef((props, ref) => {
                   variant={LabelVariant.subtitleSmall}
                 />
               </TouchableOpacity>
-            </View>
-          ))}
+            ))
+          ) : (
+            <Label
+              title={translate('tourPlan.standard.noPatchFound')}
+              variant={LabelVariant.subtitleSmall}
+            />
+          )}
         </ScrollView>
       )}
     </View>

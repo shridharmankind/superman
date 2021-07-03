@@ -12,6 +12,7 @@ import {translate} from 'locale';
  * @param {Function} onTilePress click function on party tile
  */
 const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
+  const {toDoVisits, completedVisits} = dayPlanData;
   const doctorDetailStyleObject = {
     nameContainerCustom: styles.nameContainer,
     specialization: styles.specialization,
@@ -27,7 +28,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
    * Render UI for completed visits
    */
   const renderCompletedVisits = () => {
-    return dayPlanData?.completedVisits.map((data, index) => (
+    return completedVisits.map((data, index) => (
       <View style={styles.doctorDetailWrapper}>
         <View key={index} style={styles.doctorDetailContainer}>
           <DailyPlanParties
@@ -65,7 +66,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const renderDayPlan = () => {
     return (
       <View style={styles.contentView}>
-        {(dayPlanData?.toDoVisits || []).map((plan, index) => {
+        {(toDoVisits || []).map((plan, index) => {
           return (
             <View style={styles.doctorDetailWrapper} key={index}>
               <View key={index} style={styles.doctorDetailContainer}>
@@ -101,12 +102,14 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   return (
     <>
       {renderDayPlan()}
-      <Label
-        variant={LabelVariant.h6}
-        style={styles.visitCompleted}
-        title={translate('tourPlan.monthly.visitCompleted')}
-        type={'regular'}
-      />
+      {completedVisits.length > 0 && (
+        <Label
+          variant={LabelVariant.h6}
+          style={styles.visitCompleted}
+          title={translate('tourPlan.monthly.visitCompleted')}
+          type={'regular'}
+        />
+      )}
 
       {renderCompletedVisits()}
     </>
