@@ -28,6 +28,11 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_SKU,
     apiPath: Constants.MASTER_TABLE_SKU_API_PATH,
+    schema: [
+      Schemas.Skus.schema,
+      Schemas.SubBrand.schema,
+      Schemas.Divisions.schema,
+    ],
   },
   {
     name: Constants.MASTER_MONTHLY_TABLE_PLAN,
@@ -42,6 +47,7 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_PARTY_CATEGORIES,
     apiPath: Constants.MASTER_TABLE_PARTY_CATEGORIES_API_PATH,
+    schema: [Schemas.PartyCategories.schema],
   },
   {
     name: Constants.MASTER_TABLE_ORGANIZATION,

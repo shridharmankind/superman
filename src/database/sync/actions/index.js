@@ -67,6 +67,10 @@ const configParam = (item, staffPositionId, lastSync, data) => {
     DBConstants.MASTER_TABLE_ORGANIZATION,
     DBConstants.QUALIFICATIONS,
     DBConstants.SPECIALITIES,
+    DBConstants.MASTER_TABLE_MOTHER_BRAND,
+    DBConstants.MASTER_TABLE_WEEKLYOFF,
+    DBConstants.MASTER_TABLE_PARTY_CATEGORIES,
+    DBConstants.MASTER_TABLE_SKU,
   ];
 
   if (GET_CASE.includes(item.name)) {

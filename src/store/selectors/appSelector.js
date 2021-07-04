@@ -11,6 +11,11 @@ const staffPositionIdSelector = createSelector(
   data => data?.staffPositionId,
 );
 
+const syncStatusSelector = createSelector(
+  [getAppData],
+  data => data?.syncStatus,
+);
+
 export const appSelector = {
   //App state
   makeGetAppFetch: () => {
@@ -18,5 +23,8 @@ export const appSelector = {
   },
   getStaffPositionId: () => {
     return staffPositionIdSelector;
+  },
+  getSyncStatus: () => {
+    return syncStatusSelector;
   },
 };

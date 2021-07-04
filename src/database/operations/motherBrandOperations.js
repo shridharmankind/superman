@@ -15,7 +15,16 @@ export default dbInstance => ({
     }
     return recordsUpdated;
   },
-
+  createSingleRecord: motherBrand => {
+    let recordsUpdated = true;
+    try {
+      MotherBrands.writeDataMapping([motherBrand], dbInstance);
+    } catch (err) {
+      console.log(err);
+      recordsUpdated = false;
+    }
+    return recordsUpdated;
+  },
   // Re-usable for SUB_BRAND
   writeDataMapping: (motherBrands, toBeReturn = false) => {
     let data;

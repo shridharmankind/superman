@@ -6,7 +6,6 @@ export default dbInstance => ({
     let recordsUpdated = true;
     try {
       await dbInstance.write(() => {
-        console.log('weeklyOf', weeklyoffs);
         weeklyoffs?.forEach(geoLocation => {
           const {id, name, shortName, geoLocationConfiguration} = geoLocation;
           const configuration = dbInstance.create(
@@ -43,5 +42,34 @@ export default dbInstance => ({
   getWeeklyOffsById: async weeklyoffId => {
     const weeklyoffs = await getAllTableRecords(WeeklyoffSchemaName);
     return weeklyoffs.filtered(`id = ${weeklyoffId}`);
+  },
+  createSingleRecord: weeklyoff => {
+    let recordsUpdated = true;
+    try {
+      const {id, name, shortName, geoLocationConfiguration} = weeklyoff;
+      const configuration = dbInstance.create(
+        Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
+        {
+          ...geoLocationConfiguration,
+          syncParameters: syncParametersObject(),
+        },
+        'modified',
+      );
+      dbInstance.create(
+        WeeklyoffSchemaName,
+        {
+          id: id,
+          name: name,
+          shortName: shortName,
+          geoLocationConfiguration: configuration,
+          syncParameters: syncParametersObject(),
+        },
+        'modified',
+      );
+    } catch (err) {
+      console.log(err);
+      recordsUpdated = false;
+    }
+    return recordsUpdated;
   },
 });
