@@ -1,5 +1,10 @@
 import {takeEvery, call, put} from 'redux-saga/effects';
-import {fetchDcrDetailType, dcrActions, visitDetailType} from './dcrSlice';
+import {
+  fetchDcrDetailType,
+  dcrActions,
+  visitDetailType,
+  fetchDoctorListType,
+} from './dcrSlice';
 import {fetchStatusSliceActions, FetchEnumStatus} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/directory/apiPath';
@@ -10,6 +15,30 @@ export function* fetchDcrWatcher() {
 
 export function* setVisitWatcher() {
   yield takeEvery(visitDetailType, fetchVisitHandler);
+}
+
+export function* getDoctorDataList() {
+  yield takeEvery(fetchDoctorListType, getDoctorList);
+}
+
+function* getDoctorList(action) {
+  const {staffPositionId} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  try {
+    const response = yield call(
+      NetworkService.get,
+      `${API_PATH.GET_DOCTOR_LIST}/${staffPositionId}?partyTypeGroupId=1`,
+    );
+    yield put(
+      dcrActions.getDoctors({
+        doctorList: [...response.data],
+      }),
+    );
+
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
 }
 
 function* fetchDcrHandler(action) {

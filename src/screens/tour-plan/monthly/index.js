@@ -99,12 +99,14 @@ const MonthlyTourPlan = ({navigation}) => {
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
 
   useEffect(() => {
-    dispatch(
-      fetchMTPCalendarUpdateCreator({
-        staffPositionId: staffPositionId,
-        month: monthSelected?.month,
-      }),
-    );
+    if (monthSelected) {
+      dispatch(
+        fetchMTPCalendarUpdateCreator({
+          staffPositionId: staffPositionId,
+          month: monthSelected?.month,
+        }),
+      );
+    }
   }, [dispatch, staffPositionId, monthSelected]);
 
   useEffect(() => {

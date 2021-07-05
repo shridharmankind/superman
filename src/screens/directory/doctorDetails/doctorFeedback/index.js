@@ -8,17 +8,17 @@ import dayjs from 'dayjs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import EDetailingDCR from './discussed';
-
+import AddDoctor from './addDoctor';
 import VisitDetail from './visitDetail';
-import SampleRequest from './sampleRequest';
-import {fetchDcrDetail} from './redux/dcrSlice';
+import {fetchDcrDetail, fetchDoctorList} from './redux/dcrSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {dcrSelector} from './redux';
+import {dcrSelector, dcrActions} from './redux';
 import {Helper} from 'database';
+import EDetailingDCR from './discussed';
 
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
+  const [showModal, setShowModal] = useState(false);
   const [staffPositionId, setStaffPositionId] = useState(null);
   const [disableSwipeGesture, updateSwipeGesture] = useState(false);
   const items = [
@@ -35,6 +35,15 @@ const DoctorFeedback = ({navigation, route}) => {
     })();
   });
 
+  // dispatching the action
+  useEffect(() => {
+    dispatch(
+      fetchDoctorList({
+        staffPositionId: staffPositionId,
+      }),
+    );
+  }, [dispatch, staffPositionId]);
+
   useEffect(() => {
     dispatch(fetchDcrDetail({staffPositionId: staffPositionId}));
   }, [dispatch, staffPositionId]);
@@ -44,6 +53,22 @@ const DoctorFeedback = ({navigation, route}) => {
     navigation.pop();
   };
 
+  const closeAddHandler = () => {
+    setShowModal(false);
+  };
+  const AddDoctorHandler = () => {
+    setShowModal(true);
+  };
+
+  const updateSelectedData = (doctorData, selectedDocData) => {
+    setShowModal(false);
+    dispatch(
+      dcrActions.setDoctorList({
+        doctorData: doctorData,
+        selectedDocData: selectedDocData,
+      }),
+    );
+  };
   const swipeGestureClk = isSwipe => {
     updateSwipeGesture(isSwipe);
   };
@@ -60,6 +85,7 @@ const DoctorFeedback = ({navigation, route}) => {
           disSwipeGesture={disable => {
             swipeGestureClk(disable);
           }}
+          addDoctorHandler={AddDoctorHandler}
         />
       );
     } else if (index === 1) {
@@ -71,54 +97,63 @@ const DoctorFeedback = ({navigation, route}) => {
     }
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <View style={styles.headerDataStyle}>
-            <TouchableOpacity
-              style={styles.backArrow}
-              onPress={closeFeedback}
-              testID="back_btn">
-              <ArrowBack width={34.7} height={34.7} />
-            </TouchableOpacity>
-            <Label
-              variant={LabelVariant.h2}
-              title={`${Strings.doctorDetail.dcr.feedback} - `}
-            />
-            <Label
-              style={styles.nameStyling}
-              variant={LabelVariant.h2}
-              testID="doctor_name"
-              title={`Dr. ${doctorData.name}`}
-            />
-          </View>
+    <>
+      <View style={styles.container}>
+        <View style={styles.header}>
           <View>
-            <Label
-              style={styles.dateStyling}
-              title={getFormatDate({date: dayjs(), format: 'DD MMM YYYY'})}
-            />
+            <View style={styles.headerDataStyle}>
+              <TouchableOpacity
+                style={styles.backArrow}
+                onPress={closeFeedback}
+                testID="back_btn">
+                <ArrowBack width={34.7} height={34.7} />
+              </TouchableOpacity>
+              <Label
+                variant={LabelVariant.h2}
+                title={`${Strings.doctorDetail.dcr.feedback} - `}
+              />
+              <Label
+                style={styles.nameStyling}
+                variant={LabelVariant.h2}
+                testID="doctor_name"
+                title={`Dr. ${doctorData.name}`}
+              />
+            </View>
+            <View>
+              <Label
+                style={styles.dateStyling}
+                title={getFormatDate({date: dayjs(), format: 'DD MMM YYYY'})}
+              />
+            </View>
           </View>
+          <Button
+            title={Strings.doctorDetail.dcr.btnDone}
+            disabled={true}
+            contentStyle={styles.button}
+          />
         </View>
-        <Button
-          title={Strings.doctorDetail.dcr.btnDone}
-          disabled={true}
-          contentStyle={styles.button}
-        />
+        <View style={styles.section}>
+          <SwiperFlatList
+            data={items}
+            renderAll={false}
+            showPagination
+            paginationStyleItemActive={styles.activePaginationItem}
+            paginationStyleItem={styles.paginationItem}
+            paginationStyle={styles.paginationStyle}
+            style={styles.swiperListStyle}
+            renderItem={({index}) => renderSlide(index)}
+            disableGesture={disableSwipeGesture}
+          />
+        </View>
       </View>
-      <View style={styles.section}>
-        <SwiperFlatList
-          data={items}
-          renderAll={false}
-          showPagination
-          paginationStyleItemActive={styles.activePaginationItem}
-          paginationStyleItem={styles.paginationItem}
-          paginationStyle={styles.paginationStyle}
-          style={styles.swiperListStyle}
-          renderItem={({index}) => renderSlide(index)}
-          disableGesture={disableSwipeGesture}
+      {!!showModal && (
+        <AddDoctor
+          showModal={showModal}
+          closeModal={closeAddHandler}
+          updateSelectedData={updateSelectedData}
         />
-      </View>
-    </View>
+      )}
+    </>
   );
 };
 
