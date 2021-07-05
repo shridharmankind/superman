@@ -201,7 +201,6 @@ export function* swapWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
