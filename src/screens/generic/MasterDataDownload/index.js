@@ -71,6 +71,7 @@ const MasterDataDownload = () => {
           let failedToSaveQualifications = false;
 
           const response = await NetworkService.get(apiPath);
+          console.log('DB fetchQualifications', response);
 
           if (response && response.status === Constants.HTTP_OK) {
             const {data} = response;
@@ -92,6 +93,7 @@ const MasterDataDownload = () => {
           let failedToSaveSpecialities = false;
 
           const response = await NetworkService.get(apiPath);
+          console.log('DB fetchSpecialities', response);
 
           if (response && response.status === Constants.HTTP_OK) {
             const {data} = response;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true"/>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">https://api.services-all.0a6418a61f9c4aeb86ee.centralindia.aksapp.io</domain>
+        <trust-anchors>
+            <certificates src="@raw/mankind"/>
+        </trust-anchors>
+    </domain-config>
+</network-security-config>
