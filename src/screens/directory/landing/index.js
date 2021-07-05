@@ -47,7 +47,6 @@ const DirectoryLanding = ({navigation, route}) => {
   const [doctorsAddedinTodayPlan, updateTodayPlan] = useState([]);
   const dispatch = useDispatch(); // For dispatching the action
 
-
   useEffect(() => {
     if (!!searchKeyword && searchKeyword !== '') {
       let filterPrefix = checkForDrPrefix(searchKeyword);
