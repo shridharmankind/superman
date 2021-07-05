@@ -8,37 +8,35 @@ import {TextInput} from 'react-native-paper';
 import {SearchIcon} from 'assets';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {showToast, hideToast} from 'components/widgets/Toast';
 import {List} from 'react-native-paper';
 import {CloseIcon} from 'assets';
 import {
   dcrActions,
   dcrSelector,
-  searchSamples,
-  selectSamples,
+  searchItems,
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
-const SampleOpenTasks = ({index, width}) => {
+const ItemRequest = ({index, width}) => {
   const [showModal, setShowModal] = useState(false);
   const [searchKeyword, updateSearch] = useState(null);
   const [selectedDocId, updateSelectedDocId] = useState(null);
-  const [errorMsg, showError] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(searchSamples({staffPositionId: 1, searchKey: 'a'}));
+    dispatch(searchItems({staffPositionId: 1, searchKey: 'a'}));
   }, [dispatch, searchKeyword]);
 
-  const querySamples = useSelector(dcrSelector.getSamples());
+  const querySamples = useSelector(dcrSelector.getItems());
+  const selectedSamples = useSelector(dcrSelector.getSelectedItems());
   const doctors = useSelector(dcrSelector.getPartyData());
-  const selectedSamples = useSelector(dcrSelector.getSelectedSamples());
-  console.log(selectedSamples);
 
   const onErrorHandler = () => {
-    let sampleImage = require('assets/images/product.png');
-    return sampleImage;
+    let itemImage = require('assets/images/item.jpeg');
+    return itemImage;
   };
 
   useEffect(() => {
-    dispatch(dcrActions.clearSelectedSamples());
+    dispatch(dcrActions.clearSelectedItems());
   }, [dispatch, doctors, showModal]);
 
   // To be called on click of Add Selected button from Modal
@@ -49,30 +47,49 @@ const SampleOpenTasks = ({index, width}) => {
       const partyIndex = doctors.findIndex(
         item => item.partyId === selectedDocId,
       );
-      let tempSampleArray = [
-        ...doctors[partyIndex].sampleOpenTasks,
-        ...selectedSamples,
-      ];
+      let tempObj;
+      let tempSampleArray;
+      if (doctors[partyIndex].itemRequested === undefined) {
+        tempObj = {...doctors[partyIndex]};
+        tempObj.itemRequested = [];
+        tempSampleArray = [...selectedSamples];
+      } else {
+        tempSampleArray = [
+          ...doctors[partyIndex].itemRequested,
+          ...selectedSamples,
+        ];
+      }
 
       let tempDocObj = {...doctors[partyIndex]};
-      tempDocObj.sampleOpenTasks = tempSampleArray;
+      tempDocObj.itemRequested = tempSampleArray;
       let newArr = [...doctors]; // copying the old datas array
       newArr[partyIndex] = tempDocObj;
       dispatch(dcrActions.updateDoctorDetails(newArr));
     } else {
-      showError('Sample Already exists');
+      return (
+        <View style={styles.toastContainer}>
+          {showToast({
+            type: Constants.TOAST_TYPES.SUCCESS,
+            autoHide: false,
+            props: {
+              heading: Strings.doctorDetail.dcr.sampleReq.error,
+              onClose: () => hideToast(),
+            },
+          })}
+        </View>
+      );
     }
   };
 
   // To check if sample already exists in the list
   const isAlreadyAdded = (docId, selectedSamps) => {
     const partyIndex = doctors.findIndex(item => item.partyId === docId);
-    for (const sample of doctors[partyIndex].sampleOpenTasks) {
-      // const keys1 = Object.keys(sample);
-      // const keys2 = Object.keys(selectedSample);
-      for (const selected of selectedSamps) {
-        if (sample.skuId === selected.skuId) {
-          return true;
+    if (doctors[partyIndex].itemRequested) {
+      for (const sample of doctors[partyIndex].itemRequested) {
+        for (const selected of selectedSamps) {
+          if (sample.itemId === selected.itemId) {
+            return true;
+          }
         }
       }
     }
@@ -84,7 +101,7 @@ const SampleOpenTasks = ({index, width}) => {
     if (
       !!selectedSamples &&
       selectedSamples.length > 0 &&
-      selectedSamples.findIndex(ele => ele.skuId === sample.skuId) >= 0
+      selectedSamples.findIndex(ele => ele.itemId === sample.itemId) >= 0
     ) {
       return (
         <View style={styles.checkStyling}>
@@ -104,7 +121,7 @@ const SampleOpenTasks = ({index, width}) => {
       <View style={styles.modalTitle}>
         <Label
           variant={LabelVariant.h2}
-          title={Strings.doctorDetail.dcr.sampleReq.addSample}
+          title={Strings.doctorDetail.dcr.itemRequest.addItems}
         />
         <Button
           title={
@@ -120,25 +137,23 @@ const SampleOpenTasks = ({index, width}) => {
           style={styles.closeIcon}
           width={32}
           height={32}
-          onPress={() => {
-            setShowModal(false), showError(null);
-          }}
+          onPress={() => setShowModal(false)}
         />
       </View>
     );
   };
 
   // To add teh sample from the search Modal
-  const selectAndAddSample = sample => {
+  const selectAndAddItem = sample => {
     const checkIndex = selectedSamples.findIndex(
-      ele => ele.skuId === sample.skuId,
+      ele => ele.itemId === sample.itemId,
     );
     if (checkIndex >= 0) {
       let tempArr = [...selectedSamples];
       tempArr.splice(checkIndex, 1);
-      dispatch(selectSamples(tempArr));
+      dispatch(dcrActions.selectItems(tempArr));
     } else {
-      dispatch(selectSamples([...selectedSamples, sample]));
+      dispatch(dcrActions.selectItems([...selectedSamples, sample]));
     }
   };
 
@@ -161,7 +176,7 @@ const SampleOpenTasks = ({index, width}) => {
               return (
                 <TouchableOpacity
                   style={styles.searchSampleStyling}
-                  onPress={() => selectAndAddSample(sample)}>
+                  onPress={() => selectAndAddItem(sample)}>
                   <Image
                     style={styles.searchSampleImageStyle}
                     source={
@@ -169,16 +184,11 @@ const SampleOpenTasks = ({index, width}) => {
                     }
                   />
                   {renderCircle(sample)}
-                  <Label title={sample.skuName} />
+                  <Label title={sample.itemName} />
                 </TouchableOpacity>
               );
             })}
         </View>
-        {errorMsg && (
-          <View style={styles.toastContainer}>
-            <Label title={errorMsg} />
-          </View>
-        )}
       </>
     );
   };
@@ -193,11 +203,9 @@ const SampleOpenTasks = ({index, width}) => {
     const checkIndex = doctors.findIndex(item => item.partyId === docId);
     if (checkIndex >= 0) {
       let tempObj = {...doctors[checkIndex]};
-      tempObj.noSampleGiven = !doctors[checkIndex].noSampleGiven;
-
+      tempObj.noItemRequested = !doctors[checkIndex].noItemRequested;
       let tempArray = [...doctors];
       tempArray[checkIndex] = tempObj;
-
       dispatch(dcrActions.updateDoctorDetails(tempArray));
     }
   };
@@ -225,14 +233,14 @@ const SampleOpenTasks = ({index, width}) => {
     let tempSamp = {...sample};
     tempSamp.actualQty = tempSamp.actualQty - 1;
     const partyIndex = doctors.findIndex(item => item.partyId === docId);
-    const sampleIndex = doctors[partyIndex].sampleOpenTasks.findIndex(
-      item => item.skuId === sample.skuId,
+    const sampleIndex = doctors[partyIndex].itemRequested.findIndex(
+      item => item.itemId === item.skuId,
     );
-    let tempSampleArray = [...doctors[partyIndex].sampleOpenTasks];
+    let tempSampleArray = [...doctors[partyIndex].itemRequested];
     tempSampleArray.splice(sampleIndex, 1, tempSamp);
 
     let tempDocObj = {...doctors[partyIndex]};
-    tempDocObj.sampleOpenTasks = tempSampleArray;
+    tempDocObj.itemRequested = tempSampleArray;
     let newArr = [...doctors]; // copying the old datas array
     newArr[partyIndex] = tempDocObj;
 
@@ -246,13 +254,13 @@ const SampleOpenTasks = ({index, width}) => {
       tempSamp = {...sample, actualQty: 0};
       tempSamp.actualQty = tempSamp.actualQty + 1;
       const partyIndex = doctors.findIndex(item => item.partyId === docId);
-      const sampleIndex = doctors[partyIndex].sampleOpenTasks.findIndex(
-        item => item.skuId === sample.skuId,
+      const sampleIndex = doctors[partyIndex].itemRequested.findIndex(
+        item => item.itemId === sample.itemId,
       );
-      let tempSampleArray = [...doctors[partyIndex].sampleOpenTasks];
+      let tempSampleArray = [...doctors[partyIndex].itemRequested];
       tempSampleArray.splice(sampleIndex, 1, tempSamp);
       let tempDocObj = {...doctors[partyIndex]};
-      tempDocObj.sampleOpenTasks = tempSampleArray;
+      tempDocObj.itemRequested = tempSampleArray;
       let newArr = [...doctors]; // copying the old datas array
       newArr[partyIndex] = tempDocObj;
 
@@ -261,32 +269,28 @@ const SampleOpenTasks = ({index, width}) => {
       tempSamp = {...sample};
       tempSamp.actualQty = tempSamp.actualQty + 1;
       const partyIndex = doctors.findIndex(item => item.partyId === docId);
-      const sampleIndex = doctors[partyIndex].sampleOpenTasks.findIndex(
-        item => item.skuId === sample.skuId,
+      const sampleIndex = doctors[partyIndex].itemRequested.findIndex(
+        item => item.itemId === sample.itemId,
       );
-      let tempSampleArray = [...doctors[partyIndex].sampleOpenTasks];
+      let tempSampleArray = [...doctors[partyIndex].itemRequested];
       tempSampleArray.splice(sampleIndex, 1, tempSamp);
       let tempDocObj = {...doctors[partyIndex]};
-      tempDocObj.sampleOpenTasks = tempSampleArray;
+      tempDocObj.itemRequested = tempSampleArray;
       let newArr = [...doctors]; // copying the old datas array
       newArr[partyIndex] = tempDocObj;
       dispatch(dcrActions.updateDoctorDetails(newArr));
     }
   };
 
-  // const actualSamplesGiven = () => {
-
-  // }
-
   // To render the specific data related to specific doctor
-  const renderSamples = (docId, sampleOpenTaskArray) => {
+  const renderItems = (docId, itemOpenTaskArray) => {
     return (
       <View style={styles.sampleListContainer}>
         <FlatList
           nestedScrollEnabled
-          keyExtractor={item => item.skuId}
+          keyExtractor={item => item.itemId}
           contentContainerStyle={styles.scrollPad}
-          data={sampleOpenTaskArray}
+          data={itemOpenTaskArray}
           renderItem={({item}) => {
             return (
               <View
@@ -301,7 +305,7 @@ const SampleOpenTasks = ({index, width}) => {
                     source={item.imageUrl ? item.imageUrl : onErrorHandler()}
                   />
                   <Label
-                    title={item.skuName}
+                    title={item.itemName}
                     style={
                       item.completed === false
                         ? styles.highLightRowText
@@ -389,8 +393,8 @@ const SampleOpenTasks = ({index, width}) => {
   };
 
   const renderIcon = ind => {
-    if (doctors[ind]?.noSampleGiven) {
-      if (doctors[ind].noSampleGiven === true) {
+    if (doctors[ind]?.noItemRequested) {
+      if (doctors[ind].noItemRequested === true) {
         return (
           <Icon name="check-circle" size={16} color={themes.colors.primary} />
         );
@@ -411,11 +415,10 @@ const SampleOpenTasks = ({index, width}) => {
       <View style={styles.questionSection}>
         <Text style={styles.question}>
           <Text style={{fontFamily: themes.fonts.fontBold}}>{index + 1}.</Text>
-          {` ${Strings.doctorDetail.dcr.sampleReq.question.leftPart} `}
           <Text style={{fontFamily: themes.fonts.fontBold}}>
-            {`${Strings.doctorDetail.dcr.sampleReq.question.midPart} `}
+            {` ${Strings.doctorDetail.dcr.item.question.midPart} `}
           </Text>
-          {`${Strings.doctorDetail.dcr.sampleReq.question.rightPart}`}
+          {`${Strings.doctorDetail.dcr.item.question.rightPart}`}
         </Text>
       </View>
       {doctors && doctors.length > 0 && (
@@ -430,9 +433,7 @@ const SampleOpenTasks = ({index, width}) => {
                       onPress={() => noSampleHandler(docObj.partyId)}>
                       {renderIcon(ind)}
                     </TouchableOpacity>
-                    <Label
-                      title={Strings.doctorDetail.dcr.sampleReq.noSamplesGiven}
-                    />
+                    <Label title={Strings.doctorDetail.dcr.item.noItemReq} />
                   </View>
                   <List.Accordion
                     title={docObj.partyName}
@@ -441,7 +442,8 @@ const SampleOpenTasks = ({index, width}) => {
                     // eslint-disable-next-line react-native/no-inline-styles
                     titleStyle={{justifyContent: 'flex-start', fontSize: 18}}
                     id={docObj.partyId}>
-                    {renderSamples(docObj.partyId, docObj.sampleOpenTasks)}
+                    {docObj.itemRequested &&
+                      renderItems(docObj.partyId, docObj.itemRequested)}
                     {renderFooter(docObj.partyId)}
                   </List.Accordion>
                 </View>
@@ -450,10 +452,9 @@ const SampleOpenTasks = ({index, width}) => {
           </List.AccordionGroup>
         </View>
       )}
-
       {renderModal()}
     </View>
   );
 };
 
-export default SampleOpenTasks;
+export default ItemRequest;

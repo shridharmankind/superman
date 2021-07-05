@@ -35,7 +35,6 @@ export const rootReducer = combineReducers({
   timeline: timelineReducer,
   authState: authTokenReducer,
   dcrState: dcrReducer,
-  sampleList: searchSamplesReducer,
 });
 
 export {fetchStatusSliceActions, FetchEnumStatus} from './appSlice';

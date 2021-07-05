@@ -130,13 +130,9 @@ const styles = StyleSheet.create({
   },
   toastContainer: {
     position: 'absolute',
-    top: '10%',
-    left: '50%',
+    top: 0,
+    left: 0,
     zIndex: 100,
-    width: 300,
-    padding: themes.spacing(10),
-    minHeight: 50,
-    backgroundColor: themes.colors.yellow[100],
   },
   noSampleCheck: {
     position: 'absolute',
