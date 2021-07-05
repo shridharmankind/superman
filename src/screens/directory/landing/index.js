@@ -38,8 +38,8 @@ import MissedCalls from 'screens/directory/landing/missedCalls';
  */
 const DirectoryLanding = ({navigation, route}) => {
   const LIMIT = 10;
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [staffPositionId, setStaffPositionId] = useState(null);
   const [skip, setSkip] = useState(0);
   const [searchKeyword, updateSearchKeyword] = useState(
     route?.params?.inputKeyword || null,
@@ -47,12 +47,6 @@ const DirectoryLanding = ({navigation, route}) => {
   const [doctorsAddedinTodayPlan, updateTodayPlan] = useState([]);
   const dispatch = useDispatch(); // For dispatching the action
 
-  useEffect(() => {
-    (async () => {
-      const id = await Helper.getStaffPositionId();
-      setStaffPositionId(id);
-    })();
-  });
 
   useEffect(() => {
     if (!!searchKeyword && searchKeyword !== '') {
@@ -112,6 +106,7 @@ const DirectoryLanding = ({navigation, route}) => {
       <View style={styles.mainTabContainer}>
         <TabBar
           values={data}
+          initialSelected={route?.params?.inputKeyword ? 1 : 0}
           onPress={onTabPress}
           customStyle={styles.tabBarContainer}
         />
