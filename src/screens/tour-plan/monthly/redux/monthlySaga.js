@@ -141,10 +141,13 @@ export function* updateMTPCalendarWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   const valueMap = {
     staffPositionId,
-    month,
+    monthVal: month,
   };
   let url = API_PATHS.MTP_ROLLOVER;
-  url = url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
+  url = url.replace(
+    /\b(?:staffpositionId|monthVal)\b/gi,
+    matched => valueMap[matched],
+  );
   try {
     const response = yield call(NetworkService.get, url);
     if (response.data.error || response.status !== 200) {
