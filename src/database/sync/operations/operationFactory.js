@@ -94,7 +94,11 @@ const recordNotExist = async (
       } else if (object.syncParameters == null) {
         //case 1.2
         //entirely new record
-        return operationObject.createNewRecord(getDBInstance, schema, object);
+        if (typeof operationObject.createNewRecord === 'function') {
+          return operationObject.createNewRecord(getDBInstance, schema, object);
+        } else {
+          console.log('Add method to add new record');
+        }
       } else {
         //case 1.3
         // This scenario is conflict state when syncParameters are not null but devicePartyId = null
