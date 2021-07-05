@@ -70,6 +70,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const currentDate = parseInt(getFormatDate({format: 'D'}), 10);
   const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
   const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
+  const nextMonth = currentMonth + 1;
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState(null);
@@ -345,9 +346,9 @@ const MonthlyTourPlan = ({navigation}) => {
       if (
         (currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
           currentDate <= MTP_LOCK_DATES_THRESHOLD.MAX &&
-          planOption.month > currentMonth + 1) ||
+          planOption.month > nextMonth) ||
         (!isMTPSubmitted &&
-          planOption.month === currentMonth + 1 &&
+          planOption.month === nextMonth &&
           currentDate >= MTP_LOCK_DATES_THRESHOLD.MAX)
       ) {
         return;
@@ -377,7 +378,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const getMTPSubmitStatus = () => {
     const upcomingMonthStatus = stpStatus?.monthlyTourPlanStatuses?.filter(
       monthStatus => {
-        return monthStatus.month === currentMonth + 1;
+        return monthStatus.month === nextMonth;
       },
     );
 
@@ -398,7 +399,7 @@ const MonthlyTourPlan = ({navigation}) => {
     const upcomingMonthStatus = getMTPSubmitStatus();
     const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
     if (
-      option.month === currentMonth + 1 &&
+      option?.month === nextMonth &&
       currentDate < MTP_LOCK_DATES_THRESHOLD.MAX &&
       currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
       !isMTPSubmitted
@@ -416,7 +417,7 @@ const MonthlyTourPlan = ({navigation}) => {
       );
     }
 
-    if (isMTPSubmitted && option.month === currentMonth + 1) {
+    if (isMTPSubmitted && option.month === nextMonth) {
       return (
         <Area
           title={`${translate(
@@ -428,7 +429,7 @@ const MonthlyTourPlan = ({navigation}) => {
           chipContainerCustomStyle={styles.chipContainer}
         />
       );
-    } else if (!isMTPSubmitted && option.month === currentMonth + 1) {
+    } else if (!isMTPSubmitted && option.month === nextMonth) {
       return (
         <>
           <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />

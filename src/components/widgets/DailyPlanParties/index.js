@@ -81,7 +81,7 @@ const DailyPlanParties = ({
     if (visitData.length > 0) {
       const month = returnUTCtoLocal(visitData[0].date, 'MMM');
       const adhocCallDates = visitData.reduce((accumulator, visit) => {
-        if (visit.isAdhoc) {
+        if (visit?.isAdhoc) {
           const visitDate = returnUTCtoLocal(visit.date, 'D');
           const adhocList =
             accumulator === ''
