@@ -203,7 +203,7 @@ export const getPartyTitle = parties => {
   } else if (!drCount && ChemistCount) {
     return `${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
   } else if (drCount && ChemistCount) {
-    return `${drCount}  ${PARTY_PREFIX.DOCTOR}, ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
+    return `${drCount} ${PARTY_PREFIX.DOCTOR}, ${ChemistCount} ${PARTY_PREFIX.CHEMIST}`;
   } else {
     return null;
   }

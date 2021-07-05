@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {Constants} from 'common';
 
 export const FetchEnumStatus = {
   INITIAL: 'INITIAL',
@@ -12,6 +13,7 @@ export const fetchStatusActionType = FetchEnumStatus;
 const initialState = {
   appStatus: FetchEnumStatus.INITIAL,
   staffPositionId: null,
+  syncStatus: Constants.BACKGROUND_TASK.NOT_RUNNING,
 };
 
 export const fetchStatusSlice = createSlice({
@@ -41,6 +43,9 @@ export const fetchStatusSlice = createSlice({
     },
     setStaffPositionId: (state, action) => {
       return {...state, staffPositionId: action.payload};
+    },
+    setSyncStatus: (state, action) => {
+      return {...state, syncStatus: action.payload};
     },
   },
 });

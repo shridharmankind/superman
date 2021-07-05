@@ -29,3 +29,4 @@ export {default as DoctorVisit} from './doctorVisit';
 export {default as MissedVisit} from './missedVisit';
 export {default as Focus} from './focus';
 export {default as StarIcon} from './star';
+export {default as Mic} from './Mic';

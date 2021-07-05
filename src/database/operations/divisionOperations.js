@@ -33,4 +33,23 @@ export default dbInstance => ({
     const divisions = await getAllTableRecords(DivisionSchemaName);
     return divisions.filtered(`id = ${divisionId}`);
   },
+  createSingleRecord: division => {
+    let recordsUpdated = true;
+    try {
+      const {id, name, shortName, maxPatchCount, kycPartyLimit} = division;
+      let syncParameters =
+        division.syncParameters === undefined
+          ? syncParametersObject()
+          : division.syncParameters;
+      dbInstance.create(
+        DivisionSchemaName,
+        {id, name, shortName, maxPatchCount, kycPartyLimit, syncParameters},
+        'modified',
+      );
+    } catch (err) {
+      console.log(err);
+      recordsUpdated = false;
+    }
+    return recordsUpdated;
+  },
 });

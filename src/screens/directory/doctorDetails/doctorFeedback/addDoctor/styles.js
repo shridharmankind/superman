@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
   modalTitleDone: {
     position: 'absolute',
+    flexDirection: 'row',
     right: 0,
   },
   eDetailingStartContent: {

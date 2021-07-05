@@ -7,4 +7,5 @@ export const API_PATH = {
   GET_SENIOR: 'staff/getreporters',
   GET_EDETAILING_PRODUCT: '/edetailing/motherbrands',
   GET_DOCTOR_LIST: '/party/partybyspid',
+  GET_EDETAILED_LIST: '/edetailing/listforparties',
 };

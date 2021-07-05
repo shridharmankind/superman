@@ -139,6 +139,37 @@ const Strings = {
           rightPart: 'to the doctor ?',
         },
         error: 'Sample Already Exists',
+        noSamplesGiven: 'No Sample Given',
+      },
+      itemRequest: {
+        addItems: '+ ADD a Item',
+        question: {
+          leftPart: 'Did you provide',
+          midPart: 'any items',
+          rightPart: 'to the doctor ?',
+        },
+        noItemsGiven: 'No Items Given',
+      },
+      sample: {
+        question: {
+          midPart: 'Samples requested',
+          rightPart: 'by the doctor ?',
+        },
+        nosampleReq: 'No Samples Requested',
+      },
+      item: {
+        question: {
+          midPart: 'Items requested',
+          rightPart: 'by the doctor ?',
+        },
+        noItemReq: 'No Items Requested',
+      },
+      task: {
+        question: {
+          leftPart: 'Update',
+          midPart: 'status',
+          rightPart: 'on open tasks?',
+        },
       },
     },
   },

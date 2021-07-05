@@ -31,10 +31,13 @@ import API_PATHS from 'services/network/apiPaths';
 import visitMockData from './api/timeline.json';
 import missedCallMockData from './api/missedCalls.json';
 import addToTodayMockData from './api/addToToday.json';
-
+import eDetailed from './api/eDetailed.json';
+import doctorDcrList from './api/doctorDcrList.json';
 import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
 import staff from './api/staff.json';
 import searchSamples from './api/searchSamples.json';
+import searchItems from './api/searchItems.json';
+import dcrData from './api/dcrData.json';
 
 const getPartiesUrl = () => {
   const valueMap = {
@@ -157,11 +160,12 @@ const getMock = axios => {
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock
-    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1')
+    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1&Skip=0&Limit=0')
     .reply(200, product);
   mock
     .onGet(`${API_PATH.PATCH}/1/parties`)
     .reply(200, patchesMock.getPartyByPatchId);
+  mock.onPost('/edetailing/listforparties').reply(200, eDetailed);
   mock
     .onPost(`${API_PATH.PATCH}/validate/1`)
     .reply(200, patchesMock.validate.response);
@@ -175,7 +179,7 @@ const getMock = axios => {
   mock
     .onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY))
     .reply(200, monthlyplanComplaince);
-  mock.onGet(getSTPStatusUrl(API_PATH.STP_STATUS)).reply(200, stpStatus);
+  mock.onGet(`${API_PATHS.TOUR_PLAN_STATUS}/1`).reply(200, stpStatus);
   mock.onPost(getUrl(API_PATH.SUBMIT_STP)).reply(200, submitStpMock);
 
   mock
@@ -198,6 +202,9 @@ const getMock = axios => {
       '/edetailing/motherbrands?StaffPositionId=1&IncludeDiscussedList=true&IsPriority=false&PartyId=1&Skip=0&Limit=0',
     )
     .reply(200, EOtherProductList);
+  mock
+    .onGet('/edetailing/motherbrands?StaffPositionId=1PartyId=5&Skip=0&Limit=0')
+    .reply(200, EPriorityProductList);
   mock
     .onGet(
       '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&Skip=10&Limit=10',
@@ -224,6 +231,13 @@ const getMock = axios => {
   mock
     .onGet('getsamples?StaffPositionId=1&searchKeyword=a')
     .reply(200, searchSamples);
+  mock
+    .onGet('getItems?StaffPositionId=1&searchKeyword=a')
+    .reply(200, searchItems);
+  mock.onGet('taskinfo/parties/opentask?StaffPositionId=2').reply(200, dcrData);
+  mock
+    .onGet('/party/partybyspid/1?partyTypeGroupId=1')
+    .reply(200, doctorDcrList);
 };
 
 export default getMock;
