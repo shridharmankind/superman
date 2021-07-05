@@ -1119,7 +1119,11 @@ const StandardPlanModal = ({
     });
   };
 
-  if (allParties.length === 0 || allAreas.length === 0) {
+  if (
+    allParties.length === 0 ||
+    allAreas.length === 0 ||
+    allPatches.length === 0
+  ) {
     return (
       <ActivityIndicator
         animating={true}

@@ -741,7 +741,7 @@ const MonthlyTourPlan = ({navigation}) => {
     );
     const obj = {
       ...swapObj,
-      [dateSelected]: {patchId: patchId?.patchId, day, month},
+      [dateSelected]: {patchId: patchId?.patchId, day, month, year},
     };
     setDate({...date, [dateSelected]: dateString});
     setSwapObj(obj);

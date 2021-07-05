@@ -36,34 +36,30 @@ const StandardPlan = ({navigation, route}) => {
         setShowRightSwiper(index !== totalIndex);
       }
       setActiveIndex(index);
-      visitedDayIndex(index, false);
       setIndexChanged(null);
+      const day = route.params.workingDays[index];
+      const i = visitedDays.some(d => d === index);
+      if (!i) {
+        setVisitedDays([day]);
+      }
       swiperRef.current.scrollToIndex({index});
     },
-    [activeIndex, totalIndex, swiperRef, visitedDayIndex],
+    [activeIndex, totalIndex, swiperRef, route.params.workingDays, visitedDays],
   );
 
   const handleSliderNavigation = dir => {
     setIndexChanged(dir);
   };
 
-  const visitedDayIndex = useCallback(
-    (i, prev) => {
-      const day = route.params.workingDays[i];
-      const index = visitedDays.some(d => d === i);
-      if (!index) {
-        setVisitedDays([day]);
+  const visitedDayIndex = (i, prev) => {
+    if (activeIndex !== i) {
+      if (i > prev) {
+        handleSliderNavigation(Constants.DIRECTION.RIGHT);
+      } else {
+        handleSliderNavigation(Constants.DIRECTION.LEFT);
       }
-      if (prev !== false) {
-        if (i > prev) {
-          handleSliderNavigation(Constants.DIRECTION.RIGHT);
-        } else {
-          handleSliderNavigation(Constants.DIRECTION.LEFT);
-        }
-      }
-    },
-    [visitedDays, route.params.workingDays],
-  );
+    }
+  };
 
   const getIndexOfDay = () => {
     return route.params.workingDays.indexOf(route.params.row);
@@ -82,7 +78,6 @@ const StandardPlan = ({navigation, route}) => {
               year={year}
               workingDays={route.params.workingDays}
               indexChanged={indexChanged}
-              setIndexChanged={setIndexChanged}
             />
           )}
         </View>
