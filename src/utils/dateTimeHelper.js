@@ -136,7 +136,7 @@ export const startOf = (date, unit) => {
 export const getDateIntoObject = date => {
   return {
     day: dayjs(date).get('date'),
-    month: dayjs(date).get('month'),
+    month: dayjs(date).get('month') + 1,
     year: dayjs(date).get('year'),
   };
 };

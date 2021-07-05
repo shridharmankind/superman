@@ -16,8 +16,8 @@ const VisitDetail = ({
   index,
   width,
   seniorList,
-  disSwipeGesture,
   addDoctorHandler,
+  hideShowRightArrow,
 }) => {
   const [typeOfVisit, updateVisitType] = useState('single');
   const dispatch = useDispatch();
@@ -25,11 +25,18 @@ const VisitDetail = ({
   // TO DO
   // useEffect(() => {
   //   if (visitors.length >= 1) {
-  //     disSwipeGesture(false);
+  //     updateVisit('Joint');
+  //     hideShowRightArrow(true);
   //   } else {
-  //     disSwipeGesture(true);
+  //     updateVisit('single');
+  //     if (typeOfVisit === 'single') {
+  //       hideShowRightArrow(true);
+  //     } else {
+  //       hideShowRightArrow(false);
+  //     }
   //   }
-  // }, [disSwipeGesture, visitors]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [visitors, addSeniors]);
 
   const updateVisit = visitType => {
     updateVisitType(visitType);
@@ -41,14 +48,22 @@ const VisitDetail = ({
   const visitors = useSelector(dcrSelector.getVisitors());
   useEffect(() => {
     if (visitors) {
-      if (visitors.length > 0) {
+      if (visitors.length === 1) {
         updateVisit('joint');
-      } else {
-        updateVisit('single');
+        hideShowRightArrow(false);
+      } else if (visitors.length === 0) {
+        if (typeOfVisit === 'joint') {
+          hideShowRightArrow(true);
+        } else {
+          updateVisit('single');
+          hideShowRightArrow(false);
+        }
+      } else if (visitors.length > 1) {
+        updateVisit('joint');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visitors]);
+  }, [visitors, typeOfVisit]);
 
   const addSeniors = seniorId => {
     const checkIndex = visitors.findIndex(ele => ele === seniorId);

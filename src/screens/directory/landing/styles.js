@@ -3,7 +3,7 @@ import theme from 'themes';
 const styles = StyleSheet.create({
   tabBarContainer: {
     flexDirection: 'row',
-    width: '50%',
+    width: '60%',
     justifyContent: 'space-between',
     fontSize: 10,
   },

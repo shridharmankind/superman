@@ -34,15 +34,20 @@ import {
 } from 'screen/eDetailing/redux';
 import {
   fetchDcrWatcher,
+  fetchStaffWatcher,
   setVisitWatcher,
   getDoctorDataList,
   fetchEdetailedWatcher,
   fetchOtherProductsWatcher,
+  searchSamplesWatcher,
+  selectSamplesWatcher,
+  searchItemsWatcher,
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
 import {
   searchSamplesWatcher,
   selectSamplesWatcher,
-} from 'screens/directory/doctorDetails/doctorFeedback/sampleRequest/redux';
+  searchItemsWatcher,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
 export function* rootSaga() {
   /**
    *
@@ -80,6 +85,8 @@ export function* rootSaga() {
     getDoctorDataList,
     fetchEdetailedWatcher,
     fetchOtherProductsWatcher,
+    fetchStaffWatcher,
+    searchItemsWatcher,
   ];
 
   /**

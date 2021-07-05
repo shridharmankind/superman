@@ -10,11 +10,14 @@ import {Tab} from 'components/widgets';
  * @param {Array} values  array of radio buttons
  * @param {Function} onPress click event on tab
  * @param {Object} customStyle custom style for tab
+ * @param {Number} initialSelected initial selected tab number
  * @retuns tab bar view
  */
 
-const TabBar = ({values, onPress, customStyle}) => {
-  const [currentSelectedItem, setCurrentSelectedItem] = useState(0);
+const TabBar = ({values, onPress, customStyle, initialSelected}) => {
+  const [currentSelectedItem, setCurrentSelectedItem] = useState(
+    initialSelected || 0,
+  );
 
   const onTabPress = idx => {
     onPress(idx);
@@ -48,6 +51,7 @@ TabBar.propTypes = {
   values: PropTypes.array.isRequired,
   onPress: PropTypes.func,
   customStyle: PropTypes.object,
+  initialSelected: PropTypes.number,
 };
 
 export default TabBar;

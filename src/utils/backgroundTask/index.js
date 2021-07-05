@@ -6,6 +6,8 @@ import {KeyChain} from 'helper';
 import {Strings, Constants} from 'common';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import NetInfo from '@react-native-community/netinfo';
+import {store} from '../../App';
+import {fetchStatusSliceActions} from 'reducers';
 
 export const TASK_NAME = 'BACKGROUND_TASK';
 
@@ -130,11 +132,17 @@ const setBackgroundTask = async () => {
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
           );
+          store.dispatch(
+            fetchStatusSliceActions.setSyncStatus(getCurrentAsyncStorage),
+          );
           await runBackgroundTask();
           getCurrentAsyncStorage = await setNotRunningBackgroundTaskValue();
           console.log(
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
+          );
+          store.dispatch(
+            fetchStatusSliceActions.setSyncStatus(getCurrentAsyncStorage),
           );
           console.log(` [${Constants.BACKGROUND_TASK.TASK_NAME}] EXIT`);
         } else {

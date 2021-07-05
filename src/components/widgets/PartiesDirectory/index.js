@@ -5,6 +5,7 @@ import {Label} from 'components/elements';
 import styles from './styles';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import {Strings, Constants} from 'common';
+import {translate} from 'locale';
 
 /**
  * component to return parties list
@@ -97,7 +98,18 @@ const PartiesDirectory = ({
                 numberOfLines={2}
               />
             </View>
-            <View style={styles.itemContainer}>
+            <View style={styles.itemContainer1}>
+              <Label
+                title={
+                  partyType === Constants.PARTY_TYPE.DOCTOR
+                    ? `${translate('dr')}`
+                    : `${translate('ch')}`
+                }
+                style={styles.name}
+                numberOfLines={2}
+              />
+            </View>
+            <View style={styles.itemContainer1}>
               <Label
                 title={(specialization || {})
                   .map(spec => spec?.name || spec)
@@ -106,7 +118,7 @@ const PartiesDirectory = ({
                 numberOfLines={1}
               />
             </View>
-            <View>
+            <View style={styles.itemContainer1}>
               <Label
                 title={(location || {})
                   .map(spec => spec?.name || spec)
