@@ -1,6 +1,8 @@
 import {MASTER_TABLE_DIVISION, MASTER_TABLE_SUB_BRAND} from '../constants';
 export const SkuSchemaName = 'SKUs';
 
+const MASTER_SYNC_PARAMETERS = 'SYNC_PARAMETER';
+
 export default class SkuSchema {
   static schema = {
     name: SkuSchemaName,
@@ -16,6 +18,7 @@ export default class SkuSchema {
       isPower: 'int?',
       isSample: 'int?',
       subBrand: MASTER_TABLE_SUB_BRAND,
+      syncParameters: MASTER_SYNC_PARAMETERS,
       divisions: {
         type: 'list',
         objectType: MASTER_TABLE_DIVISION,

@@ -13,6 +13,7 @@ import {
   modifyDBObject,
   createSinglePartyMasterRecord,
   getLastSyncTime,
+  syncParametersObject,
 } from './common';
 
 let realm = null;
@@ -352,6 +353,7 @@ export {
   modifyDBObject,
   createSinglePartyMasterRecord,
   getLastSyncTime,
+  syncParametersObject,
 };
 export {default as partyCategoryOperations} from './partyCategoryOperations';
 export {default as organizationOperations} from './organizationOperations';
