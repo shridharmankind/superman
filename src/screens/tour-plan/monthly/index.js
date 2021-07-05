@@ -417,7 +417,7 @@ const MonthlyTourPlan = ({navigation}) => {
       );
     }
 
-    if (isMTPSubmitted && option.month === nextMonth) {
+    if (isMTPSubmitted && option?.month === nextMonth) {
       return (
         <Area
           title={`${translate(
@@ -429,7 +429,7 @@ const MonthlyTourPlan = ({navigation}) => {
           chipContainerCustomStyle={styles.chipContainer}
         />
       );
-    } else if (!isMTPSubmitted && option.month === nextMonth) {
+    } else if (!isMTPSubmitted && option?.month === nextMonth) {
       return (
         <>
           <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
