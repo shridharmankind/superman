@@ -107,7 +107,6 @@ export default dbInstance => ({
         divisions,
       } = sku;
       const {moleculeId, motherBrandId, motherBrand} = subBrand;
-
       const subBrandData = dbInstance.create(
         Constants.MASTER_TABLE_SUB_BRAND,
         {
@@ -118,7 +117,7 @@ export default dbInstance => ({
           motherBrandId,
           isFocused: subBrand.isFocused,
           isPower: subBrand.isPower,
-          motherBrand: MotherBrands.writeDataMapping([motherBrand], true),
+          motherBrand: MotherBrands.createSingleRecord(motherBrand),
           syncParameters: syncParametersObject(),
         },
         'modified',

@@ -160,7 +160,6 @@ const runBackgroundTask = async (tableName, value) => {
           record.lastSync,
           Array.from(modifiedRecords),
         );
-
         if (response?.status === DBConstants.HTTP_OK) {
           await SyncOperations.getSyncOperations(
             item[0],

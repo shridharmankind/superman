@@ -15,10 +15,38 @@ export default dbInstance => ({
     }
     return recordsUpdated;
   },
-  createSingleRecord: motherBrand => {
+  createSingleRecord: (motherBrand, toBeReturn = false) => {
     let recordsUpdated = true;
+    let data;
     try {
-      MotherBrands.writeDataMapping([motherBrand], dbInstance);
+      const {molecule, motherBrandType} = motherBrand;
+      let moleculeObject = {
+        ...molecule,
+        syncParameters: syncParametersObject(),
+      };
+      dbInstance.create(Constants.MOLECULES, moleculeObject, 'modified');
+      let motherBrandTypeObject = {
+        ...motherBrandType,
+        syncParameters: syncParametersObject(),
+      };
+      dbInstance.create(
+        Constants.MOTHER_BRAND_TYPE,
+        motherBrandTypeObject,
+        'modified',
+      );
+      data = dbInstance.create(
+        Constants.MASTER_TABLE_MOTHER_BRAND,
+        {
+          ...motherBrand,
+          syncParameters: syncParametersObject(),
+        },
+        'modified',
+      );
+      // Need to pass single object for SKU operations
+      // For mapping under sub_brand
+      if (toBeReturn) {
+        return data;
+      }
     } catch (err) {
       console.log(err);
       recordsUpdated = false;
