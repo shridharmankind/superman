@@ -35,9 +35,10 @@ const styles = StyleSheet.create({
     overflow: 'visible',
   },
   slideWrapper: {
-    backgroundColor: 'gray',
+    backgroundColor: theme.colors.white,
     borderRadius: 10,
     borderWidth: 1,
+    borderColor: theme.colors.grey[1000],
     justifyContent: 'center',
     marginRight: theme.spacing(20),
   },
@@ -94,6 +95,50 @@ const styles = StyleSheet.create({
   },
   modalTitleText: {
     lineHeight: 50,
+  },
+  mainSectionTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.fontSemiBold,
+  },
+  subSection: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.grey[1000],
+  },
+  subSectionTitle: {
+    fontSize: 14,
+    fontFamily: theme.fonts.fontRegular,
+  },
+  subSectionContent: {
+    paddingVertical: theme.spacing(16),
+    maxHeight: 300,
+  },
+  thumbnail: {
+    width: 200,
+    height: 106,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: theme.colors.grey[1000],
+    backgroundColor: theme.colors.grey[1000],
+    opacity: 0.5,
+  },
+  thumbnailSelected: {
+    backgroundColor: theme.colors.checkCircleBlue,
+  },
+  uncheck: {
+    height: 30,
+    width: 30,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: theme.colors.checkCircleBlue,
+  },
+  productSlide: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing(18),
+    marginBottom: theme.spacing(10.7),
+  },
+  productSlideCheck: {
+    paddingRight: theme.spacing(13.3),
   },
 });
 

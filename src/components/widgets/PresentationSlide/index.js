@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {View} from 'react-native';
+import {View, Image, ScrollView} from 'react-native';
+import styles from './styles';
 
 /**
  * Presentation Slide
@@ -14,7 +15,11 @@ const PresentationSlide = props => {
       props?.onUnload(props?.key);
     };
   }, [props]);
-  return <View />;
+  return (
+    <ScrollView style={[styles.slide]}>
+      <Image style={styles.slideImage} source={props.image} />
+    </ScrollView>
+  );
 };
 
 PresentationSlide.defaultProps = {
