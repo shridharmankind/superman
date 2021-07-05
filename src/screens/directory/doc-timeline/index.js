@@ -82,7 +82,9 @@ function renderItemDetails(item) {
   if (item.isMissed) {
     return (
       <View style={[styles.itemPlain]}>
-        <MissedVisit style={[styles.itemPlainIcon]} height={20} width={20} />
+        <TouchableOpacity style={[styles.itemPlainIcon]}>
+          <MissedVisit height={20} width={20} />
+        </TouchableOpacity>
         <Label
           style={[styles.timelineItemTitle]}
           title={translate('missedVisit')}
@@ -94,7 +96,9 @@ function renderItemDetails(item) {
   } else {
     return (
       <View style={[styles.itemPlain]}>
-        <DoctorVisit style={[styles.itemPlainIcon]} height={20} width={20} />
+        <TouchableOpacity style={[styles.itemPlainIcon]}>
+          <DoctorVisit height={20} width={20} />
+        </TouchableOpacity>
         <Label
           style={[styles.timelineItemTitle]}
           title={translate('upcomingVisit')}
@@ -221,11 +225,9 @@ const renderCompletedVisit = () => {
       style={[styles.timelineItemAccordion]}
       left={() => {
         return (
-          <DoctorVisit
-            style={[styles.timelineItemIcon]}
-            height={20}
-            width={20}
-          />
+          <TouchableOpacity style={[styles.timelineItemIcon]}>
+            <DoctorVisit height={20} width={20} />
+          </TouchableOpacity>
         );
       }}>
       {renderCompletedItemDetails()}
@@ -271,7 +273,7 @@ const DocTimeline = props => {
   const onViewableItemsChanged = React.useCallback(
     debounce(({viewableItems}) => {
       const lastItem = viewableItems[viewableItems.length - 1];
-      dispatch(timelineActions.handleScroll({index: lastItem.index}));
+      dispatch(timelineActions.handleScroll({index: lastItem?.index}));
     }, 500),
     [dispatch],
   );
@@ -331,11 +333,9 @@ const DocTimeline = props => {
           style={[styles.timelineItemAccordion]}
           left={() => {
             return (
-              <DoctorVisit
-                style={[styles.timelineItemIcon]}
-                height={20}
-                width={20}
-              />
+              <TouchableOpacity style={[styles.timelineItemIcon]}>
+                <DoctorVisit height={20} width={20} />
+              </TouchableOpacity>
             );
           }}>
           {renderCompletedItemDetails()}

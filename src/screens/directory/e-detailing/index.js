@@ -8,7 +8,6 @@ import styles from './styles';
 import {TouchableOpacity, View, VirtualizedList} from 'react-native';
 import {Strings, Constants} from 'common';
 import {ArrowBack} from 'assets';
-import {isWeb} from 'helper';
 import theme from 'themes';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
@@ -31,14 +30,12 @@ import {translate} from 'locale';
 const renderHeader = ({navigation, docData}) => (
   <View style={[styles.eDetailingHead]}>
     <View style={[styles.eDetailingHeadCol]}>
-      {isWeb() ? null : (
-        <TouchableOpacity
-          testID="eDetail-back"
-          style={styles.eDetailingHeadBack}
-          onPress={() => navigation.goBack()}>
-          <ArrowBack width={24} height={24} />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        testID="eDetail-back"
+        style={styles.eDetailingHeadBack}
+        onPress={() => navigation.goBack()}>
+        <ArrowBack width={24} height={24} />
+      </TouchableOpacity>
     </View>
     <View style={[styles.eDetailingHeadCol]}>
       <Label
@@ -355,14 +352,12 @@ const EDetailing = ({navigation, route}) => {
   const getModalTitle = () => {
     return (
       <View style={styles.modalTitle}>
-        {isWeb() ? null : (
-          <TouchableOpacity
-            testID="eDetail-modal-back"
-            onPress={closeModal}
-            style={[styles.modalTitleBack]}>
-            <ArrowBack width={24} height={24} />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          testID="eDetail-modal-back"
+          onPress={closeModal}
+          style={[styles.modalTitleBack]}>
+          <ArrowBack width={24} height={24} />
+        </TouchableOpacity>
         <Label
           testID="eDetail-modal-title"
           variant={LabelVariant.h2}

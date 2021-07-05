@@ -20,6 +20,10 @@
       "today": "Today",
       "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
       "completed": "Completed"
+    },
+    "standard": {
+      "noRecordsForSelection":"No records for current selection",
+      "noPatchFound": "No patch found"
     }
   },
   "missedVisit": "Missed Visit!",
@@ -111,5 +115,11 @@
   "eDetailing": {
     "modalTitle": "Select Sub-brands",
     "done": "Done"
+  },
+  "AddDoctor": {
+    "DR": "Dr.",
+    "label": "Add Doctor",
+    "addSelected": "Add Selected ",
+    "searchText": "Search Doctors here"
   }
 }
