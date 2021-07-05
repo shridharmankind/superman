@@ -4,12 +4,12 @@ import {
   Button,
   View,
   SafeAreaView,
-  Alert,
   BackHandler,
   Text,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {KeyChain} from 'helper';
+import {Alert} from 'components/widgets';
 
 const Separator = () => <View style={styles.separator} />;
 
@@ -17,11 +17,11 @@ const Home = ({navigation}) => {
   const handleLogOff = async () => {
     try {
       await KeyChain.resetPassword();
-      await AsyncStorage.removeItem('token_expiry_time');
+      await AsyncStorage.removeItem('TOKEN_EXPIRY_TIME');
       await AsyncStorage.removeItem('isLogged');
       navigation.navigate('Login');
     } catch (error) {
-      Alert.alert('LogOff Error', error);
+      Alert('LogOff Error');
     }
   };
 
@@ -29,7 +29,7 @@ const Home = ({navigation}) => {
     try {
       BackHandler.exitApp();
     } catch (error) {
-      Alert.alert('Exit Error', error);
+      Alert('Exit Error');
     }
   };
   return (

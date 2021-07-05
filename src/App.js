@@ -1,29 +1,29 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
-import {LogBox} from 'react-native';
+import React from 'react';
+// import {LogBox} from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Provider as PaperProvider} from 'react-native-paper';
-
-import SplashScreen from 'react-native-splash-screen';
-import theme from 'themes';
-import ROUTES, {ROUTE_DASHBOARD, ROUTE_LOGIN} from './navigations/routes';
-import {useEffect} from 'react';
-import {getStore} from './store/getStore';
 import {Provider} from 'react-redux';
+import {Provider as PaperProvider} from 'react-native-paper';
+import SplashScreen from 'react-native-splash-screen';
+
+import theme from 'themes';
+import AsyncStorage from '@react-native-community/async-storage';
+import {getStore} from './store/getStore';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
-import {Toast} from 'components/widgets';
 
-const Stack = createStackNavigator();
-const store = getStore();
+import {Toast} from 'components/widgets';
+import ErrorBoundary from 'screens/generic/ErrorBoundary';
+import RouteHandler from './screens/generic/RouteHandler';
+import {TASK_NAME} from 'utils/backgroundTask';
+
+export const store = getStore();
+
 const App = () => {
-  LogBox.ignoreAllLogs();
-  const isLoggedIn = true;
-  const initialRoute = isLoggedIn ? ROUTE_DASHBOARD : ROUTE_LOGIN;
+  // LogBox.ignoreAllLogs(); // enable this for demo
   setI18nConfig();
-  useEffect(() => {
+
+  React.useEffect(() => {
     if (!isWeb()) {
       setTimeout(() => {
         requestAnimationFrame(() => {
@@ -31,28 +31,23 @@ const App = () => {
         });
       }, 2000);
     }
+
+    return async () => {
+      if (!isWeb()) {
+        AsyncStorage.removeItem(TASK_NAME);
+      }
+    };
   }, []);
 
   return (
-    <Provider store={store}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName={initialRoute}>
-            {ROUTES.map(route => (
-              <Stack.Screen
-                key={route.name}
-                name={route.name}
-                component={route.component}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            ))}
-          </Stack.Navigator>
-        </NavigationContainer>
-        {!isWeb() && <Toast />}
-      </PaperProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <PaperProvider theme={theme}>
+          <RouteHandler />
+          {!isWeb() && <Toast />}
+        </PaperProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 };
 

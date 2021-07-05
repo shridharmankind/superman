@@ -1,18 +1,9 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {
-  View,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-import {useSelector} from 'react-redux';
+import {View, Dimensions, TouchableOpacity} from 'react-native';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {StandardPlanModal} from 'screens/tour-plan';
 import styles from './styles';
 import {Constants} from 'common';
-import themes from 'themes';
-import {appSelector} from 'selectors';
-import {FetchEnumStatus} from 'reducers';
 
 /**
  * Standard Plan screen component for daily standard plan.
@@ -27,10 +18,9 @@ const StandardPlan = ({navigation, route}) => {
   const [showLeftSwiper, setShowLeftSwiper] = useState(true);
   const [showRightSwiper, setShowRightSwiper] = useState(true);
   const [visitedDays, setVisitedDays] = useState([route.params.row]);
+  const [indexChanged, setIndexChanged] = useState();
   const year = route.params.year;
   const swiperRef = useRef(null);
-
-  const fetchStatus = useSelector(appSelector.makeGetAppFetch());
 
   const handleSlider = useCallback(
     direction => {
@@ -46,18 +36,30 @@ const StandardPlan = ({navigation, route}) => {
         setShowRightSwiper(index !== totalIndex);
       }
       setActiveIndex(index);
-      visitedDayIndex(index);
+      visitedDayIndex(index, false);
+      setIndexChanged(null);
       swiperRef.current.scrollToIndex({index});
     },
     [activeIndex, totalIndex, swiperRef, visitedDayIndex],
   );
 
+  const handleSliderNavigation = dir => {
+    setIndexChanged(dir);
+  };
+
   const visitedDayIndex = useCallback(
-    i => {
+    (i, prev) => {
       const day = route.params.workingDays[i];
       const index = visitedDays.some(d => d === i);
       if (!index) {
         setVisitedDays([day]);
+      }
+      if (prev !== false) {
+        if (i > prev) {
+          handleSliderNavigation(Constants.DIRECTION.RIGHT);
+        } else {
+          handleSliderNavigation(Constants.DIRECTION.LEFT);
+        }
       }
     },
     [visitedDays, route.params.workingDays],
@@ -79,6 +81,8 @@ const StandardPlan = ({navigation, route}) => {
               weekDay={day}
               year={year}
               workingDays={route.params.workingDays}
+              indexChanged={indexChanged}
+              setIndexChanged={setIndexChanged}
             />
           )}
         </View>
@@ -88,10 +92,10 @@ const StandardPlan = ({navigation, route}) => {
 
   return (
     <>
-      {showLeftSwiper && (
+      {showLeftSwiper && activeIndex !== 0 && (
         <TouchableOpacity
           style={[styles.swipe, styles.leftSwipe]}
-          onPress={() => handleSlider(Constants.DIRECTION.LEFT)}
+          onPress={() => handleSliderNavigation(Constants.DIRECTION.LEFT)}
         />
       )}
       <SwiperFlatList
@@ -99,24 +103,18 @@ const StandardPlan = ({navigation, route}) => {
         showPagination
         renderAll={false}
         index={getIndexOfDay()}
-        onChangeIndex={({index}) => visitedDayIndex(index)}
+        onChangeIndex={({index, prevIndex}) =>
+          visitedDayIndex(index, prevIndex)
+        }
         paginationStyleItemActive={styles.activePaginationItem}
         paginationStyleItem={styles.paginationItem}
         paginationStyle={styles.paginationStyle}>
         {renderStandardPlan()}
       </SwiperFlatList>
-      {showRightSwiper && (
+      {showRightSwiper && activeIndex !== totalIndex && (
         <TouchableOpacity
           style={[styles.swipe, styles.rightSwipe]}
-          onPress={() => handleSlider(Constants.DIRECTION.RIGHT)}
-        />
-      )}
-      {fetchStatus === FetchEnumStatus.FETCHING && (
-        <ActivityIndicator
-          animating={true}
-          color={themes.colors.darkBlue}
-          size="large"
-          style={styles.activityIndicator}
+          onPress={() => handleSliderNavigation(Constants.DIRECTION.RIGHT)}
         />
       )}
     </>

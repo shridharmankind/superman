@@ -2,6 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
+import {NetworkService} from 'services';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -12,9 +13,11 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_PARTY,
     apiPath: Constants.MASTER_TABLE_PARTY_API_PATH,
+    syncApiPath: Constants.MASTER_TABLE_PARTY_SYNC_API_PATH,
+    syncParam: Constants.MASTER_TABLE_PARTY_SYNC_PARAM,
     schema: [
       Schemas.partyMaster,
-      Schemas.specialities,
+      Schemas.Specialities.schema,
       Schemas.areas,
       Schemas.Qualifications.schema,
       Schemas.partyTypeGroup,
@@ -22,16 +25,101 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.engagement,
     ],
   },
+  {
+    name: Constants.MASTER_TABLE_SKU,
+    apiPath: Constants.MASTER_TABLE_SKU_API_PATH,
+    schema: [
+      Schemas.Skus.schema,
+      Schemas.SubBrand.schema,
+      Schemas.Divisions.schema,
+    ],
+  },
+  {
+    name: Constants.MASTER_MONTHLY_TABLE_PLAN,
+    apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
+    syncApiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_SYNC_API_PATH,
+    syncParam: Constants.MASTER_MONTHLY_TABLE_SYNC_PARAM,
+    schema: [
+      Schemas.MonthlySchema.monthlyMaster,
+      Schemas.MonthlySchema.dailyMaster,
+    ],
+  },
+  {
+    name: Constants.MASTER_TABLE_PARTY_CATEGORIES,
+    apiPath: Constants.MASTER_TABLE_PARTY_CATEGORIES_API_PATH,
+    schema: [Schemas.PartyCategories.schema],
+  },
+  {
+    name: Constants.MASTER_TABLE_ORGANIZATION,
+    apiPath: Constants.MASTER_TABLE_ORGANIZATION_API_PATH,
+    schema: [Schemas.Organizations.schema],
+  },
+  {
+    name: Constants.MASTER_TABLE_DIVISION,
+    apiPath: Constants.MASTER_TABLE_DIVISION_API_PATH,
+    schema: [Schemas.Divisions.schema],
+  },
+  {
+    name: Constants.QUALIFICATIONS,
+    apiPath: NetworkService.API.FETCH_QUALIFICATIONS,
+    schema: [Schemas.Qualifications.schema],
+  },
+  {
+    name: Constants.SPECIALITIES,
+    apiPath: NetworkService.API.FETCH_SPECIALITIES,
+    schema: [Schemas.Specialities.schema],
+  },
+  {
+    name: Constants.MASTER_TABLE_WEEKLYOFF,
+    apiPath: Constants.MASTER_TABLE_WEEKLYOFF_API_PATH,
+    schema: [
+      Schemas.WeeklyOffSchema.schema,
+      Schemas.GeoLocationConfiguration.schema,
+    ],
+  },
+  {
+    name: Constants.MASTER_TABLE_MOTHER_BRAND,
+    apiPath: Constants.MASTER_TABLE_MOTHER_BRAND_API_PATH,
+    schema: [
+      Schemas.MotherBrands.schema,
+      Schemas.MotherBrandType.schema,
+      Schemas.Molecule.schema,
+    ],
+  },
 ];
+
+export const syncErrorDetails = {
+  name: Constants.MASTER_SYNC_ERROR_DETAIL,
+  embedded: true,
+  properties: {
+    conflictType: 'string',
+    errorMessage: 'string',
+  },
+};
+
+export const syncParameters = {
+  name: Constants.MASTER_SYNC_PARAMETERS,
+  embedded: true, // default: false
+  properties: {
+    devicePartyId: 'string?',
+    isActive: 'bool',
+    requireSync: 'bool',
+    lastModifiedOn: 'date',
+    isDeleted: 'bool',
+    errorInSync: 'bool',
+    syncErrorDetails: Constants.MASTER_SYNC_ERROR_DETAIL,
+  },
+};
 
 /**
  * This function is get logged in user first name
  * @returns user first name
  */
-export const getUserFirstName = async () => {
+export const getUserName = async () => {
   try {
     const user = await getActiveUser();
-    return user.firstName || '';
+    const {firstName = '', lastName = ''} = user;
+    return `${firstName} ${lastName}`;
   } catch (error) {}
 };
 
@@ -48,7 +136,6 @@ export const getStaffPositionId = async () => {
         staffPosition => staffPosition.isPrimary,
       )) || [];
     const primaryStaffPosition = primaryStaffPositions[0] || {};
-
     return primaryStaffPosition?.id;
   } catch (error) {}
 };

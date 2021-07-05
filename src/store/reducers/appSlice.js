@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {Constants} from 'common';
 
 export const FetchEnumStatus = {
   INITIAL: 'INITIAL',
@@ -9,9 +10,15 @@ export const FetchEnumStatus = {
 
 export const fetchStatusActionType = FetchEnumStatus;
 
+const initialState = {
+  appStatus: FetchEnumStatus.INITIAL,
+  staffPositionId: null,
+  syncStatus: Constants.BACKGROUND_TASK.NOT_RUNNING,
+};
+
 export const fetchStatusSlice = createSlice({
   name: 'app/fetchStatus',
-  initialState: {},
+  initialState,
   reducers: {
     /**
      *
@@ -22,8 +29,24 @@ export const fetchStatusSlice = createSlice({
      *  In this use case, I need to an string param, so I define 'payloadAction<string' like below
      *
      **/
-    update: (state, action) => action.payload,
-    clear: () => FetchEnumStatus.INITIAL,
+    update: (state, action) => {
+      return {
+        ...state,
+        appStatus: action.payload,
+      };
+    },
+    clear: state => {
+      return {
+        ...state,
+        appStatus: FetchEnumStatus.INITIAL,
+      };
+    },
+    setStaffPositionId: (state, action) => {
+      return {...state, staffPositionId: action.payload};
+    },
+    setSyncStatus: (state, action) => {
+      return {...state, syncStatus: action.payload};
+    },
   },
 });
 

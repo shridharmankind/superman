@@ -213,6 +213,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
+  error: {
+    fontSize: 20,
+    color: theme.colors.primary,
+    paddingVertical: theme.spacing(10),
+    fontFamily: theme.fonts.fontBold,
+  },
+  visitCompleted: {
+    paddingTop: theme.spacing(16),
+    paddingBottom: theme.spacing(8),
+    fontSize: 14,
+    color: theme.colors.black,
   },
 });
 

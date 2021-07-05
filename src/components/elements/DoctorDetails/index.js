@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
-import {DoctorVisitStates} from 'components/widgets';
+import {DoctorVisitStates, DoctorTag, DivisionType} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
 import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
+import {capitalize} from 'screens/tour-plan/helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -49,6 +50,7 @@ const DoctorDetails = ({
   selectedVistedFrequency,
   partyType,
   isKyc,
+  isCampaign,
   ...props
 }) => {
   const [imageSrc, setImageSrc] = useState({uri: image});
@@ -74,7 +76,7 @@ const DoctorDetails = ({
   const OnErrorHandler = () => {
     if (!isImageErrror) {
       const genderImage =
-        Constants.GENDER.MALE === gender.toUpperCase()
+        Constants.GENDER.MALE === (gender || '').toUpperCase()
           ? require('assets/images/male.png')
           : require('assets/images/female.png');
       const src =
@@ -138,37 +140,18 @@ const DoctorDetails = ({
                 customStyle && customStyle.divisionContainerCustom,
               ]}>
               {isKyc && (
-                <View
-                  style={[
-                    styles.divisionItem,
-                    {
-                      backgroundColor: getDivisionColor(
-                        Constants.DIVISION_COLOR.KYC,
-                      ),
-                    },
-                  ]}>
-                  <Label
-                    style={styles.divisionText}
-                    title={Strings.kyc}
-                    size={customStyle ? customStyle.divisionSize : 9}
-                    type={'bold'}
-                  />
-                </View>
+                <DoctorTag
+                  division={DivisionType.KYC}
+                  title={`${DivisionType.KYC}`}
+                />
               )}
-              {category && (
-                <View
-                  style={[
-                    styles.divisionItem,
-                    {backgroundColor: getDivisionColor(category)},
-                  ]}>
-                  <Label
-                    style={styles.divisionText}
-                    title={category}
-                    size={customStyle ? customStyle.divisionSize : 9}
-                    type={'bold'}
-                  />
-                </View>
+              {isCampaign && (
+                <DoctorTag
+                  division={DivisionType.CAMPAIGN}
+                  title={`${DivisionType.CAMPAIGN}`}
+                />
               )}
+              {category && <DoctorTag division={category} title={category} />}
             </View>
           )}
 
@@ -182,8 +165,8 @@ const DoctorDetails = ({
             <Label
               title={
                 partyType === Constants.PARTY_TYPE.DOCTOR
-                  ? `${Strings.dr} ${title}`
-                  : title
+                  ? `${Strings.dr} ${capitalize(title)}`
+                  : capitalize(title)
               }
               size={customStyle ? customStyle.titleSize : 17}
               style={styles.name}
@@ -196,10 +179,13 @@ const DoctorDetails = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={(specialization || [])
+                title={(specialization || {})
                   .map(spec => spec?.name || spec)
                   .join(', ')}
-                style={customStyle && customStyle.specialization}
+                style={[
+                  styles.capitalize,
+                  customStyle && customStyle.specialization,
+                ]}
                 numberOfLines={1}
               />
 
@@ -212,7 +198,10 @@ const DoctorDetails = ({
                   />
                   <Label
                     size={customStyle ? customStyle.subTitleSize : 18}
-                    title={location}
+                    title={(location || {})
+                      .map(spec => spec?.name || spec)
+                      .join(', ')}
+                    style={styles.capitalize}
                   />
                 </>
               )}

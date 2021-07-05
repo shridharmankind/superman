@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
     marginTop: 40,
     marginBottom: 100,
+    flex: 1,
   },
   container: {
     flexDirection: 'column',
@@ -39,12 +40,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leftContent: {
-    flex: 0.9,
+    flex: 1,
     flexDirection: 'column',
     paddingBottom: 40,
-  },
-  rightContnet: {
-    flex: 1,
   },
   categoryFilterContainer: {
     flexDirection: 'row',
@@ -159,7 +157,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   rightContent: {
+    justifyContent: 'flex-start',
     paddingLeft: themes.spacing(36),
+  },
+  planComplainceLabel: {
+    paddingBottom: themes.spacing(6),
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
   },
 });
 

@@ -1,6 +1,6 @@
 import * as Keychain from 'react-native-keychain';
+import {ACCESS_TOKEN} from 'common/constants';
 
-const ACCESS_TOKEN = 'ACCESS_TOKEN';
 const DATABASE_KEY = 'DATABASE_KEY';
 
 /*

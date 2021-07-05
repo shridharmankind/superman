@@ -42,7 +42,12 @@ export function* fetchDoctorDetailWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
-    const response = yield call(NetworkService.get, url);
+    const response = yield call(
+      NetworkService.get,
+      url,
+      {},
+      API_PATH.GET_PARTIES,
+    );
     let formattedResponse = [];
     if (
       response.data &&
@@ -93,12 +98,17 @@ export function* deletePartyWorker(action) {
       matched => valueMap[matched],
     );
 
-    const response = yield call(NetworkService.Delete, url, {
-      day: day,
-      month: month,
-      year: year,
-    });
-
+    const response = yield call(
+      NetworkService.Delete,
+      url,
+      {
+        day: day,
+        month: month,
+        year: year,
+      },
+      {},
+      API_PATH.REMOVE_PARTY_FROM_DAILY_PLAN,
+    );
     if (response.status === Constants.HTTP_OK) {
       yield put(doctorDetailActions.doctorRemoved(action.payload));
     }

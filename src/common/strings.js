@@ -72,7 +72,7 @@ const Strings = {
     two: '2',
     p1: 'P1',
     p2: 'P2',
-    description: 'Detailed on 3 March, 2021',
+    description: 'Detailed on ',
     progressNumber: '45',
     slashNumber: '/80',
     secondProgressbar: '45',
@@ -80,7 +80,12 @@ const Strings = {
     neurokind: 'Neurokind',
     nine: '9%',
     ten: '10%',
-    tabDes: 'Mankind’s Prescription/TOtal prescription',
+    tabDes: 'MANKIND/TOTAL QUANTITY',
+    foc: 'FOC',
+    gx: '(Gx)',
+    sow: '(SOW)',
+    conductRcpa: 'Conduct RCPA',
+    na: 'NA',
   },
   captureDcr: 'Capture DCR',
   startEdetail: 'Start eDetailing',
@@ -94,7 +99,7 @@ const Strings = {
   somethingWentWrong: 'Something went wrong. Please try again!',
   confirmation: 'Confirmation',
   patchUsedForOtherWeekDay:
-    'This patch is used for other Week>days. Do you want to make changes in all the days?',
+    'This patch is used for other Weekdays. Do you want to make changes in all the days?',
   yes: 'Yes',
   no: 'No',
   tillDate: 'Till Date',
@@ -115,14 +120,26 @@ const Strings = {
     dcr: {
       what: 'What',
       kindOfVisit: 'kind of visit',
-      wasIt: 'was it ?',
-      regVisit: 'Regular Visit',
+      wasIt: 'was it?',
+      regVisit: 'Independent Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
       posts: 'FLM/SLM/TLM',
       addDoctor: 'ADD A DOCTOR',
       btnDone: 'Done',
       feedback: 'Feedback',
+      addMore: 'ADD MORE',
+      sampleReq: {
+        addSample: '+ ADD a Sample',
+        addSampleBtn: 'Add Selected',
+        searchPlaceholder: 'Search Samples here',
+        question: {
+          leftPart: 'Did you provide',
+          midPart: 'any samples',
+          rightPart: 'to the doctor ?',
+        },
+        error: 'Sample Already Exists',
+      },
     },
   },
   dr: 'Dr.',
@@ -139,11 +156,7 @@ const Strings = {
   beginJourney: "Let's begin your journey",
   successfullyCreatedSTP: 'You have successfully created a Standard Tour Plan',
   errorFetchingComplianceRules: 'There is some error in fetching rules',
-  minimum: 'minimum',
-  maximum: 'maximum',
-  doctorVisitsPerDay: 'doctor visits per day',
-  chemistVisitsPerDay: 'chemists visits per day',
-  tourPlanRules: 'Monthly tour plan rules',
+  tourPlanRules: 'tour plan rules',
   exStation: 'Ex',
   patchExhaustedForParty:
     'One or more doctors added in the patch do not have further visiting slots, do you want to create a new patch.',
@@ -159,6 +172,16 @@ const Strings = {
       region: 'REGION',
     },
     noResult: 'No Records found',
+    btns: {
+      addTodayPlan: "Add to Today's Plan",
+      startEdetail: 'eDetail',
+    },
+    docAddedTodayPlan: 'Doctor added successfully',
+  },
+  setting: {
+    tab: {
+      conflicts: 'Conflict',
+    },
   },
   searchBar: {
     errors: {
@@ -170,10 +193,37 @@ const Strings = {
       clear: 'Clear',
       continue: 'Continue',
     },
+    searchPlaceholder: 'Search Doctors Here',
   },
   areaSelectionConfirmation:
     'The selections done by you will be lost. Do you want to proceed?',
   warning: 'Warning',
+  monthlyActions: {
+    save: 'Save',
+    submitSTP: 'Submit STP',
+  },
+  frquecySlotExhausted:
+    'Frequency slots for few doctors has been exhausted, a new patch name has been created',
+  selectDocToCreatePatch: 'Please select any doctor to create a patch.',
+  backgroundTask: {
+    lastSync: 'Last Synced:',
+    lastModifiedTime: 'Last Modified On',
+    conflictMessage: 'Conflict Message',
+    errorMessage: 'Error Message',
+    useDevice: 'Use Device',
+    useServer: 'Use Server',
+    toastBtns: {
+      message: 'Sync Status',
+      viewSummary: 'View Summary',
+      syncInitiatedMessage: 'Sync request has been initiated.',
+      successMessage: 'Requested sync has been completed successfully.',
+      conflictMessage: 'Sync activity was completed with a conflict.',
+      failureMessage: 'Sync activity could not be completed.',
+      alreadRunningMessage: 'Sync activity is already in progress.',
+    },
+  },
+  noInternet: 'No Internet',
+  checkInternet: 'Check you internet connection',
 };
 
 export default Strings;

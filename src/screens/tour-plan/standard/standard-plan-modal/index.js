@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   Dimensions,
   ScrollView,
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,7 +14,12 @@ import {Area, Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import {Strings, Constants} from 'common';
 import styles from './styles';
-import {PARTY_TYPE} from 'screens/tourPlan/constants';
+import {
+  PARTY_TYPE,
+  STP_STATUS,
+  COMPLAINCE_TYPE,
+  PARTY_TYPES,
+} from 'screens/tourPlan/constants';
 import {
   fetchPartiesCreator,
   fetchAreasCreator,
@@ -27,6 +33,16 @@ import {
 import {showToast, hideToast} from 'components/widgets/Toast';
 import Areas from './areas';
 import DoctorsByArea from './doctorsByArea';
+import PlanCompliance from 'screens/tourPlan/planCompliance';
+import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
+import {
+  planComplianceSelector,
+  fetchPlanComplianceCreator,
+  planComplianceActions,
+} from 'screens/tourPlan/planCompliance/redux';
+import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
+import {appSelector} from 'selectors';
+import {translate} from 'locale';
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -44,17 +60,15 @@ const StandardPlanModal = ({
   weekDay,
   year,
   workingDays,
+  indexChanged,
 }) => {
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
-  const [areaList, setAreaList] = useState([]);
   const [patches, setPatches] = useState();
   const [patchSelected, setPatchSelected] = useState();
   const [patchDefaultValue, setPatchDefaultValue] = useState();
-  const [partiesList, setPartiesList] = useState([]);
   const [parties, setParties] = useState([]);
-  const [partiesType, setPartiesType] = useState([]);
   const [selectedDoctorType, setSelectedDoctorType] = useState(Strings.all);
   const [doctorsSelected, setDoctorsSelected] = useState([]);
   const [showPatchError, setShowPatchError] = useState(false);
@@ -64,31 +78,111 @@ const StandardPlanModal = ({
   const [patchRequest, setPatchRequest] = useState({});
   const [swiperDirection, setSwipeDirection] = useState();
   const [dataChanged, setDataChanged] = useState(false);
+  const [submitSTP, setSubmitSTP] = useState();
+  const [stpStatus, setStpStatus] = useState();
+  const [hideDropDown, setHideDropDown] = useState(false);
+  const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
+  const [gapRuleWarningCode, setGapRuleWarningCode] = useState(null);
+  const [isPatchExist, setIsPatchExist] = useState(false);
   const weekNum = Number(week);
-  const staffPositionId = 1;
+  const dropDownRef = useRef(null);
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const weekDayCount = workingDays.indexOf(weekDay) + 1;
+  const selectedDayNumber = (weekNum - 1) * workingDays?.length + weekDayCount;
+
+  const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
+  const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+  const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
+  const XMonthValue = useSelector(planComplianceSelector.getXMonthValue());
+  useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
+  useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
+
+  /**
+   * Show toast message to warn user that he has exceeded max doctor/chemist count
+   * once toast hides, save/update patch
+   */
+  const showRulesWarning = () => {
+    if ((rulesWarning || []).length > 0) {
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: true,
+        defaultVisibilityTime: 1000,
+        props: {
+          onClose: () => {
+            hideToast();
+            handleDonePress(doctorsSelected);
+          },
+          heading: translate('errorMessage.partiesExceedingMaxLimit'),
+        },
+        onHide: () => {
+          handleDonePress(doctorsSelected);
+        },
+      });
+    } else {
+      handleDonePress(doctorsSelected);
+    }
+  };
+
+  /**
+   * To render error when min Gap rule is not met
+   */
+  const showGapRulesErrror = useCallback(code => {
+    setGapRuleWarningCode(code);
+    showToast({
+      type: Constants.TOAST_TYPES.ALERT,
+      autoHide: true,
+      defaultVisibilityTime: 1000,
+      props: {
+        onClose: () => {
+          hideToast();
+          setGapRuleWarningCode(null);
+        },
+        heading: translate('errorMessage.gapRule'),
+      },
+      onHide: () => {
+        setGapRuleWarningCode(null);
+      },
+    });
+  }, []);
   /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
   const handleIndex = useCallback(
     async direction => {
-      if (patchSelected && dataChanged && !savePatchRes) {
+      if (
+        patchSelected &&
+        dataChanged &&
+        !savePatchRes &&
+        doctorsSelected.length > 0 &&
+        submitSTP?.status !== STP_STATUS.SUBMITTED &&
+        stpStatus?.standardTourPlanStatuses?.status !== STP_STATUS.SUBMITTED
+      ) {
         setSwipeDirection(direction);
-
-        handleDonePress(doctorsSelected);
+        showRulesWarning();
       } else {
         resetandChangePage(direction, dataChanged);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      handleDonePress,
       patchSelected,
       dataChanged,
-      resetandChangePage,
       savePatchRes,
       doctorsSelected,
+      submitSTP?.status,
+      stpStatus?.status,
+      handleDonePress,
+      resetandChangePage,
     ],
   );
+
+  useEffect(() => {
+    if (indexChanged) {
+      handleIndex(indexChanged);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [indexChanged]);
 
   /**
    * function to reset data
@@ -127,34 +221,28 @@ const StandardPlanModal = ({
   const allAreas = useSelector(standardTourPlanSelector.getAreas());
   const allPatches = useSelector(standardTourPlanSelector.getPatches());
   const savePatchRes = useSelector(standardTourPlanSelector.savePatch());
+  const getUpdatedPartyArray = useSelector(
+    standardTourPlanSelector.getUpdatedPartyArray(),
+  );
+  const selectedDoctorCount = useSelector(
+    standardTourPlanSelector.getSelectedDoctorCount(),
+  );
+  const selectedChemistCount = useSelector(
+    standardTourPlanSelector.getSelectedChemistCount(),
+  );
+  // number of doctors  for whom  frequency ehauseted
+  const exhaustedDrFrequencyCount = useSelector(
+    standardTourPlanSelector.getExhaustedDrFrequencyCount(),
+  );
 
   useEffect(() => {
-    dispatch(
-      fetchPartiesCreator({
-        staffPositionId,
-      }),
-    );
-
-    dispatch(
-      fetchPatchesCreator({
-        staffPositionId,
-      }),
-    );
-    dispatch(
-      fetchAreasCreator({
-        staffPositionId,
-      }),
-    );
-  }, [dispatch]);
+    setUpdatedPatchArray(getUpdatedPartyArray);
+  }, [getUpdatedPartyArray]);
 
   useEffect(() => {
-    setPartiesList(allParties);
-    filterPartyByType(allParties);
-  }, [allParties]);
-
-  useEffect(() => {
-    setAreaList(allAreas);
-  }, [allAreas]);
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setPatches(allPatches);
@@ -188,67 +276,94 @@ const StandardPlanModal = ({
   );
 
   useEffect(() => {
-    if (allPartiesByPatchID) {
+    if (allPartiesByPatchID && allParties.length > 0) {
       setDoctorsSelected(allPartiesByPatchID);
       getSelectedArea(allPartiesByPatchID);
     }
-  }, [getSelectedArea, allPartiesByPatchID]);
+  }, [getSelectedArea, allPartiesByPatchID, allParties]);
+
+  useEffect(() => {
+    dispatch(planComplianceActions.setGapRuleErrorCode(gapRuleWarningCode));
+  }, [dispatch, gapRuleWarningCode]);
+  /**mehtod to load the initial state of daily plan */
+  const loadData = useCallback(async () => {
+    await dispatch(
+      fetchPartiesCreator({
+        staffPositionId,
+      }),
+    );
+
+    await dispatch(
+      fetchPatchesCreator({
+        staffPositionId,
+      }),
+    );
+    await dispatch(
+      fetchAreasCreator({
+        staffPositionId,
+      }),
+    );
+  }, [dispatch, staffPositionId]);
 
   /** function to set area selected on chip click and update areaSelected state*/
   const getSelectedArea = useCallback(
     ids => {
-      if (ids?.length > 0) {
+      if (ids?.length > 0 && allParties.length > 0) {
         let patchAreaList = [];
-        (partiesList || []).map(party => {
-          if (ids.some(id => id === party.id)) {
-            party.areas.map(area => {
-              if (patchAreaList.indexOf(area.id) === -1) {
-                patchAreaList.push(area.id);
-              }
-            });
-          }
+        (allParties || []).map(party => {
+          ids.map(id => {
+            if (id.partyId === party.id) {
+              patchAreaList.push(id.areaId);
+            }
+          });
         });
-        const a = areaList?.filter(
+        const a = allAreas?.filter(
           area => patchAreaList.indexOf(area.id) !== -1,
         );
         setAreaSelected(a);
       }
     },
-    [partiesList, areaList],
+    [allParties, allAreas],
   );
-
-  /** function to filter party by type and update partiesType
-   * @param {Array} partyList list of parties passed
-   */
-  const filterPartyByType = partyList => {
-    const doctorType = [Strings.all];
-    partyList.map(party => {
-      if (doctorType.indexOf(party.partyTypes.name) === -1) {
-        doctorType.push(party.partyTypes.name);
-      }
-    });
-    setPartiesType(doctorType);
-  };
 
   /** function to count party for all areas and return an obj*/
   const getPartyCountFromArea = useCallback(() => {
-    if (partiesList) {
-      const areaData = (areaList || []).map(area => {
+    if (updatedPatchArray.length > 0 && allAreas.length > 0) {
+      const areaData = (allAreas || []).map(area => {
         return {
           ...area,
-          totalPartiesInArea: getDoctorsByArea(area.id).length,
-          totalUniqueParty: doctorsSelected && getSelectedPartyByArea(area.id),
+          totalPartiesInArea: getDoctorsByArea(area.id, false).length,
+          totalUniqueParty: doctorsSelected && getAreaCountOnFrequecy(area.id),
         };
       });
       return areaData;
     }
   }, [
     getDoctorsByArea,
-    areaList,
-    partiesList,
-    getSelectedPartyByArea,
+    allAreas,
+    updatedPatchArray,
+    getAreaCountOnFrequecy,
     doctorsSelected,
   ]);
+
+  /**method to get doctor visited in area
+   * @param {String} id area id passed
+   * @return {String} count of doctor visited
+   */
+  const getAreaCountOnFrequecy = useCallback(
+    id => {
+      let count = 0;
+      updatedPatchArray?.map(party => {
+        party.areas.map(area => {
+          if (area.id === id && party.alreadyVisitedCount > 0) {
+            count = count + 1;
+          }
+        });
+      });
+      return count;
+    },
+    [updatedPatchArray],
+  );
 
   /** function to removed doctors from specific area on press
    * @param {Number} areaId area id passed
@@ -256,17 +371,25 @@ const StandardPlanModal = ({
   const removeSelectedDoctorFromArea = useCallback(
     async areaId => {
       let doctorArr = doctorsSelected;
-      partiesList.map(party => {
+      allParties.map(party => {
         const doctorToRemove = doctorsSelected?.find(
-          obj => obj === party.id && party.areas.some(par => par.id === areaId),
+          obj => obj.partyId === party.id && obj.areaId === areaId,
         );
         if (doctorToRemove) {
-          doctorArr = doctorArr.filter(doc => doc !== doctorToRemove);
+          doctorArr = doctorArr.filter(
+            doc =>
+              !(
+                doc.partyId === doctorToRemove.partyId &&
+                doc.areaId === doctorToRemove.areaId
+              ),
+          );
         }
       });
       setDoctorsSelected(doctorArr);
+      updateString(doctorArr);
+      setDataChanged(true);
     },
-    [doctorsSelected, partiesList],
+    [doctorsSelected, allParties, updateString],
   );
 
   /** function to create patch string to be put in patch input field*/
@@ -275,8 +398,7 @@ const StandardPlanModal = ({
       .filter(area => {
         const partyData = partyList.find(party =>
           doctors?.some(
-            obj =>
-              obj === party.id && party.areas.some(par => par.id === area.id),
+            obj => obj.partyId === party.id && obj.areaId === area.id,
           ),
         );
         return partyData ? true : false;
@@ -285,7 +407,7 @@ const StandardPlanModal = ({
       .join(' + ');
     const patchCount = (ptches || []).filter(
       p =>
-        p.displayName === patchString ||
+        p.displayName?.split(' (')[0] === patchString ||
         p.defaultName?.split(' (')[0] === patchString,
     );
     if (patchCount) {
@@ -297,60 +419,43 @@ const StandardPlanModal = ({
     return patchString;
   }, []);
 
-  useEffect(() => {
-    if (!isPatchedData && dataChanged && !isSameDayPatch(patchValue)) {
-      const string = createPatchString(
-        areaSelected,
-        doctorsSelected,
-        partiesList,
-        patches,
-      );
-      if (!patchEdited) {
-        setPatchSelected(string);
-      }
-      setPatchDefaultValue(string);
-    }
-  }, [
-    areaSelected,
-    isPatchedData,
-    doctorsSelected,
-    partiesList,
-    createPatchString,
-    patchEdited,
-    patchValue,
-    dataChanged,
-    isSameDayPatch,
-    patches,
-  ]);
-
   /** function to filter parties by area selected from area chiklets
    * @param {Number} area area id passed as number
    */
   const getDoctorsByArea = useCallback(
-    area => {
-      const partiesData = (partiesList || []).filter(party => {
-        const isArea = party.areas.find(obj => {
-          return (
-            obj.id === area &&
-            (party.partyTypes.name === selectedDoctorType ||
-              selectedDoctorType === Strings.all)
-          );
+    (area, totalCount) => {
+      if (allParties.length > 0) {
+        const partiesData = allParties.filter(party => {
+          const isArea = party.areas.find(obj => {
+            return (
+              obj.id === area &&
+              (party.partyTypes.name === selectedDoctorType ||
+                selectedDoctorType === Strings.all)
+            );
+          });
+          if (isArea) {
+            return party;
+          }
         });
-        if (isArea) {
-          return party;
+        let newPartiesData = partiesData;
+        if (totalCount && !isSameDayPatch(patchValue)) {
+          newPartiesData = partiesData?.filter(
+            par => par.frequency !== par.alreadyVisited,
+          );
         }
-      });
-      let newPartiesData = partiesData;
-      if (!isSameDayPatch(patchValue)) {
-        newPartiesData = partiesData?.filter(
-          par => par.frequency !== par.alreadyVisited,
-        );
+        return newPartiesData;
       }
-      return newPartiesData;
     },
-    [partiesList, selectedDoctorType, isSameDayPatch, patchValue],
+    [allParties, selectedDoctorType, isSameDayPatch, patchValue],
   );
 
+  const isGapRuleWarning = code => {
+    const ShowGapRuleWarning =
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_2_DOC ||
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_3_DOC ||
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_4_DOC;
+    return ShowGapRuleWarning;
+  };
   /** function to validate the response from endpoint in case of save and updating the patch */
   const validateSaveResponse = useCallback(
     async (obj, id) => {
@@ -371,11 +476,11 @@ const StandardPlanModal = ({
             },
           });
           setDataChanged(false);
-          dispatch(standardPlanActions.resetSavePatch());
           if (swiperDirection) {
             resetandChangePage(swiperDirection);
           } else {
-            setPatchValue(obj);
+            resetState();
+            loadData();
           }
         } else if (
           savePatchRes?.status === Constants.HTTP_PATCH_CODE.VALIDATED
@@ -385,6 +490,7 @@ const StandardPlanModal = ({
             Constants.HTTP_PATCH_CODE.ALREADY_EXITS
           ) {
             setPatchError(Strings.patchAlreadyExists);
+            setShowPatchError(true);
           } else if (
             savePatchRes?.data?.details[0]?.code ===
               Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY ||
@@ -397,43 +503,51 @@ const StandardPlanModal = ({
               savePatchRes?.data?.details[0]?.code,
               savePatchRes?.data?.details,
             );
+          } else if (isGapRuleWarning(savePatchRes?.data?.details[0]?.code)) {
+            showGapRulesErrror(savePatchRes?.data?.details[0]?.code);
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
-          setShowPatchError(true);
         } else {
           setPatchError(Strings.somethingWentWrong);
           setShowPatchError(true);
         }
+        dispatch(standardPlanActions.resetSavePatch());
       }
     },
     [
       savePatchRes,
-      showOverrideNotification,
-      swiperDirection,
-      resetandChangePage,
       patchSelected,
       dispatch,
+      swiperDirection,
+      resetandChangePage,
+      resetState,
+      loadData,
+      showOverrideNotification,
+      showGapRulesErrror,
     ],
   );
 
-  /** function to save the patch */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
         displayName: patchSelected,
         defaultName: patchDefaultValue,
-        partyIds: partyIds || doctorsSelected,
+        partyMapping: partyIds || doctorsSelected,
         week: weekNum,
         weekDay,
         year: year,
+        patchAlreadyExist: isPatchExist,
       };
       setPatchError(null);
       setPatchRequest(obj);
       const isPatchOfSameDay = isSameDayPatch(patchValue);
+      const isAnyPartyExhausted = checkPartyExhausted(partyIds);
 
       if (!patchValue) {
         savePatch(obj);
+      } else if (isAnyPartyExhausted.length > 0 && !isPatchOfSameDay) {
+        handleExhaustedParty(obj, isAnyPartyExhausted);
       } else if (patchValue && isPatchOfSameDay && dataChanged) {
         updatePatch(obj, patchValue.id, false);
       } else if (patchValue && !isPatchOfSameDay && !isPatchedData) {
@@ -455,6 +569,9 @@ const StandardPlanModal = ({
       dataChanged,
       isPatchedData,
       doctorsSelected,
+      checkPartyExhausted,
+      handleExhaustedParty,
+      isPatchExist,
     ],
   );
 
@@ -484,8 +601,9 @@ const StandardPlanModal = ({
                 obj,
                 areaSelected,
                 doctorsSelected,
-                partiesList,
+                allParties,
                 patches,
+                false,
               );
             } else {
               const isPatchExhausted = errors.some(
@@ -508,14 +626,15 @@ const StandardPlanModal = ({
                 obj,
                 areaSelected,
                 doctorsSelected,
-                partiesList,
+                allParties,
                 patches,
+                true,
               );
             } else {
               const docIds = errors.find(err => err.code === code);
               setDoctorsSelected(
                 doctorsSelected.filter(
-                  doc => docIds?.params?.partyIds.indexOf(doc) === -1,
+                  doc => docIds?.params?.partyIds.indexOf(doc.partyId) === -1,
                 ),
               );
               hideToast();
@@ -530,7 +649,7 @@ const StandardPlanModal = ({
       areaSelected,
       patches,
       doctorsSelected,
-      partiesList,
+      allParties,
       checkPatchExhausted,
     ],
   );
@@ -558,6 +677,70 @@ const StandardPlanModal = ({
     [showOverrideNotification],
   );
 
+  /**method to check if any party selected in a patch got exhausted
+   * @param {Array} ids selected doctors id passed as an Array
+   * @returns {Boolean} return Boolean if any party got exhausted
+   */
+  const checkPartyExhausted = useCallback(
+    ids => {
+      return allParties.filter(
+        party =>
+          ids.some(id => id.partyId === party.id) &&
+          party.frequency <= party.alreadyVisited,
+      );
+    },
+    [allParties],
+  );
+
+  /**method to handle done button in case of exhausted party
+   * @param {Object} obj request to pass as an object
+   * @param {Array} exhaustedParty list of exhausted party in an Array
+   */
+  const handleExhaustedParty = useCallback(
+    (obj, exhaustedParty) => {
+      const updatedPartyList = doctorsSelected?.filter(
+        party => !exhaustedParty.some(par => par.id === party.partyId),
+      );
+      let message = null;
+      if (
+        exhaustedParty.length >= 1 &&
+        doctorsSelected.length > 1 &&
+        exhaustedParty.length !== doctorsSelected.length
+      ) {
+        setDoctorsSelected(updatedPartyList);
+        handleNoPress(
+          obj,
+          allAreas,
+          updatedPartyList,
+          allParties,
+          patches,
+          false,
+        );
+        message = Strings.frquecySlotExhausted;
+      } else if (
+        (exhaustedParty.length === 1 && doctorsSelected.length === 1) ||
+        exhaustedParty.length === doctorsSelected.length
+      ) {
+        setDoctorsSelected(updatedPartyList);
+        message = Strings.selectDocToCreatePatch;
+      }
+
+      showToast({
+        type: Constants.TOAST_TYPES.WARNING,
+        autoHide: false,
+        props: {
+          onPress: () => {
+            hideToast();
+          },
+          onClose: () => hideToast(),
+          heading: Strings.warning,
+          subHeading: message,
+        },
+      });
+    },
+    [allAreas, doctorsSelected, handleNoPress, allParties, patches],
+  );
+
   /**function to create new patch on databse if No button on override notification is pressed
    * @param {Object} obj request obj to update
    * @param {Array} areas errors as Array got while updating
@@ -566,13 +749,22 @@ const StandardPlanModal = ({
    * @param {Array} ptches lsit of patches
    */
   const handleNoPress = useCallback(
-    async (obj, areas, doctors, partyList, ptches) => {
+    async (obj, areas, doctors, partyList, ptches, patchExists) => {
       const string = createPatchString(areas, doctors, partyList, ptches);
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
-      savePatch({...obj, displayName: string, defaultName: string});
+      setIsPatchExist(patchExists);
+
+      //TO-DO - Will remove this once QA confirmed the flow
+      // savePatch({
+      //   ...obj,
+      //   partyMapping: doctors,
+      //   displayName: string,
+      //   defaultName: string,
+      //   patchAlreadyExist: patchExists,
+      // });
     },
-    [createPatchString, savePatch],
+    [createPatchString],
   );
 
   /** function to save patch
@@ -582,11 +774,17 @@ const StandardPlanModal = ({
     obj => {
       dispatch(
         fetchSTPCalendarUpdateCreator({
-          staffPositionId: 1,
+          staffPositionId,
+        }),
+      );
+      dispatch(
+        fetchPlanComplianceCreator({
+          staffPositionId,
+          type: 'monthly',
         }),
       );
     },
-    [dispatch],
+    [dispatch, staffPositionId],
   );
 
   /** function to save patch
@@ -603,7 +801,7 @@ const StandardPlanModal = ({
       );
       hideToast();
     },
-    [dispatch],
+    [dispatch, staffPositionId],
   );
 
   /** function to update patch
@@ -624,7 +822,7 @@ const StandardPlanModal = ({
       );
       hideToast();
     },
-    [dispatch, patchRequest],
+    [dispatch, patchRequest, staffPositionId],
   );
 
   /** function to filter parties by doctors, chemist, all
@@ -644,19 +842,74 @@ const StandardPlanModal = ({
    *  Handles Card click event& accept an id of party
    * @param {Number} id party id passed as int
    */
-  const handleDoctorCardPress = id => {
-    const indexAvailable = doctorsSelected?.some(party => party === id);
-
+  const handleDoctorCardPress = (id, area) => {
+    const indexAvailable = doctorsSelected?.some(
+      party => party.partyId === id && party.areaId === area,
+    );
+    let selected = null;
     if (indexAvailable) {
-      setDoctorsSelected(doctorsSelected?.filter(party => party !== id));
+      selected = doctorsSelected?.filter(
+        party => !(id === party.partyId && area === party.areaId),
+      );
     } else {
-      setDoctorsSelected([...doctorsSelected, id]);
+      selected = [...doctorsSelected, {partyId: id, areaId: area}];
     }
-    if (!isSameDayPatch(patchValue)) {
-      setIsPatchedData(false);
+
+    const partyExhausted = checkSelectedPartyExhausted(selected);
+    if (partyExhausted.length > 0 && !isSameDayPatch(patchValue)) {
+      selected = selected?.filter(
+        party => !partyExhausted?.some(par => par.id === party.partyId),
+      );
     }
+
+    setDoctorsSelected(selected || []);
+    updateString(selected);
     setDataChanged(true);
   };
+
+  /**method to update the string for display and default name
+   * @param {Array} partArr selected doctor list passed as an array
+   */
+  const updateString = useCallback(
+    partyArr => {
+      const string = createPatchString(
+        areaSelected,
+        partyArr || [],
+        allParties,
+        patches,
+      );
+      if (isSameDayPatch(patchValue)) {
+        if (patchValue?.defaultName === patchValue?.displayName) {
+          if (
+            patchValue?.defaultName.split(' (')[0] === string.split(' (')[0]
+          ) {
+            setPatchSelected(patchValue?.defaultName);
+          } else {
+            setPatchSelected(string);
+          }
+        }
+        setPatchDefaultValue(string);
+      } else {
+        setIsPatchedData(false);
+        if (!patchEdited) {
+          setPatchSelected(string);
+        }
+        if (string !== patchValue?.defaultName) {
+          setPatchValue(null);
+        }
+        setPatchDefaultValue(string);
+      }
+    },
+    [
+      allParties,
+      areaSelected,
+      createPatchString,
+      isSameDayPatch,
+      patchEdited,
+      patchValue,
+      patches,
+    ],
+  );
 
   /** function to handle value of patch input field and check validation on string
    * @param {String} val string passed from input field
@@ -666,6 +919,7 @@ const StandardPlanModal = ({
     if (val.length < 64 && regex.test(val)) {
       setPatchSelected(val);
       setPatchEdited(true);
+      setDataChanged(true);
     }
   };
 
@@ -699,8 +953,12 @@ const StandardPlanModal = ({
   const getSelectedPartyByArea = useCallback(
     id => {
       let count = 0;
-      getDoctorsByArea(id).map(party => {
-        if (doctorsSelected?.filter(doc => doc === party.id).length > 0) {
+      getDoctorsByArea(id, true).map(party => {
+        if (
+          doctorsSelected?.filter(
+            doc => doc.partyId === party.id && doc.areaId === id,
+          ).length > 0
+        ) {
           count = count + 1;
         }
       });
@@ -718,18 +976,23 @@ const StandardPlanModal = ({
 
   /** function to filter parties by party type eg. doctors,chemist and all*/
   const getSelectedPartyByType = useCallback(() => {
-    if (patchSelected) {
-      const obj = {doctors: 0, chemist: 0};
-      partiesList.map(party => {
-        if (doctorsSelected?.some(id => id === party.id)) {
+    if (allParties.length > 0 && doctorsSelected.length > 0) {
+      const obj = {doctor: 0, chemist: 0};
+      allParties.map(party => {
+        if (
+          doctorsSelected?.some(
+            id =>
+              id.partyId === party.id &&
+              areaSelected.some(area => area.id === id.areaId),
+          )
+        ) {
           if (party.partyTypes.name === PARTY_TYPE.DOCTOR) {
-            obj.doctors = obj.doctors + 1;
+            obj.doctor = obj.doctor + 1;
           } else {
             obj.chemist = obj.chemist + 1;
           }
         }
       });
-
       if (selectedDoctorType === PARTY_TYPE.CHEMIST) {
         let partyCount = obj.chemist;
         return (
@@ -739,7 +1002,7 @@ const StandardPlanModal = ({
           )}`
         );
       } else if (selectedDoctorType === PARTY_TYPE.DOCTOR) {
-        let partyCount = obj.doctors;
+        let partyCount = obj.doctor;
         return (
           partyCount > 0 &&
           ` - ${partyCount} ${PARTY_TYPE.DOCTOR.toLowerCase()}${getSuffix(
@@ -748,26 +1011,36 @@ const StandardPlanModal = ({
         );
       }
       return `${
-        obj.doctors > 0 || obj.chemist > 0
-          ? ` - ${obj.doctors + obj.chemist} `
+        obj.doctor > 0 || obj.chemist > 0
+          ? ` - ${obj.doctor + obj.chemist} `
           : ''
       }${
-        obj.doctors > 0
-          ? `(${obj.doctors} doctor${obj.doctors > 1 ? 's' : ''}`
+        obj.doctor > 0
+          ? `(${obj.doctor} doctor${obj.doctor > 1 ? 's' : ''}`
           : ''
-      }${obj.doctors > 0 && obj.chemist > 0 ? ', ' : ''}${
-        obj.doctors > 0 && obj.chemist === 0 ? ')' : ''
-      }${obj.doctors === 0 && obj.chemist > 0 ? '(' : ''}${
+      }${obj.doctor > 0 && obj.chemist > 0 ? ', ' : ''}${
+        obj.doctor > 0 && obj.chemist === 0 ? ')' : ''
+      }${obj.doctor === 0 && obj.chemist > 0 ? '(' : ''}${
         obj.chemist > 0 ? `${obj.chemist} chemist)` : ''
       }`;
+    } else {
+      return '';
     }
-  }, [doctorsSelected, partiesList, selectedDoctorType, patchSelected]);
+  }, [doctorsSelected, allParties, selectedDoctorType, areaSelected]);
 
+  /**
+   * Reset STP data on click of close
+   */
+  const resetSTPState = useCallback(async () => {
+    await dispatch(standardPlanActions.STPCalendarUpdate({stpData: []}));
+    return true;
+  }, [dispatch]);
   /**
    * function to close stp page
    */
   const handleClose = () => {
     resetState();
+    resetSTPState();
     updateSTPCalendar();
     navigation.pop();
   };
@@ -788,150 +1061,252 @@ const StandardPlanModal = ({
     [weekNum, weekDay, year],
   );
 
+  /**handle dropDownref and setTogglePicker on clicking outside dropdown
+   * @param {Object} e native event of View
+   */
+  const handleDropDownRef = e => {
+    e.persist();
+    const ids =
+      dropDownRef &&
+      dropDownRef.current?._children &&
+      dropDownRef.current?._children[0]._children.map(el => el._nativeTag);
+
+    if (ids && ids.length) {
+      if (ids.includes(e.target._nativeTag)) {
+        return;
+      }
+      setHideDropDown(true);
+    }
+  };
+
+  /**
+   * Returns data of selectedParty
+   */
+  const getSelectedPartyTypeHandler = useCallback(() => {
+    return getSelectedPartyTypeData(
+      doctorsSelected,
+      updatedPatchArray,
+      dataChanged,
+      selectedDoctorCount,
+      selectedChemistCount,
+      exhaustedDrFrequencyCount,
+      selectedDayNumber,
+      XMonthValue,
+      getPartyCountFromArea(),
+    );
+  }, [
+    doctorsSelected,
+    updatedPatchArray,
+    dataChanged,
+    selectedDoctorCount,
+    selectedChemistCount,
+    exhaustedDrFrequencyCount,
+    selectedDayNumber,
+    XMonthValue,
+    getPartyCountFromArea,
+  ]);
+
+  /**method to check if party in doctorsSelected got exhausted
+   * @param {Array} ids selected partys in array
+   * @return {Array} exhausted party in array is returned
+   */
+  const checkSelectedPartyExhausted = ids => {
+    return allParties.filter(party => {
+      return ids?.some(
+        par =>
+          par.partyId === party.id && party.frequency <= party.alreadyVisited,
+      );
+    });
+  };
+
+  if (allParties.length === 0 || allAreas.length === 0) {
+    return (
+      <ActivityIndicator
+        animating={true}
+        color={themes.colors.darkBlue}
+        size="large"
+        style={styles.activityIndicator}
+      />
+    );
+  }
+
+  /**view gesture handlers for click */
+  const _gestureHandlers = {
+    onStartShouldSetResponder: () => true,
+    onMoveShouldSetResponder: () => true,
+    onResponderRelease: e => {
+      handleDropDownRef(e);
+    },
+  };
+
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
-      <View style={styles.modalHeader}>
-        <View>
-          <Label title={Strings.selectDoctorAndChemist} size={18.7} />
-          <View style={styles.week}>
-            {weekDay !== workingDays[0] && (
-              <TouchableOpacity
-                onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
-                <Icon
-                  iconStyle={styles.weekArrow}
-                  name="angle-left"
-                  size={24}
-                />
-              </TouchableOpacity>
-            )}
-            <Label
-              style={styles.weekLabel}
-              title={`${Strings.weekText} ${week} - ${weekDay}`}
-              variant={LabelVariant.h3}
-              type={'bold'}
-            />
-            {weekDay !== workingDays[workingDays.length - 1] && (
-              <TouchableOpacity
-                onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
-                <Icon
-                  iconStyle={styles.weekArrow}
-                  name="angle-right"
-                  size={24}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-        <View style={[styles.patchContainer]}>
-          <View style={styles.patchInputCotainer}>
-            <TextInput
-              value={patchSelected}
-              placeholder={Strings.patchName}
-              style={styles.patchInput}
-              editable={!patchValue && !patchDefaultValue ? false : true}
-              onChangeText={val => handlePatchInputChange(val)}
-              maxLength={64}
-            />
-          </View>
-          {showPatchError && (
-            <Label
-              size={14}
-              title={patchError}
-              textColor={themes.colors.red[100]}
-            />
-          )}
-        </View>
-        <View style={styles.headerButtonGroup}>
-          <Button
-            mode="contained"
-            title={Strings.done}
-            uppercase={true}
-            disabled={!patchSelected || false}
-            contentStyle={styles.doneBtn}
-            onPress={() => handleDonePress(doctorsSelected)}
-          />
-          <Button
-            mode="outlined"
-            title={Strings.close}
-            uppercase={true}
-            contentStyle={styles.closeBtn}
-            onPress={() => handleClose()}
-          />
-        </View>
-      </View>
-      <View style={styles.content}>
-        <View style={styles.leftContent}>
-          <Areas
-            areaSelected={areaSelected}
-            setAreaSelected={setAreaSelected}
-            areaList={getPartyCountFromArea()}
-            onPress={val => removeSelectedDoctorFromArea(val)}
-            handleDropDownValue={handleDropDownValue}
-            isPatchedData={isPatchedData}
-            allPatches={allPatches}
-          />
-          <View style={styles.doctorDetailsContainer}>
-            <View>
-              <View style={styles.doctorDetailsHeader}>
-                <View style={styles.doctorSelectedContainer}>
-                  <Label title={Strings.selectVisit} size={14} />
-                  <Label
-                    title={getSelectedPartyByType()}
-                    type={'bold'}
-                    size={14}
+      <View {..._gestureHandlers}>
+        <View style={styles.modalHeader}>
+          <View>
+            <Label title={Strings.selectDoctorAndChemist} size={18.7} />
+            <View style={styles.week}>
+              {weekDay !== workingDays[0] && (
+                <TouchableOpacity
+                  onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
+                  <Icon
+                    iconStyle={styles.weekArrow}
+                    name="angle-left"
+                    size={24}
                   />
-                </View>
-                <View style={styles.categoryFilterContainer}>
-                  {partiesType.map((type, i) => (
-                    <Area
-                      key={i}
-                      selectedTextColor={themes.colors.white}
-                      selectedColor={themes.colors.primary}
-                      selected={selectedDoctorType === type}
-                      title={type}
-                      value={type}
-                      bgColor={themes.colors.white}
-                      color={'#524F67'}
-                      onPress={val => handlePartyByType(val)}
-                      testID={`btn_stp_party_type_${type}_test`}
-                      textStyle={styles.areaType}
-                    />
-                  ))}
-                </View>
-              </View>
-              <DoctorsByArea
-                areaSelected={areaSelected}
-                doctorsByArea={getDoctorsByArea}
-                doctorsSelected={doctorsSelected}
-                handleDoctorCardPress={handleDoctorCardPress}
-                isPatchedData={isPatchedData}
-                selectedPartyByArea={getSelectedPartyByArea}
-                partiesList={partiesList}
-                selectedDoctorType={selectedDoctorType}
-                patchValue={patchValue}
-                isSameDayPatch={isSameDayPatch(patchValue)}
+                </TouchableOpacity>
+              )}
+              <Label
+                style={styles.weekLabel}
+                title={`${Strings.weekText} ${week} - ${weekDay}`}
+                variant={LabelVariant.h3}
+                type={'bold'}
               />
-              <View styles={styles.bottom}>
-                <View style={styles.bottomContent}>
-                  <Button
-                    mode="text"
-                    title={Strings.addOtherDoctors}
-                    uppercase={false}
-                    labelStyle={styles.addDoctors}
+              {weekDay !== workingDays[workingDays.length - 1] && (
+                <TouchableOpacity
+                  onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
+                  <Icon
+                    iconStyle={styles.weekArrow}
+                    name="angle-right"
+                    size={24}
                   />
-                  <Button
-                    mode="contained"
-                    title={`${Strings.doctorUniverse} (${partiesList.length})`}
-                    uppercase={false}
-                    contentStyle={styles.doneBtn}
-                  />
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+          <View style={[styles.patchContainer]}>
+            <View style={styles.patchInputCotainer}>
+              <TextInput
+                value={patchSelected}
+                placeholder={Strings.patchName}
+                style={styles.patchInput}
+                editable={!patchValue && !patchDefaultValue ? false : true}
+                onChangeText={val => handlePatchInputChange(val)}
+                maxLength={64}
+              />
+            </View>
+            {showPatchError && (
+              <Label
+                size={14}
+                title={patchError}
+                textColor={themes.colors.red[100]}
+              />
+            )}
+          </View>
+          <View style={styles.headerButtonGroup}>
+            <Button
+              mode="contained"
+              title={Strings.done}
+              uppercase={true}
+              disabled={
+                !patchSelected ||
+                !dataChanged ||
+                doctorsSelected.length === 0 ||
+                submitSTP?.status === STP_STATUS.SUBMITTED ||
+                stpStatus?.standardTourPlanStatuses?.status ===
+                  STP_STATUS.SUBMITTED ||
+                false
+              }
+              contentStyle={styles.doneBtn}
+              onPress={() => showRulesWarning()}
+            />
+            <Button
+              mode="outlined"
+              title={Strings.close}
+              uppercase={true}
+              contentStyle={styles.closeBtn}
+              onPress={() => handleClose()}
+            />
+          </View>
+        </View>
+        <View style={styles.content}>
+          <View style={styles.leftContent}>
+            <Areas
+              areaSelected={areaSelected}
+              setAreaSelected={setAreaSelected}
+              areaList={getPartyCountFromArea()}
+              onPress={val => removeSelectedDoctorFromArea(val)}
+              handleDropDownValue={handleDropDownValue}
+              isPatchedData={isPatchedData}
+              allPatches={allPatches}
+              partyInArea={id => getSelectedPartyByArea(id)}
+              hideDropDown={hideDropDown}
+              setHideDropDown={setHideDropDown}
+              dropDownRef={dropDownRef}
+            />
+            <View style={styles.doctorDetailsContainer}>
+              <View>
+                <View style={styles.doctorDetailsHeader}>
+                  <View style={styles.doctorSelectedContainer}>
+                    <Label title={Strings.selectVisit} size={14} />
+                    <Label
+                      title={getSelectedPartyByType()}
+                      type={'bold'}
+                      size={14}
+                    />
+                  </View>
+                  <View style={styles.categoryFilterContainer}>
+                    {PARTY_TYPES.map((type, i) => (
+                      <Area
+                        key={i}
+                        selectedTextColor={themes.colors.white}
+                        selectedColor={themes.colors.primary}
+                        selected={selectedDoctorType === type}
+                        title={type}
+                        value={type}
+                        bgColor={themes.colors.white}
+                        color={'#524F67'}
+                        onPress={val => handlePartyByType(val)}
+                        testID={`btn_stp_party_type_${type}_test`}
+                        textStyle={styles.areaType}
+                      />
+                    ))}
+                  </View>
+                </View>
+                <DoctorsByArea
+                  areaSelected={areaSelected}
+                  doctorsSelected={doctorsSelected}
+                  handleDoctorCardPress={handleDoctorCardPress}
+                  isPatchedData={isPatchedData}
+                  selectedPartyByArea={getSelectedPartyByArea}
+                  partiesList={allParties}
+                  selectedDoctorType={selectedDoctorType}
+                  patchValue={patchValue}
+                  allPartiesByPatchID={allPartiesByPatchID}
+                  isSameDayPatch={isSameDayPatch(patchValue)}
+                />
+                <View styles={styles.bottom}>
+                  <View style={styles.bottomContent}>
+                    <Button
+                      mode="text"
+                      title={Strings.addOtherDoctors}
+                      uppercase={false}
+                      labelStyle={styles.addDoctors}
+                    />
+                    <Button
+                      mode="contained"
+                      title={`${Strings.doctorUniverse} (${allParties.length})`}
+                      uppercase={false}
+                      contentStyle={styles.doneBtn}
+                    />
+                  </View>
                 </View>
               </View>
             </View>
           </View>
-        </View>
-        <View style={styles.rightContent}>
-          <Label variant={LabelVariant.h4} title={Strings.planCompliance} />
+          <View style={styles.rightContent}>
+            <Label
+              variant={LabelVariant.h4}
+              title={Strings.planCompliance}
+              style={styles.planComplainceLabel}
+            />
+            <PlanCompliance
+              type={COMPLAINCE_TYPE.DAILY}
+              week={week}
+              weekDay={weekDayCount}
+              selectedData={getSelectedPartyTypeHandler()}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>

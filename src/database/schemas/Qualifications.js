@@ -1,3 +1,5 @@
+import {DivisionSchemaName} from './Divisions';
+const MASTER_SYNC_PARAMETERS = 'SYNC_PARAMETER';
 export const QualificationsSchemaName = 'Qualifications';
 
 export default class QualificationsSchema {
@@ -8,6 +10,11 @@ export default class QualificationsSchema {
       id: 'int',
       name: 'string?',
       shortName: 'string?',
+      divisions: {
+        type: 'list',
+        objectType: DivisionSchemaName,
+      },
+      syncParameters: MASTER_SYNC_PARAMETERS,
     },
   };
 }

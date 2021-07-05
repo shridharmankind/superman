@@ -1,10 +1,12 @@
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/en-in';
 
 dayjs.extend(localeData);
 dayjs.extend(advancedFormat);
+dayjs.extend(utc);
 
 /**
  * Utility file to handle Date/Time method
@@ -54,4 +56,87 @@ export const getMonthDiff = (current, previous) => {
  */
 export const getDateFromMonthYear = ({month, year, date = '01'}) => {
   return `${year}-${String(month).padStart(2, '0')}-${date}`;
+};
+
+export const getLocalTimeZone = date => {
+  let timeInHours = new Date(date).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+  let newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+  let dateString =
+    newDate.getUTCDate() +
+    '/' +
+    (newDate.getMonth() + 1) +
+    '/' +
+    newDate.getFullYear();
+  dateString = dateString + ' ' + tConvert(timeInHours);
+  return dateString;
+};
+
+function tConvert(time) {
+  // Check correct time format and split into components
+  time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
+    time,
+  ];
+
+  if (time.length > 1) {
+    // If time format correct
+    time = time.slice(1); // Remove full string match value
+    time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+    time[3] = ' ';
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  return time.join(''); // return adjusted time or original string
+}
+
+/**
+ * @param {String} inputDate date in utc format
+ * @param {String} format expected format of date output
+ * @returns date formatted to local time
+ */
+export const returnUTCtoLocal = (inputDate, format) => {
+  const date = inputDate || dayjs.utc().format();
+  const localDate = dayjs.utc(date).local().format();
+  const formattedDate = getFormatDate({
+    date: localDate,
+    format: format || 'D MMM YYYY',
+  });
+  return formattedDate === 'Invalid Date' ? '-' : formattedDate; //TO DO : Temp fix for web
+};
+
+/**
+ * Check if a date is after a particular date or note
+ *
+ * @param {Date} date - Date
+ * @param {Date} dateToCompare - Date to compare with
+ * @return {Boolean} Is After
+ */
+export const isAfter = (date, dateToCompare) => {
+  return dayjs(date).isAfter(dateToCompare);
+};
+
+/**
+ * Get start of month/day/year based upon unit for a date
+ *
+ * @param {Date} date
+ * @param {String} unit
+ * @return {dayjs.Dayjs} Start date
+ */
+export const startOf = (date, unit) => {
+  return dayjs(date).startOf(unit);
+};
+
+/**
+ *
+ * @param {Date} date
+ * @returns Date as an object with day , month & year value
+ */
+export const getDateIntoObject = date => {
+  return {
+    day: dayjs(date).get('date'),
+    month: dayjs(date).get('month') + 1,
+    year: dayjs(date).get('year'),
+  };
 };

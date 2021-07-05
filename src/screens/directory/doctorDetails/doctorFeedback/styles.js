@@ -106,6 +106,12 @@ const styles = StyleSheet.create({
   swiperListStyle: {
     overflow: 'visible',
   },
+  nameStyling: {
+    fontFamily: themes.fonts.fontLight,
+  },
+  highlighted: {
+    color: themes.colors.primary,
+  },
 });
 
 export default styles;

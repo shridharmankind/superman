@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
   },
   tabMainContainer: {
     flexDirection: 'row',
+    marginBottom: theme.spacing(21.3),
   },
   productMainContainer: {
     flexDirection: 'column',
@@ -73,7 +74,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: theme.spacing(20),
+    marginRight: theme.spacing(10),
+    marginTop: theme.spacing(-7),
   },
   nameContainer: {
     flexDirection: 'column',

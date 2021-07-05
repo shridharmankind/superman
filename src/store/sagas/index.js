@@ -7,6 +7,9 @@ import {
 import {
   fetchSubOrdinatesWatcher,
   fetchWorkingDayWatcher,
+  fetchSTPStatusWatcher,
+  submitSTPWatcher,
+  fetchMTPCalendarUpdateWatcher,
 } from 'screens/tourPlan/monthly/redux';
 import {
   fetchPartiesWatcher,
@@ -18,7 +21,26 @@ import {
 } from 'screens/tourPlan/standard/redux';
 import {fetchPlanComplianceWatcher} from 'screens/tourPlan/planCompliance/redux';
 import {fetchTaskWatcher} from 'screens/directory/doctorDetails/openTask/redux';
-
+import {
+  fetchQueryDoctorsWatcher,
+  fetchMissedCallsWatcher,
+  addPartyToDailyPlanWatcher,
+} from 'screens/directory/landing/redux';
+import {fetchPriorityProductWatcher} from 'screens/directory/priorityProduct/redux';
+import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
+import {
+  fetchEDetailingOtherProductWatcher,
+  fetchEDetailingPriorityProductWatcher,
+} from 'screen/eDetailing/redux';
+import {
+  fetchDcrWatcher,
+  setVisitWatcher,
+  getDoctorDataList,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
+import {
+  searchSamplesWatcher,
+  selectSamplesWatcher,
+} from 'screens/directory/doctorDetails/doctorFeedback/sampleRequest/redux';
 export function* rootSaga() {
   /**
    *
@@ -30,6 +52,8 @@ export function* rootSaga() {
     fetchDoctorDetailWatcher,
     fetchSubOrdinatesWatcher,
     fetchWorkingDayWatcher,
+    fetchSTPStatusWatcher,
+    submitSTPWatcher,
     fetchPartiesWatcher,
     fetchAreasWatcher,
     fetchPatchesWatcher,
@@ -37,8 +61,21 @@ export function* rootSaga() {
     savePatchWatcher,
     deletePartyWatcher,
     fetchTaskWatcher,
+    fetchPriorityProductWatcher,
     fetchSTPCalendarUpdateWatcher,
     fetchPlanComplianceWatcher,
+    fetchQueryDoctorsWatcher,
+    fetchMissedCallsWatcher,
+    addPartyToDailyPlanWatcher,
+    fetchEDetailingPriorityProductWatcher,
+    fetchEDetailingOtherProductWatcher,
+    fetchTimelineWatcher,
+    fetchDcrWatcher,
+    setVisitWatcher,
+    searchSamplesWatcher,
+    selectSamplesWatcher,
+    fetchMTPCalendarUpdateWatcher,
+    getDoctorDataList,
   ];
 
   /**

@@ -42,7 +42,7 @@ const CustomModal = ({
   const {colors} = useTheme();
   const primaryActionHandler = () => {
     primaryAction();
-    onClose();
+    onClose && onClose();
   };
 
   const renderModal = () => {

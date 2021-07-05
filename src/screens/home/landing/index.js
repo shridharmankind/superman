@@ -1,22 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Card} from 'react-native-paper';
-
-import {ContentWithSidePanel} from 'components/layouts';
 import {Label, LabelVariant} from 'components/elements';
-import {translate} from 'locale';
 import styles from './styles';
 import {Helper} from 'database';
+import {isWeb} from 'helper';
+import {ContentWithSidePanel} from 'components/layouts';
+import {translate} from 'locale';
+import {Sync} from 'database';
 
-const HomeLanding = () => {
+const HomeLanding = ({navigation}) => {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
     const loadData = async () => {
-      // const firstName = await Helper.getUserFirstName();
-      // firstName ? setUserName(firstName) : setUserName('');
+      const firstName = await Helper.getUserName();
+      firstName ? setUserName(firstName) : setUserName('');
     };
-    loadData();
+    if (!isWeb()) {
+      loadData();
+      Sync.SyncService.RegisterBackgroundTask();
+    }
   });
 
   const renderHeader = () => (
@@ -33,7 +37,12 @@ const HomeLanding = () => {
   const renderSidePanel = () => (
     <View style={styles.sidePanel}>
       <View style={styles.descContainer}>
-        <Label type="bold" size={14} title="Upcoming Events" />
+        <Label
+          style={styles.desc}
+          type="bold"
+          size={14}
+          title="Upcoming Events"
+        />
         <Label
           size={12}
           style={styles.desc}

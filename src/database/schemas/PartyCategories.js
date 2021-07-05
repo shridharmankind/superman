@@ -1,0 +1,19 @@
+import * as Constants from '../constants';
+export const PartyCategorySchemaName = 'PartyCategories';
+
+export default class PartyCategorySchema {
+  static schema = {
+    name: PartyCategorySchemaName,
+    primaryKey: 'id',
+    properties: {
+      id: 'int',
+      partyCategoryId: 'int',
+      divisionId: 'int?',
+      name: 'string',
+      shortName: 'string?',
+      startAmount: 'double?',
+      endAmount: 'double?',
+      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
+    },
+  };
+}

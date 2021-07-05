@@ -5,15 +5,26 @@ const styles = StyleSheet.create({
   dailyViewContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    borderColor: theme.colors.grey[100],
-    minHeight: 93.3,
+    borderBottomColor: theme.colors.grey[100],
+    borderLeftColor: theme.colors.grey[100],
+    height: 95,
     minWidth: 100,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
   },
+  highVisitBar: {
+    borderLeftColor: theme.colors.orange[300],
+    borderLeftWidth: 5,
+  },
+  sameDayHightVisit: {
+    borderLeftColor: theme.colors.primary,
+  },
   currentDailyContainer: {
     borderWidth: 1,
-    borderColor: theme.colors.primary,
+    borderTopColor: theme.colors.primary,
+    borderLeftColor: theme.colors.primary,
+    borderRightColor: theme.colors.primary,
+    borderBottomColor: theme.colors.primary,
     alignSelf: 'stretch',
     flex: 1,
   },
@@ -27,10 +38,10 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignContent: 'flex-start',
   },
-  bottomContent: {
-    flexDirection: 'row',
+  categoryContent: {
+    flexDirection: 'column',
     alignSelf: 'stretch',
-    justifyContent: 'space-between',
+    height: 40,
   },
   disabled: {
     color: theme.colors.grey[100],
@@ -52,7 +63,31 @@ const styles = StyleSheet.create({
 
   weekendContainer: {
     backgroundColor: theme.colors.blueShades[100],
-    opacity: 0.5,
+    opacity: 0.7,
+  },
+
+  locationLabelText: {
+    paddingHorizontal: theme.spacing(2),
+    alignContent: 'center',
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    marginTop: theme.spacing(3),
+    justifyContent: 'flex-start',
+  },
+  cellFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  locationContent: {
+    flexDirection: 'row',
+    marginTop: theme.spacing(3),
+  },
+  labelTextSpacing: {
+    paddingHorizontal: theme.spacing(2),
   },
 });
 

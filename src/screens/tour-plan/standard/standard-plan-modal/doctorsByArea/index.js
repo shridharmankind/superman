@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import {Label, DoctorDetailsWrapper, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import styles from './styles';
+import {translate} from 'locale';
 
 const DoctorsByArea = ({
   areaSelected,
@@ -13,14 +14,15 @@ const DoctorsByArea = ({
   partiesList,
   selectedDoctorType,
   isSameDayPatch,
+  allPartiesByPatchID,
 }) => {
   const isDoctorSelected = useCallback(
-    partyId => {
-      return (doctorsSelected || []).some(id => {
-        if (id === partyId) {
-          return true;
-        }
-      });
+    (partyId, area) => {
+      return (doctorsSelected || []).some(
+        party =>
+          (party.partyId === partyId && party.areaId === area) ||
+          (party.partyId === partyId && party.areaId !== area),
+      );
     },
     [doctorsSelected],
   );
@@ -42,15 +44,19 @@ const DoctorsByArea = ({
           return party;
         }
       });
-      let newPartiesData = partiesData;
-      if (!isSameDayPatch) {
-        newPartiesData = partiesData?.filter(
-          par => par.frequency !== par.alreadyVisited,
+
+      const newPartiesData = partiesData.filter(party => {
+        const isPatchedParty =
+          allPartiesByPatchID?.length > 0 && isPartyInPatch(party.id, area);
+        return (
+          party.frequency > party.alreadyVisited ||
+          (party.frequency === party.alreadyVisited && isPatchedParty)
         );
-      }
+      });
+
       return newPartiesData;
     },
-    [partiesList, selectedDoctorType, isSameDayPatch],
+    [partiesList, selectedDoctorType, isPartyInPatch, allPartiesByPatchID],
   );
 
   /** function to render parties by area selected from area chiklets
@@ -59,28 +65,38 @@ const DoctorsByArea = ({
   const renderDoctors = useCallback(
     area => {
       const doctorInArea = getDoctorsByArea(area?.id);
-      return (
-        doctorInArea.length > 0 && (
-          <View style={styles.doctorDetails}>
-            {doctorInArea.map((party, index) => (
-              <DoctorDetailsWrapper
-                key={party.id + area.id}
-                id={party.id}
-                title={party.shortName || party.name}
-                specialization={party.specialities}
-                category={party.category}
-                isKyc={party.isKyc}
-                selected={isDoctorSelected(party.id)}
-                testID={`card_standard_plan_doctor_${party.id}_test`}
-                party={party}
-                isPatchedData={isPatchedData}
-                onPress={id => handleDoctorCardPress(id)}
-                containerStyle={index % 2 === 0 ? styles.left : styles.right}
-                isSameDayPatch={isSameDayPatch}
-              />
-            ))}
-          </View>
-        )
+      return doctorInArea?.length > 0 ? (
+        <View style={styles.doctorDetails}>
+          {doctorInArea.map((party, index) => (
+            <DoctorDetailsWrapper
+              key={party.id + area.id}
+              id={party.id}
+              title={party.shortName || party.name}
+              specialization={party.specialities}
+              category={party.category}
+              isKyc={party.isKyc}
+              isCampaign={party.isCampaign}
+              selected={isDoctorSelected(party.id, area.id)}
+              testID={`card_standard_plan_doctor_${party.id}_test`}
+              party={party}
+              isPatchedData={isPatchedData}
+              onPress={id => handleDoctorCardPress(id, area.id)}
+              containerStyle={index % 2 === 0 ? styles.left : styles.right}
+              isSameDayPatch={isSameDayPatch}
+              isPartyInPatch={isPartyInPatch(party.id, area.id)}
+              isSameDoctorSelected={isSamePartySelectedInOtherArea(
+                party.id,
+                area.id,
+              )}
+            />
+          ))}
+        </View>
+      ) : (
+        <Label
+          title={translate('tourPlan.standard.noRecordsForSelection')}
+          variant={LabelVariant.h4}
+          type={'bold'}
+        />
       );
     },
     [
@@ -89,6 +105,8 @@ const DoctorsByArea = ({
       isDoctorSelected,
       isPatchedData,
       isSameDayPatch,
+      isPartyInPatch,
+      isSamePartySelectedInOtherArea,
     ],
   );
 
@@ -112,6 +130,33 @@ const DoctorsByArea = ({
     );
   };
 
+  /**method to check if party is part of patch
+   * @param {String} id party id
+   * @return {Boolean}
+   */
+  const isPartyInPatch = useCallback(
+    (id, area) => {
+      return allPartiesByPatchID?.some(
+        party => party.partyId === id && area === party.areaId,
+      );
+    },
+    [allPartiesByPatchID],
+  );
+
+  /**check if party selected is also in other area
+   * @param {String} id party id to check
+   * @param {String} area party area id to check
+   * @return {Boolean}
+   */
+  const isSamePartySelectedInOtherArea = useCallback(
+    (id, area) => {
+      return doctorsSelected?.some(
+        par => par.partyId === id && par.areaId !== area,
+      );
+    },
+    [doctorsSelected],
+  );
+
   return (
     <View style={styles.doctorDetailsContainer}>
       {areaSelected.length > 0 ? (
@@ -123,7 +168,7 @@ const DoctorsByArea = ({
         ))
       ) : (
         <Label
-          title={Strings.noRecordsForSelection}
+          title={translate('tourPlan.standard.noRecordsForSelection')}
           variant={LabelVariant.h4}
           type={'bold'}
         />

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, forwardRef} from 'react';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Area, Dropdown, Label, LabelVariant} from 'components/elements';
@@ -15,6 +15,7 @@ import styles from './styles';
  * @param {Function} handleDropDownValue callBack method to handle patch value selected in dropdown
  * @param {Array} allPatches list of patches
  * @param {Boolean} isPatchedData is existing patched is selected
+ * @param {Object} dropDownRef ref for dropdown passed
  */
 
 const Areas = ({
@@ -25,6 +26,10 @@ const Areas = ({
   handleDropDownValue,
   allPatches,
   isPatchedData,
+  partyInArea,
+  hideDropDown,
+  setHideDropDown,
+  dropDownRef,
 }) => {
   const swiperRef = useRef(null);
   const [hideRightArrow, setHideRightArrow] = useState(false);
@@ -88,6 +93,7 @@ const Areas = ({
    */
   const handleConfirmation = val => {
     setAreaSelected(areaSelected.filter(item => item.id !== val));
+    onPress(val);
     hideToast();
   };
 
@@ -97,14 +103,17 @@ const Areas = ({
   const handleAreaSelected = val => {
     const index = (areaSelected || []).filter(area => area.id === val);
     if (index.length > 0) {
-      toastForConfirmation(val);
+      if (partyInArea(val) > 0) {
+        toastForConfirmation(val);
+      } else {
+        setAreaSelected(areaSelected.filter(item => item.id !== val));
+      }
     } else {
       setAreaSelected([
         ...areaSelected,
         areaList.find(area => area.id === val),
       ]);
     }
-    onPress(val);
   };
 
   /**function to render area component */
@@ -176,6 +185,9 @@ const Areas = ({
           data={allPatches}
           defaultLabel={Strings.selectPatch}
           isPatchedData={isPatchedData}
+          hideDropdown={hideDropDown}
+          setHideDropDown={setHideDropDown}
+          ref={dropDownRef}
         />
         {scrollableViewWithArea()}
       </View>
