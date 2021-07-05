@@ -21,7 +21,8 @@
       "today": "Today",
       "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
       "completed": "Completed",
-      "partyName": "Party Name"
+      "partyName": "Party Name",
+      "partyType": "Type"
     }
   },
   "missedVisit": "Missed Visit!",
