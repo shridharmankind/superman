@@ -17,7 +17,6 @@ export const getAllConflictRecords = async () => {
         },
       );
     }
-    console.log('modi', modifiedRecordsList);
     return modifiedRecordsList;
   } catch (err) {
     console.log('getAllConflictRecords ', err);

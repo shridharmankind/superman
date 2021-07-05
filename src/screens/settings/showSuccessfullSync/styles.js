@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     paddingRight: theme.spacing(10),
   },
   leftPadding: {
-    paddingLeft: theme.spacing(40), 
+    paddingLeft: theme.spacing(40),
+    marginRight: theme.spacing(20),
   },
   btnContent: {
     textAlign: 'center',

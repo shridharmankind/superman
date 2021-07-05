@@ -150,7 +150,6 @@ const runBackgroundTask = async (tableName, value) => {
       );
       if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
         let modifiedRecords = await getModifiedRecords(item[0].schema[0]);
-
         const response = await callRequest(
           item[0],
           record.lastSync,

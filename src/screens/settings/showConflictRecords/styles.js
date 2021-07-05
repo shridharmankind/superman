@@ -27,18 +27,23 @@ const styles = StyleSheet.create({
   },
   listBody: {maxHeight: 500},
   division: {
-    width: '15%',
-    fontSize: 10.7,
+    fontSize: 12.7,
     fontFamily: theme.fonts.fontSemiBold,
     color: theme.colors.grey[1600],
-    marginRight: theme.spacing(10),
   },
   colwidth: {
-    width: '16%',
+    width: '20%',
+  },
+  firstCol: {
+    width: '13%',
+  },
+  confDesc: {
+    width: '27%',
+    paddingRight: theme.spacing(7),
   },
   conflictRow: {
     flexDirection: 'row',
-    paddingLeft: theme.spacing(10.3),
+    paddingLeft: theme.spacing(20),
     paddingTop: theme.spacing(30),
     paddingBottom: theme.spacing(13.3),
     shadowColor: theme.colors.grey[200],
@@ -52,15 +57,14 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.fontRegular,
     fontSize: 12,
     color: theme.colors.grey[200],
-    width: '17%',
-    marginRight: theme.spacing(5),
+    width: '20%',
   },
   buttonLayout: {
-    marginRight: theme.spacing(8),
+    margin: theme.spacing(8),
     paddingHorizontal: theme.spacing(8),
     width: 120,
     height: 45,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
   },
   scrollPad: {
     paddingRight: theme.spacing(10),
@@ -69,10 +73,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   btnsContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    width: '15%',
+    alignItems: 'flex-start',
+    width: '17%',
   },
   activityIndicator: {
     position: 'absolute',

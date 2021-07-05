@@ -180,7 +180,7 @@ const Strings = {
   },
   setting: {
     tab: {
-      conflicts: 'Conflict',
+      conflicts: 'Sync Summary',
     },
   },
   searchBar: {
@@ -223,7 +223,7 @@ const Strings = {
     },
     conflictScreen: {
       tableName: 'Table Name',
-      lastModifiedTime: 'Last Modified (Device DB)',
+      lastModifiedTime: 'Last Modified',
       conflictType: 'Type of Conflict',
       conflictDesc: 'Conflict Description',
     },

@@ -18,19 +18,19 @@ const ShowConflictRecords = ({records}) => {
       </View>
       <View style={styles.listHeader}>
         <Label
-          style={[styles.division]}
+          style={[styles.division, styles.firstCol]}
           title={Strings.backgroundTask.conflictScreen.tableName}
         />
         <Label
           style={[styles.division, styles.colwidth]}
-          title={Strings.backgroundTask.conflictScreen.lastModifiedTime}
+          title={`${Strings.backgroundTask.conflictScreen.lastModifiedTime} \n (Device DB)`}
         />
         <Label
           style={[styles.division, styles.colwidth]}
           title={Strings.backgroundTask.conflictScreen.conflictType}
         />
         <Label
-          style={[styles.division, styles.colwidth]}
+          style={[styles.division, styles.confDesc]}
           title={Strings.backgroundTask.conflictScreen.conflictDesc}
         />
       </View>
@@ -41,16 +41,14 @@ const ShowConflictRecords = ({records}) => {
         data={records}
         onEndReachedThreshold={0.5}
         renderItem={({item, index}) => {
-          console.log('item', item);
           let objectDetail =
             Object.values(item)[0] !== undefined
               ? Object.values(item)[0][0]
               : [];
-          console.log(objectDetail);
           return (
             <View style={styles.conflictRow}>
               <Label
-                style={styles.dataStyle}
+                style={[styles.dataStyle, styles.firstCol]}
                 title={`${Object.keys(item)[0]}`}
               />
               <Label
@@ -64,7 +62,7 @@ const ShowConflictRecords = ({records}) => {
                 title={`${objectDetail.syncParameters?.syncErrorDetails?.conflictType}`}
               />
               <Label
-                style={styles.dataStyle}
+                style={[styles.dataStyle, styles.confDesc]}
                 title={`${objectDetail.syncParameters?.syncErrorDetails?.errorMessage}`}
               />
               <View style={styles.btnsContainer}>
@@ -74,8 +72,6 @@ const ShowConflictRecords = ({records}) => {
                   contentStyle={styles.buttonLayout}
                   labelStyle={styles.btnContent}
                 />
-              </View>
-              <View style={styles.btnsContainer}>
                 <Button
                   title={Strings.backgroundTask.useServer}
                   mode="contained"
@@ -83,6 +79,14 @@ const ShowConflictRecords = ({records}) => {
                   labelStyle={styles.btnContent}
                 />
               </View>
+              {/* <View style={styles.btnsContainer}>
+                <Button
+                  title={Strings.backgroundTask.useServer}
+                  mode="contained"
+                  contentStyle={styles.buttonLayout}
+                  labelStyle={styles.btnContent}
+                />
+              </View> */}
             </View>
           );
         }}

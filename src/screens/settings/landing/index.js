@@ -12,6 +12,7 @@ import {getLocalTimeZone} from 'utils/dateTimeHelper';
 import {getBackgrounTaskValue, showToastie} from 'utils/backgroundTask';
 import ShowConflictRecords from 'screens/settings/showConflictRecords';
 import ShowSuccessfullSync from 'screens/settings/showSuccessfullSync';
+import theme from 'themes';
 
 /**
  * Custom Landing component of Directory Screen.
@@ -143,6 +144,13 @@ const SettingLanding = ({navigation, route}) => {
   const conflictTab = () => {
     return (
       <>
+        <View style={[styles.heading]}>
+          <Label
+            title={'Sync in progress'}
+            variant={LabelVariant.subtitleLarge}
+            textColor={theme.colors.red[100]}
+          />
+        </View>
         <View style={styles.heading}>
           <Label
             title={getLastSyncFormattedRecord()}
