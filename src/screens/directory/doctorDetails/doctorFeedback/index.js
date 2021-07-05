@@ -46,7 +46,7 @@ const DoctorFeedback = ({navigation, route}) => {
     {name: 'question5', key: 5},
     {name: 'question6', key: 6},
     {name: 'question7', key: 7},
-    {name: 'question8', key: 5},
+    {name: 'question8', key: 8},
     // {name: 'question5', key: 5},
     // {name: 'question5', key: 5},
   ];

@@ -32,7 +32,7 @@ import visitMockData from './api/timeline.json';
 import missedCallMockData from './api/missedCalls.json';
 import addToTodayMockData from './api/addToToday.json';
 import eDetailed from './api/eDetailed.json';
-
+import doctorDcrList from './api/doctorDcrList.json';
 import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
 import staff from './api/staff.json';
 import searchSamples from './api/searchSamples.json';
@@ -235,6 +235,9 @@ const getMock = axios => {
     .onGet('getItems?StaffPositionId=1&searchKeyword=a')
     .reply(200, searchItems);
   mock.onGet('taskinfo/parties/opentask?StaffPositionId=2').reply(200, dcrData);
+  mock
+    .onGet('/party/partybyspid/1?partyTypeGroupId=1')
+    .reply(200, doctorDcrList);
 };
 
 export default getMock;

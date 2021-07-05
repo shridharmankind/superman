@@ -1,4 +1,5 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
+import DoctorSampleJson from '../../../../../data/mock/api/doctorSample.json';
 
 export const fetchStaffDetail = createAction('FETCH_STAFF_DETAIL');
 export const fetchStaffDetailType = fetchStaffDetail().type;
@@ -106,13 +107,30 @@ const dcrSlice = createSlice({
     },
     setDoctorList: (state, action) => {
       const {doctorData, selectedDocData} = action.payload;
+      let doctorDataList = [];
+      for (let i = 0; i < selectedDocData.length; i++) {
+        doctorDataList.push({
+          partyId: selectedDocData[i].id,
+          partyName: selectedDocData[i].name,
+          ...DoctorSampleJson,
+        });
+      }
+      const firstDoctor = state.doctors[0];
+      const docDcrData = {
+        doctors: [firstDoctor, ...doctorDataList],
+      };
       const doctorActionData = {
         doctorList: doctorData,
       };
       const selectedActionData = {
         selectedList: selectedDocData,
       };
-      return {...state, ...doctorActionData, ...selectedActionData};
+      return {
+        ...state,
+        ...doctorActionData,
+        ...selectedActionData,
+        ...docDcrData,
+      };
     },
     getEdetailedList: (state, action) => {
       return {...state, ...action.payload};

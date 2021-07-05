@@ -21,6 +21,7 @@ export {
   searchSamplesWatcher,
   searchItemsWatcher,
   getDoctorDataList,
+  selectSamplesWatcher,
   fetchEdetailedWatcher,
   fetchOtherProductsWatcher,
 } from './dcrSaga';

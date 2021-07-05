@@ -30,7 +30,6 @@ const SampleOpenTasks = ({index, width}) => {
   const querySamples = useSelector(dcrSelector.getSamples());
   const doctors = useSelector(dcrSelector.getPartyData());
   const selectedSamples = useSelector(dcrSelector.getSelectedSamples());
-  console.log(selectedSamples);
 
   const onErrorHandler = () => {
     let sampleImage = require('assets/images/product.png');
