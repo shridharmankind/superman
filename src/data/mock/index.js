@@ -209,11 +209,11 @@ const getMock = axios => {
     )
     .reply(200, visitMockData);
 
-  // master data download
-  mock
-    .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
-    .reply(200, qualifications);
-  mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
+  // master data download :: TO DO:: temp web fix
+  // mock
+  //   .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
+  //   .reply(200, qualifications);
+  // mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
   mock
     .onGet(getMissedCallUrl(API_PATHS.GET_MISSED_CALLS))
     .reply(200, missedCallMockData);

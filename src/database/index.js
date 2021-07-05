@@ -25,6 +25,8 @@ const dbInstance = new Realm({
     Schemas.partyTypes,
     Schemas.partyTypeGroup,
     Schemas.engagement,
+    Schemas.Skus.schema,
+    Schemas.SubBrand.schema,
     Schemas.MonthlySchema.monthlyMaster,
     Schemas.MonthlySchema.dailyMaster,
     Schemas.MonthlySchema.monthlyPlanStatusDetails,
@@ -54,6 +56,7 @@ export const getDBInstance = () => dbInstance;
  * register DB operations
  */
 export const Qualifications = Operations.qualificationOperations(dbInstance);
+export const Skus = Operations.skuOperations(dbInstance);
 export const MonthlyPlan = Operations.monthlyPlanOperations(dbInstance);
 export const PartyCategories = Operations.partyCategoryOperations(dbInstance);
 export const Organizations = Operations.organizationOperations(dbInstance);

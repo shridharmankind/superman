@@ -99,7 +99,11 @@ function tConvert(time) {
 export const returnUTCtoLocal = (inputDate, format) => {
   const date = inputDate || dayjs.utc().format();
   const localDate = dayjs.utc(date).local().format();
-  return getFormatDate({date: localDate, format: format || 'D MMM YYYY'});
+  const formattedDate = getFormatDate({
+    date: localDate,
+    format: format || 'D MMM YYYY',
+  });
+  return formattedDate === 'Invalid Date' ? '-' : formattedDate; //TO DO : Temp fix for web
 };
 
 /**
@@ -122,4 +126,17 @@ export const isAfter = (date, dateToCompare) => {
  */
 export const startOf = (date, unit) => {
   return dayjs(date).startOf(unit);
+};
+
+/**
+ *
+ * @param {Date} date
+ * @returns Date as an object with day , month & year value
+ */
+export const getDateIntoObject = date => {
+  return {
+    day: dayjs(date).get('date'),
+    month: dayjs(date).get('month'),
+    year: dayjs(date).get('year'),
+  };
 };
