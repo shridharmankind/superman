@@ -1,82 +1,95 @@
 import React, {useState, useEffect} from 'react';
-import {BackHandler, View, StyleSheet, Platform} from 'react-native';
+import {Platform, SafeAreaView, Image, ImageBackground} from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
-import AsyncStorage from '@react-native-community/async-storage';
 import RouteHandler from '../RouteHandler';
 import * as LocalAuthBelowVersion from 'react-native-local-auth';
-import {Alert} from 'components/widgets';
+import {Background, LogoMankindWhite} from 'assets';
+import {Label} from 'components/elements';
+import themes from 'themes';
+import styles from './styles';
 
 const LocalAuth = () => {
-  console.log('I came for local authentication');
   const [allowLogin, setLogin] = useState(false);
-  const [triedOnce, updateTried] = useState(true);
+  const [triedOnRender, updateTriedOnRender] = useState(true);
 
-  const authBelowVersion = () => {
-    console.log('came for older');
-    LocalAuthBelowVersion.authenticate({
-      reason: 'this is a secure area, please authenticate yourself',
-      fallbackToPasscode: true, // fallback to passcode on cancel
-    })
-      .then(success => {
-        console.log('you did it', success);
-        Alert('Login Successful');
-        setLogin(true);
+  // Added for API 29 and Below
+  const authBelowVersion = async () => {
+    const isSecure = await LocalAuthBelowVersion.isDeviceSecure();
+    if (isSecure) {
+      LocalAuthBelowVersion.authenticate({
+        reason: 'Authenticate',
+        fallbackToPasscode: true,
       })
-      .catch(error => {
-        console.log(error);
-        // Alert(error);
-        // BackHandler.exitApp();
-      });
+        .then(success => {
+          if (success) {
+            setLogin(true);
+          }
+        })
+        .catch(() => {});
+    } else {
+      setLogin(true); // Need prompt to add security
+    }
   };
 
+  // Added for API 30 and Above
   const authLaterVersion = isFallBackValue => {
     LocalAuthentication.authenticateAsync({
+      cancelLabel: 'Cancel',
       disableDeviceFallback: isFallBackValue,
     })
       .then(response => {
         if (response.success) {
-          console.log('response inside success', response);
           setLogin(true);
-        } else {
-          console.log('I was in error', response);
-          // Alert('res', response);
-          // if (response.error === 'user_cancel') {
-          //   BackHandler.exitApp();
-          // }
         }
       })
-      .catch(err => {
-        // Alert('err', err);
-        console.log('err', err);
-      });
+      .catch(() => {});
+  };
+
+  const authenticateDevice = async () => {
+    const {Version} = Platform;
+    const isSupported = await LocalAuthentication.isEnrolledAsync();
+    if (Version > 29) {
+      authLaterVersion(false);
+    } else if (isSupported) {
+      authLaterVersion(true);
+    } else {
+      authBelowVersion();
+    }
   };
 
   useEffect(() => {
-    const fn = async () => {
-      const {Version} = Platform;
-      const isSupport = await LocalAuthentication.isEnrolledAsync();
-      console.log('typeOfSupport', isSupport);
-      if (Version > 29) {
-        authLaterVersion(false);
-      } else if (isSupport) {
-        authLaterVersion(true);
-      } else {
-        authBelowVersion();
-      }
-    };
-    if (triedOnce) {
-      updateTried(false);
-      fn();
+    if (triedOnRender) {
+      updateTriedOnRender(false);
+      authenticateDevice();
     }
-  }, [triedOnce]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triedOnRender]);
 
-  return <View style={styles.container}>{allowLogin && <RouteHandler />}</View>;
+  return (
+    <SafeAreaView style={styles.container}>
+      {!allowLogin ? (
+        <ImageBackground source={Background} style={styles.imageBg}>
+          <Image style={styles.logo} source={LogoMankindWhite} />
+          <Label
+            title={'Superman Locked'}
+            size={30}
+            textColor={themes.colors.white}
+            type="semiBold"
+            style={styles.textStyle}
+          />
+          <Label
+            title={'Unlock'}
+            size={30}
+            textColor={themes.colors.white}
+            type="semiBold"
+            style={styles.buttonTextStyle}
+            onPress={() => authenticateDevice()}
+          />
+        </ImageBackground>
+      ) : (
+        <RouteHandler />
+      )}
+    </SafeAreaView>
+  );
 };
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#1C1837',
-  },
-});
 export default LocalAuth;
