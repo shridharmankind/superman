@@ -5,6 +5,8 @@ const LogoMankindWhite = require('./logo-white.png');
 const SingleAvtar = require('./single_visit.png');
 const JointAvtar = require('./joint_visit.png');
 const ProductImage = require('./product.png');
+const JointAvtarWhite = require('./joint_visitWhite.png');
+const mockMR = require('./mr_mock.png');
 
 export {
   LogoMankind,
@@ -14,4 +16,6 @@ export {
   SingleAvtar,
   JointAvtar,
   ProductImage,
+  JointAvtarWhite,
+  mockMR,
 };

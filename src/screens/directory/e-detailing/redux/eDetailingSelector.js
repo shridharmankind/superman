@@ -4,33 +4,67 @@ import {createSelector} from '@reduxjs/toolkit';
  * selector function to retrieve data from redux store
  **/
 
-const ePriorityProduct = state =>
-  state.ePriorityProductList.detailingPriorityProduct;
-const ePriorityCount = state => state.ePriorityProductList.totalCount;
-const ePriorityDiscussedList = state =>
-  state.ePriorityProductList.discussedBrandList;
+const ePriorityProductSection = state => state?.ePriorityProductList;
 
 const ePriorityProductSelector = createSelector(
-  [ePriorityProduct],
-  list => list,
+  [ePriorityProductSection],
+  section => section?.detailingPriorityProduct,
 );
-const ePriorityCountSelector = createSelector([ePriorityCount], count => count);
+const ePriorityCountSelector = createSelector(
+  [ePriorityProductSection],
+  section => section?.totalCount,
+);
 const ePriorityDiscussedSelector = createSelector(
-  [ePriorityDiscussedList],
-  discussedList => discussedList,
+  [ePriorityProductSection],
+  section => section?.discussedBrandList,
+);
+const priorityMotherBrandsSelector = createSelector(
+  [ePriorityProductSection],
+  section => section?.selectedMotherBrands,
+);
+const prioritySubBrandsSelector = createSelector(
+  [ePriorityProductSection],
+  section => section?.selectedSubbrands,
+);
+const prioritySKUsSelector = createSelector(
+  [ePriorityProductSection],
+  section => section?.selectedSKUs,
+);
+const isFeaturedEditableSelector = createSelector(
+  [ePriorityProductSection],
+  section => section.isFeaturedEditable,
 );
 
-const eOtherProduct = state => state.eOtherProductList.detailingOtherProduct;
-const eOtherCount = state => state.eOtherProductList.totalCount;
-const eOtherDiscussedList = state => state.eOtherProductList.discussedBrandList;
+const eOtherProductSection = state => state?.eOtherProductList;
 
-const eOtherCountSelector = createSelector([eOtherCount], count => count);
+const eOtherCountSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.totalCount,
+);
 const eOtherDiscussedSelector = createSelector(
-  [eOtherDiscussedList],
-  discussedList => discussedList,
+  [eOtherProductSection],
+  section => section?.discussedBrandList,
 );
 
-const eOtherProductSelector = createSelector([eOtherProduct], list => list);
+const eOtherProductSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.detailingOtherProduct,
+);
+
+const otherMotherBrandsSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.selectedMotherBrands,
+);
+
+const otherSubBrandsSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.selectedSubbrands,
+);
+
+const otherSKUsSelector = createSelector(
+  [eOtherProductSection],
+  section => section?.selectedSKUs,
+);
 
 export const eDetailingSelector = {
   getPriorityProduct: () => {
@@ -50,5 +84,26 @@ export const eDetailingSelector = {
   },
   getOtherDiscussedList: () => {
     return eOtherDiscussedSelector;
+  },
+  getPrioritySelectedMotherBrands: () => {
+    return priorityMotherBrandsSelector;
+  },
+  getPrioritySelectedSubBrands: () => {
+    return prioritySubBrandsSelector;
+  },
+  getPrioritySelectedSKUs: () => {
+    return prioritySKUsSelector;
+  },
+  getOtherSelectedMotherBrands: () => {
+    return otherMotherBrandsSelector;
+  },
+  getOtherSelectedSubBrands: () => {
+    return otherSubBrandsSelector;
+  },
+  getOtherSelectedSKUs: () => {
+    return otherSKUsSelector;
+  },
+  getIsFeaturedEditable: () => {
+    return isFeaturedEditableSelector;
   },
 };

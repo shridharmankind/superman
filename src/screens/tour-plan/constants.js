@@ -87,3 +87,9 @@ export const PARTY_PREFIX = {
   DOCTOR: 'Dr',
   CHEMIST: 'Ch',
 };
+
+export const DAY_TYPE = {
+  WORKING: 'working',
+  LEAVE: 'leave',
+  HOLIDAY: 'holiday',
+};

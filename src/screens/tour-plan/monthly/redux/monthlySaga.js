@@ -6,11 +6,12 @@ import {
   fetchSTPStatusCreatorType,
   submitSTPCreatorType,
   swapCreatorType,
+  fetchMTPCalendarUpdateCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
-
+import API_PATHS from 'services/network/apiPaths';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -34,6 +35,12 @@ export function* setSwapWatcher() {
   yield takeEvery(swapCreatorType, swapWorker);
 }
 
+/**
+ * Function to fetch stp update worker
+ */
+export function* fetchMTPCalendarUpdateWatcher() {
+  yield takeEvery(fetchMTPCalendarUpdateCreatorType, updateMTPCalendarWorker);
+}
 /**
  * worker function to send the api call to get all subordinates list
  */
@@ -126,7 +133,46 @@ export function* submitSTPWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+/**
+ * Handles STP handle action
+ * @param {Object} action
+ */
+export function* updateMTPCalendarWorker(action) {
+  const {staffPositionId, month} = action.payload;
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  const valueMap = {
+    staffPositionId,
+    month,
+  };
+  let url = API_PATHS.MTP_ROLLOVER;
+  url = url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
+  try {
+    const response = yield call(NetworkService.get, url);
+    if (response.data.error || response.status !== 200) {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: null,
+            error: response.data.error,
+          },
+        }),
+      );
+    } else {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: response.data,
+            error: null,
+          },
+        }),
+      );
+    }
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }

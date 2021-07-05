@@ -3,42 +3,40 @@ import {View, Image} from 'react-native';
 import {Label, LabelVariant, Button} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
-import {ArrowBack, Birthday, Anniversary, ArrowUp} from 'assets';
+import {ArrowBack, Birthday, Anniversary, WorkOutline} from 'assets';
 import {Strings, Constants} from 'common';
 import {ContentWithSidePanel} from 'components/layouts';
-import {TabBar} from 'components/widgets';
+import {TabBar, DoctorTag, DivisionType} from 'components/widgets';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import theme from 'themes';
+import {useNavigation} from '@react-navigation/native';
+import {OpenTask, PriorityProduct} from 'screens/directory';
+import DocTimeline from '../doc-timeline';
+import {Helper} from 'database';
+import {useEffect} from 'react';
+import {translate} from 'locale';
+
 /**
  * Custom doctor details component render after click on doctor list.
  * This serves the purpose to make the use of doctor details consistent throughtout the app
  * @param {Object} route route to navigate
  */
 
-const DoctorProfile = ({route, navigation}) => {
-  const doctorData = route.params?.data || '';
+const DoctorProfile = ({route}) => {
+  const [staffPositionId, setStaffPositionId] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const id = await Helper.getStaffPositionId();
+      setStaffPositionId(id || 1);
+    })();
+  });
+
+  const doctorData = route.params?.data || {};
+  const navigation = useNavigation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const data = [
     {
       text: `${Strings.doctorProfileTab.prepSheet}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.doctor360}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.performance}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.contentStudio}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.engagement}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.tasks}`,
-    },
-    {
-      text: `${Strings.doctorProfileTab.surveys}`,
     },
   ];
 
@@ -63,8 +61,12 @@ const DoctorProfile = ({route, navigation}) => {
         return themes.colors.orange[100];
       case Constants.DIVISION_COLOR.A_PLUS:
         return themes.colors.darkBlue;
+      case Constants.DIVISION_COLOR.A:
+        return themes.colors.yellow[300];
       case Constants.DIVISION_COLOR.B:
         return themes.colors.lightBlue;
+      case Constants.DIVISION_COLOR.C:
+        return themes.colors.grey[1200];
       default:
         return themes.colors.transparent;
     }
@@ -75,6 +77,14 @@ const DoctorProfile = ({route, navigation}) => {
    */
   const handleBackClick = () => {
     navigation.navigate(Constants.TOUR_PLAN);
+  };
+
+  /**
+   * Start e-detailing for party
+   *
+   */
+  const startEdetailing = () => {
+    navigation.navigate(Constants.ROUTE_EDETAILING);
   };
 
   /**
@@ -90,76 +100,43 @@ const DoctorProfile = ({route, navigation}) => {
    */
   const firstTab = () => {
     return (
-      <View style={styles.tabMainContainer}>
-        <View style={styles.productMainContainer}>
-          <View style={styles.headerProduct}>
-            <Label
-              variant={LabelVariant.h3}
-              style={styles.mainHeader}
-              title={Strings.priorityProductCard.header}
-            />
-            <Label
-              variant={LabelVariant.bodySmall}
-              style={styles.count}
-              title={Strings.priorityProductCard.one}
-            />
+      <View>
+        <View style={styles.tabMainContainer}>
+          <View style={styles.productMainContainer}>
+            {staffPositionId && (
+              <PriorityProduct
+                staffPostionId={staffPositionId}
+                partyId={doctorData.id}
+              />
+            )}
           </View>
-          <View style={styles.cardContainer}>
-            <View style={styles.cardHeader}>
-              <View style={styles.cardHeaderTitle}>
-                <Label
-                  variant={LabelVariant.subtitleSmall}
-                  style={styles.labelTitle}
-                  title={Strings.priorityProductCard.amlokindAt}
-                />
-              </View>
-              <View style={styles.cardHeaderRightTitle}>
-                <Label
-                  variant={LabelVariant.label}
-                  style={styles.labelSubTitle}
-                  title={Strings.priorityProductCard.p1}
-                />
-              </View>
-            </View>
-            <View style={styles.cardDetail}>
-              <Label
-                variant={LabelVariant.bodySmall}
-                textColor={theme.colors.primary}
-                style={styles.labelSubHeader}
-                title={Strings.priorityProductCard.description}
-              />
-            </View>
-            <View style={styles.cardDetail}>
-              <Label
-                style={styles.progressText}
-                title={Strings.priorityProductCard.progressNumber}
-              />
-              <ArrowUp style={styles.arrowUp} width={15} height={15} />
-              <Label
-                style={styles.percentageText}
-                title={Strings.priorityProductCard.nine}
-              />
-            </View>
-            <View style={styles.progreesBar}>
-              {/* {!isWeb() && (
-                <Bar
-                  progress={0.6}
-                  width={200}
-                  color={theme.colors.blue[200]}
-                />
-              )} */}
-            </View>
-            <View>
-              <Label
-                variant={LabelVariant.label}
-                textColor={theme.colors.grey[1100]}
-                style={styles.descriptionText}
-                title={Strings.priorityProductCard.tabDes}
-              />
-            </View>
-          </View>
+          <View style={styles.openMainTask}>{<OpenTask />}</View>
         </View>
-        {/* <View style={styles.openMainTask}></View> */}
+        {renderTimeLine()}
+      </View>
+    );
+  };
+
+  /**
+   * Render timeline component
+   *
+   * @return {JSX} Timeline
+   */
+  const renderTimeLine = () => {
+    if (!staffPositionId) {
+      return null;
+    }
+    return (
+      <View>
+        <Label
+          variant={LabelVariant.h3}
+          style={styles.mainHeader}
+          title={translate('timeline')}
+        />
+        <DocTimeline
+          staffPositionId={staffPositionId}
+          partyId={doctorData.id}
+        />
       </View>
     );
   };
@@ -173,7 +150,7 @@ const DoctorProfile = ({route, navigation}) => {
       case 0:
         return firstTab();
       default:
-        return '';
+        return <Label title={Strings.comingSoon} />;
     }
   };
 
@@ -184,18 +161,22 @@ const DoctorProfile = ({route, navigation}) => {
   const formatEngment = dataValue => {
     const startDate = getFormatDate({
       date: dataValue.startDate,
-      format: 'MMM YY',
+      format: 'MMM YYYY',
     });
     let endText = Strings.tillDate;
     if (dataValue.endDate) {
       const endMonth = getFormatDate({
         date: dataValue.endDate,
-        format: 'MMM YY',
+        format: 'MMM YYYY',
       });
       endText = `${endMonth}`;
     }
 
     return `${startDate + ' - ' + endText}`;
+  };
+
+  const openDoctorFeedback = () => {
+    navigation.navigate('DoctorFeedback', {data: doctorData});
   };
 
   /**
@@ -206,45 +187,41 @@ const DoctorProfile = ({route, navigation}) => {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.tabContainer}>
-          <View
-            style={[
-              styles.divisionContainer,
-              {
-                backgroundColor: getDivisionColor(doctorData.category),
-              },
-            ]}>
-            <Label
-              variant={LabelVariant.h6}
-              textColor={theme.colors.white}
-              style={styles.divisionText}
-              title={doctorData.category?.toUpperCase()}
-            />
+          <View style={styles.divisionContainer}>
+            {doctorData?.isKyc && (
+              <DoctorTag
+                division={DivisionType.KYC}
+                title={`${DivisionType.KYC}`}
+              />
+            )}
+            {doctorData?.isCampaign && (
+              <DoctorTag
+                division={DivisionType.CAMPAIGN}
+                title={`${DivisionType.CAMPAIGN}`}
+              />
+            )}
+            {doctorData?.category && (
+              <DoctorTag
+                division={doctorData?.category}
+                title={doctorData?.category?.toUpperCase()}
+              />
+            )}
           </View>
-          <View
-            style={
-              doctorData.selfDispensing
-                ? styles.dispinsingContainer
-                : styles.leftTabContainer
-            }>
-            <ArrowBack
-              style={styles.arrowBack}
-              width={24}
-              height={24}
-              onPress={handleBackClick}
-            />
+          <View style={styles.leftTabContainer}>
+            <ArrowBack width={24} height={24} onClick={handleBackClick} />
             <Label style={styles.doctorProfile} title={Strings.doctorProfile} />
           </View>
           <View style={[styles.tabContainer, styles.rightTabContainer]}>
-            {doctorData.selfDispensing && (
+            {doctorData?.selfDispensing && (
               <>
                 <Button
-                  title={Strings.captureDcr}
-                  mode="contained"
-                  contentStyle={styles.buttonTabBar}
-                  labelStyle={styles.buttonTabBarText}
+                  title={Strings.moreActions}
+                  mode="outlined"
+                  contentStyle={styles.buttonMoreText}
+                  labelStyle={styles.buttonText}
                 />
                 <Button
-                  title={Strings.captureDcr}
+                  title={Strings.beginRCPA}
                   mode="contained"
                   contentStyle={styles.buttonTabBar}
                   labelStyle={styles.buttonTabBarText}
@@ -254,14 +231,16 @@ const DoctorProfile = ({route, navigation}) => {
             <Button
               title={Strings.startEdetail}
               mode="outlined"
-              contentStyle={styles.buttonTabBar}
+              contentStyle={styles.buttonMoreText}
               labelStyle={styles.buttonTabBarText}
+              onPress={startEdetailing}
             />
             <Button
               title={Strings.captureDcr}
               mode="contained"
               contentStyle={styles.buttonTabBar}
               labelStyle={styles.buttonTabBarText}
+              onPress={openDoctorFeedback}
             />
           </View>
         </View>
@@ -270,44 +249,56 @@ const DoctorProfile = ({route, navigation}) => {
             <View style={styles.container}>
               <Image
                 style={[styles.image]}
-                source={require('assets/images/avatar.png')}
+                source={
+                  Constants.GENDER.MALE === doctorData?.gender?.toUpperCase()
+                    ? require('assets/images/male.png')
+                    : require('assets/images/female.png')
+                }
               />
               <View style={styles.nameContainer}>
                 <Label
                   variant={LabelVariant.subtitleLarge}
-                  title={doctorData.name}
+                  title={Strings.dr + ' ' + doctorData?.name}
                   style={styles.doctorName}
                 />
                 <View style={styles.location}>
                   <Label
                     variant={LabelVariant.bodySmall}
-                    title={doctorData.specialization
-                      .map(spec => spec)
+                    title={(doctorData?.specialities || [])
+                      .map(spec => spec.name)
                       .join(', ')}
                   />
-                  <Label
-                    variant={LabelVariant.bodySmall}
-                    title={',' + doctorData.location}
-                  />
+                  {doctorData?.location && (
+                    <Label
+                      variant={LabelVariant.bodySmall}
+                      title={', ' + doctorData?.location}
+                    />
+                  )}
                 </View>
               </View>
             </View>
           </View>
           <View style={styles.anniversy}>
             <View style={styles.birthdayClass}>
-              <Birthday width={15} height={15} />
+              <Birthday width={20} height={20} />
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData.birthday)}
+                title={
+                  doctorData.birthday ? dateFormat(doctorData.birthday) : ''
+                }
               />
             </View>
             <View style={styles.birthdayClass}>
-              <Anniversary width={15} height={15} />
+              <Anniversary width={20} height={20} />
               <Label
                 variant={LabelVariant.bodySmall}
                 style={styles.dateClass}
-                title={dateFormat(doctorData.anniversary)}
+                title={
+                  doctorData?.anniversary
+                    ? dateFormat(doctorData?.anniversary)
+                    : ''
+                }
               />
             </View>
           </View>
@@ -315,10 +306,10 @@ const DoctorProfile = ({route, navigation}) => {
             {(doctorData?.engagement || []).map((dataItem, index) => {
               return (
                 <View style={styles.engmentContainer} key={index}>
-                  <Anniversary width={25} height={25} />
+                  <WorkOutline width={15} height={15} />
                   <Label
                     variant={LabelVariant.bodySmall}
-                    style={styles.dateClass}
+                    style={styles.engClass}
                     title={formatEngment(dataItem)}
                   />
                 </View>

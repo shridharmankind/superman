@@ -1,1 +1,1 @@
-export const Helper = () => ({});
+export * as Helper from './helper';

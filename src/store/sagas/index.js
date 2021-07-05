@@ -10,6 +10,7 @@ import {
   fetchSTPStatusWatcher,
   submitSTPWatcher,
   setSwapWatcher,
+  fetchMTPCalendarUpdateWatcher,
 } from 'screens/tourPlan/monthly/redux';
 import {
   fetchPartiesWatcher,
@@ -31,8 +32,16 @@ import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
 import {
   fetchEDetailingOtherProductWatcher,
   fetchEDetailingPriorityProductWatcher,
-} from 'screens/directory/e-detailing/redux';
-
+} from 'screen/eDetailing/redux';
+import {
+  fetchDcrWatcher,
+  setVisitWatcher,
+  getDoctorDataList,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
+import {
+  searchSamplesWatcher,
+  selectSamplesWatcher,
+} from 'screens/directory/doctorDetails/doctorFeedback/sampleRequest/redux';
 export function* rootSaga() {
   /**
    *
@@ -63,6 +72,12 @@ export function* rootSaga() {
     fetchEDetailingOtherProductWatcher,
     fetchTimelineWatcher,
     setSwapWatcher,
+    fetchDcrWatcher,
+    setVisitWatcher,
+    searchSamplesWatcher,
+    selectSamplesWatcher,
+    fetchMTPCalendarUpdateWatcher,
+    getDoctorDataList,
   ];
 
   /**
