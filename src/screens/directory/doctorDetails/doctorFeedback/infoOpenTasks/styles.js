@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     borderColor: themes.colors.primary,
     paddingVertical: themes.spacing(10),
     paddingLeft: themes.spacing(26.7),
+    paddingRight: themes.spacing(26.7),
     marginBottom: themes.spacing(8),
     borderRadius: 4,
   },
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     color: themes.colors.white,
   },
   leftAlign: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   rightAlign: {
     flexDirection: 'row',
@@ -130,13 +131,9 @@ const styles = StyleSheet.create({
   },
   toastContainer: {
     position: 'absolute',
-    top: '10%',
-    left: '50%',
+    top: 0,
+    left: 0,
     zIndex: 100,
-    width: 300,
-    padding: themes.spacing(10),
-    minHeight: 50,
-    backgroundColor: themes.colors.yellow[100],
   },
   noSampleCheck: {
     position: 'absolute',
@@ -156,6 +153,19 @@ const styles = StyleSheet.create({
   },
   sampleListContainer: {
     maxHeight: 200,
+  },
+  statusContainer: {
+    width: 46.7,
+    height: 46.7,
+    borderRadius: 4,
+    borderWidth: 0.7,
+    borderColor: themes.colors.primary,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  highlightedbkgColor: {
+    backgroundColor: themes.colors.primary,
   },
 });
 
