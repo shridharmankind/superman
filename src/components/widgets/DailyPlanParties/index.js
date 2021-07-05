@@ -110,14 +110,18 @@ const DailyPlanParties = ({
     return (
       <View style={styles.visitsPanel}>
         <View style={styles.visitContainer}>
-          {(visitData || []).map((visit, index) => (
-            <DoctorVisitStates
-              key={index}
-              visitDate={returnUTCtoLocal(visit.date, 'D')}
-              visitMonth={returnUTCtoLocal(visit.date, 'MMM')}
-              visitState={visit.status}
-            />
-          ))}
+          {(visitData || []).map((visit, index) => {
+            return (
+              !visit.isAdhoc && (
+                <DoctorVisitStates
+                  key={index}
+                  visitDate={returnUTCtoLocal(visit.date, 'D')}
+                  visitMonth={returnUTCtoLocal(visit.date, 'MMM')}
+                  visitState={visit.status}
+                />
+              )
+            );
+          })}
         </View>
         {showAdhocTitle && (
           <Label
