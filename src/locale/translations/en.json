@@ -22,7 +22,7 @@
       "completed": "Completed"
     },
     "standard": {
-      "noRecordsForSelection":"No records for current selection",
+      "noRecordsForSelection": "No records for current selection",
       "noPatchFound": "No patch found"
     }
   },
