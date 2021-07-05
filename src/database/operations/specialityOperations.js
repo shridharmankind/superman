@@ -35,4 +35,22 @@ export default dbInstance => ({
     const specialities = await getAllTableRecords(SpecialitiesSchemaName);
     return await specialities.filtered('divisions.id == $0', divisionId);
   },
+  createSingleRecord: speciality => {
+    let recordsUpdated = true;
+    try {
+      let syncParameters =
+        speciality.syncParameters === undefined
+          ? syncParametersObject()
+          : speciality.syncParameters;
+      dbInstance.create(
+        SpecialitiesSchemaName,
+        {...speciality, syncParameters},
+        'modified',
+      );
+    } catch (err) {
+      console.log(err);
+      recordsUpdated = false;
+    }
+    return recordsUpdated;
+  },
 });

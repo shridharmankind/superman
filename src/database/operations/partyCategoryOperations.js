@@ -1,5 +1,5 @@
 import {PartyCategorySchemaName} from '../schemas/PartyCategories';
-import {getAllTableRecords} from './common';
+import {getAllTableRecords, syncParametersObject} from './common';
 
 export default dbInstance => ({
   storePartyCategories: async categories => {
@@ -7,7 +7,11 @@ export default dbInstance => ({
     try {
       await dbInstance.write(() => {
         categories.forEach(category => {
-          dbInstance.create(PartyCategorySchemaName, category, 'modified');
+          dbInstance.create(
+            PartyCategorySchemaName,
+            {...category, syncParameters: syncParametersObject()},
+            'modified',
+          );
         });
       });
     } catch (err) {
@@ -26,5 +30,23 @@ export default dbInstance => ({
   getPartyCategoryById: async categoryId => {
     const categories = await getAllTableRecords(PartyCategorySchemaName);
     return categories.filtered(`partyCategoryId = ${categoryId}`);
+  },
+  createSingleRecord: category => {
+    let recordsUpdated = true;
+    try {
+      let syncParameters =
+        category.syncParameters === undefined
+          ? syncParametersObject()
+          : category.syncParameters;
+      dbInstance.create(
+        PartyCategorySchemaName,
+        {...category, syncParameters},
+        'modified',
+      );
+    } catch (err) {
+      console.log(err);
+      recordsUpdated = false;
+    }
+    return recordsUpdated;
   },
 });

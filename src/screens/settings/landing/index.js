@@ -13,6 +13,8 @@ import {getBackgrounTaskValue, showToastie} from 'utils/backgroundTask';
 import ShowConflictRecords from 'screens/settings/showConflictRecords';
 import ShowSuccessfullSync from 'screens/settings/showSuccessfullSync';
 import theme from 'themes';
+import {appSelector} from 'selectors';
+import {useSelector} from 'react-redux';
 
 /**
  * Custom Landing component of Directory Screen.
@@ -23,6 +25,7 @@ const SettingLanding = ({navigation, route}) => {
   const [lastSyncRecord, setLastSyncRecord] = useState(null);
   const [getConflictRecords, setConflictRecords] = useState([]);
   const [allRecords, setAllRecords] = useState([]);
+  const syncStatus = useSelector(appSelector.getSyncStatus());
 
   useEffect(() => {
     const fetchDbRecords = async () => {
@@ -140,13 +143,19 @@ const SettingLanding = ({navigation, route}) => {
     }
   };
 
+  const getSyncStatus = () => {
+    return syncStatus === 'NOT_RUNNING'
+      ? ''
+      : Strings.backgroundTask.toastBtns.alreadRunningMessage;
+  };
+
   // Below is the doctor tab under directory page
   const conflictTab = () => {
     return (
       <>
         <View style={[styles.heading]}>
           <Label
-            title={'Sync in progress'}
+            title={getSyncStatus()}
             variant={LabelVariant.subtitleLarge}
             textColor={theme.colors.red[100]}
           />

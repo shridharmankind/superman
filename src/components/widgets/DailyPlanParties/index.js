@@ -81,7 +81,7 @@ const DailyPlanParties = ({
     if (visitData && visitData.length > 0) {
       const month = returnUTCtoLocal(visitData[0].date, 'MMM');
       const adhocCallDates = visitData.reduce((accumulator, visit) => {
-        if (visit.isAdhoc) {
+        if (visit?.isAdhoc) {
           const visitDate = returnUTCtoLocal(visit.date, 'D');
           const adhocList =
             accumulator === ''
@@ -110,14 +110,18 @@ const DailyPlanParties = ({
     return (
       <View style={styles.visitsPanel}>
         <View style={styles.visitContainer}>
-          {(visitData || []).map((visit, index) => (
-            <DoctorVisitStates
-              key={index}
-              visitDate={returnUTCtoLocal(visit.date, 'D')}
-              visitMonth={returnUTCtoLocal(visit.date, 'MMM')}
-              visitState={visit.status}
-            />
-          ))}
+          {(visitData || []).map((visit, index) => {
+            return (
+              !visit.isAdhoc && (
+                <DoctorVisitStates
+                  key={index}
+                  visitDate={returnUTCtoLocal(visit.date, 'D')}
+                  visitMonth={returnUTCtoLocal(visit.date, 'MMM')}
+                  visitState={visit.status}
+                />
+              )
+            );
+          })}
         </View>
         {showAdhocTitle && (
           <Label

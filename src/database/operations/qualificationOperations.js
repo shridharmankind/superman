@@ -37,6 +37,24 @@ export default dbInstance => ({
     const qualifications = await getAllTableRecords(QualificationsSchemaName);
     return await qualifications.filtered('divisions.id == $0', divisionId);
   },
+  createSingleRecord: qualification => {
+    let recordsUpdated = true;
+    try {
+      let syncParameters =
+        qualification.syncParameters === undefined
+          ? syncParametersObject()
+          : qualification.syncParameters;
+      dbInstance.create(
+        QualificationsSchemaName,
+        {...qualification, syncParameters},
+        'modified',
+      );
+    } catch (err) {
+      console.log(err);
+      recordsUpdated = false;
+    }
+    return recordsUpdated;
+  },
 });
 
 /** Sample usage */
