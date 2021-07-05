@@ -23,11 +23,15 @@ import {ROUTE_EDETAILING} from 'screens/directory/routes';
 import {showToast} from 'components/widgets/Toast';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
-import {searchDoctorActions} from 'screens/directory/landing/redux';
+import {
+  searchDoctorActions,
+  partySelector,
+} from 'screens/directory/landing/redux';
 import {appSelector} from 'selectors';
 import {Helper} from 'database';
 import {translate} from 'locale';
 import MissedCalls from 'screens/directory/landing/missedCalls';
+
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
@@ -74,10 +78,11 @@ const DirectoryLanding = ({navigation, route}) => {
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
   const doctorList = useSelector(searchDocSelector.getSearchDocList());
   const fetchState = useSelector(appSelector.makeGetAppFetch());
+  const missedCalls = useSelector(partySelector.getMissedCallsList());
 
   const data = [
     {
-      text: `${translate('missedCalls')}`,
+      text: `${translate('missedCalls', {count: missedCalls.length})}`,
     },
     {
       text: `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`,
