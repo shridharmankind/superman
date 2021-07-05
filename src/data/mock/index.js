@@ -35,6 +35,8 @@ import addToTodayMockData from './api/addToToday.json';
 import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
 import staff from './api/staff.json';
 import searchSamples from './api/searchSamples.json';
+import searchItems from './api/searchItems.json';
+import dcrData from './api/dcrData.json';
 
 const getPartiesUrl = () => {
   const valueMap = {
@@ -224,6 +226,10 @@ const getMock = axios => {
   mock
     .onGet('getsamples?StaffPositionId=1&searchKeyword=a')
     .reply(200, searchSamples);
+  mock
+    .onGet('getItems?StaffPositionId=1&searchKeyword=a')
+    .reply(200, searchItems);
+  mock.onGet('taskinfo/parties/opentask?StaffPositionId=2').reply(200, dcrData);
 };
 
 export default getMock;

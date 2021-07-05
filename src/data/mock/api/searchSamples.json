@@ -1,6 +1,6 @@
 {
   "samples": [
-    {"SKUId": 12, "SKUName": "Amlokind", "StockQty": 200},
-    {"SKUId": 21, "SKUName": "Amlokind", "StockQty": 300}
+    {"skuId": 12, "skuName": "NueroKind", "StockQty": 200},
+    {"skuId": 21, "skuName": "Amlokind", "StockQty": 300}
   ]
 }
