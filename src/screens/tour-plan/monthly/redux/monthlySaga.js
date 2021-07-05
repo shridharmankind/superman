@@ -90,11 +90,7 @@ export function* fetchSTPStatusWorker(action) {
   };
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
-  let url = API_PATH.STP_STATUS;
-  url = url.replace(
-    /\b(?:staffPositionId|year)\b/gi,
-    matched => valueMap[matched],
-  );
+  const url = `${API_PATHS.TOUR_PLAN_STATUS}/${staffPositionId}`;
 
   try {
     const response = yield call(NetworkService.get, url);

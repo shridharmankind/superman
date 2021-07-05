@@ -92,6 +92,9 @@ const styles = StyleSheet.create({
   dueDateChip: {
     color: theme.colors.red[600],
   },
+  notSubmittedChip: {
+    color: theme.colors.black,
+  },
 });
 
 export default styles;
