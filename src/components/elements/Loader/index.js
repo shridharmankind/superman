@@ -2,9 +2,11 @@ import React from 'react';
 import {ActivityIndicator} from 'react-native';
 import themes from 'themes';
 import styles from './styles';
-import {Modal} from 'components/elements';
 
-export const LOADER_SIZE = {
+/**
+ * Variant for loader sizes
+ */
+export const LoaderVariant = {
   LARGE: 'large',
   SMALL: 'small',
 };
@@ -37,7 +39,7 @@ const Loader = ({
   show = false,
   animating = true,
   color = themes.colors.darkBlue,
-  size = LOADER_SIZE.LARGE,
+  size = LoaderVariant.LARGE,
   style,
 }) => {
   return show ? renderActivityIndicator(animating, color, size, style) : null;
