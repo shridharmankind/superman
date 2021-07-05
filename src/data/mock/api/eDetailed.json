@@ -1,0 +1,23 @@
+[
+    {
+      "partyId": 1,
+      "eDetailedList": [
+        {
+          "moleculeId": 1,
+          "motherBrandId": 1,
+          "subBrandId": 1,
+          "skuId": null,
+          "shortName": "ALZ-A",
+          "name": "Alzone-A"
+        },
+        {
+          "moleculeId": 0,
+          "motherBrandId": 0,
+          "subBrandId": 1,
+          "skuId": null,
+          "shortName": "sku-1",
+          "name": "SKU-1"
+        }
+      ]
+    }
+  ]

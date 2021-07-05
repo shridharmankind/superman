@@ -31,6 +31,7 @@ import API_PATHS from 'services/network/apiPaths';
 import visitMockData from './api/timeline.json';
 import missedCallMockData from './api/missedCalls.json';
 import addToTodayMockData from './api/addToToday.json';
+import eDetailed from './api/eDetailed.json';
 
 import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
 import staff from './api/staff.json';
@@ -157,11 +158,12 @@ const getMock = axios => {
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock
-    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1')
+    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1&Skip=0&Limit=0')
     .reply(200, product);
   mock
     .onGet(`${API_PATH.PATCH}/1/parties`)
     .reply(200, patchesMock.getPartyByPatchId);
+  mock.onPost('/edetailing/listforparties').reply(200, eDetailed);
   mock
     .onPost(`${API_PATH.PATCH}/validate/1`)
     .reply(200, patchesMock.validate.response);
@@ -198,6 +200,9 @@ const getMock = axios => {
       '/edetailing/motherbrands?StaffPositionId=1&IncludeDiscussedList=true&IsPriority=false&PartyId=1&Skip=0&Limit=0',
     )
     .reply(200, EOtherProductList);
+  mock
+    .onGet('/edetailing/motherbrands?StaffPositionId=1PartyId=5&Skip=0&Limit=0')
+    .reply(200, EPriorityProductList);
   mock
     .onGet(
       '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&Skip=10&Limit=10',

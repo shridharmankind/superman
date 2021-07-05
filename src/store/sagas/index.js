@@ -36,6 +36,8 @@ import {
   fetchDcrWatcher,
   setVisitWatcher,
   getDoctorDataList,
+  fetchEdetailedWatcher,
+  fetchOtherProductsWatcher,
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
 import {
   searchSamplesWatcher,
@@ -76,6 +78,8 @@ export function* rootSaga() {
     selectSamplesWatcher,
     fetchMTPCalendarUpdateWatcher,
     getDoctorDataList,
+    fetchEdetailedWatcher,
+    fetchOtherProductsWatcher,
   ];
 
   /**

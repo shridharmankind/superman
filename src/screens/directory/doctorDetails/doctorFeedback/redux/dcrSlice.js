@@ -6,6 +6,12 @@ export const fetchDcrDetailType = fetchDcrDetail().type;
 export const fetchDoctorList = createAction('FETCH_DOCTOR_LIST');
 export const fetchDoctorListType = fetchDoctorList().type;
 
+export const fetchEDetailedList = createAction('FETCH_EDETAILED_LIST');
+export const fetchEDetailedListType = fetchEDetailedList().type;
+
+export const fetchOtherProducts = createAction('FETCH_OTHER_LIST');
+export const fetchOtherProductsType = fetchOtherProducts().type;
+
 export const visitDetail = createAction('SET_VISIT_DETAIL');
 export const visitDetailType = visitDetail().type;
 
@@ -14,10 +20,11 @@ const dcrState = {
   visitLisit: [],
   doctorList: [],
   selectedList: [],
+  eDetailProducts: [],
+  otherProducts: [],
+  discussedProduct: [],
   doctors: [
     {
-      eDetailProducts: [],
-      discussedProduct: [],
       samplesGiven: [
         {
           taskId: '',
@@ -64,6 +71,22 @@ const dcrSlice = createSlice({
         selectedList: selectedDocData,
       };
       return {...state, ...doctorActionData, ...selectedActionData};
+    },
+    getEdetailedList: (state, action) => {
+      return {...state, ...action.payload};
+    },
+    getOtherProductList: (state, action) => {
+      return {...state, ...action.payload};
+    },
+    setDiscussedProduct: (state, action) => {
+      const {otherProducts, discussList} = action.payload;
+      // const otherProductDataList = {
+      //   otherProducts: otherProducts,
+      // };
+      const discussedList = {
+        discussedProduct: discussList,
+      };
+      return {...state, ...discussedList};
     },
   },
 });

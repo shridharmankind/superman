@@ -121,5 +121,9 @@
     "label": "Add Doctor",
     "addSelected": "Add Selected ",
     "searchText": "Search Doctors here"
+  },
+  "note": {
+    "placeholder": "Add Note here",
+    "title": "9. Anything you would like to take note?"
   }
 }

@@ -10,11 +10,17 @@ import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import AddDoctor from './addDoctor';
 import VisitDetail from './visitDetail';
-import {fetchDcrDetail, fetchDoctorList} from './redux/dcrSlice';
+import {
+  fetchDcrDetail,
+  fetchDoctorList,
+  fetchEDetailedList,
+  fetchOtherProducts,
+} from './redux/dcrSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {dcrSelector, dcrActions} from './redux';
 import {Helper} from 'database';
 import EDetailingDCR from './discussed';
+import VoiceNote from './voiceNote';
 
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
@@ -24,6 +30,7 @@ const DoctorFeedback = ({navigation, route}) => {
   const items = [
     {name: 'question1', key: 1},
     {name: 'question1', key: 2},
+    {name: 'question1', key: 3},
   ];
   const {width} = Dimensions.get('window');
   const dispatch = useDispatch();
@@ -34,7 +41,26 @@ const DoctorFeedback = ({navigation, route}) => {
       setStaffPositionId(id);
     })();
   });
-
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(
+        fetchOtherProducts({
+          staffPositionId: staffPositionId,
+          partyId: doctorData?.id,
+        }),
+      );
+    }
+  }, [dispatch, staffPositionId]);
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(
+        fetchEDetailedList({
+          staffPositionId: staffPositionId,
+          partyIds: [doctorData?.id],
+        }),
+      );
+    }
+  }, [dispatch, staffPositionId]);
   // dispatching the action
   useEffect(() => {
     dispatch(
@@ -92,6 +118,12 @@ const DoctorFeedback = ({navigation, route}) => {
       return (
         <View style={[{width: width - 300}, styles.slideStyle]}>
           <EDetailingDCR />
+        </View>
+      );
+    } else if (index === 2) {
+      return (
+        <View style={[{width: width - 300}, styles.slideStyle]}>
+          <VoiceNote />
         </View>
       );
     }
