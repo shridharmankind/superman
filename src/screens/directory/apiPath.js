@@ -6,4 +6,5 @@ export const API_PATH = {
   ADD_TODAY_PLAN: 'dailyplanactivity/adhocplan',
   GET_SENIOR: 'staff/getreporters',
   GET_EDETAILING_PRODUCT: '/edetailing/motherbrands',
+  GET_DOCTOR_LIST: '/party/partybyspid',
 };
