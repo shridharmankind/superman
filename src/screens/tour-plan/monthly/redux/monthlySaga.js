@@ -164,7 +164,7 @@ export function* updateMTPCalendarWorker(action) {
       yield put(
         monthlyActions.MTPCalendarUpdate({
           mtpData: {
-            data: response.data.map(item => {
+            data: response?.data?.map(item => {
               return {
                 ...item,
 
