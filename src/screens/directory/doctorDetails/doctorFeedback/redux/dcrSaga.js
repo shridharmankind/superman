@@ -47,17 +47,13 @@ export function* searchItemsWatcher() {
 }
 
 function* fetchOtherList(action) {
-  console.log(action.payload, 'as');
   const {staffPositionId, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    console.log('asasa');
     const apiUrl = `${
       API_PATH.GET_EDETAILING_PRODUCT
     }?StaffPositionId=${staffPositionId}PartyId=${partyId}&Skip=${0}&Limit=${0}`;
-    console.log(apiUrl);
     const response = yield call(NetworkService.get, apiUrl);
-    console.log(apiUrl);
 
     yield put(
       dcrActions.getOtherProductList({
