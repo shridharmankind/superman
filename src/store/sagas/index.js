@@ -37,6 +37,8 @@ import {
   fetchStaffWatcher,
   setVisitWatcher,
   getDoctorDataList,
+  fetchEdetailedWatcher,
+  fetchOtherProductsWatcher,
   searchSamplesWatcher,
   selectSamplesWatcher,
   searchItemsWatcher,
@@ -76,6 +78,8 @@ export function* rootSaga() {
     selectSamplesWatcher,
     fetchMTPCalendarUpdateWatcher,
     getDoctorDataList,
+    fetchEdetailedWatcher,
+    fetchOtherProductsWatcher,
     fetchStaffWatcher,
     searchItemsWatcher,
   ];

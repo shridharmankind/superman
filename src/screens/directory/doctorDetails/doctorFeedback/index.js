@@ -8,7 +8,6 @@ import dayjs from 'dayjs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import EDetailingDCR from './discussed';
 import themes from 'themes';
 import VisitDetail from './visitDetail';
 import SampleOpenTasks from './sampleRequest';
@@ -16,16 +15,21 @@ import ItemOpenTask from './itemOpenTask';
 import SamplesRequest from './samplesReq';
 import ItemRequest from './itemsReq';
 import {
+  fetchDcrDetail,
   fetchStaffDetail,
   fetchDcrData,
-} from 'screens/directory/doctorDetails/doctorFeedback/redux';
+  fetchDoctorList,
+  fetchEDetailedList,
+  fetchOtherProducts,
+} from './redux/dcrSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {dcrSelector, dcrActions} from './redux';
 import {Helper} from 'database';
+import EDetailingDCR from './discussed';
+import VoiceNote from './voiceNote';
 import InfoOpenTasks from './infoOpenTasks';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AddDoctor from './addDoctor';
-import {fetchDcrDetail, fetchDoctorList} from './redux/dcrSlice';
 
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
@@ -42,7 +46,7 @@ const DoctorFeedback = ({navigation, route}) => {
     {name: 'question5', key: 5},
     {name: 'question6', key: 6},
     {name: 'question7', key: 7},
-    // {name: 'question5', key: 5},
+    {name: 'question8', key: 8},
     // {name: 'question5', key: 5},
     // {name: 'question5', key: 5},
   ];
@@ -56,7 +60,26 @@ const DoctorFeedback = ({navigation, route}) => {
       setStaffPositionId(id);
     })();
   });
-
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(
+        fetchOtherProducts({
+          staffPositionId: staffPositionId,
+          partyId: doctorData?.id,
+        }),
+      );
+    }
+  }, [dispatch, staffPositionId]);
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(
+        fetchEDetailedList({
+          staffPositionId: staffPositionId,
+          partyIds: [doctorData?.id],
+        }),
+      );
+    }
+  }, [dispatch, staffPositionId]);
   // dispatching the action
   useEffect(() => {
     dispatch(
@@ -136,6 +159,12 @@ const DoctorFeedback = ({navigation, route}) => {
         return <ItemRequest index={index} width={width} />;
       } else if (index === 6) {
         return <InfoOpenTasks index={index} width={width} />;
+      } else if (index === 7) {
+        return (
+          <View style={[{width: width - 300}, styles.slideStyle]}>
+            <VoiceNote />
+          </View>
+        );
       }
     },
     [doctors, seniorList, width],

@@ -8,6 +8,8 @@ export {
   selectSamples,
   searchItems,
   fetchDoctorList,
+  fetchEDetailedList,
+  fetchOtherProducts,
 } from './dcrSlice';
 
 export {dcrSelector} from './dcrSelector';
@@ -17,7 +19,9 @@ export {
   setVisitWatcher,
   fetchStaffWatcher,
   searchSamplesWatcher,
-  selectSamplesWatcher,
   searchItemsWatcher,
   getDoctorDataList,
+  selectSamplesWatcher,
+  fetchEdetailedWatcher,
+  fetchOtherProductsWatcher,
 } from './dcrSaga';
