@@ -38,8 +38,8 @@ const StandardPlan = ({navigation, route}) => {
       setActiveIndex(index);
       setIndexChanged(null);
       const day = route.params.workingDays[index];
-      const i = visitedDays.some(d => d === index);
-      if (!i) {
+      const dIndex = visitedDays.some(d => d === index);
+      if (!dIndex) {
         setVisitedDays([day]);
       }
       swiperRef.current.scrollToIndex({index});

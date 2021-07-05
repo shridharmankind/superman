@@ -13,5 +13,4 @@ export const API_PATH = {
   COMPLAINCE_MONTHLY: 'compliance/standardtourplan/staffPositionId/month',
   STP_STATUS: 'stp/status/staffPositionId/year',
   SUBMIT_STP: 'stp/status/staffPositionId',
-  SWAP: 'mtp/staffPositionId/patch/swap',
 };

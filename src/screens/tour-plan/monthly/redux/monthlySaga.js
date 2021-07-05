@@ -189,7 +189,7 @@ export function* swapWorker(action) {
     staffPositionId: staffPositionId,
   };
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
-  let url = API_PATH.SWAP;
+  let url = API_PATHS.SWAP;
   url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
   try {
     const response = yield call(NetworkService.put, url, obj);

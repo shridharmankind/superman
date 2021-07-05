@@ -12,6 +12,7 @@ const API_PATHS = {
   GET_TIMELINE: 'mtp/timeline/visit',
   GET_EDETAILING_PRODUCT: '/edetailing/motherbrands',
   TOUR_PLAN_STATUS: 'stp/tourplan/status',
+  SWAP: 'mtp/staffPositionId/patch/swap',
 };
 
 export default API_PATHS;

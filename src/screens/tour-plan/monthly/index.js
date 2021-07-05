@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Modal, Label, Button, Area} from 'components/elements';
+import {Modal, Label, Button, Area, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
@@ -20,6 +20,7 @@ import {
   STP_STATUS,
   SUBMIT_STP_PLAN_THRESHOLD_VALUE,
   MTP_LOCK_DATES_THRESHOLD,
+  SWAP,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -661,14 +662,14 @@ const MonthlyTourPlan = ({navigation}) => {
         <Label
           type="bold"
           title={translate('tourPlan.monthly.actions.swap')}
-          size={14}
+          variant={LabelVariant.h4}
           style={styles.modalTitleText}
         />
       </View>
     );
   };
 
-  /**retrun swap modal content */
+  /**return swap modal content */
   const getSwapModalContent = () => {
     return (
       <View style={styles.swapContent}>
@@ -676,12 +677,12 @@ const MonthlyTourPlan = ({navigation}) => {
           <Label type="bold" title={translate('tourPlan.monthly.from')} />
           <TouchableOpacity
             style={styles.swapDate}
-            onPress={() => handleDatePress('source')}>
+            onPress={() => handleDatePress(SWAP.SOURCE)}>
             <Label
               style={styles.swapDateText}
               textColor={themes.colors.grey[600]}
               title={
-                date.source
+                date?.source
                   ? date?.source
                   : translate('tourPlan.monthly.selectDate')
               }
@@ -692,12 +693,12 @@ const MonthlyTourPlan = ({navigation}) => {
           <Label type="bold" title={translate('tourPlan.monthly.to')} />
           <TouchableOpacity
             style={styles.swapDate}
-            onPress={() => handleDatePress('destination')}>
+            onPress={() => handleDatePress(SWAP.DESTINATION)}>
             <Label
               style={styles.swapDateText}
               textColor={themes.colors.grey[600]}
               title={
-                date.destination
+                date?.destination
                   ? date?.destination
                   : translate('tourPlan.monthly.selectDate')
               }
@@ -808,7 +809,7 @@ const MonthlyTourPlan = ({navigation}) => {
     };
     if (
       dateString !==
-      (dateSelected === 'source' ? date.destination : date.source)
+      (dateSelected === SWAP.SOURCE ? date.destination : date.source)
     ) {
       setDate({...date, [dateSelected]: dateString});
       setSwapObj(obj);
