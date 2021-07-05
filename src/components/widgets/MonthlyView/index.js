@@ -5,7 +5,7 @@ import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
 import theme from 'themes';
 import {getMonthDiff, getDateFromMonthYear} from 'utils/dateTimeHelper';
-import {ActivityIndicator} from 'components/elements';
+import {Loader} from 'components/elements';
 import {FetchEnumStatus} from 'reducers';
 import {appSelector} from 'selectors';
 
@@ -35,7 +35,7 @@ const MonthlyView = ({
   }, [currentDate, previousMonthSelected]);
   return (
     <>
-      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
+      <Loader show={fetchState === FetchEnumStatus.FETCHING} />
       <Calendar
         current={currentDate}
         ref={textInput}

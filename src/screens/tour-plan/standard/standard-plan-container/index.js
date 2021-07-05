@@ -7,7 +7,7 @@ import {
   standardTourPlanSelector,
 } from '../redux';
 import {appSelector} from 'selectors';
-import {ActivityIndicator} from 'components/elements';
+import {Loader} from 'components/elements';
 import {FetchEnumStatus} from 'reducers';
 /**
  * Standard Tour Plan container
@@ -47,7 +47,7 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
     });
   return (
     <>
-      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
+      <Loader show={fetchState === FetchEnumStatus.FETCHING} />
       <WeekView
         workingDays={workingDays}
         columnHeader={Strings.week}
