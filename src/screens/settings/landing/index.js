@@ -10,6 +10,8 @@ import {Operations, Constants, Sync} from 'database';
 import {isWeb} from 'helper';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
 import ShowConflictRecords from 'screens/settings/showConflictRecords';
+import {appSelector} from 'selectors';
+import {useSelector} from 'react-redux';
 
 /**
  * Custom Landing component of Directory Screen.
@@ -19,6 +21,7 @@ const SettingLanding = ({navigation, route}) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [lastSyncRecord, setLastSyncRecord] = useState(null);
   const [getConflictRecords, setConflictRecords] = useState([]);
+  const syncStatus = useSelector(appSelector.getSyncStatus());
 
   useEffect(() => {
     const fetchDbRecords = async () => {
@@ -107,7 +110,11 @@ const SettingLanding = ({navigation, route}) => {
    * @returns formatted date
    */
   const getLastSyncFormattedRecord = () => {
-    return `${Strings.backgroundTask.lastSync} ${lastSyncRecord}`;
+    let syncStatusMessage =
+      syncStatus === 'NOT_RUNNING'
+        ? ''
+        : Strings.backgroundTask.toastBtns.alreadRunningMessage;
+    return `${Strings.backgroundTask.lastSync} ${lastSyncRecord} ${syncStatusMessage}`;
   };
 
   // Below is the doctor tab under directory page

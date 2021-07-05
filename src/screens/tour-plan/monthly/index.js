@@ -4,7 +4,6 @@ import {
   View,
   TouchableWithoutFeedback,
   ScrollView,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -40,7 +39,6 @@ import {translate} from 'locale';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 import {Calendar} from 'react-native-calendars';
-import mtpData from '../../../data/mock/api/mtpData'; //Development IN PROGRESS - remove after API integration
 import {appSelector} from 'selectors';
 
 /**
@@ -572,13 +570,13 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthSelected && workingDays.length ? (
+        return monthSelected ? (
           <View style={styles.tourPlanViewContainer}>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
-              monthlyCalendarData={mtpDataSelector ?? mtpData}
+              monthlyCalendarData={mtpDataSelector}
             />
 
             <Legends />
