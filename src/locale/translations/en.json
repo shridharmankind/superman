@@ -11,7 +11,8 @@
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days",
       "adhocCalls": "Adhoc calls: {{data}}",
-      "visitCompleted": "Visit Completed"
+      "visitCompleted": "Visit Completed",
+      "mtpNotSubmitted": "MTP not submitted"
     },
     "daily": {
       "youHave": "You have",

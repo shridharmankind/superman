@@ -10,6 +10,7 @@ const API_PATHS = {
   GET_PRODUCT: '/product/partyproduct',
   GET_TIMELINE: 'mtp/timeline/visit',
   GET_EDETAILING_PRODUCT: '/edetailing/motherbrands',
+  TOUR_PLAN_STATUS: 'stp/tourplan/status',
 };
 
 export default API_PATHS;
