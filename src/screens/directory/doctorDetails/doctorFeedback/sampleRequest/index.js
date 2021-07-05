@@ -105,24 +105,27 @@ const SampleOpenTasks = ({index, width}) => {
           variant={LabelVariant.h2}
           title={Strings.doctorDetail.dcr.sampleReq.addSample}
         />
-        <Button
-          title={
-            selectedSamples.length > 0
-              ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
-              : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
-          }
-          mode="outlined"
-          contentStyle={styles.addSelectedBtn}
-          onPress={closeModal}
-        />
-        <CloseIcon
-          style={styles.closeIcon}
-          width={32}
-          height={32}
-          onPress={() => {
-            setShowModal(false), showError(null);
-          }}
-        />
+        <View style={styles.flexRow}>
+          <Button
+            title={
+              selectedSamples.length > 0
+                ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
+                : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
+            }
+            mode="outlined"
+            contentStyle={styles.addSelectedBtn}
+            onPress={closeModal}
+          />
+          <CloseIcon
+            style={styles.closeIcon}
+            width={40}
+            height={40}
+            fill={themes.colors.white}
+            onPress={() => {
+              setShowModal(false), showError(null);
+            }}
+          />
+        </View>
       </View>
     );
   };
@@ -154,6 +157,30 @@ const SampleOpenTasks = ({index, width}) => {
           />
           <SearchIcon style={styles.searchIcon} height={18} width={18} />
         </View>
+
+        <View style={styles.resultSection}>
+          {selectedSamples.length > 0 && (
+            <View>
+              <Label variant={LabelVariant.h4} title="Selected Samples" />
+              <View style={styles.flexRow}>
+                {selectedSamples.map(sample => {
+                  return (
+                    <TouchableOpacity style={styles.searchSampleStyling}>
+                      <Image
+                        style={styles.searchSampleImageStyle}
+                        source={
+                          sample.imageUrl ? sample.imageUrl : onErrorHandler()
+                        }
+                      />
+                      <Label title={sample.skuName} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+        </View>
+
         <View style={styles.resultSection}>
           {querySamples &&
             querySamples.map(sample => {
@@ -175,7 +202,15 @@ const SampleOpenTasks = ({index, width}) => {
         </View>
         {errorMsg && (
           <View style={styles.toastContainer}>
-            <Label title={errorMsg} />
+            <Label style={styles.errStyling} title={errorMsg} />
+            <CloseIcon
+              style={styles.closeIconToast}
+              width={32}
+              height={32}
+              onPress={() => {
+                showError(null);
+              }}
+            />
           </View>
         )}
       </>

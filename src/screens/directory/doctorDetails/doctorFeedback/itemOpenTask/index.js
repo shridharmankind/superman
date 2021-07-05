@@ -21,7 +21,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
   const [searchKeyword, updateSearch] = useState(null);
   const [selectedDocId, updateSelectedDocId] = useState(null);
   const dispatch = useDispatch();
-
+  const [errorMsg, showError] = useState(null);
   useEffect(() => {
     dispatch(searchItems({staffPositionId: 1, searchKey: 'a'}));
   }, [dispatch, searchKeyword]);
@@ -59,18 +59,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
 
       dispatch(dcrActions.updateDoctorDetails(newArr));
     } else {
-      return (
-        <View style={styles.toastContainer}>
-          {showToast({
-            type: Constants.TOAST_TYPES.SUCCESS,
-            autoHide: false,
-            props: {
-              heading: Strings.doctorDetail.dcr.sampleReq.error,
-              onClose: () => hideToast(),
-            },
-          })}
-        </View>
-      );
+      showError('Item Already exists');
     }
   };
 
@@ -116,22 +105,25 @@ const ItemOpenTask = ({index, width, doctorData}) => {
           variant={LabelVariant.h2}
           title={Strings.doctorDetail.dcr.itemRequest.addItems}
         />
-        <Button
-          title={
-            selectedSamples.length > 0
-              ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
-              : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
-          }
-          mode="outlined"
-          contentStyle={styles.addSelectedBtn}
-          onPress={closeModal}
-        />
-        <CloseIcon
-          style={styles.closeIcon}
-          width={32}
-          height={32}
-          onPress={() => setShowModal(false)}
-        />
+        <View style={styles.flexRow}>
+          <Button
+            title={
+              selectedSamples.length > 0
+                ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
+                : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
+            }
+            mode="outlined"
+            contentStyle={styles.addSelectedBtn}
+            onPress={closeModal}
+          />
+          <CloseIcon
+            style={styles.closeIcon}
+            width={40}
+            height={40}
+            fill={themes.colors.white}
+            onPress={() => setShowModal(false)}
+          />
+        </View>
       </View>
     );
   };
@@ -164,6 +156,28 @@ const ItemOpenTask = ({index, width, doctorData}) => {
           <SearchIcon style={styles.searchIcon} height={18} width={18} />
         </View>
         <View style={styles.resultSection}>
+          {selectedSamples.length > 0 && (
+            <View>
+              <Label variant={LabelVariant.h4} title="Selected Items" />
+              <View style={styles.flexRow}>
+                {selectedSamples.map(sample => {
+                  return (
+                    <TouchableOpacity style={styles.searchSampleStyling}>
+                      <Image
+                        style={styles.searchSampleImageStyle}
+                        source={
+                          sample.imageUrl ? sample.imageUrl : onErrorHandler()
+                        }
+                      />
+                      <Label title={sample.itemName} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+        </View>
+        <View style={styles.resultSection}>
           {querySamples &&
             querySamples.map(sample => {
               return (
@@ -182,6 +196,19 @@ const ItemOpenTask = ({index, width, doctorData}) => {
               );
             })}
         </View>
+        {errorMsg && (
+          <View style={styles.toastContainer}>
+            <Label style={styles.errStyling} title={errorMsg} />
+            <CloseIcon
+              style={styles.closeIconToast}
+              width={32}
+              height={32}
+              onPress={() => {
+                showError(null);
+              }}
+            />
+          </View>
+        )}
       </>
     );
   };
@@ -432,7 +459,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                       {renderIcon(ind)}
                     </TouchableOpacity>
                     <Label
-                      title={Strings.doctorDetail.dcr.sampleReq.noSamplesGiven}
+                      title={Strings.doctorDetail.dcr.itemRequest.noItemsGiven}
                     />
                   </View>
                   <List.Accordion

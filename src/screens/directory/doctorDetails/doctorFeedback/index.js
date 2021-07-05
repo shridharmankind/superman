@@ -36,7 +36,7 @@ const DoctorFeedback = ({navigation, route}) => {
   const [showModal, setShowModal] = useState(false);
   const [staffPositionId, setStaffPositionId] = useState(null);
   const [hideRightArrow, toggleRightArrow] = useState(false);
-  const [hideLeftArrow, toggleLeftArrow] = useState(false);
+  const [hideLeftArrow, toggleLeftArrow] = useState(true);
   // const [disableSwipeGesture, updateSwipeGesture] = useState(false);
   const items = [
     {name: 'question1', key: 1},
@@ -90,7 +90,7 @@ const DoctorFeedback = ({navigation, route}) => {
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
-    dispatch(fetchStaffDetail({staffPositionId: staffPositionId}));
+    dispatch(fetchStaffDetail({staffPositionId: 1}));
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
@@ -180,13 +180,22 @@ const DoctorFeedback = ({navigation, route}) => {
     if (scrollindex < items.length) {
       swiperRef.current.scrollToIndex({index: scrollindex});
     }
+    if (scrollindex > 0) {
+      toggleLeftArrow(false);
+    }
+    if (scrollindex >= items.length - 1) {
+      toggleRightArrow(true);
+    }
   };
 
   const handleLeftArrow = () => {
     let currentIndex = swiperRef.current.getCurrentIndex();
     let scrollindex = currentIndex - 1;
-    if (scrollindex < 0) {
-      return;
+    if (scrollindex === 0) {
+      toggleLeftArrow(true);
+    }
+    if (scrollindex === items.length - 2) {
+      toggleRightArrow(false);
     }
     swiperRef.current.scrollToIndex({index: scrollindex});
   };
