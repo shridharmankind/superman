@@ -32,6 +32,7 @@ module.exports = {
           selectors: './src/store/selectors',
           states: './src/store/states',
           locale: './src/locale',
+          'screen/eDetailing': './src/screens/directory/e-detailing',
         },
       },
     },

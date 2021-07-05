@@ -12,10 +12,12 @@
     "lint": "eslint .",
     "env-static": "node setup-environment.js static",
     "env-dev": "node setup-environment.js development",
+    "env-qa": "node setup-environment.js qa",
     "env-staging": "node setup-environment.js staging",
     "rn-android": "react-native run-android",
     "android": "yarn env-dev && yarn rn-android",
     "android-static": "yarn env-static && yarn rn-android",
+    "android-qa": "yarn env-qa && yarn rn-android",
     "android-staging": "yarn env-staging && yarn rn-android",
     "postinstall": "shx rm -rf node_modules/react-native-sync-adapter/android/src/main/res/mipmap && shx cp -r android/app/src/main/res/mipmap node_modules/react-native-sync-adapter/android/src/main/res/mipmap"
   },

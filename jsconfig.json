@@ -11,6 +11,7 @@
       "screens/tour-plan": ["src/screens/tour-plan"],
       "screens/home": ["src/screens/home"],
       "screens/directory": ["src/screens/directory"],
+      "screens/settings": ["src/screens/settings"],
       "screens": ["src/screens"],
       "navigations": ["src/navigations"],
       "services": ["src/services"],
@@ -23,7 +24,8 @@
       "sagas": ["src/store/sagas"],
       "selectors": ["src/store/selectors"],
       "states": ["src/store/states"],
-      "locale": ["src/locale"]
+      "locale": ["src/locale"],
+      "screen/eDetailing": ["./src/screens/directory/e-detailing"]
     }
   }
 }
