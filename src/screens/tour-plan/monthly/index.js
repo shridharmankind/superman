@@ -95,8 +95,8 @@ const MonthlyTourPlan = ({navigation}) => {
   const [submitSTP, setSubmitSTP] = useState();
   const [showCalendar, setShowCalendar] = useState(false);
   const [dateSelected, setDateSelected] = useState(null);
-  const [swapObj, setSwapObj] = useState({source: {}, destination: {}});
-  const [date, setDate] = useState({source: null, destination: null});
+  const [swapObj, setSwapObj] = useState({});
+  const [date, setDate] = useState({});
 
   // Selectors
   const subOrdinatesList = useSelector(
@@ -650,6 +650,7 @@ const MonthlyTourPlan = ({navigation}) => {
           contentStyle={styles.actionBtn}
           labelStyle={styles.buttonTabBarText}
           onPress={() => handleSwapSubmit()}
+          disabled={!(swapObj.source && swapObj.destination)}
         />
         {showCalendar && renderCalendar()}
       </View>
@@ -676,6 +677,8 @@ const MonthlyTourPlan = ({navigation}) => {
   const handleSwapDialog = () => {
     setSwapModalVisible(!swapModalVisible);
     setShowCalendar(false);
+    setDate({});
+    setSwapObj({});
   };
 
   /**
@@ -753,7 +756,7 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
-        {selectedTourPlan.id === 1 ? renderActionButton() : renderSwapButton()}
+        {selectedTourPlan?.id === 1 ? renderActionButton() : renderSwapButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
         selectedTourPlan?.id === 1 && (
