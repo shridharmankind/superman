@@ -50,6 +50,7 @@
     "react-native-calendars": "^1.1260.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-keychain": "^7.0.0",
+    "react-native-local-auth": "^1.6.0",
     "react-native-localize": "^2.1.0",
     "react-native-paper": "^4.8.1",
     "react-native-progress": "^4.1.2",

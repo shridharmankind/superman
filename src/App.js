@@ -16,6 +16,7 @@ import {Toast} from 'components/widgets';
 import ErrorBoundary from 'screens/generic/ErrorBoundary';
 import RouteHandler from './screens/generic/RouteHandler';
 import {TASK_NAME} from 'utils/backgroundTask';
+import {LocalAuthentication} from 'screens/generic';
 
 const store = getStore();
 
@@ -42,7 +43,7 @@ const App = () => {
     <ErrorBoundary>
       <Provider store={store}>
         <PaperProvider theme={theme}>
-          <RouteHandler />
+          <LocalAuthentication />
           <Toast />
         </PaperProvider>
       </Provider>

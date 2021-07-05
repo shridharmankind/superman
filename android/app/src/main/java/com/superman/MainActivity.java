@@ -1,5 +1,6 @@
 package com.superman;
 
+import io.tradle.reactlocalauth.LocalAuthPackage;
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
 import android.view.View;
