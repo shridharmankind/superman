@@ -11,6 +11,7 @@ import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 import API_PATHS from 'services/network/apiPaths';
+import {getDateIntoObject} from 'utils/dateTimeHelper';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -163,7 +164,13 @@ export function* updateMTPCalendarWorker(action) {
       yield put(
         monthlyActions.MTPCalendarUpdate({
           mtpData: {
-            data: response.data,
+            data: response.data.map(item => {
+              return {
+                ...item,
+
+                date: getDateIntoObject(item?.dated),
+              };
+            }),
             error: null,
           },
         }),
