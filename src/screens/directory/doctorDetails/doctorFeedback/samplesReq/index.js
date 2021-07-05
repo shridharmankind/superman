@@ -17,16 +17,18 @@ import {
   searchSamples,
   selectSamples,
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
-// import {Calendar} from 'react-native-calendars';
-// import dayjs from 'dayjs';
+import {Calendar} from 'react-native-calendars';
+import dayjs from 'dayjs';
 // import dayjsBusinessDays from 'dayjs-business-days';
-// import {getFormatDate} from 'utils/dateTimeHelper';
+import {getFormatDate} from 'utils/dateTimeHelper';
 // dayjs.extend(dayjsBusinessDays);
 const SampleRequest = ({index, width, doctorData}) => {
   const [showModal, setShowModal] = useState(false);
   const [searchKeyword, updateSearch] = useState(null);
   const [selectedDocId, updateSelectedDocId] = useState(null);
-  const [calender, updateCalender] = useState(false);
+  // const [calender, updateCalender] = useState(false);
+  // const [topCoord, setTop] = useState([]);
+  const [errorMsg, showError] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,15 +58,30 @@ const SampleRequest = ({index, width, doctorData}) => {
         item => item.partyId === selectedDocId,
       );
       let tempObj;
-      let tempSampleArray;
+      let tempSampleArray = [];
       if (doctors[partyIndex].sampleRequested === undefined) {
         tempObj = {...doctors[partyIndex]};
         tempObj.sampleRequested = [];
-        tempSampleArray = [...selectedSamples];
+        for (let i = 0; i < selectedSamples.length; i++) {
+          let tempObj = {...selectedSamples[i]};
+          tempObj.dueDate = getFormatDate({
+            date: dayjs().add(4, 'day'),
+            format: 'DD MMM YYYY',
+          });
+          tempSampleArray.push(tempObj);
+        }
       } else {
+        for (let i = 0; i < selectedSamples.length; i++) {
+          let tempObj = {...selectedSamples[i]};
+          tempObj.dueDate = getFormatDate({
+            date: dayjs().add(4, 'day'),
+            format: 'DD MMM YYYY',
+          });
+          tempSampleArray.push(tempObj);
+        }
         tempSampleArray = [
           ...doctors[partyIndex].sampleRequested,
-          ...selectedSamples,
+          ...tempSampleArray,
         ];
       }
 
@@ -74,18 +91,7 @@ const SampleRequest = ({index, width, doctorData}) => {
       newArr[partyIndex] = tempDocObj;
       dispatch(dcrActions.updateDoctorDetails(newArr));
     } else {
-      return (
-        <View style={styles.toastContainer}>
-          {showToast({
-            type: Constants.TOAST_TYPES.SUCCESS,
-            autoHide: false,
-            props: {
-              heading: Strings.doctorDetail.dcr.sampleReq.error,
-              onClose: () => hideToast(),
-            },
-          })}
-        </View>
-      );
+      showError('Sample Already exists');
     }
   };
 
@@ -133,22 +139,25 @@ const SampleRequest = ({index, width, doctorData}) => {
           variant={LabelVariant.h2}
           title={Strings.doctorDetail.dcr.sampleReq.addSample}
         />
-        <Button
-          title={
-            selectedSamples.length > 0
-              ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
-              : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
-          }
-          mode="outlined"
-          contentStyle={styles.addSelectedBtn}
-          onPress={closeModal}
-        />
-        <CloseIcon
-          style={styles.closeIcon}
-          width={32}
-          height={32}
-          onPress={() => setShowModal(false)}
-        />
+        <View style={styles.flexRow}>
+          <Button
+            title={
+              selectedSamples.length > 0
+                ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
+                : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
+            }
+            mode="outlined"
+            contentStyle={styles.addSelectedBtn}
+            onPress={closeModal}
+          />
+          <CloseIcon
+            style={styles.closeIcon}
+            width={40}
+            height={40}
+            fill={themes.colors.white}
+            onPress={() => setShowModal(false)}
+          />
+        </View>
       </View>
     );
   };
@@ -181,6 +190,28 @@ const SampleRequest = ({index, width, doctorData}) => {
           <SearchIcon style={styles.searchIcon} height={18} width={18} />
         </View>
         <View style={styles.resultSection}>
+          {selectedSamples.length > 0 && (
+            <View>
+              <Label variant={LabelVariant.h4} title="Selected Samples" />
+              <View style={styles.flexRow}>
+                {selectedSamples.map(sample => {
+                  return (
+                    <TouchableOpacity style={styles.searchSampleStyling}>
+                      <Image
+                        style={styles.searchSampleImageStyle}
+                        source={
+                          sample.imageUrl ? sample.imageUrl : onErrorHandler()
+                        }
+                      />
+                      <Label title={sample.skuName} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+        </View>
+        <View style={styles.resultSection}>
           {querySamples &&
             querySamples.map(sample => {
               return (
@@ -199,6 +230,19 @@ const SampleRequest = ({index, width, doctorData}) => {
               );
             })}
         </View>
+        {errorMsg && (
+          <View style={styles.toastContainer}>
+            <Label style={styles.errStyling} title={errorMsg} />
+            <CloseIcon
+              style={styles.closeIconToast}
+              width={32}
+              height={32}
+              onPress={() => {
+                showError(null);
+              }}
+            />
+          </View>
+        )}
       </>
     );
   };
@@ -298,9 +342,15 @@ const SampleRequest = ({index, width, doctorData}) => {
 
   // }
 
-  const calendarHandler = () => {
-    updateCalender(!calender);
-  };
+  // const calendarHandler = (event, docId, sample) => {
+  //   setTop([event.nativeEvent.pageX, event.nativeEvent.pageY]);
+  //   updateCalender(true);
+  // };
+
+  // // const closeCalender = date => {
+  // //   console.log(date);
+  // //   updateCalender(false);
+  // // };
 
   // To render the specific data related to specific doctor
   const renderSamples = (docId, sampleOpenTaskArray) => {
@@ -346,21 +396,12 @@ const SampleRequest = ({index, width, doctorData}) => {
                   </View>
                 )}
                 {/* {
-                  <TouchableOpacity onPress={() => calendarHandler(docId)}>
-                    <Label
-                      style={styles.dateStyling}
-                      title={getFormatDate({
-                        date: dayjs().add(4, 'day'),
-                        format: 'DD MMM YYYY',
-                      })}
-                    />
+                  <TouchableOpacity
+                    onPress={event => calendarHandler(event, docId, item)}>
+                    <Label style={styles.dateStyling} title={item.dueDate} />
                   </TouchableOpacity>
-                }
-                {calender && (
-                  <View style={styles.calenderStyling}>
-                    <Calendar onDayPress={date => calendarHandler()} />
-                  </View>
-                )} */}
+                } */}
+
                 <View style={styles.rightAlign}>
                   <View style={styles.stockData}>
                     <Label
@@ -456,6 +497,15 @@ const SampleRequest = ({index, width, doctorData}) => {
           {`${Strings.doctorDetail.dcr.sample.question.rightPart}`}
         </Text>
       </View>
+      {/* {calender && (
+        <View
+          style={[
+            styles.calenderStyling,
+            {left: topCoord[0] - 150, top: topCoord[1] - 150},
+          ]}>
+          <Calendar onDayPress={date => closeCalender(date)} />
+        </View>
+      )} */}
       {doctors && doctors.length > 0 && (
         <View style={styles.answerSection}>
           <List.AccordionGroup>

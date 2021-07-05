@@ -2,8 +2,6 @@
   {
     "partyId": 1,
     "partyName": "Dr Rampal",
-
-
     "sampleOpenTasks": [
       {
         "taskId": 0,
@@ -61,7 +59,7 @@
   },
   {
     "partyId": 2,
-    "partyName": "Dr Rampal",
+    "partyName": "Dr Manoj",
     "sampleOpenTasks": [
       {
         "taskId": 0,

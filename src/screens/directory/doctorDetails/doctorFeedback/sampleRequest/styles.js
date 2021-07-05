@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     padding: themes.spacing(10),
     minHeight: 50,
     backgroundColor: themes.colors.yellow[100],
+    borderRadius: 4,
   },
   noSampleCheck: {
     position: 'absolute',
@@ -149,13 +150,43 @@ const styles = StyleSheet.create({
     top: 5,
     right: 5,
   },
+  closeIconToast: {
+    width: 32,
+    height: 32,
+    borderRadius: themes.spacing(26),
+    backgroundColor: themes.colors.white,
+    shadowColor: themes.colors.black,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   closeIcon: {
     position: 'absolute',
     top: -30,
-    right: -30,
+    right: -80,
+    width: 32,
+    height: 32,
+    borderRadius: themes.spacing(26),
+    backgroundColor: themes.colors.primary,
+    shadowColor: themes.colors.black,
   },
   sampleListContainer: {
     maxHeight: 200,
+  },
+  flexRow: {
+    flexDirection: 'row',
+  },
+  errStyling: {
+    color: themes.colors.white,
   },
 });
 
