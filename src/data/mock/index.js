@@ -214,7 +214,7 @@ const getMock = axios => {
   //   .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
   //   .reply(200, qualifications);
   // mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
-  mock.onPut(getUrl(API_PATH.SWAP)).reply(200, true);
+  mock.onPut(getUrl(API_PATHS.SWAP)).reply(200, true);
   mock
     .onGet(getMissedCallUrl(API_PATHS.GET_MISSED_CALLS))
     .reply(200, missedCallMockData);
