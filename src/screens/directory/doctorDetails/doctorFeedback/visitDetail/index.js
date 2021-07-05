@@ -12,7 +12,13 @@ import {
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
 import {useDispatch, useSelector} from 'react-redux';
 
-const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
+const VisitDetail = ({
+  index,
+  width,
+  seniorList,
+  disSwipeGesture,
+  addDoctorHandler,
+}) => {
   const [typeOfVisit, updateVisitType] = useState('single');
   const dispatch = useDispatch();
 
@@ -184,6 +190,7 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
             fontFamily: themes.fonts.fontSemiBold,
           }}
           title={`+ ${Strings.doctorDetail.dcr.addDoctor}`}
+          onPress={addDoctorHandler}
         />
       </View>
     </View>

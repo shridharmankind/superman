@@ -1,5 +1,5 @@
-export {visitDetail, dcrActions, dcrReducer} from './dcrSlice';
+export {visitDetail, dcrActions, dcrReducer, fetchDoctorList} from './dcrSlice';
 
 export {dcrSelector} from './dcrSelector';
 
-export {fetchDcrWatcher, setVisitWatcher} from './dcrSaga';
+export {fetchDcrWatcher, setVisitWatcher, getDoctorDataList} from './dcrSaga';

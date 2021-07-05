@@ -13,10 +13,12 @@ const allComplianceRulesSelector = createSelector(
   data => data,
 );
 
-const totalPercentSelector = createSelector(
-  [getCompliance],
-  data => data?.monthly?.totalPercent,
-);
+const totalPercentSelector = createSelector([getCompliance], data => {
+  const totalPercent = data?.monthly?.totalPercent;
+  return Number.isInteger(totalPercent)
+    ? totalPercent
+    : totalPercent?.toFixed(1);
+});
 
 const gapRuleSelector = createSelector(
   [getCompliance],

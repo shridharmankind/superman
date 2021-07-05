@@ -31,10 +31,11 @@ import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
 import {
   fetchEDetailingOtherProductWatcher,
   fetchEDetailingPriorityProductWatcher,
-} from 'screens/directory/e-detailing/redux';
+} from 'screen/eDetailing/redux';
 import {
   fetchDcrWatcher,
   setVisitWatcher,
+  getDoctorDataList,
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
 import {
   searchSamplesWatcher,
@@ -74,6 +75,7 @@ export function* rootSaga() {
     searchSamplesWatcher,
     selectSamplesWatcher,
     fetchMTPCalendarUpdateWatcher,
+    getDoctorDataList,
   ];
 
   /**

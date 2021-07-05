@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {Label, LabelVariant} from 'components/elements';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './style';
@@ -85,12 +85,19 @@ const PriorityProduct = ({staffPostionId = 1, partyId}) => {
             </View>
             {data.isPowered && (
               <View style={styles.powerIcon}>
-                <Power width={15} height={15} style={styles.power} />
+                <TouchableOpacity style={styles.power}>
+                  <Power width={15} height={15} />
+                  {/* {isWeb ? (
+                  <Power width={15} height={15} />
+                ) : (
+                  <Power width={15} height={15} style={styles.power} />
+                )} */}
+                </TouchableOpacity>
               </View>
             )}
             {data.isFocused && (
               <View style={styles.focus}>
-                <Focus width={27} height={27} style={styles.focusIcon} />
+                <Focus width={27} height={27} />
               </View>
             )}
             {data.priority && (
