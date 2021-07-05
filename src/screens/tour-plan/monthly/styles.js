@@ -123,6 +123,9 @@ const styles = StyleSheet.create({
   swapContent: {
     paddingVertical: theme.spacing(50),
   },
+  notSubmittedChip: {
+    color: theme.colors.black,
+  },
 });
 
 export default styles;

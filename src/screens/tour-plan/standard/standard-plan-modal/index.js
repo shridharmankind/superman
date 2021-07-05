@@ -156,7 +156,7 @@ const StandardPlanModal = ({
         !savePatchRes &&
         doctorsSelected.length > 0 &&
         submitSTP?.status !== STP_STATUS.SUBMITTED &&
-        stpStatus?.status !== STP_STATUS.SUBMITTED
+        stpStatus?.standardTourPlanStatuses?.status !== STP_STATUS.SUBMITTED
       ) {
         setSwipeDirection(direction);
         showRulesWarning();
@@ -1207,7 +1207,8 @@ const StandardPlanModal = ({
                 !dataChanged ||
                 doctorsSelected.length === 0 ||
                 submitSTP?.status === STP_STATUS.SUBMITTED ||
-                stpStatus?.status === STP_STATUS.SUBMITTED ||
+                stpStatus?.standardTourPlanStatuses?.status ===
+                  STP_STATUS.SUBMITTED ||
                 false
               }
               contentStyle={styles.doneBtn}

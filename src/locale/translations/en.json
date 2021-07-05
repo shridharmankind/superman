@@ -16,7 +16,8 @@
       "submit": "Submit",
       "selectDate": "Please select date",
       "adhocCalls": "Adhoc calls: {{data}}",
-      "visitCompleted": "Visit Completed"
+      "visitCompleted": "Visit Completed",
+      "mtpNotSubmitted": "MTP not submitted"
     },
     "daily": {
       "youHave": "You have",
@@ -24,7 +25,9 @@
       "visits": "visits",
       "today": "Today",
       "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
-      "completed": "Completed"
+      "completed": "Completed",
+      "partyName": "Party Name",
+      "partyType": "Type"
     },
     "standard": {
       "noRecordsForSelection":"No records for current selection",
@@ -113,7 +116,7 @@
     "genericMsg": "Something doesn't seem right, please try restarting the application."
   },
   "proceed": "Proceed",
-  "missedCalls": "Missed Calls",
+  "missedCalls": "Missed Calls({{count}})",
   "dayType": {
     "leave": "Leave"
   },

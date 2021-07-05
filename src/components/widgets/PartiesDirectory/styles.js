@@ -40,7 +40,13 @@ const styles = StyleSheet.create({
   },
   capitalize: {textTransform: 'capitalize'},
   itemContainer: {
-    width: '30%',
+    width: '25%',
+  },
+  itemContainer1: {
+    width: '22%',
+  },
+  itemContainer2: {
+    width: '21.5%',
   },
 });
 
