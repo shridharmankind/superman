@@ -9,6 +9,7 @@ import {Alert} from 'components/widgets';
 const LocalAuth = () => {
   console.log('I came for local authentication');
   const [allowLogin, setLogin] = useState(false);
+  const [triedOnce, updateTried] = useState(true);
 
   const authBelowVersion = () => {
     console.log('came for older');
@@ -23,7 +24,7 @@ const LocalAuth = () => {
       })
       .catch(error => {
         console.log(error);
-        Alert('err', error);
+        // Alert(error);
         // BackHandler.exitApp();
       });
   };
@@ -38,14 +39,14 @@ const LocalAuth = () => {
           setLogin(true);
         } else {
           console.log('I was in error', response);
-          Alert('res', response);
+          // Alert('res', response);
           // if (response.error === 'user_cancel') {
           //   BackHandler.exitApp();
           // }
         }
       })
       .catch(err => {
-        Alert('err', err);
+        // Alert('err', err);
         console.log('err', err);
       });
   };
@@ -63,8 +64,11 @@ const LocalAuth = () => {
         authBelowVersion();
       }
     };
-    fn();
-  }, []);
+    if (triedOnce) {
+      updateTried(false);
+      fn();
+    }
+  }, [triedOnce]);
 
   return <View style={styles.container}>{allowLogin && <RouteHandler />}</View>;
 };
