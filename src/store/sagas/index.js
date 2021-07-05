@@ -43,11 +43,6 @@ import {
   selectSamplesWatcher,
   searchItemsWatcher,
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
-import {
-  searchSamplesWatcher,
-  selectSamplesWatcher,
-  searchItemsWatcher,
-} from 'screens/directory/doctorDetails/doctorFeedback/redux';
 export function* rootSaga() {
   /**
    *

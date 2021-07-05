@@ -19,7 +19,6 @@ export {
   setVisitWatcher,
   fetchStaffWatcher,
   searchSamplesWatcher,
-  selectSamplesWatcher,
   searchItemsWatcher,
   getDoctorDataList,
   fetchEdetailedWatcher,

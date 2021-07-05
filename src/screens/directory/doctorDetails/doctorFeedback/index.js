@@ -8,7 +8,6 @@ import dayjs from 'dayjs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import EDetailingDCR from './discussed';
 import themes from 'themes';
 import VisitDetail from './visitDetail';
 import SampleOpenTasks from './sampleRequest';
