@@ -31,7 +31,7 @@ import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
 import {
   fetchEDetailingOtherProductWatcher,
   fetchEDetailingPriorityProductWatcher,
-} from 'screens/directory/e-detailing/redux';
+} from 'screen/eDetailing/redux';
 import {
   fetchDcrWatcher,
   setVisitWatcher,
