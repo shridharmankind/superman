@@ -53,16 +53,14 @@ const LocalAuth = () => {
   useEffect(() => {
     const fn = async () => {
       const {Version} = Platform;
-      const typeOfSupport = await LocalAuthentication.getEnrolledLevelAsync();
-      console.log('typeOfSupport', typeOfSupport);
+      const isSupport = await LocalAuthentication.isEnrolledAsync();
+      console.log('typeOfSupport', isSupport);
       if (Version > 29) {
         authLaterVersion(false);
-      } else if (typeOfSupport === 2) {
+      } else if (isSupport) {
         authLaterVersion(true);
-      } else if (typeOfSupport === 1) {
-        authBelowVersion();
       } else {
-        setLogin(true);
+        authBelowVersion();
       }
     };
     fn();
