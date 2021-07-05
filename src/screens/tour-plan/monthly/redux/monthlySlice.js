@@ -71,6 +71,12 @@ export const getMonthlySlice = createSlice({
       };
     },
     setSwap: (state, action) => merge(state, action.payload),
+    resetSwap: state => {
+      return {
+        ...state,
+        setSwap: null,
+      };
+    },
     MTPCalendarUpdate: (state, action) => {
       return {
         ...state,

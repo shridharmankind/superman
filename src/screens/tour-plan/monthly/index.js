@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   View,
   TouchableWithoutFeedback,
@@ -111,6 +111,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const swapResponse = useSelector(monthlyTourPlanSelector.setSwap());
 
   useEffect(() => {
     if (monthSelected) {
@@ -228,6 +229,13 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(fetchWorkingDayCreator({userId: staffPositionId}));
   }, [dispatch, staffPositionId]);
+
+  useEffect(() => {
+    if (swapResponse) {
+      handleSwapDialog();
+      dispatch(monthlyActions.resetSwap());
+    }
+  }, [swapResponse, handleSwapDialog, dispatch]);
 
   useEffect(() => {
     if (!selectedTourPlan) {
@@ -728,12 +736,12 @@ const MonthlyTourPlan = ({navigation}) => {
   };
 
   /**handle swap modal visibility */
-  const handleSwapDialog = () => {
+  const handleSwapDialog = useCallback(() => {
     setSwapModalVisible(!swapModalVisible);
     setShowCalendar(false);
     setDate({});
     setSwapObj({});
-  };
+  }, [swapModalVisible]);
 
   /**
    * Submit STP to BE
@@ -755,7 +763,7 @@ const MonthlyTourPlan = ({navigation}) => {
     }-01`;
 
     const disableDates = {};
-    mtpData.map(data => {
+    mtpDataSelector?.map(data => {
       if (data.dayType === 'holiday' || data.dayType === 'leave') {
         disableDates[
           `${data.date.year}-${
@@ -790,16 +798,25 @@ const MonthlyTourPlan = ({navigation}) => {
 
   /**handle day press on calendar and set date and swap objext */
   const handleDayPress = ({day, month, dateString, year}) => {
-    const patchId = mtpData.find(
-      data => data.date.month === month && data.date.year === year,
+    const patchId = mtpDataSelector?.find(
+      data =>
+        data.date.month === month &&
+        data.date.year === year &&
+        data.date.day === day,
     );
     const obj = {
       ...swapObj,
-      [dateSelected]: {patchId: patchId?.patchId, day, month, year},
+      [dateSelected]: {patchId: patchId?.patch.id, day, month, year},
     };
-    setDate({...date, [dateSelected]: dateString});
-    setSwapObj(obj);
-    setShowCalendar(false);
+    if (
+      dateString !==
+      (dateSelected === 'source' ? date.destination : date.source)
+    ) {
+      setDate({...date, [dateSelected]: dateString});
+      setSwapObj(obj);
+
+      setShowCalendar(false);
+    }
   };
 
   return (
