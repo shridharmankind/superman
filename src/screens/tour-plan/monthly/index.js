@@ -19,7 +19,6 @@ import {
   TOUR_PLAN_TYPE,
   STP_STATUS,
   SUBMIT_STP_PLAN_THRESHOLD_VALUE,
-  MTP_LOCK_DATES_THRESHOLD,
   SWAP,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
@@ -111,6 +110,21 @@ const MonthlyTourPlan = ({navigation}) => {
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const swapResponse = useSelector(monthlyTourPlanSelector.setSwap());
+
+  const upcomingMonthStatus = useSelector(
+    monthlyTourPlanSelector.getUpcomingMonthStatus(),
+  );
+
+  const MTP_LOCK_DATES_THRESHOLD = {
+    MIN: parseInt(
+      getFormatDate({date: upcomingMonthStatus?.openStart, format: 'D'}),
+      10,
+    ),
+    MAX: parseInt(
+      getFormatDate({date: upcomingMonthStatus?.openTill, format: 'D'}),
+      10,
+    ),
+  };
 
   useEffect(() => {
     if (monthSelected) {
@@ -356,8 +370,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const selectedTourPlanHandler = planOption => {
     const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     let optionsToIterate = getOptionsToIterateForDropDown();
-    const upcomingMonthStatus = getMTPSubmitStatus();
-    const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
+    const isMTPLocked = upcomingMonthStatus?.isLocked;
 
     if (isTourPlan && planOption.id !== 1) {
       if (
@@ -371,7 +384,7 @@ const MonthlyTourPlan = ({navigation}) => {
         (currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
           currentDate <= MTP_LOCK_DATES_THRESHOLD.MAX &&
           planOption.month > nextMonth) ||
-        (!isMTPSubmitted &&
+        (!isMTPLocked &&
           planOption.month === nextMonth &&
           currentDate >= MTP_LOCK_DATES_THRESHOLD.MAX)
       ) {
@@ -396,22 +409,6 @@ const MonthlyTourPlan = ({navigation}) => {
     handleDialog();
   };
 
-  /**
-   * @returns MTP supbmitted data
-   */
-  const getMTPSubmitStatus = () => {
-    const upcomingMonthStatus = stpStatus?.monthlyTourPlanStatuses?.filter(
-      monthStatus => {
-        return monthStatus.month === nextMonth;
-      },
-    );
-
-    if (upcomingMonthStatus?.length > 0) {
-      return upcomingMonthStatus[0];
-    } else {
-      return null;
-    }
-  };
 
   /**
    * renders due date of mtp for upcoming month
@@ -420,13 +417,13 @@ const MonthlyTourPlan = ({navigation}) => {
    */
   const renderMTPDueDate = option => {
     const dueDays = MTP_LOCK_DATES_THRESHOLD.MAX - currentDate;
-    const upcomingMonthStatus = getMTPSubmitStatus();
+    const isMTPLocked = upcomingMonthStatus?.isLocked;
     const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
     if (
       option?.month === nextMonth &&
       currentDate < MTP_LOCK_DATES_THRESHOLD.MAX &&
       currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
-      !isMTPSubmitted
+      !isMTPLocked
     ) {
       return (
         <Area
@@ -441,31 +438,33 @@ const MonthlyTourPlan = ({navigation}) => {
       );
     }
 
-    if (isMTPSubmitted && option?.month === nextMonth) {
-      return (
-        <Area
-          title={`${translate(
-            'tourPlan.monthly.submittedOn',
-          )} ${returnUTCtoLocal(upcomingMonthStatus?.submittedDate)}`}
-          value={'1'}
-          bgColor={themes.colors.green[300]}
-          textStyle={[styles.chip, styles.submittedChip]}
-          chipContainerCustomStyle={styles.chipContainer}
-        />
-      );
-    } else if (!isMTPSubmitted && option?.month === nextMonth) {
-      return (
-        <>
-          <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
+    if (option?.month === nextMonth) {
+      if (isMTPLocked && isMTPSubmitted) {
+        return (
           <Area
-            title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
+            title={`${translate(
+              'tourPlan.monthly.submittedOn',
+            )} ${returnUTCtoLocal(upcomingMonthStatus?.submittedDate)}`}
             value={'1'}
-            bgColor={themes.colors.grey[700]}
-            textStyle={[styles.chip, styles.notSubmittedChip]}
+            bgColor={themes.colors.green[300]}
+            textStyle={[styles.chip, styles.submittedChip]}
             chipContainerCustomStyle={styles.chipContainer}
           />
-        </>
-      );
+        );
+      } else if (isMTPLocked && !isMTPSubmitted) {
+        return (
+          <>
+            <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
+            <Area
+              title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
+              value={'1'}
+              bgColor={themes.colors.grey[700]}
+              textStyle={[styles.chip, styles.notSubmittedChip]}
+              chipContainerCustomStyle={styles.chipContainer}
+            />
+          </>
+        );
+      }
     }
   };
 

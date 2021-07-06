@@ -131,6 +131,7 @@ const MissedCalls = () => {
                     location={item.areas}
                     partyType={item?.partyTypes?.name}
                     actionButton={() => renderTodayButton(item)}
+                    visits={item?.visits}
                   />
                 </View>
               </View>
@@ -161,7 +162,7 @@ const MissedCalls = () => {
               title={translate('tourPlan.daily.partyType')}
             />
           </View>
-          <View style={customStyles.listHeaderSpacing2}>
+          <View style={customStyles.listHeaderSpacing3}>
             <Label
               style={customStyles.division}
               title={translate('speciality')}

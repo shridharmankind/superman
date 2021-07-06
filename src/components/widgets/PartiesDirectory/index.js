@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
 import PropTypes from 'prop-types';
-import {Label} from 'components/elements';
+import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import {Strings, Constants} from 'common';
 import {translate} from 'locale';
 import {capitalize} from 'screens/tour-plan/helper';
+import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 
 /**
  * component to return parties list
@@ -33,6 +34,7 @@ const PartiesDirectory = ({
   isKyc,
   isCampaign,
   actionButton,
+  visits,
   ...props
 }) => {
   const [imageSrc, setImageSrc] = useState({uri: image});
@@ -56,6 +58,63 @@ const PartiesDirectory = ({
       setImageSrc(src);
       setIsImageErrror(true);
     }
+  };
+
+  /**
+   * Function to show missed count
+   * @returns UI of tile
+   */
+  const getMissedCountTitle = () => {
+    let adhocCallTitle = '';
+    const date_words = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
+    if (visits && Array.isArray(visits) && visits.length > 1) {
+      const month = returnUTCtoLocal(visits[0].date, 'MMM');
+      const adhocCallDates = (visits || []).reduce(
+        (accumulator, visit, index) => {
+          const visitDate = returnUTCtoLocal(visit.date, 'D');
+          const seperator = index === visits.length - 1 ? ' & ' : ', ';
+          const adhocList =
+            accumulator === ''
+              ? accumulator.concat(visitDate)
+              : accumulator.concat(seperator).concat(visitDate);
+          return adhocList;
+        },
+        '',
+      );
+
+      if (adhocCallDates && adhocCallDates !== '') {
+        adhocCallTitle = translate('tourPlan.monthly.missedCount', {
+          count: date_words[visits.length - 1],
+          dates: `${adhocCallDates} ${month}`,
+        });
+      }
+    }
+
+    return adhocCallTitle;
+  };
+
+  /**
+   * Function to render extra space to show metadata
+   * @returns UI of tile
+   */
+  const renderTile = () => {
+    return (
+      <View style={styles.doctorTile}>
+        <View style={styles.borderOuterContainer}>
+          <View style={styles.borderInnerContainer} />
+        </View>
+        <View style={styles.tileContainer}>
+          <View style={styles.tileLeft}>
+            <Label
+              style={styles.missedCountTitle}
+              variant={LabelVariant.h6}
+              title={getMissedCountTitle()}
+              type={'semiBold'}
+            />
+          </View>
+        </View>
+      </View>
+    );
   };
 
   /**
@@ -138,6 +197,7 @@ const PartiesDirectory = ({
         </View>
         {actionButton && actionButton()}
       </View>
+      {renderTile()}
     </View>
   );
 };

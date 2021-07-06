@@ -75,10 +75,16 @@ const DirectoryLanding = ({navigation, route}) => {
 
   const data = [
     {
-      text: `${translate('missedCalls', {count: missedCalls.length})}`,
+      text:
+        missedCalls.length > 0
+          ? `${translate('missedCalls', {count: missedCalls.length})}`
+          : `${translate('missedCallsWithoutCount')}`,
     },
     {
-      text: `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`,
+      text:
+        docCount > 0
+          ? `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`
+          : `${Strings.directory.tab.doctors}`,
     },
     {
       text: `${Strings.directory.tab.chemists}`,
