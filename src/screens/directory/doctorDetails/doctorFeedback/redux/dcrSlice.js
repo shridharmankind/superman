@@ -1,4 +1,5 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
+import DoctorSampleJson from '../../../../../data/mock/api/doctorSample.json';
 
 export const fetchStaffDetail = createAction('FETCH_STAFF_DETAIL');
 export const fetchStaffDetailType = fetchStaffDetail().type;
@@ -8,6 +9,12 @@ export const fetchDcrDataType = fetchDcrData().type;
 
 export const fetchDoctorList = createAction('FETCH_DOCTOR_LIST');
 export const fetchDoctorListType = fetchDoctorList().type;
+
+export const fetchEDetailedList = createAction('FETCH_EDETAILED_LIST');
+export const fetchEDetailedListType = fetchEDetailedList().type;
+
+export const fetchOtherProducts = createAction('FETCH_OTHER_LIST');
+export const fetchOtherProductsType = fetchOtherProducts().type;
 
 export const visitDetail = createAction('SET_VISIT_DETAIL');
 export const visitDetailType = visitDetail().type;
@@ -30,6 +37,9 @@ const dcrState = {
   selectedItems: [],
   doctorList: [],
   selectedList: [],
+  eDetailProducts: [],
+  otherProducts: [],
+  discussedProduct: [],
   doctors: [
     // {
     //   eDetailProducts: [],
@@ -97,13 +107,46 @@ const dcrSlice = createSlice({
     },
     setDoctorList: (state, action) => {
       const {doctorData, selectedDocData} = action.payload;
+      let doctorDataList = [];
+      for (let i = 0; i < selectedDocData.length; i++) {
+        doctorDataList.push({
+          partyId: selectedDocData[i].id,
+          partyName: selectedDocData[i].name,
+          ...DoctorSampleJson,
+        });
+      }
+      const firstDoctor = state.doctors[0];
+      const docDcrData = {
+        doctors: [firstDoctor, ...doctorDataList],
+      };
       const doctorActionData = {
         doctorList: doctorData,
       };
       const selectedActionData = {
         selectedList: selectedDocData,
       };
-      return {...state, ...doctorActionData, ...selectedActionData};
+      return {
+        ...state,
+        ...doctorActionData,
+        ...selectedActionData,
+        ...docDcrData,
+      };
+    },
+    getEdetailedList: (state, action) => {
+      return {...state, ...action.payload};
+    },
+    getOtherProductList: (state, action) => {
+      return {...state, ...action.payload};
+    },
+    setDiscussedProduct: (state, action) => {
+      const {otherProducts, discussList} = action.payload;
+      // const otherProductDataList = {
+      //   otherProducts: otherProducts,
+      // };
+      const discussedList = {
+        discussedProduct: discussList,
+      };
+      return {...state, ...discussedList};
     },
   },
 });
