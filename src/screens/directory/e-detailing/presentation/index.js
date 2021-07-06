@@ -215,10 +215,21 @@ const Presentation = ({route, navigation}) => {
     );
   };
 
+  /**
+   * Check if selection valid or invalid
+   *
+   * @return {boolean} is invalid
+   */
   const isInvalid = () => {
     return getSelectedSlideCount(modalContent) === 0;
   };
 
+  /**
+   * Get selected slide count
+   *
+   * @param {Object} mutatedContent
+   * @return {number} count
+   */
   const getSelectedSlideCount = mutatedContent => {
     let selectedSlideCount = 0;
     const content = mutatedContent;
@@ -309,6 +320,14 @@ const Presentation = ({route, navigation}) => {
     return mutatedContent;
   };
 
+  /**
+   * Select unselect item
+   *
+   * @param {Object} item
+   * @param {number} itemIndex
+   * @param {boolean} isPriority
+   * @return {object} content
+   */
   const selectUnselectItem = (item, itemIndex, isPriority) => {
     let isSelected = !item.isSelected;
     if (!isSelected && item.isFeatured) {
@@ -373,6 +392,14 @@ const Presentation = ({route, navigation}) => {
     }
   };
 
+  /**
+   * render product checkbox
+   *
+   * @param {number} index
+   * @param {Object} item
+   * @param {boolean} isPriority
+   * @return {JSX} checkbox
+   */
   const renderProductCheck = (index, item, isPriority) => {
     return (
       <TouchableOpacity
