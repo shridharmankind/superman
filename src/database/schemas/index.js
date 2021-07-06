@@ -188,3 +188,5 @@ export {default as MotherBrandType} from './MotherBrandType';
 export {default as Molecule} from './Molecule';
 export {default as WeeklyOffSchema} from './Weeklyoffcountrywise';
 export {default as GeoLocationConfiguration} from './GeoLocationConfiguration';
+export {default as Leaves} from './Leaves';
+export {default as LeaveTypes} from './LeaveTypes';
