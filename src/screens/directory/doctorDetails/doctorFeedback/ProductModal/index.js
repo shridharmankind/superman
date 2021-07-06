@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {ArrowBack} from 'assets';
 import styles from './style';
@@ -29,30 +29,29 @@ const ProductModal = ({
   const [currentList, setCurrentList] = useState(
     JSON.parse(JSON.stringify(data)),
   );
-  const [discussedList, setDiscussedList] = useState(discussedListData);
-  const onItemChecked = (item, checked) => {
-    const filterResult = currentList.filter(
-      dataItem => dataItem.name === item.name,
-    );
-    if (filterResult && filterResult.length) {
-      const findIndex = currentList.findIndex(
-        dataItem => dataItem.name === item.name,
-      );
-      currentList[findIndex].isChecked = checked;
+  const [discussedList, setDiscussedList] = useState([]);
 
-      if (checked) {
-        let resultList = [...discussedList, filterResult[0]];
-        setDiscussedList(resultList);
-      } else {
-        const findIndex = discussedList.findIndex(
-          dataValue => dataValue.name === item.name,
-        );
-        discussedList.splice(findIndex, 1);
-        setDiscussedList(discussedList);
+  useEffect(() => {
+    const list = [];
+    for (const iterator of currentList) {
+      if (iterator.isChecked) {
+        list.push(iterator);
       }
-      setCurrentList([...currentList]);
     }
+    setDiscussedList(list);
+  }, [currentList]);
+
+  const onItemChecked = (item, index) => {
+    const isChecked = !item.isChecked;
+    const mutatedItem = {
+      ...item,
+      isChecked,
+    };
+    const mutatedList = [...currentList];
+    mutatedList[index] = mutatedItem;
+    setCurrentList(mutatedList);
   };
+
   const getModalContent = () => {
     return (
       <View style={[styles.subBrandList]}>
@@ -60,12 +59,13 @@ const ProductModal = ({
           <ProductWithCheckBox
             key={index}
             data={item}
-            onItemChecked={onItemChecked}
+            onItemChecked={() => onItemChecked(item, index)}
           />
         ))}
       </View>
     );
   };
+
   const onDone = () => {
     doneHandler(discussedList, motherBrandId, currentList);
   };

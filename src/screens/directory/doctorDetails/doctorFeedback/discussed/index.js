@@ -136,25 +136,9 @@ const EDetailingDCR = ({}) => {
 
   const doneHandler = (discussList, motherId, currentList) => {
     const otherProdctData = [...otherProductList];
-    for (let product of otherProdctData) {
-      if (product.motherBrandId === motherId) {
-        const subArray = product?.subList;
-        for (let index = 0; index < subArray.length - 1; index++) {
-          let findIndex = currentList.findIndex(
-            item => subArray[index].name === item.name,
-          );
-          if (findIndex !== -1) {
-            const subObject = {
-              ...subArray[index],
-              isChecked: currentList[findIndex].isChecked,
-            };
-            subArray[index] = {
-              ...subObject,
-            };
-          }
-        }
-      }
-    }
+    const mutatedMotherBrand = {...otherProductList[currentProduct.index]};
+    mutatedMotherBrand.subList = [...currentList];
+    otherProdctData[currentProduct.index] = mutatedMotherBrand;
     dispatch(
       dcrActions.setDiscussedProduct({
         discussList: discussList,
@@ -193,7 +177,7 @@ const EDetailingDCR = ({}) => {
     setHideOtherRightArrow(hideFlag);
   };
   const renderOtherProduct = () => {
-    return otherProductList.map(otherItem => {
+    return otherProductList.map((otherItem, index) => {
       return (
         <View key={otherItem.motherBrandId}>
           <View>
@@ -202,7 +186,7 @@ const EDetailingDCR = ({}) => {
               style={[styles.discussList, styles.eDetailedNonFeature]}
               title={otherItem.name}
               onPress={() => {
-                setCurrentProduct({...otherItem});
+                setCurrentProduct({...otherItem, index});
                 setShowModal(true);
               }}
             />
