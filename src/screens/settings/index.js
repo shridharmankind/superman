@@ -7,7 +7,7 @@ export {default as ShowSuccessfullSync} from './showSuccessfullSync';
 
 const SettingStack = createStackNavigator();
 
-const Setting = () => {
+const Setting = ({navigation}) => {
   const {ROUTES_SETTING} = require('./routes');
 
   return (

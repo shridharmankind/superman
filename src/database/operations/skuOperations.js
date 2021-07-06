@@ -77,8 +77,10 @@ export default dbInstance => ({
         });
       });
     } catch (err) {
+      console.log(err);
       recordsUpdated = false;
     }
+    console.log('coming here', recordsUpdated);
     return recordsUpdated;
   },
 
@@ -117,7 +119,7 @@ export default dbInstance => ({
           motherBrandId,
           isFocused: subBrand.isFocused,
           isPower: subBrand.isPower,
-          motherBrand: MotherBrands.createSingleRecord(motherBrand),
+          motherBrand: MotherBrands.createSingleRecord(motherBrand, true),
           syncParameters: syncParametersObject(),
         },
         'modified',

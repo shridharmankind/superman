@@ -134,6 +134,7 @@ const MasterDataDownload = () => {
               break;
             case DBConstants.MASTER_TABLE_SKU:
               response = await NetworkService.get(item.apiPath);
+              console.log(item.name, '- -', response);
               break;
             case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
               response = await NetworkService.get(item.apiPath);
@@ -162,6 +163,7 @@ const MasterDataDownload = () => {
               }
               break;
           }
+          console.log(item.name, '- -', response?.status);
           if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
             switch (item.name) {
@@ -206,7 +208,9 @@ const MasterDataDownload = () => {
 
               case DBConstants.MASTER_TABLE_SKU:
                 const skusUpdated = await Skus.storeSkus(JSON.parse(data));
+                console.log('skuSUpdate', skusUpdated);
                 skusUpdated && updateRecordDownloaded(item.name);
+                console.log('working');
                 break;
 
               case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
