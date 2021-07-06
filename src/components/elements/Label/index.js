@@ -72,7 +72,8 @@ Label.propTypes = {
   title: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.Boolean,
+    PropTypes.bool,
+    PropTypes.symbol,
   ]),
   size: PropTypes.number,
   testID: PropTypes.string,
