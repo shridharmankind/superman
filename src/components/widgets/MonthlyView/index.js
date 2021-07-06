@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
@@ -8,7 +8,7 @@ import {getMonthDiff, getDateFromMonthYear} from 'utils/dateTimeHelper';
 import {ActivityIndicator} from 'components/elements';
 import {FetchEnumStatus} from 'reducers';
 import {appSelector} from 'selectors';
-
+import {monthlyActions} from 'screens/tourPlan/monthly/redux/monthlySlice';
 /**
  * Render Monthly View Calendar created using
  * react-native-calendars.View is rendered
@@ -25,6 +25,7 @@ const MonthlyView = ({
   const textInput = React.useRef(null);
   const currentDate = getDateFromMonthYear(monthSelected);
   const fetchState = useSelector(appSelector.makeGetAppFetch());
+  const dispatch = useDispatch();
   // effect to update month on change of date
   useEffect(() => {
     if (currentDate && previousMonthSelected) {
@@ -33,6 +34,13 @@ const MonthlyView = ({
       textInput.current.addMonth(getMonthDiff(currentDate, previousDate));
     }
   }, [currentDate, previousMonthSelected]);
+
+  useEffect(() => {
+    return function () {
+      dispatch(monthlyActions.resetMtpData());
+    };
+  }, [dispatch]);
+
   return (
     <>
       {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}

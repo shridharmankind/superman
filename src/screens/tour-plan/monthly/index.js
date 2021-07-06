@@ -114,7 +114,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const swapResponse = useSelector(monthlyTourPlanSelector.setSwap());
 
   useEffect(() => {
-    if (monthSelected) {
+    if ((monthSelected && selectedTourPlan?.id !== 1) || swapResponse) {
       dispatch(
         fetchMTPCalendarUpdateCreator({
           staffPositionId: staffPositionId,
@@ -122,7 +122,13 @@ const MonthlyTourPlan = ({navigation}) => {
         }),
       );
     }
-  }, [dispatch, staffPositionId, monthSelected]);
+  }, [
+    dispatch,
+    staffPositionId,
+    monthSelected,
+    selectedTourPlan,
+    swapResponse,
+  ]);
 
   useEffect(() => {
     dispatch(
@@ -234,6 +240,7 @@ const MonthlyTourPlan = ({navigation}) => {
     if (swapResponse) {
       handleSwapDialog();
       dispatch(monthlyActions.resetSwap());
+      // dispatch(monthlyActions.resetMtpData());::TO DO - temp commented
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [swapResponse, dispatch]);
