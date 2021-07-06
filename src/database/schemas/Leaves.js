@@ -8,15 +8,12 @@ export default class LeavesSchema {
     primaryKey: 'id',
     properties: {
       id: 'int',
-      userId: 'string',
-      leaveDate: 'date?',
+      userId: 'int?',
+      leaveDate: 'string?',
       isApproved: 'bool?',
       approvedBy: 'int?',
       reason: 'string?',
-      leaveTypes: {
-        type: 'list',
-        objectType: LeaveTypesSchemaName,
-      },
+      leaveType: LeaveTypesSchemaName,
     },
   };
 }

@@ -5,6 +5,7 @@ export default class LeaveTypesSchema {
     name: LeaveTypesSchemaName,
     primaryKey: 'id',
     properties: {
+      id: 'int',
       name: 'string?',
     },
   };
