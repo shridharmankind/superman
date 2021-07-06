@@ -91,6 +91,12 @@ const styles = StyleSheet.create({
     top: 0,
     zIndex: 1,
   },
+  singleVisitCheckStyling: {
+    position: 'absolute',
+    left: 20,
+    top: 0,
+    zIndex: 1,
+  },
 });
 
 export default styles;

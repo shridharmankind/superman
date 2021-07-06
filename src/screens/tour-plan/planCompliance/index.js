@@ -262,8 +262,9 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       </View>
     );
   };
-
-  return !complianceData || !Object.values(complianceData)?.length
+  return !complianceData ||
+    !Object.values(complianceData)?.length ||
+    complianceData?.error
     ? null
     : render();
 };

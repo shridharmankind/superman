@@ -8,14 +8,17 @@ export default dbInstance => ({
       await dbInstance.write(() => {
         weeklyoffs?.forEach(geoLocation => {
           const {id, name, shortName, geoLocationConfiguration} = geoLocation;
-          const configuration = dbInstance.create(
-            Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
-            {
-              ...geoLocationConfiguration,
-              syncParameters: syncParametersObject(),
-            },
-            'modified',
-          );
+          let configuration = null;
+          if (geoLocationConfiguration) {
+            configuration = dbInstance.create(
+              Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
+              {
+                ...geoLocationConfiguration,
+                syncParameters: syncParametersObject(),
+              },
+              'modified',
+            );
+          }
           dbInstance.create(
             WeeklyoffSchemaName,
             {

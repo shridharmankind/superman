@@ -93,3 +93,8 @@ export const DAY_TYPE = {
   LEAVE: 'leave',
   HOLIDAY: 'holiday',
 };
+
+export const SWAP = {
+  SOURCE: 'source',
+  DESTINATION: 'destination',
+};

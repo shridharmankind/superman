@@ -31,6 +31,9 @@ const selectedPlanOptionSelector = createSelector(
   data => data?.selectedPlanOption,
 );
 
+const setSwap = state => state.monthlyState.setSwap;
+const setSwapSelector = createSelector([setSwap], data => data);
+
 export const monthlyTourPlanSelector = {
   allSubOrdinates: () => {
     return allSubOrdinatesSelector;
@@ -46,6 +49,9 @@ export const monthlyTourPlanSelector = {
   },
   selectedPlanOption: () => {
     return selectedPlanOptionSelector;
+  },
+  setSwap: () => {
+    return setSwapSelector;
   },
   getMTPData: () => getMTPDataSelector,
 };
