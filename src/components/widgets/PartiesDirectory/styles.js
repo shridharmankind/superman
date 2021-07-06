@@ -73,13 +73,6 @@ const styles = StyleSheet.create({
   tileLeft: {
     flexDirection: 'row',
   },
-  tileText: {
-    fontSize: 12,
-    color: themes.colors.grey[600],
-  },
-  titleTextSecondary: {
-    marginLeft: themes.spacing(10),
-  },
   missedCountTitle: {
     color: themes.colors.red[300],
     fontSize: 12,

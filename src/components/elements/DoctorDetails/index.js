@@ -261,7 +261,7 @@ DoctorDetails.defaultProps = {
   selected: false,
   division: '',
   showTile: false,
-  // gender: 'Male',
+  gender: 'Male',
 };
 
 DoctorDetails.propTypes = {

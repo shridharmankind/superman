@@ -11,7 +11,6 @@ import {isWeb} from 'helper';
 import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 import {translate} from 'locale';
 import {capitalize} from 'screens/tour-plan/helper';
-import {getAvatar} from 'helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.

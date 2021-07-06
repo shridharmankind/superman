@@ -408,7 +408,6 @@ const MonthlyTourPlan = ({navigation}) => {
 
     handleDialog();
   };
-
   /**
    * renders due date of mtp for upcoming month
    * @param {Object} option dropdown option

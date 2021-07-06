@@ -66,31 +66,28 @@ const PartiesDirectory = ({
    * @returns UI of tile
    */
   const getMissedCountTitle = () => {
-    let adhocCallTitle = '';
+    let missedCountTitle = '';
     if (visits && Array.isArray(visits) && visits.length > 1) {
       const month = returnUTCtoLocal(visits[0].date, 'MMM');
-      const adhocCallDates = (visits || []).reduce(
-        (accumulator, visit, index) => {
-          const visitDate = returnUTCtoLocal(visit.date, 'D');
-          const seperator = index === visits.length - 1 ? ' & ' : ', ';
-          const adhocList =
-            accumulator === ''
-              ? accumulator.concat(visitDate)
-              : accumulator.concat(seperator).concat(visitDate);
-          return adhocList;
-        },
-        '',
-      );
+      const dates = (visits || []).reduce((accumulator, visit, index) => {
+        const visitDate = returnUTCtoLocal(visit.date, 'D');
+        const seperator = index === visits.length - 1 ? ' & ' : ', ';
+        const missedCallVisitTitle =
+          accumulator === ''
+            ? accumulator.concat(visitDate)
+            : accumulator.concat(seperator).concat(visitDate);
+        return missedCallVisitTitle;
+      }, '');
 
-      if (adhocCallDates && adhocCallDates !== '') {
-        adhocCallTitle = translate('tourPlan.monthly.missedCount', {
+      if (dates && dates !== '') {
+        missedCountTitle = translate('tourPlan.monthly.missedCount', {
           count: capitalize(converter.toWords(visits.length)),
-          dates: `${adhocCallDates} ${month}`,
+          dates: `${dates} ${month}`,
         });
       }
     }
 
-    return adhocCallTitle;
+    return missedCountTitle;
   };
 
   /**

@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
   labelContent: {
     textAlign: 'right',
     justifyContent: 'flex-end',
-    paddingTop: 4,
-    paddingRight: 12,
+    paddingTop: themes.spacing(4),
+    paddingRight: themes.spacing(12),
   },
 });
 
