@@ -119,7 +119,7 @@ const PartiesDirectory = ({
             </View>
             <View style={styles.itemContainer1}>
               <Label
-                title={`${capitalize(getSpecialization())}`}
+                title={capitalize(getSpecialization())}
                 style={[styles.capitalize, styles.name]}
                 numberOfLines={1}
               />

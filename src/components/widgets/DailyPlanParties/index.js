@@ -234,7 +234,7 @@ const DailyPlanParties = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={`${capitalize(getSpecialization())}`}
+                title={capitalize(getSpecialization())}
                 style={[
                   styles.capitalize,
                   getSpecialization() !== '' &&
