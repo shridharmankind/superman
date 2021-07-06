@@ -11,7 +11,8 @@
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days",
       "adhocCalls": "Adhoc calls: {{data}}",
-      "visitCompleted": "Visit Completed"
+      "visitCompleted": "Visit Completed",
+      "mtpNotSubmitted": "MTP not submitted"
     },
     "daily": {
       "youHave": "You have",
@@ -19,7 +20,13 @@
       "visits": "visits",
       "today": "Today",
       "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
-      "completed": "Completed"
+      "completed": "Completed",
+      "partyName": "Party Name",
+      "partyType": "Type"
+    },
+    "standard": {
+      "noRecordsForSelection": "No records for current selection",
+      "noPatchFound": "No patch found"
     }
   },
   "missedVisit": "Missed Visit!",
@@ -56,7 +63,7 @@
   "outStationPerMonth": "out-station visits per month",
   "exStationPerMonth": "Ex-station visits per month",
   "areaCovered": "areas covered",
-  "frequencyMet": "frequency met",
+  "frequencyMet": "doctor frequency met",
   "dcrSecondTab": {
     "priorityProduct": "eDetailed Products",
     "discussedProduct": "Discussed Products",
@@ -81,11 +88,30 @@
   "responseStatus": {
     "error": "ERROR"
   },
+  "backgroundTask": {
+    "lastSync": "Last Synced:",
+    "syncNow": "Sync Now",
+    "syncConflict": "Sync Conflicts",
+    "lastModifiedTime": "Last Modified On",
+    "conflictMessage": "Conflict Message",
+    "errorMessage": "Error Message",
+    "useDevice": "Use Device",
+    "useServer": "Use Server",
+    "toastBtns": {
+      "message": "Sync Status",
+      "viewSummary": "View Summary",
+      "syncInitiatedMessage": "Sync request has been initiated.",
+      "successMessage": "Requested sync has been completed successfully.",
+      "conflictMessage": "ync activity was completed with a conflict.",
+      "failureMessage": "Sync activity could not be completed.",
+      "alreadRunningMessage": "Sync activity is already in progress."
+    }
+  },
   "error": {
     "genericMsg": "Something doesn't seem right, please try restarting the application."
   },
   "proceed": "Proceed",
-  "missedCalls": "Missed Calls",
+  "missedCalls": "Missed Calls({{count}})",
   "dayType": {
     "leave": "Leave"
   },
@@ -99,5 +125,16 @@
     "otherProducts": "Other Products",
     "introduction": "Introduction",
     "exit": "Exit"
+  },
+  "AddDoctor": {
+    "DR": "Dr.",
+    "label": "Add Doctor",
+    "addSelected": "Add Selected ",
+    "searchText": "Search Doctors here",
+    "close": "close"
+  },
+  "note": {
+    "placeholder": "Add Note here",
+    "title": "9. Anything you would like to take note?"
   }
 }

@@ -5,12 +5,13 @@ import {
   fetchWorkingDayCreatorType,
   fetchSTPStatusCreatorType,
   submitSTPCreatorType,
-  fetchMonthlyCalendarUpdateCreatorType,
+  fetchMTPCalendarUpdateCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 import API_PATHS from 'services/network/apiPaths';
+import {getDateIntoObject} from 'utils/dateTimeHelper';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -33,11 +34,8 @@ export function* submitSTPWatcher() {
 /**
  * Function to fetch stp update worker
  */
-export function* fetchMonthlyCalendarUpdateWatcher() {
-  yield takeEvery(
-    fetchMonthlyCalendarUpdateCreatorType,
-    updateMTPCalendarWorker,
-  );
+export function* fetchMTPCalendarUpdateWatcher() {
+  yield takeEvery(fetchMTPCalendarUpdateCreatorType, updateMTPCalendarWorker);
 }
 /**
  * worker function to send the api call to get all subordinates list
@@ -93,11 +91,7 @@ export function* fetchSTPStatusWorker(action) {
   };
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
-  let url = API_PATH.STP_STATUS;
-  url = url.replace(
-    /\b(?:staffPositionId|year)\b/gi,
-    matched => valueMap[matched],
-  );
+  const url = `${API_PATHS.TOUR_PLAN_STATUS}/${staffPositionId}`;
 
   try {
     const response = yield call(NetworkService.get, url);
@@ -131,7 +125,6 @@ export function* submitSTPWorker(action) {
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
-    console.log(error);
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
   }
 }
@@ -145,21 +138,40 @@ export function* updateMTPCalendarWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   const valueMap = {
     staffPositionId,
-    month,
+    monthVal: month,
   };
-  let url = API_PATHS.MTP_CALENDAR;
+  let url = API_PATHS.MTP_ROLLOVER;
   url = url.replace(
-    /\b(?:staffpositionId|month)\b/gi,
+    /\b(?:staffpositionId|monthVal)\b/gi,
     matched => valueMap[matched],
   );
-
   try {
     const response = yield call(NetworkService.get, url);
-    yield put(
-      monthlyActions.MonthlyCalendarUpdate({
-        mtpData: response.data,
-      }),
-    );
+    if (response.data.error || response.status !== 200) {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: null,
+            error: response.data.error,
+          },
+        }),
+      );
+    } else {
+      yield put(
+        monthlyActions.MTPCalendarUpdate({
+          mtpData: {
+            data: response?.data?.map(item => {
+              return {
+                ...item,
+
+                date: getDateIntoObject(item?.dated),
+              };
+            }),
+            error: null,
+          },
+        }),
+      );
+    }
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));

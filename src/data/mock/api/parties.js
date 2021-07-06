@@ -3,10 +3,7 @@ import dayjs from 'dayjs';
 
 const getDate = range => {
   const dateAsPerRange = dayjs().add(range, 'day');
-  return {
-    date: getFormatDate({date: dateAsPerRange, format: 'D'}),
-    month: getFormatDate({date: dateAsPerRange, format: 'MMM'}),
-  };
+  return getFormatDate({date: dateAsPerRange});
 };
 
 export const partiesMock = {
@@ -48,20 +45,17 @@ export const partiesMock = {
         ],
         visits: [
           {
-            date: getDate(-4).date,
-            month: getDate(-4).month,
+            date: getDate(-4),
             status: 'COMPLETED',
             isAdhoc: true,
           },
           {
-            date: getDate(0).date,
-            month: getDate(0).month,
+            date: getDate(0),
             status: 'TODAY',
             isAdhoc: true,
           },
           {
-            date: getDate(5).date,
-            month: getDate(5).month,
+            date: getDate(5),
             status: 'UPCOMING',
             isAdhoc: false,
           },
@@ -103,20 +97,17 @@ export const partiesMock = {
         ],
         visits: [
           {
-            date: getDate(-2).date,
-            month: getDate(-2).month,
+            date: getDate(-2),
             status: 'MISSED',
             isAdhoc: false,
           },
           {
-            date: getDate(0).date,
-            month: getDate(0).month,
+            date: getDate(0),
             status: 'TODAY',
             isAdhoc: false,
           },
           {
-            date: getDate(6).date,
-            month: getDate(6).month,
+            date: getDate(6),
             status: 'UPCOMING',
             isAdhoc: false,
           },
@@ -158,14 +149,12 @@ export const partiesMock = {
         ],
         visits: [
           {
-            date: getDate(0).date,
-            month: getDate(0).month,
+            date: getDate(0),
             status: 'TODAY',
             isAdhoc: true,
           },
           {
-            date: getDate(8).date,
-            month: getDate(8).month,
+            date: getDate(8),
             status: 'UPCOMING',
             isAdhoc: false,
           },
@@ -207,20 +196,17 @@ export const partiesMock = {
         ],
         visits: [
           {
-            date: getDate(-2).date,
-            month: getDate(-2).month,
+            date: getDate(-2),
             status: 'COMPLETED',
             isAdhoc: true,
           },
           {
-            date: getDate(0).date,
-            month: getDate(0).month,
+            date: getDate(0),
             status: 'TODAY',
             isAdhoc: false,
           },
           {
-            date: getDate(3).date,
-            month: getDate(3).month,
+            date: getDate(3),
             status: 'UPCOMING',
             isAdhoc: true,
           },
@@ -262,22 +248,19 @@ export const partiesMock = {
         location: 'Karol Bagh',
         visits: [
           {
-            date: getDate(-6).date,
-            month: getDate(-6).month,
+            date: getDate(-6),
             status: 'MISSED',
             isAdhoc: false,
           },
           {
-            date: getDate(0).date,
-            month: getDate(0).month,
+            date: getDate(0),
             status: 'TODAY',
             isAdhoc: false,
           },
           {
-            date: getDate(5).date,
-            month: getDate(5).month,
+            date: getDate(5),
             status: 'UPCOMING',
-            isAdhoc: true,
+            isAdhoc: false,
           },
         ],
       },
@@ -317,14 +300,12 @@ export const partiesMock = {
         },
         visits: [
           {
-            date: getDate(0).date,
-            month: getDate(0).month,
+            date: getDate(0),
             status: 'TODAY',
             isAdhoc: true,
           },
           {
-            date: getDate(9).date,
-            month: getDate(9).month,
+            date: getDate(9),
             status: 'UPCOMING',
             isAdhoc: false,
           },

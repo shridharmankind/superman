@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   power: {
     backgroundColor: '#2293cb',
     borderRadius: 50,
-    padding: theme.spacing(9),
+    padding: theme.spacing(1),
     marginTop: theme.spacing(2),
   },
   ratioClass: {
@@ -76,8 +76,6 @@ const styles = StyleSheet.create({
   },
   focus: {
     flexDirection: 'column',
-  },
-  focusIcon: {
     marginTop: theme.spacing(-3),
   },
   focusLabel: {

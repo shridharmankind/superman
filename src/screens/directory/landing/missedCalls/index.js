@@ -150,7 +150,16 @@ const MissedCalls = () => {
       <View style={styles.container}>
         <View style={customStyles.listHeader}>
           <View style={customStyles.listHeaderSpacing1}>
-            <Label style={customStyles.division} title={translate('dr')} />
+            <Label
+              style={customStyles.division}
+              title={translate('tourPlan.daily.partyName')}
+            />
+          </View>
+          <View style={customStyles.listHeaderSpacing2}>
+            <Label
+              style={customStyles.division}
+              title={translate('tourPlan.daily.partyType')}
+            />
           </View>
           <View style={customStyles.listHeaderSpacing2}>
             <Label

@@ -1,26 +1,73 @@
-import React, {useEffect, useState} from 'react';
-import {View, TextInput} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {View} from 'react-native';
 import {ContentWithSidePanel} from 'components/layouts';
-import {Label, LabelVariant} from 'components/elements';
-import {Strings, Constants} from 'common';
+import {Label, LabelVariant, Button} from 'components/elements';
+import {Strings} from 'common';
+import {translate} from 'locale';
 import styles from './styles';
 import {TabBar} from 'components/widgets';
-import {SearchIcon} from 'assets';
-import {Helper} from 'database';
+import {Operations, Constants, Sync} from 'database';
+import {isWeb} from 'helper';
+import {getLocalTimeZone} from 'utils/dateTimeHelper';
+import ShowConflictRecords from 'screens/settings/showConflictRecords';
+import {appSelector} from 'selectors';
+import {useSelector} from 'react-redux';
+
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
  */
 const SettingLanding = ({navigation, route}) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [staffPositionId, setStaffPositionId] = useState(null);
+  const [lastSyncRecord, setLastSyncRecord] = useState(null);
+  const [getConflictRecords, setConflictRecords] = useState([]);
+  const syncStatus = useSelector(appSelector.getSyncStatus());
 
   useEffect(() => {
-    (async () => {
-      const id = await Helper.getStaffPositionId();
-      setStaffPositionId(id);
-    })();
-  });
+    const fetchDbRecords = async () => {
+      const recordList = await Sync.SyncOperation.getAllConflictRecords();
+      setConflictRecords(recordList);
+    };
+    if (!isWeb()) {
+      fetchDbRecords();
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSyncTime();
+  }, [fetchSyncTime]);
+
+  const fetchSyncTime = useCallback(async () => {
+    let masterData = await Operations.getLastSyncTime();
+    setSyncListener(masterData);
+    masterData.forEach(modifiedData => {
+      if (modifiedData.name === Constants.APPLICATION_SYNC_STATUS) {
+        setSync(modifiedData);
+        return;
+      }
+    });
+    return;
+  }, [setSyncListener]);
+
+  const setSyncListener = useCallback(masterData => {
+    masterData.addListener((masterDataRecord, changes) => {
+      changes.insertions.forEach(index => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+      changes.modifications.forEach(index => {
+        const modifiedData = masterData[index];
+        setSync(modifiedData);
+      });
+    });
+  }, []);
+
+  const setSync = syncRecord => {
+    if (syncRecord.name === Constants.APPLICATION_SYNC_STATUS) {
+      let syncTime = getLocalTimeZone(syncRecord.lastSync);
+      setLastSyncRecord(syncTime);
+    }
+  };
 
   const data = [
     {
@@ -58,18 +105,43 @@ const SettingLanding = ({navigation, route}) => {
     }
   };
 
+  /**
+   * formats current date
+   * @returns formatted date
+   */
+  const getLastSyncFormattedRecord = () => {
+    let syncStatusMessage =
+      syncStatus === 'NOT_RUNNING'
+        ? ''
+        : Strings.backgroundTask.toastBtns.alreadRunningMessage;
+    return `${Strings.backgroundTask.lastSync} ${lastSyncRecord} ${syncStatusMessage}`;
+  };
+
   // Below is the doctor tab under directory page
   const conflictTab = () => {
     return (
-      <View style={styles.container}>
-        <View style={styles.searchContainer}>
-          <TextInput
-            placeholder={Strings.searchBar.searchPlaceholder}
-            style={styles.searchBar}
+      <>
+        <View style={styles.heading}>
+          <Label
+            title={getLastSyncFormattedRecord()}
+            variant={LabelVariant.subtitleLarge}
           />
-          <SearchIcon style={styles.searchIcon} height={16} width={16} />
+          <Button
+            title={translate('backgroundTask.syncNow')}
+            mode="contained"
+            contentStyle={styles.buttonTabBar}
+            labelStyle={styles.buttonTabBarText}
+          />
         </View>
-      </View>
+        {getConflictRecords.length > 0 && (
+          <ShowConflictRecords records={getConflictRecords} />
+        )}
+        {getConflictRecords.length === 0 && (
+          <View>
+            <Label title={Strings.directory.noResult} />
+          </View>
+        )}
+      </>
     );
   };
 

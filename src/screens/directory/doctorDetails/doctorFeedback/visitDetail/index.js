@@ -12,22 +12,31 @@ import {
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
 import {useDispatch, useSelector} from 'react-redux';
 
-const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
-  const [typeOfVisit, updateVisitType] = useState('single');
+const VisitDetail = ({
+  index,
+  width,
+  seniorList,
+  addDoctorHandler,
+  hideShowRightArrow,
+}) => {
+  const [typeOfVisit, updateVisitType] = useState(null);
   const dispatch = useDispatch();
 
   // TO DO
   // useEffect(() => {
-  //   if (typeOfVisit === 'joint') {
-  //     if (visitors.length > 0) {
-  //       disSwipeGesture(false);
-  //     } else {
-  //       disSwipeGesture(true);
-  //     }
+  //   if (visitors.length >= 1) {
+  //     updateVisit('Joint');
+  //     hideShowRightArrow(true);
   //   } else {
-  //     disSwipeGesture(false);
+  //     updateVisit('single');
+  //     if (typeOfVisit === 'single') {
+  //       hideShowRightArrow(true);
+  //     } else {
+  //       hideShowRightArrow(false);
+  //     }
   //   }
-  // }, [typeOfVisit, visitors]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [visitors, addSeniors]);
 
   const updateVisit = visitType => {
     updateVisitType(visitType);
@@ -39,14 +48,24 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
   const visitors = useSelector(dcrSelector.getVisitors());
   useEffect(() => {
     if (visitors) {
-      if (visitors.length > 0) {
+      if (visitors.length === 1) {
         updateVisit('joint');
-      } else {
-        updateVisit('single');
+        hideShowRightArrow(false);
+      } else if (visitors.length === 0) {
+        if (typeOfVisit === 'joint') {
+          hideShowRightArrow(true);
+        } else if (typeOfVisit === 'single') {
+          hideShowRightArrow(false);
+        } else {
+          // updateVisit('single');
+          hideShowRightArrow(true);
+        }
+      } else if (visitors.length > 1) {
+        updateVisit('joint');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visitors]);
+  }, [visitors, typeOfVisit]);
 
   const addSeniors = seniorId => {
     const checkIndex = visitors.findIndex(ele => ele === seniorId);
@@ -67,6 +86,16 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
       return (
         <View style={styles.checkStyling}>
           <Icon name="check-circle" size={18} color={themes.colors.primary} />
+        </View>
+      );
+    }
+  };
+
+  const selectMe = () => {
+    if (typeOfVisit === 'single') {
+      return (
+        <View style={styles.singleVisitCheckStyling}>
+          <Icon name="check-circle" size={22} color={themes.colors.primary} />
         </View>
       );
     }
@@ -102,18 +131,19 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
                     : styles.imageStyle
                 }
               />
+              {selectMe()}
             </TouchableOpacity>
             <View
               style={
                 typeOfVisit === 'joint' ? styles.centerHeading : styles.heading
               }>
               <Label
-                style={styles.highlighted}
+                style={typeOfVisit === 'single' ? styles.highlighted : null}
                 variant={LabelVariant.subtitleLarge}>
                 {Strings.doctorDetail.dcr.regVisit}
               </Label>
               <Label
-                style={styles.highlighted}
+                style={typeOfVisit === 'single' ? styles.highlighted : null}
                 variant={LabelVariant.subtitleLarge}>
                 ({Strings.doctorDetail.dcr.justMe})
               </Label>
@@ -140,11 +170,35 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
               )}
             </TouchableOpacity>
             <View style={styles.heading}>
-              <Label variant={LabelVariant.subtitleLarge}>
+              <Label
+                variant={LabelVariant.subtitleLarge}
+                style={typeOfVisit === 'joint' ? styles.highlighted : null}>
                 {Strings.doctorDetail.dcr.jointVisit}
               </Label>
               <Label variant={LabelVariant.subtitleLarge}>
-                ({Strings.doctorDetail.dcr.posts})
+                (
+                {seniorList.map((senior, indx) => {
+                  if (indx === seniorList.length - 1) {
+                    return (
+                      <Label
+                        style={
+                          typeOfVisit === 'joint' ? styles.highlighted : null
+                        }
+                        title={`${senior.role}`}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Label
+                        style={
+                          typeOfVisit === 'joint' ? styles.highlighted : null
+                        }
+                        title={`${senior.role}/`}
+                      />
+                    );
+                  }
+                })}
+                )
               </Label>
             </View>
           </View>
@@ -165,7 +219,7 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
                         <View style={styles.heading}>
                           <Label
                             variant={LabelVariant.subtitleLarge}
-                            title={senior.name}
+                            title={`${senior.firstName} ${senior.lastName}`}
                           />
                           <Label
                             variant={LabelVariant.subtitleLarge}
@@ -188,6 +242,7 @@ const VisitDetail = ({index, width, seniorList, disSwipeGesture}) => {
             fontFamily: themes.fonts.fontSemiBold,
           }}
           title={`+ ${Strings.doctorDetail.dcr.addDoctor}`}
+          onPress={addDoctorHandler}
         />
       </View>
     </View>

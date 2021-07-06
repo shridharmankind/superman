@@ -1,7 +1,8 @@
 import {DivisionSchemaName} from './Divisions';
-import * as Constants from '../constants';
-export const SpecialitiesSchemaName = 'Specializations';
 
+const MASTER_SYNC_PARAMETERS = 'SYNC_PARAMETER';
+
+export const SpecialitiesSchemaName = 'Specializations';
 export default class SpecialitiesSchema {
   static schema = {
     name: SpecialitiesSchemaName,
@@ -14,7 +15,7 @@ export default class SpecialitiesSchema {
         type: 'list',
         objectType: DivisionSchemaName,
       },
-      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
+      syncParameters: MASTER_SYNC_PARAMETERS,
     },
   };
 }

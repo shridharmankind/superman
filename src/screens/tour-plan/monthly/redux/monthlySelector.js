@@ -1,15 +1,13 @@
 import {createSelector} from '@reduxjs/toolkit';
-
 /**
  * selector function to retrieve data from redux store
  **/
 
 const getMonthlyState = state => state.monthlyState;
 
-const getMTPDataSelector = createSelector(
-  [getMonthlyState],
-  data => data?.mtpData,
-);
+const getMTPDataSelector = createSelector([getMonthlyState], data => {
+  return data?.mtpData?.data;
+});
 
 const workingDaySelector = createSelector(
   [getMonthlyState],

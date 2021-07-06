@@ -2,9 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
-import {WeeklyoffSchemaName} from './schemas/Weeklyoffcountrywise';
 import {NetworkService} from 'services';
-import {Weeklyoff} from 'database';
 
 export const MASTER_TABLES_DETAILS = [
   {
@@ -28,6 +26,15 @@ export const MASTER_TABLES_DETAILS = [
     ],
   },
   {
+    name: Constants.MASTER_TABLE_SKU,
+    apiPath: Constants.MASTER_TABLE_SKU_API_PATH,
+    schema: [
+      Schemas.Skus.schema,
+      Schemas.SubBrand.schema,
+      Schemas.Divisions.schema,
+    ],
+  },
+  {
     name: Constants.MASTER_MONTHLY_TABLE_PLAN,
     apiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_API_PATH,
     syncApiPath: Constants.MASTER_MONTHLY_TABLE_PLAN_SYNC_API_PATH,
@@ -40,6 +47,7 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_PARTY_CATEGORIES,
     apiPath: Constants.MASTER_TABLE_PARTY_CATEGORIES_API_PATH,
+    schema: [Schemas.PartyCategories.schema],
   },
   {
     name: Constants.MASTER_TABLE_ORGANIZATION,
@@ -64,6 +72,19 @@ export const MASTER_TABLES_DETAILS = [
   {
     name: Constants.MASTER_TABLE_WEEKLYOFF,
     apiPath: Constants.MASTER_TABLE_WEEKLYOFF_API_PATH,
+    schema: [
+      Schemas.WeeklyOffSchema.schema,
+      Schemas.GeoLocationConfiguration.schema,
+    ],
+  },
+  {
+    name: Constants.MASTER_TABLE_MOTHER_BRAND,
+    apiPath: Constants.MASTER_TABLE_MOTHER_BRAND_API_PATH,
+    schema: [
+      Schemas.MotherBrands.schema,
+      Schemas.MotherBrandType.schema,
+      Schemas.Molecule.schema,
+    ],
   },
 ];
 

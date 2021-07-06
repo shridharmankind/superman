@@ -5,6 +5,8 @@ import {Label} from 'components/elements';
 import styles from './styles';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import {Strings, Constants} from 'common';
+import {translate} from 'locale';
+import {capitalize} from 'screens/tour-plan/helper';
 
 /**
  * component to return parties list
@@ -56,6 +58,13 @@ const PartiesDirectory = ({
     }
   };
 
+  /**
+   * Return string of specializations of parties
+   */
+  const getSpecialization = () => {
+    return (specialization || {}).map(spec => spec?.name || spec).join(', ');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.detailsContainer}>
@@ -89,7 +98,7 @@ const PartiesDirectory = ({
               <Label
                 title={
                   partyType === Constants.PARTY_TYPE.DOCTOR
-                    ? `${Strings.dr} ${title}`
+                    ? `${Strings.dr} ${capitalize(title)}`
                     : title
                 }
                 style={styles.name}
@@ -97,16 +106,25 @@ const PartiesDirectory = ({
                 numberOfLines={2}
               />
             </View>
-            <View style={styles.itemContainer}>
+            <View style={styles.itemContainer1}>
               <Label
-                title={(specialization || {})
-                  .map(spec => spec?.name || spec)
-                  .join(', ')}
+                title={
+                  partyType === Constants.PARTY_TYPE.DOCTOR
+                    ? `${translate('dr')}`
+                    : `${translate('ch')}`
+                }
+                style={styles.name}
+                numberOfLines={2}
+              />
+            </View>
+            <View style={styles.itemContainer1}>
+              <Label
+                title={capitalize(getSpecialization())}
                 style={[styles.capitalize, styles.name]}
                 numberOfLines={1}
               />
             </View>
-            <View>
+            <View style={styles.itemContainer1}>
               <Label
                 title={(location || {})
                   .map(spec => spec?.name || spec)

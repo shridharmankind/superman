@@ -24,6 +24,7 @@ import {
   fetchWorkingDayCreator,
   fetchSTPStatusCreator,
   submitSTPCreator,
+  fetchMTPCalendarUpdateCreator,
 } from './redux';
 import {monthlyActions} from './redux/monthlySlice';
 import themes from 'themes';
@@ -31,7 +32,6 @@ import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
-import mtpData from '../../../data/mock/api/mtpData'; //Development IN PROGRESS - remove after API integration
 import {appSelector} from 'selectors';
 
 /**
@@ -69,6 +69,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const currentDate = parseInt(getFormatDate({format: 'D'}), 10);
   const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
   const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
+  const nextMonth = currentMonth + 1;
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState(null);
@@ -81,9 +82,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const previousMonthSelected = usePrevious(monthSelected);
   const [showCongratsModal, setShowCongratsModal] = useState(false);
   const [compliancePercentage, setCompliancePercentage] = useState();
-  const [stpStatus, setStpStatus] = useState();
   const [submitSTP, setSubmitSTP] = useState();
-
   // Selectors
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
@@ -93,9 +92,22 @@ const MonthlyTourPlan = ({navigation}) => {
     planComplianceSelector.getTotalPercent(),
   );
   const workindDay = useSelector(monthlyTourPlanSelector.allWorkingDay());
-  const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
+  const stpStatus = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
+  const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
+
+  useEffect(() => {
+    if (monthSelected) {
+      dispatch(
+        fetchMTPCalendarUpdateCreator({
+          staffPositionId: staffPositionId,
+          month: monthSelected?.month,
+        }),
+      );
+    }
+  }, [dispatch, staffPositionId, monthSelected]);
+
   useEffect(() => {
     dispatch(
       getSubordinatesCreator({
@@ -108,7 +120,6 @@ const MonthlyTourPlan = ({navigation}) => {
     dispatch(
       fetchSTPStatusCreator({
         staffPositionId,
-        year: currentYear,
       }),
     );
   }, [currentYear, dispatch, staffPositionId]);
@@ -117,7 +128,6 @@ const MonthlyTourPlan = ({navigation}) => {
    *effect to set working Day
    */
   useEffect(() => setworkingDays(workindDay), [workindDay]);
-  useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
 
   useEffect(() => {
@@ -323,6 +333,8 @@ const MonthlyTourPlan = ({navigation}) => {
   const selectedTourPlanHandler = planOption => {
     const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     let optionsToIterate = getOptionsToIterateForDropDown();
+    const upcomingMonthStatus = getMTPSubmitStatus();
+    const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
 
     if (isTourPlan && planOption.id !== 1) {
       if (
@@ -333,9 +345,12 @@ const MonthlyTourPlan = ({navigation}) => {
         return;
       }
       if (
-        currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
-        currentDate <= MTP_LOCK_DATES_THRESHOLD.MAX &&
-        planOption.month > currentMonth + 1
+        (currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
+          currentDate <= MTP_LOCK_DATES_THRESHOLD.MAX &&
+          planOption.month > nextMonth) ||
+        (!isMTPSubmitted &&
+          planOption.month === nextMonth &&
+          currentDate >= MTP_LOCK_DATES_THRESHOLD.MAX)
       ) {
         return;
       }
@@ -359,16 +374,36 @@ const MonthlyTourPlan = ({navigation}) => {
   };
 
   /**
+   * @returns MTP supbmitted data
+   */
+  const getMTPSubmitStatus = () => {
+    const upcomingMonthStatus = stpStatus?.monthlyTourPlanStatuses?.filter(
+      monthStatus => {
+        return monthStatus.month === nextMonth;
+      },
+    );
+
+    if (upcomingMonthStatus?.length > 0) {
+      return upcomingMonthStatus[0];
+    } else {
+      return null;
+    }
+  };
+
+  /**
    * renders due date of mtp for upcoming month
    * @param {Object} option dropdown option
    * @returns Chip showing the due date of MTP
    */
   const renderMTPDueDate = option => {
     const dueDays = MTP_LOCK_DATES_THRESHOLD.MAX - currentDate;
+    const upcomingMonthStatus = getMTPSubmitStatus();
+    const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
     if (
-      option.month === currentMonth + 1 &&
+      option?.month === nextMonth &&
       currentDate < MTP_LOCK_DATES_THRESHOLD.MAX &&
-      currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN
+      currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
+      !isMTPSubmitted
     ) {
       return (
         <Area
@@ -380,6 +415,33 @@ const MonthlyTourPlan = ({navigation}) => {
           textStyle={[styles.chip, styles.dueDateChip]}
           chipContainerCustomStyle={styles.chipContainer}
         />
+      );
+    }
+
+    if (isMTPSubmitted && option?.month === nextMonth) {
+      return (
+        <Area
+          title={`${translate(
+            'tourPlan.monthly.submittedOn',
+          )} ${returnUTCtoLocal(upcomingMonthStatus?.submittedDate)}`}
+          value={'1'}
+          bgColor={themes.colors.green[300]}
+          textStyle={[styles.chip, styles.submittedChip]}
+          chipContainerCustomStyle={styles.chipContainer}
+        />
+      );
+    } else if (!isMTPSubmitted && option?.month === nextMonth) {
+      return (
+        <>
+          <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
+          <Area
+            title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
+            value={'1'}
+            bgColor={themes.colors.grey[700]}
+            textStyle={[styles.chip, styles.notSubmittedChip]}
+            chipContainerCustomStyle={styles.chipContainer}
+          />
+        </>
       );
     }
   };
@@ -409,11 +471,12 @@ const MonthlyTourPlan = ({navigation}) => {
                   }
                 />
                 {renderMTPDueDate(option)}
-                {stpStatus?.status === STP_STATUS.INPROGRESS && index === 0 && (
-                  <></>
-                )}
+                {stpStatus?.standardTourPlanStatuses?.status ===
+                  STP_STATUS.INPROGRESS &&
+                  index === 0 && <></>}
                 {(submitSTP?.status === STP_STATUS.SUBMITTED ||
-                  stpStatus?.status === STP_STATUS.SUBMITTED) &&
+                  stpStatus?.standardTourPlanStatuses?.status ===
+                    STP_STATUS.SUBMITTED) &&
                   index === 0 && (
                     <>
                       <LockIcon
@@ -425,7 +488,8 @@ const MonthlyTourPlan = ({navigation}) => {
                         title={`${translate(
                           'tourPlan.monthly.submittedOn',
                         )} ${returnUTCtoLocal(
-                          submitSTP?.submitedDate || stpStatus?.submitedDate,
+                          submitSTP?.submittedDate ||
+                            stpStatus?.standardTourPlanStatuses?.submittedDate,
                         )}`}
                         value={'1'}
                         bgColor={themes.colors.green[300]}
@@ -485,13 +549,13 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthSelected && workingDays.length ? (
+        return monthSelected ? (
           <View style={styles.tourPlanViewContainer}>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
               previousMonthSelected={previousMonthSelected}
-              monthlyCalendarData={mtpData}
+              monthlyCalendarData={mtpDataSelector}
             />
 
             <Legends />
@@ -591,5 +655,4 @@ const MonthlyTourPlan = ({navigation}) => {
     </View>
   );
 };
-
 export default MonthlyTourPlan;

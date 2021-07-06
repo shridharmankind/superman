@@ -23,32 +23,29 @@ import {ROUTE_EDETAILING} from 'screens/directory/routes';
 import {showToast} from 'components/widgets/Toast';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
-import {searchDoctorActions} from 'screens/directory/landing/redux';
+import {
+  searchDoctorActions,
+  partySelector,
+} from 'screens/directory/landing/redux';
 import {appSelector} from 'selectors';
 import {Helper} from 'database';
 import {translate} from 'locale';
 import MissedCalls from 'screens/directory/landing/missedCalls';
+
 /**
  * Custom Landing component of Directory Screen.
  * Initially click on directory left menu this component render
  */
 const DirectoryLanding = ({navigation, route}) => {
   const LIMIT = 10;
+  const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [staffPositionId, setStaffPositionId] = useState(null);
   const [skip, setSkip] = useState(0);
   const [searchKeyword, updateSearchKeyword] = useState(
     route?.params?.inputKeyword || null,
   );
   const [doctorsAddedinTodayPlan, updateTodayPlan] = useState([]);
   const dispatch = useDispatch(); // For dispatching the action
-
-  useEffect(() => {
-    (async () => {
-      const id = await Helper.getStaffPositionId();
-      setStaffPositionId(id);
-    })();
-  });
 
   useEffect(() => {
     if (!!searchKeyword && searchKeyword !== '') {
@@ -74,10 +71,11 @@ const DirectoryLanding = ({navigation, route}) => {
   const docCount = useSelector(searchDocSelector.getSearchDocCount());
   const doctorList = useSelector(searchDocSelector.getSearchDocList());
   const fetchState = useSelector(appSelector.makeGetAppFetch());
+  const missedCalls = useSelector(partySelector.getMissedCallsList());
 
   const data = [
     {
-      text: `${translate('missedCalls')}`,
+      text: `${translate('missedCalls', {count: missedCalls.length})}`,
     },
     {
       text: `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`,
@@ -107,6 +105,7 @@ const DirectoryLanding = ({navigation, route}) => {
       <View style={styles.mainTabContainer}>
         <TabBar
           values={data}
+          initialSelected={route?.params?.inputKeyword ? 1 : 0}
           onPress={onTabPress}
           customStyle={styles.tabBarContainer}
         />

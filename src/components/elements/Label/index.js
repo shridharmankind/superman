@@ -20,7 +20,7 @@ export const LabelVariant = Object.entries(theme.typography).reduce(
  * @param {Object} style custom style of text
  */
 const Label = ({
-  title,
+  title = '',
   testID,
   style,
   size = 18,
