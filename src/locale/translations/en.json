@@ -11,7 +11,7 @@
       },
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days",
-      "from":"From",
+      "from": "From",
       "to": "To",
       "submit": "Submit",
       "selectDate": "Please select date",
