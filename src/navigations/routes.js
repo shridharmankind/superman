@@ -1,6 +1,5 @@
 import {Dashboard} from 'screens/generic';
 import {StandardPlan} from 'screens/tourPlan';
-import {Setting} from 'screens/settings';
 
 import ROUTES_HOME_ROOT from 'screens/home/routes';
 
@@ -31,10 +30,6 @@ const ROUTES = [
   {
     name: ROUTE_PRESENTATION,
     component: Presentation,
-  },
-  {
-    name: ROUTE_SETTING,
-    component: Setting,
   },
   ...ROUTES_HOME_ROOT,
 ];
