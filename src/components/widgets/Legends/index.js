@@ -68,13 +68,10 @@ const renderHolidays = () => (
  * @returns  leaves legends
  */
 const renderLeaves = () => (
-  <LegendWrapper title={legends.leave}>
-    <View style={styles.barContainer}>
-      <View style={styles.bar} />
-      <View style={styles.bar} />
-      <View style={styles.bar} />
-    </View>
-  </LegendWrapper>
+  <LegendWrapper
+    title={legends.leave}
+    style={[styles.verticalBar, styles.holiday]}
+  />
 );
 
 /**

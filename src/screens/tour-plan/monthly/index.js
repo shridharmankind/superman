@@ -571,7 +571,7 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthSelected ? (
+        return monthSelected && workingDays.length ? (
           <View style={styles.tourPlanViewContainer}>
             <MonthlyView
               workingDays={workingDays}
