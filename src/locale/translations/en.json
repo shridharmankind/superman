@@ -5,11 +5,16 @@
       "actions": {
         "save": "Save",
         "submitSTP": "Submit STP",
+        "swap": "Swap",
         "addToTodayPlan": "Add to Today's Plan",
         "reviewDCR": "Review DCR"
       },
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days",
+      "from":"From",
+      "to": "To",
+      "submit": "Submit",
+      "selectDate": "Please select date",
       "adhocCalls": "Adhoc calls: {{data}}",
       "visitCompleted": "Visit Completed",
       "mtpNotSubmitted": "MTP not submitted"
