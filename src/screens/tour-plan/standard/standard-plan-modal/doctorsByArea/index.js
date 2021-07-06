@@ -89,7 +89,7 @@ const DoctorsByArea = ({
                 party.id,
                 area.id,
               )}
-              minGap={gapRulesIds?.indexOf(party.id) !== -1}
+              minGap={gapRulesIds && gapRulesIds?.indexOf(party.id) !== -1}
             />
           ))}
         </View>
@@ -109,6 +109,7 @@ const DoctorsByArea = ({
       isSameDayPatch,
       isPartyInPatch,
       isSamePartySelectedInOtherArea,
+      gapRulesIds,
     ],
   );
 
