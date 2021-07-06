@@ -234,7 +234,8 @@ const MonthlyTourPlan = ({navigation}) => {
       handleSwapDialog();
       dispatch(monthlyActions.resetSwap());
     }
-  }, [swapResponse, handleSwapDialog, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [swapResponse, dispatch]);
 
   useEffect(() => {
     if (!selectedTourPlan) {
