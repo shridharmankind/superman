@@ -61,24 +61,24 @@ const DoctorFeedback = ({navigation, route}) => {
     })();
   });
   useEffect(() => {
-    if (staffPositionId) {
-      dispatch(
-        fetchOtherProducts({
-          staffPositionId: staffPositionId,
-          partyId: doctorData?.id,
-        }),
-      );
-    }
+    // if (staffPositionId) {
+    dispatch(
+      fetchOtherProducts({
+        staffPositionId: staffPositionId,
+        partyId: doctorData?.id,
+      }),
+    );
+    // }
   }, [dispatch, doctorData?.id, staffPositionId]);
   useEffect(() => {
-    if (staffPositionId) {
-      dispatch(
-        fetchEDetailedList({
-          staffPositionId: staffPositionId,
-          partyIds: [doctorData?.id],
-        }),
-      );
-    }
+    //  if (staffPositionId) {
+    dispatch(
+      fetchEDetailedList({
+        staffPositionId: staffPositionId,
+        partyIds: [doctorData?.id],
+      }),
+    );
+    // }
   }, [dispatch, doctorData?.id, staffPositionId]);
   // dispatching the action
   useEffect(() => {

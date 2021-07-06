@@ -203,7 +203,9 @@ const getMock = axios => {
     )
     .reply(200, EOtherProductList);
   mock
-    .onGet('/edetailing/motherbrands?StaffPositionId=1PartyId=5&Skip=0&Limit=0')
+    .onGet(
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=5&Skip=0&Limit=0',
+    )
     .reply(200, EPriorityProductList);
   mock
     .onGet(

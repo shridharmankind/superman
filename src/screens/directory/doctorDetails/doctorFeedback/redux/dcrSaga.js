@@ -47,12 +47,12 @@ export function* searchItemsWatcher() {
 }
 
 function* fetchOtherList(action) {
-  const {staffPositionId, partyId} = action.payload;
+  const {staffPositionId = 1, partyId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
     const apiUrl = `${
       API_PATH.GET_EDETAILING_PRODUCT
-    }?StaffPositionId=${staffPositionId}PartyId=${partyId}&Skip=${0}&Limit=${0}`;
+    }?StaffPositionId=${staffPositionId}&PartyId=${partyId}&Skip=${0}&Limit=${0}`;
     const response = yield call(NetworkService.get, apiUrl);
 
     yield put(
@@ -68,7 +68,7 @@ function* fetchOtherList(action) {
   }
 }
 function* fetchEdetailedList(action) {
-  const {staffPositionId, partyIds} = action.payload;
+  const {staffPositionId = 1, partyIds} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
     const response = yield call(
@@ -196,7 +196,7 @@ export function* getDoctorDataList() {
 }
 
 function* getDoctorList(action) {
-  const {staffPositionId} = action.payload;
+  const {staffPositionId = 1} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
     const response = yield call(
