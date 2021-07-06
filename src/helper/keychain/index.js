@@ -23,6 +23,7 @@ export const saveAccessToken = async accessToken => {
 */
 export const getAccessToken = async () => {
   const credentials = await Keychain.getGenericPassword();
+  // alert('token' + credentials?.password);
   return credentials?.password;
 };
 

@@ -11,6 +11,7 @@ import {isWeb} from 'helper';
 import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 import {translate} from 'locale';
 import {capitalize} from 'screens/tour-plan/helper';
+import {getAvatar} from 'helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -59,15 +60,7 @@ const DailyPlanParties = ({
    */
   const OnErrorHandler = () => {
     if (!isImageErrror) {
-      const genderImage =
-        Constants.GENDER.MALE === (gender || '').toUpperCase()
-          ? require('assets/images/male.png')
-          : require('assets/images/female.png');
-      const src =
-        Constants.PARTY_TYPE.DOCTOR === partyType
-          ? genderImage
-          : require('assets/images/chemist.png');
-
+      const src = getAvatar(gender, partyType);
       setImageSrc(src);
       setIsImageErrror(true);
     }

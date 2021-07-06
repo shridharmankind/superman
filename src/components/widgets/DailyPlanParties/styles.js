@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
   },
   visitsPanel: {
     alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
     paddingTop: themes.spacing(8),
   },
   seperator: {
@@ -121,6 +121,12 @@ const styles = StyleSheet.create({
   },
   verticalIcon: {
     paddingLeft: themes.spacing(20),
+  },
+  labelContent: {
+    textAlign: 'right',
+    justifyContent: 'flex-end',
+    paddingTop: 4,
+    paddingRight: 12,
   },
 });
 
