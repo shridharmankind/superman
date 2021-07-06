@@ -193,20 +193,22 @@ const DailyView = ({
           isInnerContainerHighVisitStyle && styles.highVisitBar,
         ]}>
         <View style={styles.headerContent}>
-          {isWorkingDayType && (
-            <Label
-              testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
-              title={getPartyTitle(dayCellData?.parties)}
-              variant={LabelVariant.h6}
-            />
-          )}
-          {isLeaveType && (
-            <Label
-              testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
-              title={translate('dayType.leave')}
-              variant={LabelVariant.h6}
-            />
-          )}
+          <View>
+            {isWorkingDayType && (
+              <Label
+                testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
+                title={getPartyTitle(dayCellData?.parties)}
+                variant={LabelVariant.h6}
+              />
+            )}
+            {isLeaveType && (
+              <Label
+                testID={`label_dailyView_parties_test_${dayCellData?.patchId}`}
+                title={translate('dayType.leave')}
+                variant={LabelVariant.h6}
+              />
+            )}
+          </View>
           <Label
             testID={`label_dailyView_date_test_${props.date.day}`}
             variant={LabelVariant.h6}
