@@ -1,9 +1,14 @@
 /* eslint-disable indent */
-import React, {useState, useEffect, useRef} from 'react';
-import {View, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {
+  View,
+  TouchableWithoutFeedback,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Modal, Label, Button, Area} from 'components/elements';
+import {Modal, Label, Button, Area, LabelVariant} from 'components/elements';
 import {Strings} from 'common';
 import {StandardPlanContainer} from 'screens/tourPlan';
 import {MonthlyView, Legends, CongratulatoryModal} from 'components/widgets';
@@ -15,6 +20,7 @@ import {
   STP_STATUS,
   SUBMIT_STP_PLAN_THRESHOLD_VALUE,
   MTP_LOCK_DATES_THRESHOLD,
+  SWAP,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -24,6 +30,7 @@ import {
   fetchWorkingDayCreator,
   fetchSTPStatusCreator,
   submitSTPCreator,
+  swapCreator,
   fetchMTPCalendarUpdateCreator,
 } from './redux';
 import {monthlyActions} from './redux/monthlySlice';
@@ -32,6 +39,7 @@ import {planComplianceSelector} from 'screens/tourPlan/planCompliance/redux';
 import {translate} from 'locale';
 import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
+import {Calendar} from 'react-native-calendars';
 import {appSelector} from 'selectors';
 
 /**
@@ -75,6 +83,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const [selectedTourPlan, setSelectedTourPlan] = useState(null);
   const [selectedMyPlan, setSelectedMyPlan] = useState({});
   const [visible, setVisible] = useState(false);
+  const [swapModalVisible, setSwapModalVisible] = useState(false);
   const [myPlanOptions, setMyPlanOptions] = useState([]);
   const [dropDownClicked, setDropDownClicked] = useState(PLAN_TYPES.TOURPLAN);
   const [monthSelected, setMonthSelected] = useState();
@@ -83,6 +92,11 @@ const MonthlyTourPlan = ({navigation}) => {
   const [showCongratsModal, setShowCongratsModal] = useState(false);
   const [compliancePercentage, setCompliancePercentage] = useState();
   const [submitSTP, setSubmitSTP] = useState();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [dateSelected, setDateSelected] = useState(null);
+  const [swapObj, setSwapObj] = useState({});
+  const [date, setDate] = useState({});
+
   // Selectors
   const subOrdinatesList = useSelector(
     monthlyTourPlanSelector.allSubOrdinates(),
@@ -96,6 +110,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const submitSTPSelector = useSelector(monthlyTourPlanSelector.submitSTP());
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const swapResponse = useSelector(monthlyTourPlanSelector.setSwap());
 
   useEffect(() => {
     if (monthSelected) {
@@ -213,6 +228,13 @@ const MonthlyTourPlan = ({navigation}) => {
   useEffect(() => {
     dispatch(fetchWorkingDayCreator({userId: staffPositionId}));
   }, [dispatch, staffPositionId]);
+
+  useEffect(() => {
+    if (swapResponse) {
+      handleSwapDialog();
+      dispatch(monthlyActions.resetSwap());
+    }
+  }, [swapResponse, handleSwapDialog, dispatch]);
 
   useEffect(() => {
     if (!selectedTourPlan) {
@@ -549,7 +571,7 @@ const MonthlyTourPlan = ({navigation}) => {
         ) : null;
 
       default: {
-        return monthSelected ? (
+        return monthSelected && workingDays.length ? (
           <View style={styles.tourPlanViewContainer}>
             <MonthlyView
               workingDays={workingDays}
@@ -588,7 +610,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const renderActionButton = () => {
     return (
       <View style={styles.actionButtonGroup}>
-        {/* <Button  //NOT REQUIRED CURRENTLY
+        {/* <Button //NOT REQUIRED CURRENTLY
           title={translate('tourPlan.monthly.actions.save')}
           mode="outlined"
           contentStyle={[styles.actionBtn, styles.saveBtn]}
@@ -606,15 +628,194 @@ const MonthlyTourPlan = ({navigation}) => {
     );
   };
 
+  /**render swap button on top of MTP */
+  const renderSwapButton = () => {
+    return (
+      <Button
+        title={translate('tourPlan.monthly.actions.swap')}
+        mode="outlined"
+        contentStyle={[styles.actionBtn, styles.saveBtn]}
+        labelStyle={styles.buttonTabBarText}
+        onPress={() => handleSwapDialog()}
+      />
+    );
+  };
+
+  /**render Swap Modal on click of  swap button*/
+  const swapModal = () => {
+    return (
+      <Modal
+        open={swapModalVisible}
+        onClose={handleSwapDialog}
+        closeAction={true}
+        modalTitle={getSwapModalTitle()}
+        modalContent={getSwapModalContent()}
+        customModalCenteredView={styles.centeredView}
+      />
+    );
+  };
+
+  /**return title for swap modal */
+  const getSwapModalTitle = () => {
+    return (
+      <View>
+        <Label
+          type="bold"
+          title={translate('tourPlan.monthly.actions.swap')}
+          variant={LabelVariant.h4}
+          style={styles.modalTitleText}
+        />
+      </View>
+    );
+  };
+
+  /**return swap modal content */
+  const getSwapModalContent = () => {
+    return (
+      <View style={styles.swapContent}>
+        <View>
+          <Label type="bold" title={translate('tourPlan.monthly.from')} />
+          <TouchableOpacity
+            style={styles.swapDate}
+            onPress={() => handleDatePress(SWAP.SOURCE)}>
+            <Label
+              style={styles.swapDateText}
+              textColor={themes.colors.grey[600]}
+              title={
+                date?.source
+                  ? date?.source
+                  : translate('tourPlan.monthly.selectDate')
+              }
+            />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Label type="bold" title={translate('tourPlan.monthly.to')} />
+          <TouchableOpacity
+            style={styles.swapDate}
+            onPress={() => handleDatePress(SWAP.DESTINATION)}>
+            <Label
+              style={styles.swapDateText}
+              textColor={themes.colors.grey[600]}
+              title={
+                date?.destination
+                  ? date?.destination
+                  : translate('tourPlan.monthly.selectDate')
+              }
+            />
+          </TouchableOpacity>
+        </View>
+        <Button
+          title={translate('tourPlan.monthly.submit')}
+          mode="contained"
+          contentStyle={styles.actionBtn}
+          labelStyle={styles.buttonTabBarText}
+          onPress={() => handleSwapSubmit()}
+          disabled={!(swapObj.source && swapObj.destination)}
+        />
+        {showCalendar && renderCalendar()}
+      </View>
+    );
+  };
+
+  /** handle input date press and open the calendar */
+  const handleDatePress = type => {
+    setDateSelected(type);
+    setShowCalendar(true);
+  };
+
+  /**handle submit of swap date*/
+  const handleSwapSubmit = () => {
+    dispatch(
+      swapCreator({
+        staffPositionId: staffPositionId,
+        obj: swapObj,
+      }),
+    );
+  };
+
+  /**handle swap modal visibility */
+  const handleSwapDialog = useCallback(() => {
+    setSwapModalVisible(!swapModalVisible);
+    setShowCalendar(false);
+    setDate({});
+    setSwapObj({});
+  }, [swapModalVisible]);
+
   /**
    * Submit STP to BE
    */
   const submitSTPHandler = () => {
     dispatch(
       submitSTPCreator({
-        staffPositionId: 1,
+        staffPositionId: staffPositionId,
       }),
     );
+  };
+
+  /**render calendar on click of date input press*/
+  const renderCalendar = () => {
+    const month = `${monthSelected?.year}-${
+      monthSelected?.month < 10
+        ? `0${monthSelected?.month}`
+        : monthSelected?.month
+    }-01`;
+
+    const disableDates = {};
+    mtpDataSelector?.map(data => {
+      if (data.dayType === 'holiday' || data.dayType === 'leave') {
+        disableDates[
+          `${data.date.year}-${
+            data.date.month < 10 ? `0${data.date.month}` : data.date.month
+          }-${data.date.day < 10 ? `0${data.date.day}` : data.date.day}`
+        ] = {
+          disabled: true,
+          disableTouchEvent: true,
+          textColor: themes.colors.grey[600],
+        };
+      }
+    });
+    return (
+      <View style={styles.calendarContainer}>
+        <Calendar
+          current={month}
+          hideArrows={true}
+          hideExtraDays={true}
+          disableMonthChange={true}
+          firstDay={1}
+          hideDayNames={true}
+          showWeekNumbers={false}
+          enableSwipeMonths={false}
+          onDayPress={day => handleDayPress(day)}
+          style={styles.calendar}
+          markedDates={disableDates}
+          markingType={'dot'}
+        />
+      </View>
+    );
+  };
+
+  /**handle day press on calendar and set date and swap objext */
+  const handleDayPress = ({day, month, dateString, year}) => {
+    const patchId = mtpDataSelector?.find(
+      data =>
+        data.date.month === month &&
+        data.date.year === year &&
+        data.date.day === day,
+    );
+    const obj = {
+      ...swapObj,
+      [dateSelected]: {patchId: patchId?.patch.id, day, month, year},
+    };
+    if (
+      dateString !==
+      (dateSelected === SWAP.SOURCE ? date.destination : date.source)
+    ) {
+      setDate({...date, [dateSelected]: dateString});
+      setSwapObj(obj);
+
+      setShowCalendar(false);
+    }
   };
 
   return (
@@ -625,7 +826,7 @@ const MonthlyTourPlan = ({navigation}) => {
           user?.staffPositions[0].staffCode === STAFF_CODES.FLM && (
             <View style={styles.myPlanContainer}>{myPlanDropDown()}</View>
           )}
-        {selectedTourPlan?.id === 1 && renderActionButton()}
+        {selectedTourPlan?.id === 1 ? renderActionButton() : renderSwapButton()}
       </View>
       {user.staffPositions[0].staffCode === STAFF_CODES.MR &&
         selectedTourPlan?.id === 1 && (
@@ -652,6 +853,7 @@ const MonthlyTourPlan = ({navigation}) => {
           setShowCongratsModal(false);
         }}
       />
+      {swapModal()}
     </View>
   );
 };
