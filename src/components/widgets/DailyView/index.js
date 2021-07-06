@@ -183,7 +183,8 @@ const DailyView = ({
         styles.dailyViewContainer,
         containterHighVisitStyle,
         isDisabledDate && styles.disabled,
-        (!isWorkingDayDate || isLeaveType) && styles.weekendContainer,
+        (!isWorkingDayDate || isLeaveType || isHolidayType) &&
+          styles.weekendContainer,
       ]}>
       <View
         style={[
