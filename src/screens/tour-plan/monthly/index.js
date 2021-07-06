@@ -42,6 +42,8 @@ import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 import {Calendar} from 'react-native-calendars';
 import {appSelector} from 'selectors';
+import {ActivityIndicator} from 'components/elements';
+import {FetchEnumStatus} from 'reducers';
 
 /**
  * Check if same month is selected
@@ -112,6 +114,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const swapResponse = useSelector(monthlyTourPlanSelector.setSwap());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
 
   useEffect(() => {
     if ((monthSelected && selectedTourPlan?.id !== 1) || swapResponse) {
@@ -682,6 +685,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const getSwapModalContent = () => {
     return (
       <View style={styles.swapContent}>
+        {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
         <View>
           <Label type="bold" title={translate('tourPlan.monthly.from')} />
           <TouchableOpacity
