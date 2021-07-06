@@ -14,9 +14,9 @@ export default class SkuSchema {
       description: 'string?',
       maximumRetailPrice: 'double?',
       priceToStockist: 'double?',
-      isFocused: 'int?',
-      isPower: 'int?',
-      isSample: 'int?',
+      isFocused: 'bool?',
+      isPower: 'bool?',
+      isSample: 'bool?',
       subBrand: MASTER_TABLE_SUB_BRAND,
       syncParameters: MASTER_SYNC_PARAMETERS,
       divisions: {

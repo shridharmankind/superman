@@ -21,6 +21,7 @@ import {
   SUBMIT_STP_PLAN_THRESHOLD_VALUE,
   MTP_LOCK_DATES_THRESHOLD,
   SWAP,
+  DAY_TYPE,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -234,7 +235,8 @@ const MonthlyTourPlan = ({navigation}) => {
       handleSwapDialog();
       dispatch(monthlyActions.resetSwap());
     }
-  }, [swapResponse, handleSwapDialog, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [swapResponse, dispatch]);
 
   useEffect(() => {
     if (!selectedTourPlan) {
@@ -763,7 +765,10 @@ const MonthlyTourPlan = ({navigation}) => {
 
     const disableDates = {};
     mtpDataSelector?.map(data => {
-      if (data.dayType === 'holiday' || data.dayType === 'leave') {
+      if (
+        data.dayType.toLowerCase() === DAY_TYPE.HOLIDAY ||
+        data.dayType.toLowerCase() === DAY_TYPE.LEAVE
+      ) {
         disableDates[
           `${data.date.year}-${
             data.date.month < 10 ? `0${data.date.month}` : data.date.month
