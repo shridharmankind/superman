@@ -205,7 +205,9 @@ const DailyPlanParties = ({
                   title={`${DivisionType.CAMPAIGN}`}
                 />
               )}
-              {category && <DoctorTag division={category} title={category} />}
+              {category ? (
+                <DoctorTag division={category} title={category} />
+              ) : null}
             </View>
           )}
 
