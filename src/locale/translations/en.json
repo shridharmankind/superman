@@ -76,8 +76,8 @@
     "done": "Done",
     "SelectBrandLabel": "Select Sub-brands",
     "slideTitle": "Which products did you",
-    "detail": "detail",
-    "discuss": "discuss",
+    "detail": " detail ",
+    "discuss": "discuss ",
     "toDoctor": "to the doctor?"
   },
   "speciality": "Speciality",
@@ -125,7 +125,7 @@
     "done": "Done",
     "prodValidation": "Please select atleast one product!",
     "viewProducts": "View Products",
-    "apply": "translate",
+    "apply": "Apply & Close",
     "priority": "Priority",
     "otherProducts": "Other Products",
     "introduction": "Introduction",
@@ -140,6 +140,6 @@
   },
   "note": {
     "placeholder": "Add Note here",
-    "title": "9. Anything you would like to take note?"
+    "title": "8. Anything you would like to take note?"
   }
 }
