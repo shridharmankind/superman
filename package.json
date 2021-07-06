@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "env-static": "node setup-environment.js static",
     "env-dev": "node setup-environment.js development",
+    "env-dev-web": "node setup-environment.js developmentWeb",
     "env-qa": "node setup-environment.js qa",
     "env-staging": "node setup-environment.js staging",
     "rn-android": "react-native run-android",
