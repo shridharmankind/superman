@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-// import {LogBox} from 'react-native';
+import {LogBox} from 'react-native';
 
 import {Provider} from 'react-redux';
 import {Provider as PaperProvider} from 'react-native-paper';
@@ -20,7 +20,7 @@ import {TASK_NAME} from 'utils/backgroundTask';
 export const store = getStore();
 
 const App = () => {
-  // LogBox.ignoreAllLogs(); // enable this for demo
+  LogBox.ignoreAllLogs(); // enable this for demo
   setI18nConfig();
 
   React.useEffect(() => {
