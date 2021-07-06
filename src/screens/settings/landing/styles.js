@@ -17,8 +17,11 @@ const styles = StyleSheet.create({
   heading: {
     flexDirection: 'row',
     width: '100%',
-    marginBottom: theme.spacing(0),
     justifyContent: 'space-between',
+  },
+  syncCompletionHeading: {
+    flexDirection: 'row',
+    width: '100%',
   },
   subHeading: {
     flexDirection: 'row',

@@ -9,7 +9,7 @@ import {TabBar} from 'components/widgets';
 import {Operations, Constants as DBConstants, Sync} from 'database';
 import {isWeb} from 'helper';
 import {getLocalTimeZone} from 'utils/dateTimeHelper';
-import {getBackgrounTaskValue, showToastie} from 'utils/backgroundTask';
+import {showToastie, setOnDemandSyncStatusRunning} from 'utils/backgroundTask';
 import ShowConflictRecords from 'screens/settings/showConflictRecords';
 import ShowSuccessfullSync from 'screens/settings/showSuccessfullSync';
 import theme from 'themes';
@@ -26,6 +26,9 @@ const SettingLanding = ({navigation, route}) => {
   const [getConflictRecords, setConflictRecords] = useState([]);
   const [allRecords, setAllRecords] = useState([]);
   const syncStatus = useSelector(appSelector.getSyncStatus());
+  const syncCompletionStatus = useSelector(
+    appSelector.getSyncCompletionStatus(),
+  );
 
   useEffect(() => {
     const fetchDbRecords = async () => {
@@ -132,14 +135,14 @@ const SettingLanding = ({navigation, route}) => {
   };
 
   const handleSyncNow = async () => {
-    const getSyncStatus = await getBackgrounTaskValue();
-    if (getSyncStatus === Constants.BACKGROUND_TASK.NOT_RUNNING) {
-      console.log('do ations');
+    if (syncStatus === Constants.BACKGROUND_TASK.NOT_RUNNING) {
+      await setOnDemandSyncStatusRunning();
+      Sync.SyncService.syncNow();
     } else {
-      // showToastie(
-      //   Constants.TOAST_TYPES.ALERT,
-      //   Strings.backgroundTask.toastBtns.alreadRunningMessage,
-      // );
+      showToastie(
+        Constants.TOAST_TYPES.ALERT,
+        Strings.backgroundTask.toastBtns.alreadRunningMessage,
+      );
     }
   };
 
@@ -170,7 +173,14 @@ const SettingLanding = ({navigation, route}) => {
             mode="contained"
             contentStyle={styles.buttonTabBar}
             labelStyle={styles.buttonTabBarText}
-            onPress={handleSyncNow()}
+            onPress={handleSyncNow}
+          />
+        </View>
+        <View style={[styles.syncCompletionHeading]}>
+          <Label
+            title={`${syncCompletionStatus}`}
+            variant={LabelVariant.subtitleLarge}
+            textColor={theme.colors.green[100]}
           />
         </View>
         {getConflictRecords.length > 0 && (

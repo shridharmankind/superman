@@ -132,6 +132,7 @@ const setBackgroundTask = async () => {
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
           );
+          store.dispatch(fetchStatusSliceActions.setSyncCompletionStatus(''));
           store.dispatch(
             fetchStatusSliceActions.setSyncStatus(getCurrentAsyncStorage),
           );
@@ -203,6 +204,7 @@ export const showToastieWithButton = (toastieType, message) => {
 export const runBackgroundTask = async () => {
   try {
     let resultArray = [];
+    let finalSyncResult = '';
     await Sync.SyncAction.syncTableTask().then(result => {
       resultArray = result || [];
     });
@@ -211,17 +213,20 @@ export const runBackgroundTask = async () => {
       resultArray.length === 0 &&
       isDemandSync === Constants.BACKGROUND_TASK.RUNNING
     ) {
+      finalSyncResult = 'Successfull Sync';
       showToastie(
         Constants.TOAST_TYPES.SUCCESS,
         Strings.backgroundTask.toastBtns.successMessage,
       );
     }
     if (resultArray && resultArray.includes(CONFLICT)) {
+      finalSyncResult = 'Completed Sync with Conflict';
       showToastieWithButton(
         Constants.TOAST_TYPES.WARNING,
         Strings.backgroundTask.toastBtns.conflictMessage,
       );
     } else if (resultArray && resultArray.includes(FAILURE)) {
+      finalSyncResult = 'Failure in Sync';
       showToastieWithButton(
         Constants.TOAST_TYPES.ALERT,
         Strings.backgroundTask.toastBtns.failureMessage,
@@ -231,11 +236,15 @@ export const runBackgroundTask = async () => {
       resultArray.includes(SUCCESS) &&
       isDemandSync === Constants.BACKGROUND_TASK.RUNNING
     ) {
+      finalSyncResult = 'Successfull Sync';
       showToastie(
         Constants.TOAST_TYPES.SUCCESS,
         Strings.backgroundTask.toastBtns.successMessage,
       );
     }
+    store.dispatch(
+      fetchStatusSliceActions.setSyncCompletionStatus(finalSyncResult),
+    );
     if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
       await setOnDemandSyncStatusNotRunning();
     }

@@ -15,6 +15,10 @@ const syncStatusSelector = createSelector(
   [getAppData],
   data => data?.syncStatus,
 );
+const syncCompletionStatusSelector = createSelector(
+  [getAppData],
+  data => data?.syncCompletionStatus,
+);
 
 export const appSelector = {
   //App state
@@ -26,5 +30,8 @@ export const appSelector = {
   },
   getSyncStatus: () => {
     return syncStatusSelector;
+  },
+  getSyncCompletionStatus: () => {
+    return syncCompletionStatusSelector;
   },
 };
