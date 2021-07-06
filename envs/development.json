@@ -1,6 +1,6 @@
 {
   "ENVIRONMENT": "DEVELOPMENT",
-  "API_HOST": "http://20.204.11.63/api/",
+  "API_HOST": "http://20.198.75.17/api/",
   "MOCK_REQUESTS": "NO",
   "oneLogin": {
     "authority": "https://mankindpharma-sandbox.onelogin.com/oidc/2",

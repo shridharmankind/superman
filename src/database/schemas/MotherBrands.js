@@ -1,5 +1,9 @@
 export const MotherBrandsSchemaName = 'MotherBrands';
-import {MOLECULES, MOTHER_BRAND_TYPE} from '../constants';
+import {
+  MOLECULES,
+  MOTHER_BRAND_TYPE,
+  MASTER_SYNC_PARAMETERS,
+} from '../constants';
 
 export default class MotherBrandsSchema {
   static schema = {
@@ -13,6 +17,7 @@ export default class MotherBrandsSchema {
       isPower: 'bool?',
       molecule: MOLECULES,
       motherBrandType: MOTHER_BRAND_TYPE,
+      syncParameters: MASTER_SYNC_PARAMETERS,
     },
   };
 }

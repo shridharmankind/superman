@@ -1,3 +1,4 @@
+import * as Constants from '../constants';
 export const PartyCategorySchemaName = 'PartyCategories';
 
 export default class PartyCategorySchema {
@@ -12,6 +13,7 @@ export default class PartyCategorySchema {
       shortName: 'string?',
       startAmount: 'double?',
       endAmount: 'double?',
+      syncParameters: Constants.MASTER_SYNC_PARAMETERS,
     },
   };
 }

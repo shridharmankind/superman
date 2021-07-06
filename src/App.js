@@ -17,7 +17,7 @@ import ErrorBoundary from 'screens/generic/ErrorBoundary';
 import RouteHandler from './screens/generic/RouteHandler';
 import {TASK_NAME} from 'utils/backgroundTask';
 
-const store = getStore();
+export const store = getStore();
 
 const App = () => {
   // LogBox.ignoreAllLogs(); // enable this for demo

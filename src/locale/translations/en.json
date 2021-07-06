@@ -25,7 +25,7 @@
       "partyType": "Type"
     },
     "standard": {
-      "noRecordsForSelection":"No records for current selection",
+      "noRecordsForSelection": "No records for current selection",
       "noPatchFound": "No patch found"
     }
   },
@@ -123,6 +123,11 @@
     "DR": "Dr.",
     "label": "Add Doctor",
     "addSelected": "Add Selected ",
-    "searchText": "Search Doctors here"
+    "searchText": "Search Doctors here",
+    "close": "close"
+  },
+  "note": {
+    "placeholder": "Add Note here",
+    "title": "9. Anything you would like to take note?"
   }
 }
