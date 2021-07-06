@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
+import * as converter from 'number-to-words';
 import PropTypes from 'prop-types';
 import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
@@ -66,7 +67,6 @@ const PartiesDirectory = ({
    */
   const getMissedCountTitle = () => {
     let adhocCallTitle = '';
-    const date_words = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
     if (visits && Array.isArray(visits) && visits.length > 1) {
       const month = returnUTCtoLocal(visits[0].date, 'MMM');
       const adhocCallDates = (visits || []).reduce(
@@ -84,7 +84,7 @@ const PartiesDirectory = ({
 
       if (adhocCallDates && adhocCallDates !== '') {
         adhocCallTitle = translate('tourPlan.monthly.missedCount', {
-          count: date_words[visits.length - 1],
+          count: capitalize(converter.toWords(visits.length)),
           dates: `${adhocCallDates} ${month}`,
         });
       }
