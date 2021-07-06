@@ -180,9 +180,13 @@ const EDetailing = ({navigation, route}) => {
       <View style={styles.swapMain} key={item.motherBrandId}>
         <Product
           title={item.name}
+          style={item.isFeatured ? styles.featuredProduct : undefined}
+          productTitleStyle={
+            item.isFeatured ? styles.featuredProductTitle : undefined
+          }
           isChecked={(() =>
             selectedPriorityMotherBrands[item.motherBrandId] || false)()}
-          tags={[`P${item.priority}`]}
+          tags={item.priority > 0 ? [`P${item.priority}`] : []}
           onProductClick={() => {
             setCurrentProduct(item);
             setShowModal(true);

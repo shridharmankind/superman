@@ -205,7 +205,7 @@ const Presentation = ({route, navigation}) => {
             mode="contained"
             contentStyle={styles.eDetailingStartContent}
             labelStyle={styles.eDetailingStartText}
-            // disabled={isInvalid()}
+            disabled={isInvalid()}
             onPress={() => {
               updateContent(modalContent);
             }}
@@ -215,12 +215,11 @@ const Presentation = ({route, navigation}) => {
     );
   };
 
-  /**
-   * Update selected content
-   *
-   * @param {object} mutatedContent
-   */
-  const updateContent = mutatedContent => {
+  const isInvalid = () => {
+    return getSelectedSlideCount(modalContent) === 0;
+  };
+
+  const getSelectedSlideCount = mutatedContent => {
     let selectedSlideCount = 0;
     const content = mutatedContent;
     for (const prod of content.priority) {
@@ -235,6 +234,17 @@ const Presentation = ({route, navigation}) => {
       ).length;
       selectedSlideCount += selectedCount;
     }
+    return selectedSlideCount;
+  };
+
+  /**
+   * Update selected content
+   *
+   * @param {object} mutatedContent
+   */
+  const updateContent = mutatedContent => {
+    const selectedSlideCount = getSelectedSlideCount(mutatedContent);
+    const content = mutatedContent;
     if (selectedSlideCount === 0) {
       showToast({
         type: Constants.TOAST_TYPES.ALERT,
@@ -284,6 +294,43 @@ const Presentation = ({route, navigation}) => {
       ...slide,
       isSelected,
     };
+    mutatatedItem.isSelected =
+      mutatatedItem.slides.filter(sld => sld.isSelected).length > 0;
+    const mutatedContent = {...modalContent};
+    if (isPriority) {
+      const mutatedList = [...modalContent.priority];
+      mutatedList[itemIndex] = mutatatedItem;
+      mutatedContent.priority = mutatedList;
+    } else {
+      const mutatedList = [...modalContent.other];
+      mutatedList[itemIndex] = mutatatedItem;
+      mutatedContent.other = mutatedList;
+    }
+    return mutatedContent;
+  };
+
+  const selectUnselectItem = (item, itemIndex, isPriority) => {
+    let isSelected = !item.isSelected;
+    if (!isSelected && item.isFeatured) {
+      const selected = item.slides.filter(sld => sld.isSelected).length;
+      if (selected === item.slides.length) {
+        return;
+      } else {
+        isSelected = true;
+      }
+    }
+    const mutatatedItem = {
+      ...item,
+      isSelected,
+    };
+    mutatatedItem.slides = [];
+    for (const slide of item.slides) {
+      const mutatedSlide = {
+        ...slide,
+        isSelected,
+      };
+      mutatatedItem.slides.push(mutatedSlide);
+    }
     const mutatedContent = {...modalContent};
     if (isPriority) {
       const mutatedList = [...modalContent.priority];
@@ -326,6 +373,29 @@ const Presentation = ({route, navigation}) => {
     }
   };
 
+  const renderProductCheck = (index, item, isPriority) => {
+    return (
+      <TouchableOpacity
+        style={[styles.productSlideCheck, styles.itemLeft]}
+        onPress={() => {
+          const mutatedContent = selectUnselectItem(item, index, isPriority);
+          if (!mutatedContent) {
+            return;
+          }
+          setModalContent(mutatedContent);
+        }}>
+        {item.isSelected ? (
+          <Icon
+            name="check-circle"
+            size={35}
+            color={theme.colors.checkCircleBlue}
+          />
+        ) : null}
+        {!item.isSelected ? <View style={[styles.uncheck]} /> : null}
+      </TouchableOpacity>
+    );
+  };
+
   /**
    * render selected slides
    *
@@ -336,57 +406,62 @@ const Presentation = ({route, navigation}) => {
    */
   const renderSlideSelection = (index, item, isPriority) => {
     return (
-      <List.Accordion
-        id={`Sub_${index}`}
-        key={index}
-        title={item.name}
-        titleStyle={[styles.subSectionTitle]}
-        style={[styles.subSection]}>
-        <View style={[styles.subSectionContent]}>
-          {item.slides.map((slide, idx) => {
-            return (
-              <View key={slide.id} style={[styles.productSlide]}>
-                <TouchableOpacity
-                  style={[styles.productSlideCheck]}
-                  onPress={() => {
-                    const mutatedContent = selectUnselectSlide(
-                      item,
-                      slide,
-                      index,
-                      idx,
-                      isPriority,
-                    );
-                    if (!mutatedContent) {
-                      return;
-                    }
-                    setModalContent(mutatedContent);
-                  }}>
-                  {slide.isSelected ? (
-                    <Icon
-                      name="check-circle"
-                      size={35}
-                      color={theme.colors.checkCircleBlue}
+      <View>
+        {renderProductCheck(index, item, isPriority)}
+        <List.Accordion
+          id={`Sub_${index}`}
+          key={index}
+          title={item.name}
+          titleStyle={[styles.subSectionTitle]}
+          style={[styles.subSection]}>
+          <View style={[styles.subSectionContent]}>
+            {item.slides.map((slide, idx) => {
+              return (
+                <View key={slide.id} style={[styles.productSlide]}>
+                  <TouchableOpacity
+                    style={[styles.productSlideCheck]}
+                    onPress={() => {
+                      const mutatedContent = selectUnselectSlide(
+                        item,
+                        slide,
+                        index,
+                        idx,
+                        isPriority,
+                      );
+                      if (!mutatedContent) {
+                        return;
+                      }
+                      setModalContent(mutatedContent);
+                    }}>
+                    {slide.isSelected ? (
+                      <Icon
+                        name="check-circle"
+                        size={35}
+                        color={theme.colors.checkCircleBlue}
+                      />
+                    ) : null}
+                    {!slide.isSelected ? (
+                      <View style={[styles.uncheck]} />
+                    ) : null}
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      goToSlide(item, slide, index, idx, isPriority)
+                    }>
+                    <Image
+                      style={[
+                        styles.thumbnail,
+                        slide.isSelected ? styles.thumbnailSelected : undefined,
+                      ]}
+                      source={slide.icon}
                     />
-                  ) : null}
-                  {!slide.isSelected ? <View style={[styles.uncheck]} /> : null}
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    goToSlide(item, slide, index, idx, isPriority)
-                  }>
-                  <Image
-                    style={[
-                      styles.thumbnail,
-                      slide.isSelected ? styles.thumbnailSelected : undefined,
-                    ]}
-                    source={slide.icon}
-                  />
-                </TouchableOpacity>
-              </View>
-            );
-          })}
-        </View>
-      </List.Accordion>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </View>
+        </List.Accordion>
+      </View>
     );
   };
 
