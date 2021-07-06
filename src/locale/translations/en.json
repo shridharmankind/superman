@@ -92,6 +92,12 @@
   "eDetailing": {
     "modalTitle": "Select Sub-brands",
     "done": "Done",
-    "prodValidation": "Please select atleast one product!"
+    "prodValidation": "Please select atleast one product!",
+    "viewProducts": "View Products",
+    "apply": "translate",
+    "priority": "Priority",
+    "otherProducts": "Other Products",
+    "introduction": "Introduction",
+    "exit": "Exit"
   }
 }

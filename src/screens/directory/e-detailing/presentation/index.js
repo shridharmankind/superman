@@ -1,8 +1,7 @@
 import {PresentationSlide} from 'components/widgets';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
-  Text,
   Dimensions,
   Image,
   TouchableOpacity,
@@ -19,9 +18,16 @@ import {Slide1, Slide2} from 'assets';
 import theme from 'themes';
 import {showToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
+import {translate} from 'locale';
 
 const {width} = Dimensions.get('window');
 
+/**
+ * Mock slide content
+ *
+ * @param {number} index
+ * @return {Object} Slide
+ */
 const getIcon = index => {
   return (index + 1) % 2 === 0 ? Slide2 : Slide1;
 };
@@ -48,6 +54,13 @@ const getSlideContent = (product, isPriority) => {
   return content;
 };
 
+/**
+ * get selected slides
+ *
+ * @param {Array} selectedPriority
+ * @param {Array} selectedOther
+ * @return {Array} slides
+ */
 const getSelectedProdSlides = (selectedPriority, selectedOther) => {
   let data = [];
   for (const product of selectedPriority) {
@@ -69,6 +82,12 @@ const getSelectedProdSlides = (selectedPriority, selectedOther) => {
   return data;
 };
 
+/**
+ * Filter selected slides
+ *
+ * @param {Array} slideList
+ * @return {Array} filtered slides
+ */
 const getSelectedSlides = slideList => {
   const list = [];
   for (const slide of slideList) {
@@ -79,6 +98,12 @@ const getSelectedSlides = slideList => {
   return list;
 };
 
+/**
+ * Presentation Component
+ *
+ * @param {Object} {route, navigation}
+ * @return {JSX} Presentation
+ */
 const Presentation = ({route, navigation}) => {
   const [selectedPriority, setSelectedPriority] = useState([]);
   const [selectedOther, setSelectedOther] = useState([]);
@@ -134,6 +159,11 @@ const Presentation = ({route, navigation}) => {
     );
   };
 
+  /**
+   * Handle slide change
+   *
+   * @param {Object} {index, prevIndex}
+   */
   const handleSlideChange = ({index, prevIndex}) => {
     const seconds = dayjs(new Date()).diff(
       dayjs(currentSlideLoadTime),
@@ -164,14 +194,14 @@ const Presentation = ({route, navigation}) => {
           <Label
             testID="eDetail-modal-title"
             variant={LabelVariant.h3}
-            title="View Products"
+            title={translate('eDetailing.viewProducts')}
             style={styles.modalTitleText}
           />
         </View>
         <View style={[styles.titleCol, styles.modalTitleDone]}>
           <Button
             testID="eDetail-apply"
-            title="Apply"
+            title={translate('eDetailing.apply')}
             mode="contained"
             contentStyle={styles.eDetailingStartContent}
             labelStyle={styles.eDetailingStartText}
@@ -185,6 +215,11 @@ const Presentation = ({route, navigation}) => {
     );
   };
 
+  /**
+   * Update selected content
+   *
+   * @param {object} mutatedContent
+   */
   const updateContent = mutatedContent => {
     let selectedSlideCount = 0;
     const content = mutatedContent;
@@ -215,6 +250,16 @@ const Presentation = ({route, navigation}) => {
     closeMenu();
   };
 
+  /**
+   * select unselect slide on change
+   *
+   * @param {object} item
+   * @param {object} slide
+   * @param {number} itemIndex
+   * @param {slideIndex} slideIndex
+   * @param {boolean} isPriority
+   * @return {object} mutated list
+   */
   const selectUnselectSlide = (
     item,
     slide,
@@ -252,6 +297,15 @@ const Presentation = ({route, navigation}) => {
     return mutatedContent;
   };
 
+  /**
+   * Go to slide
+   *
+   * @param {Object} item
+   * @param {Object} slide
+   * @param {number} itemIndex
+   * @param {number} slideIndex
+   * @param {boolean} isPriority
+   */
   const goToSlide = (item, slide, itemIndex, slideIndex, isPriority) => {
     if (!slide.isSelected) {
       const mutatedContent = selectUnselectSlide(
@@ -272,6 +326,14 @@ const Presentation = ({route, navigation}) => {
     }
   };
 
+  /**
+   * render selected slides
+   *
+   * @param {number} index
+   * @param {object} item
+   * @param {boolean} isPriority
+   * @return {JSX} Slide list
+   */
   const renderSlideSelection = (index, item, isPriority) => {
     return (
       <List.Accordion
@@ -338,7 +400,7 @@ const Presentation = ({route, navigation}) => {
       <ScrollView style={[styles.modalContent]}>
         {modalContent.priority?.length > 0 ? (
           <List.Accordion
-            title="Priority"
+            title={translate('eDetailing.priority')}
             id="1"
             titleStyle={[styles.mainSectionTitle]}
             style={[styles.mainSection]}>
@@ -349,7 +411,7 @@ const Presentation = ({route, navigation}) => {
         ) : null}
         {modalContent.other?.length > 0 ? (
           <List.Accordion
-            title="Other Products"
+            title={translate('eDetailing.otherProducts')}
             titleStyle={[styles.mainSectionTitle]}
             style={[styles.mainSection]}
             id="2">
@@ -372,7 +434,6 @@ const Presentation = ({route, navigation}) => {
       <Modal
         animationType="fade"
         open={showModal}
-        // onClose={closeModal}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
         presentationStyle="fullScreen"
@@ -382,6 +443,10 @@ const Presentation = ({route, navigation}) => {
     );
   };
 
+  /**
+   * Open menu
+   *
+   */
   const openMenu = () => {
     setModalContent({
       priority: cloneDeep(selectedPriority),
@@ -390,6 +455,10 @@ const Presentation = ({route, navigation}) => {
     setShowModal(true);
   };
 
+  /**
+   * Close menu
+   *
+   */
   const closeMenu = () => {
     setShowModal(false);
   };
@@ -401,13 +470,13 @@ const Presentation = ({route, navigation}) => {
           <Label
             testID="eDetail-title"
             variant={LabelVariant.h2}
-            title="Introduction"
+            title={translate('eDetailing.introduction')}
           />
         </View>
         <View style={[styles.exitAction]}>
           <Button
             testID="eDetail-end-presentation"
-            title="Exit"
+            title={translate('eDetailing.exit')}
             mode="contained"
             contentStyle={styles.exitActionContent}
             labelStyle={styles.exitActionText}

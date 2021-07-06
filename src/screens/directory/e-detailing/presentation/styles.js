@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     width: 48.3,
     height: 48.3,
     borderRadius: 6.7,
-    padding: 10,
+    padding: theme.spacing(10),
     paddingHorizontal: 12,
     position: 'absolute',
     bottom: 10,
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
   },
   subSectionContent: {
     paddingVertical: theme.spacing(16),
-    maxHeight: 300,
   },
   thumbnail: {
     width: 200,
