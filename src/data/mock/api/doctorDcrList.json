@@ -1,377 +1,377 @@
 [
-    {
-      "id": 10,
-      "name": "KAMAL CHAND",
-      "specialities": [],
-      "qualifications": [
-        {
-          "id": 1,
-          "name": "MBBS.MS.DNB(ANES)",
-          "shortName": "Cardio",
-          "divisions": [
-            {
-              "id": 2,
-              "name": "MANKIND",
-              "shortName": "MNK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 6,
-              "name": "SPECIAL MANKIND",
-              "shortName": "SMK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 3,
-              "name": "DISCOVERY",
-              "shortName": "DSK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        },
-        {
-          "id": 3,
-          "name": "MBBS.MS(ENT)",
-          "shortName": "M.ENT",
-          "divisions": [
-            {
-              "id": 2,
-              "name": "MANKIND",
-              "shortName": "MNK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "frequency": 2,
-      "alreadyVisited": 2,
-      "partyTypes": {
+  {
+    "id": 10,
+    "name": "KAMAL CHAND",
+    "specialities": [],
+    "qualifications": [
+      {
+        "id": 1,
+        "name": "MBBS.MS.DNB(ANES)",
+        "shortName": "Cardio",
+        "divisions": [
+          {
+            "id": 2,
+            "name": "MANKIND",
+            "shortName": "MNK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 6,
+            "name": "SPECIAL MANKIND",
+            "shortName": "SMK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 3,
+            "name": "DISCOVERY",
+            "shortName": "DSK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "MBBS.MS(ENT)",
+        "shortName": "M.ENT",
+        "divisions": [
+          {
+            "id": 2,
+            "name": "MANKIND",
+            "shortName": "MNK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "frequency": 2,
+    "alreadyVisited": 2,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
         "id": 1,
         "name": "Doctor",
-        "shortName": "Doc",
-        "partyTypeGroup": {
-          "id": 1,
-          "name": "Doctor",
-          "shortName": "Doctor"
-        }
-      },
-      "category": "A+",
-      "potential": 6000000,
-      "isKyc": true,
-      "isCampaign": false,
-      "areas": [
-        {
-          "id": 1,
-          "name": "Noida Sector 1",
-          "shortName": "Sec 1"
-        },
-        {
-          "id": 2,
-          "name": "Noida Sector 2",
-          "shortName": "Sec 2"
-        }
-      ],
-      "shortName": null,
-      "birthday": null,
-      "anniversary": null,
-      "engagement": null,
-      "selfDispensing": false,
-      "gender": "F",
-      "partyTypeId": 1
+        "shortName": "Doctor"
+      }
     },
-    {
-      "id": 11,
-      "name": "ANAND SINGH",
-      "specialities": [
-        {
-          "id": 2,
-          "name": "ORTHOPAEDIC",
-          "shortName": "Ortho",
-          "divisions": [
-            {
-              "id": 2,
-              "name": "MANKIND",
-              "shortName": "MNK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 3,
-              "name": "DISCOVERY",
-              "shortName": "DSK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "qualifications": [
-        {
-          "id": 3,
-          "name": "MBBS.MS(ENT)",
-          "shortName": "M.ENT",
-          "divisions": [
-            {
-              "id": 2,
-              "name": "MANKIND",
-              "shortName": "MNK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "frequency": 3,
-      "alreadyVisited": 1,
-      "partyTypes": {
+    "category": "A+",
+    "potential": 6000000,
+    "isKyc": true,
+    "isCampaign": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Noida Sector 1",
+        "shortName": "Sec 1"
+      },
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "gender": "F",
+    "partyTypeId": 1
+  },
+  {
+    "id": 11,
+    "name": "ANAND SINGH",
+    "specialities": [
+      {
+        "id": 2,
+        "name": "ORTHOPAEDIC",
+        "shortName": "Ortho",
+        "divisions": [
+          {
+            "id": 2,
+            "name": "MANKIND",
+            "shortName": "MNK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 3,
+            "name": "DISCOVERY",
+            "shortName": "DSK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "qualifications": [
+      {
+        "id": 3,
+        "name": "MBBS.MS(ENT)",
+        "shortName": "M.ENT",
+        "divisions": [
+          {
+            "id": 2,
+            "name": "MANKIND",
+            "shortName": "MNK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "frequency": 3,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
         "id": 1,
         "name": "Doctor",
-        "shortName": "Doc",
-        "partyTypeGroup": {
-          "id": 1,
-          "name": "Doctor",
-          "shortName": "Doctor"
-        }
-      },
-      "category": "C+",
-      "potential": 360000,
-      "isKyc": false,
-      "isCampaign": false,
-      "areas": [
-        {
-          "id": 2,
-          "name": "Noida Sector 2",
-          "shortName": "Sec 2"
-        }
-      ],
-      "shortName": null,
-      "birthday": null,
-      "anniversary": null,
-      "engagement": null,
-      "selfDispensing": false,
-      "gender": "M",
-      "partyTypeId": 1
+        "shortName": "Doctor"
+      }
     },
-    {
-      "id": 12,
-      "name": "GHULAM MUSTAFA",
-      "specialities": [
-        {
-          "id": 6,
-          "name": "ENT SURGEON",
-          "shortName": "",
-          "divisions": [
-            {
-              "id": 4,
-              "name": "*",
-              "shortName": "STAR",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "qualifications": [],
-      "frequency": 2,
-      "alreadyVisited": 1,
-      "partyTypes": {
+    "category": "C+",
+    "potential": 360000,
+    "isKyc": false,
+    "isCampaign": false,
+    "areas": [
+      {
+        "id": 2,
+        "name": "Noida Sector 2",
+        "shortName": "Sec 2"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "gender": "M",
+    "partyTypeId": 1
+  },
+  {
+    "id": 12,
+    "name": "GHULAM MUSTAFA",
+    "specialities": [
+      {
+        "id": 6,
+        "name": "ENT SURGEON",
+        "shortName": "",
+        "divisions": [
+          {
+            "id": 4,
+            "name": "*",
+            "shortName": "STAR",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "qualifications": [],
+    "frequency": 2,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
         "id": 1,
         "name": "Doctor",
-        "shortName": "Doc",
-        "partyTypeGroup": {
-          "id": 1,
-          "name": "Doctor",
-          "shortName": "Doctor"
-        }
-      },
-      "category": "A+",
-      "potential": 7000000,
-      "isKyc": false,
-      "isCampaign": false,
-      "areas": [
-        {
-          "id": 10,
-          "name": "Noida Sector 9",
-          "shortName": "sec9"
-        }
-      ],
-      "shortName": null,
-      "birthday": null,
-      "anniversary": null,
-      "engagement": null,
-      "selfDispensing": false,
-      "gender": "M",
-      "partyTypeId": 1
+        "shortName": "Doctor"
+      }
     },
-    {
-      "id": 13,
-      "name": "SUBHASH SINGH",
-      "specialities": [
-        {
-          "id": 1,
-          "name": "CARDIOLOGIST",
-          "shortName": "Cardio",
-          "divisions": [
-            {
-              "id": 2,
-              "name": "MANKIND",
-              "shortName": "MNK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 3,
-              "name": "DISCOVERY",
-              "shortName": "DSK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 4,
-              "name": "*",
-              "shortName": "STAR",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 5,
-              "name": "STARMNK",
-              "shortName": "STARMANKIND",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "qualifications": [
-        {
-          "id": 2,
-          "name": "MD",
-          "shortName": "Ortho",
-          "divisions": [
-            {
-              "id": 3,
-              "name": "DISCOVERY",
-              "shortName": "DSK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "frequency": 3,
-      "alreadyVisited": 1,
-      "partyTypes": {
+    "category": "A+",
+    "potential": 7000000,
+    "isKyc": false,
+    "isCampaign": false,
+    "areas": [
+      {
+        "id": 10,
+        "name": "Noida Sector 9",
+        "shortName": "sec9"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "gender": "M",
+    "partyTypeId": 1
+  },
+  {
+    "id": 13,
+    "name": "SUBHASH SINGH",
+    "specialities": [
+      {
+        "id": 1,
+        "name": "CARDIOLOGIST",
+        "shortName": "Cardio",
+        "divisions": [
+          {
+            "id": 2,
+            "name": "MANKIND",
+            "shortName": "MNK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 3,
+            "name": "DISCOVERY",
+            "shortName": "DSK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 4,
+            "name": "*",
+            "shortName": "STAR",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 5,
+            "name": "STARMNK",
+            "shortName": "STARMANKIND",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "qualifications": [
+      {
+        "id": 2,
+        "name": "MD",
+        "shortName": "Ortho",
+        "divisions": [
+          {
+            "id": 3,
+            "name": "DISCOVERY",
+            "shortName": "DSK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "frequency": 3,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
         "id": 1,
         "name": "Doctor",
-        "shortName": "Doc",
-        "partyTypeGroup": {
-          "id": 1,
-          "name": "Doctor",
-          "shortName": "Doctor"
-        }
-      },
-      "category": "C",
-      "potential": 80000,
-      "isKyc": false,
-      "isCampaign": false,
-      "areas": [
-        {
-          "id": 11,
-          "name": "Noida Sector 10",
-          "shortName": "sec10"
-        }
-      ],
-      "shortName": null,
-      "birthday": null,
-      "anniversary": null,
-      "engagement": null,
-      "selfDispensing": false,
-      "gender": "M",
-      "partyTypeId": 1
+        "shortName": "Doctor"
+      }
     },
-    {
-      "id": 15,
-      "name": "DEVENDRA SINGH",
-      "specialities": [
-        {
-          "id": 3,
-          "name": "OPTHALMOLOGIST",
-          "shortName": "Optha",
-          "divisions": [
-            {
-              "id": 2,
-              "name": "MANKIND",
-              "shortName": "MNK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "qualifications": [
-        {
-          "id": 1,
-          "name": "MBBS.MS.DNB(ANES)",
-          "shortName": "Cardio",
-          "divisions": [
-            {
-              "id": 2,
-              "name": "MANKIND",
-              "shortName": "MNK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 6,
-              "name": "SPECIAL MANKIND",
-              "shortName": "SMK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            },
-            {
-              "id": 3,
-              "name": "DISCOVERY",
-              "shortName": "DSK",
-              "maxPatchCount": 30,
-              "kycPartyLimit": null
-            }
-          ]
-        }
-      ],
-      "frequency": 3,
-      "alreadyVisited": 1,
-      "partyTypes": {
+    "category": "C",
+    "potential": 80000,
+    "isKyc": false,
+    "isCampaign": false,
+    "areas": [
+      {
+        "id": 11,
+        "name": "Noida Sector 10",
+        "shortName": "sec10"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "gender": "M",
+    "partyTypeId": 1
+  },
+  {
+    "id": 15,
+    "name": "DEVENDRA SINGH",
+    "specialities": [
+      {
+        "id": 3,
+        "name": "OPTHALMOLOGIST",
+        "shortName": "Optha",
+        "divisions": [
+          {
+            "id": 2,
+            "name": "MANKIND",
+            "shortName": "MNK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "qualifications": [
+      {
+        "id": 1,
+        "name": "MBBS.MS.DNB(ANES)",
+        "shortName": "Cardio",
+        "divisions": [
+          {
+            "id": 2,
+            "name": "MANKIND",
+            "shortName": "MNK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 6,
+            "name": "SPECIAL MANKIND",
+            "shortName": "SMK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          },
+          {
+            "id": 3,
+            "name": "DISCOVERY",
+            "shortName": "DSK",
+            "maxPatchCount": 30,
+            "kycPartyLimit": null
+          }
+        ]
+      }
+    ],
+    "frequency": 3,
+    "alreadyVisited": 1,
+    "partyTypes": {
+      "id": 1,
+      "name": "Doctor",
+      "shortName": "Doc",
+      "partyTypeGroup": {
         "id": 1,
         "name": "Doctor",
-        "shortName": "Doc",
-        "partyTypeGroup": {
-          "id": 1,
-          "name": "Doctor",
-          "shortName": "Doctor"
-        }
-      },
-      "category": "D+",
-      "potential": 40000,
-      "isKyc": false,
-      "isCampaign": false,
-      "areas": [
-        {
-          "id": 1,
-          "name": "Noida Sector 1",
-          "shortName": "Sec 1"
-        }
-      ],
-      "shortName": null,
-      "birthday": null,
-      "anniversary": null,
-      "engagement": null,
-      "selfDispensing": false,
-      "gender": "M",
-      "partyTypeId": 1
-    }
-  ]
+        "shortName": "Doctor"
+      }
+    },
+    "category": "D+",
+    "potential": 40000,
+    "isKyc": false,
+    "isCampaign": false,
+    "areas": [
+      {
+        "id": 1,
+        "name": "Noida Sector 1",
+        "shortName": "Sec 1"
+      }
+    ],
+    "shortName": null,
+    "birthday": null,
+    "anniversary": null,
+    "engagement": null,
+    "selfDispensing": false,
+    "gender": "M",
+    "partyTypeId": 1
+  }
+]
