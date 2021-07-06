@@ -36,6 +36,13 @@ const styles = StyleSheet.create({
     marginHorizontal: theme.spacing(8),
     height: 42,
   },
+  uncheck: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.colors.checkCircleBlue,
+  },
   eDetailingStartText: {
     fontSize: 12,
   },
@@ -96,8 +103,8 @@ const styles = StyleSheet.create({
   },
   mainCheckBox: {
     position: 'absolute',
-    right: 0,
-    top: 0,
+    right: 7,
+    top: 7,
   },
   image: {
     width: 40,
