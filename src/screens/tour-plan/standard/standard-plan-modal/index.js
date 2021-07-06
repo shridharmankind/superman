@@ -1152,11 +1152,12 @@ const StandardPlanModal = ({
             <View style={styles.week}>
               {weekDay !== workingDays[0] && (
                 <TouchableOpacity
+                  style={[styles.swiperArrow, styles.leftArrow]}
                   onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
                   <Icon
                     iconStyle={styles.weekArrow}
                     name="angle-left"
-                    size={24}
+                    size={18}
                   />
                 </TouchableOpacity>
               )}
@@ -1168,11 +1169,12 @@ const StandardPlanModal = ({
               />
               {weekDay !== workingDays[workingDays.length - 1] && (
                 <TouchableOpacity
+                  style={[styles.swiperArrow, styles.rightArrow]}
                   onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
                   <Icon
                     iconStyle={styles.weekArrow}
                     name="angle-right"
-                    size={24}
+                    size={18}
                   />
                 </TouchableOpacity>
               )}

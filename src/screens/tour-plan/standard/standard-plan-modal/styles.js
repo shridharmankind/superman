@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    marginTop: 5,
   },
   weekLabel: {
     color: themes.colors.grey[200],
@@ -170,6 +171,29 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 100,
+  },
+  swiperArrow: {
+    backgroundColor: themes.colors.white,
+    borderColor: themes.colors.blue,
+    borderWidth: 1,
+    borderRadius: 1000,
+    // width: 26,
+    // height: 26,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+    // top: 7,
+  },
+  leftArrow: {
+    // position: 'absolute',
+    // left: 0,
+  },
+  rightArrow: {
+    // position: 'absolute',
+    // right: 0,
   },
 });
 
