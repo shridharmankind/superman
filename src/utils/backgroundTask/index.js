@@ -8,6 +8,7 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import NetInfo from '@react-native-community/netinfo';
 import {store} from '../../App';
 import {fetchStatusSliceActions} from 'reducers';
+import {authTokenActions} from '../../screens/generic/RouteHandler/redux';
 
 export const TASK_NAME = 'BACKGROUND_TASK';
 
@@ -187,6 +188,7 @@ export const showToastieWithButton = (toastieType, message) => {
         hideToast();
       },
       onPressLeftBtn: () => {
+        store.dispatch(authTokenActions.updateScreen({screen: 'Settings'}));
         hideToast();
       },
       onClose: () => hideToast(),
