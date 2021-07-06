@@ -33,3 +33,4 @@ export {default as DoctorFeedback} from './doctorDetails/doctorFeedback';
 export {default as OpenTask} from './doctorDetails/openTask';
 export {default as PriorityProduct} from './priorityProduct';
 export {default as DirectoryLanding} from './landing';
+export {default as Presentation} from './e-detailing/presentation';

@@ -69,7 +69,7 @@ const DoctorFeedback = ({navigation, route}) => {
         }),
       );
     }
-  }, [dispatch, staffPositionId]);
+  }, [dispatch, doctorData?.id, staffPositionId]);
   useEffect(() => {
     if (staffPositionId) {
       dispatch(
@@ -79,7 +79,7 @@ const DoctorFeedback = ({navigation, route}) => {
         }),
       );
     }
-  }, [dispatch, staffPositionId]);
+  }, [dispatch, doctorData?.id, staffPositionId]);
   // dispatching the action
   useEffect(() => {
     dispatch(
