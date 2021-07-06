@@ -43,19 +43,20 @@
         "completed": false,
         "requestQty": 13,
         "thumbnailUrl": "string"
-      }],
-      "infoOpenTasks": [
-        {
-          "taskId": 0,
-          "partyId": 0,
-          "staffPositionId": 0,
-          "taskStatusId": 0,
-          "taskTypeId": 0,
-          "title": "string",
-          "infoDescription": "Share information on clicnical tasks",
-          "completed":false
-        }
-      ]
+      }
+    ],
+    "infoOpenTasks": [
+      {
+        "taskId": 0,
+        "partyId": 0,
+        "staffPositionId": 0,
+        "taskStatusId": 0,
+        "taskTypeId": 0,
+        "title": "string",
+        "infoDescription": "Share information on clicnical tasks",
+        "completed": false
+      }
+    ]
   },
   {
     "partyId": 2,
@@ -101,17 +102,18 @@
         "completed": false,
         "requestQty": 16,
         "thumbnailUrl": "string"
-      }],
-      "infoOpenTasks": [
-        {
-          "taskId": 0,
-          "partyId": 0,
-          "staffPositionId": 0,
-          "taskStatusId": 0,
-          "taskTypeId": 0,
-          "title": "string",
-          "infoDescription": "string"
-        }
-      ]
+      }
+    ],
+    "infoOpenTasks": [
+      {
+        "taskId": 0,
+        "partyId": 0,
+        "staffPositionId": 0,
+        "taskStatusId": 0,
+        "taskTypeId": 0,
+        "title": "string",
+        "infoDescription": "string"
+      }
+    ]
   }
 ]
