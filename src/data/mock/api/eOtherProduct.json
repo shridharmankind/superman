@@ -2,6 +2,9 @@
   "discussedBrandList": [],
   "brandList": [
     {
+      "motherBrandId": 111,
+      "subBrandId": 0,
+      "skuId": 0,
       "id": 113,
       "eDetailId": 0,
       "name": "Bandy",
@@ -13,7 +16,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": [
+      "subList": [
         {
           "id": 1113,
           "eDetailId": 0,
@@ -26,7 +29,10 @@
           "thumbnailUrl": "",
           "fileUrl": "",
           "isSKU": 0,
-          "subBrandList": null
+          "subList": null,
+          "motherBrandId": 111,
+          "subBrandId": 1,
+          "skuId": 0
         },
         {
           "id": 1112,
@@ -40,7 +46,10 @@
           "thumbnailUrl": "",
           "fileUrl": "",
           "isSKU": 1,
-          "subBrandList": null
+          "subList": null,
+          "motherBrandId": 111,
+          "subBrandId": 1,
+          "skuId": 1
         },
         {
           "id": 1111,
@@ -54,7 +63,10 @@
           "thumbnailUrl": "",
           "fileUrl": "",
           "isSKU": 1,
-          "subBrandList": null
+          "subList": null,
+          "motherBrandId": 111,
+          "subBrandId": 1,
+          "skuId": 2
         }
       ]
     },
@@ -70,7 +82,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": [
+      "subList": [
         {
           "id": 11113,
           "eDetailId": 0,
@@ -83,7 +95,7 @@
           "thumbnailUrl": "",
           "fileUrl": "",
           "isSKU": 0,
-          "subBrandList": null
+          "subList": null
         },
         {
           "id": 11112,
@@ -97,7 +109,7 @@
           "thumbnailUrl": "",
           "fileUrl": "",
           "isSKU": 1,
-          "subBrandList": null
+          "subList": null
         }
       ]
     },
@@ -113,7 +125,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subList": []
     },
     {
       "id": 116,
@@ -127,7 +139,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subList": []
     },
     {
       "id": 117,
@@ -141,7 +153,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subList": []
     },
     {
       "id": 118,
@@ -155,7 +167,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subList": []
     },
     {
       "id": 119,
@@ -169,7 +181,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subList": []
     },
     {
       "id": 111,
@@ -183,7 +195,7 @@
       "thumbnailUrl": "",
       "fileUrl": "",
       "isSKU": 0,
-      "subBrandList": []
+      "subList": []
     }
   ]
 }
