@@ -14,6 +14,7 @@ const API_PATHS = {
   GET_DOCTOR_LIST: '/party/partybyspid',
   GET_EDETAILED_LIST: '/edetailing/listforparties',
   TOUR_PLAN_STATUS: 'stp/tourplan/status',
+  SWAP: 'mtp/staffPositionId/patch/swap',
 };
 
 export default API_PATHS;
