@@ -52,7 +52,7 @@ function* fetchOtherList(action) {
   try {
     const apiUrl = `${
       API_PATH.GET_EDETAILING_PRODUCT
-    }?StaffPositionId=${staffPositionId}PartyId=${partyId}&Skip=${0}&Limit=${0}`;
+    }?StaffPositionId=${staffPositionId}&PartyId=${partyId}&Skip=${0}&Limit=${0}`;
     const response = yield call(NetworkService.get, apiUrl);
 
     yield put(

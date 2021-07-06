@@ -118,10 +118,7 @@ const EDetailingDCR = ({}) => {
       <View>
         <Label
           variant={LabelVariant.subtitleLarge}
-          style={[
-            styles.discussList,
-            item.isFeatured ? styles.eDetailed : styles.eDetailedNonFeature,
-          ]}
+          style={[styles.discussList, styles.eDetailed]}
           title={item.name}
         />
       </View>
@@ -240,7 +237,7 @@ const EDetailingDCR = ({}) => {
           />
         </View>
         <View style={styles.virtualList}>
-          {scrollOffset > 0 && (
+          {scrollOffset > 0 && eDetailedList.length > 5 && (
             <View style={[styles.arrowContainer, styles.leftArrow]}>
               <TouchableOpacity onPress={() => handleOtherAreaLeftArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -258,7 +255,7 @@ const EDetailingDCR = ({}) => {
             showsHorizontalScrollIndicator={false}>
             {renderEdetailedProduct()}
           </ScrollView>
-          {!hideEdtailRightArrow && (
+          {!hideEdtailRightArrow && eDetailedList.length > 5 && (
             <View style={[styles.arrowContainer, styles.rightArrow]}>
               <TouchableOpacity onPress={() => handleAreaRightArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -312,7 +309,7 @@ const EDetailingDCR = ({}) => {
           />
         </View>
         <View style={styles.virtualList}>
-          {scrollOtherOffset > 0 && (
+          {scrollOtherOffset > 0 && otherProduct.length > 5 && (
             <View style={[styles.arrowContainer, styles.leftArrow]}>
               <TouchableOpacity onPress={() => handleAreaLeftArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -330,7 +327,7 @@ const EDetailingDCR = ({}) => {
             showsHorizontalScrollIndicator={false}>
             {renderOtherProduct()}
           </ScrollView>
-          {!hideOtherRightArrow && (
+          {!hideOtherRightArrow && otherProduct.length > 5 && (
             <View style={[styles.arrowContainer, styles.rightArrow]}>
               <TouchableOpacity onPress={() => handleOtherAreaRightArrow()}>
                 <View style={[styles.swiperArrow]}>
