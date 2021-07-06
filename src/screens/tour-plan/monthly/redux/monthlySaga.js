@@ -5,12 +5,14 @@ import {
   fetchWorkingDayCreatorType,
   fetchSTPStatusCreatorType,
   submitSTPCreatorType,
+  swapCreatorType,
   fetchMTPCalendarUpdateCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
 import {NetworkService} from 'services';
 import {API_PATH} from 'screens/tourPlan/apiPath';
 import API_PATHS from 'services/network/apiPaths';
+import {getDateIntoObject} from 'utils/dateTimeHelper';
 /**
  * saga watcher to fetch the doctor detail
  */
@@ -28,6 +30,10 @@ export function* fetchSTPStatusWatcher() {
 
 export function* submitSTPWatcher() {
   yield takeEvery(submitSTPCreatorType, submitSTPWorker);
+}
+
+export function* setSwapWatcher() {
+  yield takeEvery(swapCreatorType, swapWorker);
 }
 
 /**
@@ -90,11 +96,7 @@ export function* fetchSTPStatusWorker(action) {
   };
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
-  let url = API_PATH.STP_STATUS;
-  url = url.replace(
-    /\b(?:staffPositionId|year)\b/gi,
-    matched => valueMap[matched],
-  );
+  const url = `${API_PATHS.TOUR_PLAN_STATUS}/${staffPositionId}`;
 
   try {
     const response = yield call(NetworkService.get, url);
@@ -141,10 +143,13 @@ export function* updateMTPCalendarWorker(action) {
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   const valueMap = {
     staffPositionId,
-    month,
+    monthVal: month,
   };
   let url = API_PATHS.MTP_ROLLOVER;
-  url = url.replace(/\b(?:staffpositionId)\b/gi, matched => valueMap[matched]);
+  url = url.replace(
+    /\b(?:staffpositionId|monthVal)\b/gi,
+    matched => valueMap[matched],
+  );
   try {
     const response = yield call(NetworkService.get, url);
     if (response.data.error || response.status !== 200) {
@@ -160,12 +165,40 @@ export function* updateMTPCalendarWorker(action) {
       yield put(
         monthlyActions.MTPCalendarUpdate({
           mtpData: {
-            data: response.data,
+            data: response?.data?.map(item => {
+              return {
+                ...item,
+
+                date: getDateIntoObject(item?.dated),
+              };
+            }),
             error: null,
           },
         }),
       );
     }
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+export function* swapWorker(action) {
+  const {staffPositionId, obj} = action.payload;
+  const valueMap = {
+    staffPositionId: staffPositionId,
+  };
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  let url = API_PATHS.SWAP;
+  url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
+  try {
+    const response = yield call(NetworkService.put, url, obj);
+    yield put(
+      monthlyActions.setSwap({
+        setSwap: response.data,
+      }),
+    );
+
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));

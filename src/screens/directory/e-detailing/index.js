@@ -8,7 +8,6 @@ import styles from './styles';
 import {TouchableOpacity, View, VirtualizedList} from 'react-native';
 import {Strings, Constants} from 'common';
 import {ArrowBack} from 'assets';
-import {isWeb} from 'helper';
 import theme from 'themes';
 import {API_PATH} from 'screens/directory/apiPath';
 import {NetworkService} from 'services';
@@ -22,43 +21,7 @@ import {
 } from './redux';
 import {Product} from 'components/widgets';
 import {translate} from 'locale';
-
-/**
- * Render header
- *
- * @param {Object} {navigation}
- */
-const renderHeader = ({navigation, docData}) => (
-  <View style={[styles.eDetailingHead]}>
-    <View style={[styles.eDetailingHeadCol]}>
-      {isWeb() ? null : (
-        <TouchableOpacity
-          testID="eDetail-back"
-          style={styles.eDetailingHeadBack}
-          onPress={() => navigation.goBack()}>
-          <ArrowBack width={24} height={24} />
-        </TouchableOpacity>
-      )}
-    </View>
-    <View style={[styles.eDetailingHeadCol]}>
-      <Label
-        testID="eDetail-title"
-        variant={LabelVariant.h2}
-        title={Strings.eDetailing}
-      />
-    </View>
-    <View style={[styles.eDetailingStart]}>
-      <Button
-        testID="eDetail-start-presentation"
-        title={Strings.startPresentation}
-        mode="contained"
-        contentStyle={styles.eDetailingStartContent}
-        labelStyle={styles.eDetailingStartText}
-        onPress={() => startPresentation(docData)}
-      />
-    </View>
-  </View>
-);
+import {ROUTE_PRESENTATION} from '../../../navigations/routes';
 
 /**
  * E detailing component
@@ -125,6 +88,41 @@ const EDetailing = ({navigation, route}) => {
   );
 
   const otherProductList = useSelector(eDetailingSelector.getOtherProduct());
+
+  /**
+   * Render header
+   *
+   * @param {Object} {navigation}
+   */
+  const renderHeader = () => (
+    <View style={[styles.eDetailingHead]}>
+      <View style={[styles.eDetailingHeadCol]}>
+        <TouchableOpacity
+          testID="eDetail-back"
+          style={styles.eDetailingHeadBack}
+          onPress={() => navigation.goBack()}>
+          <ArrowBack width={24} height={24} />
+        </TouchableOpacity>
+      </View>
+      <View style={[styles.eDetailingHeadCol]}>
+        <Label
+          testID="eDetail-title"
+          variant={LabelVariant.h2}
+          title={Strings.eDetailing}
+        />
+      </View>
+      <View style={[styles.eDetailingStart]}>
+        <Button
+          testID="eDetail-start-presentation"
+          title={Strings.startPresentation}
+          mode="contained"
+          contentStyle={styles.eDetailingStartContent}
+          labelStyle={styles.eDetailingStartText}
+          onPress={prepareDataForSlides}
+        />
+      </View>
+    </View>
+  );
 
   /**
    * find selected for prority products
@@ -355,14 +353,12 @@ const EDetailing = ({navigation, route}) => {
   const getModalTitle = () => {
     return (
       <View style={styles.modalTitle}>
-        {isWeb() ? null : (
-          <TouchableOpacity
-            testID="eDetail-modal-back"
-            onPress={closeModal}
-            style={[styles.modalTitleBack]}>
-            <ArrowBack width={24} height={24} />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          testID="eDetail-modal-back"
+          onPress={closeModal}
+          style={[styles.modalTitleBack]}>
+          <ArrowBack width={24} height={24} />
+        </TouchableOpacity>
         <Label
           testID="eDetail-modal-title"
           variant={LabelVariant.h2}
@@ -454,8 +450,70 @@ const EDetailing = ({navigation, route}) => {
     closeModal();
   };
 
+  const findSelected = hashMap => {
+    return Object.keys(hashMap).filter(key => hashMap[key]);
+  };
+
+  const isValidOverall = () => {
+    const pSKUs = findSelected(selectedPrioritySKUs).length;
+    const pSub = findSelected(selectedPrioritySubBrands).length;
+    const otherSKUs = findSelected(selectedOtherSKUs).length;
+    const otherSubs = findSelected(selectedOtherSubBrands).length;
+    return pSKUs + pSub + otherSKUs + otherSubs > 0;
+  };
+
+  const prepareDataForSlides = () => {
+    if (!isValidOverall()) {
+      showToast({
+        type: Constants.TOAST_TYPES.ALERT,
+        autoHide: true,
+        props: {
+          heading: translate('eDetailing.prodValidation'),
+        },
+      });
+      return;
+    }
+    const prioritySelection = [];
+    for (const mother of priorityProductList) {
+      if (mother?.subList?.length) {
+        for (const item of mother?.subList) {
+          if (item.skuId > 0 && selectedPrioritySKUs[item.skuId]) {
+            prioritySelection.push({
+              ...item,
+              ...{isFeatured: mother.isFeatured},
+            });
+          } else if (
+            item.subBrandId > 0 &&
+            selectedPrioritySubBrands[item.subBrandId]
+          ) {
+            prioritySelection.push({
+              ...item,
+              ...{isFeatured: mother.isFeatured},
+            });
+          }
+        }
+      }
+    }
+    const otherSelection = [];
+    for (const mother of otherProductList) {
+      if (mother?.subList?.length) {
+        for (const item of mother?.subList) {
+          if (item.skuId > 0 && selectedOtherSKUs[item.skuId]) {
+            otherSelection.push(item);
+          } else if (
+            item.subBrandId > 0 &&
+            selectedOtherSubBrands[item.subBrandId]
+          ) {
+            otherSelection.push(item);
+          }
+        }
+      }
+    }
+    startPresentation(docData, navigation, {prioritySelection, otherSelection});
+  };
+
   return (
-    <ContentWithSidePanel header={renderHeader({navigation, docData})}>
+    <ContentWithSidePanel header={renderHeader()}>
       <View style={[styles.eDetailingPriorityProducts]}>
         <Label
           testID="eDetail-priority-products"
@@ -531,7 +589,7 @@ const EDetailing = ({navigation, route}) => {
 };
 
 // Function to be called on Start Presentation
-const startPresentation = docData => {
+const startPresentation = (docData, navigation, slideData) => {
   if (!!docData && !docData.isScheduledToday) {
     const addDocToDailyPlan = async () => {
       const result = await NetworkService.post(
@@ -548,11 +606,26 @@ const startPresentation = docData => {
             heading: Strings.directory.docAddedTodayPlan,
           },
         });
+        navigation.navigate(ROUTE_PRESENTATION, {
+          data: {
+            staffPositionId: docData.staffPositionId,
+            doctorID: docData.id,
+            slideData,
+          },
+        });
       } else {
         console.log('error', result.statusText);
       }
     };
     addDocToDailyPlan();
+  } else {
+    navigation.navigate(ROUTE_PRESENTATION, {
+      data: {
+        staffPositionId: docData?.staffPositionId,
+        doctorID: docData?.id,
+        slideData,
+      },
+    });
   }
 };
 

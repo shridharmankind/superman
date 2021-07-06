@@ -14,7 +14,7 @@ import {
 import {
   ePriorityProductReducer,
   eOtherProductReducer,
-} from 'screens/directory/e-detailing/redux';
+} from 'screen/eDetailing/redux';
 import {timelineReducer} from 'screens/directory/doc-timeline/redux';
 import {authTokenReducer} from 'screens/generic/RouteHandler/redux';
 import {dcrReducer} from 'screens/directory/doctorDetails/doctorFeedback/redux';
@@ -35,7 +35,6 @@ export const rootReducer = combineReducers({
   timeline: timelineReducer,
   authState: authTokenReducer,
   dcrState: dcrReducer,
-  sampleList: searchSamplesReducer,
 });
 
 export {fetchStatusSliceActions, FetchEnumStatus} from './appSlice';

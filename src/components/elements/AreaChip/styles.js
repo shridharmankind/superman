@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 1000,
-    height: 42,
+    height: 50,
   },
   chip: {
     paddingHorizontal: themes.spacing(24),

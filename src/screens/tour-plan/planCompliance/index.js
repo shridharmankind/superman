@@ -20,6 +20,7 @@ import {
   RULE_KEY,
   ARRAY_OPERATION,
   COMPARISION_TYPE,
+  SUBMIT_STP_PLAN_THRESHOLD_VALUE,
 } from 'screens/tourPlan/constants';
 
 /**
@@ -208,6 +209,18 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   };
 
   /**
+   *  Compare complaince percentage with threshold value
+   * @param {Number} totalPercent
+   * @returns Boolean
+   */
+  const isPlanComplainceCompleted = totalPercent => {
+    const totalPercentValue = Number.isInteger(totalPercent)
+      ? totalPercent
+      : totalPercent?.toFixed(1);
+    return totalPercentValue >= SUBMIT_STP_PLAN_THRESHOLD_VALUE;
+  };
+
+  /**
    *
    * @returns render component when complaince data available
    */
@@ -217,14 +230,14 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
         <View
           style={[
             styles.progressContainer,
-            complianceData?.totalPercent === 100
+            isPlanComplainceCompleted(complianceData?.totalPercent)
               ? styles.completedComplaince
               : styles.inProgressComplaince,
           ]}>
           <Label variant={LabelVariant.h1} style={styles.percentage}>
             {Number.isInteger(complianceData?.totalPercent)
               ? complianceData?.totalPercent
-              : complianceData?.totalPercent?.toFixed(2)}{' '}
+              : complianceData?.totalPercent?.toFixed(1)}{' '}
             %
           </Label>
           <ProgressBar
@@ -249,8 +262,9 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       </View>
     );
   };
-
-  return !complianceData || !Object.values(complianceData)?.length
+  return !complianceData ||
+    !Object.values(complianceData)?.length ||
+    complianceData?.error
     ? null
     : render();
 };

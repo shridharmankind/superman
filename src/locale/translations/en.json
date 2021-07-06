@@ -5,13 +5,19 @@
       "actions": {
         "save": "Save",
         "submitSTP": "Submit STP",
+        "swap": "Swap",
         "addToTodayPlan": "Add to Today's Plan",
         "reviewDCR": "Review DCR"
       },
       "submittedOn": "Submitted on",
       "MTPDueOn": "Due in {{X}} days",
+      "from": "From",
+      "to": "To",
+      "submit": "Submit",
+      "selectDate": "Please select date",
       "adhocCalls": "Adhoc calls: {{data}}",
-      "visitCompleted": "Visit Completed"
+      "visitCompleted": "Visit Completed",
+      "mtpNotSubmitted": "MTP not submitted"
     },
     "daily": {
       "youHave": "You have",
@@ -19,10 +25,12 @@
       "visits": "visits",
       "today": "Today",
       "removeDoctorConfirmation": "Do you want to remove this doctor visit?",
-      "completed": "Completed"
+      "completed": "Completed",
+      "partyName": "Party Name",
+      "partyType": "Type"
     },
     "standard": {
-      "noRecordsForSelection":"No records for current selection",
+      "noRecordsForSelection": "No records for current selection",
       "noPatchFound": "No patch found"
     }
   },
@@ -108,12 +116,30 @@
     "genericMsg": "Something doesn't seem right, please try restarting the application."
   },
   "proceed": "Proceed",
-  "missedCalls": "Missed Calls",
+  "missedCalls": "Missed Calls({{count}})",
   "dayType": {
     "leave": "Leave"
   },
   "eDetailing": {
     "modalTitle": "Select Sub-brands",
-    "done": "Done"
+    "done": "Done",
+    "prodValidation": "Please select atleast one product!",
+    "viewProducts": "View Products",
+    "apply": "translate",
+    "priority": "Priority",
+    "otherProducts": "Other Products",
+    "introduction": "Introduction",
+    "exit": "Exit"
+  },
+  "AddDoctor": {
+    "DR": "Dr.",
+    "label": "Add Doctor",
+    "addSelected": "Add Selected ",
+    "searchText": "Search Doctors here",
+    "close": "close"
+  },
+  "note": {
+    "placeholder": "Add Note here",
+    "title": "9. Anything you would like to take note?"
   }
 }

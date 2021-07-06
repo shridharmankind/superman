@@ -8,43 +8,28 @@ import {TextInput} from 'react-native-paper';
 import {SearchIcon} from 'assets';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {List} from 'react-native-paper';
+import {CloseIcon} from 'assets';
 import {
-  searchSampleSelector,
+  dcrActions,
+  dcrSelector,
   searchSamples,
   selectSamples,
-  searchSamplesActions,
-} from 'screens/directory/doctorDetails/doctorFeedback/sampleRequest/redux';
-import {showToast, hideToast} from 'components/widgets/Toast';
-const SampleRequest = ({index, width}) => {
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
+const SampleOpenTasks = ({index, width}) => {
   const [showModal, setShowModal] = useState(false);
   const [searchKeyword, updateSearch] = useState(null);
-  const [samples, updateSample] = useState([
-    {
-      SKUId: 1,
-      SKUName: 'Amlokind',
-      StockQty: 10,
-      RequestQty: 13,
-      completed: false,
-    },
-    {
-      SKUId: 2,
-      SKUName: 'Amlokind',
-      StockQty: 200,
-      RequestQty: 13,
-      completed: false,
-    },
-  ]);
+  const [selectedDocId, updateSelectedDocId] = useState(null);
+  const [errorMsg, showError] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(searchSamples({staffPositionId: 1, searchKey: 'a'}));
   }, [dispatch, searchKeyword]);
 
-  const querySamples = useSelector(searchSampleSelector.getSamples());
-  const selectedSamples = useSelector(
-    searchSampleSelector.getSelectedSamples(),
-  );
-  console.log(selectedSamples);
+  const querySamples = useSelector(dcrSelector.getSamples());
+  const doctors = useSelector(dcrSelector.getPartyData());
+  const selectedSamples = useSelector(dcrSelector.getSelectedSamples());
 
   const onErrorHandler = () => {
     let sampleImage = require('assets/images/product.png');
@@ -52,34 +37,40 @@ const SampleRequest = ({index, width}) => {
   };
 
   useEffect(() => {
-    dispatch(searchSamplesActions.clearSelectedSamples());
-  }, [dispatch, samples]);
+    dispatch(dcrActions.clearSelectedSamples());
+  }, [dispatch, doctors, showModal]);
 
   // To be called on click of Add Selected button from Modal
   const closeModal = () => {
-    const isAdded = isAlreadyAdded(selectedSamples);
+    const isAdded = isAlreadyAdded(selectedDocId, selectedSamples);
     if (!isAdded) {
       setShowModal(false);
-      updateSample([...samples, ...selectedSamples]);
+      const partyIndex = doctors.findIndex(
+        item => item.partyId === selectedDocId,
+      );
+      let tempSampleArray = [
+        ...doctors[partyIndex].sampleOpenTasks,
+        ...selectedSamples,
+      ];
+
+      let tempDocObj = {...doctors[partyIndex]};
+      tempDocObj.sampleOpenTasks = tempSampleArray;
+      let newArr = [...doctors]; // copying the old datas array
+      newArr[partyIndex] = tempDocObj;
+      dispatch(dcrActions.updateDoctorDetails(newArr));
     } else {
-      // showToast({
-      //   type: Constants.TOAST_TYPES.SUCCESS,
-      //   autoHide: true,
-      //   props: {
-      //     heading: Strings.doctorDetail.dcr.sampleReq.error,
-      //     onClose: () => hideToast(),
-      //   },
-      // });
+      showError('Sample Already exists');
     }
   };
 
   // To check if sample already exists in the list
-  const isAlreadyAdded = selectedSamps => {
-    for (const sample of samples) {
+  const isAlreadyAdded = (docId, selectedSamps) => {
+    const partyIndex = doctors.findIndex(item => item.partyId === docId);
+    for (const sample of doctors[partyIndex].sampleOpenTasks) {
       // const keys1 = Object.keys(sample);
       // const keys2 = Object.keys(selectedSample);
       for (const selected of selectedSamps) {
-        if (sample.SKUId === selected.SKUId) {
+        if (sample.skuId === selected.skuId) {
           return true;
         }
       }
@@ -92,7 +83,7 @@ const SampleRequest = ({index, width}) => {
     if (
       !!selectedSamples &&
       selectedSamples.length > 0 &&
-      selectedSamples.findIndex(ele => ele.SKUId === sample.SKUId) >= 0
+      selectedSamples.findIndex(ele => ele.skuId === sample.skuId) >= 0
     ) {
       return (
         <View style={styles.checkStyling}>
@@ -114,12 +105,27 @@ const SampleRequest = ({index, width}) => {
           variant={LabelVariant.h2}
           title={Strings.doctorDetail.dcr.sampleReq.addSample}
         />
-        <Button
-          title={`${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`}
-          mode="outlined"
-          contentStyle={styles.addSelectedBtn}
-          onPress={closeModal}
-        />
+        <View style={styles.flexRow}>
+          <Button
+            title={
+              selectedSamples.length > 0
+                ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
+                : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
+            }
+            mode="outlined"
+            contentStyle={styles.addSelectedBtn}
+            onPress={closeModal}
+          />
+          <CloseIcon
+            style={styles.closeIcon}
+            width={40}
+            height={40}
+            fill={themes.colors.white}
+            onPress={() => {
+              setShowModal(false), showError(null);
+            }}
+          />
+        </View>
       </View>
     );
   };
@@ -127,7 +133,7 @@ const SampleRequest = ({index, width}) => {
   // To add teh sample from the search Modal
   const selectAndAddSample = sample => {
     const checkIndex = selectedSamples.findIndex(
-      ele => ele.SKUId === sample.SKUId,
+      ele => ele.skuId === sample.skuId,
     );
     if (checkIndex >= 0) {
       let tempArr = [...selectedSamples];
@@ -151,6 +157,30 @@ const SampleRequest = ({index, width}) => {
           />
           <SearchIcon style={styles.searchIcon} height={18} width={18} />
         </View>
+
+        <View style={styles.resultSection}>
+          {selectedSamples.length > 0 && (
+            <View>
+              <Label variant={LabelVariant.h4} title="Selected Samples" />
+              <View style={styles.flexRow}>
+                {selectedSamples.map(sample => {
+                  return (
+                    <TouchableOpacity style={styles.searchSampleStyling}>
+                      <Image
+                        style={styles.searchSampleImageStyle}
+                        source={
+                          sample.imageUrl ? sample.imageUrl : onErrorHandler()
+                        }
+                      />
+                      <Label title={sample.skuName} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+        </View>
+
         <View style={styles.resultSection}>
           {querySamples &&
             querySamples.map(sample => {
@@ -159,24 +189,51 @@ const SampleRequest = ({index, width}) => {
                   style={styles.searchSampleStyling}
                   onPress={() => selectAndAddSample(sample)}>
                   <Image
-                    style={styles.sampleImageStyle}
+                    style={styles.searchSampleImageStyle}
                     source={
                       sample.imageUrl ? sample.imageUrl : onErrorHandler()
                     }
                   />
                   {renderCircle(sample)}
-                  <Label title={sample.SKUName} />
+                  <Label title={sample.skuName} />
                 </TouchableOpacity>
               );
             })}
         </View>
+        {errorMsg && (
+          <View style={styles.toastContainer}>
+            <Label style={styles.errStyling} title={errorMsg} />
+            <CloseIcon
+              style={styles.closeIconToast}
+              width={32}
+              height={32}
+              onPress={() => {
+                showError(null);
+              }}
+            />
+          </View>
+        )}
       </>
     );
   };
 
   // To open the modal on click of Add More link
-  const addSample = () => {
+  const addSample = partyId => {
+    updateSelectedDocId(partyId);
     setShowModal(true);
+  };
+
+  const noSampleHandler = docId => {
+    const checkIndex = doctors.findIndex(item => item.partyId === docId);
+    if (checkIndex >= 0) {
+      let tempObj = {...doctors[checkIndex]};
+      tempObj.noSampleGiven = !doctors[checkIndex].noSampleGiven;
+
+      let tempArray = [...doctors];
+      tempArray[checkIndex] = tempObj;
+
+      dispatch(dcrActions.updateDoctorDetails(tempArray));
+    }
   };
 
   // To render the Modal
@@ -198,35 +255,56 @@ const SampleRequest = ({index, width}) => {
   };
 
   // For decrementing the sample strips
-  const decReq = sample => {
-    sample.actualQty = sample.actualQty - 1;
-    const sampleIndex = samples.findIndex(item => item.SKUId === sample.SKUId);
-    let tempArry = [...samples];
-    tempArry.splice(sampleIndex, 1, sample);
-    updateSample([...tempArry]);
+  const decReq = (docId, sample) => {
+    let tempSamp = {...sample};
+    tempSamp.actualQty = tempSamp.actualQty - 1;
+    const partyIndex = doctors.findIndex(item => item.partyId === docId);
+    const sampleIndex = doctors[partyIndex].sampleOpenTasks.findIndex(
+      item => item.skuId === sample.skuId,
+    );
+    let tempSampleArray = [...doctors[partyIndex].sampleOpenTasks];
+    tempSampleArray.splice(sampleIndex, 1, tempSamp);
+
+    let tempDocObj = {...doctors[partyIndex]};
+    tempDocObj.sampleOpenTasks = tempSampleArray;
+    let newArr = [...doctors]; // copying the old datas array
+    newArr[partyIndex] = tempDocObj;
+
+    dispatch(dcrActions.updateDoctorDetails(newArr));
   };
 
   // For incrementing the sample strips
-  const IncReq = sample => {
+  const IncReq = (docId, sample) => {
     let tempSamp;
     if (sample?.actualQty === undefined) {
       tempSamp = {...sample, actualQty: 0};
       tempSamp.actualQty = tempSamp.actualQty + 1;
-      const sampleIndex = samples.findIndex(
-        item => item.SKUId === sample.SKUId,
+      const partyIndex = doctors.findIndex(item => item.partyId === docId);
+      const sampleIndex = doctors[partyIndex].sampleOpenTasks.findIndex(
+        item => item.skuId === sample.skuId,
       );
-      let tempArry = [...samples];
-      tempArry.splice(sampleIndex, 1, tempSamp);
-      updateSample([...tempArry]);
+      let tempSampleArray = [...doctors[partyIndex].sampleOpenTasks];
+      tempSampleArray.splice(sampleIndex, 1, tempSamp);
+      let tempDocObj = {...doctors[partyIndex]};
+      tempDocObj.sampleOpenTasks = tempSampleArray;
+      let newArr = [...doctors]; // copying the old datas array
+      newArr[partyIndex] = tempDocObj;
+
+      dispatch(dcrActions.updateDoctorDetails(newArr));
     } else {
-      const sampleIndex = samples.findIndex(
-        item => item.SKUId === sample.SKUId,
-      );
       tempSamp = {...sample};
       tempSamp.actualQty = tempSamp.actualQty + 1;
-      let tempArry = [...samples];
-      tempArry.splice(sampleIndex, 1, tempSamp);
-      updateSample([...tempArry]);
+      const partyIndex = doctors.findIndex(item => item.partyId === docId);
+      const sampleIndex = doctors[partyIndex].sampleOpenTasks.findIndex(
+        item => item.skuId === sample.skuId,
+      );
+      let tempSampleArray = [...doctors[partyIndex].sampleOpenTasks];
+      tempSampleArray.splice(sampleIndex, 1, tempSamp);
+      let tempDocObj = {...doctors[partyIndex]};
+      tempDocObj.sampleOpenTasks = tempSampleArray;
+      let newArr = [...doctors]; // copying the old datas array
+      newArr[partyIndex] = tempDocObj;
+      dispatch(dcrActions.updateDoctorDetails(newArr));
     }
   };
 
@@ -234,24 +312,15 @@ const SampleRequest = ({index, width}) => {
 
   // }
 
-  return (
-    <View style={[{width: width - 300}, styles.slideStyle]}>
-      <View style={styles.questionSection}>
-        <Text style={styles.question}>
-          <Text style={{fontFamily: themes.fonts.fontBold}}>{index + 1}.</Text>
-          {`${Strings.doctorDetail.dcr.sampleReq.question.leftPart} `}
-          <Text style={{fontFamily: themes.fonts.fontBold}}>
-            {`${Strings.doctorDetail.dcr.sampleReq.question.midPart} `}
-          </Text>
-          {`${Strings.doctorDetail.dcr.sampleReq.question.rightPart}`}
-        </Text>
-      </View>
-      <View style={styles.answerSection}>
+  // To render the specific data related to specific doctor
+  const renderSamples = (docId, sampleOpenTaskArray) => {
+    return (
+      <View style={styles.sampleListContainer}>
         <FlatList
           nestedScrollEnabled
-          keyExtractor={item => item.SKUId}
+          keyExtractor={item => item.skuId}
           contentContainerStyle={styles.scrollPad}
-          data={samples}
+          data={sampleOpenTaskArray}
           renderItem={({item}) => {
             return (
               <View
@@ -262,11 +331,11 @@ const SampleRequest = ({index, width}) => {
                 }>
                 <View style={styles.leftAlign}>
                   <Image
-                    style={styles.sampleImageStyle}
+                    style={styles.rowSampleStyle}
                     source={item.imageUrl ? item.imageUrl : onErrorHandler()}
                   />
                   <Label
-                    title={item.SKUName}
+                    title={item.skuName}
                     style={
                       item.completed === false
                         ? styles.highLightRowText
@@ -274,10 +343,10 @@ const SampleRequest = ({index, width}) => {
                     }
                   />
                 </View>
-                {item.RequestQty && (
+                {item.requestQty && (
                   <View>
                     <Label
-                      title={`Reuest Qty : ${item.RequestQty}`}
+                      title={`Requested Qty : ${item.requestQty}`}
                       style={
                         item.completed === false
                           ? styles.highLightRowText
@@ -290,7 +359,7 @@ const SampleRequest = ({index, width}) => {
                 <View style={styles.rightAlign}>
                   <View style={styles.stockData}>
                     <Label
-                      title={`${item?.actualQty || 0} Strips`}
+                      title={`Provided Qty :${item?.actualQty || 0} Strips`}
                       style={
                         item.completed === false
                           ? styles.highLightRowText
@@ -314,7 +383,7 @@ const SampleRequest = ({index, width}) => {
                         ? styles.highLightBtnStyle
                         : styles.btnStyle
                     }
-                    onPress={() => decReq(item)}
+                    onPress={() => decReq(docId, item)}
                     disabled={item?.actualQty ? false : true}
                   />
                   <Button
@@ -325,7 +394,7 @@ const SampleRequest = ({index, width}) => {
                         ? styles.highLightBtnStyle
                         : styles.btnStyle
                     }
-                    onPress={() => IncReq(item)}
+                    onPress={() => IncReq(docId, item)}
                     disabled={item?.actualQty >= item?.StockQty ? true : false}
                   />
                 </View>
@@ -334,6 +403,12 @@ const SampleRequest = ({index, width}) => {
           }}
         />
       </View>
+    );
+  };
+
+  // Render footer section
+  const renderFooter = partyId => {
+    return (
       <TouchableOpacity style={styles.footerSection}>
         <Label
           style={{
@@ -341,12 +416,78 @@ const SampleRequest = ({index, width}) => {
             fontFamily: themes.fonts.fontSemiBold,
           }}
           title={`+ ${Strings.doctorDetail.dcr.addMore}`}
-          onPress={addSample}
+          onPress={() => addSample(partyId)}
         />
       </TouchableOpacity>
+    );
+  };
+
+  const renderIcon = ind => {
+    if (doctors[ind]?.noSampleGiven) {
+      if (doctors[ind].noSampleGiven === true) {
+        return (
+          <Icon name="check-circle" size={16} color={themes.colors.primary} />
+        );
+      } else {
+        return (
+          <Icon name="check-thin" size={16} color={themes.colors.primary} />
+        );
+      }
+    } else {
+      return (
+        <Icon name="circle-thin" size={16} color={themes.colors.primary} />
+      );
+    }
+  };
+
+  return (
+    <View style={[{width: width - 300}, styles.slideStyle]}>
+      <View style={styles.questionSection}>
+        <Text style={styles.question}>
+          <Text style={{fontFamily: themes.fonts.fontBold}}>{index + 1}.</Text>
+          {` ${Strings.doctorDetail.dcr.sampleReq.question.leftPart} `}
+          <Text style={{fontFamily: themes.fonts.fontBold}}>
+            {`${Strings.doctorDetail.dcr.sampleReq.question.midPart} `}
+          </Text>
+          {`${Strings.doctorDetail.dcr.sampleReq.question.rightPart}`}
+        </Text>
+      </View>
+      {doctors && doctors.length > 0 && (
+        <View style={styles.answerSection}>
+          <List.AccordionGroup>
+            {doctors.map((docObj, ind) => {
+              return (
+                <View>
+                  <View style={styles.noSampleCheck}>
+                    <TouchableOpacity
+                      style={styles.iconStyling}
+                      onPress={() => noSampleHandler(docObj.partyId)}>
+                      {renderIcon(ind)}
+                    </TouchableOpacity>
+                    <Label
+                      title={Strings.doctorDetail.dcr.sampleReq.noSamplesGiven}
+                    />
+                  </View>
+                  <List.Accordion
+                    title={docObj.partyName}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{width: 500}}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    titleStyle={{justifyContent: 'flex-start', fontSize: 18}}
+                    id={docObj.partyId}>
+                    {renderSamples(docObj.partyId, docObj.sampleOpenTasks)}
+                    {renderFooter(docObj.partyId)}
+                  </List.Accordion>
+                </View>
+              );
+            })}
+          </List.AccordionGroup>
+        </View>
+      )}
+
       {renderModal()}
     </View>
   );
 };
 
-export default SampleRequest;
+export default SampleOpenTasks;

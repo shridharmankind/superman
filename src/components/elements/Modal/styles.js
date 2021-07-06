@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   title: {
-    width: '100%',
+    width: '95%',
   },
   close: {
     alignItems: 'flex-end',
