@@ -1,21 +1,23 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './style';
 import themes from 'themes';
 import {Label, LabelVariant} from 'components/elements';
 import {translate} from 'locale';
-import EDetailedList from '../../../../../data/mock/api/eDetailedProduct.json';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ProductModal from '../ProductModal';
-
+import {
+  dcrSelector,
+  dcrActions,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
+import {useSelector, useDispatch} from 'react-redux';
 /**
  * Custom modal component render for eDtailing DCR.
  */
 
 const EDetailingDCR = ({}) => {
-  const [otherProductList, setOtherProductList] = useState(
-    JSON.parse(JSON.stringify(EDetailedList)),
-  );
+  const dispatch = useDispatch();
+  const [otherProductList, setOtherProductList] = useState([]);
   const [discussedList, setDiscussedList] = useState([]);
   const [scrollOffset, setScrollOffset] = useState(0);
   const [scrollDiscussedOffset, setScrollDiscussedOffset] = useState(0);
@@ -28,6 +30,24 @@ const EDetailingDCR = ({}) => {
   const discussproduct = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
+
+  const eDetailedList = useSelector(dcrSelector.getEdtailedList());
+  const otherProductDataList = useSelector(dcrSelector.getOtherProductList());
+  const discussedproductList = useSelector(
+    dcrSelector.getDiscussedProductList(),
+  );
+
+  useEffect(() => {
+    if (otherProductDataList?.length) {
+      setOtherProductList(otherProductDataList);
+    }
+  }, [otherProductDataList]);
+
+  useEffect(() => {
+    if (discussedproductList?.length) {
+      setDiscussedList(discussedproductList);
+    }
+  }, [discussedproductList]);
   const renderArrow = icon => (
     <Icon name={icon} size={10} color={themes.colors.blue} />
   );
@@ -98,14 +118,17 @@ const EDetailingDCR = ({}) => {
       <View>
         <Label
           variant={LabelVariant.subtitleLarge}
-          style={[styles.discussList, item.isFeatured ? styles.eDetailed : '']}
+          style={[
+            styles.discussList,
+            item.isFeatured ? styles.eDetailed : styles.eDetailedNonFeature,
+          ]}
           title={item.name}
         />
       </View>
     );
   };
   const renderEdetailedProduct = () => {
-    return EDetailedList.map(value => {
+    return eDetailedList.map(value => {
       return <View key={value.motherBrandId}>{renderEDetailed(value)}</View>;
     });
   };
@@ -115,20 +138,33 @@ const EDetailingDCR = ({}) => {
   };
 
   const doneHandler = (discussList, motherId, currentList) => {
-    for (let product of otherProductList) {
+    const otherProdctData = [...otherProductList];
+    for (let product of otherProdctData) {
       if (product.motherBrandId === motherId) {
-        for (let subProduct of product.subList) {
+        const subArray = product?.subList;
+        for (let index = 0; index < subArray.length - 1; index++) {
           let findIndex = currentList.findIndex(
-            item => subProduct.name === item.name,
+            item => subArray[index].name === item.name,
           );
           if (findIndex !== -1) {
-            subProduct.isChecked = currentList[findIndex].isChecked;
+            const subObject = {
+              ...subArray[index],
+              isChecked: currentList[findIndex].isChecked,
+            };
+            subArray[index] = {
+              ...subObject,
+            };
           }
         }
       }
     }
-    setOtherProductList([...otherProductList]);
-    setDiscussedList([...discussList]);
+    dispatch(
+      dcrActions.setDiscussedProduct({
+        discussList: discussList,
+      }),
+    );
+    setOtherProductList([...otherProdctData]);
+    //  setDiscussedList([...discussList]);
     setShowModal(false);
   };
   const hideScrollArrow = ({layoutMeasurement, contentOffset, contentSize}) => {

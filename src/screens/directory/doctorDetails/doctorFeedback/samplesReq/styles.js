@@ -150,6 +150,26 @@ const styles = StyleSheet.create({
     top: 5,
     right: 5,
   },
+  closeIcon: {
+    position: 'absolute',
+    top: -30,
+    right: -80,
+    width: 32,
+    height: 32,
+    borderRadius: themes.spacing(26),
+    backgroundColor: themes.colors.primary,
+    shadowColor: themes.colors.black,
+  },
+  sampleListContainer: {
+    maxHeight: 200,
+  },
+  calenderStyling: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    width: 300,
+    zIndex: 200,
+  },
   closeIconToast: {
     width: 32,
     height: 32,
@@ -168,19 +188,6 @@ const styles = StyleSheet.create({
     right: -10,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  closeIcon: {
-    position: 'absolute',
-    top: -30,
-    right: -80,
-    width: 32,
-    height: 32,
-    borderRadius: themes.spacing(26),
-    backgroundColor: themes.colors.primary,
-    shadowColor: themes.colors.black,
-  },
-  sampleListContainer: {
-    maxHeight: 200,
   },
   flexRow: {
     flexDirection: 'row',

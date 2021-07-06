@@ -153,6 +153,14 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
             contentStyle={styles.eDetailingStartContent}
             labelStyle={styles.eDetailingStartText}
           />
+          <Button
+            testID="adddoctor-close"
+            title={translate('AddDoctor.close')}
+            onPress={closeModal}
+            mode="outlined"
+            contentStyle={styles.eDetailingStartContent}
+            labelStyle={styles.eDetailingStartText}
+          />
         </View>
       </View>
     );

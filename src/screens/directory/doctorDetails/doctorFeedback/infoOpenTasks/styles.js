@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     borderColor: themes.colors.primary,
     paddingVertical: themes.spacing(10),
     paddingLeft: themes.spacing(26.7),
+    paddingRight: themes.spacing(26.7),
     marginBottom: themes.spacing(8),
     borderRadius: 4,
   },
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     color: themes.colors.white,
   },
   leftAlign: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   rightAlign: {
     flexDirection: 'row',
@@ -130,14 +131,9 @@ const styles = StyleSheet.create({
   },
   toastContainer: {
     position: 'absolute',
-    top: '10%',
-    left: '50%',
+    top: 0,
+    left: 0,
     zIndex: 100,
-    width: 300,
-    padding: themes.spacing(10),
-    minHeight: 50,
-    backgroundColor: themes.colors.yellow[100],
-    borderRadius: 4,
   },
   noSampleCheck: {
     position: 'absolute',
@@ -150,43 +146,26 @@ const styles = StyleSheet.create({
     top: 5,
     right: 5,
   },
-  closeIconToast: {
-    width: 32,
-    height: 32,
-    borderRadius: themes.spacing(26),
-    backgroundColor: themes.colors.white,
-    shadowColor: themes.colors.black,
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-    elevation: 5,
-    position: 'absolute',
-    top: -10,
-    right: -10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   closeIcon: {
     position: 'absolute',
     top: -30,
-    right: -80,
-    width: 32,
-    height: 32,
-    borderRadius: themes.spacing(26),
-    backgroundColor: themes.colors.primary,
-    shadowColor: themes.colors.black,
+    right: -30,
   },
   sampleListContainer: {
     maxHeight: 200,
   },
-  flexRow: {
+  statusContainer: {
+    width: 46.7,
+    height: 46.7,
+    borderRadius: 4,
+    borderWidth: 0.7,
+    borderColor: themes.colors.primary,
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  errStyling: {
-    color: themes.colors.white,
+  highlightedbkgColor: {
+    backgroundColor: themes.colors.primary,
   },
 });
 
