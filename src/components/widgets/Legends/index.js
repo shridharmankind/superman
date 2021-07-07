@@ -36,7 +36,7 @@ const renderKycVisit = () => (
  */
 const renderScheduleVisits = () => (
   <LegendWrapper
-    title={[legends.visitSchedule]}
+    title={legends.visitSchedule}
     style={[styles.dot, styles.scheduleVisits]}
   />
 );

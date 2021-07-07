@@ -37,6 +37,7 @@ const DoctorFeedback = ({navigation, route}) => {
   const [staffPositionId, setStaffPositionId] = useState(null);
   const [hideRightArrow, toggleRightArrow] = useState(false);
   const [hideLeftArrow, toggleLeftArrow] = useState(true);
+  const [currentSwapIndex, setCurrentIndex] = useState(0);
   // const [disableSwipeGesture, updateSwipeGesture] = useState(false);
   const items = [
     {name: 'question1', key: 1},
@@ -175,7 +176,7 @@ const DoctorFeedback = ({navigation, route}) => {
   );
 
   const handleRightArrow = () => {
-    let currentIndex = swiperRef.current.getCurrentIndex();
+    let currentIndexSwap = swiperRef.current.getCurrentIndex();
     let scrollindex = currentIndex + 1;
     if (scrollindex < items.length) {
       swiperRef.current.scrollToIndex({index: scrollindex});
@@ -198,6 +199,10 @@ const DoctorFeedback = ({navigation, route}) => {
       toggleRightArrow(false);
     }
     swiperRef.current.scrollToIndex({index: scrollindex});
+  };
+
+  const handleSlideChange = ({index, prevIndex}) => {
+    setCurrentIndex(index);
   };
 
   const hideShowRightArrow = show => {
@@ -235,7 +240,7 @@ const DoctorFeedback = ({navigation, route}) => {
           </View>
           <Button
             title={Strings.doctorDetail.dcr.btnDone}
-            disabled={true}
+            disabled={currentSwapIndex !== 7}
             contentStyle={styles.button}
           />
         </View>
@@ -266,6 +271,7 @@ const DoctorFeedback = ({navigation, route}) => {
             style={styles.swiperListStyle}
             renderItem={({index}) => renderSlide(index)}
             disableGesture={true}
+            onChangeIndex={handleSlideChange}
           />
         </View>
       </View>
