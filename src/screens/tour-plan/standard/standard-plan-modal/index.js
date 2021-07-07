@@ -606,13 +606,22 @@ const StandardPlanModal = ({
           actionRightTitle: Strings.no,
           onPressLeftBtn: () => {
             if (code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED) {
+              let pId = errors?.find(
+                err => err.code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED,
+              );
+              pId = pId?.params.partyIds;
+              const updatedPartyList = doctorsSelected?.filter(
+                party => !pId?.some(par => par === party.partyId),
+              );
+              setDoctorsSelected(updatedPartyList);
+              setPatchValue(null);
               handleNoPress(
                 obj,
                 areaSelected,
-                doctorsSelected,
+                updatedPartyList,
                 allParties,
                 patches,
-                false,
+                true,
               );
             } else {
               const isPatchExhausted = errors.some(
@@ -763,7 +772,7 @@ const StandardPlanModal = ({
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
       setIsPatchExist(patchExists);
-
+      hideToast();
       //TO-DO - Will remove this once QA confirmed the flow
       // savePatch({
       //   ...obj,
