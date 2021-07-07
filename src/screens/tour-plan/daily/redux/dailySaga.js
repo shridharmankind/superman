@@ -39,6 +39,8 @@ export function* fetchDoctorDetailWorker(action) {
     matched => valueMap[matched],
   );
 
+  alert(url);
+
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
 
   try {
@@ -72,6 +74,7 @@ export function* fetchDoctorDetailWorker(action) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     console.log(error);
+    alert('error' + JSON.stringify(error));
     yield put(
       doctorDetailActions.deletePartyError({
         doctorDetail: {
