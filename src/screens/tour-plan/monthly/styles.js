@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     color: theme.colors.grey[900],
   },
   tourPlanViewContainer: {
-    marginTop: theme.spacing(15),
+    marginTop: theme.spacing(2),
   },
   stpLegend: {
     paddingLeft: theme.spacing(56),
