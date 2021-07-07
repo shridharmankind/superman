@@ -17,8 +17,11 @@ import {
   MonthlyPlan,
   PartyCategories,
   Schemas,
+  Skus,
   Organizations,
   Divisions,
+  MotherBrands,
+  Weeklyoff,
   Qualifications,
   Specialities,
   ActivityTypes,
@@ -119,6 +122,9 @@ const MasterDataDownload = () => {
             case DBConstants.MASTER_TABLE_USER_INFO:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_WEEKLYOFF:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_PARTY:
               {
                 const staffPositionId = await Helper.getStaffPositionId();
@@ -126,6 +132,9 @@ const MasterDataDownload = () => {
                   `${item.apiPath}${staffPositionId}`,
                 );
               }
+              break;
+            case DBConstants.MASTER_TABLE_SKU:
+              response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
               response = await NetworkService.get(item.apiPath);
@@ -137,6 +146,9 @@ const MasterDataDownload = () => {
               response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.MASTER_TABLE_DIVISION:
+              response = await NetworkService.get(item.apiPath);
+              break;
+            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
               response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.QUALIFICATIONS:
@@ -189,16 +201,32 @@ const MasterDataDownload = () => {
                 const activityTypesUpdated =
                   await ActivityTypes.storeActivityTypes(JSON.parse(data));
                 activityTypesUpdated && updateRecordDownloaded(item.name);
+              case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+                const updatedMotherBrands =
+                  await MotherBrands.storeMotherBrands(JSON.parse(data));
+                updatedMotherBrands && updateRecordDownloaded(item.name);
                 break;
               case DBConstants.MASTER_TABLE_ORGANIZATION:
                 const organizationsUpdated =
                   await Organizations.storeOrganizations(JSON.parse(data));
                 organizationsUpdated && updateRecordDownloaded(item.name);
                 break;
+
+              case DBConstants.MASTER_TABLE_SKU:
+                const skusUpdated = await Skus.storeSkus(JSON.parse(data));
+                skusUpdated && updateRecordDownloaded(item.name);
+                break;
+
               case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
                 const partyCategoriesUpdated =
                   await PartyCategories.storePartyCategories(JSON.parse(data));
                 partyCategoriesUpdated && updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.MASTER_TABLE_WEEKLYOFF:
+                const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
+                  JSON.parse(data),
+                );
+                weeklyresponse && updateRecordDownloaded(item.name);
                 break;
             }
 

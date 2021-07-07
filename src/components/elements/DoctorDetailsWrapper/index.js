@@ -40,6 +40,9 @@ function reducer(state, action) {
  * @param {Boolean} isPatchedData is patched is selected or not passed as Boolean
  * @param {Object} party party information is passed as an object
  * @param {Boolean} isPartyInPatch is party is availble in patch
+ * @param {Boolean} isSameDoctorSelected is same doctore is selected in other area
+ * @param {Boolean} minGap is doctor min gap not met
+ * @param {String} gender M/F passed as string
  */
 
 const DoctorDetailsWrapper = ({
@@ -59,6 +62,9 @@ const DoctorDetailsWrapper = ({
   containerStyle,
   isSameDayPatch,
   isPartyInPatch,
+  isSameDoctorSelected,
+  minGap,
+  gender,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
@@ -70,10 +76,12 @@ const DoctorDetailsWrapper = ({
   });
   const isDisabled =
     (!isSameDayPatch && frequency === alreadyVisited && isPartyInPatch) ||
-    (!isPartyInPatch && frequency <= alreadyVisited);
+    (!isPartyInPatch && frequency <= alreadyVisited) ||
+    isSameDoctorSelected;
   const showTicked =
-    (selected && frequency > alreadyVisited) ||
-    (isSameDayPatch && selected && frequency <= alreadyVisited);
+    ((selected && frequency > alreadyVisited) ||
+      (isSameDayPatch && selected && frequency <= alreadyVisited)) &&
+    !isDisabled;
 
   /**
    *  Select and deselect the card ,also
@@ -96,6 +104,7 @@ const DoctorDetailsWrapper = ({
         dispatchFn({type: 'decrement'});
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
@@ -125,15 +134,16 @@ const DoctorDetailsWrapper = ({
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!isPartyInPatch && frequency <= alreadyVisited && !isSameDayPatch) {
-    return null;
-  }
-
   return (
     <TouchableOpacity
       testID={testID}
-      onPress={() => handleDoctorSelection(!selected)}
-      style={[styles.container, containerStyle, isDisabled && styles.disabled]}
+      onPress={() => !isDisabled && handleDoctorSelection(!selected)}
+      style={[
+        styles.container,
+        containerStyle,
+        isDisabled && styles.disabled,
+        minGap && selected && styles.error,
+      ]}
       disabled={isDisabled}
       activeOpacity={1}>
       <DoctorDetails
@@ -149,6 +159,7 @@ const DoctorDetailsWrapper = ({
         isKyc={isKyc}
         isCampaign={isCampaign}
         onTileNamePress={() => handleDoctorSelection(!selected)}
+        gender={gender}
         {...props}
       />
     </TouchableOpacity>

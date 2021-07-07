@@ -1,0 +1,19 @@
+{
+  "ENVIRONMENT": "QA",
+  "API_HOST": "http://20.198.75.17/api/",
+  "MOCK_REQUESTS": "NO",
+  "API_TIMEOUT": 60000,
+  "oneLogin": {
+    "authority": "https://mankindpharma-sandbox.onelogin.com/oidc/2",
+    "clientID": "49ec86f0-96aa-0139-a9f5-02c2731a1c49186786",
+    "redirectURL": "com.superman://callback",
+    "revokeUrlBase": "https://mankindpharma-sandbox.onelogin.com/oidc/2/logout?post_logout_redirect_uri=",
+    "revokeUrl": "com.superman://callback&id_token_hint=",
+    "web": {
+      "localhostClientID": "4cadc330-b176-0139-61ed-066569480319186786",
+      "clientID": "9dcc6560-9a92-0139-202d-0a8697f39ec7186786",
+      "redirectURL": "/auth",
+      "logoutRedirectURL": "/login"
+    }
+  }
+}

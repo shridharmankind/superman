@@ -12,6 +12,7 @@ export const monthlyTourPlan = {
   stpStatus: null,
   submitSTP: null,
   selectedPlanOption: null,
+  mtpData: {data: null, error: null},
 };
 
 /**
@@ -31,6 +32,15 @@ export const fetchSTPStatusCreatorType = fetchSTPStatusCreator().type;
 // Action Creator and type to submit STP
 export const submitSTPCreator = createAction('SUBMIT_STP');
 export const submitSTPCreatorType = submitSTPCreator().type;
+
+// Action Creator and type to swap
+export const swapCreator = createAction('SWAP');
+export const swapCreatorType = swapCreator().type;
+
+// Action Creator and type for MTP Update
+export const fetchMTPCalendarUpdateCreator = createAction('MTP_UPDATE_CREATOR');
+export const fetchMTPCalendarUpdateCreatorType =
+  fetchMTPCalendarUpdateCreator().type;
 
 /**
  *  create subordinate slice defining the intial state, reducers
@@ -58,6 +68,25 @@ export const getMonthlySlice = createSlice({
           ...state.submitSTP,
           messageShown: action.payload,
         },
+      };
+    },
+    setSwap: (state, action) => merge(state, action.payload),
+    resetSwap: state => {
+      return {
+        ...state,
+        setSwap: null,
+      };
+    },
+    MTPCalendarUpdate: (state, action) => {
+      return {
+        ...state,
+        mtpData: action.payload.mtpData,
+      };
+    },
+    resetMtpData: state => {
+      return {
+        ...state,
+        mtpData: null,
       };
     },
   },

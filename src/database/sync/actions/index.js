@@ -4,18 +4,9 @@ import * as Helper from '../../helper';
 import * as Operations from '../../operations';
 import * as SyncOperations from './../operations';
 import {NetworkService} from 'services';
-import {Constants} from 'common';
-import {getOnDemandSyncStatus} from 'utils/backgroundTask';
 import {getSyncTaskList} from './../commonSyncMethods';
 
 const syncDifference = 1; // minutes
-/**
- * In this list we mention all the Schema's Name for which we want to run the Sync activity.
- */
-// const SYNC_TASK_LIST = [
-//   DBConstants.MASTER_TABLE_PARTY, //partyMaster Table
-//   DBConstants.MASTER_MONTHLY_TABLE_PLAN, //monthlyMaster Table
-// ];
 
 export const checkMinimumTimeConstraint = async () => {
   try {
@@ -44,32 +35,16 @@ export const syncTableTask = async () => {
   try {
     let resultArray = [];
     let syncTaskList = getSyncTaskList();
-    let constraintTime = await checkMinimumTimeConstraint();
-    let currentTime = new Date();
-    let onDemandSyncStatus = await getOnDemandSyncStatus();
-    if (
-      onDemandSyncStatus == Constants.BACKGROUND_TASK.RUNNING ||
-      (onDemandSyncStatus == Constants.BACKGROUND_TASK.NOT_RUNNING &&
-        constraintTime < currentTime)
-    ) {
-      // if current time is greater than the lastSync time + syncDifference
-      for (let [key, value] of syncTaskList) {
-        await runBackgroundTask(key, value).then(result => {
-          resultArray = [...resultArray, ...result]; //collecting result to show toastie
-        });
-      }
-      await Operations.updateRecord(
-        Schemas.masterTablesDownLoadStatus,
-        DBConstants.downloadStatus.DOWNLOADED,
-        DBConstants.APPLICATION_SYNC_STATUS,
-      );
-    } else {
-      console.log(
-        'Sync Status',
-        `Minimum ${syncDifference} minutes difference from Last Sync Time is required.`,
-      );
+    for (let [key, value] of syncTaskList) {
+      await runBackgroundTask(key, value).then(result => {
+        resultArray = [...resultArray, ...result]; //collecting result to show toastie
+      });
     }
-    console.log('Result Array --', resultArray);
+    await Operations.updateRecord(
+      Schemas.masterTablesDownLoadStatus,
+      DBConstants.downloadStatus.DOWNLOADED,
+      DBConstants.APPLICATION_SYNC_STATUS,
+    );
     return resultArray;
   } catch (err) {
     console.log('Error ', err);
@@ -92,6 +67,10 @@ const configParam = (item, staffPositionId, lastSync, data) => {
     DBConstants.MASTER_TABLE_ORGANIZATION,
     DBConstants.QUALIFICATIONS,
     DBConstants.SPECIALITIES,
+    DBConstants.MASTER_TABLE_MOTHER_BRAND,
+    DBConstants.MASTER_TABLE_WEEKLYOFF,
+    DBConstants.MASTER_TABLE_PARTY_CATEGORIES,
+    DBConstants.MASTER_TABLE_SKU,
   ];
 
   if (GET_CASE.includes(item.name)) {
@@ -181,7 +160,6 @@ const runBackgroundTask = async (tableName, value) => {
           record.lastSync,
           Array.from(modifiedRecords),
         );
-
         if (response?.status === DBConstants.HTTP_OK) {
           await SyncOperations.getSyncOperations(
             item[0],

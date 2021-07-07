@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -38,6 +38,7 @@ import {monthlyTourPlanSelector} from 'screens/tourPlan/monthly/redux';
 import {
   planComplianceSelector,
   fetchPlanComplianceCreator,
+  planComplianceActions,
 } from 'screens/tourPlan/planCompliance/redux';
 import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 import {appSelector} from 'selectors';
@@ -59,6 +60,7 @@ const StandardPlanModal = ({
   weekDay,
   year,
   workingDays,
+  indexChanged,
 }) => {
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
@@ -78,8 +80,13 @@ const StandardPlanModal = ({
   const [dataChanged, setDataChanged] = useState(false);
   const [submitSTP, setSubmitSTP] = useState();
   const [stpStatus, setStpStatus] = useState();
+  const [hideDropDown, setHideDropDown] = useState(false);
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
+  const [gapRuleWarningCode, setGapRuleWarningCode] = useState(null);
+  const [isPatchExist, setIsPatchExist] = useState(false);
+  const [gapRulesIds, setGapRulesIds] = useState();
   const weekNum = Number(week);
+  const dropDownRef = useRef(null);
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const weekDayCount = workingDays.indexOf(weekDay) + 1;
   const selectedDayNumber = (weekNum - 1) * workingDays?.length + weekDayCount;
@@ -88,7 +95,6 @@ const StandardPlanModal = ({
   const stpStatusSelector = useSelector(monthlyTourPlanSelector.getSTPStatus());
   const rulesWarning = useSelector(planComplianceSelector.getWarningOnRules());
   const XMonthValue = useSelector(planComplianceSelector.getXMonthValue());
-
   useEffect(() => setSubmitSTP(submitSTPSelector), [submitSTPSelector]);
   useEffect(() => setStpStatus(stpStatusSelector), [stpStatusSelector]);
 
@@ -119,6 +125,27 @@ const StandardPlanModal = ({
   };
 
   /**
+   * To render error when min Gap rule is not met
+   */
+  const showGapRulesErrror = useCallback(code => {
+    setGapRuleWarningCode(code);
+    showToast({
+      type: Constants.TOAST_TYPES.ALERT,
+      autoHide: true,
+      defaultVisibilityTime: 1000,
+      props: {
+        onClose: () => {
+          hideToast();
+          setGapRuleWarningCode(null);
+        },
+        heading: translate('errorMessage.gapRule'),
+      },
+      onHide: () => {
+        setGapRuleWarningCode(null);
+      },
+    });
+  }, []);
+  /**
    * callback function to return direction left/right of day swiper
    * @param {String} direction
    */
@@ -130,7 +157,7 @@ const StandardPlanModal = ({
         !savePatchRes &&
         doctorsSelected.length > 0 &&
         submitSTP?.status !== STP_STATUS.SUBMITTED &&
-        stpStatus?.status !== STP_STATUS.SUBMITTED
+        stpStatus?.standardTourPlanStatuses?.status !== STP_STATUS.SUBMITTED
       ) {
         setSwipeDirection(direction);
         showRulesWarning();
@@ -150,6 +177,13 @@ const StandardPlanModal = ({
       resetandChangePage,
     ],
   );
+
+  useEffect(() => {
+    if (indexChanged) {
+      handleIndex(indexChanged);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [indexChanged]);
 
   /**
    * function to reset data
@@ -211,26 +245,6 @@ const StandardPlanModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**mehtod to load the initial state of daily plan */
-  const loadData = useCallback(async () => {
-    await dispatch(
-      fetchPartiesCreator({
-        staffPositionId,
-      }),
-    );
-
-    await dispatch(
-      fetchPatchesCreator({
-        staffPositionId,
-      }),
-    );
-    await dispatch(
-      fetchAreasCreator({
-        staffPositionId,
-      }),
-    );
-  }, [dispatch, staffPositionId]);
-
   useEffect(() => {
     setPatches(allPatches);
   }, [allPatches]);
@@ -268,6 +282,29 @@ const StandardPlanModal = ({
       getSelectedArea(allPartiesByPatchID);
     }
   }, [getSelectedArea, allPartiesByPatchID, allParties]);
+
+  useEffect(() => {
+    dispatch(planComplianceActions.setGapRuleErrorCode(gapRuleWarningCode));
+  }, [dispatch, gapRuleWarningCode]);
+  /**mehtod to load the initial state of daily plan */
+  const loadData = useCallback(async () => {
+    await dispatch(
+      fetchPartiesCreator({
+        staffPositionId,
+      }),
+    );
+
+    await dispatch(
+      fetchPatchesCreator({
+        staffPositionId,
+      }),
+    );
+    await dispatch(
+      fetchAreasCreator({
+        staffPositionId,
+      }),
+    );
+  }, [dispatch, staffPositionId]);
 
   /** function to set area selected on chip click and update areaSelected state*/
   const getSelectedArea = useCallback(
@@ -341,12 +378,17 @@ const StandardPlanModal = ({
         );
         if (doctorToRemove) {
           doctorArr = doctorArr.filter(
-            doc => doc.partyId !== doctorToRemove.partyId,
+            doc =>
+              !(
+                doc.partyId === doctorToRemove.partyId &&
+                doc.areaId === doctorToRemove.areaId
+              ),
           );
         }
       });
       setDoctorsSelected(doctorArr);
       updateString(doctorArr);
+      setDataChanged(true);
     },
     [doctorsSelected, allParties, updateString],
   );
@@ -408,6 +450,13 @@ const StandardPlanModal = ({
     [allParties, selectedDoctorType, isSameDayPatch, patchValue],
   );
 
+  const isGapRuleWarning = code => {
+    const ShowGapRuleWarning =
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_2_DOC ||
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_3_DOC ||
+      code === Constants.HTTP_PATCH_CODE.VISIT_FOR_4_DOC;
+    return ShowGapRuleWarning;
+  };
   /** function to validate the response from endpoint in case of save and updating the patch */
   const validateSaveResponse = useCallback(
     async (obj, id) => {
@@ -455,6 +504,9 @@ const StandardPlanModal = ({
               savePatchRes?.data?.details[0]?.code,
               savePatchRes?.data?.details,
             );
+          } else if (isGapRuleWarning(savePatchRes?.data?.details[0]?.code)) {
+            showGapRulesErrror(savePatchRes?.data?.details[0]?.code);
+            setGapRulesIds(savePatchRes?.data?.details[0]?.params?.partyIds);
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
@@ -467,16 +519,20 @@ const StandardPlanModal = ({
     },
     [
       savePatchRes,
-      showOverrideNotification,
-      swiperDirection,
-      resetandChangePage,
       patchSelected,
       dispatch,
-      loadData,
+      swiperDirection,
+      resetandChangePage,
       resetState,
+      loadData,
+      showOverrideNotification,
+      showGapRulesErrror,
     ],
   );
 
+  /**handle submit patch for day
+   * @param {Array} partyIds selected party ids passed as an Array
+   */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
@@ -486,6 +542,7 @@ const StandardPlanModal = ({
         week: weekNum,
         weekDay,
         year: year,
+        patchAlreadyExist: isPatchExist,
       };
       setPatchError(null);
       setPatchRequest(obj);
@@ -519,6 +576,7 @@ const StandardPlanModal = ({
       doctorsSelected,
       checkPartyExhausted,
       handleExhaustedParty,
+      isPatchExist,
     ],
   );
 
@@ -550,6 +608,7 @@ const StandardPlanModal = ({
                 doctorsSelected,
                 allParties,
                 patches,
+                false,
               );
             } else {
               const isPatchExhausted = errors.some(
@@ -574,6 +633,7 @@ const StandardPlanModal = ({
                 doctorsSelected,
                 allParties,
                 patches,
+                true,
               );
             } else {
               const docIds = errors.find(err => err.code === code);
@@ -653,7 +713,14 @@ const StandardPlanModal = ({
         exhaustedParty.length !== doctorsSelected.length
       ) {
         setDoctorsSelected(updatedPartyList);
-        handleNoPress(obj, allAreas, updatedPartyList, allParties, patches);
+        handleNoPress(
+          obj,
+          allAreas,
+          updatedPartyList,
+          allParties,
+          patches,
+          false,
+        );
         message = Strings.frquecySlotExhausted;
       } else if (
         (exhaustedParty.length === 1 && doctorsSelected.length === 1) ||
@@ -687,18 +754,22 @@ const StandardPlanModal = ({
    * @param {Array} ptches lsit of patches
    */
   const handleNoPress = useCallback(
-    async (obj, areas, doctors, partyList, ptches) => {
+    async (obj, areas, doctors, partyList, ptches, patchExists) => {
       const string = createPatchString(areas, doctors, partyList, ptches);
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
-      savePatch({
-        ...obj,
-        partyMapping: doctors,
-        displayName: string,
-        defaultName: string,
-      });
+      setIsPatchExist(patchExists);
+
+      //TO-DO - Will remove this once QA confirmed the flow
+      // savePatch({
+      //   ...obj,
+      //   partyMapping: doctors,
+      //   displayName: string,
+      //   defaultName: string,
+      //   patchAlreadyExist: patchExists,
+      // });
     },
-    [createPatchString, savePatch],
+    [createPatchString],
   );
 
   /** function to save patch
@@ -796,6 +867,10 @@ const StandardPlanModal = ({
       );
     }
 
+    if (gapRulesIds?.length > 0) {
+      setGapRulesIds(gapRulesIds?.filter(ruleId => ruleId !== id));
+    }
+
     setDoctorsSelected(selected || []);
     updateString(selected);
     setDataChanged(true);
@@ -814,16 +889,15 @@ const StandardPlanModal = ({
       );
       if (isSameDayPatch(patchValue)) {
         if (patchValue?.defaultName === patchValue?.displayName) {
-          setPatchDefaultValue(string);
           if (
             patchValue?.defaultName.split(' (')[0] === string.split(' (')[0]
           ) {
             setPatchSelected(patchValue?.defaultName);
-            setPatchDefaultValue(patchValue?.defaultName);
           } else {
             setPatchSelected(string);
           }
         }
+        setPatchDefaultValue(string);
       } else {
         setIsPatchedData(false);
         if (!patchEdited) {
@@ -854,6 +928,7 @@ const StandardPlanModal = ({
     if (val.length < 64 && regex.test(val)) {
       setPatchSelected(val);
       setPatchEdited(true);
+      setDataChanged(true);
     }
   };
 
@@ -963,10 +1038,18 @@ const StandardPlanModal = ({
   }, [doctorsSelected, allParties, selectedDoctorType, areaSelected]);
 
   /**
+   * Reset STP data on click of close
+   */
+  const resetSTPState = useCallback(async () => {
+    await dispatch(standardPlanActions.STPCalendarUpdate({stpData: []}));
+    return true;
+  }, [dispatch]);
+  /**
    * function to close stp page
    */
   const handleClose = () => {
     resetState();
+    resetSTPState();
     updateSTPCalendar();
     navigation.pop();
   };
@@ -986,6 +1069,24 @@ const StandardPlanModal = ({
     },
     [weekNum, weekDay, year],
   );
+
+  /**handle dropDownref and setTogglePicker on clicking outside dropdown
+   * @param {Object} e native event of View
+   */
+  const handleDropDownRef = e => {
+    e.persist();
+    const ids =
+      dropDownRef &&
+      dropDownRef.current?._children &&
+      dropDownRef.current?._children[0]._children.map(el => el._nativeTag);
+
+    if (ids && ids.length) {
+      if (ids.includes(e.target._nativeTag)) {
+        return;
+      }
+      setHideDropDown(true);
+    }
+  };
 
   /**
    * Returns data of selectedParty
@@ -1027,7 +1128,11 @@ const StandardPlanModal = ({
     });
   };
 
-  if (allParties.length === 0 || allAreas.length === 0) {
+  if (
+    allParties.length === 0 ||
+    allAreas.length === 0 ||
+    allPatches.length === 0
+  ) {
     return (
       <ActivityIndicator
         animating={true}
@@ -1037,169 +1142,185 @@ const StandardPlanModal = ({
       />
     );
   }
+
+  /**view gesture handlers for click */
+  const _gestureHandlers = {
+    onStartShouldSetResponder: () => true,
+    onMoveShouldSetResponder: () => true,
+    onResponderRelease: e => {
+      handleDropDownRef(e);
+    },
+  };
+
   return (
     <ScrollView style={[styles.containerStyle, {height}]}>
-      <View style={styles.modalHeader}>
-        <View>
-          <Label title={Strings.selectDoctorAndChemist} size={18.7} />
-          <View style={styles.week}>
-            {weekDay !== workingDays[0] && (
-              <TouchableOpacity
-                onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
-                <Icon
-                  iconStyle={styles.weekArrow}
-                  name="angle-left"
-                  size={24}
-                />
-              </TouchableOpacity>
-            )}
-            <Label
-              style={styles.weekLabel}
-              title={`${Strings.weekText} ${week} - ${weekDay}`}
-              variant={LabelVariant.h3}
-              type={'bold'}
-            />
-            {weekDay !== workingDays[workingDays.length - 1] && (
-              <TouchableOpacity
-                onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
-                <Icon
-                  iconStyle={styles.weekArrow}
-                  name="angle-right"
-                  size={24}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-        <View style={[styles.patchContainer]}>
-          <View style={styles.patchInputCotainer}>
-            <TextInput
-              value={patchSelected}
-              placeholder={Strings.patchName}
-              style={styles.patchInput}
-              editable={!patchValue && !patchDefaultValue ? false : true}
-              onChangeText={val => handlePatchInputChange(val)}
-              maxLength={64}
-            />
-          </View>
-          {showPatchError && (
-            <Label
-              size={14}
-              title={patchError}
-              textColor={themes.colors.red[100]}
-            />
-          )}
-        </View>
-        <View style={styles.headerButtonGroup}>
-          <Button
-            mode="contained"
-            title={Strings.done}
-            uppercase={true}
-            disabled={
-              !patchSelected ||
-              !dataChanged ||
-              doctorsSelected.length === 0 ||
-              submitSTP?.status === STP_STATUS.SUBMITTED ||
-              stpStatus?.status === STP_STATUS.SUBMITTED ||
-              false
-            }
-            contentStyle={styles.doneBtn}
-            onPress={() => showRulesWarning()}
-          />
-          <Button
-            mode="outlined"
-            title={Strings.close}
-            uppercase={true}
-            contentStyle={styles.closeBtn}
-            onPress={() => handleClose()}
-          />
-        </View>
-      </View>
-      <View style={styles.content}>
-        <View style={styles.leftContent}>
-          <Areas
-            areaSelected={areaSelected}
-            setAreaSelected={setAreaSelected}
-            areaList={getPartyCountFromArea()}
-            onPress={val => removeSelectedDoctorFromArea(val)}
-            handleDropDownValue={handleDropDownValue}
-            isPatchedData={isPatchedData}
-            allPatches={allPatches}
-            partyInArea={id => getSelectedPartyByArea(id)}
-          />
-          <View style={styles.doctorDetailsContainer}>
-            <View>
-              <View style={styles.doctorDetailsHeader}>
-                <View style={styles.doctorSelectedContainer}>
-                  <Label title={Strings.selectVisit} size={14} />
-                  <Label
-                    title={getSelectedPartyByType()}
-                    type={'bold'}
-                    size={14}
+      <View {..._gestureHandlers}>
+        <View style={styles.modalHeader}>
+          <View>
+            <Label title={Strings.selectDoctorAndChemist} size={18.7} />
+            <View style={styles.week}>
+              {weekDay !== workingDays[0] && (
+                <TouchableOpacity
+                  onPress={() => handleIndex(Constants.DIRECTION.LEFT)}>
+                  <Icon
+                    iconStyle={styles.weekArrow}
+                    name="angle-left"
+                    size={24}
                   />
-                </View>
-                <View style={styles.categoryFilterContainer}>
-                  {PARTY_TYPES.map((type, i) => (
-                    <Area
-                      key={i}
-                      selectedTextColor={themes.colors.white}
-                      selectedColor={themes.colors.primary}
-                      selected={selectedDoctorType === type}
-                      title={type}
-                      value={type}
-                      bgColor={themes.colors.white}
-                      color={'#524F67'}
-                      onPress={val => handlePartyByType(val)}
-                      testID={`btn_stp_party_type_${type}_test`}
-                      textStyle={styles.areaType}
-                    />
-                  ))}
-                </View>
-              </View>
-              <DoctorsByArea
-                areaSelected={areaSelected}
-                // doctorsByArea={getDoctorsByArea}
-                doctorsSelected={doctorsSelected}
-                handleDoctorCardPress={handleDoctorCardPress}
-                isPatchedData={isPatchedData}
-                selectedPartyByArea={getSelectedPartyByArea}
-                partiesList={allParties}
-                selectedDoctorType={selectedDoctorType}
-                patchValue={patchValue}
-                allPartiesByPatchID={allPartiesByPatchID}
-                isSameDayPatch={isSameDayPatch(patchValue)}
+                </TouchableOpacity>
+              )}
+              <Label
+                style={styles.weekLabel}
+                title={`${Strings.weekText} ${week} - ${weekDay}`}
+                variant={LabelVariant.h3}
+                type={'bold'}
               />
-              <View styles={styles.bottom}>
-                <View style={styles.bottomContent}>
-                  <Button
-                    mode="text"
-                    title={Strings.addOtherDoctors}
-                    uppercase={false}
-                    labelStyle={styles.addDoctors}
+              {weekDay !== workingDays[workingDays.length - 1] && (
+                <TouchableOpacity
+                  onPress={() => handleIndex(Constants.DIRECTION.RIGHT)}>
+                  <Icon
+                    iconStyle={styles.weekArrow}
+                    name="angle-right"
+                    size={24}
                   />
-                  <Button
-                    mode="contained"
-                    title={`${Strings.doctorUniverse} (${allParties.length})`}
-                    uppercase={false}
-                    contentStyle={styles.doneBtn}
-                  />
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+          <View style={[styles.patchContainer]}>
+            <View style={styles.patchInputCotainer}>
+              <TextInput
+                value={patchSelected}
+                placeholder={Strings.patchName}
+                style={styles.patchInput}
+                editable={!patchValue && !patchDefaultValue ? false : true}
+                onChangeText={val => handlePatchInputChange(val)}
+                maxLength={64}
+              />
+            </View>
+            {showPatchError && (
+              <Label
+                size={14}
+                title={patchError}
+                textColor={themes.colors.red[100]}
+              />
+            )}
+          </View>
+          <View style={styles.headerButtonGroup}>
+            <Button
+              mode="contained"
+              title={Strings.done}
+              uppercase={true}
+              disabled={
+                !patchSelected ||
+                !dataChanged ||
+                doctorsSelected.length === 0 ||
+                submitSTP?.status === STP_STATUS.SUBMITTED ||
+                stpStatus?.standardTourPlanStatuses?.status ===
+                  STP_STATUS.SUBMITTED ||
+                false
+              }
+              contentStyle={styles.doneBtn}
+              onPress={() => showRulesWarning()}
+            />
+            <Button
+              mode="outlined"
+              title={Strings.close}
+              uppercase={true}
+              contentStyle={styles.closeBtn}
+              onPress={() => handleClose()}
+            />
+          </View>
+        </View>
+        <View style={styles.content}>
+          <View style={styles.leftContent}>
+            <Areas
+              areaSelected={areaSelected}
+              setAreaSelected={setAreaSelected}
+              areaList={getPartyCountFromArea()}
+              onPress={val => removeSelectedDoctorFromArea(val)}
+              handleDropDownValue={handleDropDownValue}
+              isPatchedData={isPatchedData}
+              allPatches={allPatches}
+              partyInArea={id => getSelectedPartyByArea(id)}
+              hideDropDown={hideDropDown}
+              setHideDropDown={setHideDropDown}
+              dropDownRef={dropDownRef}
+            />
+            <View style={styles.doctorDetailsContainer}>
+              <View>
+                <View style={styles.doctorDetailsHeader}>
+                  <View style={styles.doctorSelectedContainer}>
+                    <Label title={Strings.selectVisit} size={14} />
+                    <Label
+                      title={getSelectedPartyByType()}
+                      type={'bold'}
+                      size={14}
+                    />
+                  </View>
+                  <View style={styles.categoryFilterContainer}>
+                    {PARTY_TYPES.map((type, i) => (
+                      <Area
+                        key={i}
+                        selectedTextColor={themes.colors.white}
+                        selectedColor={themes.colors.primary}
+                        selected={selectedDoctorType === type}
+                        title={type}
+                        value={type}
+                        bgColor={themes.colors.white}
+                        color={'#524F67'}
+                        onPress={val => handlePartyByType(val)}
+                        testID={`btn_stp_party_type_${type}_test`}
+                        textStyle={styles.areaType}
+                      />
+                    ))}
+                  </View>
+                </View>
+                <DoctorsByArea
+                  areaSelected={areaSelected}
+                  doctorsSelected={doctorsSelected}
+                  handleDoctorCardPress={handleDoctorCardPress}
+                  isPatchedData={isPatchedData}
+                  selectedPartyByArea={getSelectedPartyByArea}
+                  partiesList={allParties}
+                  selectedDoctorType={selectedDoctorType}
+                  patchValue={patchValue}
+                  allPartiesByPatchID={allPartiesByPatchID}
+                  isSameDayPatch={isSameDayPatch(patchValue)}
+                  gapRulesIds={gapRulesIds}
+                />
+                <View styles={styles.bottom}>
+                  <View style={styles.bottomContent}>
+                    <Button
+                      mode="text"
+                      title={Strings.addOtherDoctors}
+                      uppercase={false}
+                      labelStyle={styles.addDoctors}
+                    />
+                    <Button
+                      mode="contained"
+                      title={`${Strings.doctorUniverse} (${allParties.length})`}
+                      uppercase={false}
+                      contentStyle={styles.doneBtn}
+                    />
+                  </View>
                 </View>
               </View>
             </View>
           </View>
-        </View>
-        <View style={styles.rightContent}>
-          <Label
-            variant={LabelVariant.h4}
-            title={Strings.planCompliance}
-            style={styles.planComplainceLabel}
-          />
-          <PlanCompliance
-            type={COMPLAINCE_TYPE.DAILY}
-            week={week}
-            weekDay={weekDayCount}
-            selectedData={getSelectedPartyTypeHandler()}
-          />
+          <View style={styles.rightContent}>
+            <Label
+              variant={LabelVariant.h4}
+              title={Strings.planCompliance}
+              style={styles.planComplainceLabel}
+            />
+            <PlanCompliance
+              type={COMPLAINCE_TYPE.DAILY}
+              week={week}
+              weekDay={weekDayCount}
+              selectedData={getSelectedPartyTypeHandler()}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>

@@ -10,3 +10,7 @@ export {default as CongratulatoryModal} from '../widgets/CongratulatoryModal';
 export {default as DoctorTag, DivisionType} from '../widgets/DoctorTag';
 export {default as Timeline} from '../widgets/timeline';
 export {default as Product} from '../widgets/Product';
+export {default as PartiesDirectory} from '../widgets/PartiesDirectory';
+export {default as DailyPlanParties} from '../widgets/DailyPlanParties';
+export {default as Alert} from './Alert';
+export {default as PresentationSlide} from './PresentationSlide';

@@ -9,6 +9,7 @@ import {DoctorVisitStates, DoctorTag, DivisionType} from 'components/widgets';
 import {MoreVerticalIcon} from 'assets';
 import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
+import {capitalize} from 'screens/tour-plan/helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -26,6 +27,7 @@ import {isWeb} from 'helper';
  * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
  * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
  * @param {Function} onTileNamePress Fire when click on tile name
+ * @param {String} gender M/F passed as string
  */
 
 const DoctorDetails = ({
@@ -75,7 +77,7 @@ const DoctorDetails = ({
   const OnErrorHandler = () => {
     if (!isImageErrror) {
       const genderImage =
-        Constants.GENDER.MALE === (gender || '').toUpperCase()
+        Constants.GENDER.MALE === gender?.toUpperCase()
           ? require('assets/images/male.png')
           : require('assets/images/female.png');
       const src =
@@ -150,7 +152,9 @@ const DoctorDetails = ({
                   title={`${DivisionType.CAMPAIGN}`}
                 />
               )}
-              {category && <DoctorTag division={category} title={category} />}
+              {category ? (
+                <DoctorTag division={category} title={category} />
+              ) : null}
             </View>
           )}
 
@@ -164,8 +168,8 @@ const DoctorDetails = ({
             <Label
               title={
                 partyType === Constants.PARTY_TYPE.DOCTOR
-                  ? `${Strings.dr} ${title}`
-                  : title
+                  ? `${Strings.dr} ${capitalize(title)}`
+                  : capitalize(title)
               }
               size={customStyle ? customStyle.titleSize : 17}
               style={styles.name}
@@ -197,7 +201,9 @@ const DoctorDetails = ({
                   />
                   <Label
                     size={customStyle ? customStyle.subTitleSize : 18}
-                    title={location}
+                    title={(location || {})
+                      .map(spec => spec?.name || spec)
+                      .join(', ')}
                     style={styles.capitalize}
                   />
                 </>
@@ -256,7 +262,6 @@ DoctorDetails.defaultProps = {
   selected: false,
   division: '',
   showTile: false,
-  gender: 'Male',
 };
 
 DoctorDetails.propTypes = {

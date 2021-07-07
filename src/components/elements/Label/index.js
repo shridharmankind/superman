@@ -20,7 +20,7 @@ export const LabelVariant = Object.entries(theme.typography).reduce(
  * @param {Object} style custom style of text
  */
 const Label = ({
-  title,
+  title = '',
   testID,
   style,
   size = 18,
@@ -69,7 +69,12 @@ const getFontFamily = type => {
 };
 Label.propTypes = {
   type: PropTypes.oneOf(['bold', 'regular', 'semiBold', 'medium']),
-  title: PropTypes.any,
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.symbol,
+  ]),
   size: PropTypes.number,
   testID: PropTypes.string,
   numberOfLines: PropTypes.number,

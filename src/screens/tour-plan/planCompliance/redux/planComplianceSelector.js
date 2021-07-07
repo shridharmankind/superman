@@ -13,19 +13,25 @@ const allComplianceRulesSelector = createSelector(
   data => data,
 );
 
-const totalPercentSelector = createSelector(
-  [getCompliance],
-  data => data?.monthly?.totalPercent,
-);
+const totalPercentSelector = createSelector([getCompliance], data => {
+  const totalPercent = data?.monthly?.totalPercent;
+  return Number.isInteger(totalPercent)
+    ? totalPercent
+    : totalPercent?.toFixed(1);
+});
 
+const gapRuleSelector = createSelector(
+  [getCompliance],
+  data => data?.gapRuleErrorCode,
+);
 // get X value from DOCTORCOVEREDINXDAYS rules
 const XMonthValueSelector = createSelector([getCompliance], data => {
   const val =
     data &&
     data?.monthly?.rules?.filter(
       item => item.rulesShortName === 'DOCTORCOVEREDINXDAYS',
-    )[0].ruleValues;
-  return val;
+    );
+  return val && val[0]?.ruleValues;
 });
 const warningOnRules = state => state.planCompliance.rules.warningOnRules;
 
@@ -36,4 +42,5 @@ export const planComplianceSelector = {
   getTotalPercent: () => totalPercentSelector,
   getWarningOnRules: () => warningOnRulesSelector,
   getXMonthValue: () => XMonthValueSelector,
+  getGapRuleError: () => gapRuleSelector,
 };

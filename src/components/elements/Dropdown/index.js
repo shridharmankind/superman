@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, forwardRef} from 'react';
 import {ScrollView, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {TextInput} from 'react-native-paper';
@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
-import {Strings} from 'common';
+import {translate} from 'locale';
 /**
  * Custom dropdown component using react-native-material-dropdown-v2.
  * This serves the purpose to make the use of Dropdown throughout the app
@@ -14,31 +14,40 @@ import {Strings} from 'common';
  * @param {Array} data pass data as an array eg: [{value: test}]
  * @param {Function} valueSelected value to pass to parent component
  * @param {String} testID testID to pass
+ * @param {Boolean} hideDropdown to hide dropdown when clicked outside
+ * @param {Function} setHideDropDown to hide dropdown if clicked outside
+ * @param {Boolean} isPatchedData if patched is selected or not
  */
 
-const Dropdown = ({
-  defaultLabel,
-  valueSelected,
-  testID,
-  data,
-  isPatchedData,
-}) => {
-  const [value, setValue] = useState();
+const Dropdown = forwardRef((props, ref) => {
   const [togglePicker, setTogglePicker] = useState(false);
   const [dropDownData, setDropDownData] = useState(data);
   const [dropDownText, setDropdownText] = useState(defaultLabel);
-  let childrenIds;
+  const {
+    defaultLabel,
+    valueSelected,
+    testID,
+    data,
+    isPatchedData,
+    hideDropdown,
+    setHideDropDown,
+  } = props;
 
   const handleValueSelected = val => {
     setDropdownText(val?.value || defaultLabel);
     setTogglePicker(false);
-    setValue(val);
     valueSelected(val);
   };
 
   useEffect(() => {
+    if (hideDropdown) {
+      setTogglePicker(false);
+      setHideDropDown(false);
+    }
+  }, [hideDropdown, setHideDropDown]);
+
+  useEffect(() => {
     if (!isPatchedData) {
-      setValue(null);
       setDropdownText(defaultLabel);
     }
   }, [isPatchedData, defaultLabel]);
@@ -53,13 +62,13 @@ const Dropdown = ({
     text => {
       if (text) {
         setDropdownText(text);
-        const filteredData = data.filter(val =>
+        const filteredData = data?.filter(val =>
           val.displayName.toLowerCase().includes(text.toLowerCase()),
         );
-        if (filteredData.length > 0) {
+        if (filteredData?.length > 0) {
           setDropDownData(filteredData);
         } else {
-          setDropDownData([{displayName: Strings.noPatchFound}]);
+          setDropDownData([]);
         }
       } else {
         setDropdownText('');
@@ -70,18 +79,7 @@ const Dropdown = ({
   );
 
   return (
-    <View
-      style={styles.container}
-      onStartShouldSetResponder={evt => {
-        evt.persist();
-        if (childrenIds && childrenIds.length) {
-          if (childrenIds.includes(evt.target)) {
-            return;
-          }
-          setDropdownText((value && value.displayName) || defaultLabel);
-          setTogglePicker(false);
-        }
-      }}>
+    <View style={styles.container}>
       {data?.length > 6 ? (
         <TextInput
           testID={testID}
@@ -112,18 +110,11 @@ const Dropdown = ({
         </TouchableOpacity>
       )}
       {togglePicker && (
-        <View
-          style={styles.pickerContainer}
-          ref={component => {
-            childrenIds =
-              component &&
-              component._children[0] &&
-              component._children[0]._children.map(el => el._nativeTag);
-          }}>
-          {(dropDownData.length > 0 ? dropDownData : data)?.map((option, i) => (
-            <ScrollView>
+        <ScrollView style={styles.pickerContainer} ref={ref}>
+          {dropDownData?.length > 0 ? (
+            dropDownData?.map((option, i) => (
               <TouchableOpacity
-                key={option.displayName}
+                key={option.id}
                 style={[
                   styles.pickerLabel,
                   data.length === i + 1 ? styles.noBorder : null,
@@ -134,13 +125,18 @@ const Dropdown = ({
                   variant={LabelVariant.subtitleSmall}
                 />
               </TouchableOpacity>
-            </ScrollView>
-          ))}
-        </View>
+            ))
+          ) : (
+            <Label
+              title={translate('tourPlan.standard.noPatchFound')}
+              variant={LabelVariant.subtitleSmall}
+            />
+          )}
+        </ScrollView>
       )}
     </View>
   );
-};
+});
 
 Dropdown.defaultProps = {
   pickerWidth: 220,

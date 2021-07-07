@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
-import {Strings, Constants} from 'common';
+import {Constants} from 'common';
 import {Label, Modal, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
@@ -23,7 +23,6 @@ const DailyTourPlan = () => {
   const dispatch = useDispatch();
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const navigation = useNavigation();
-  const [dayPlanData, setDayPlanData] = useState([]);
 
   const onTileNameHandler = data => {
     navigation.navigate('Directory', {
@@ -63,13 +62,6 @@ const DailyTourPlan = () => {
     }
   }, [doctorRemoveError]);
 
-  /**
-   * set parties list in state
-   */
-  useEffect(() => {
-    setDayPlanData(allDoctorDetail);
-  }, [allDoctorDetail]);
-
   const [visible, setVisible] = useState(false);
   const [itemPressed, setItemPressed] = useState();
 
@@ -78,7 +70,9 @@ const DailyTourPlan = () => {
    * @returns formatted date
    */
   const getCurrentDateFormatted = () => {
-    return `${Strings.today}, ${getFormatDate({format: 'Do MMMM YYYY'})}`;
+    return `${translate('tourPlan.daily.today')}, ${getFormatDate({
+      format: 'Do MMMM YYYY',
+    })}`;
   };
 
   /**
@@ -93,13 +87,13 @@ const DailyTourPlan = () => {
     }
     if (partycount === 1) {
       return type === Constants.PARTY_TYPE.DOCTOR
-        ? `${partycount} ${Strings.numberOfDoctors}`
-        : `${partycount} ${Strings.numberOfChemist}`;
+        ? `${partycount} ${translate('dr').toLowerCase()}`
+        : `${partycount} ${translate('ch').toLowerCase()}`;
     }
 
     return type === Constants.PARTY_TYPE.DOCTOR
-      ? `${partycount} ${Strings.numberOfDoctors}s`
-      : `${partycount} ${Strings.numberOfChemist}s`;
+      ? `${partycount} ${translate('dr').toLowerCase()}s`
+      : `${partycount} ${translate('ch').toLowerCase()}s`;
   };
 
   /**
@@ -110,15 +104,15 @@ const DailyTourPlan = () => {
     let doctorString = '';
     let chemistString = '';
     let result = '';
-    if (dayPlanData?.length > 0) {
-      const doctorCount = dayPlanData?.filter(plan => {
+    if (allDoctorDetail.allRecords?.length > 0) {
+      const doctorCount = allDoctorDetail.allRecords?.filter(plan => {
         return (
           (plan.partyTypes?.name || '').toLowerCase() ===
           Constants.PARTY_TYPE.DOCTOR.toLowerCase()
         );
       });
 
-      const chemistCount = dayPlanData?.filter(plan => {
+      const chemistCount = allDoctorDetail.allRecords?.filter(plan => {
         return (
           (plan.partyTypes?.name || '').toLowerCase() ===
           Constants.PARTY_TYPE.CHEMIST.toLowerCase()
@@ -135,7 +129,9 @@ const DailyTourPlan = () => {
       );
 
       let sample = {
-        sentence: `${Strings.youHave} {0} ${Strings.and} {1} ${Strings.visits}`,
+        sentence: `${translate('tourPlan.daily.youHave')} {0} ${translate(
+          'tourPlan.daily.and',
+        )} {1} ${translate('tourPlan.daily.visits')}`,
         boldText: [doctorString, chemistString],
       };
 
@@ -145,12 +141,16 @@ const DailyTourPlan = () => {
 
       if (doctorString === '' && chemistString !== '') {
         sample = {
-          sentence: `${Strings.youHave} {0} ${Strings.visits}`,
+          sentence: `${translate('tourPlan.daily.youHave')} {0} ${translate(
+            'tourPlan.daily.visits',
+          )}`,
           boldText: [chemistString],
         };
       } else if (doctorString !== '' && chemistString === '') {
         sample = {
-          sentence: `${Strings.youHave} {0} ${Strings.visits}`,
+          sentence: `${translate('tourPlan.daily.youHave')} {0} ${translate(
+            'tourPlan.daily.visits',
+          )}`,
           boldText: [doctorString],
         };
       }
@@ -183,7 +183,7 @@ const DailyTourPlan = () => {
       <View style={styles.modalTitle}>
         <Label
           type="bold"
-          title={Strings.removeDoctorConfirmation}
+          title={translate('tourPlan.daily.removeDoctorConfirmation')}
           variant={LabelVariant.h4}
           style={styles.modalTitleText}
         />
@@ -200,7 +200,7 @@ const DailyTourPlan = () => {
       <View style={styles.modalContentView}>
         <Button
           contentStyle={styles.modalButton}
-          title={Strings.proceed}
+          title={translate('proceed')}
           onPress={() => {
             dispatch(
               deletePartyCreator({
@@ -265,14 +265,14 @@ const DailyTourPlan = () => {
         />
         {getVisitBifurcationLabel()}
       </View>
-      {dayPlanData.length > 0 && (
+      {allDoctorDetail.allRecords.length > 0 && (
         <PartyList
-          dayPlanData={dayPlanData}
+          dayPlanData={allDoctorDetail}
           onTileNamePress={onTileNameHandler}
           onTilePress={onTilePressHandler}
         />
       )}
-      {dayPlanData.length === 0 && (
+      {allDoctorDetail.allRecords.length === 0 && (
         <Label
           title={translate('errorMessage.noRecords')}
           variant={LabelVariant.subtitleLarge}

@@ -1,0 +1,4 @@
+[
+    {"itemId": 10, "itemName": "Sanitizer", "StockQty": 200},
+    {"itemId": 11, "itemName": "Gloves", "StockQty": 100}
+]

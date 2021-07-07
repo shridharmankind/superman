@@ -6,6 +6,8 @@ import {KeyChain} from 'helper';
 import {Strings, Constants} from 'common';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import NetInfo from '@react-native-community/netinfo';
+import {store} from '../../App';
+import {fetchStatusSliceActions} from 'reducers';
 
 export const TASK_NAME = 'BACKGROUND_TASK';
 
@@ -111,7 +113,7 @@ const setBackgroundTask = async () => {
       );
       if (
         state.isConnected &&
-        getCurrentBackgrounStatus == Constants.BACKGROUND_TASK.NOT_RUNNING
+        getCurrentBackgrounStatus === Constants.BACKGROUND_TASK.NOT_RUNNING
       ) {
         //check for internet connection and background Status if it is not running
         const accessToken = await KeyChain.getAccessToken();
@@ -130,11 +132,17 @@ const setBackgroundTask = async () => {
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
           );
+          store.dispatch(
+            fetchStatusSliceActions.setSyncStatus(getCurrentAsyncStorage),
+          );
           await runBackgroundTask();
           getCurrentAsyncStorage = await setNotRunningBackgroundTaskValue();
           console.log(
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
+          );
+          store.dispatch(
+            fetchStatusSliceActions.setSyncStatus(getCurrentAsyncStorage),
           );
           console.log(` [${Constants.BACKGROUND_TASK.TASK_NAME}] EXIT`);
         } else {
@@ -199,31 +207,36 @@ export const runBackgroundTask = async () => {
       resultArray = result || [];
     });
     let isDemandSync = await getOnDemandSyncStatus();
-    console.log(isDemandSync, 'Overall result ', resultArray);
-    if (isDemandSync == Constants.BACKGROUND_TASK.RUNNING) {
-      if (resultArray.length == 0) {
-        console.log('Overall result ', resultArray);
-        showToastie(
-          Constants.TOAST_TYPES.SUCCESS,
-          Strings.backgroundTask.toastBtns.successMessage,
-        );
-      }
-      if (resultArray && resultArray.includes(CONFLICT)) {
-        showToastieWithButton(
-          Constants.TOAST_TYPES.WARNING,
-          Strings.backgroundTask.toastBtns.conflictMessage,
-        );
-      } else if (resultArray && resultArray.includes(FAILURE)) {
-        showToastieWithButton(
-          Constants.TOAST_TYPES.ALERT,
-          Strings.backgroundTask.toastBtns.failureMessage,
-        );
-      } else if (resultArray && resultArray.includes(SUCCESS)) {
-        showToastie(
-          Constants.TOAST_TYPES.SUCCESS,
-          Strings.backgroundTask.toastBtns.successMessage,
-        );
-      }
+    if (
+      resultArray.length === 0 &&
+      isDemandSync === Constants.BACKGROUND_TASK.RUNNING
+    ) {
+      showToastie(
+        Constants.TOAST_TYPES.SUCCESS,
+        Strings.backgroundTask.toastBtns.successMessage,
+      );
+    }
+    if (resultArray && resultArray.includes(CONFLICT)) {
+      showToastieWithButton(
+        Constants.TOAST_TYPES.WARNING,
+        Strings.backgroundTask.toastBtns.conflictMessage,
+      );
+    } else if (resultArray && resultArray.includes(FAILURE)) {
+      showToastieWithButton(
+        Constants.TOAST_TYPES.ALERT,
+        Strings.backgroundTask.toastBtns.failureMessage,
+      );
+    } else if (
+      resultArray &&
+      resultArray.includes(SUCCESS) &&
+      isDemandSync === Constants.BACKGROUND_TASK.RUNNING
+    ) {
+      showToastie(
+        Constants.TOAST_TYPES.SUCCESS,
+        Strings.backgroundTask.toastBtns.successMessage,
+      );
+    }
+    if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
       await setOnDemandSyncStatusNotRunning();
     }
   } catch (err) {

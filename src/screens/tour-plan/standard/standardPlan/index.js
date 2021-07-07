@@ -18,6 +18,7 @@ const StandardPlan = ({navigation, route}) => {
   const [showLeftSwiper, setShowLeftSwiper] = useState(true);
   const [showRightSwiper, setShowRightSwiper] = useState(true);
   const [visitedDays, setVisitedDays] = useState([route.params.row]);
+  const [indexChanged, setIndexChanged] = useState();
   const year = route.params.year;
   const swiperRef = useRef(null);
 
@@ -35,22 +36,30 @@ const StandardPlan = ({navigation, route}) => {
         setShowRightSwiper(index !== totalIndex);
       }
       setActiveIndex(index);
-      visitedDayIndex(index);
-      swiperRef.current.scrollToIndex({index});
-    },
-    [activeIndex, totalIndex, swiperRef, visitedDayIndex],
-  );
-
-  const visitedDayIndex = useCallback(
-    i => {
-      const day = route.params.workingDays[i];
-      const index = visitedDays.some(d => d === i);
-      if (!index) {
+      setIndexChanged(null);
+      const day = route.params.workingDays[index];
+      const dIndex = visitedDays.some(d => d === index);
+      if (!dIndex) {
         setVisitedDays([day]);
       }
+      swiperRef.current.scrollToIndex({index});
     },
-    [visitedDays, route.params.workingDays],
+    [activeIndex, totalIndex, swiperRef, route.params.workingDays, visitedDays],
   );
+
+  const handleSliderNavigation = dir => {
+    setIndexChanged(dir);
+  };
+
+  const visitedDayIndex = (i, prev) => {
+    if (activeIndex !== i) {
+      if (i > prev) {
+        handleSliderNavigation(Constants.DIRECTION.RIGHT);
+      } else {
+        handleSliderNavigation(Constants.DIRECTION.LEFT);
+      }
+    }
+  };
 
   const getIndexOfDay = () => {
     return route.params.workingDays.indexOf(route.params.row);
@@ -68,6 +77,7 @@ const StandardPlan = ({navigation, route}) => {
               weekDay={day}
               year={year}
               workingDays={route.params.workingDays}
+              indexChanged={indexChanged}
             />
           )}
         </View>
@@ -77,10 +87,10 @@ const StandardPlan = ({navigation, route}) => {
 
   return (
     <>
-      {showLeftSwiper && (
+      {showLeftSwiper && activeIndex !== 0 && (
         <TouchableOpacity
           style={[styles.swipe, styles.leftSwipe]}
-          onPress={() => handleSlider(Constants.DIRECTION.LEFT)}
+          onPress={() => handleSliderNavigation(Constants.DIRECTION.LEFT)}
         />
       )}
       <SwiperFlatList
@@ -88,16 +98,18 @@ const StandardPlan = ({navigation, route}) => {
         showPagination
         renderAll={false}
         index={getIndexOfDay()}
-        onChangeIndex={({index}) => visitedDayIndex(index)}
+        onChangeIndex={({index, prevIndex}) =>
+          visitedDayIndex(index, prevIndex)
+        }
         paginationStyleItemActive={styles.activePaginationItem}
         paginationStyleItem={styles.paginationItem}
         paginationStyle={styles.paginationStyle}>
         {renderStandardPlan()}
       </SwiperFlatList>
-      {showRightSwiper && (
+      {showRightSwiper && activeIndex !== totalIndex && (
         <TouchableOpacity
           style={[styles.swipe, styles.rightSwipe]}
-          onPress={() => handleSlider(Constants.DIRECTION.RIGHT)}
+          onPress={() => handleSliderNavigation(Constants.DIRECTION.RIGHT)}
         />
       )}
     </>

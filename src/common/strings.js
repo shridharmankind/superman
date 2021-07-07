@@ -121,13 +121,57 @@ const Strings = {
       what: 'What',
       kindOfVisit: 'kind of visit',
       wasIt: 'was it?',
-      regVisit: 'Regular Visit',
+      regVisit: 'Independent Visit',
       justMe: 'Just Me',
       jointVisit: 'Joint Visit',
       posts: 'FLM/SLM/TLM',
       addDoctor: 'ADD A DOCTOR',
       btnDone: 'Done',
       feedback: 'Feedback',
+      addMore: 'ADD MORE',
+      sampleReq: {
+        addSample: '+ ADD a Sample',
+        addSampleBtn: 'Add Selected',
+        searchPlaceholder: 'Search Samples here',
+        question: {
+          leftPart: 'Did you provide',
+          midPart: 'any samples',
+          rightPart: 'to the doctor ?',
+        },
+        error: 'Sample Already Exists',
+        noSamplesGiven: 'No Sample Given',
+      },
+      itemRequest: {
+        addItems: '+ ADD a Item',
+        question: {
+          leftPart: 'Did you provide',
+          midPart: 'any items',
+          rightPart: 'to the doctor ?',
+        },
+        noItemsGiven: 'No Items Given',
+      },
+      sample: {
+        question: {
+          midPart: 'Samples requested',
+          rightPart: 'by the doctor ?',
+        },
+        nosampleReq: 'No Samples Requested',
+      },
+      item: {
+        question: {
+          midPart: 'Items requested',
+          rightPart: 'by the doctor ?',
+        },
+        noItemReq: 'No Items Requested',
+      },
+      task: {
+        question: {
+          leftPart: 'Update',
+          midPart: 'status',
+          rightPart: 'on open tasks?',
+        },
+        noTaskUpdate: 'No Task Update',
+      },
     },
   },
   dr: 'Dr.',
@@ -195,6 +239,11 @@ const Strings = {
   selectDocToCreatePatch: 'Please select any doctor to create a patch.',
   backgroundTask: {
     lastSync: 'Last Synced:',
+    lastModifiedTime: 'Last Modified On',
+    conflictMessage: 'Conflict Message',
+    errorMessage: 'Error Message',
+    useDevice: 'Use Device',
+    useServer: 'Use Server',
     toastBtns: {
       message: 'Sync Status',
       viewSummary: 'View Summary',

@@ -9,6 +9,8 @@ import {
   fetchWorkingDayWatcher,
   fetchSTPStatusWatcher,
   submitSTPWatcher,
+  setSwapWatcher,
+  fetchMTPCalendarUpdateWatcher,
 } from 'screens/tourPlan/monthly/redux';
 import {
   fetchPartiesWatcher,
@@ -20,14 +22,28 @@ import {
 } from 'screens/tourPlan/standard/redux';
 import {fetchPlanComplianceWatcher} from 'screens/tourPlan/planCompliance/redux';
 import {fetchTaskWatcher} from 'screens/directory/doctorDetails/openTask/redux';
-import {fetchQueryDoctorsWatcher} from 'screens/directory/landing/redux';
+import {
+  fetchQueryDoctorsWatcher,
+  fetchMissedCallsWatcher,
+  addPartyToDailyPlanWatcher,
+} from 'screens/directory/landing/redux';
 import {fetchPriorityProductWatcher} from 'screens/directory/priorityProduct/redux';
 import {fetchTimelineWatcher} from 'screens/directory/doc-timeline/redux';
 import {
   fetchEDetailingOtherProductWatcher,
   fetchEDetailingPriorityProductWatcher,
-} from 'screens/directory/e-detailing/redux';
-
+} from 'screen/eDetailing/redux';
+import {
+  fetchDcrWatcher,
+  fetchStaffWatcher,
+  setVisitWatcher,
+  getDoctorDataList,
+  fetchEdetailedWatcher,
+  fetchOtherProductsWatcher,
+  searchSamplesWatcher,
+  selectSamplesWatcher,
+  searchItemsWatcher,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
 export function* rootSaga() {
   /**
    *
@@ -52,9 +68,22 @@ export function* rootSaga() {
     fetchSTPCalendarUpdateWatcher,
     fetchPlanComplianceWatcher,
     fetchQueryDoctorsWatcher,
+    fetchMissedCallsWatcher,
+    addPartyToDailyPlanWatcher,
     fetchEDetailingPriorityProductWatcher,
     fetchEDetailingOtherProductWatcher,
     fetchTimelineWatcher,
+    setSwapWatcher,
+    fetchDcrWatcher,
+    setVisitWatcher,
+    searchSamplesWatcher,
+    selectSamplesWatcher,
+    fetchMTPCalendarUpdateWatcher,
+    getDoctorDataList,
+    fetchEdetailedWatcher,
+    fetchOtherProductsWatcher,
+    fetchStaffWatcher,
+    searchItemsWatcher,
   ];
 
   /**

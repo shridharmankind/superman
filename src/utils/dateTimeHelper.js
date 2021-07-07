@@ -71,9 +71,25 @@ export const getLocalTimeZone = date => {
     (newDate.getMonth() + 1) +
     '/' +
     newDate.getFullYear();
-  dateString = dateString + ' ' + timeInHours;
+  dateString = dateString + ' ' + tConvert(timeInHours);
   return dateString;
 };
+
+function tConvert(time) {
+  // Check correct time format and split into components
+  time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
+    time,
+  ];
+
+  if (time.length > 1) {
+    // If time format correct
+    time = time.slice(1); // Remove full string match value
+    time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+    time[3] = ' ';
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  return time.join(''); // return adjusted time or original string
+}
 
 /**
  * @param {String} inputDate date in utc format
@@ -83,7 +99,11 @@ export const getLocalTimeZone = date => {
 export const returnUTCtoLocal = (inputDate, format) => {
   const date = inputDate || dayjs.utc().format();
   const localDate = dayjs.utc(date).local().format();
-  return getFormatDate({date: localDate, format: format || 'D MMM YYYY'});
+  const formattedDate = getFormatDate({
+    date: localDate,
+    format: format || 'D MMM YYYY',
+  });
+  return formattedDate === 'Invalid Date' ? '-' : formattedDate; //TO DO : Temp fix for web
 };
 
 /**
@@ -106,4 +126,17 @@ export const isAfter = (date, dateToCompare) => {
  */
 export const startOf = (date, unit) => {
   return dayjs(date).startOf(unit);
+};
+
+/**
+ *
+ * @param {Date} date
+ * @returns Date as an object with day , month & year value
+ */
+export const getDateIntoObject = date => {
+  return {
+    day: dayjs(date).get('date'),
+    month: dayjs(date).get('month') + 1,
+    year: dayjs(date).get('year'),
+  };
 };

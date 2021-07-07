@@ -19,7 +19,7 @@ import EOtherProductList from './api/eOtherProduct.json';
 import AllPriority from './api/AllPriority.json';
 import qualifications from './api/masterDataDownload/qualifications.json';
 import specialities from './api/masterDataDownload/specialities.json';
-
+import mtpData from './api/mtpData.js';
 import {partiesMock} from './api/parties.js';
 import stpData from './api/stpData.js';
 import stpStatus from './api/stpStatus.json';
@@ -27,11 +27,21 @@ import submitStpMock from './api/submitStp.json';
 
 import {API_PATH} from 'screens/tour-plan/apiPath';
 import {API_PATH as DIRECTORY_APIS} from 'screens/directory/apiPath';
+import API_PATHS from 'services/network/apiPaths';
 import visitMockData from './api/timeline.json';
+import missedCallMockData from './api/missedCalls.json';
+import addToTodayMockData from './api/addToToday.json';
+import eDetailed from './api/eDetailed.json';
+import doctorDcrList from './api/doctorDcrList.json';
+import {API_PATH as NETWORK_APIS} from 'screens/tour-plan/apiPath';
+import staff from './api/staff.json';
+import searchSamples from './api/searchSamples.json';
+import searchItems from './api/searchItems.json';
+import dcrData from './api/dcrData.json';
 
 const getPartiesUrl = () => {
   const valueMap = {
-    staffpositionid: 2,
+    staffpositionid: 1,
     monthVal: parseInt(getFormatDate({format: 'M'}), 10),
     yearVal: parseInt(getFormatDate({format: 'YYYY'}), 10),
     dayVal: parseInt(getFormatDate({format: 'D'}), 10),
@@ -96,6 +106,20 @@ const getSTPStatusUrl = apiPath => {
   return url;
 };
 
+const getMissedCallUrl = apipath => {
+  const valueMap = {
+    staffPositionId: 1,
+    month: parseInt(getFormatDate({format: 'M'}), 10),
+  };
+  let url = apipath;
+  url = url.replace(
+    /\b(?:staffPositionId|month)\b/gi,
+    matched => valueMap[matched],
+  );
+
+  return url;
+};
+
 const getUrl = apiPath => {
   const valueMap = {
     staffPositionId: 1,
@@ -105,6 +129,18 @@ const getUrl = apiPath => {
   return url;
 };
 
+const getMTPCalendarUpdateUrl = apiPath => {
+  const valueMap = {
+    staffPositionId: 1,
+    month: 6,
+  };
+  let url = apiPath;
+  url = url.replace(
+    /\b(?:staffPositionId|month)\b/gi,
+    matched => valueMap[matched],
+  );
+  return url;
+};
 const getMock = axios => {
   const mock = new MockAdapter(axios);
 
@@ -124,22 +160,26 @@ const getMock = axios => {
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock
-    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1')
+    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1&Skip=0&Limit=0')
     .reply(200, product);
   mock
     .onGet(`${API_PATH.PATCH}/1/parties`)
     .reply(200, patchesMock.getPartyByPatchId);
+  mock.onPost('/edetailing/listforparties').reply(200, eDetailed);
   mock
     .onPost(`${API_PATH.PATCH}/validate/1`)
     .reply(200, patchesMock.validate.response);
   mock.onGet(getPartiesUrl()).reply(200, partiesMock.getParties.response);
   mock.onDelete(getDeletePartyUrl()).reply(200, true);
   mock.onGet(getSTPCalendarUpdateUrl()).reply(200, stpData);
+  mock
+    .onGet(getMTPCalendarUpdateUrl(API_PATHS.MTP_CALENDAR))
+    .reply(200, mtpData);
   mock.onGet(getDailyComplainceUrl()).reply(200, dailyPlanComplaince);
   mock
     .onGet(getUrl(API_PATH.COMPLAINCE_MONTHLY))
     .reply(200, monthlyplanComplaince);
-  mock.onGet(getSTPStatusUrl(API_PATH.STP_STATUS)).reply(200, stpStatus);
+  mock.onGet(`${API_PATHS.TOUR_PLAN_STATUS}/1`).reply(200, stpStatus);
   mock.onPost(getUrl(API_PATH.SUBMIT_STP)).reply(200, submitStpMock);
 
   mock
@@ -149,7 +189,7 @@ const getMock = axios => {
     .reply(200, docList);
   mock
     .onGet(
-      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=true&IncludeDiscussedList=true&Skip=0&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&IsPriority=true&PartyId=1&IncludeDiscussedList=true&Skip=0&Limit=0',
     )
     .reply(200, EPriorityProductList);
   mock
@@ -159,9 +199,14 @@ const getMock = axios => {
     .reply(200, AllPriority);
   mock
     .onGet(
-      '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&IncludeDiscussedList=true&Skip=0&Limit=10',
+      '/edetailing/motherbrands?StaffPositionId=1&IncludeDiscussedList=true&IsPriority=false&PartyId=1&Skip=0&Limit=0',
     )
     .reply(200, EOtherProductList);
+  mock
+    .onGet(
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=5&Skip=0&Limit=0',
+    )
+    .reply(200, EPriorityProductList);
   mock
     .onGet(
       '/edetailing/motherbrands?StaffPositionId=1&PartyId=1&IsPriority=false&Skip=10&Limit=10',
@@ -173,11 +218,29 @@ const getMock = axios => {
     )
     .reply(200, visitMockData);
 
-  // master data download
+  // master data download :: TO DO:: temp web fix
+  // mock
+  //   .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
+  //   .reply(200, qualifications);
+  // mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
+  mock.onPut(getUrl(API_PATHS.SWAP)).reply(200, true);
   mock
-    .onGet(NetworkService.API.FETCH_QUALIFICATIONS)
-    .reply(200, qualifications);
-  mock.onGet(NetworkService.API.FETCH_SPECIALITIES).reply(200, specialities);
+    .onGet(getMissedCallUrl(API_PATHS.GET_MISSED_CALLS))
+    .reply(200, missedCallMockData);
+  mock
+    .onPost(`${API_PATHS.ADD_TODAY_PLAN}?staffPositionId=1&partyId=2`)
+    .reply(200, addToTodayMockData);
+  mock.onGet('staff/getreporters/1').reply(200, staff);
+  mock
+    .onGet('sku/withinventory?StaffPositionId=1&UserId=1')
+    .reply(200, searchSamples);
+  mock.onGet('item?StaffPositionId=1&UserId=1').reply(200, searchItems);
+  mock
+    .onGet('taskinfo/parties/opentask?StaffPositionId=1&partyIds=1')
+    .reply(200, dcrData);
+  mock
+    .onGet('/party/partybyspid/1?partyTypeGroupId=1')
+    .reply(200, doctorDcrList);
 };
 
 export default getMock;

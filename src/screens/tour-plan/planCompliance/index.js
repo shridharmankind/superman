@@ -19,6 +19,8 @@ import {
   COMPLAINCE_TYPE,
   RULE_KEY,
   ARRAY_OPERATION,
+  COMPARISION_TYPE,
+  SUBMIT_STP_PLAN_THRESHOLD_VALUE,
 } from 'screens/tourPlan/constants';
 
 /**
@@ -33,6 +35,10 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
+  const gapRuleErrorCode = useSelector(
+    planComplianceSelector.getGapRuleError(),
+  );
+  const [gapRuleCode, setGapRuleCode] = useState();
   /**
    * Fetch complaince rules list
    */
@@ -48,6 +54,9 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       );
   }, [dispatch, type, week, weekDay, staffPositionId]);
 
+  useEffect(() => {
+    setGapRuleCode(gapRuleErrorCode);
+  }, [gapRuleErrorCode]);
   /**
    * fetch data from selector
    */
@@ -85,32 +94,38 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
     if (type === COMPLAINCE_TYPE.MONTHLY || !checkType) {
       return renderIcon(rule?.isCompliant);
     }
-    if (checkType && type === COMPLAINCE_TYPE.DAILY) {
-      const isCompliant = getComparisonResult(
-        key === RULE_KEY.AREA
-          ? selectedData[key] ?? rule?.ruleValues?.coveredCount
-          : selectedData[key],
-        rule?.ruleValues?.totalCount,
-        checkType,
-      );
-      if (showWarningMessage && checkType && type === COMPLAINCE_TYPE.DAILY) {
-        if (!isCompliant) {
-          dispatch(
-            planComplianceActions.collectWarningOnRules({
-              rule: ruleMapping,
-              operation: ARRAY_OPERATION.PUSH,
-            }),
-          );
-        } else {
-          dispatch(
-            planComplianceActions.collectWarningOnRules({
-              rule: ruleMapping,
-              operation: ARRAY_OPERATION.POP,
-            }),
-          );
+    if (type === COMPLAINCE_TYPE.DAILY) {
+      if (checkType === COMPARISION_TYPE.MINGAP) {
+        const compliantCheckForMinGap =
+          gapRuleCode !== null && gapRuleCode === ruleMapping?.errorCode;
+        return renderIcon(!compliantCheckForMinGap);
+      } else if (checkType) {
+        const isCompliant = getComparisonResult(
+          key === RULE_KEY.AREA
+            ? selectedData[key] ?? rule?.ruleValues?.coveredCount
+            : selectedData[key],
+          rule?.ruleValues?.totalCount,
+          checkType,
+        );
+        if (showWarningMessage && checkType) {
+          if (!isCompliant) {
+            dispatch(
+              planComplianceActions.collectWarningOnRules({
+                rule: ruleMapping,
+                operation: ARRAY_OPERATION.PUSH,
+              }),
+            );
+          } else {
+            dispatch(
+              planComplianceActions.collectWarningOnRules({
+                rule: ruleMapping,
+                operation: ARRAY_OPERATION.POP,
+              }),
+            );
+          }
         }
+        return renderIcon(isCompliant);
       }
-      return renderIcon(isCompliant);
     }
   };
   /**
@@ -194,6 +209,18 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   };
 
   /**
+   *  Compare complaince percentage with threshold value
+   * @param {Number} totalPercent
+   * @returns Boolean
+   */
+  const isPlanComplainceCompleted = totalPercent => {
+    const totalPercentValue = Number.isInteger(totalPercent)
+      ? totalPercent
+      : totalPercent?.toFixed(1);
+    return totalPercentValue >= SUBMIT_STP_PLAN_THRESHOLD_VALUE;
+  };
+
+  /**
    *
    * @returns render component when complaince data available
    */
@@ -203,14 +230,14 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
         <View
           style={[
             styles.progressContainer,
-            complianceData?.totalPercent === 100
+            isPlanComplainceCompleted(complianceData?.totalPercent)
               ? styles.completedComplaince
               : styles.inProgressComplaince,
           ]}>
           <Label variant={LabelVariant.h1} style={styles.percentage}>
             {Number.isInteger(complianceData?.totalPercent)
               ? complianceData?.totalPercent
-              : complianceData?.totalPercent?.toFixed(2)}{' '}
+              : complianceData?.totalPercent?.toFixed(1)}{' '}
             %
           </Label>
           <ProgressBar
@@ -235,8 +262,9 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       </View>
     );
   };
-
-  return !complianceData || !Object.values(complianceData)?.length
+  return !complianceData ||
+    !Object.values(complianceData)?.length ||
+    complianceData?.error
     ? null
     : render();
 };

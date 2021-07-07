@@ -1,24 +1,28 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
+import React from 'react';
 import {LogBox} from 'react-native';
 
+import {Provider} from 'react-redux';
 import {Provider as PaperProvider} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
+
 import theme from 'themes';
 import AsyncStorage from '@react-native-community/async-storage';
 import {getStore} from './store/getStore';
-import {Provider} from 'react-redux';
 import {isWeb} from 'helper';
 import {setI18nConfig} from './locale';
+
 import {Toast} from 'components/widgets';
+import ErrorBoundary from 'screens/generic/ErrorBoundary';
 import RouteHandler from './screens/generic/RouteHandler';
 import {TASK_NAME} from 'utils/backgroundTask';
 
-const store = getStore();
+export const store = getStore();
 
 const App = () => {
-  LogBox.ignoreAllLogs();
+  LogBox.ignoreAllLogs(); // enable this for demo
   setI18nConfig();
+
   React.useEffect(() => {
     if (!isWeb()) {
       setTimeout(() => {
@@ -30,19 +34,20 @@ const App = () => {
 
     return async () => {
       if (!isWeb()) {
-        console.log('removed App js');
         AsyncStorage.removeItem(TASK_NAME);
       }
     };
   }, []);
 
   return (
-    <Provider store={store}>
-      <PaperProvider theme={theme}>
-        <RouteHandler />
-        <Toast />
-      </PaperProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <PaperProvider theme={theme}>
+          <RouteHandler />
+          <Toast />
+        </PaperProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 };
 

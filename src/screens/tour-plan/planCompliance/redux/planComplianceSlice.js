@@ -11,6 +11,7 @@ export const planComplianceState = {
     daily: {},
     error: null,
     warningOnRules: [],
+    gapRuleErrorCode: null,
   },
 };
 
@@ -40,6 +41,15 @@ export const planComplianceSlice = createSlice({
         state.rules.warningOnRules.splice(findRule, 1);
       }
       return state;
+    },
+    setGapRuleErrorCode: (state, action) => {
+      return {
+        ...state,
+        rules: {
+          ...state.rules,
+          gapRuleErrorCode: action.payload,
+        },
+      };
     },
   },
 });

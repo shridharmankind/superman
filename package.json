@@ -12,12 +12,15 @@
     "lint": "eslint .",
     "env-static": "node setup-environment.js static",
     "env-dev": "node setup-environment.js development",
+    "env-dev-web": "node setup-environment.js developmentWeb",
+    "env-qa": "node setup-environment.js qa",
     "env-staging": "node setup-environment.js staging",
     "rn-android": "react-native run-android",
     "android": "yarn env-dev && yarn rn-android",
     "android-static": "yarn env-static && yarn rn-android",
+    "android-qa": "yarn env-qa && yarn rn-android",
     "android-staging": "yarn env-staging && yarn rn-android",
-    "postinstall": "cp -R android/app/src/main/res/mipmap node_modules/react-native-sync-adapter/android/src/main/res/mipmap"
+    "postinstall": "shx rm -rf node_modules/react-native-sync-adapter/android/src/main/res/mipmap && shx cp -r android/app/src/main/res/mipmap node_modules/react-native-sync-adapter/android/src/main/res/mipmap"
   },
   "dependencies": {
     "@react-native-community/art": "^1.2.0",
@@ -25,6 +28,7 @@
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "^6.0.0",
+    "@react-native-voice/voice": "^3.2.0",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "@reduxjs/toolkit": "^1.4.0",
@@ -39,6 +43,7 @@
     "lodash.merge": "^4.6.2",
     "nanoid": "^3.1.23",
     "normalizr": "^3.6.1",
+    "number-to-words": "^1.2.4",
     "query-string": "^7.0.0",
     "react": "17.0.1",
     "react-dom": "^17.0.2",
@@ -65,7 +70,6 @@
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "^0.16.2",
     "react-redux": "^7.2.4",
-    "react-router-dom": "^5.2.0",
     "realm": "^10.4.1",
     "redux": "^4.1.0",
     "redux-saga": "^1.1.3"
@@ -91,7 +95,8 @@
     "react-app-rewired": "^2.1.8",
     "react-scripts": "^4.0.3",
     "react-test-renderer": "17.0.1",
-    "redux-mock-store": "^1.5.4"
+    "redux-mock-store": "^1.5.4",
+    "shx": "^0.3.3"
   },
   "jest": {
     "preset": "react-native",

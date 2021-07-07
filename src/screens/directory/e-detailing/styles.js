@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   },
   priorityProducts: {
     paddingVertical: theme.spacing(15),
+    paddingHorizontal: theme.spacing(10),
   },
   otherProduct: {
     elevation: 0,
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   },
   modalTitleDone: {
     position: 'absolute',
-    right: -80,
+    right: 0,
   },
   subBrandList: {
     display: 'flex',
@@ -136,6 +137,12 @@ const styles = StyleSheet.create({
   modalPosition: {
     width: '80%',
     left: '4%',
+  },
+  featuredProduct: {
+    backgroundColor: theme.colors.primary,
+  },
+  featuredProductTitle: {
+    color: theme.colors.white,
   },
 });
 

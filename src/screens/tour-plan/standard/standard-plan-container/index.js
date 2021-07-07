@@ -7,6 +7,7 @@ import {
   standardTourPlanSelector,
 } from '../redux';
 import {appSelector} from 'selectors';
+
 /**
  * Standard Tour Plan container
  */

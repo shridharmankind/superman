@@ -9,8 +9,8 @@ export default class DivisionSchema {
       id: 'int',
       name: 'string',
       shortName: 'string',
-      activityType: Constants.ACTIVITY_TYPE,
-      durationType: Constants.DURATION_TYPE,
+      activityType: 'ActivityType',
+      durationType: 'DurationType',
     },
   };
 }
