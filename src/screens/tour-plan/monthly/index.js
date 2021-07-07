@@ -78,6 +78,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
   const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
   const nextMonth = currentMonth + 1;
+  const nextYear = currentYear + 1;
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState(null);
@@ -374,6 +375,10 @@ const MonthlyTourPlan = ({navigation}) => {
     const isMTPLocked = upcomingMonthStatus?.isLocked;
 
     if (isTourPlan && planOption.id !== 1) {
+      console.log('option', planOption);
+      if (planOption.year === nextYear) {
+        return;
+      }
       if (
         (currentDate < MTP_LOCK_DATES_THRESHOLD.MIN ||
           currentDate > MTP_LOCK_DATES_THRESHOLD.MAX) &&
