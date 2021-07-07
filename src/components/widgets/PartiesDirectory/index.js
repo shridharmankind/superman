@@ -67,7 +67,7 @@ const PartiesDirectory = ({
    */
   const getMissedCountTitle = () => {
     let missedCountTitle = '';
-    if (visits && Array.isArray(visits) && visits.length > 1) {
+    if (visits && Array.isArray(visits) && visits.length > 0) {
       const month = returnUTCtoLocal(visits[0].date, 'MMM');
       const dates = (visits || []).reduce((accumulator, visit, index) => {
         const visitDate = returnUTCtoLocal(visit.date, 'D');
@@ -80,7 +80,11 @@ const PartiesDirectory = ({
       }, '');
 
       if (dates && dates !== '') {
-        missedCountTitle = translate('tourPlan.monthly.missedCount', {
+        const key =
+          visits.length === 1
+            ? 'tourPlan.monthly.missedOneCount'
+            : 'tourPlan.monthly.missedCount';
+        missedCountTitle = translate(key, {
           count: capitalize(converter.toWords(visits.length)),
           dates: `${dates} ${month}`,
         });

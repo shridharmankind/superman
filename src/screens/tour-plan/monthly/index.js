@@ -81,6 +81,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
   const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
   const nextMonth = currentMonth + 1;
+  const nextYear = currentYear + 1;
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState(null);
@@ -384,22 +385,27 @@ const MonthlyTourPlan = ({navigation}) => {
     const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     let optionsToIterate = getOptionsToIterateForDropDown();
     const isMTPLocked = upcomingMonthStatus?.isLocked;
+    const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
 
     if (isTourPlan && planOption.id !== 1) {
+      if (planOption.year === nextYear) {
+        return;
+      }
       if (
         (currentDate < MTP_LOCK_DATES_THRESHOLD.MIN ||
           currentDate > MTP_LOCK_DATES_THRESHOLD.MAX) &&
-        planOption.month > currentMonth
+        planOption.month > currentMonth &&
+        planOption.month !== nextMonth &&
+        !isMTPSubmitted
       ) {
         return;
       }
+
       if (
         (currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
           currentDate <= MTP_LOCK_DATES_THRESHOLD.MAX &&
           planOption.month > nextMonth) ||
-        (!isMTPLocked &&
-          planOption.month === nextMonth &&
-          currentDate >= MTP_LOCK_DATES_THRESHOLD.MAX)
+        (isMTPLocked && !isMTPSubmitted && planOption.month === nextMonth)
       ) {
         return;
       }
@@ -446,6 +452,24 @@ const MonthlyTourPlan = ({navigation}) => {
           textStyle={[styles.chip, styles.dueDateChip]}
           chipContainerCustomStyle={styles.chipContainer}
         />
+      );
+    }
+
+    if (
+      !isMTPLocked &&
+      option?.month === nextMonth &&
+      currentDate >= MTP_LOCK_DATES_THRESHOLD.MAX
+    ) {
+      return (
+        <>
+          <Area
+            title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
+            value={'1'}
+            bgColor={themes.colors.grey[700]}
+            textStyle={[styles.chip, styles.notSubmittedChip]}
+            chipContainerCustomStyle={styles.chipContainer}
+          />
+        </>
       );
     }
 

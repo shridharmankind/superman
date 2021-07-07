@@ -5,7 +5,7 @@ import {useTheme} from 'react-native-paper';
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
 import styles from '../styles';
 import {Strings} from 'common';
-import {Label, LabelVariant} from 'components/elements';
+import {Label, LabelVariant, ActivityIndicator} from 'components/elements';
 import {DailyPlanParties} from 'components/widgets';
 import {deletePartyCreator, doctorDetailActions} from '../redux';
 import {showToast, hideToast} from 'components/widgets/Toast';
@@ -14,6 +14,7 @@ import {CloseIcon} from 'assets';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {appSelector} from 'selectors';
 import {translate} from 'locale';
+import {FetchEnumStatus} from 'reducers';
 
 /**
  * render list of doctors
@@ -25,6 +26,7 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   const {colors} = useTheme();
   const {toDoVisits, completedVisits} = dayPlanData;
   const dispatch = useDispatch();
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const [isDeleteOperationInProgress, setIsDeleteOperationInProgress] =
     useState(false);
