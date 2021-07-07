@@ -176,7 +176,7 @@ const DoctorFeedback = ({navigation, route}) => {
   );
 
   const handleRightArrow = () => {
-    let currentIndexSwap = swiperRef.current.getCurrentIndex();
+    let currentIndex = swiperRef.current.getCurrentIndex();
     let scrollindex = currentIndex + 1;
     if (scrollindex < items.length) {
       swiperRef.current.scrollToIndex({index: scrollindex});
