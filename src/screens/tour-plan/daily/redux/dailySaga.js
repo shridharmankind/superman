@@ -60,6 +60,8 @@ export function* fetchDoctorDetailWorker(action) {
       });
     }
 
+    alert('saga' + JSON.stringify(response.data));
+
     yield put(
       doctorDetailActions.getDoctorDetail({
         doctorDetail: {

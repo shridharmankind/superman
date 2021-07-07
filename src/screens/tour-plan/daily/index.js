@@ -48,7 +48,7 @@ const DailyTourPlan = () => {
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
   const doctorRemoveError = useSelector(dailySelector.doctorDetailError());
 
-  Alert.alert('daily', allDoctorDetail);
+  Alert.alert(JSON.stringify(allDoctorDetail));
 
   useEffect(() => {
     if (doctorRemoveError !== '') {
