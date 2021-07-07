@@ -1,6 +1,8 @@
 const API_PATHS = {
   FETCH_QUALIFICATIONS: '/qualification',
   FETCH_SPECIALITIES: '/specialisation',
+  FETCH_LEAVES: '/leave',
+  FETCH_LEAVE_TYPES: '/leave/types',
   MTP_CALENDAR: 'mtp/staffpositionId/calendar/month',
   MTP_ROLLOVER: 'mtp/rolloverplan/staffPositionId?month=monthVal',
   GET_MISSED_CALLS:

@@ -47,7 +47,6 @@ export default dbInstance => ({
         'modified',
       );
     } catch (err) {
-      console.log(err);
       recordsUpdated = false;
     }
     return recordsUpdated;

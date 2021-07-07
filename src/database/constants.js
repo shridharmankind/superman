@@ -2,6 +2,8 @@ import {DivisionSchemaName} from './schemas/Divisions';
 import {WeeklyoffSchemaName} from './schemas/Weeklyoffcountrywise';
 import {QualificationsSchemaName} from './schemas/Qualifications';
 import {SpecialitiesSchemaName} from './schemas/Specialities';
+import {LeavesSchemaName} from './schemas/Leaves';
+import {LeaveTypesSchemaName} from './schemas/LeaveTypes';
 
 //Common
 export const downloadStatus = Object.freeze({
@@ -74,3 +76,6 @@ export const MASTER_TABLE_GEOLOCATIONS_CONFIGURATION =
 
 export const QUALIFICATIONS = QualificationsSchemaName;
 export const SPECIALITIES = SpecialitiesSchemaName;
+
+export const LEAVES = LeavesSchemaName;
+export const LEAVE_TYPES = LeaveTypesSchemaName;

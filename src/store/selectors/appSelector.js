@@ -15,6 +15,14 @@ const syncStatusSelector = createSelector(
   [getAppData],
   data => data?.syncStatus,
 );
+const syncCompletionStatusSelector = createSelector(
+  [getAppData],
+  data => data?.syncCompletionStatus,
+);
+const navigationObjectSelector = createSelector(
+  [getAppData],
+  data => data?.navigationObject,
+);
 
 export const appSelector = {
   //App state
@@ -26,5 +34,11 @@ export const appSelector = {
   },
   getSyncStatus: () => {
     return syncStatusSelector;
+  },
+  getSyncCompletionStatus: () => {
+    return syncCompletionStatusSelector;
+  },
+  getNavigationObjectSelector: () => {
+    return navigationObjectSelector;
   },
 };

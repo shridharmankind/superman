@@ -77,6 +77,7 @@ export default dbInstance => ({
         });
       });
     } catch (err) {
+      console.log(err);
       recordsUpdated = false;
     }
     return recordsUpdated;
