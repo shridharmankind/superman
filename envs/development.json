@@ -1,6 +1,6 @@
 {
   "ENVIRONMENT": "DEVELOPMENT",
-  "API_HOST": "http://20.198.75.18/api/",
+  "API_HOST": "http://20.198.75.17/api/",
   "MOCK_REQUESTS": "NO",
   "API_TIMEOUT": 60000,
   "oneLogin": {

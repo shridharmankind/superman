@@ -65,7 +65,6 @@ export const get = async (url, params = {}, apiPath = null) => {
     headers: {Authorization: `Bearer ${accessToken}`},
     params,
   };
-
   const isConnectionAvailable = await checkInternetConnectionForApp();
 
   if (isConnectionAvailable) {
