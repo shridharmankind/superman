@@ -43,12 +43,10 @@ const getNetworkResponse = async (config, apiPath) => {
       if (!isWeb()) {
         synchronizeDB(response, config, apiPath);
       }
-      alert('success response' + JSON.stringify(response));
       return response;
     })
     .catch(function (error) {
       console.log('err ', error);
-      alert('error response' + JSON.stringify(error));
       // handle error, based on different error code different error message can be set here
       return error.response || error.message;
     });
@@ -68,9 +66,7 @@ export const get = async (url, params = {}, apiPath = null) => {
     params,
   };
 
-  alert('config' + JSON.stringify(config));
   const isConnectionAvailable = await checkInternetConnectionForApp();
-  alert('isconnectionavailable' + JSON.stringify(isConnectionAvailable));
 
   if (isConnectionAvailable) {
     return await getNetworkResponse(config, apiPath);
