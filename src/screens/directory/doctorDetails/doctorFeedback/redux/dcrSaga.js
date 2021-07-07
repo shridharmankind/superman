@@ -216,9 +216,22 @@ function* getDoctorList(action) {
       NetworkService.get,
       `${API_PATH.GET_DOCTOR_LIST}/${staffPositionId}?partyTypeGroupId=1`,
     );
+    let dataValue = [];
+    if (response?.data?.length > 0) {
+      dataValue = [...response.data];
+      dataValue.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
     yield put(
       dcrActions.getDoctors({
-        doctorList: [...response.data],
+        doctorList: [...dataValue],
       }),
     );
 
