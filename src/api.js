@@ -8,6 +8,7 @@ axios.defaults.headers = {
 };
 
 export const client = axios.create();
+client.defaults.timeout = env.API_TIMEOUT || 60000;
 
 if (env.ENVIRONMENT === 'STATIC' && env.MOCK_REQUESTS === 'ALL') {
   getMock(client);
