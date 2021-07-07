@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     opacity: 1,
     padding: 0,
-    marginLeft: -10,
+    marginLeft: theme.spacing(-15),
   },
   pagination: {
     position: 'absolute',

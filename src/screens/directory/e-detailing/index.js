@@ -481,11 +481,13 @@ const EDetailing = ({navigation, route}) => {
     for (const mother of priorityProductList) {
       if (mother?.subList?.length) {
         for (const item of mother?.subList) {
-          if (item.skuId > 0 && selectedPrioritySKUs[item.skuId]) {
-            prioritySelection.push({
-              ...item,
-              ...{isFeatured: mother.isFeatured},
-            });
+          if (item.skuId > 0) {
+            if (selectedPrioritySKUs[item.skuId]) {
+              prioritySelection.push({
+                ...item,
+                ...{isFeatured: mother.isFeatured},
+              });
+            }
           } else if (
             item.subBrandId > 0 &&
             selectedPrioritySubBrands[item.subBrandId]
