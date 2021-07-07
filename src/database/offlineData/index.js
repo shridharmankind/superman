@@ -119,7 +119,7 @@ const getPartiesFromMTU = async config => {
               paramObject,
             );
             let obj = JSON.parse(JSON.stringify(newPartyById));
-            obj.visits = [...visitData];
+            //obj.visits = [...visitData];
             getPartiesById.push(obj);
           }
         }

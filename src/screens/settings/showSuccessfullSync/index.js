@@ -27,27 +27,19 @@ const ShowSuccessfullSync = ({records}) => {
         renderItem={({item, index}) => {
           let objectDetail =
             Object.values(item)[0].length <= 0 ? Object.values(item)[0] : '';
-          if (objectDetail) {
-            return (
-              <View style={styles.conflictRow}>
+          return (
+            <View style={styles.conflictRow}>
+              {objectDetail ? (
                 <Complaint style={styles.leftPadding} width={20} height={20} />
-                <Label
-                  style={[styles.colwidth]}
-                  title={`${Object.keys(item)[0]}`}
-                />
-              </View>
-            );
-          } else {
-            return (
-              <View style={styles.conflictRow}>
+              ) : (
                 <ErrorIcon style={styles.leftPadding} width={20} height={20} />
-                <Label
-                  style={[styles.colwidth]}
-                  title={`${Object.keys(item)[0]}`}
-                />
-              </View>
-            );
-          }
+              )}
+              <Label
+                style={[styles.colwidth]}
+                title={`${Object.keys(item)[0]}`}
+              />
+            </View>
+          );
         }}
       />
     </View>
