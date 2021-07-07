@@ -19,6 +19,7 @@ import {FetchEnumStatus} from 'reducers';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
 import {fetchDoctorDetailCreator} from 'screens/tourPlan/daily/redux';
+import {isWeb} from 'helper';
 
 /**
  * component to fetch missed calls to show on directory landing page
@@ -174,13 +175,21 @@ const MissedCalls = () => {
               title={translate('tourPlan.daily.partyName')}
             />
           </View>
-          <View style={customStyles.listHeaderSpacing2}>
+          <View
+            style={[
+              customStyles.listHeaderSpacing2,
+              isWeb() && customStyles.listHeaderSpacing2Web,
+            ]}>
             <Label
               style={customStyles.division}
               title={translate('tourPlan.daily.partyType')}
             />
           </View>
-          <View style={customStyles.listHeaderSpacing3}>
+          <View
+            style={[
+              customStyles.listHeaderSpacing3,
+              isWeb() && customStyles.listHeaderSpacing2Web,
+            ]}>
             <Label
               style={customStyles.division}
               title={translate('speciality')}

@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {ContentWithSidePanel} from 'components/layouts';
 import {useDispatch, useSelector} from 'react-redux';
@@ -379,12 +380,9 @@ const DirectoryLanding = ({navigation, route}) => {
             value={searchKeyword}
             onChangeText={text => updateSearchKeyword(text)}
           />
-          <SearchIcon
-            style={styles.searchIcon}
-            height={16}
-            width={16}
-            onPress={doSearch}
-          />
+          <TouchableOpacity onPress={doSearch} style={styles.searchIcon}>
+            <SearchIcon height={16} width={16} />
+          </TouchableOpacity>
         </View>
         <View>
           <View style={styles.listHeader}>
