@@ -504,8 +504,10 @@ const EDetailing = ({navigation, route}) => {
     for (const mother of otherProductList) {
       if (mother?.subList?.length) {
         for (const item of mother?.subList) {
-          if (item.skuId > 0 && selectedOtherSKUs[item.skuId]) {
-            otherSelection.push(item);
+          if (item.skuId > 0) {
+            if (selectedOtherSKUs[item.skuId]) {
+              otherSelection.push(item);
+            }
           } else if (
             item.subBrandId > 0 &&
             selectedOtherSubBrands[item.subBrandId]
