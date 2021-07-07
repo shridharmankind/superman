@@ -152,7 +152,6 @@ const runBackgroundTask = async (tableName, value) => {
         Schemas.masterTablesDownLoadStatus,
         item[0].name,
       );
-      console.log(item[0].name, 'record', record?.status);
       if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
         let modifiedRecords = await getModifiedRecords(item[0].schema[0]);
         const response = await callRequest(
@@ -160,7 +159,6 @@ const runBackgroundTask = async (tableName, value) => {
           record.lastSync,
           Array.from(modifiedRecords),
         );
-        console.log(item[0].name, 'response', response?.status);
         if (response?.status === DBConstants.HTTP_OK) {
           await SyncOperations.getSyncOperations(
             item[0],
@@ -170,11 +168,6 @@ const runBackgroundTask = async (tableName, value) => {
             resultArray = [...resultArray, ...res];
             //console.log(`${item[0].name} result `, resultArray);
           });
-
-          // const updatedRecord = await Operations.getAllRecord(
-          //   item[0].schema[0],
-          // );
-          // console.log("UpdatedRecord length ",updatedRecord.length);
 
           await Operations.updateRecord(
             Schemas.masterTablesDownLoadStatus,

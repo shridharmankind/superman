@@ -80,7 +80,6 @@ export default dbInstance => ({
       console.log(err);
       recordsUpdated = false;
     }
-    console.log('coming here', recordsUpdated);
     return recordsUpdated;
   },
 
