@@ -67,7 +67,6 @@ const DailyPlanParties = ({
         Constants.PARTY_TYPE.DOCTOR === partyType
           ? genderImage
           : require('assets/images/chemist.png');
-
       setImageSrc(src);
       setIsImageErrror(true);
     }

@@ -17,7 +17,8 @@
       "selectDate": "Please select date",
       "adhocCalls": "Adhoc calls: {{data}}",
       "visitCompleted": "Visit Completed",
-      "mtpNotSubmitted": "MTP not submitted"
+      "mtpNotSubmitted": "MTP not submitted",
+      "missedCount": "Missed {{count}} Times on {{dates}}"
     },
     "daily": {
       "youHave": "You have",
@@ -49,7 +50,7 @@
   "errorMessage": {
     "noRecords": "There are no records",
     "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits",
-    "gapRule": "Min gap between visits not met"
+    "gapRule": "Minimum gap between visits not met for the highloghted doctors"
   },
   "message": {
     "partyAdded": "Party added successfully"
@@ -76,8 +77,8 @@
     "done": "Done",
     "SelectBrandLabel": "Select Sub-brands",
     "slideTitle": "Which products did you",
-    "detail": "detail",
-    "discuss": "discuss",
+    "detail": " detail ",
+    "discuss": "discuss ",
     "toDoctor": "to the doctor?"
   },
   "speciality": "Speciality",
@@ -132,6 +133,7 @@
   },
   "proceed": "Proceed",
   "missedCalls": "Missed Calls({{count}})",
+  "missedCallsWithoutCount": "Missed Calls",
   "dayType": {
     "leave": "Leave"
   },
@@ -140,14 +142,14 @@
     "done": "Done",
     "prodValidation": "Please select atleast one product!",
     "viewProducts": "View Products",
-    "apply": "translate",
+    "apply": "Apply & Close",
     "priority": "Priority",
     "otherProducts": "Other Products",
     "introduction": "Introduction",
     "exit": "Exit"
   },
   "AddDoctor": {
-    "DR": "Dr.",
+    "DR": "Dr. ",
     "label": "Add Doctor",
     "addSelected": "Add Selected ",
     "searchText": "Search Doctors here",
@@ -155,6 +157,6 @@
   },
   "note": {
     "placeholder": "Add Note here",
-    "title": "9. Anything you would like to take note?"
+    "title": "8. Anything you would like to take note?"
   }
 }

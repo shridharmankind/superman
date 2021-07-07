@@ -60,7 +60,7 @@ const getDivisionColor = division => {
     case Constants.DIVISION_COLOR.B:
       return themes.colors.lightBlue;
     case Constants.DIVISION_COLOR.C:
-      return themes.colors.grey[1200];
+      return themes.colors.green[100];
     case Constants.DIVISION_COLOR.D:
       return themes.colors.blue[100];
     default:

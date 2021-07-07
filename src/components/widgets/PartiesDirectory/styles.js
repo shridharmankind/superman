@@ -48,6 +48,35 @@ const styles = StyleSheet.create({
   itemContainer2: {
     width: '21.5%',
   },
+  doctorTile: {
+    marginTop: themes.spacing(10),
+  },
+  borderOuterContainer: {
+    height: 1,
+    overflow: 'hidden',
+    marginTop: themes.spacing(2),
+    paddingBottom: themes.spacing(5),
+  },
+  borderInnerContainer: {
+    height: 1,
+    borderWidth: 0.5,
+    borderColor: themes.colors.grey[200],
+    borderStyle: 'dashed',
+    borderRadius: 0.00000001,
+  },
+  tileContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    marginTop: themes.spacing(5),
+    marginRight: themes.spacing(5),
+  },
+  tileLeft: {
+    flexDirection: 'row',
+  },
+  missedCountTitle: {
+    color: themes.colors.red[300],
+    fontSize: 12,
+  },
 });
 
 export default styles;

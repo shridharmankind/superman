@@ -118,10 +118,7 @@ const EDetailingDCR = ({}) => {
       <View>
         <Label
           variant={LabelVariant.subtitleLarge}
-          style={[
-            styles.discussList,
-            item.isFeatured ? styles.eDetailed : styles.eDetailedNonFeature,
-          ]}
+          style={[styles.discussList, styles.eDetailed]}
           title={item.name}
         />
       </View>
@@ -139,25 +136,9 @@ const EDetailingDCR = ({}) => {
 
   const doneHandler = (discussList, motherId, currentList) => {
     const otherProdctData = [...otherProductList];
-    for (let product of otherProdctData) {
-      if (product.motherBrandId === motherId) {
-        const subArray = product?.subList;
-        for (let index = 0; index < subArray.length - 1; index++) {
-          let findIndex = currentList.findIndex(
-            item => subArray[index].name === item.name,
-          );
-          if (findIndex !== -1) {
-            const subObject = {
-              ...subArray[index],
-              isChecked: currentList[findIndex].isChecked,
-            };
-            subArray[index] = {
-              ...subObject,
-            };
-          }
-        }
-      }
-    }
+    const mutatedMotherBrand = {...otherProductList[currentProduct.index]};
+    mutatedMotherBrand.subList = [...currentList];
+    otherProdctData[currentProduct.index] = mutatedMotherBrand;
     dispatch(
       dcrActions.setDiscussedProduct({
         discussList: discussList,
@@ -196,7 +177,7 @@ const EDetailingDCR = ({}) => {
     setHideOtherRightArrow(hideFlag);
   };
   const renderOtherProduct = () => {
-    return otherProductList.map(otherItem => {
+    return otherProductList.map((otherItem, index) => {
       return (
         <View key={otherItem.motherBrandId}>
           <View>
@@ -205,7 +186,7 @@ const EDetailingDCR = ({}) => {
               style={[styles.discussList, styles.eDetailedNonFeature]}
               title={otherItem.name}
               onPress={() => {
-                setCurrentProduct({...otherItem});
+                setCurrentProduct({...otherItem, index});
                 setShowModal(true);
               }}
             />
@@ -240,7 +221,7 @@ const EDetailingDCR = ({}) => {
           />
         </View>
         <View style={styles.virtualList}>
-          {scrollOffset > 0 && (
+          {scrollOffset > 0 && eDetailedList.length > 5 && (
             <View style={[styles.arrowContainer, styles.leftArrow]}>
               <TouchableOpacity onPress={() => handleOtherAreaLeftArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -258,7 +239,7 @@ const EDetailingDCR = ({}) => {
             showsHorizontalScrollIndicator={false}>
             {renderEdetailedProduct()}
           </ScrollView>
-          {!hideEdtailRightArrow && (
+          {!hideEdtailRightArrow && eDetailedList.length > 5 && (
             <View style={[styles.arrowContainer, styles.rightArrow]}>
               <TouchableOpacity onPress={() => handleAreaRightArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -312,7 +293,7 @@ const EDetailingDCR = ({}) => {
           />
         </View>
         <View style={styles.virtualList}>
-          {scrollOtherOffset > 0 && (
+          {scrollOtherOffset > 0 && otherProduct.length > 5 && (
             <View style={[styles.arrowContainer, styles.leftArrow]}>
               <TouchableOpacity onPress={() => handleAreaLeftArrow()}>
                 <View style={[styles.swiperArrow]}>
@@ -330,7 +311,7 @@ const EDetailingDCR = ({}) => {
             showsHorizontalScrollIndicator={false}>
             {renderOtherProduct()}
           </ScrollView>
-          {!hideOtherRightArrow && (
+          {!hideOtherRightArrow && otherProduct.length > 5 && (
             <View style={[styles.arrowContainer, styles.rightArrow]}>
               <TouchableOpacity onPress={() => handleOtherAreaRightArrow()}>
                 <View style={[styles.swiperArrow]}>
