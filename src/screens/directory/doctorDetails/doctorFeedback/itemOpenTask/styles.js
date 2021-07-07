@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     shadowColor: themes.colors.black,
   },
   sampleListContainer: {
-    maxHeight: 200,
+    maxHeight: 300,
   },
   flexRow: {
     flexDirection: 'row',

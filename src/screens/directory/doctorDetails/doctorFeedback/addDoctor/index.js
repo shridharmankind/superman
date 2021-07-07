@@ -14,7 +14,7 @@ import {translate} from 'locale';
 const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
   const [partyJson, setPartyJson] = useState([]);
   const [searchText, setSearchText] = useState('');
-
+  const [searchData, setSearchData] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
 
   const doctorList = useSelector(dcrSelector.getDoctors());
@@ -22,6 +22,7 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
   useEffect(() => {
     if (doctorList?.length > 0) {
       setPartyJson([...doctorList]);
+      setSearchData([...doctorList]);
     }
   }, [doctorList]);
   useEffect(() => {
@@ -42,6 +43,7 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
       const itemObject = {...item, isChecked: true};
       partyJson.splice(partyIndex, 1);
       setPartyJson(partyJson);
+      setSearchData(partyJson);
       setSelectedList([...selectedList, itemObject]);
     } else {
       const selectedIndex = selectedList.findIndex(
@@ -49,13 +51,24 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
       );
       selectedList.splice(selectedIndex, 1);
       const itemObject = {...item, isChecked: false};
-      setPartyJson([...partyJson, itemObject]);
+      let doctorAllData = [...partyJson, itemObject];
+      doctorAllData.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+      setPartyJson(doctorAllData);
+      setSearchData(doctorAllData);
       setSelectedList(selectedList);
     }
   };
 
   const updateSearch = text => {
-    let partyResult = [...doctorList];
+    let partyResult = [...searchData];
     partyResult = partyResult?.filter(dataItem => !dataItem.isChecked);
     if (text?.length) {
       const seractText = text?.trim().toLowerCase();

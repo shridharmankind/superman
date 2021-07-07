@@ -121,14 +121,17 @@ function* fetchVisitHandler(action) {
 }
 
 function* fetchDcrHandler(action) {
-  const {staffPositionId} = action.payload;
+  const {staffPositionId, partyIds} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
     const response = yield call(
       NetworkService.get,
-      'taskinfo/parties/opentask?StaffPositionId=2',
+      `${API_PATH.GET_DCR_DATA}?StaffPositionId=1&partyIds=1`,
     );
-
+    // const response = yield call(
+    //   NetworkService.get,
+    //   `${API_PATH.GET_DCR_DATA}?StaffPositionId=${staffPositionId}&partyIds=${partyIds}`,
+    // );
     yield put(
       dcrActions.getDoctorDetails({
         doctors: [...response.data],
@@ -142,17 +145,22 @@ function* fetchDcrHandler(action) {
 }
 
 function* searchSampleHandler(action) {
-  const {staffPositionId, searchKey} = action.payload;
+  const {staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
     const response = yield call(
       NetworkService.get,
-      `getsamples?StaffPositionId=${staffPositionId}&searchKeyword=${searchKey}`,
+      `${API_PATH.GET_SAMPLES}?StaffPositionId=1&UserId=1`,
     );
+
+    // const response = yield call(
+    //   NetworkService.get,
+    //   `${API_PATH.GET_SAMPLES}?StaffPositionId=${staffPositionId}&UserId=1`,
+    // );
 
     yield put(
       dcrActions.getSamples({
-        samples: [...response.data.samples],
+        samples: [...response.data],
       }),
     );
 
@@ -163,17 +171,22 @@ function* searchSampleHandler(action) {
 }
 
 function* searchItemsHandler(action) {
-  const {staffPositionId, searchKey} = action.payload;
+  const {staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
     const response = yield call(
       NetworkService.get,
-      `getItems?StaffPositionId=${staffPositionId}&searchKeyword=${searchKey}`,
+      `${API_PATH.GET_ITEMS}?StaffPositionId=1&UserId=1`,
     );
+
+    // const response = yield call(
+    //   NetworkService.get,
+    //   `${API_PATH.GET_ITEMS}?StaffPositionId=${staffPositionId}&UserId=1`,
+    // );
 
     yield put(
       dcrActions.getItems({
-        items: [...response.data.items],
+        items: [...response.data],
       }),
     );
 
@@ -203,9 +216,22 @@ function* getDoctorList(action) {
       NetworkService.get,
       `${API_PATH.GET_DOCTOR_LIST}/${staffPositionId}?partyTypeGroupId=1`,
     );
+    let dataValue = [];
+    if (response?.data?.length > 0) {
+      dataValue = [...response.data];
+      dataValue.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
     yield put(
       dcrActions.getDoctors({
-        doctorList: [...response.data],
+        doctorList: [...dataValue],
       }),
     );
 

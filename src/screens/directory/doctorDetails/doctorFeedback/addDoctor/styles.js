@@ -3,10 +3,8 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   centerModal: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: theme.spacing(22),
+    marginTop: theme.spacing(35),
   },
   modalPosition: {
     width: '85%',
