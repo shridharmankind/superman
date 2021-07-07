@@ -18,7 +18,9 @@
       "adhocCalls": "Adhoc calls: {{data}}",
       "visitCompleted": "Visit Completed",
       "mtpNotSubmitted": "MTP not submitted",
-      "missedCount": "Missed {{count}} Times on {{dates}}"
+      "missedCount": "Missed {{count}} Times on {{dates}}",
+      "swapSuccess": "Data has been swapped successfully for Date {{from}} and Date {{to}}",
+      "swapError": "Data could not be swapped for Date {{from}} and Date {{to}}. Please try again"
     },
     "daily": {
       "youHave": "You have",
