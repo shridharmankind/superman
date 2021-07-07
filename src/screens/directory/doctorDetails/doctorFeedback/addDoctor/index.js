@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {View, TextInput, FlatList, Image} from 'react-native';
+import {View, TextInput, FlatList, Image, TouchableOpacity} from 'react-native';
 import {Modal, Button, LabelVariant, Label} from 'components/elements';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import styles from './styles';
 import {SearchIcon} from 'assets';
-import {Checkbox} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from 'themes';
 import {Constants} from 'common';
 import {dcrSelector} from 'screens/directory/doctorDetails/doctorFeedback/redux';
@@ -95,13 +95,19 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
           )}
         </View>
         <View style={styles.mainCheckBox}>
-          <Checkbox
-            status={item?.isChecked ? 'checked' : 'unchecked'}
+          <TouchableOpacity
             onPress={() => {
               onChecked(item, !item.isChecked);
-            }}
-            color={theme.colors.blue[100]}
-          />
+            }}>
+            {item?.isChecked ? (
+              <Icon
+                name="check-circle"
+                size={20}
+                color={theme.colors.checkCircleBlue}
+              />
+            ) : null}
+            {!item.isChecked ? <View style={[styles.uncheck]} /> : null}
+          </TouchableOpacity>
         </View>
         <View style={styles.avtarClass}>
           <Image
