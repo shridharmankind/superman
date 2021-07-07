@@ -170,6 +170,7 @@ const Strings = {
           midPart: 'status',
           rightPart: 'on open tasks?',
         },
+        noTaskUpdate: 'No Task Update',
       },
     },
   },

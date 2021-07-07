@@ -84,6 +84,7 @@ const StandardPlanModal = ({
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
   const [gapRuleWarningCode, setGapRuleWarningCode] = useState(null);
   const [isPatchExist, setIsPatchExist] = useState(false);
+  const [gapRulesIds, setGapRulesIds] = useState();
   const weekNum = Number(week);
   const dropDownRef = useRef(null);
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
@@ -135,13 +136,10 @@ const StandardPlanModal = ({
       props: {
         onClose: () => {
           hideToast();
-          setGapRuleWarningCode(null);
         },
         heading: translate('errorMessage.gapRule'),
       },
-      onHide: () => {
-        setGapRuleWarningCode(null);
-      },
+      onHide: () => {},
     });
   }, []);
   /**
@@ -285,6 +283,13 @@ const StandardPlanModal = ({
   useEffect(() => {
     dispatch(planComplianceActions.setGapRuleErrorCode(gapRuleWarningCode));
   }, [dispatch, gapRuleWarningCode]);
+
+  useEffect(() => {
+    if (!gapRulesIds?.length) {
+      setGapRuleWarningCode(null);
+    }
+  }, [dispatch, gapRulesIds]);
+
   /**mehtod to load the initial state of daily plan */
   const loadData = useCallback(async () => {
     await dispatch(
@@ -505,6 +510,7 @@ const StandardPlanModal = ({
             );
           } else if (isGapRuleWarning(savePatchRes?.data?.details[0]?.code)) {
             showGapRulesErrror(savePatchRes?.data?.details[0]?.code);
+            setGapRulesIds(savePatchRes?.data?.details[0]?.params?.partyIds);
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
@@ -528,6 +534,9 @@ const StandardPlanModal = ({
     ],
   );
 
+  /**handle submit patch for day
+   * @param {Array} partyIds selected party ids passed as an Array
+   */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
@@ -597,13 +606,22 @@ const StandardPlanModal = ({
           actionRightTitle: Strings.no,
           onPressLeftBtn: () => {
             if (code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED) {
+              let pId = errors?.find(
+                err => err.code === Constants.HTTP_PATCH_CODE.PATCH_EXHAUSTED,
+              );
+              pId = pId?.params.partyIds;
+              const updatedPartyList = doctorsSelected?.filter(
+                party => !pId?.some(par => par === party.partyId),
+              );
+              setDoctorsSelected(updatedPartyList);
+              setPatchValue(null);
               handleNoPress(
                 obj,
                 areaSelected,
-                doctorsSelected,
+                updatedPartyList,
                 allParties,
                 patches,
-                false,
+                true,
               );
             } else {
               const isPatchExhausted = errors.some(
@@ -754,7 +772,7 @@ const StandardPlanModal = ({
       await setPatchSelected(string);
       await setPatchDefaultValue(string);
       setIsPatchExist(patchExists);
-
+      hideToast();
       //TO-DO - Will remove this once QA confirmed the flow
       // savePatch({
       //   ...obj,
@@ -860,6 +878,10 @@ const StandardPlanModal = ({
       selected = selected?.filter(
         party => !partyExhausted?.some(par => par.id === party.partyId),
       );
+    }
+
+    if (gapRulesIds?.length > 0) {
+      setGapRulesIds(gapRulesIds?.filter(ruleId => ruleId !== id));
     }
 
     setDoctorsSelected(selected || []);
@@ -1278,6 +1300,7 @@ const StandardPlanModal = ({
                   patchValue={patchValue}
                   allPartiesByPatchID={allPartiesByPatchID}
                   isSameDayPatch={isSameDayPatch(patchValue)}
+                  gapRulesIds={gapRulesIds}
                 />
                 <View styles={styles.bottom}>
                   <View style={styles.bottomContent}>

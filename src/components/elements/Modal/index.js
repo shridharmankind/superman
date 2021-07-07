@@ -111,7 +111,7 @@ CustomModal.propTypes = {
   primaryActionProps: PropTypes.object,
   closeAction: PropTypes.bool,
   closeTestId: PropTypes.string,
-  customModalPosition: PropTypes.object,
+  customModalPosition: PropTypes.any,
   blurView: PropTypes.bool,
 };
 
