@@ -2,6 +2,7 @@
   "ENVIRONMENT": "DEVELOPMENT",
   "API_HOST": "http://20.198.75.17/api/",
   "MOCK_REQUESTS": "NO",
+  "API_TIMEOUT": 60000,
   "oneLogin": {
     "authority": "https://mankindpharma-sandbox.onelogin.com/oidc/2",
     "clientID": "49ec86f0-96aa-0139-a9f5-02c2731a1c49186786",

@@ -18,7 +18,9 @@
       "adhocCalls": "Adhoc calls: {{data}}",
       "visitCompleted": "Visit Completed",
       "mtpNotSubmitted": "MTP not submitted",
-      "missedCount": "Missed {{count}} Times on {{dates}}"
+      "missedCount": "Missed {{count}} Times on {{dates}}",
+      "swapSuccess": "Data has been swapped successfully for Date {{from}} and Date {{to}}",
+      "swapError": "Data could not be swapped for Date {{from}} and Date {{to}}. Please try again"
     },
     "daily": {
       "youHave": "You have",
@@ -150,7 +152,7 @@
   },
   "AddDoctor": {
     "DR": "Dr. ",
-    "label": "Add Doctor",
+    "label": "Add Doctor(For group detailing)",
     "addSelected": "Add Selected ",
     "searchText": "Search Doctors here",
     "close": "close"

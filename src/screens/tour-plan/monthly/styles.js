@@ -126,6 +126,10 @@ const styles = StyleSheet.create({
   notSubmittedChip: {
     color: theme.colors.black,
   },
+  modalHeight: {
+    height: 'auto',
+    paddingBottom: theme.spacing(0),
+  },
 });
 
 export default styles;

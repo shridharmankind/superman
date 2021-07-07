@@ -43,7 +43,8 @@ import {Calendar} from 'react-native-calendars';
 import {appSelector} from 'selectors';
 import {ActivityIndicator} from 'components/elements';
 import {FetchEnumStatus} from 'reducers';
-
+import {showToast, hideToast} from 'components/widgets/Toast';
+import {Constants} from 'common';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -255,8 +256,9 @@ const MonthlyTourPlan = ({navigation}) => {
 
   useEffect(() => {
     if (swapResponse) {
-      handleSwapDialog();
       dispatch(monthlyActions.resetSwap());
+      showSwapToast(swapResponse, swapObj);
+      handleSwapDialog();
       // dispatch(monthlyActions.resetMtpData());::TO DO - temp commented
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -568,7 +570,7 @@ const MonthlyTourPlan = ({navigation}) => {
     switch (selectedTourPlan?.id) {
       case 1:
         return workingDays.length ? (
-          <View style={styles.tourPlanViewContainer}>
+          <View>
             <StandardPlanContainer
               workingDays={workingDays}
               navigation={navigation}
@@ -581,7 +583,7 @@ const MonthlyTourPlan = ({navigation}) => {
 
       default: {
         return monthSelected && workingDays.length ? (
-          <View style={styles.tourPlanViewContainer}>
+          <View>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
@@ -660,6 +662,7 @@ const MonthlyTourPlan = ({navigation}) => {
         modalTitle={getSwapModalTitle()}
         modalContent={getSwapModalContent()}
         customModalCenteredView={styles.centeredView}
+        customModalPosition={styles.modalHeight}
       />
     );
   };
@@ -671,7 +674,7 @@ const MonthlyTourPlan = ({navigation}) => {
         <Label
           type="bold"
           title={translate('tourPlan.monthly.actions.swap')}
-          variant={LabelVariant.h4}
+          variant={LabelVariant.h3}
           style={styles.modalTitleText}
         />
       </View>
@@ -684,7 +687,11 @@ const MonthlyTourPlan = ({navigation}) => {
       <View style={styles.swapContent}>
         {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
         <View>
-          <Label type="bold" title={translate('tourPlan.monthly.from')} />
+          <Label
+            type="bold"
+            variant={LabelVariant.h4}
+            title={translate('tourPlan.monthly.from')}
+          />
           <TouchableOpacity
             style={styles.swapDate}
             onPress={() => handleDatePress(SWAP.SOURCE)}>
@@ -700,7 +707,11 @@ const MonthlyTourPlan = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View>
-          <Label type="bold" title={translate('tourPlan.monthly.to')} />
+          <Label
+            type="bold"
+            variant={LabelVariant.h4}
+            title={translate('tourPlan.monthly.to')}
+          />
           <TouchableOpacity
             style={styles.swapDate}
             onPress={() => handleDatePress(SWAP.DESTINATION)}>
@@ -831,6 +842,31 @@ const MonthlyTourPlan = ({navigation}) => {
     }
   };
 
+  /**method to show toast on succes/failure for swapping dates */
+  const showSwapToast = (res, obj) => {
+    showToast({
+      type: res.description
+        ? Constants.TOAST_TYPES.WARNING
+        : Constants.TOAST_TYPES.SUCCESS,
+      autoHide: true,
+      defaultVisibilityTime: 1000,
+      props: {
+        onClose: () => {
+          hideToast();
+        },
+        heading: res.description
+          ? translate('tourPlan.monthly.swapError', {
+              from: obj.source.day,
+              to: obj.destination.day,
+            })
+          : translate('tourPlan.monthly.swapSuccess', {
+              from: obj.source.day,
+              to: obj.destination.day,
+            }),
+      },
+    });
+  };
+
   return (
     <View>
       <View style={styles.dropDownsContainer}>
@@ -850,8 +886,11 @@ const MonthlyTourPlan = ({navigation}) => {
           />
         )}
       {openTourPlanDropDown()}
-      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
-      {renderView()}
+
+      <View style={styles.tourPlanViewContainer}>
+        {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
+        {renderView()}
+      </View>
       <CongratulatoryModal
         open={!submitSTP?.messageShown && showCongratsModal}
         actionTitle={Strings.takeMeToHome}
