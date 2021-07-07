@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {Constants} from 'common';
@@ -47,6 +47,8 @@ const DailyTourPlan = () => {
 
   const allDoctorDetail = useSelector(dailySelector.allDoctorDetail());
   const doctorRemoveError = useSelector(dailySelector.doctorDetailError());
+
+  Alert.alert('daily', allDoctorDetail);
 
   useEffect(() => {
     if (doctorRemoveError !== '') {
