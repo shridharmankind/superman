@@ -204,7 +204,6 @@ const PartyList = ({dayPlanData, onTileNamePress, onTilePress}) => {
   };
   return (
     <>
-      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
       <SwipeListView
         data={toDoVisits}
         renderItem={renderItem}
