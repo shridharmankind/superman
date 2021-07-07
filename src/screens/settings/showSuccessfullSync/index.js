@@ -8,6 +8,16 @@ import styles from './styles';
 const ShowSuccessfullSync = ({records}) => {
   return (
     <View style={styles.listBody}>
+      <View style={styles.listHeader}>
+        <Label
+          style={[styles.division]}
+          title={translate('backgroundTask.conflictScreen.syncStatus')}
+        />
+        <Label
+          style={[styles.division]}
+          title={translate('backgroundTask.conflictScreen.name')}
+        />
+      </View>
       <FlatList
         nestedScrollEnabled
         keyExtractor={item => item.id}
@@ -21,14 +31,20 @@ const ShowSuccessfullSync = ({records}) => {
             return (
               <View style={styles.conflictRow}>
                 <Complaint style={styles.leftPadding} width={20} height={20} />
-                <Label title={`${Object.keys(item)[0]}`} />
+                <Label
+                  style={[styles.colwidth]}
+                  title={`${Object.keys(item)[0]}`}
+                />
               </View>
             );
           } else {
             return (
               <View style={styles.conflictRow}>
                 <ErrorIcon style={styles.leftPadding} width={20} height={20} />
-                <Label title={`${Object.keys(item)[0]}`} />
+                <Label
+                  style={[styles.colwidth]}
+                  title={`${Object.keys(item)[0]}`}
+                />
               </View>
             );
           }

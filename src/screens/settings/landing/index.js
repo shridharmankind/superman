@@ -29,6 +29,11 @@ const SettingLanding = ({navigation, route}) => {
   const syncCompletionStatus = useSelector(
     appSelector.getSyncCompletionStatus(),
   );
+  const syncCompletionMessage = [
+    `${translate('backgroundTask.conflictScreen.syncCompleted')}`,
+    `${translate('backgroundTask.conflictScreen.completedWithConflicts')}`,
+    `${translate('backgroundTask.conflictScreen.failureInSync')}`,
+  ];
 
   useEffect(() => {
     const fetchDbRecords = async () => {
@@ -42,20 +47,24 @@ const SettingLanding = ({navigation, route}) => {
 
   useEffect(() => {
     let totalLength = 0;
-    let conflictRecords = [];
-    allRecords.forEach(records => {
-      let getLength = Object.values(records)[0].length;
-      if (getLength > 0) {
-        conflictRecords.push(records);
-      }
-      totalLength += Object.values(records)[0].length;
-    });
-    setConflictRecords(conflictRecords);
+    if (!isWeb()) {
+      let conflictRecords = [];
+      allRecords.forEach(records => {
+        let getLength = Object.values(records)[0].length;
+        if (getLength > 0) {
+          conflictRecords.push(records);
+        }
+        totalLength += Object.values(records)[0].length;
+      });
+      setConflictRecords(conflictRecords);
+    }
     return totalLength;
   }, [allRecords]);
 
   useEffect(() => {
-    fetchSyncTime();
+    if (!isWeb()) {
+      fetchSyncTime();
+    }
   }, [fetchSyncTime]);
 
   const fetchSyncTime = useCallback(async () => {
@@ -92,7 +101,7 @@ const SettingLanding = ({navigation, route}) => {
 
   const data = [
     {
-      text: `${Strings.setting.tab.conflicts}`,
+      text: `${translate('backgroundTask.syncSummary')}`,
     },
   ];
 
@@ -131,7 +140,7 @@ const SettingLanding = ({navigation, route}) => {
    * @returns formatted date
    */
   const getLastSyncFormattedRecord = () => {
-    return `${Strings.backgroundTask.lastSync} ${lastSyncRecord}`;
+    return `${translate('backgroundTask.lastSync')} ${lastSyncRecord}`;
   };
 
   const handleSyncNow = async () => {
@@ -141,7 +150,7 @@ const SettingLanding = ({navigation, route}) => {
     } else {
       showToastie(
         Constants.TOAST_TYPES.ALERT,
-        Strings.backgroundTask.toastBtns.alreadRunningMessage,
+        `${translate('backgroundTask.toastBtns.alreadRunningMessage')}`,
       );
     }
   };
@@ -149,7 +158,7 @@ const SettingLanding = ({navigation, route}) => {
   const getSyncStatus = () => {
     return syncStatus === 'NOT_RUNNING'
       ? ''
-      : Strings.backgroundTask.toastBtns.alreadRunningMessage;
+      : `${translate('backgroundTask.toastBtns.alreadRunningMessage')}`;
   };
 
   // Below is the doctor tab under directory page
@@ -168,19 +177,25 @@ const SettingLanding = ({navigation, route}) => {
             title={getLastSyncFormattedRecord()}
             variant={LabelVariant.subtitleLarge}
           />
+          <Label
+            title={
+              syncCompletionStatus !== ''
+                ? `${syncCompletionMessage[syncCompletionStatus]}`
+                : ''
+            }
+            variant={LabelVariant.h5}
+            textColor={
+              syncCompletionStatus === 0
+                ? theme.colors.green[100]
+                : theme.colors.orange[200]
+            }
+          />
           <Button
             title={translate('backgroundTask.syncNow')}
             mode="contained"
             contentStyle={styles.buttonTabBar}
             labelStyle={styles.buttonTabBarText}
             onPress={handleSyncNow}
-          />
-        </View>
-        <View style={[styles.syncCompletionHeading]}>
-          <Label
-            title={`${syncCompletionStatus}`}
-            variant={LabelVariant.subtitleLarge}
-            textColor={theme.colors.green[100]}
           />
         </View>
         {getConflictRecords.length > 0 && (
@@ -192,16 +207,29 @@ const SettingLanding = ({navigation, route}) => {
               title={translate('backgroundTask.syncConflict')}
               variant={LabelVariant.h2}
             />
-            <Label title={'No Conflict Found'} />
+            <Label
+              title={translate('backgroundTask.conflictScreen.noConflictFound')}
+            />
           </View>
         )}
         <View style={[styles.heading, styles.syncHeading]}>
-          <Label title={'Synced Tables'} variant={LabelVariant.h2} />
+          <Label
+            title={translate('backgroundTask.conflictScreen.tableProcessed')}
+            variant={LabelVariant.h2}
+          />
         </View>
         {allRecords.length > 0 && <ShowSuccessfullSync records={allRecords} />}
       </>
     );
   };
+
+  if (isWeb()) {
+    return (
+      <ContentWithSidePanel>
+        <Label variant={LabelVariant.subtitleLarge} title="Coming soon!" />
+      </ContentWithSidePanel>
+    );
+  }
 
   return (
     <ContentWithSidePanel header={renderNavBar()}>

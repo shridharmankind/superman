@@ -19,19 +19,21 @@ const ShowConflictRecords = ({records}) => {
       <View style={styles.listHeader}>
         <Label
           style={[styles.division, styles.firstCol]}
-          title={Strings.backgroundTask.conflictScreen.tableName}
+          title={translate('backgroundTask.conflictScreen.tableName')}
         />
         <Label
           style={[styles.division, styles.colwidth]}
-          title={`${Strings.backgroundTask.conflictScreen.lastModifiedTime} \n (Device DB)`}
+          title={`${translate(
+            'backgroundTask.conflictScreen.lastModifiedTime',
+          )} \n (${translate('backgroundTask.conflictScreen.deviceDb')})`}
         />
         <Label
           style={[styles.division, styles.colwidth]}
-          title={Strings.backgroundTask.conflictScreen.conflictType}
+          title={translate('backgroundTask.conflictScreen.conflictType')}
         />
         <Label
           style={[styles.division, styles.confDesc]}
-          title={Strings.backgroundTask.conflictScreen.conflictDesc}
+          title={translate('backgroundTask.conflictScreen.conflictDesc')}
         />
       </View>
       <FlatList
@@ -67,26 +69,18 @@ const ShowConflictRecords = ({records}) => {
               />
               <View style={styles.btnsContainer}>
                 <Button
-                  title={Strings.backgroundTask.useDevice}
+                  title={translate('backgroundTask.useDevice')}
                   mode="contained"
                   contentStyle={styles.buttonLayout}
                   labelStyle={styles.btnContent}
                 />
                 <Button
-                  title={Strings.backgroundTask.useServer}
+                  title={translate('backgroundTask.useServer')}
                   mode="contained"
                   contentStyle={styles.buttonLayout}
                   labelStyle={styles.btnContent}
                 />
               </View>
-              {/* <View style={styles.btnsContainer}>
-                <Button
-                  title={Strings.backgroundTask.useServer}
-                  mode="contained"
-                  contentStyle={styles.buttonLayout}
-                  labelStyle={styles.btnContent}
-                />
-              </View> */}
             </View>
           );
         }}

@@ -14,7 +14,8 @@ const initialState = {
   appStatus: FetchEnumStatus.INITIAL,
   staffPositionId: null,
   syncStatus: Constants.BACKGROUND_TASK.NOT_RUNNING,
-  syncCompletionStatus: '',
+  syncCompletionStatus: 0,
+  navigationObject: null,
 };
 
 export const fetchStatusSlice = createSlice({
@@ -50,6 +51,9 @@ export const fetchStatusSlice = createSlice({
     },
     setSyncCompletionStatus: (state, action) => {
       return {...state, syncCompletionStatus: action.payload};
+    },
+    setNavigationObject: (state, action) => {
+      return {...state, navigationObject: action.payload};
     },
   },
 });

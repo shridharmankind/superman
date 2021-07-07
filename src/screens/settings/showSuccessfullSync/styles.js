@@ -27,14 +27,15 @@ const styles = StyleSheet.create({
   },
   listBody: {maxHeight: 500},
   division: {
-    width: '15%',
+    width: '11%',
     fontSize: 10.7,
     fontFamily: theme.fonts.fontSemiBold,
     color: theme.colors.grey[1600],
     marginRight: theme.spacing(10),
   },
   colwidth: {
-    width: '16%',
+    paddingLeft: theme.spacing(10.3),
+    width: '20%',
   },
   conflictRow: {
     flexDirection: 'row',
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.fontRegular,
     fontSize: 12,
     color: theme.colors.grey[200],
-    width: '17%',
+    width: '18%',
     marginRight: theme.spacing(5),
   },
   buttonLayout: {
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     paddingRight: theme.spacing(10),
   },
   leftPadding: {
-    paddingLeft: theme.spacing(40),
+    paddingLeft: theme.spacing(70),
     marginRight: theme.spacing(20),
   },
   btnContent: {

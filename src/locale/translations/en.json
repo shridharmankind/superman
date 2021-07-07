@@ -94,6 +94,7 @@
     "error": "ERROR"
   },
   "backgroundTask": {
+    "syncSummary": "Sync Summary",
     "lastSync": "Last Synced:",
     "syncNow": "Sync Now",
     "syncConflict": "Sync Conflicts",
@@ -110,6 +111,20 @@
       "conflictMessage": "ync activity was completed with a conflict.",
       "failureMessage": "Sync activity could not be completed.",
       "alreadRunningMessage": "Sync activity is already in progress."
+    },
+    "conflictScreen": {
+      "tableName": "Table Name",
+      "lastModifiedTime": "Last Modified",
+      "deviceDb": "Device DB",
+      "conflictType": "Type of Conflict",
+      "conflictDesc": "Conflict Description",
+      "tableProcessed": "Table Processed",
+      "noConflictFound": "No Conflict Found",
+      "syncCompleted": "Sync Completed",
+      "completedWithConflicts": "Completed with Conflicts",
+      "failureInSync": "Sync Failed",
+      "syncStatus": "Sync Status",
+      "name": "Name"
     }
   },
   "error": {

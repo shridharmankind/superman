@@ -176,7 +176,7 @@ const DailyPlanParties = ({
    * Return string of specializations of parties
    */
   const getSpecialization = () => {
-    return (specialization || {}).map(spec => spec?.name || spec).join(', ');
+    return (specialization || []).map(spec => spec?.name || spec).join(', ');
   };
 
   return (
