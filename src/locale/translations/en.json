@@ -132,7 +132,7 @@
     "exit": "Exit"
   },
   "AddDoctor": {
-    "DR": "Dr.",
+    "DR": "Dr. ",
     "label": "Add Doctor",
     "addSelected": "Add Selected ",
     "searchText": "Search Doctors here",
