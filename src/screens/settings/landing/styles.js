@@ -41,10 +41,6 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing(50),
     marginBottom: theme.spacing(10),
   },
-  warningText: {
-    color: 'red',
-    backgroundColor: 'red',
-  },
 });
 
 export default styles;
