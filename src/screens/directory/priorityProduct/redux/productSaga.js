@@ -21,6 +21,7 @@ function* fetchPriorityProductHandler(action) {
       NetworkService.get,
       `${API_PATH.GET_PRODUCT}?StaffPositionId=${staffPositionID}&PartyId=${partyId}`,
     );
+    console.log(response);
     yield put(
       priorityProductActions.getPriorityProduct({
         priorityProduct: response.data || [],

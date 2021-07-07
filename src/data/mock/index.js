@@ -160,7 +160,7 @@ const getMock = axios => {
   mock.onGet('user/me').reply(200, userInfo);
   mock.onGet(`${API_PATH.PARTY_BY_SPID}/1`).reply(200, party);
   mock
-    .onGet('/product/motherbrands?StaffPositionId=1&PartyId=1&Skip=0&Limit=0')
+    .onGet('/product/partyproduct?StaffPositionId=1&PartyId=5')
     .reply(200, product);
   mock
     .onGet(`${API_PATH.PATCH}/1/parties`)
@@ -214,7 +214,7 @@ const getMock = axios => {
     .reply(200, AllPriority);
   mock
     .onGet(
-      `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=1&StartDate=2021-04-01&EndDate=2021-06-30`,
+      `${DIRECTORY_APIS.GET_TIMELINE}?StaffPositionId=1&PartyId=5&StartDate=2021-05-01&EndDate=2021-07-31`,
     )
     .reply(200, visitMockData);
 
