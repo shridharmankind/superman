@@ -90,6 +90,7 @@ const DoctorsByArea = ({
                 area.id,
               )}
               minGap={gapRulesIds && gapRulesIds?.indexOf(party.id) !== -1}
+              gender={party.gender}
             />
           ))}
         </View>
