@@ -138,6 +138,12 @@ const styles = StyleSheet.create({
     width: '80%',
     left: '4%',
   },
+  featuredProduct: {
+    backgroundColor: theme.colors.primary,
+  },
+  featuredProductTitle: {
+    color: theme.colors.white,
+  },
 });
 
 export default styles;

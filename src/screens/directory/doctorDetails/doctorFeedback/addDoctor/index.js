@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {View, TextInput, FlatList, Image} from 'react-native';
+import {View, TextInput, FlatList, Image, TouchableOpacity} from 'react-native';
 import {Modal, Button, LabelVariant, Label} from 'components/elements';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import styles from './styles';
 import {SearchIcon} from 'assets';
-import {Checkbox} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from 'themes';
 import {Constants} from 'common';
 import {dcrSelector} from 'screens/directory/doctorDetails/doctorFeedback/redux';
@@ -14,7 +14,7 @@ import {translate} from 'locale';
 const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
   const [partyJson, setPartyJson] = useState([]);
   const [searchText, setSearchText] = useState('');
-
+  const [searchData, setSearchData] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
 
   const doctorList = useSelector(dcrSelector.getDoctors());
@@ -22,6 +22,7 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
   useEffect(() => {
     if (doctorList?.length > 0) {
       setPartyJson([...doctorList]);
+      setSearchData([...doctorList]);
     }
   }, [doctorList]);
   useEffect(() => {
@@ -42,6 +43,7 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
       const itemObject = {...item, isChecked: true};
       partyJson.splice(partyIndex, 1);
       setPartyJson(partyJson);
+      setSearchData(partyJson);
       setSelectedList([...selectedList, itemObject]);
     } else {
       const selectedIndex = selectedList.findIndex(
@@ -49,13 +51,24 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
       );
       selectedList.splice(selectedIndex, 1);
       const itemObject = {...item, isChecked: false};
-      setPartyJson([...partyJson, itemObject]);
+      let doctorAllData = [...partyJson, itemObject];
+      doctorAllData.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+      setPartyJson(doctorAllData);
+      setSearchData(doctorAllData);
       setSelectedList(selectedList);
     }
   };
 
   const updateSearch = text => {
-    let partyResult = [...doctorList];
+    let partyResult = [...searchData];
     partyResult = partyResult?.filter(dataItem => !dataItem.isChecked);
     if (text?.length) {
       const seractText = text?.trim().toLowerCase();
@@ -95,13 +108,19 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
           )}
         </View>
         <View style={styles.mainCheckBox}>
-          <Checkbox
-            status={item?.isChecked ? 'checked' : 'unchecked'}
+          <TouchableOpacity
             onPress={() => {
               onChecked(item, !item.isChecked);
-            }}
-            color={theme.colors.blue[100]}
-          />
+            }}>
+            {item?.isChecked ? (
+              <Icon
+                name="check-circle"
+                size={20}
+                color={theme.colors.checkCircleBlue}
+              />
+            ) : null}
+            {!item.isChecked ? <View style={[styles.uncheck]} /> : null}
+          </TouchableOpacity>
         </View>
         <View style={styles.avtarClass}>
           <Image

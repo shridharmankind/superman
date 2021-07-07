@@ -15,6 +15,7 @@ const DoctorsByArea = ({
   selectedDoctorType,
   isSameDayPatch,
   allPartiesByPatchID,
+  gapRulesIds,
 }) => {
   const isDoctorSelected = useCallback(
     (partyId, area) => {
@@ -88,6 +89,8 @@ const DoctorsByArea = ({
                 party.id,
                 area.id,
               )}
+              minGap={gapRulesIds && gapRulesIds?.indexOf(party.id) !== -1}
+              gender={party.gender}
             />
           ))}
         </View>
@@ -107,6 +110,7 @@ const DoctorsByArea = ({
       isSameDayPatch,
       isPartyInPatch,
       isSamePartySelectedInOtherArea,
+      gapRulesIds,
     ],
   );
 

@@ -180,9 +180,13 @@ const EDetailing = ({navigation, route}) => {
       <View style={styles.swapMain} key={item.motherBrandId}>
         <Product
           title={item.name}
+          style={item.isFeatured ? styles.featuredProduct : undefined}
+          productTitleStyle={
+            item.isFeatured ? styles.featuredProductTitle : undefined
+          }
           isChecked={(() =>
             selectedPriorityMotherBrands[item.motherBrandId] || false)()}
-          tags={[`P${item.priority}`]}
+          tags={item.priority > 0 ? [`P${item.priority}`] : []}
           onProductClick={() => {
             setCurrentProduct(item);
             setShowModal(true);
@@ -477,11 +481,13 @@ const EDetailing = ({navigation, route}) => {
     for (const mother of priorityProductList) {
       if (mother?.subList?.length) {
         for (const item of mother?.subList) {
-          if (item.skuId > 0 && selectedPrioritySKUs[item.skuId]) {
-            prioritySelection.push({
-              ...item,
-              ...{isFeatured: mother.isFeatured},
-            });
+          if (item.skuId > 0) {
+            if (selectedPrioritySKUs[item.skuId]) {
+              prioritySelection.push({
+                ...item,
+                ...{isFeatured: mother.isFeatured},
+              });
+            }
           } else if (
             item.subBrandId > 0 &&
             selectedPrioritySubBrands[item.subBrandId]
@@ -498,8 +504,10 @@ const EDetailing = ({navigation, route}) => {
     for (const mother of otherProductList) {
       if (mother?.subList?.length) {
         for (const item of mother?.subList) {
-          if (item.skuId > 0 && selectedOtherSKUs[item.skuId]) {
-            otherSelection.push(item);
+          if (item.skuId > 0) {
+            if (selectedOtherSKUs[item.skuId]) {
+              otherSelection.push(item);
+            }
           } else if (
             item.subBrandId > 0 &&
             selectedOtherSubBrands[item.subBrandId]

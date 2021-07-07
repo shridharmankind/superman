@@ -1,6 +1,6 @@
 {
   "ENVIRONMENT": "DEVELOPMENT",
-  "API_HOST": "http://20.198.75.17/api/",
+  "API_HOST": "https://api.services-all.0a6418a61f9c4aeb86ee.centralindia.aksapp.io/api",
   "MOCK_REQUESTS": "NO",
   "API_TIMEOUT": 60000,
   "oneLogin": {

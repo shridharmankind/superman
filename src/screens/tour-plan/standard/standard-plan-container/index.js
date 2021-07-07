@@ -7,8 +7,7 @@ import {
   standardTourPlanSelector,
 } from '../redux';
 import {appSelector} from 'selectors';
-import {ActivityIndicator} from 'components/elements';
-import {FetchEnumStatus} from 'reducers';
+
 /**
  * Standard Tour Plan container
  */
@@ -19,7 +18,6 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
   const weekDayDataSelector = useSelector(
     standardTourPlanSelector.getSTPData(),
   );
-  const fetchState = useSelector(appSelector.makeGetAppFetch());
   // Fetch STP Data
   useEffect(() => {
     dispatch(
@@ -46,15 +44,12 @@ const StandardPlanContainer = ({workingDays, navigation}) => {
       year: new Date().getFullYear(), //as of now need current year
     });
   return (
-    <>
-      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
-      <WeekView
-        workingDays={workingDays}
-        columnHeader={Strings.week}
-        onPressHandler={handleOnClickWeekView}
-        weekData={weekDayData}
-      />
-    </>
+    <WeekView
+      workingDays={workingDays}
+      columnHeader={Strings.week}
+      onPressHandler={handleOnClickWeekView}
+      weekData={weekDayData}
+    />
   );
 };
 

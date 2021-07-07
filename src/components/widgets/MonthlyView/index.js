@@ -1,13 +1,9 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
 import theme from 'themes';
 import {getMonthDiff, getDateFromMonthYear} from 'utils/dateTimeHelper';
-import {ActivityIndicator} from 'components/elements';
-import {FetchEnumStatus} from 'reducers';
-import {appSelector} from 'selectors';
 
 /**
  * Render Monthly View Calendar created using
@@ -24,7 +20,7 @@ const MonthlyView = ({
 }) => {
   const textInput = React.useRef(null);
   const currentDate = getDateFromMonthYear(monthSelected);
-  const fetchState = useSelector(appSelector.makeGetAppFetch());
+
   // effect to update month on change of date
   useEffect(() => {
     if (currentDate && previousMonthSelected) {
@@ -33,9 +29,9 @@ const MonthlyView = ({
       textInput.current.addMonth(getMonthDiff(currentDate, previousDate));
     }
   }, [currentDate, previousMonthSelected]);
+
   return (
     <>
-      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
       <Calendar
         current={currentDate}
         ref={textInput}

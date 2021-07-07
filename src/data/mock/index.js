@@ -203,7 +203,9 @@ const getMock = axios => {
     )
     .reply(200, EOtherProductList);
   mock
-    .onGet('/edetailing/motherbrands?StaffPositionId=1PartyId=5&Skip=0&Limit=0')
+    .onGet(
+      '/edetailing/motherbrands?StaffPositionId=1&PartyId=5&Skip=0&Limit=0',
+    )
     .reply(200, EPriorityProductList);
   mock
     .onGet(
@@ -230,12 +232,12 @@ const getMock = axios => {
     .reply(200, addToTodayMockData);
   mock.onGet('staff/getreporters/1').reply(200, staff);
   mock
-    .onGet('getsamples?StaffPositionId=1&searchKeyword=a')
+    .onGet('sku/withinventory?StaffPositionId=1&UserId=1')
     .reply(200, searchSamples);
+  mock.onGet('item?StaffPositionId=1&UserId=1').reply(200, searchItems);
   mock
-    .onGet('getItems?StaffPositionId=1&searchKeyword=a')
-    .reply(200, searchItems);
-  mock.onGet('taskinfo/parties/opentask?StaffPositionId=2').reply(200, dcrData);
+    .onGet('taskinfo/parties/opentask?StaffPositionId=1&partyIds=1')
+    .reply(200, dcrData);
   mock
     .onGet('/party/partybyspid/1?partyTypeGroupId=1')
     .reply(200, doctorDcrList);

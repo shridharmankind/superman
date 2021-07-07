@@ -19,8 +19,8 @@ import {
   TOUR_PLAN_TYPE,
   STP_STATUS,
   SUBMIT_STP_PLAN_THRESHOLD_VALUE,
-  MTP_LOCK_DATES_THRESHOLD,
   SWAP,
+  DAY_TYPE,
 } from 'screens/tourPlan/constants';
 import userMock from '../../../data/mock/api/doctors.json';
 import {DropdownIcon, LockIcon} from 'assets';
@@ -41,7 +41,10 @@ import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 import {Calendar} from 'react-native-calendars';
 import {appSelector} from 'selectors';
-
+import {ActivityIndicator} from 'components/elements';
+import {FetchEnumStatus} from 'reducers';
+import {showToast, hideToast} from 'components/widgets/Toast';
+import {Constants} from 'common';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -78,6 +81,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const currentMonth = parseInt(getFormatDate({format: 'M'}), 10);
   const currentYear = parseInt(getFormatDate({format: 'YYYY'}), 10);
   const nextMonth = currentMonth + 1;
+  const nextYear = currentYear + 1;
   const [workingDays, setworkingDays] = useState();
   const [planOptions, setPlanOptions] = useState([]);
   const [selectedTourPlan, setSelectedTourPlan] = useState(null);
@@ -111,9 +115,25 @@ const MonthlyTourPlan = ({navigation}) => {
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const swapResponse = useSelector(monthlyTourPlanSelector.setSwap());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
+
+  const upcomingMonthStatus = useSelector(
+    monthlyTourPlanSelector.getUpcomingMonthStatus(),
+  );
+
+  const MTP_LOCK_DATES_THRESHOLD = {
+    MIN: parseInt(
+      getFormatDate({date: upcomingMonthStatus?.openStart, format: 'D'}),
+      10,
+    ),
+    MAX: parseInt(
+      getFormatDate({date: upcomingMonthStatus?.openTill, format: 'D'}),
+      10,
+    ),
+  };
 
   useEffect(() => {
-    if (monthSelected) {
+    if ((monthSelected && selectedTourPlan?.id !== 1) || swapResponse) {
       dispatch(
         fetchMTPCalendarUpdateCreator({
           staffPositionId: staffPositionId,
@@ -121,7 +141,13 @@ const MonthlyTourPlan = ({navigation}) => {
         }),
       );
     }
-  }, [dispatch, staffPositionId, monthSelected]);
+  }, [
+    dispatch,
+    staffPositionId,
+    monthSelected,
+    selectedTourPlan,
+    swapResponse,
+  ]);
 
   useEffect(() => {
     dispatch(
@@ -231,10 +257,13 @@ const MonthlyTourPlan = ({navigation}) => {
 
   useEffect(() => {
     if (swapResponse) {
-      handleSwapDialog();
       dispatch(monthlyActions.resetSwap());
+      showSwapToast(swapResponse, swapObj);
+      handleSwapDialog();
+      // dispatch(monthlyActions.resetMtpData());::TO DO - temp commented
     }
-  }, [swapResponse, handleSwapDialog, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [swapResponse, dispatch]);
 
   useEffect(() => {
     if (!selectedTourPlan) {
@@ -355,24 +384,28 @@ const MonthlyTourPlan = ({navigation}) => {
   const selectedTourPlanHandler = planOption => {
     const isTourPlan = dropDownClicked === PLAN_TYPES.TOURPLAN;
     let optionsToIterate = getOptionsToIterateForDropDown();
-    const upcomingMonthStatus = getMTPSubmitStatus();
+    const isMTPLocked = upcomingMonthStatus?.isLocked;
     const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
 
     if (isTourPlan && planOption.id !== 1) {
+      if (planOption.year === nextYear) {
+        return;
+      }
       if (
         (currentDate < MTP_LOCK_DATES_THRESHOLD.MIN ||
           currentDate > MTP_LOCK_DATES_THRESHOLD.MAX) &&
-        planOption.month > currentMonth
+        planOption.month > currentMonth &&
+        planOption.month !== nextMonth &&
+        !isMTPSubmitted
       ) {
         return;
       }
+
       if (
         (currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
           currentDate <= MTP_LOCK_DATES_THRESHOLD.MAX &&
           planOption.month > nextMonth) ||
-        (!isMTPSubmitted &&
-          planOption.month === nextMonth &&
-          currentDate >= MTP_LOCK_DATES_THRESHOLD.MAX)
+        (isMTPLocked && !isMTPSubmitted && planOption.month === nextMonth)
       ) {
         return;
       }
@@ -394,24 +427,6 @@ const MonthlyTourPlan = ({navigation}) => {
 
     handleDialog();
   };
-
-  /**
-   * @returns MTP supbmitted data
-   */
-  const getMTPSubmitStatus = () => {
-    const upcomingMonthStatus = stpStatus?.monthlyTourPlanStatuses?.filter(
-      monthStatus => {
-        return monthStatus.month === nextMonth;
-      },
-    );
-
-    if (upcomingMonthStatus?.length > 0) {
-      return upcomingMonthStatus[0];
-    } else {
-      return null;
-    }
-  };
-
   /**
    * renders due date of mtp for upcoming month
    * @param {Object} option dropdown option
@@ -419,13 +434,13 @@ const MonthlyTourPlan = ({navigation}) => {
    */
   const renderMTPDueDate = option => {
     const dueDays = MTP_LOCK_DATES_THRESHOLD.MAX - currentDate;
-    const upcomingMonthStatus = getMTPSubmitStatus();
+    const isMTPLocked = upcomingMonthStatus?.isLocked;
     const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
     if (
       option?.month === nextMonth &&
       currentDate < MTP_LOCK_DATES_THRESHOLD.MAX &&
       currentDate >= MTP_LOCK_DATES_THRESHOLD.MIN &&
-      !isMTPSubmitted
+      !isMTPLocked
     ) {
       return (
         <Area
@@ -440,22 +455,13 @@ const MonthlyTourPlan = ({navigation}) => {
       );
     }
 
-    if (isMTPSubmitted && option?.month === nextMonth) {
-      return (
-        <Area
-          title={`${translate(
-            'tourPlan.monthly.submittedOn',
-          )} ${returnUTCtoLocal(upcomingMonthStatus?.submittedDate)}`}
-          value={'1'}
-          bgColor={themes.colors.green[300]}
-          textStyle={[styles.chip, styles.submittedChip]}
-          chipContainerCustomStyle={styles.chipContainer}
-        />
-      );
-    } else if (!isMTPSubmitted && option?.month === nextMonth) {
+    if (
+      !isMTPLocked &&
+      option?.month === nextMonth &&
+      currentDate >= MTP_LOCK_DATES_THRESHOLD.MAX
+    ) {
       return (
         <>
-          <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
           <Area
             title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
             value={'1'}
@@ -465,6 +471,35 @@ const MonthlyTourPlan = ({navigation}) => {
           />
         </>
       );
+    }
+
+    if (option?.month === nextMonth) {
+      if (isMTPLocked && isMTPSubmitted) {
+        return (
+          <Area
+            title={`${translate(
+              'tourPlan.monthly.submittedOn',
+            )} ${returnUTCtoLocal(upcomingMonthStatus?.submittedDate)}`}
+            value={'1'}
+            bgColor={themes.colors.green[300]}
+            textStyle={[styles.chip, styles.submittedChip]}
+            chipContainerCustomStyle={styles.chipContainer}
+          />
+        );
+      } else if (isMTPLocked && !isMTPSubmitted) {
+        return (
+          <>
+            <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
+            <Area
+              title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
+              value={'1'}
+              bgColor={themes.colors.grey[700]}
+              textStyle={[styles.chip, styles.notSubmittedChip]}
+              chipContainerCustomStyle={styles.chipContainer}
+            />
+          </>
+        );
+      }
     }
   };
 
@@ -559,7 +594,7 @@ const MonthlyTourPlan = ({navigation}) => {
     switch (selectedTourPlan?.id) {
       case 1:
         return workingDays.length ? (
-          <View style={styles.tourPlanViewContainer}>
+          <View>
             <StandardPlanContainer
               workingDays={workingDays}
               navigation={navigation}
@@ -572,7 +607,7 @@ const MonthlyTourPlan = ({navigation}) => {
 
       default: {
         return monthSelected && workingDays.length ? (
-          <View style={styles.tourPlanViewContainer}>
+          <View>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
@@ -651,6 +686,7 @@ const MonthlyTourPlan = ({navigation}) => {
         modalTitle={getSwapModalTitle()}
         modalContent={getSwapModalContent()}
         customModalCenteredView={styles.centeredView}
+        customModalPosition={styles.modalHeight}
       />
     );
   };
@@ -662,7 +698,7 @@ const MonthlyTourPlan = ({navigation}) => {
         <Label
           type="bold"
           title={translate('tourPlan.monthly.actions.swap')}
-          variant={LabelVariant.h4}
+          variant={LabelVariant.h3}
           style={styles.modalTitleText}
         />
       </View>
@@ -673,8 +709,13 @@ const MonthlyTourPlan = ({navigation}) => {
   const getSwapModalContent = () => {
     return (
       <View style={styles.swapContent}>
+        {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
         <View>
-          <Label type="bold" title={translate('tourPlan.monthly.from')} />
+          <Label
+            type="bold"
+            variant={LabelVariant.h4}
+            title={translate('tourPlan.monthly.from')}
+          />
           <TouchableOpacity
             style={styles.swapDate}
             onPress={() => handleDatePress(SWAP.SOURCE)}>
@@ -690,7 +731,11 @@ const MonthlyTourPlan = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View>
-          <Label type="bold" title={translate('tourPlan.monthly.to')} />
+          <Label
+            type="bold"
+            variant={LabelVariant.h4}
+            title={translate('tourPlan.monthly.to')}
+          />
           <TouchableOpacity
             style={styles.swapDate}
             onPress={() => handleDatePress(SWAP.DESTINATION)}>
@@ -763,7 +808,10 @@ const MonthlyTourPlan = ({navigation}) => {
 
     const disableDates = {};
     mtpDataSelector?.map(data => {
-      if (data.dayType === 'holiday' || data.dayType === 'leave') {
+      if (
+        data.dayType.toLowerCase() === DAY_TYPE.HOLIDAY ||
+        data.dayType.toLowerCase() === DAY_TYPE.LEAVE
+      ) {
         disableDates[
           `${data.date.year}-${
             data.date.month < 10 ? `0${data.date.month}` : data.date.month
@@ -818,6 +866,31 @@ const MonthlyTourPlan = ({navigation}) => {
     }
   };
 
+  /**method to show toast on succes/failure for swapping dates */
+  const showSwapToast = (res, obj) => {
+    showToast({
+      type: res.description
+        ? Constants.TOAST_TYPES.WARNING
+        : Constants.TOAST_TYPES.SUCCESS,
+      autoHide: true,
+      defaultVisibilityTime: 1000,
+      props: {
+        onClose: () => {
+          hideToast();
+        },
+        heading: res.description
+          ? translate('tourPlan.monthly.swapError', {
+              from: obj.source.day,
+              to: obj.destination.day,
+            })
+          : translate('tourPlan.monthly.swapSuccess', {
+              from: obj.source.day,
+              to: obj.destination.day,
+            }),
+      },
+    });
+  };
+
   return (
     <View>
       <View style={styles.dropDownsContainer}>
@@ -837,7 +910,11 @@ const MonthlyTourPlan = ({navigation}) => {
           />
         )}
       {openTourPlanDropDown()}
-      {renderView()}
+
+      <View style={styles.tourPlanViewContainer}>
+        {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
+        {renderView()}
+      </View>
       <CongratulatoryModal
         open={!submitSTP?.messageShown && showCongratsModal}
         actionTitle={Strings.takeMeToHome}

@@ -74,10 +74,10 @@
       "status": "WorkInProgress",
       "statusId": 1,
       "isSubmitted": true,
-      "isLocked": false,
-      "submittedDate": "0001-01-01T00:00:00",
+      "isLocked": true,
+      "submittedDate": "2021-07-10T00:00:00",
       "openStart": "2021-07-08T00:00:00",
-      "openTill": "2021-07-08T00:00:00"
+      "openTill": "2021-07-20T00:00:00"
     }
   ]
 }

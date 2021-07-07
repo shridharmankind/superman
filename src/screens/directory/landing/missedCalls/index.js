@@ -18,6 +18,7 @@ import theme from 'themes';
 import {FetchEnumStatus} from 'reducers';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
+import {fetchDoctorDetailCreator} from 'screens/tourPlan/daily/redux';
 
 /**
  * component to fetch missed calls to show on directory landing page
@@ -38,6 +39,21 @@ const MissedCalls = () => {
   const fetchState = useSelector(appSelector.makeGetAppFetch());
   const isPartyAddedToDaily = useSelector(partySelector.isPartyMovedToDaily());
 
+  /**
+   * Re-fetch daily calls to refresh the data
+   */
+  const dispatchDailyPlanCalls = () => {
+    dispatch(landingActions.resetStateForDailyPlan(null));
+    dispatch(
+      fetchDoctorDetailCreator({
+        staffPositionid: staffPositionId,
+        day: parseInt(getFormatDate({format: 'D'}), 10),
+        month: parseInt(getFormatDate({format: 'M'}), 10),
+        year: parseInt(getFormatDate({format: 'YYYY'}), 10),
+      }),
+    );
+  };
+
   useEffect(() => {
     if (isPartyAddedToDaily?.id) {
       showToast({
@@ -48,14 +64,15 @@ const MissedCalls = () => {
           heading: translate('message.partyAdded'),
           onClose: () => {
             hideToast();
-            dispatch(landingActions.resetStateForDailyPlan(null));
+            dispatchDailyPlanCalls();
           },
         },
         onHide: () => {
-          dispatch(landingActions.resetStateForDailyPlan(null));
+          dispatchDailyPlanCalls();
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isPartyAddedToDaily]);
 
   /**
@@ -126,11 +143,13 @@ const MissedCalls = () => {
                     title={item.name}
                     specialization={item.specialities}
                     isKyc={item.isKyc}
+                    isCampaign={item.isCampaign}
                     gender={item.gender}
                     category={item.category}
                     location={item.areas}
                     partyType={item?.partyTypes?.name}
                     actionButton={() => renderTodayButton(item)}
+                    visits={item?.visits}
                   />
                 </View>
               </View>
@@ -161,7 +180,7 @@ const MissedCalls = () => {
               title={translate('tourPlan.daily.partyType')}
             />
           </View>
-          <View style={customStyles.listHeaderSpacing2}>
+          <View style={customStyles.listHeaderSpacing3}>
             <Label
               style={customStyles.division}
               title={translate('speciality')}

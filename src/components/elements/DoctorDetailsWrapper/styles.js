@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.disabled,
     opacity: 0.3,
   },
+  error: {
+    borderColor: theme.colors.red[200],
+  },
 });
 
 export default styles;

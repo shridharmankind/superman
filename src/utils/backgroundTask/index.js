@@ -8,6 +8,8 @@ import {showToast, hideToast} from 'components/widgets/Toast';
 import NetInfo from '@react-native-community/netinfo';
 import {store} from '../../App';
 import {fetchStatusSliceActions} from 'reducers';
+import {ROUTE_SETTINGS} from './../../screens/generic/Dashboard/routes';
+import {ROUTE_SETTING_LANDING} from '../../screens/settings/routes';
 
 export const TASK_NAME = 'BACKGROUND_TASK';
 
@@ -132,6 +134,7 @@ const setBackgroundTask = async () => {
             `[${Constants.BACKGROUND_TASK.TASK_NAME}] STATUS:  `,
             getCurrentAsyncStorage,
           );
+          store.dispatch(fetchStatusSliceActions.setSyncCompletionStatus(''));
           store.dispatch(
             fetchStatusSliceActions.setSyncStatus(getCurrentAsyncStorage),
           );
@@ -178,6 +181,7 @@ export const showToastie = (toastieType, message) => {
 };
 
 export const showToastieWithButton = (toastieType, message) => {
+  console.log(store.getState().appState.navigationObject);
   showToast({
     type: toastieType,
     autoHide: false,
@@ -186,6 +190,9 @@ export const showToastieWithButton = (toastieType, message) => {
         hideToast();
       },
       onPressLeftBtn: () => {
+        store.getState().appState.navigationObject?.push(ROUTE_SETTINGS, {
+          screen: ROUTE_SETTING_LANDING,
+        });
         hideToast();
       },
       onClose: () => hideToast(),
@@ -203,6 +210,7 @@ export const showToastieWithButton = (toastieType, message) => {
 export const runBackgroundTask = async () => {
   try {
     let resultArray = [];
+    let finalSyncResult = 0;
     await Sync.SyncAction.syncTableTask().then(result => {
       resultArray = result || [];
     });
@@ -211,17 +219,20 @@ export const runBackgroundTask = async () => {
       resultArray.length === 0 &&
       isDemandSync === Constants.BACKGROUND_TASK.RUNNING
     ) {
+      finalSyncResult = 0;
       showToastie(
         Constants.TOAST_TYPES.SUCCESS,
         Strings.backgroundTask.toastBtns.successMessage,
       );
     }
     if (resultArray && resultArray.includes(CONFLICT)) {
+      finalSyncResult = 1;
       showToastieWithButton(
         Constants.TOAST_TYPES.WARNING,
         Strings.backgroundTask.toastBtns.conflictMessage,
       );
     } else if (resultArray && resultArray.includes(FAILURE)) {
+      finalSyncResult = 2;
       showToastieWithButton(
         Constants.TOAST_TYPES.ALERT,
         Strings.backgroundTask.toastBtns.failureMessage,
@@ -231,11 +242,15 @@ export const runBackgroundTask = async () => {
       resultArray.includes(SUCCESS) &&
       isDemandSync === Constants.BACKGROUND_TASK.RUNNING
     ) {
+      finalSyncResult = 0;
       showToastie(
         Constants.TOAST_TYPES.SUCCESS,
         Strings.backgroundTask.toastBtns.successMessage,
       );
     }
+    store.dispatch(
+      fetchStatusSliceActions.setSyncCompletionStatus(finalSyncResult),
+    );
     if (isDemandSync === Constants.BACKGROUND_TASK.RUNNING) {
       await setOnDemandSyncStatusNotRunning();
     }

@@ -26,6 +26,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: theme.colors.primary,
     opacity: 1,
+    padding: 0,
+    marginLeft: theme.spacing(-15),
   },
   pagination: {
     position: 'absolute',
@@ -107,6 +109,7 @@ const styles = StyleSheet.create({
   subSectionTitle: {
     fontSize: 14,
     fontFamily: theme.fonts.fontRegular,
+    paddingLeft: theme.spacing(30),
   },
   subSectionContent: {
     paddingVertical: theme.spacing(16),
@@ -133,11 +136,16 @@ const styles = StyleSheet.create({
   productSlide: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: theme.spacing(18),
+    marginLeft: theme.spacing(18),
     marginBottom: theme.spacing(10.7),
   },
   productSlideCheck: {
     paddingRight: theme.spacing(13.3),
+  },
+  itemLeft: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 10,
   },
 });
 

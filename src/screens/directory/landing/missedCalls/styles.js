@@ -44,7 +44,10 @@ const styles = StyleSheet.create({
     width: '25%',
   },
   listHeaderSpacing2: {
-    width: '18%',
+    width: '17.5%',
+  },
+  listHeaderSpacing3: {
+    width: '17.5%',
   },
   listHeader: {
     ...parentStyles.listHeader,

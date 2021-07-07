@@ -154,7 +154,6 @@ const runBackgroundTask = async (tableName, value) => {
       );
       if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
         let modifiedRecords = await getModifiedRecords(item[0].schema[0]);
-
         const response = await callRequest(
           item[0],
           record.lastSync,
@@ -169,11 +168,6 @@ const runBackgroundTask = async (tableName, value) => {
             resultArray = [...resultArray, ...res];
             //console.log(`${item[0].name} result `, resultArray);
           });
-
-          // const updatedRecord = await Operations.getAllRecord(
-          //   item[0].schema[0],
-          // );
-          // console.log("UpdatedRecord length ",updatedRecord.length);
 
           await Operations.updateRecord(
             Schemas.masterTablesDownLoadStatus,

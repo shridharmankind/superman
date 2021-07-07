@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import styles from './styles';
 import {Strings} from 'common';
 import {TOUR_PLAN_TYPE} from 'screens/tourPlan/constants';
-import {LocationIcon, ErrorIcon} from 'assets';
+import {LocationIcon, ErrorIcon, StarIcon} from 'assets';
 const legends = Strings.Legends;
 
 const LegendWrapper = props => {
@@ -24,10 +24,20 @@ const LegendWrapper = props => {
 
 /**
  *
- * @returns  kyc visit legend
+ * @returns  kyc visit legend for STP
  */
-const renderKycVisit = () => (
+const renderKycVisitSTP = () => (
   <LegendWrapper title={legends.kycDoctor} style={[styles.dot, styles.kyc]} />
+);
+
+/**
+ *
+ * @returns  kyc visit legend for MTP
+ */
+const renderKycVisitMTP = () => (
+  <LegendWrapper title={legends.kycDoctor}>
+    <StarIcon width={12} height={16} />
+  </LegendWrapper>
 );
 
 /**
@@ -36,7 +46,7 @@ const renderKycVisit = () => (
  */
 const renderScheduleVisits = () => (
   <LegendWrapper
-    title={[legends.visitSchedule]}
+    title={legends.visitSchedule}
     style={[styles.dot, styles.scheduleVisits]}
   />
 );
@@ -117,7 +127,8 @@ const renderLocation = () => (
 const renderMTPLegends = () => {
   return (
     <View style={[styles.container, styles.monthlycontainer]}>
-      {renderKycVisit()}
+      {renderLocation()}
+      {renderKycVisitMTP()}
       {renderWarning()}
       {renderScheduleVisits()}
       {renderExStation()}
@@ -137,7 +148,7 @@ const renderSTPLegends = () => {
   return (
     <View style={[styles.container, styles.standardContainer]}>
       {renderScheduleVisits()}
-      {renderKycVisit()}
+      {renderKycVisitSTP()}
       {renderLocation()}
       {renderWarning()}
       {renderExStation()}
