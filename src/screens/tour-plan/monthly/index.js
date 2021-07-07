@@ -388,7 +388,6 @@ const MonthlyTourPlan = ({navigation}) => {
     const isMTPSubmitted = upcomingMonthStatus?.isSubmitted;
 
     if (isTourPlan && planOption.id !== 1) {
-      console.log('option', planOption);
       if (planOption.year === nextYear) {
         return;
       }
