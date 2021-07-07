@@ -136,13 +136,10 @@ const StandardPlanModal = ({
       props: {
         onClose: () => {
           hideToast();
-          setGapRuleWarningCode(null);
         },
         heading: translate('errorMessage.gapRule'),
       },
-      onHide: () => {
-        setGapRuleWarningCode(null);
-      },
+      onHide: () => {},
     });
   }, []);
   /**
@@ -286,6 +283,13 @@ const StandardPlanModal = ({
   useEffect(() => {
     dispatch(planComplianceActions.setGapRuleErrorCode(gapRuleWarningCode));
   }, [dispatch, gapRuleWarningCode]);
+
+  useEffect(() => {
+    if (!gapRulesIds?.length) {
+      setGapRuleWarningCode(null);
+    }
+  }, [dispatch, gapRulesIds]);
+
   /**mehtod to load the initial state of daily plan */
   const loadData = useCallback(async () => {
     await dispatch(

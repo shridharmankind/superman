@@ -568,7 +568,7 @@ const MonthlyTourPlan = ({navigation}) => {
     switch (selectedTourPlan?.id) {
       case 1:
         return workingDays.length ? (
-          <View style={styles.tourPlanViewContainer}>
+          <View>
             <StandardPlanContainer
               workingDays={workingDays}
               navigation={navigation}
@@ -581,7 +581,7 @@ const MonthlyTourPlan = ({navigation}) => {
 
       default: {
         return monthSelected && workingDays.length ? (
-          <View style={styles.tourPlanViewContainer}>
+          <View>
             <MonthlyView
               workingDays={workingDays}
               monthSelected={monthSelected}
@@ -850,8 +850,11 @@ const MonthlyTourPlan = ({navigation}) => {
           />
         )}
       {openTourPlanDropDown()}
-      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
-      {renderView()}
+
+      <View style={styles.tourPlanViewContainer}>
+        {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
+        {renderView()}
+      </View>
       <CongratulatoryModal
         open={!submitSTP?.messageShown && showCongratsModal}
         actionTitle={Strings.takeMeToHome}
