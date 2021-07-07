@@ -14,21 +14,11 @@ import {CloseIcon} from 'assets';
 import {
   dcrActions,
   dcrSelector,
-  searchItems,
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
 const ItemRequest = ({index, width}) => {
-  const [showModal, setShowModal] = useState(false);
-  const [searchKeyword, updateSearch] = useState(null);
-  const [selectedDocId, updateSelectedDocId] = useState(null);
   const dispatch = useDispatch();
-  const [errorMsg, showError] = useState(null);
-
-  useEffect(() => {
-    dispatch(searchItems({staffPositionId: 1, searchKey: 'a'}));
-  }, [dispatch, searchKeyword]);
 
   const querySamples = useSelector(dcrSelector.getItems());
-  const selectedSamples = useSelector(dcrSelector.getSelectedItems());
   const doctors = useSelector(dcrSelector.getPartyData());
 
   const onErrorHandler = () => {
@@ -36,225 +26,25 @@ const ItemRequest = ({index, width}) => {
     return itemImage;
   };
 
-  useEffect(() => {
-    dispatch(dcrActions.clearSelectedItems());
-  }, [dispatch, doctors, showModal]);
-
-  // To be called on click of Add Selected button from Modal
-  const closeModal = () => {
-    const isAdded = isAlreadyAdded(selectedDocId, selectedSamples);
-    if (!isAdded) {
-      setShowModal(false);
-      const partyIndex = doctors.findIndex(
-        item => item.partyId === selectedDocId,
-      );
-      let tempObj;
-      let tempSampleArray;
-      if (doctors[partyIndex].itemRequested === undefined) {
-        tempObj = {...doctors[partyIndex]};
-        tempObj.itemRequested = [];
-        tempSampleArray = [...selectedSamples];
-      } else {
-        tempSampleArray = [
-          ...doctors[partyIndex].itemRequested,
-          ...selectedSamples,
-        ];
-      }
-
-      let tempDocObj = {...doctors[partyIndex]};
-      tempDocObj.itemRequested = tempSampleArray;
-      let newArr = [...doctors]; // copying the old datas array
-      newArr[partyIndex] = tempDocObj;
-      dispatch(dcrActions.updateDoctorDetails(newArr));
-    } else {
-      showError('Item Already exists');
-    }
-  };
-
-  // To check if sample already exists in the list
-  const isAlreadyAdded = (docId, selectedSamps) => {
-    const partyIndex = doctors.findIndex(item => item.partyId === docId);
-    if (doctors[partyIndex].itemRequested) {
-      for (const sample of doctors[partyIndex].itemRequested) {
-        for (const selected of selectedSamps) {
-          if (sample.itemId === selected.itemId) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
-
-  // To render the selected item's circle
-  const renderCircle = sample => {
-    if (
-      !!selectedSamples &&
-      selectedSamples.length > 0 &&
-      selectedSamples.findIndex(ele => ele.itemId === sample.itemId) >= 0
-    ) {
-      return (
-        <View style={styles.checkStyling}>
-          <Icon
-            name="check-circle"
-            size={16}
-            color={themes.colors.checkCircleBlue}
-          />
-        </View>
-      );
-    }
-  };
-
-  // To render the modal title
-  const getModalTitle = () => {
-    return (
-      <View style={styles.modalTitle}>
-        <Label
-          variant={LabelVariant.h2}
-          title={Strings.doctorDetail.dcr.itemRequest.addItems}
-        />
-        <View style={styles.flexRow}>
-          <Button
-            title={
-              selectedSamples.length > 0
-                ? `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}(${selectedSamples.length})`
-                : `${Strings.doctorDetail.dcr.sampleReq.addSampleBtn}`
-            }
-            mode="outlined"
-            contentStyle={styles.addSelectedBtn}
-            onPress={closeModal}
-          />
-          <CloseIcon
-            style={styles.closeIcon}
-            width={40}
-            height={40}
-            fill={themes.colors.white}
-            onPress={() => setShowModal(false)}
-          />
-        </View>
-      </View>
-    );
-  };
-
-  // To add teh sample from the search Modal
-  const selectAndAddItem = sample => {
-    const checkIndex = selectedSamples.findIndex(
-      ele => ele.itemId === sample.itemId,
-    );
-    if (checkIndex >= 0) {
-      let tempArr = [...selectedSamples];
-      tempArr.splice(checkIndex, 1);
-      dispatch(dcrActions.selectItems(tempArr));
-    } else {
-      dispatch(dcrActions.selectItems([...selectedSamples, sample]));
-    }
-  };
-
-  // To render the modal content
-  const getModalContent = () => {
-    return (
-      <>
-        <View>
-          <TextInput
-            placeholder={Strings.doctorDetail.dcr.sampleReq.searchPlaceholder}
-            style={styles.searchBar}
-            value={searchKeyword}
-            onChangeText={text => updateSearch(text)}
-          />
-          <SearchIcon style={styles.searchIcon} height={18} width={18} />
-        </View>
-        <View style={styles.resultSection}>
-          {selectedSamples.length > 0 && (
-            <View>
-              <Label variant={LabelVariant.h4} title="Selected Items" />
-              <View style={styles.flexRow}>
-                {selectedSamples.map(sample => {
-                  return (
-                    <TouchableOpacity style={styles.searchSampleStyling}>
-                      <Image
-                        style={styles.searchSampleImageStyle}
-                        source={
-                          sample.imageUrl ? sample.imageUrl : onErrorHandler()
-                        }
-                      />
-                      <Label title={sample.itemName} />
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            </View>
-          )}
-        </View>
-
-        <View style={styles.resultSection}>
-          {querySamples &&
-            querySamples.map(sample => {
-              return (
-                <TouchableOpacity
-                  style={styles.searchSampleStyling}
-                  onPress={() => selectAndAddItem(sample)}>
-                  <Image
-                    style={styles.searchSampleImageStyle}
-                    source={
-                      sample.imageUrl ? sample.imageUrl : onErrorHandler()
-                    }
-                  />
-                  {renderCircle(sample)}
-                  <Label title={sample.itemName} />
-                </TouchableOpacity>
-              );
-            })}
-        </View>
-        {errorMsg && (
-          <View style={styles.toastContainer}>
-            <Label style={styles.errStyling} title={errorMsg} />
-            <CloseIcon
-              style={styles.closeIconToast}
-              width={32}
-              height={32}
-              onPress={() => {
-                showError(null);
-              }}
-            />
-          </View>
-        )}
-      </>
-    );
-  };
-
-  // To open the modal on click of Add More link
-  const addSample = partyId => {
-    updateSelectedDocId(partyId);
-    setShowModal(true);
-  };
-
   const noSampleHandler = docId => {
     const checkIndex = doctors.findIndex(item => item.partyId === docId);
     if (checkIndex >= 0) {
       let tempObj = {...doctors[checkIndex]};
       tempObj.noItemRequested = !doctors[checkIndex].noItemRequested;
+
+      tempObj.itemRequested = [...doctors[checkIndex].itemRequested];
+      for (let i = 0; i < tempObj.itemRequested.length; i++) {
+        let temp2Obj = {
+          ...doctors[checkIndex].itemRequested[i],
+        };
+        temp2Obj.actualQty = 0;
+        tempObj.itemRequested[i] = temp2Obj;
+      }
+
       let tempArray = [...doctors];
       tempArray[checkIndex] = tempObj;
       dispatch(dcrActions.updateDoctorDetails(tempArray));
     }
-  };
-
-  // To render the Modal
-  const renderModal = () => {
-    return (
-      <Modal
-        animationType="fade"
-        open={showModal}
-        onClose={() => {
-          setShowModal(false);
-        }}
-        modalTitle={getModalTitle()}
-        modalContent={getModalContent()}
-        presentationStyle="fullScreen"
-        customModalPosition={styles.modalPosition}
-        customModalCenteredView={styles.centerModal}
-      />
-    );
   };
 
   // For decrementing the sample strips
@@ -279,15 +69,26 @@ const ItemRequest = ({index, width}) => {
   // For incrementing the sample strips
   const IncReq = (docId, sample) => {
     let tempSamp;
+    let tempSampleArray = [];
     if (sample?.actualQty === undefined) {
       tempSamp = {...sample, actualQty: 0};
       tempSamp.actualQty = tempSamp.actualQty + 1;
       const partyIndex = doctors.findIndex(item => item.partyId === docId);
-      const sampleIndex = doctors[partyIndex].itemRequested.findIndex(
-        item => item.itemId === sample.itemId,
-      );
-      let tempSampleArray = [...doctors[partyIndex].itemRequested];
-      tempSampleArray.splice(sampleIndex, 1, tempSamp);
+      if (doctors[partyIndex].itemRequested === undefined) {
+        tempSampleArray.splice(tempSampleArray.length, 0, tempSamp);
+      } else {
+        const sampleIndex = doctors[partyIndex].itemRequested.findIndex(
+          item => item.itemId === sample.itemId,
+        );
+        if (sampleIndex < 0) {
+          tempSampleArray = [...doctors[partyIndex].itemRequested];
+          tempSampleArray.splice(tempSampleArray.length, 0, tempSamp);
+        } else {
+          tempSampleArray = [...doctors[partyIndex].itemRequested];
+          tempSampleArray.splice(sampleIndex, 1, tempSamp);
+        }
+      }
+
       let tempDocObj = {...doctors[partyIndex]};
       tempDocObj.itemRequested = tempSampleArray;
       let newArr = [...doctors]; // copying the old datas array
@@ -311,8 +112,121 @@ const ItemRequest = ({index, width}) => {
     }
   };
 
+  const filterItems = (docId, ItemsList, noItemRequested) => {
+    let filteredList = [...ItemsList];
+    const partyIndex = doctors.findIndex(ele => ele.partyId === docId);
+    const alreadySelectedItems = doctors[partyIndex].itemRequested;
+    if (!!alreadySelectedItems && alreadySelectedItems.length > 0) {
+      for (let i = 0; i < alreadySelectedItems.length; i++) {
+        for (let j = 0; j < ItemsList.length; j++) {
+          if (ItemsList[j].itemId === alreadySelectedItems[i].itemId) {
+            const repeatedIndex = filteredList.findIndex(
+              ele => ItemsList[j].itemId === ele.itemId,
+            );
+            filteredList.splice(repeatedIndex, 1);
+          }
+        }
+      }
+    }
+
+    return (
+      <View style={styles.sampleListContainer}>
+        <FlatList
+          nestedScrollEnabled
+          keyExtractor={item => item.itemId}
+          contentContainerStyle={styles.scrollPad}
+          data={filteredList}
+          renderItem={({item}) => {
+            return (
+              <View
+                style={
+                  item.completed === false
+                    ? [styles.sampleStyling, styles.highlightRow]
+                    : styles.sampleStyling
+                }>
+                <View style={styles.leftAlign}>
+                  <Image
+                    style={styles.rowSampleStyle}
+                    source={item.imageUrl ? item.imageUrl : onErrorHandler()}
+                  />
+                  <Label
+                    title={item.itemName}
+                    style={
+                      item.completed === false
+                        ? styles.highLightRowText
+                        : styles.rowText
+                    }
+                  />
+                </View>
+                {item?.requestQty && (
+                  <View>
+                    <Label
+                      title={`Requested Qty : ${item.requestQty}`}
+                      style={
+                        item.completed === false
+                          ? styles.highLightRowText
+                          : styles.rowText
+                      }
+                    />
+                  </View>
+                )}
+
+                <View style={styles.rightAlign}>
+                  <View style={styles.stockData}>
+                    <Label
+                      title={`Provided Qty :${item?.actualQty || 0}`}
+                      style={
+                        item.completed === false
+                          ? styles.highLightRowText
+                          : styles.rowText
+                      }
+                    />
+                    <Label
+                      title={`${item?.StockQty || 0} IN STOCK`}
+                      style={
+                        item.completed === false
+                          ? styles.highLightRowText
+                          : styles.rowText
+                      }
+                    />
+                  </View>
+                  <Button
+                    title="-"
+                    mode="contained"
+                    contentStyle={
+                      item.completed === false
+                        ? styles.highLightBtnStyle
+                        : styles.btnStyle
+                    }
+                    onPress={() => decReq(docId, item)}
+                    disabled={item?.actualQty ? false : true}
+                  />
+                  <Button
+                    title="+"
+                    mode="outlined"
+                    contentStyle={
+                      item.completed === false
+                        ? styles.highLightBtnStyle
+                        : styles.btnStyle
+                    }
+                    onPress={() => IncReq(docId, item)}
+                    disabled={
+                      item?.actualQty >= item?.StockQty || noItemRequested
+                        ? true
+                        : false
+                    }
+                  />
+                </View>
+              </View>
+            );
+          }}
+        />
+      </View>
+    );
+  };
+
   // To render the specific data related to specific doctor
-  const renderItems = (docId, itemOpenTaskArray) => {
+  const renderItems = (docId, itemOpenTaskArray, noItemRequested) => {
     return (
       <View style={styles.sampleListContainer}>
         <FlatList
@@ -358,7 +272,7 @@ const ItemRequest = ({index, width}) => {
                 <View style={styles.rightAlign}>
                   <View style={styles.stockData}>
                     <Label
-                      title={`Provided Qty :${item?.actualQty || 0} Strips`}
+                      title={`Provided Qty :${item?.actualQty || 0}`}
                       style={
                         item.completed === false
                           ? styles.highLightRowText
@@ -394,7 +308,11 @@ const ItemRequest = ({index, width}) => {
                         : styles.btnStyle
                     }
                     onPress={() => IncReq(docId, item)}
-                    disabled={item?.actualQty >= item?.StockQty ? true : false}
+                    disabled={
+                      item?.actualQty >= item?.StockQty || noItemRequested
+                        ? true
+                        : false
+                    }
                   />
                 </View>
               </View>
@@ -402,22 +320,6 @@ const ItemRequest = ({index, width}) => {
           }}
         />
       </View>
-    );
-  };
-
-  // Render footer section
-  const renderFooter = partyId => {
-    return (
-      <TouchableOpacity style={styles.footerSection}>
-        <Label
-          style={{
-            color: themes.colors.primary,
-            fontFamily: themes.fonts.fontSemiBold,
-          }}
-          title={`+ ${Strings.doctorDetail.dcr.addMore}`}
-          onPress={() => addSample(partyId)}
-        />
-      </TouchableOpacity>
     );
   };
 
@@ -465,15 +367,24 @@ const ItemRequest = ({index, width}) => {
                     <Label title={Strings.doctorDetail.dcr.item.noItemReq} />
                   </View>
                   <List.Accordion
-                    title={docObj.partyName}
+                    title={`Dr. ${docObj.partyName}`}
                     // eslint-disable-next-line react-native/no-inline-styles
                     style={{width: 500}}
                     // eslint-disable-next-line react-native/no-inline-styles
                     titleStyle={{justifyContent: 'flex-start', fontSize: 18}}
                     id={docObj.partyId}>
                     {docObj.itemRequested &&
-                      renderItems(docObj.partyId, docObj.itemRequested)}
-                    {renderFooter(docObj.partyId)}
+                      renderItems(
+                        docObj.partyId,
+                        docObj.itemRequested,
+                        docObj.noItemRequested,
+                      )}
+                    {querySamples.length > 0 &&
+                      filterItems(
+                        docObj.partyId,
+                        querySamples,
+                        docObj.noItemRequested,
+                      )}
                   </List.Accordion>
                 </View>
               );
@@ -481,7 +392,6 @@ const ItemRequest = ({index, width}) => {
           </List.AccordionGroup>
         </View>
       )}
-      {renderModal()}
     </View>
   );
 };
