@@ -853,6 +853,7 @@ const MonthlyTourPlan = ({navigation}) => {
           />
         )}
       {openTourPlanDropDown()}
+      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
       {renderView()}
       <CongratulatoryModal
         open={!submitSTP?.messageShown && showCongratsModal}
