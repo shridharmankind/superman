@@ -30,7 +30,6 @@ const MonthlyView = ({
     }
   }, [currentDate, previousMonthSelected]);
 
-
   return (
     <>
       <Calendar

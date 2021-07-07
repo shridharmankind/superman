@@ -61,6 +61,10 @@ const Dashboard = ({navigation}) => {
   }, [dispatch]);
 
   useEffect(() => {
+    dispatch(fetchStatusSliceActions.setNavigationObject(navigation));
+  }, [dispatch, navigation]);
+
+  useEffect(() => {
     const fetchSyncTime = async () => {
       let masterData = getDBInstance().objects(
         Schemas.masterTablesDownLoadStatus.name,
@@ -127,25 +131,25 @@ const Dashboard = ({navigation}) => {
       NetInfo.fetch().then(async state => {
         if (state.isConnected && onDemandSync) {
           let backgroundTaskStatus = await getBackgrounTaskValue();
-          if (backgroundTaskStatus == Constants.BACKGROUND_TASK.NOT_RUNNING) {
+          if (backgroundTaskStatus === Constants.BACKGROUND_TASK.NOT_RUNNING) {
             setOnDemandSync(false);
             await setOnDemandSyncStatusRunning();
             let onDemandValue = await getOnDemandSyncStatus();
-            if (onDemandValue == Constants.BACKGROUND_TASK.RUNNING) {
+            if (onDemandValue === Constants.BACKGROUND_TASK.RUNNING) {
               showToastie(
                 Constants.TOAST_TYPES.SUCCESS,
                 Strings.backgroundTask.toastBtns.syncInitiatedMessage,
               );
               Sync.SyncService.syncNow();
               const getBackgroundSync = await getBackgrounTaskValue();
-              if (getBackgroundSync == Constants.BACKGROUND_TASK.NOT_RUNNING) {
+              if (getBackgroundSync === Constants.BACKGROUND_TASK.NOT_RUNNING) {
                 setOnDemandSync(true);
               }
             }
           } else {
             showToastie(
               Constants.TOAST_TYPES.WARNING,
-              Strings.backgroundTask.toastBtns.syncInitiatedMessage,
+              Strings.backgroundTask.toastBtns.alreadRunningMessage,
             );
           }
         } else {

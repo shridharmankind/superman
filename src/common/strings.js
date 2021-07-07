@@ -212,7 +212,7 @@ const Strings = {
   },
   setting: {
     tab: {
-      conflicts: 'Conflict',
+      conflicts: 'Sync Summary',
     },
   },
   searchBar: {
@@ -251,7 +251,13 @@ const Strings = {
       successMessage: 'Requested sync has been completed successfully.',
       conflictMessage: 'Sync activity was completed with a conflict.',
       failureMessage: 'Sync activity could not be completed.',
-      alreadRunningMessage: 'Sync activity is already in progress.',
+      alreadRunningMessage: 'Sync activity is already in progress...',
+    },
+    conflictScreen: {
+      tableName: 'Table Name',
+      lastModifiedTime: 'Last Modified',
+      conflictType: 'Type of Conflict',
+      conflictDesc: 'Conflict Description',
     },
   },
   noInternet: 'No Internet',

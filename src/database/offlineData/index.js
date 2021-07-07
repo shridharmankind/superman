@@ -100,7 +100,7 @@ const getPartiesFromMTU = async config => {
         schema[0],
         paramObject,
       );
-    if (getFilteredRecord != []) {
+    if (getFilteredRecord !== []) {
       for (const dailyObject of getFilteredRecord) {
         let partyId = dailyObject.partyId;
         if (
@@ -113,7 +113,14 @@ const getPartiesFromMTU = async config => {
             partyId,
           );
           if (newPartyById && !newPartyById.syncParameters.isDeleted) {
-            getPartiesById.push(newPartyById);
+            let visitData = getVisitDataPerParty(
+              partyId,
+              schema[0].name,
+              paramObject,
+            );
+            let obj = JSON.parse(JSON.stringify(newPartyById));
+            //obj.visits = [...visitData];
+            getPartiesById.push(obj);
           }
         }
       }
@@ -126,4 +133,52 @@ const getPartiesFromMTU = async config => {
     response.status = 500;
     return response;
   }
+};
+
+const getVisitDataPerParty = (partyId, schemaName, data) => {
+  let dailyRecords = [];
+  let visitData = [];
+  const getMonthlyRecordObject = getDBInstance()
+    .objects(schemaName)
+    .filtered(
+      `staffPositionId = ${data.staffPositionId} && year = ${data.year} && month = ${data.month}`,
+    );
+  if (getMonthlyRecordObject !== []) {
+    for (const monthlyRecord of getMonthlyRecordObject) {
+      if (monthlyRecord.dailyPlannedActivities !== []) {
+        let getDailyRecordObjects = monthlyRecord.dailyPlannedActivities.filter(
+          item => item.partyId === partyId,
+        );
+        dailyRecords = [...dailyRecords, ...getDailyRecordObjects];
+      }
+    }
+    for (const dailyRecord of dailyRecords) {
+      let currentDate = new Date();
+      let statusValue = 'Completed';
+      if (dailyRecord.date.getDate() > currentDate.getDate()) {
+        statusValue = 'Upcoming';
+      } else if (dailyRecord.date.getDate() === currentDate.getDate()) {
+        statusValue = 'Completed';
+      } else {
+        statusValue = 'Missed';
+      }
+      let visitRecord = {
+        date: dailyRecord.date,
+        month: data.month,
+        dcrSubmitted: '2021-07-07T10:34:25',
+        isAdhoc: dailyRecord.isAdhoc,
+        status: statusValue,
+      };
+      visitData = [...visitData, visitRecord];
+    }
+  }
+  return visitData;
+};
+
+const checkTodayDate = (someDate, today) => {
+  return (
+    someDate.getDate() === today.getDate() &&
+    someDate.getMonth() === today.getMonth() &&
+    someDate.getFullYear() === today.getFullYear()
+  );
 };
