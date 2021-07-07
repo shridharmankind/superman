@@ -30,6 +30,10 @@ import VoiceNote from './voiceNote';
 import InfoOpenTasks from './infoOpenTasks';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AddDoctor from './addDoctor';
+import {
+  searchSamples,
+  searchItems,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
 
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
@@ -37,6 +41,7 @@ const DoctorFeedback = ({navigation, route}) => {
   const [staffPositionId, setStaffPositionId] = useState(null);
   const [hideRightArrow, toggleRightArrow] = useState(false);
   const [hideLeftArrow, toggleLeftArrow] = useState(true);
+  const [currentSwapIndex, setCurrentIndex] = useState(0);
   // const [disableSwipeGesture, updateSwipeGesture] = useState(false);
   const items = [
     {name: 'question1', key: 1},
@@ -60,6 +65,19 @@ const DoctorFeedback = ({navigation, route}) => {
       setStaffPositionId(id);
     })();
   });
+
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(searchSamples({staffPositionId: staffPositionId}));
+    }
+  }, [dispatch, staffPositionId]);
+
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(searchItems({staffPositionId: staffPositionId}));
+    }
+  }, [dispatch, staffPositionId]);
+
   useEffect(() => {
     if (staffPositionId) {
       dispatch(
@@ -90,14 +108,19 @@ const DoctorFeedback = ({navigation, route}) => {
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
-    dispatch(fetchStaffDetail({staffPositionId: 1}));
+    dispatch(fetchStaffDetail({staffPositionId: staffPositionId}));
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
     if (!!doctors && doctors.length <= 0) {
-      dispatch(fetchDcrData({staffPositionId: staffPositionId}));
+      dispatch(
+        fetchDcrData({
+          staffPositionId: staffPositionId,
+          partyIds: [doctorData?.id],
+        }),
+      );
     }
-  }, [dispatch, staffPositionId, doctors]);
+  }, [dispatch, staffPositionId, doctors, doctorData?.id]);
 
   // To close Feedback screen
   const closeFeedback = () => {
@@ -200,6 +223,10 @@ const DoctorFeedback = ({navigation, route}) => {
     swiperRef.current.scrollToIndex({index: scrollindex});
   };
 
+  const handleSlideChange = ({index, prevIndex}) => {
+    setCurrentIndex(index);
+  };
+
   const hideShowRightArrow = show => {
     toggleRightArrow(show);
   };
@@ -219,12 +246,27 @@ const DoctorFeedback = ({navigation, route}) => {
                 variant={LabelVariant.h2}
                 title={`${Strings.doctorDetail.dcr.feedback} - `}
               />
-              <Label
-                style={styles.nameStyling}
-                variant={LabelVariant.h2}
-                testID="doctor_name"
-                title={`Dr. ${doctorData.name}`}
-              />
+              {doctors.map((doc, ind) => {
+                if (ind === doctors.length - 1) {
+                  return (
+                    <Label
+                      style={styles.nameStyling}
+                      variant={LabelVariant.h2}
+                      testID="doctor_name"
+                      title={`Dr. ${doc.partyName}`}
+                    />
+                  );
+                } else {
+                  return (
+                    <Label
+                      style={styles.nameStyling}
+                      variant={LabelVariant.h2}
+                      testID="doctor_name"
+                      title={`Dr. ${doc.partyName},`}
+                    />
+                  );
+                }
+              })}
             </View>
             <View>
               <Label
@@ -235,7 +277,7 @@ const DoctorFeedback = ({navigation, route}) => {
           </View>
           <Button
             title={Strings.doctorDetail.dcr.btnDone}
-            disabled={true}
+            disabled={currentSwapIndex !== 7}
             contentStyle={styles.button}
           />
         </View>
@@ -259,13 +301,14 @@ const DoctorFeedback = ({navigation, route}) => {
             data={items}
             ref={swiperRef}
             renderAll={false}
-            showPagination
+            showPagination={false}
             paginationStyleItemActive={styles.activePaginationItem}
             paginationStyleItem={styles.paginationItem}
             paginationStyle={styles.paginationStyle}
             style={styles.swiperListStyle}
             renderItem={({index}) => renderSlide(index)}
             disableGesture={true}
+            onChangeIndex={handleSlideChange}
           />
         </View>
       </View>

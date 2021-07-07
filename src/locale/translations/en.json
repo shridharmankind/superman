@@ -50,7 +50,7 @@
   "errorMessage": {
     "noRecords": "There are no records",
     "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits",
-    "gapRule": "Min gap between visits not met"
+    "gapRule": "Minimum gap between visits not met for the highloghted doctors"
   },
   "message": {
     "partyAdded": "Party added successfully"

@@ -41,6 +41,8 @@ import {returnUTCtoLocal, getFormatDate} from 'utils/dateTimeHelper';
 import {ROUTE_HOME} from 'screens/generic/Dashboard/routes';
 import {Calendar} from 'react-native-calendars';
 import {appSelector} from 'selectors';
+import {ActivityIndicator} from 'components/elements';
+import {FetchEnumStatus} from 'reducers';
 
 /**
  * Check if same month is selected
@@ -111,6 +113,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const mtpDataSelector = useSelector(monthlyTourPlanSelector.getMTPData());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const swapResponse = useSelector(monthlyTourPlanSelector.setSwap());
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
 
   const upcomingMonthStatus = useSelector(
     monthlyTourPlanSelector.getUpcomingMonthStatus(),
@@ -128,7 +131,7 @@ const MonthlyTourPlan = ({navigation}) => {
   };
 
   useEffect(() => {
-    if (monthSelected) {
+    if ((monthSelected && selectedTourPlan?.id !== 1) || swapResponse) {
       dispatch(
         fetchMTPCalendarUpdateCreator({
           staffPositionId: staffPositionId,
@@ -136,7 +139,13 @@ const MonthlyTourPlan = ({navigation}) => {
         }),
       );
     }
-  }, [dispatch, staffPositionId, monthSelected]);
+  }, [
+    dispatch,
+    staffPositionId,
+    monthSelected,
+    selectedTourPlan,
+    swapResponse,
+  ]);
 
   useEffect(() => {
     dispatch(
@@ -248,6 +257,7 @@ const MonthlyTourPlan = ({navigation}) => {
     if (swapResponse) {
       handleSwapDialog();
       dispatch(monthlyActions.resetSwap());
+      // dispatch(monthlyActions.resetMtpData());::TO DO - temp commented
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [swapResponse, dispatch]);
@@ -672,6 +682,7 @@ const MonthlyTourPlan = ({navigation}) => {
   const getSwapModalContent = () => {
     return (
       <View style={styles.swapContent}>
+        {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
         <View>
           <Label type="bold" title={translate('tourPlan.monthly.from')} />
           <TouchableOpacity
@@ -839,6 +850,7 @@ const MonthlyTourPlan = ({navigation}) => {
           />
         )}
       {openTourPlanDropDown()}
+      {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
       {renderView()}
       <CongratulatoryModal
         open={!submitSTP?.messageShown && showCongratsModal}
