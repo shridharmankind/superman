@@ -87,7 +87,6 @@ const configParam = (item, staffPositionId, lastSync, data) => {
 const callRequest = async (item, lastSync, data) => {
   const staffPositionId = await Helper.getStaffPositionId();
   let postData = configParam(item, staffPositionId, lastSync, data);
-  console.log(postData);
   if (postData.method === 'GET') {
     return await syncGetRequest(item);
   } else {
@@ -164,7 +163,6 @@ const runBackgroundTask = async (tableName, value) => {
         lastSyncTime,
         Array.from(modifiedRecords),
       );
-      console.log(item[0].name, 'response', response);
       if (response?.status === DBConstants.HTTP_OK) {
         await SyncOperations.getSyncOperations(
           item[0],
@@ -172,14 +170,7 @@ const runBackgroundTask = async (tableName, value) => {
           value,
         ).then(res => {
           resultArray = [...resultArray, ...res];
-          //console.log(`${item[0].name} result `, resultArray);
         });
-
-        // const updatedRecord = await Operations.getAllRecord(
-        //   item[0].schema[0],
-        // );
-        // console.log("UpdatedRecord length ",updatedRecord.length);
-
         await Operations.updateRecord(
           Schemas.masterTablesDownLoadStatus,
           DBConstants.downloadStatus.DOWNLOADED,
