@@ -83,6 +83,12 @@ export const getMonthlySlice = createSlice({
         mtpData: action.payload.mtpData,
       };
     },
+    resetMtpData: state => {
+      return {
+        ...state,
+        mtpData: null,
+      };
+    },
   },
 });
 

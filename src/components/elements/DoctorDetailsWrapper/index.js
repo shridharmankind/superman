@@ -41,6 +41,8 @@ function reducer(state, action) {
  * @param {Object} party party information is passed as an object
  * @param {Boolean} isPartyInPatch is party is availble in patch
  * @param {Boolean} isSameDoctorSelected is same doctore is selected in other area
+ * @param {Boolean} minGap is doctor min gap not met
+ * @param {String} gender M/F passed as string
  */
 
 const DoctorDetailsWrapper = ({
@@ -61,6 +63,8 @@ const DoctorDetailsWrapper = ({
   isSameDayPatch,
   isPartyInPatch,
   isSameDoctorSelected,
+  minGap,
+  gender,
   ...props
 }) => {
   //TO DO: not required - remove after team discusssion
@@ -134,7 +138,12 @@ const DoctorDetailsWrapper = ({
     <TouchableOpacity
       testID={testID}
       onPress={() => !isDisabled && handleDoctorSelection(!selected)}
-      style={[styles.container, containerStyle, isDisabled && styles.disabled]}
+      style={[
+        styles.container,
+        containerStyle,
+        isDisabled && styles.disabled,
+        minGap && selected && styles.error,
+      ]}
       disabled={isDisabled}
       activeOpacity={1}>
       <DoctorDetails
@@ -150,6 +159,7 @@ const DoctorDetailsWrapper = ({
         isKyc={isKyc}
         isCampaign={isCampaign}
         onTileNamePress={() => handleDoctorSelection(!selected)}
+        gender={gender}
         {...props}
       />
     </TouchableOpacity>

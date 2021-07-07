@@ -84,6 +84,7 @@ const StandardPlanModal = ({
   const [updatedPatchArray, setUpdatedPatchArray] = useState([]);
   const [gapRuleWarningCode, setGapRuleWarningCode] = useState(null);
   const [isPatchExist, setIsPatchExist] = useState(false);
+  const [gapRulesIds, setGapRulesIds] = useState();
   const weekNum = Number(week);
   const dropDownRef = useRef(null);
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
@@ -505,6 +506,7 @@ const StandardPlanModal = ({
             );
           } else if (isGapRuleWarning(savePatchRes?.data?.details[0]?.code)) {
             showGapRulesErrror(savePatchRes?.data?.details[0]?.code);
+            setGapRulesIds(savePatchRes?.data?.details[0]?.params?.partyIds);
           } else {
             setPatchError(Strings.already30PatchesCreated);
           }
@@ -528,6 +530,9 @@ const StandardPlanModal = ({
     ],
   );
 
+  /**handle submit patch for day
+   * @param {Array} partyIds selected party ids passed as an Array
+   */
   const handleDonePress = useCallback(
     async partyIds => {
       const obj = {
@@ -860,6 +865,10 @@ const StandardPlanModal = ({
       selected = selected?.filter(
         party => !partyExhausted?.some(par => par.id === party.partyId),
       );
+    }
+
+    if (gapRulesIds?.length > 0) {
+      setGapRulesIds(gapRulesIds?.filter(ruleId => ruleId !== id));
     }
 
     setDoctorsSelected(selected || []);
@@ -1278,6 +1287,7 @@ const StandardPlanModal = ({
                   patchValue={patchValue}
                   allPartiesByPatchID={allPartiesByPatchID}
                   isSameDayPatch={isSameDayPatch(patchValue)}
+                  gapRulesIds={gapRulesIds}
                 />
                 <View styles={styles.bottom}>
                   <View style={styles.bottomContent}>

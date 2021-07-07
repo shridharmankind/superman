@@ -42,7 +42,7 @@ const InfoOpenTasks = ({index, width}) => {
   };
 
   // To render the specific data related to specific doctor
-  const renderInfoTasks = (docId, infoTaskArray) => {
+  const renderInfoTasks = (docId, infoTaskArray, noTaskUpdate) => {
     return (
       <View style={styles.sampleListContainer}>
         <FlatList
@@ -57,17 +57,19 @@ const InfoOpenTasks = ({index, width}) => {
                   <Label title={`Task ${index + 1}`} style={styles.rowText} />
                   <Label title={item.infoDescription} />
                 </View>
-                <View style={styles.rightAlign}>
-                  <TouchableOpacity
-                    style={
-                      item.completed
-                        ? [styles.statusContainer, styles.highlightedbkgColor]
-                        : styles.statusContainer
-                    }
-                    onPress={() => statusHandler(docId, item)}>
-                    {renderIcon(item)}
-                  </TouchableOpacity>
-                </View>
+                {!noTaskUpdate && (
+                  <View style={styles.rightAlign}>
+                    <TouchableOpacity
+                      style={
+                        item.completed
+                          ? [styles.statusContainer, styles.highlightedbkgColor]
+                          : styles.statusContainer
+                      }
+                      onPress={() => statusHandler(docId, item)}>
+                      {renderIcon(item)}
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             );
           }}
@@ -76,6 +78,36 @@ const InfoOpenTasks = ({index, width}) => {
     );
   };
 
+  const noTaskUpdateHandler = docId => {
+    const checkIndex = doctors.findIndex(item => item.partyId === docId);
+    if (checkIndex >= 0) {
+      let tempObj = {...doctors[checkIndex]};
+      tempObj.noTaskUpdate = !doctors[checkIndex].noTaskUpdate;
+
+      let tempArray = [...doctors];
+      tempArray[checkIndex] = tempObj;
+
+      dispatch(dcrActions.updateDoctorDetails(tempArray));
+    }
+  };
+
+  const renderCheckIcon = ind => {
+    if (doctors[ind]?.noTaskUpdate) {
+      if (doctors[ind].noTaskUpdate === true) {
+        return (
+          <Icon name="check-circle" size={16} color={themes.colors.primary} />
+        );
+      } else {
+        return (
+          <Icon name="check-thin" size={16} color={themes.colors.primary} />
+        );
+      }
+    } else {
+      return (
+        <Icon name="circle-thin" size={16} color={themes.colors.primary} />
+      );
+    }
+  };
   return (
     <View style={[{width: width - 300}, styles.slideStyle]}>
       <View style={styles.questionSection}>
@@ -94,14 +126,26 @@ const InfoOpenTasks = ({index, width}) => {
             {doctors.map((docObj, ind) => {
               return (
                 <View>
+                  <View style={styles.noSampleCheck}>
+                    <TouchableOpacity
+                      style={styles.iconStyling}
+                      onPress={() => noTaskUpdateHandler(docObj.partyId)}>
+                      {renderCheckIcon(ind)}
+                    </TouchableOpacity>
+                    <Label title={Strings.doctorDetail.dcr.task.noTaskUpdate} />
+                  </View>
                   <List.Accordion
-                    title={docObj.partyName}
+                    title={`Dr. ${docObj.partyName}`}
                     // eslint-disable-next-line react-native/no-inline-styles
                     style={{width: 500}}
                     // eslint-disable-next-line react-native/no-inline-styles
                     titleStyle={{justifyContent: 'flex-start', fontSize: 18}}
                     id={docObj.partyId}>
-                    {renderInfoTasks(docObj.partyId, docObj.infoOpenTasks)}
+                    {renderInfoTasks(
+                      docObj.partyId,
+                      docObj.infoOpenTasks,
+                      docObj.noTaskUpdate,
+                    )}
                   </List.Accordion>
                 </View>
               );

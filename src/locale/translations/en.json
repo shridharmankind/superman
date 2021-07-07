@@ -17,7 +17,8 @@
       "selectDate": "Please select date",
       "adhocCalls": "Adhoc calls: {{data}}",
       "visitCompleted": "Visit Completed",
-      "mtpNotSubmitted": "MTP not submitted"
+      "mtpNotSubmitted": "MTP not submitted",
+      "missedCount": "Missed {{count}} Times on {{dates}}"
     },
     "daily": {
       "youHave": "You have",
@@ -49,7 +50,7 @@
   "errorMessage": {
     "noRecords": "There are no records",
     "partiesExceedingMaxLimit": "You are exceeding the max doctor/chemists visits",
-    "gapRule": "Min gap between visits not met"
+    "gapRule": "Minimum gap between visits not met for the highloghted doctors"
   },
   "message": {
     "partyAdded": "Party added successfully"
@@ -117,6 +118,7 @@
   },
   "proceed": "Proceed",
   "missedCalls": "Missed Calls({{count}})",
+  "missedCallsWithoutCount": "Missed Calls",
   "dayType": {
     "leave": "Leave"
   },
