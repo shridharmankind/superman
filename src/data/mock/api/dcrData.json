@@ -1,7 +1,7 @@
 [
   {
     "partyId": 1,
-    "partyName": "Dr Tanmay",
+    "partyName": "RAMPAL",
     "sampleOpenTasks": [
       {
         "taskId": 0,
@@ -58,4 +58,5 @@
       }
     ]
   }
+  
 ]

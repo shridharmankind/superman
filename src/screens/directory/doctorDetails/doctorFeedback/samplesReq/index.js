@@ -31,10 +31,6 @@ const SampleRequest = ({index, width, doctorData}) => {
   const [errorMsg, showError] = useState(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(searchSamples({staffPositionId: 1, searchKey: 'a'}));
-  }, [dispatch, searchKeyword]);
-
   const querySamples = useSelector(dcrSelector.getSamples());
   const doctors = useSelector(dcrSelector.getPartyData());
   const selectedSamples = useSelector(dcrSelector.getSelectedSamples());
@@ -258,6 +254,14 @@ const SampleRequest = ({index, width, doctorData}) => {
     if (checkIndex >= 0) {
       let tempObj = {...doctors[checkIndex]};
       tempObj.noSampleRequested = !doctors[checkIndex].noSampleRequested;
+      tempObj.sampleRequested = [...doctors[checkIndex].sampleRequested];
+      for (let i = 0; i < tempObj.sampleRequested.length; i++) {
+        let temp2Obj = {
+          ...doctors[checkIndex].sampleRequested[i],
+        };
+        temp2Obj.actualQty = 0;
+        tempObj.sampleRequested[i] = temp2Obj;
+      }
 
       let tempArray = [...doctors];
       tempArray[checkIndex] = tempObj;
@@ -353,7 +357,7 @@ const SampleRequest = ({index, width, doctorData}) => {
   // // };
 
   // To render the specific data related to specific doctor
-  const renderSamples = (docId, sampleOpenTaskArray) => {
+  const renderSamples = (docId, sampleOpenTaskArray, noSampleRequested) => {
     return (
       <View style={styles.sampleListContainer}>
         <FlatList
@@ -405,7 +409,7 @@ const SampleRequest = ({index, width, doctorData}) => {
                 <View style={styles.rightAlign}>
                   <View style={styles.stockData}>
                     <Label
-                      title={`Provided Qty :${item?.actualQty || 0} Strips`}
+                      title={`Provided Qty :${item?.actualQty || 0}`}
                       style={
                         item.completed === false
                           ? styles.highLightRowText
@@ -441,7 +445,11 @@ const SampleRequest = ({index, width, doctorData}) => {
                         : styles.btnStyle
                     }
                     onPress={() => IncReq(docId, item)}
-                    disabled={item?.actualQty >= item?.StockQty ? true : false}
+                    disabled={
+                      item?.actualQty >= item?.StockQty || noSampleRequested
+                        ? true
+                        : false
+                    }
                   />
                 </View>
               </View>
@@ -523,14 +531,18 @@ const SampleRequest = ({index, width, doctorData}) => {
                     />
                   </View>
                   <List.Accordion
-                    title={docObj.partyName}
+                    title={`Dr. ${docObj.partyName}`}
                     // eslint-disable-next-line react-native/no-inline-styles
                     style={{width: 500}}
                     // eslint-disable-next-line react-native/no-inline-styles
                     titleStyle={{justifyContent: 'flex-start', fontSize: 18}}
                     id={docObj.partyId}>
                     {docObj.sampleRequested &&
-                      renderSamples(docObj.partyId, docObj.sampleRequested)}
+                      renderSamples(
+                        docObj.partyId,
+                        docObj.sampleRequested,
+                        docObj.noSampleRequested,
+                      )}
                     {renderFooter(docObj.partyId)}
                   </List.Accordion>
                 </View>

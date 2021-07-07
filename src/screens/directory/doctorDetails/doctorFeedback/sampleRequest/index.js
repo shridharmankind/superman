@@ -18,14 +18,11 @@ import {
 } from 'screens/directory/doctorDetails/doctorFeedback/redux';
 const SampleOpenTasks = ({index, width}) => {
   const [showModal, setShowModal] = useState(false);
+  const [sampleJson, setSampleJson] = useState([]);
   const [searchKeyword, updateSearch] = useState(null);
   const [selectedDocId, updateSelectedDocId] = useState(null);
   const [errorMsg, showError] = useState(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(searchSamples({staffPositionId: 1, searchKey: 'a'}));
-  }, [dispatch, searchKeyword]);
 
   const querySamples = useSelector(dcrSelector.getSamples());
   const doctors = useSelector(dcrSelector.getPartyData());
@@ -37,8 +34,28 @@ const SampleOpenTasks = ({index, width}) => {
   };
 
   useEffect(() => {
+    if (querySamples?.length > 0) {
+      setSampleJson([...querySamples]);
+    }
+  }, [querySamples]);
+
+  useEffect(() => {
     dispatch(dcrActions.clearSelectedSamples());
   }, [dispatch, doctors, showModal]);
+
+  const filterQuerySample = text => {
+    let sampleResult = [...querySamples];
+    if (text?.length) {
+      const searctText = text?.trim().toLowerCase();
+      const result = sampleResult?.filter(dataValue => {
+        const name = dataValue.skuName?.toLowerCase();
+        return name.includes(searctText);
+      });
+      setSampleJson(result);
+    } else {
+      setSampleJson([...sampleResult]);
+    }
+  };
 
   // To be called on click of Add Selected button from Modal
   const closeModal = () => {
@@ -153,7 +170,7 @@ const SampleOpenTasks = ({index, width}) => {
             placeholder={Strings.doctorDetail.dcr.sampleReq.searchPlaceholder}
             style={styles.searchBar}
             value={searchKeyword}
-            onChangeText={text => updateSearch(text)}
+            onChangeText={text => filterQuerySample(text)}
           />
           <SearchIcon style={styles.searchIcon} height={18} width={18} />
         </View>
@@ -182,8 +199,8 @@ const SampleOpenTasks = ({index, width}) => {
         </View>
 
         <View style={styles.resultSection}>
-          {querySamples &&
-            querySamples.map(sample => {
+          {sampleJson &&
+            sampleJson.map(sample => {
               return (
                 <TouchableOpacity
                   style={styles.searchSampleStyling}
@@ -228,6 +245,14 @@ const SampleOpenTasks = ({index, width}) => {
     if (checkIndex >= 0) {
       let tempObj = {...doctors[checkIndex]};
       tempObj.noSampleGiven = !doctors[checkIndex].noSampleGiven;
+      tempObj.sampleOpenTasks = [...doctors[checkIndex].sampleOpenTasks];
+      for (let i = 0; i < tempObj.sampleOpenTasks.length; i++) {
+        let temp2Obj = {
+          ...doctors[checkIndex].sampleOpenTasks[i],
+        };
+        temp2Obj.actualQty = 0;
+        tempObj.sampleOpenTasks[i] = temp2Obj;
+      }
 
       let tempArray = [...doctors];
       tempArray[checkIndex] = tempObj;
@@ -313,7 +338,7 @@ const SampleOpenTasks = ({index, width}) => {
   // }
 
   // To render the specific data related to specific doctor
-  const renderSamples = (docId, sampleOpenTaskArray) => {
+  const renderSamples = (docId, sampleOpenTaskArray, noSampleGiven) => {
     return (
       <View style={styles.sampleListContainer}>
         <FlatList
@@ -359,7 +384,7 @@ const SampleOpenTasks = ({index, width}) => {
                 <View style={styles.rightAlign}>
                   <View style={styles.stockData}>
                     <Label
-                      title={`Provided Qty :${item?.actualQty || 0} Strips`}
+                      title={`Provided Qty :${item?.actualQty || 0}`}
                       style={
                         item.completed === false
                           ? styles.highLightRowText
@@ -395,7 +420,11 @@ const SampleOpenTasks = ({index, width}) => {
                         : styles.btnStyle
                     }
                     onPress={() => IncReq(docId, item)}
-                    disabled={item?.actualQty >= item?.StockQty ? true : false}
+                    disabled={
+                      item?.actualQty >= item?.StockQty || noSampleGiven
+                        ? true
+                        : false
+                    }
                   />
                 </View>
               </View>
@@ -469,13 +498,17 @@ const SampleOpenTasks = ({index, width}) => {
                     />
                   </View>
                   <List.Accordion
-                    title={docObj.partyName}
+                    title={`Dr. ${docObj.partyName}`}
                     // eslint-disable-next-line react-native/no-inline-styles
                     style={{width: 500}}
                     // eslint-disable-next-line react-native/no-inline-styles
                     titleStyle={{justifyContent: 'flex-start', fontSize: 18}}
                     id={docObj.partyId}>
-                    {renderSamples(docObj.partyId, docObj.sampleOpenTasks)}
+                    {renderSamples(
+                      docObj.partyId,
+                      docObj.sampleOpenTasks,
+                      docObj?.noSampleGiven || false,
+                    )}
                     {renderFooter(docObj.partyId)}
                   </List.Accordion>
                 </View>
