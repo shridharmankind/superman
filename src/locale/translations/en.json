@@ -133,7 +133,7 @@
   },
   "AddDoctor": {
     "DR": "Dr. ",
-    "label": "Add Doctor",
+    "label": "Add Doctor(For group detailing)",
     "addSelected": "Add Selected ",
     "searchText": "Search Doctors here",
     "close": "close"
