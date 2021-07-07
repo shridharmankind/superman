@@ -32,6 +32,7 @@ import {appSelector} from 'selectors';
 import {Helper} from 'database';
 import {translate} from 'locale';
 import MissedCalls from 'screens/directory/landing/missedCalls';
+import {isWeb} from 'helper';
 
 /**
  * Custom Landing component of Directory Screen.
@@ -380,9 +381,19 @@ const DirectoryLanding = ({navigation, route}) => {
             value={searchKeyword}
             onChangeText={text => updateSearchKeyword(text)}
           />
-          <TouchableOpacity onPress={doSearch} style={styles.searchIcon}>
-            <SearchIcon height={16} width={16} />
-          </TouchableOpacity>
+          {isWeb() && (
+            <TouchableOpacity onPress={doSearch} style={styles.searchIcon}>
+              <SearchIcon height={16} width={16} />
+            </TouchableOpacity>
+          )}
+          {!isWeb() && (
+            <SearchIcon
+              height={16}
+              width={16}
+              onPress={doSearch}
+              style={styles.searchIcon}
+            />
+          )}
         </View>
         <View>
           <View style={styles.listHeader}>
