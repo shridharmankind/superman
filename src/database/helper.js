@@ -87,6 +87,10 @@ export const MASTER_TABLES_DETAILS = [
     ],
   },
   {
+    name: Constants.MASTER_TABLE_GEO_LOCATIONS,
+    apiPath: Constants.MASTER_TABLE_GEO_LOCATIONS_API_PATH,
+  },
+  {
     name: Constants.LEAVES,
     apiPath: NetworkService.API.FETCH_LEAVES,
   },

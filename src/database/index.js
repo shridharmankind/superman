@@ -42,6 +42,8 @@ const dbInstance = new Realm({
     Schemas.Molecule.schema,
     Schemas.WeeklyOffSchema.schema,
     Schemas.GeoLocationConfiguration.schema,
+    Schemas.GeoLocations.schema,
+    Schemas.GeoLocationType.schema,
     Schemas.Leaves.schema,
     Schemas.LeaveTypes.schema,
   ],
@@ -66,5 +68,6 @@ export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
 export const MotherBrands = Operations.motherBrandOperations(dbInstance);
 export const Weeklyoff = Operations.weeklyoffOperations(dbInstance);
+export const geoLocations = Operations.geoLocationOperations(dbInstance);
 export const Leaves = Operations.leaveOperations(dbInstance);
 export const LeaveTypes = Operations.leaveTypeOperations(dbInstance);

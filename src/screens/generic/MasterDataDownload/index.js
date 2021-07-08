@@ -24,6 +24,7 @@ import {
   Weeklyoff,
   Qualifications,
   Specialities,
+  geoLocations,
   Leaves,
   LeaveTypes,
 } from 'database';
@@ -129,6 +130,7 @@ const MasterDataDownload = () => {
             case DBConstants.MASTER_TABLE_MOTHER_BRAND:
             case DBConstants.MASTER_TABLE_WEEKLYOFF:
             case DBConstants.LEAVE_TYPES:
+            case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
               response = await NetworkService.get(item.apiPath);
               break;
             case DBConstants.MASTER_TABLE_PARTY:
@@ -207,6 +209,12 @@ const MasterDataDownload = () => {
                 const partyCategoriesUpdated =
                   await PartyCategories.storePartyCategories(JSON.parse(data));
                 partyCategoriesUpdated && updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
+                const geoLocationUpdated = await geoLocations.storeGeoLocations(
+                  JSON.parse(data),
+                );
+                geoLocationUpdated && updateRecordDownloaded(item.name);
                 break;
               case DBConstants.MASTER_TABLE_WEEKLYOFF:
                 const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
