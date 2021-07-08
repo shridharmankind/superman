@@ -7,7 +7,7 @@ import styles from './styles';
 import {DoctorTag, DivisionType} from 'components/widgets';
 import {Strings, Constants} from 'common';
 import {translate} from 'locale';
-import {capitalize} from 'screens/tour-plan/helper';
+import {capitalize} from 'screens/tourPlan/helper';
 import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 
 /**
@@ -161,7 +161,7 @@ const PartiesDirectory = ({
                 title={
                   partyType === Constants.PARTY_TYPE.DOCTOR
                     ? `${Strings.dr} ${capitalize(title)}`
-                    : title
+                    : capitalize(title)
                 }
                 style={styles.name}
                 type={'medium'}

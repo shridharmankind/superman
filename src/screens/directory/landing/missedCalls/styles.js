@@ -46,11 +46,15 @@ const styles = StyleSheet.create({
   listHeaderSpacing2: {
     width: '17.5%',
   },
+  listHeaderSpacing2Web: {
+    width: '19.2%',
+  },
   listHeaderSpacing3: {
     width: '17.5%',
   },
   listHeader: {
     ...parentStyles.listHeader,
+    flexDirection: 'row',
     marginLeft: theme.spacing(34),
   },
 });
