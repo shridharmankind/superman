@@ -137,7 +137,7 @@ const MonthlyTourPlan = ({navigation}) => {
       dispatch(
         fetchMTPCalendarUpdateCreator({
           staffPositionId: staffPositionId,
-          month: monthSelected?.month,
+          month: selectedTourPlan?.month,
         }),
       );
     }

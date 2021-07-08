@@ -613,7 +613,6 @@ const StandardPlanModal = ({
               const updatedPartyList = doctorsSelected?.filter(
                 party => !pId?.some(par => par === party.partyId),
               );
-              setDoctorsSelected(updatedPartyList);
               setPatchValue(null);
               handleNoPress(
                 obj,
@@ -640,6 +639,7 @@ const StandardPlanModal = ({
           },
           onPressRightBtn: () => {
             if (code === Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY) {
+              setPatchValue(null);
               handleNoPress(
                 obj,
                 areaSelected,
@@ -1141,11 +1141,7 @@ const StandardPlanModal = ({
     });
   };
 
-  if (
-    allParties.length === 0 ||
-    allAreas.length === 0 ||
-    allPatches.length === 0
-  ) {
+  if (allParties.length === 0 || allAreas.length === 0) {
     return (
       <ActivityIndicator
         animating={true}
