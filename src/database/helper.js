@@ -2,7 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
-import {ActivityTypes} from 'database';
+import {ActivityType} from 'database';
 
 import {NetworkService} from 'services';
 
@@ -96,6 +96,11 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_TABLE_ACTIVITY_TYPES_API_PATH,
     schema: [Schemas.ActivityTypes.schema],
   },
+  {
+    name: Constants.ACTIVITY_TYPE,
+    apiPath: Constants.MASTER_TABLE_ACTIVITY_TYPE_API_PATH,
+    schema: [Schemas.ActivityType.schema],
+  },
 ];
 
 export const syncErrorDetails = {
@@ -128,8 +133,11 @@ export const syncParameters = {
 export const getUserName = async () => {
   try {
     const user = await getActiveUser();
-    const x = await ActivityTypes.getAllActivityTypes();
-    console.log(x, 'xx');
+    const x = await ActivityType.getAllActivity();
+    console.log(
+      'xxbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+      x,
+    );
     const {firstName = '', lastName = ''} = user;
     return `${firstName} ${lastName}`;
   } catch (error) {}

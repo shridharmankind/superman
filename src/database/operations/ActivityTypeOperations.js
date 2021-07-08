@@ -4,10 +4,6 @@ import * as Constants from '../constants';
 
 export default dbInstance => ({
   storeActivityTypes: async activityTypes => {
-    console.log(
-      'activity types yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
-      activityTypes,
-    );
     let recordsUpdated = true;
     try {
       await dbInstance.write(() => {

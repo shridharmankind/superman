@@ -66,5 +66,6 @@ export const Organizations = Operations.organizationOperations(dbInstance);
 export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
 export const ActivityTypes = Operations.activityTypesOperations(dbInstance);
+export const ActivityType = Operations.activityOperations(dbInstance);
 export const MotherBrands = Operations.motherBrandOperations(dbInstance);
 export const Weeklyoff = Operations.weeklyoffOperations(dbInstance);

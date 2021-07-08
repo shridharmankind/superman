@@ -25,6 +25,7 @@ import {
   Qualifications,
   Specialities,
   ActivityTypes,
+  ActivityType,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -145,6 +146,9 @@ const MasterDataDownload = () => {
             case DBConstants.MASTER_TABLE_ACTIVITY_TYPES:
               response = await NetworkService.get(item.apiPath);
               break;
+            case DBConstants.MASTER_TABLE_ACTIVITY_TYPE:
+              response = await NetworkService.get(item.apiPath);
+              break;
             case DBConstants.MASTER_TABLE_DIVISION:
               response = await NetworkService.get(item.apiPath);
               break;
@@ -201,6 +205,14 @@ const MasterDataDownload = () => {
                 const activityTypesUpdated =
                   await ActivityTypes.storeActivityTypes(JSON.parse(data));
                 activityTypesUpdated && updateRecordDownloaded(item.name);
+
+                break;
+              case DBConstants.MASTER_TABLE_ACTIVITY_TYPE:
+                const activityUpdated = await ActivityType.storeActivityType(
+                  JSON.parse(data),
+                );
+                activityUpdated && updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_MOTHER_BRAND:
                 const updatedMotherBrands =
                   await MotherBrands.storeMotherBrands(JSON.parse(data));
