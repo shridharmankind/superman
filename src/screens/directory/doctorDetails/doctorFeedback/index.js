@@ -117,10 +117,11 @@ const DoctorFeedback = ({navigation, route}) => {
         fetchDcrData({
           staffPositionId: staffPositionId,
           partyIds: [doctorData?.id],
+          doctorName: doctorData.name,
         }),
       );
     }
-  }, [dispatch, staffPositionId, doctors, doctorData?.id]);
+  }, [dispatch, staffPositionId, doctors, doctorData.id, doctorData.name]);
 
   // To close Feedback screen
   const closeFeedback = () => {
@@ -140,10 +141,21 @@ const DoctorFeedback = ({navigation, route}) => {
 
   const updateSelectedData = (doctorData, selectedDocData) => {
     setShowModal(false);
+    let selectedDocpartyIds = [];
+    for (
+      let selectedDoc = 0;
+      selectedDoc <= selectedDocData.length - 1;
+      selectedDoc++
+    ) {
+      selectedDocpartyIds.push(selectedDocData[selectedDoc].id);
+    }
     dispatch(
-      dcrActions.setDoctorList({
+      fetchDcrData({
+        staffPositionId: staffPositionId,
+        partyIds: selectedDocpartyIds,
         doctorData: doctorData,
         selectedDocData: selectedDocData,
+        addDoctor: true,
       }),
     );
   };
