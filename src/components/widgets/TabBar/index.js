@@ -50,7 +50,7 @@ const TabBar = ({values, onPress, customStyle, initialSelected}) => {
 TabBar.propTypes = {
   values: PropTypes.array.isRequired,
   onPress: PropTypes.func,
-  customStyle: PropTypes.object,
+  customStyle: PropTypes.any,
   initialSelected: PropTypes.number,
 };
 

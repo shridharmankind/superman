@@ -71,8 +71,12 @@ export const MOLECULES = 'Molecule';
 export const MASTER_TABLE_WEEKLYOFF = WeeklyoffSchemaName;
 export const MASTER_TABLE_WEEKLYOFF_API_PATH =
   'geolocation/weeklyoffcountrywise';
-export const MASTER_TABLE_GEOLOCATIONS_CONFIGURATION =
+
+export const MASTER_TABLE_GEO_LOCATIONS_CONFIGURATION =
   'GeoLocationConfiguration';
+export const MASTER_TABLE_GEO_LOCATIONS = 'GeoLocations';
+export const MASTER_TABLE_GEO_LOCATIONS_API_PATH = 'geolocation';
+export const MASTER_TABLE_GEO_LOCATION_TYPE = 'GeoLocationType';
 
 export const QUALIFICATIONS = QualificationsSchemaName;
 export const SPECIALITIES = SpecialitiesSchemaName;
