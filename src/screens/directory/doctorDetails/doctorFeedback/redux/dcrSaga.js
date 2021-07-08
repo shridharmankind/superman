@@ -95,10 +95,7 @@ function* fetchStaffHandler(action) {
   const {staffPositionId} = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
-    const response = yield call(
-      NetworkService.get,
-      `${API_PATH.GET_SENIOR}/${staffPositionId}`,
-    );
+    const response = yield call(NetworkService.get, `${API_PATH.GET_SENIOR}/1`);
 
     yield put(
       dcrActions.getSeniors({
