@@ -158,7 +158,7 @@ const DoctorDetailsWrapper = ({
         partyType={party.partyTypes.name}
         isKyc={isKyc}
         isCampaign={isCampaign}
-        onTileNamePress={() => handleDoctorSelection(!selected)}
+        onTileNamePress={() => !isDisabled && handleDoctorSelection(!selected)}
         gender={gender}
         {...props}
       />

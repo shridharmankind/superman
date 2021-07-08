@@ -10,7 +10,7 @@ import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
 import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 import {translate} from 'locale';
-import {capitalize} from 'screens/tour-plan/helper';
+import {capitalize} from 'screens/tourPlan/helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -78,7 +78,7 @@ const DailyPlanParties = ({
    */
   const getAdhocCallTitle = () => {
     let adhocCallTitle = '';
-    if (visitData.length > 0) {
+    if (visitData && visitData.length > 0) {
       const month = returnUTCtoLocal(visitData[0].date, 'MMM');
       const adhocCallDates = visitData.reduce((accumulator, visit) => {
         if (visit?.isAdhoc) {
@@ -175,7 +175,7 @@ const DailyPlanParties = ({
    * Return string of specializations of parties
    */
   const getSpecialization = () => {
-    return (specialization || {}).map(spec => spec?.name || spec).join(', ');
+    return (specialization || []).map(spec => spec?.name || spec).join(', ');
   };
 
   return (
@@ -222,7 +222,7 @@ const DailyPlanParties = ({
                 title={
                   partyType === Constants.PARTY_TYPE.DOCTOR
                     ? `${Strings.dr} ${capitalize(title)}`
-                    : title
+                    : capitalize(title)
                 }
                 size={customStyle ? customStyle.titleSize : 17}
                 onPress={() => {

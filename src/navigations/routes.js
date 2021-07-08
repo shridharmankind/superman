@@ -12,6 +12,7 @@ export const ROUTE_DASHBOARD = 'Dashboard';
 export const ROUTE_STANDARD_PLAN = 'StandardPlan';
 export const ROUTE_DCR = 'DoctorFeedback';
 export const ROUTE_PRESENTATION = 'Presentation';
+export const ROUTE_SETTING = 'Setting';
 
 const ROUTES = [
   {

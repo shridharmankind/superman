@@ -83,8 +83,6 @@ const styles = StyleSheet.create({
     left: '4%',
   },
   centerModal: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
   },

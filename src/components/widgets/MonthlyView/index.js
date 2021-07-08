@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import {DailyView} from 'components/widgets';
 import theme from 'themes';
 import {getMonthDiff, getDateFromMonthYear} from 'utils/dateTimeHelper';
-import {monthlyActions} from 'screens/tourPlan/monthly/redux/monthlySlice';
+
 /**
  * Render Monthly View Calendar created using
  * react-native-calendars.View is rendered
@@ -21,7 +20,7 @@ const MonthlyView = ({
 }) => {
   const textInput = React.useRef(null);
   const currentDate = getDateFromMonthYear(monthSelected);
-  const dispatch = useDispatch();
+
   // effect to update month on change of date
   useEffect(() => {
     if (currentDate && previousMonthSelected) {
@@ -30,12 +29,6 @@ const MonthlyView = ({
       textInput.current.addMonth(getMonthDiff(currentDate, previousDate));
     }
   }, [currentDate, previousMonthSelected]);
-
-  useEffect(() => {
-    return function () {
-      dispatch(monthlyActions.resetMtpData());
-    };
-  }, [dispatch]);
 
   return (
     <>

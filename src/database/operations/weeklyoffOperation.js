@@ -11,7 +11,7 @@ export default dbInstance => ({
           let configuration = null;
           if (geoLocationConfiguration) {
             configuration = dbInstance.create(
-              Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
+              Constants.MASTER_TABLE_GEO_LOCATIONS_CONFIGURATION,
               {
                 ...geoLocationConfiguration,
                 syncParameters: syncParametersObject(),
@@ -51,7 +51,7 @@ export default dbInstance => ({
     try {
       const {id, name, shortName, geoLocationConfiguration} = weeklyoff;
       const configuration = dbInstance.create(
-        Constants.MASTER_TABLE_GEOLOCATIONS_CONFIGURATION,
+        Constants.MASTER_TABLE_GEO_LOCATIONS_CONFIGURATION,
         {
           ...geoLocationConfiguration,
           syncParameters: syncParametersObject(),

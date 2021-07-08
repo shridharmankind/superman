@@ -77,6 +77,7 @@ export default dbInstance => ({
         });
       });
     } catch (err) {
+      console.log(err);
       recordsUpdated = false;
     }
     return recordsUpdated;
@@ -117,7 +118,7 @@ export default dbInstance => ({
           motherBrandId,
           isFocused: subBrand.isFocused,
           isPower: subBrand.isPower,
-          motherBrand: MotherBrands.createSingleRecord(motherBrand),
+          motherBrand: MotherBrands.createSingleRecord(motherBrand, true),
           syncParameters: syncParametersObject(),
         },
         'modified',

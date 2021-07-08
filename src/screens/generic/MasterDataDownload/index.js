@@ -25,6 +25,9 @@ import {
   Qualifications,
   Specialities,
   ActivityTypes,
+  geoLocations,
+  Leaves,
+  LeaveTypes,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -117,46 +120,22 @@ const MasterDataDownload = () => {
           if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
             return;
           }
+
           let response;
           switch (item.name) {
             case DBConstants.MASTER_TABLE_USER_INFO:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_WEEKLYOFF:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_PARTY:
-              {
-                const staffPositionId = await Helper.getStaffPositionId();
-                response = await NetworkService.get(
-                  `${item.apiPath}${staffPositionId}`,
-                );
-              }
-              break;
             case DBConstants.MASTER_TABLE_SKU:
-              response = await NetworkService.get(item.apiPath);
-              break;
             case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
-              response = await NetworkService.get(item.apiPath);
-              break;
             case DBConstants.MASTER_TABLE_ORGANIZATION:
-              response = await NetworkService.get(item.apiPath);
-              break;
+            case DBConstants.MASTER_TABLE_DIVISION:
+            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+            case DBConstants.MASTER_TABLE_WEEKLYOFF:
+            case DBConstants.LEAVE_TYPES:
+            case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
             case DBConstants.MASTER_TABLE_ACTIVITY_TYPES:
               response = await NetworkService.get(item.apiPath);
               break;
-            case DBConstants.MASTER_TABLE_DIVISION:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.QUALIFICATIONS:
-              fetchQualifications(item);
-              break;
-            case DBConstants.SPECIALITIES:
-              fetchSpecialities(item);
-              break;
+            case DBConstants.MASTER_TABLE_PARTY:
             case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
               {
                 const staffPositionId = await Helper.getStaffPositionId();
@@ -165,7 +144,22 @@ const MasterDataDownload = () => {
                 );
               }
               break;
+            case DBConstants.QUALIFICATIONS:
+              fetchQualifications(item);
+              break;
+            case DBConstants.SPECIALITIES:
+              fetchSpecialities(item);
+              break;
+            case DBConstants.LEAVES:
+              {
+                const userId = await Helper.getUserId();
+                response = await NetworkService.get(
+                  `${item.apiPath}/${userId}`,
+                );
+              }
+              break;
           }
+
           if (response && response.status === Constants.HTTP_OK) {
             const data = JSON.stringify(response.data);
             switch (item.name) {
@@ -201,6 +195,7 @@ const MasterDataDownload = () => {
                 const activityTypesUpdated =
                   await ActivityTypes.storeActivityTypes(JSON.parse(data));
                 activityTypesUpdated && updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_MOTHER_BRAND:
                 const updatedMotherBrands =
                   await MotherBrands.storeMotherBrands(JSON.parse(data));
@@ -222,11 +217,27 @@ const MasterDataDownload = () => {
                   await PartyCategories.storePartyCategories(JSON.parse(data));
                 partyCategoriesUpdated && updateRecordDownloaded(item.name);
                 break;
+              case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
+                const geoLocationUpdated = await geoLocations.storeGeoLocations(
+                  JSON.parse(data),
+                );
+                geoLocationUpdated && updateRecordDownloaded(item.name);
+                break;
               case DBConstants.MASTER_TABLE_WEEKLYOFF:
                 const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
                   JSON.parse(data),
                 );
                 weeklyresponse && updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.LEAVES:
+                const leavesUpdated = await Leaves.storeLeaves(response?.data);
+                leavesUpdated && updateRecordDownloaded(item.name);
+                break;
+              case DBConstants.LEAVE_TYPES:
+                const leaveTypessUpdated = await LeaveTypes.storeLeaveTypes(
+                  response?.data,
+                );
+                leaveTypessUpdated && updateRecordDownloaded(item.name);
                 break;
             }
 

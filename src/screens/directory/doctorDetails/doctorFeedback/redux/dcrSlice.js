@@ -119,8 +119,18 @@ const dcrSlice = createSlice({
       const docDcrData = {
         doctors: [firstDoctor, ...doctorDataList],
       };
+      let doctorAllData = [...doctorData];
+      doctorAllData.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
       const doctorActionData = {
-        doctorList: doctorData,
+        doctorList: doctorAllData,
       };
       const selectedActionData = {
         selectedList: selectedDocData,

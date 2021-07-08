@@ -19,18 +19,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: theme.spacing(32),
     paddingRight: theme.spacing(16),
-    paddingVertical: theme.spacing(20),
-    shadowColor: theme.colors.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingTop: theme.spacing(20),
+    paddingBottom: theme.spacing(8),
     borderColor: theme.colors.grey[400],
-    borderWidth: 0.5,
+    borderWidth: 1,
     width: '100%',
+    marginBottom: theme.spacing(15),
+    borderRadius: 10,
   },
   doctorDetailContainerFirstChild: {
     borderTopLeftRadius: 6.7,
@@ -46,11 +41,15 @@ const styles = StyleSheet.create({
   listHeaderSpacing2: {
     width: '17.5%',
   },
+  listHeaderSpacing2Web: {
+    width: '19.2%',
+  },
   listHeaderSpacing3: {
     width: '17.5%',
   },
   listHeader: {
     ...parentStyles.listHeader,
+    flexDirection: 'row',
     marginLeft: theme.spacing(34),
   },
 });
