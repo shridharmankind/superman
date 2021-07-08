@@ -721,7 +721,15 @@ const MonthlyTourPlan = ({navigation}) => {
               textColor={themes.colors.grey[600]}
               title={
                 date?.source
-                  ? date?.source
+                  ? `${
+                      date?.source?.day > 10
+                        ? date?.source?.day
+                        : '0' + date?.source?.day
+                    }-${
+                      date?.source?.month > 10
+                        ? date?.source?.month
+                        : '0' + date?.source?.month
+                    }-${date?.source?.year}`
                   : translate('tourPlan.monthly.selectDate')
               }
             />
@@ -741,7 +749,15 @@ const MonthlyTourPlan = ({navigation}) => {
               textColor={themes.colors.grey[600]}
               title={
                 date?.destination
-                  ? date?.destination
+                  ? `${
+                      date?.destination?.day > 10
+                        ? date?.destination?.day
+                        : '0' + date?.destination?.day
+                    }-${
+                      date?.destination?.month > 10
+                        ? date?.destination?.month
+                        : '0' + date?.destination?.month
+                    }-${date?.destination?.year}`
                   : translate('tourPlan.monthly.selectDate')
               }
             />
@@ -828,7 +844,7 @@ const MonthlyTourPlan = ({navigation}) => {
           hideExtraDays={true}
           disableMonthChange={true}
           firstDay={1}
-          hideDayNames={true}
+          hideDayNames={false}
           showWeekNumbers={false}
           enableSwipeMonths={false}
           onDayPress={day => handleDayPress(day)}
@@ -856,7 +872,7 @@ const MonthlyTourPlan = ({navigation}) => {
       dateString !==
       (dateSelected === SWAP.SOURCE ? date.destination : date.source)
     ) {
-      setDate({...date, [dateSelected]: dateString});
+      setDate({...date, [dateSelected]: {day, month, year}});
       setSwapObj(obj);
 
       setShowCalendar(false);
