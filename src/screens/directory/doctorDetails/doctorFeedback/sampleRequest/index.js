@@ -350,7 +350,7 @@ const SampleOpenTasks = ({index, width}) => {
             return (
               <View
                 style={
-                  item.completed === false
+                  item.taskStatusId === 1
                     ? [styles.sampleStyling, styles.highlightRow]
                     : styles.sampleStyling
                 }>
@@ -362,7 +362,7 @@ const SampleOpenTasks = ({index, width}) => {
                   <Label
                     title={item.skuName}
                     style={
-                      item.completed === false
+                      item.taskStatusId === 1
                         ? styles.highLightRowText
                         : styles.rowText
                     }
@@ -373,7 +373,7 @@ const SampleOpenTasks = ({index, width}) => {
                     <Label
                       title={`Requested Qty : ${item.requestQty}`}
                       style={
-                        item.completed === false
+                        item.taskStatusId === 1
                           ? styles.highLightRowText
                           : styles.rowText
                       }
@@ -386,7 +386,7 @@ const SampleOpenTasks = ({index, width}) => {
                     <Label
                       title={`Provided Qty :${item?.actualQty || 0}`}
                       style={
-                        item.completed === false
+                        item.taskStatusId === 1
                           ? styles.highLightRowText
                           : styles.rowText
                       }
@@ -394,7 +394,7 @@ const SampleOpenTasks = ({index, width}) => {
                     <Label
                       title={`${item?.StockQty || 0} IN STOCK`}
                       style={
-                        item.completed === false
+                        item.taskStatusId === 1
                           ? styles.highLightRowText
                           : styles.rowText
                       }
@@ -404,7 +404,7 @@ const SampleOpenTasks = ({index, width}) => {
                     title="-"
                     mode="contained"
                     contentStyle={
-                      item.completed === false
+                      item.taskStatusId === 1
                         ? styles.highLightBtnStyle
                         : styles.btnStyle
                     }
@@ -415,7 +415,7 @@ const SampleOpenTasks = ({index, width}) => {
                     title="+"
                     mode="outlined"
                     contentStyle={
-                      item.completed === false
+                      item.taskStatusId === 1
                         ? styles.highLightBtnStyle
                         : styles.btnStyle
                     }
