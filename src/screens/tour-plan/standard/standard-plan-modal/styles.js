@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     color: themes.colors.grey[200],
     marginHorizontal: 20,
     textTransform: 'capitalize',
+    lineHeight: 24,
   },
   weekArrow: {
     height: 20,
