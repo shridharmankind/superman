@@ -67,15 +67,15 @@ const DoctorFeedback = ({navigation, route}) => {
   });
 
   useEffect(() => {
-    if (staffPositionId) {
-      dispatch(searchSamples({staffPositionId: staffPositionId}));
-    }
+    // if (staffPositionId) {
+    dispatch(searchSamples({staffPositionId: staffPositionId}));
+    // }
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
-    if (staffPositionId) {
-      dispatch(searchItems({staffPositionId: staffPositionId}));
-    }
+    // if (staffPositionId) {
+    dispatch(searchItems({staffPositionId: staffPositionId}));
+    // }
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
