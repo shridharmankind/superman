@@ -111,8 +111,8 @@ const Dropdown = forwardRef((props, ref) => {
       )}
       {togglePicker && (
         <ScrollView style={styles.pickerContainer} ref={ref}>
-          {dropDownData?.length > 0 ? (
-            dropDownData?.map((option, i) => (
+          {(dropDownData || data)?.length > 0 ? (
+            (dropDownData || data)?.map((option, i) => (
               <TouchableOpacity
                 key={option.id}
                 style={[
