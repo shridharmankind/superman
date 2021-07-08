@@ -70,6 +70,7 @@ export const Organizations = Operations.organizationOperations(dbInstance);
 export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
 export const Activities = Operations.activityOperations(dbInstance);
+export const ActivityType = Operations.activityTypeOperations(dbInstance);
 export const MotherBrands = Operations.motherBrandOperations(dbInstance);
 export const Weeklyoff = Operations.weeklyoffOperations(dbInstance);
 export const geoLocations = Operations.geoLocationOperations(dbInstance);

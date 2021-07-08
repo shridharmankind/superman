@@ -92,6 +92,10 @@ export const MASTER_TABLES_DETAILS = [
     apiPath: Constants.MASTER_TABLE_ACTIVITIES_API_PATH,
   },
   {
+    name: Constants.ACTIVITY_TYPE,
+    apiPath: Constants.ACTIVITY_TYPE_API_PATH,
+  },
+  {
     name: Constants.MASTER_TABLE_GEO_LOCATIONS,
     apiPath: Constants.MASTER_TABLE_GEO_LOCATIONS_API_PATH,
   },

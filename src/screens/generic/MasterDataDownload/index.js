@@ -26,6 +26,7 @@ import {
   Qualifications,
   Specialities,
   Activities,
+  ActivityType,
   geoLocations,
   Leaves,
   LeaveTypes,
@@ -157,6 +158,7 @@ const MasterDataDownload = () => {
               case DBConstants.LEAVE_TYPES:
               case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
               case DBConstants.MASTER_TABLE_ACTIVITIES:
+              case DBConstants.ACTIVITY_TYPE:
               case DBConstants.QUALIFICATIONS:
               case DBConstants.SPECIALITIES:
                 response = await NetworkService.get(item.apiPath);
@@ -236,6 +238,12 @@ const MasterDataDownload = () => {
                     JSON.parse(data),
                   );
                   activitiesUpdated && updateRecordDownloaded(item.name);
+                  break;
+
+                case DBConstants.ACTIVITY_TYPE:
+                  const activityTypeUpdated =
+                    await ActivityType.storeActivityType(JSON.parse(data));
+                  activityTypeUpdated && updateRecordDownloaded(item.name);
                   break;
 
                 case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:

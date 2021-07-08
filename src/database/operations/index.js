@@ -250,6 +250,7 @@ export {default as organizationOperations} from './organizationOperations';
 export {default as divisionOperations} from './divisionOperations';
 export {default as specialityOperations} from './specialityOperations';
 export {default as activityOperations} from './activityOperations';
+export {default as activityTypeOperations} from './activityTypeOperations';
 export {default as motherBrandOperations} from './motherBrandOperations';
 export {default as weeklyoffOperations} from './weeklyoffOperation';
 export {default as geoLocationOperations} from './geoLocationOperations';
