@@ -86,6 +86,7 @@
   },
   "speciality": "Speciality",
   "region": "Region",
+  "area": "Area",
   "categories": {
     "kyc": "KYC",
     "campaign": "Campaign",
@@ -135,7 +136,7 @@
     "genericMsg": "Something doesn't seem right, please try restarting the application."
   },
   "proceed": "Proceed",
-  "missedCalls": "Missed Calls({{count}})",
+  "missedCalls": "Missed Calls ({{count}})",
   "missedCallsWithoutCount": "Missed Calls",
   "dayType": {
     "leave": "Leave"
@@ -161,5 +162,6 @@
   "note": {
     "placeholder": "Add Note here",
     "title": "8. Anything you would like to take note?"
-  }
+  },
+  "stockist": "Stockists"
 }

@@ -4,10 +4,14 @@ import themes from 'themes';
 const styles = StyleSheet.create({
   detailsContainer: {
     flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   details: {
     flex: 1,
     flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   image: {
     marginRight: 21,
@@ -20,10 +24,11 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignSelf: 'center',
+    alignItems: 'center',
   },
   divisionContainer: {
     position: 'absolute',
-    top: -27,
+    top: -29,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',

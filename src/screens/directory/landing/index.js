@@ -85,14 +85,14 @@ const DirectoryLanding = ({navigation, route}) => {
     {
       text:
         docCount > 0
-          ? `${Strings.directory.tab.doctors}(${docCount ? docCount : 0})`
+          ? `${Strings.directory.tab.doctors} (${docCount ? docCount : 0})`
           : `${Strings.directory.tab.doctors}`,
     },
     {
       text: `${Strings.directory.tab.chemists}`,
     },
     {
-      text: `${Strings.directory.tab.stocklists}`,
+      text: `${translate('stockist')}`,
     },
   ];
 
@@ -130,13 +130,17 @@ const DirectoryLanding = ({navigation, route}) => {
 
   // To render the tabs based on selected index
   const renderChildView = () => {
-    switch (selectedTabIndex) {
-      case 0:
-        return <MissedCalls />;
-      case 1:
-        return doctorTab();
-      default:
-        return <Label title={Strings.comingSoon} />;
+    if (route?.params?.inputKeyword) {
+      return doctorTab();
+    } else {
+      switch (selectedTabIndex) {
+        case 0:
+          return <MissedCalls />;
+        case 1:
+          return doctorTab();
+        default:
+          return <Label title={Strings.comingSoon} />;
+      }
     }
   };
 
