@@ -91,7 +91,7 @@
     "kyc": "KYC",
     "campaign": "Campaign",
     "count": {
-      "kyc": "{{value}} Kyc",
+      "kyc": "{{value}} KYC",
       "campaign": "{{value}} Campaign"
     }
   },
