@@ -1138,12 +1138,14 @@ const StandardPlanModal = ({
 
   if (allParties.length === 0 || allAreas.length === 0) {
     return (
-      <ActivityIndicator
-        animating={true}
-        color={themes.colors.darkBlue}
-        size="large"
-        style={styles.activityIndicator}
-      />
+      <View style={[styles.containerStyle, {height}]}>
+        <ActivityIndicator
+          animating={true}
+          color={themes.colors.darkBlue}
+          size="large"
+          style={styles.activityIndicator}
+        />
+      </View>
     );
   }
 
