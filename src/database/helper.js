@@ -2,7 +2,6 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
-import {ActivityTypes} from 'database';
 
 import {NetworkService} from 'services';
 
@@ -25,9 +24,6 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.partyTypeGroup,
       Schemas.partyTypes,
       Schemas.engagement,
-      Schemas.ActivityTypes.schema,
-      Schemas.ActivityType.schema,
-      Schemas.DurationType.schema,
     ],
   },
   {
@@ -92,8 +88,8 @@ export const MASTER_TABLES_DETAILS = [
     ],
   },
   {
-    name: Constants.MASTER_TABLE_ACTIVITY_TYPES,
-    apiPath: Constants.MASTER_TABLE_ACTIVITY_TYPES_API_PATH,
+    name: Constants.MASTER_TABLE_ACTIVITIES,
+    apiPath: Constants.MASTER_TABLE_ACTIVITIES_API_PATH,
   },
   {
     name: Constants.MASTER_TABLE_GEO_LOCATIONS,
@@ -139,8 +135,6 @@ export const syncParameters = {
 export const getUserName = async () => {
   try {
     const user = await getActiveUser();
-    const x = await ActivityTypes.getAllActivityTypes();
-    console.log(x, 'xx');
     const {firstName = '', lastName = ''} = user;
     return `${firstName} ${lastName}`;
   } catch (error) {}

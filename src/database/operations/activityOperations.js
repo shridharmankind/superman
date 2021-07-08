@@ -1,17 +1,13 @@
-import {ActivityTypesSchemaName} from '../schemas/ActivityTypes';
+import {ActivitiesSchemaName} from '../schemas/Activities';
 import {getAllTableRecords} from './common';
 import * as Constants from '../constants';
 
 export default dbInstance => ({
-  storeActivityTypes: async activityTypes => {
-    console.log(
-      'activity types yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
-      activityTypes,
-    );
+  storeActivities: async Activities => {
     let recordsUpdated = true;
     try {
       await dbInstance.write(() => {
-        activityTypes.forEach(activity => {
+        Activities.forEach(activity => {
           const {id, name, shortName, activityType, durationType} = activity;
           const activityTypeChild = dbInstance.create(
             Constants.ACTIVITY_TYPE,
@@ -24,7 +20,7 @@ export default dbInstance => ({
             'modified',
           );
           dbInstance.create(
-            ActivityTypesSchemaName,
+            ActivitiesSchemaName,
             {
               id,
               name,
@@ -42,12 +38,12 @@ export default dbInstance => ({
     return recordsUpdated;
   },
 
-  getAllActivityTypes: async () => {
-    return await getAllTableRecords(ActivityTypesSchemaName);
+  getAllActivities: async () => {
+    return await getAllTableRecords(ActivitiesSchemaName);
   },
 
-  getActivityTypesById: async ActivityTypesId => {
-    const ActivityTypess = await getAllTableRecords(ActivityTypesSchemaName);
-    return ActivityTypess.filtered(`id = ${ActivityTypesId}`);
+  getActivitiesById: async activityId => {
+    const activities = await getAllTableRecords(ActivitiesSchemaName);
+    return activities.filtered(`id = ${activityId}`);
   },
 });
