@@ -3,7 +3,6 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {authenticationConstants} from './constants';
 import {MasterDataDownload, Login} from 'screens/generic';
-import {Setting} from 'screens';
 import {linking} from 'navigations';
 import ROUTES, {
   ROUTE_MASTER_DATA_DOWNLOAD,
