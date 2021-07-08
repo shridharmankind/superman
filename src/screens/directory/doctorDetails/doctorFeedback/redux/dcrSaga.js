@@ -121,22 +121,44 @@ function* fetchVisitHandler(action) {
 }
 
 function* fetchDcrHandler(action) {
-  const {staffPositionId, partyIds} = action.payload;
+  const {
+    staffPositionId,
+    partyIds,
+    doctorName,
+    doctorData,
+    selectedDocData,
+    addDoctor,
+  } = action.payload;
   yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
   try {
+    let trailingUrl = '';
+    for (let i = 0; i < partyIds.length; i++) {
+      trailingUrl += `&PartyIds=${partyIds[i]}`;
+    }
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.GET_DCR_DATA}?StaffPositionId=1&partyIds=1`,
+      `${API_PATH.GET_DCR_DATA}?StaffPositionId=${staffPositionId}${trailingUrl}`,
     );
-    // const response = yield call(
-    //   NetworkService.get,
-    //   `${API_PATH.GET_DCR_DATA}?StaffPositionId=${staffPositionId}&partyIds=${partyIds}`,
-    // );
-    yield put(
-      dcrActions.getDoctorDetails({
-        doctors: [...response.data],
-      }),
-    );
+
+    if (doctorName) {
+      if (response.data) {
+        response.data[0].partyName = doctorName;
+      }
+      yield put(
+        dcrActions.getDoctorDetails({
+          doctors: [...response.data],
+        }),
+      );
+    }
+    if (addDoctor && addDoctor === true) {
+      yield put(
+        dcrActions.setDoctorList({
+          doctorData: doctorData,
+          selectedDocData: selectedDocData,
+          doctors: [...response.data],
+        }),
+      );
+    }
 
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
@@ -150,13 +172,8 @@ function* searchSampleHandler(action) {
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.GET_SAMPLES}?StaffPositionId=1&UserId=1`,
+      `${API_PATH.GET_SAMPLES}?StaffPositionId=${staffPositionId}`,
     );
-
-    // const response = yield call(
-    //   NetworkService.get,
-    //   `${API_PATH.GET_SAMPLES}?StaffPositionId=${staffPositionId}&UserId=1`,
-    // );
 
     yield put(
       dcrActions.getSamples({
@@ -176,13 +193,8 @@ function* searchItemsHandler(action) {
   try {
     const response = yield call(
       NetworkService.get,
-      `${API_PATH.GET_ITEMS}?StaffPositionId=1&UserId=1`,
+      `${API_PATH.GET_ITEMS}?StaffPositionId=${staffPositionId}`,
     );
-
-    // const response = yield call(
-    //   NetworkService.get,
-    //   `${API_PATH.GET_ITEMS}?StaffPositionId=${staffPositionId}&UserId=1`,
-    // );
 
     yield put(
       dcrActions.getItems({

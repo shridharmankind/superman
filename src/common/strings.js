@@ -261,7 +261,7 @@ const Strings = {
     },
   },
   noInternet: 'No Internet',
-  checkInternet: 'Check you internet connection',
+  checkInternet: 'Please check your internet connection',
 };
 
 export default Strings;

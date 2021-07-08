@@ -138,12 +138,7 @@ const ItemRequest = ({index, width}) => {
           data={filteredList}
           renderItem={({item}) => {
             return (
-              <View
-                style={
-                  item.completed === false
-                    ? [styles.sampleStyling, styles.highlightRow]
-                    : styles.sampleStyling
-                }>
+              <View style={styles.sampleStyling}>
                 <View style={styles.leftAlign}>
                   <Image
                     style={styles.rowSampleStyle}
@@ -158,36 +153,18 @@ const ItemRequest = ({index, width}) => {
                     }
                   />
                 </View>
-                {item?.requestQty && (
-                  <View>
-                    <Label
-                      title={`Requested Qty : ${item.requestQty}`}
-                      style={
-                        item.completed === false
-                          ? styles.highLightRowText
-                          : styles.rowText
-                      }
-                    />
-                  </View>
-                )}
 
                 <View style={styles.rightAlign}>
                   <View style={styles.stockData}>
                     <Label
                       title={`Provided Qty :${item?.actualQty || 0}`}
-                      style={
-                        item.completed === false
-                          ? styles.highLightRowText
-                          : styles.rowText
-                      }
+                      style={styles.rowText}
                     />
                     <Label
-                      title={`${item?.StockQty || 0} IN STOCK`}
-                      style={
-                        item.completed === false
-                          ? styles.highLightRowText
-                          : styles.rowText
-                      }
+                      title={`${
+                        item?.userItemInventory.stockQty || 0
+                      } IN STOCK`}
+                      style={styles.rowText}
                     />
                   </View>
                   <Button
@@ -211,7 +188,8 @@ const ItemRequest = ({index, width}) => {
                     }
                     onPress={() => IncReq(docId, item)}
                     disabled={
-                      item?.actualQty >= item?.StockQty || noItemRequested
+                      item?.actualQty >= item?.userItemInventory.stockQty ||
+                      noItemRequested
                         ? true
                         : false
                     }
@@ -280,7 +258,9 @@ const ItemRequest = ({index, width}) => {
                       }
                     />
                     <Label
-                      title={`${item?.StockQty || 0} IN STOCK`}
+                      title={`${
+                        item?.userItemInventory.stockQty || 0
+                      } IN STOCK`}
                       style={
                         item.completed === false
                           ? styles.highLightRowText

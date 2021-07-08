@@ -181,7 +181,6 @@ export const showToastie = (toastieType, message) => {
 };
 
 export const showToastieWithButton = (toastieType, message) => {
-  console.log(store.getState().appState.navigationObject);
   showToast({
     type: toastieType,
     autoHide: false,

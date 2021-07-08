@@ -231,13 +231,9 @@ const getMock = axios => {
     .onPost(`${API_PATHS.ADD_TODAY_PLAN}?staffPositionId=1&partyId=2`)
     .reply(200, addToTodayMockData);
   mock.onGet('staff/getreporters/1').reply(200, staff);
-  mock
-    .onGet('sku/withinventory?StaffPositionId=1&UserId=1')
-    .reply(200, searchSamples);
-  mock.onGet('item?StaffPositionId=1&UserId=1').reply(200, searchItems);
-  mock
-    .onGet('taskinfo/parties/opentask?StaffPositionId=1&partyIds=1')
-    .reply(200, dcrData);
+  mock.onGet('sku/withinventory?StaffPositionId=1').reply(200, searchSamples);
+  mock.onGet('item?StaffPositionId=1').reply(200, searchItems);
+  mock.onGet('taskinfo/parties/opentask?StaffPositionId=1').reply(200, dcrData);
   mock
     .onGet('/party/partybyspid/1?partyTypeGroupId=1')
     .reply(200, doctorDcrList);

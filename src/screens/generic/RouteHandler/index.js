@@ -3,7 +3,6 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {authenticationConstants} from './constants';
 import {MasterDataDownload, Login} from 'screens/generic';
-import {Setting} from 'screens';
 import {linking} from 'navigations';
 import ROUTES, {
   ROUTE_MASTER_DATA_DOWNLOAD,
@@ -69,16 +68,6 @@ export default function RouteHandler() {
           }}
         />
       ));
-    } else if (screen === 'Settings') {
-      return (
-        <Stack.Screen
-          name={'Settings'}
-          component={Setting}
-          options={{
-            headerShown: false,
-          }}
-        />
-      );
     } else {
       return (
         <Stack.Screen

@@ -721,7 +721,9 @@ const MonthlyTourPlan = ({navigation}) => {
               textColor={themes.colors.grey[600]}
               title={
                 date?.source
-                  ? date?.source
+                  ? `${formatDay(date?.source?.day)}-${formatDay(
+                      date?.source?.month,
+                    )}-${date?.source?.year}`
                   : translate('tourPlan.monthly.selectDate')
               }
             />
@@ -741,7 +743,9 @@ const MonthlyTourPlan = ({navigation}) => {
               textColor={themes.colors.grey[600]}
               title={
                 date?.destination
-                  ? date?.destination
+                  ? `${formatDay(date?.destination?.day)}-${formatDay(
+                      date?.destination?.month,
+                    )}-${date?.destination?.year}`
                   : translate('tourPlan.monthly.selectDate')
               }
             />
@@ -797,11 +801,9 @@ const MonthlyTourPlan = ({navigation}) => {
 
   /**render calendar on click of date input press*/
   const renderCalendar = () => {
-    const month = `${monthSelected?.year}-${
-      monthSelected?.month < 10
-        ? `0${monthSelected?.month}`
-        : monthSelected?.month
-    }-01`;
+    const month = `${monthSelected?.year}-${formatDay(
+      monthSelected?.month,
+    )}-01`;
 
     const disableDates = {};
     mtpDataSelector?.map(data => {
@@ -810,9 +812,9 @@ const MonthlyTourPlan = ({navigation}) => {
         data.dayType.toLowerCase() === DAY_TYPE.LEAVE
       ) {
         disableDates[
-          `${data.date.year}-${
-            data.date.month < 10 ? `0${data.date.month}` : data.date.month
-          }-${data.date.day < 10 ? `0${data.date.day}` : data.date.day}`
+          `${data.date.year}-${formatDay(data.date.month)}-${formatDay(
+            data.date.day,
+          )}`
         ] = {
           disabled: true,
           disableTouchEvent: true,
@@ -828,7 +830,7 @@ const MonthlyTourPlan = ({navigation}) => {
           hideExtraDays={true}
           disableMonthChange={true}
           firstDay={1}
-          hideDayNames={true}
+          hideDayNames={false}
           showWeekNumbers={false}
           enableSwipeMonths={false}
           onDayPress={day => handleDayPress(day)}
@@ -856,11 +858,19 @@ const MonthlyTourPlan = ({navigation}) => {
       dateString !==
       (dateSelected === SWAP.SOURCE ? date.destination : date.source)
     ) {
-      setDate({...date, [dateSelected]: dateString});
+      setDate({...date, [dateSelected]: {day, month, year}});
       setSwapObj(obj);
 
       setShowCalendar(false);
     }
+  };
+
+  /**format day if less than 10 or greater than 10
+   * @param {Number} day date of month in number
+   * @return {String}
+   */
+  const formatDay = day => {
+    return day > 10 ? day : `0${day}`;
   };
 
   /**method to show toast on succes/failure for swapping dates */

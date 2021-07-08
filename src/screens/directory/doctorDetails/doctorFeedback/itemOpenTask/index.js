@@ -161,18 +161,6 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                     }
                   />
                 </View>
-                {item?.requestQty && (
-                  <View>
-                    <Label
-                      title={`Requested Qty : ${item.requestQty}`}
-                      style={
-                        item.completed === false
-                          ? styles.highLightRowText
-                          : styles.rowText
-                      }
-                    />
-                  </View>
-                )}
 
                 <View style={styles.rightAlign}>
                   <View style={styles.stockData}>
@@ -185,7 +173,9 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                       }
                     />
                     <Label
-                      title={`${item?.StockQty || 0} IN STOCK`}
+                      title={`${
+                        item?.userItemInventory.stockQty || 0
+                      } IN STOCK`}
                       style={
                         item.completed === false
                           ? styles.highLightRowText
@@ -241,7 +231,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
             return (
               <View
                 style={
-                  item.completed === false
+                  item.taskStatusId === 1
                     ? [styles.sampleStyling, styles.highlightRow]
                     : styles.sampleStyling
                 }>
@@ -253,18 +243,18 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                   <Label
                     title={item.itemName}
                     style={
-                      item.completed === false
+                      item.taskStatusId === 1
                         ? styles.highLightRowText
                         : styles.rowText
                     }
                   />
                 </View>
-                {item?.requestQty && (
+                {item.requestQty && (
                   <View>
                     <Label
                       title={`Requested Qty : ${item.requestQty}`}
                       style={
-                        item.completed === false
+                        item.taskStatusId === 1
                           ? styles.highLightRowText
                           : styles.rowText
                       }
@@ -277,7 +267,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                     <Label
                       title={`Provided Qty :${item?.actualQty || 0}`}
                       style={
-                        item.completed === false
+                        item.taskStatusId === 1
                           ? styles.highLightRowText
                           : styles.rowText
                       }
@@ -285,7 +275,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                     <Label
                       title={`${item?.StockQty || 0} IN STOCK`}
                       style={
-                        item.completed === false
+                        item.taskStatusId === 1
                           ? styles.highLightRowText
                           : styles.rowText
                       }
@@ -295,7 +285,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                     title="-"
                     mode="contained"
                     contentStyle={
-                      item.completed === false
+                      item.taskStatusId === 1
                         ? styles.highLightBtnStyle
                         : styles.btnStyle
                     }
@@ -306,7 +296,7 @@ const ItemOpenTask = ({index, width, doctorData}) => {
                     title="+"
                     mode="outlined"
                     contentStyle={
-                      item.completed === false
+                      item.taskStatusId === 1
                         ? styles.highLightBtnStyle
                         : styles.btnStyle
                     }
