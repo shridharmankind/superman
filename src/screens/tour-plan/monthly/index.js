@@ -133,21 +133,18 @@ const MonthlyTourPlan = ({navigation}) => {
   };
 
   useEffect(() => {
-    if ((monthSelected && selectedTourPlan?.id !== 1) || swapResponse) {
+    if (
+      (selectedTourPlan?.id !== 1 && selectedTourPlan?.month) ||
+      swapResponse
+    ) {
       dispatch(
         fetchMTPCalendarUpdateCreator({
           staffPositionId: staffPositionId,
-          month: monthSelected?.month,
+          month: selectedTourPlan?.month,
         }),
       );
     }
-  }, [
-    dispatch,
-    staffPositionId,
-    monthSelected,
-    selectedTourPlan,
-    swapResponse,
-  ]);
+  }, [dispatch, staffPositionId, selectedTourPlan, swapResponse]);
 
   useEffect(() => {
     dispatch(

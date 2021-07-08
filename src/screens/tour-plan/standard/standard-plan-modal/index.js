@@ -65,7 +65,6 @@ const StandardPlanModal = ({
   const dispatch = useDispatch();
   const [patchValue, setPatchValue] = useState();
   const [areaSelected, setAreaSelected] = useState([]);
-  const [patches, setPatches] = useState();
   const [patchSelected, setPatchSelected] = useState();
   const [patchDefaultValue, setPatchDefaultValue] = useState();
   const [parties, setParties] = useState([]);
@@ -241,10 +240,6 @@ const StandardPlanModal = ({
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    setPatches(allPatches);
-  }, [allPatches]);
 
   useEffect(() => {
     let ptch = null;
@@ -613,14 +608,13 @@ const StandardPlanModal = ({
               const updatedPartyList = doctorsSelected?.filter(
                 party => !pId?.some(par => par === party.partyId),
               );
-              setDoctorsSelected(updatedPartyList);
               setPatchValue(null);
               handleNoPress(
                 obj,
                 areaSelected,
                 updatedPartyList,
                 allParties,
-                patches,
+                allPatches,
                 true,
               );
             } else {
@@ -640,12 +634,13 @@ const StandardPlanModal = ({
           },
           onPressRightBtn: () => {
             if (code === Constants.HTTP_PATCH_CODE.PATCH_EXITS_FOR_OTHER_DAY) {
+              setPatchValue(null);
               handleNoPress(
                 obj,
                 areaSelected,
                 doctorsSelected,
                 allParties,
-                patches,
+                allPatches,
                 true,
               );
             } else {
@@ -665,7 +660,7 @@ const StandardPlanModal = ({
       updatePatch,
       handleNoPress,
       areaSelected,
-      patches,
+      allPatches,
       doctorsSelected,
       allParties,
       checkPatchExhausted,
@@ -731,7 +726,7 @@ const StandardPlanModal = ({
           allAreas,
           updatedPartyList,
           allParties,
-          patches,
+          allPatches,
           false,
         );
         message = Strings.frquecySlotExhausted;
@@ -756,7 +751,7 @@ const StandardPlanModal = ({
         },
       });
     },
-    [allAreas, doctorsSelected, handleNoPress, allParties, patches],
+    [allAreas, doctorsSelected, handleNoPress, allParties, allPatches],
   );
 
   /**function to create new patch on databse if No button on override notification is pressed
@@ -898,7 +893,7 @@ const StandardPlanModal = ({
         areaSelected,
         partyArr || [],
         allParties,
-        patches,
+        allPatches,
       );
       if (isSameDayPatch(patchValue)) {
         if (patchValue?.defaultName === patchValue?.displayName) {
@@ -929,7 +924,7 @@ const StandardPlanModal = ({
       isSameDayPatch,
       patchEdited,
       patchValue,
-      patches,
+      allPatches,
     ],
   );
 
@@ -1141,11 +1136,7 @@ const StandardPlanModal = ({
     });
   };
 
-  if (
-    allParties.length === 0 ||
-    allAreas.length === 0 ||
-    allPatches.length === 0
-  ) {
+  if (allParties.length === 0 || allAreas.length === 0) {
     return (
       <ActivityIndicator
         animating={true}
