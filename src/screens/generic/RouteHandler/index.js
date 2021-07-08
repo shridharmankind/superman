@@ -69,16 +69,6 @@ export default function RouteHandler() {
           }}
         />
       ));
-    } else if (screen === 'Settings') {
-      return (
-        <Stack.Screen
-          name={'Settings'}
-          component={Setting}
-          options={{
-            headerShown: false,
-          }}
-        />
-      );
     } else {
       return (
         <Stack.Screen
