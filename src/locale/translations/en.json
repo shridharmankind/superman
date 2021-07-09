@@ -41,7 +41,11 @@
   "performance": {
     "title": "Performance",
     "myPerformance": "My Performance",
-    "leaderboard": "leaderboard"
+    "leaderboard": "leaderboard",
+    "sales": "Sales (in ₹)",
+    "youAreOnTrack": "You are on track",
+    "rankInTerritory": "Rank in territory",
+    "youGainedPositionFromLastMonth": "You gained 1 position from last month"
   },
   "missedVisit": "Missed Visit!",
   "upcomingVisit": "Upcoming Visit",

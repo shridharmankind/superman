@@ -14,29 +14,42 @@ export default StyleSheet.create({
     fontSize: 18.7,
     color: theme.colors.primary,
   },
-  sectionsContainer: {
+  flexRow: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection: 'row'
   },
   performanceSectionContainer: {
     width: '50%',
     backgroundColor: '#F8ECEF',
     borderRadius: 10,
-    padding: 10
+    padding: 20
   },
   leaderboardSectionContainer: {
     width: '50%',
     backgroundColor: '#EAE9F2',
     borderRadius: 10,
-    padding: 10,
+    padding: 20,
     marginLeft: 10
   },
-  birthdayBorder: {
-    borderRadius: 50,
-    borderColor: theme.colors.grey[100],
-    backgroundColor: theme.colors.white,
-    borderWidth: 0.5,
-    marginTop: theme.spacing(2),
+  sectionsTitle: {
+    fontSize: 15,
+    color: theme.colors.black,
+    marginTop: 20,
+    marginBottom: 20
   },
+  sectionNumber: {
+    fontSize: 25,
+    color: theme.colors.primary,
+    marginTop: -15
+  },
+  sectionNumber2: {
+    fontSize: 15,
+    color: theme.colors.black
+  },
+  sales: {
+    marginBottom: 20
+  },
+  colorPrimary: {
+    color: theme.colors.primary
+  }
 });
