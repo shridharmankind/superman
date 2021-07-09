@@ -52,6 +52,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: theme.spacing(34),
   },
+  itemContainer: {
+    width: '25%',
+  },
+  itemContainer1: {
+    width: '18%',
+  },
+  name: {
+    textTransform: 'capitalize',
+    fontSize: 12,
+  },
+  listHeaderWeb: {
+    marginLeft: theme.spacing(35),
+  },
 });
 
 export default styles;

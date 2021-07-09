@@ -168,37 +168,65 @@ const MissedCalls = () => {
   const renderView = () => {
     return (
       <View style={styles.container}>
-        <View style={customStyles.listHeader}>
-          <View style={customStyles.listHeaderSpacing1}>
-            <Label
-              style={customStyles.division}
-              title={translate('tourPlan.daily.partyName')}
-            />
+        {isWeb() && (
+          <View style={[styles.listHeader, customStyles.listHeaderWeb]}>
+            <View style={customStyles.itemContainer}>
+              <Label
+                style={customStyles.name}
+                title={translate('tourPlan.daily.partyName')}
+              />
+            </View>
+            <View style={customStyles.itemContainer1}>
+              <Label
+                style={customStyles.name}
+                title={translate('tourPlan.daily.partyType')}
+              />
+            </View>
+            <View style={customStyles.itemContainer1}>
+              <Label
+                style={customStyles.name}
+                title={translate('speciality')}
+              />
+            </View>
+            <View style={customStyles.itemContainer1}>
+              <Label style={customStyles.name} title={translate('area')} />
+            </View>
           </View>
-          <View
-            style={[
-              customStyles.listHeaderSpacing2,
-              isWeb() && customStyles.listHeaderSpacing2Web,
-            ]}>
-            <Label
-              style={customStyles.division}
-              title={translate('tourPlan.daily.partyType')}
-            />
+        )}
+
+        {!isWeb() && (
+          <View style={customStyles.listHeader}>
+            <View style={!isWeb() && customStyles.listHeaderSpacing1}>
+              <Label
+                style={customStyles.division}
+                title={translate('tourPlan.daily.partyName')}
+              />
+            </View>
+            <View
+              style={[
+                !isWeb() && customStyles.listHeaderSpacing2,
+                !isWeb() && customStyles.listHeaderSpacing2Web,
+              ]}>
+              <Label
+                style={customStyles.division}
+                title={translate('tourPlan.daily.partyType')}
+              />
+            </View>
+            <View
+              style={[
+                !isWeb() && customStyles.listHeaderSpacing3,
+                !isWeb() && customStyles.listHeaderSpacing2Web,
+              ]}>
+              <Label
+                style={customStyles.division}
+                title={translate('speciality')}
+              />
+            </View>
+            <View>
+              <Label style={customStyles.division} title={translate('area')} />
+            </View>
           </View>
-          <View
-            style={[
-              customStyles.listHeaderSpacing3,
-              isWeb() && customStyles.listHeaderSpacing2Web,
-            ]}>
-            <Label
-              style={customStyles.division}
-              title={translate('speciality')}
-            />
-          </View>
-          <View>
-            <Label style={customStyles.division} title={translate('area')} />
-          </View>
-        </View>
+        )}
 
         {missedCallsList()}
 

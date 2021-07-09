@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
+  detailsContainerWeb: {
+    flexDirection: 'row',
+  },
   details: {
     flex: 1,
     flexDirection: 'row',

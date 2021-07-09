@@ -108,7 +108,7 @@ const getSTPStatusUrl = apiPath => {
 
 const getMissedCallUrl = apipath => {
   const valueMap = {
-    staffPositionId: 1,
+    staffPositionId: 11,
     month: parseInt(getFormatDate({format: 'M'}), 10),
   };
   let url = apipath;

@@ -9,6 +9,7 @@ import {Strings, Constants} from 'common';
 import {translate} from 'locale';
 import {capitalize} from 'screens/tourPlan/helper';
 import {returnUTCtoLocal} from 'utils/dateTimeHelper';
+import {isWeb} from 'helper';
 
 /**
  * component to return parties list
@@ -127,7 +128,11 @@ const PartiesDirectory = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.detailsContainer}>
+      <View
+        style={[
+          !isWeb() && styles.detailsContainer,
+          isWeb && styles.detailsContainerWeb,
+        ]}>
         <View style={styles.details}>
           {partyType === Constants.PARTY_TYPE.DOCTOR && (
             <View style={styles.divisionContainer}>
@@ -192,6 +197,7 @@ const PartiesDirectory = ({
                   .map(spec => spec?.name || spec)
                   .join(', ')}
                 style={[styles.capitalize, styles.name]}
+                numberOfLines={1}
               />
             </View>
           </View>
