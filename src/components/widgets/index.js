@@ -14,3 +14,4 @@ export {default as PartiesDirectory} from '../widgets/PartiesDirectory';
 export {default as DailyPlanParties} from '../widgets/DailyPlanParties';
 export {default as Alert} from './Alert';
 export {default as PresentationSlide} from './PresentationSlide';
+export {default as DailyCell} from '../widgets/DailyCell';

@@ -139,7 +139,7 @@ const highVisitStyle = (isSameDayDate, isWorkingDayType, isNoOfVisitHigh) => {
  * Render Daily Container
  * @param {Object} props
  */
-const DailyView = ({
+const DailyCell = ({
   props,
   selectedMonth,
   workingDays,
@@ -178,16 +178,6 @@ const DailyView = ({
   // inner container check for high visit bar
   const isInnerContainerHighVisitStyle =
     isSameDayDate && isWorkingDayType && dayCellData?.patch?.isNoOfVisitHigh;
-  console.log(
-    'isWorkingDayDate',
-    !isWorkingDayDate,
-    'isLeaveType',
-    isLeaveType,
-    'isHolidayType',
-    isHolidayType,
-    '====',
-    props.date,
-  );
   return (
     <View
       style={[
@@ -234,4 +224,4 @@ const DailyView = ({
   );
 };
 
-export default DailyView;
+export default DailyCell;

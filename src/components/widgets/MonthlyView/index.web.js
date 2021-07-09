@@ -2,7 +2,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import styles from './styles.web';
-import DailyCell from '../DailyCell';
+import {DailyCell} from 'components/widgets';
 import {getDateFromMonthYear, isSameDate,getFormatDate,addDays,startOfDate, endOfDate} from 'utils/dateTimeHelper';
 import dayjs from 'dayjs';
 
