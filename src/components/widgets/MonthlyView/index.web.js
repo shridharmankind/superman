@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {View, Text} from 'react-native';
-import styles from './webStyles';
+import styles from './styles.web';
 import DailyCell from '../DailyCell';
 import {getDateFromMonthYear, isSameDate,getFormatDate,addDays,startOfDate, endOfDate} from 'utils/dateTimeHelper';
 import dayjs from 'dayjs';
