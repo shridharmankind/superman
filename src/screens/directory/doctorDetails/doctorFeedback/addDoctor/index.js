@@ -40,13 +40,21 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
       const partyIndex = partyJson.findIndex(
         dataItem => dataItem.id === item.id,
       );
+      const searchIndex = searchData.findIndex(
+        dataItem => dataItem.id === item.id,
+      );
       const itemObject = {...item, isChecked: true};
       partyJson.splice(partyIndex, 1);
       setPartyJson(partyJson);
-      setSearchData(partyJson);
+      let searchAllData = [...searchData];
+      searchAllData[searchIndex] = {...itemObject};
+      setSearchData(searchAllData);
       setSelectedList([...selectedList, itemObject]);
     } else {
       const selectedIndex = selectedList.findIndex(
+        dataItem => dataItem.id === item.id,
+      );
+      const searchIndex = searchData.findIndex(
         dataItem => dataItem.id === item.id,
       );
       selectedList.splice(selectedIndex, 1);
@@ -61,20 +69,24 @@ const AddDoctor = ({showModal, closeModal, updateSelectedData}) => {
         }
         return 0;
       });
+      let searchAllData = [...searchData];
+      searchAllData[searchIndex] = {...itemObject};
+      setSearchData(searchAllData);
       setPartyJson(doctorAllData);
-      setSearchData(doctorAllData);
       setSelectedList(selectedList);
     }
   };
 
   const updateSearch = text => {
     let partyResult = [...searchData];
-    partyResult = partyResult?.filter(dataItem => !dataItem.isChecked);
+    const partyFilteredResult = partyResult?.filter(
+      dataItem => !dataItem.isChecked,
+    );
     if (text?.length) {
       const seractText = text?.trim().toLowerCase();
-      const result = partyResult?.filter(dataValue => {
+      const result = partyFilteredResult?.filter(dataValue => {
         const name = dataValue.name?.toLowerCase();
-        return name.includes(seractText);
+        return name.includes(seractText) && !dataValue.isChecked;
       });
       setSearchText(seractText);
       setPartyJson(result);

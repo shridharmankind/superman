@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
     borderRadius: themes.spacing(5),
     marginRight: themes.spacing(10),
     borderWidth: 1,
+    marginBottom: themes.spacing(20),
+    marginTop: themes.spacing(10),
   },
   productCheck: {
     position: 'absolute',

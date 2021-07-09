@@ -14,7 +14,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ProductWithCheckBox = ({data, onItemChecked}) => {
   return (
-    <View style={styles.eDetailedNonFeature}>
+    <View
+      style={styles.eDetailedNonFeature}
+      onPress={() => {
+        onItemChecked(data, !data.isChecked);
+      }}>
       {!!data.isChecked && (
         <View style={styles.productCheck}>
           <Icon
@@ -24,13 +28,7 @@ const ProductWithCheckBox = ({data, onItemChecked}) => {
           />
         </View>
       )}
-      <Label
-        variant={LabelVariant.subtitleLarge}
-        title={data.name}
-        onPress={() => {
-          onItemChecked(data, !data.isChecked);
-        }}
-      />
+      <Label variant={LabelVariant.subtitleLarge} title={data.name} />
     </View>
   );
 };

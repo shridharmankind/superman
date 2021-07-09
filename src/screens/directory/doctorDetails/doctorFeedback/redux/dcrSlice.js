@@ -1,5 +1,5 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
-import DoctorSampleJson from '../../../../../data/mock/api/doctorSample.json';
+import unionWith from 'lodash.unionwith';
 
 export const fetchStaffDetail = createAction('FETCH_STAFF_DETAIL');
 export const fetchStaffDetailType = fetchStaffDetail().type;
@@ -156,10 +156,23 @@ const dcrSlice = createSlice({
       // const otherProductDataList = {
       //   otherProducts: otherProducts,
       // };
+      const merge = unionWith(
+        state.discussedProduct,
+        discussList,
+        (item1, item2) => {
+          return (
+            item1.subBrandId === item2.subBrandId &&
+            item1.motherBrandId === item2.motherBrandId &&
+            item1.skuId === item2.skuId
+          );
+        },
+      );
       const discussedList = {
-        discussedProduct: discussList,
+        ...state,
+        discussedProduct: merge,
       };
-      return {...state, ...discussedList};
+
+      return {...discussedList};
     },
   },
 });
