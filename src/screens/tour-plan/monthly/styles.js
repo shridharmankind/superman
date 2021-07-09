@@ -48,10 +48,14 @@ const styles = StyleSheet.create({
     height: 590.7,
   },
   modalPositionWeb: {
-    marginTop: '-6%',
-    marginLeft: '15%',
-    width: 441.3,
-    height: 590.7,
+    marginTop: theme.spacing(-100),
+    marginLeft: theme.spacing(180),
+    height: 535,
+  },
+  modalPositionWebHalf: {
+    marginTop: theme.spacing(-350),
+    marginLeft: theme.spacing(180),
+    height: 267.5,
   },
   modalHeightHalf: {
     height: 295.35,

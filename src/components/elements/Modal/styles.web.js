@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     width: 500,
-    height: 500,
+    height: 'auto',
   },
   close: {
     alignItems: 'flex-end',

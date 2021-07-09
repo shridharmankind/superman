@@ -574,11 +574,11 @@ const MonthlyTourPlan = ({navigation}) => {
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
-        customModalPosition={[
-          styles.modalPosition,
-          isWeb() && styles.modalPositionWeb,
-          optionsToIterate?.length < 7 && styles.modalHeightHalf,
-        ]}
+        customModalPosition={
+          optionsToIterate?.length < 7
+            ? [styles.modalPositionHalf, isWeb() && styles.modalPositionWebHalf]
+            : [styles.modalPosition, isWeb() && styles.modalPositionWeb]
+        }
       />
     );
   };
