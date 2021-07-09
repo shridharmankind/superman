@@ -51,6 +51,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: -8,
     top: -17,
+    padding: 2,
+    justifyContent: 'center',
+    backgroundColor: themes.colors.checkCircleBlue,
+    borderRadius: 1000,
   },
   location: {
     borderLeftColor: themes.colors.grey[200],

@@ -1,9 +1,9 @@
-import React, {useRef, useState, forwardRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {Area, Dropdown, Label, LabelVariant} from 'components/elements';
 import {Strings, Constants} from 'common';
 import {showToast, hideToast} from 'components/widgets/Toast';
+import {ArrowLeft, ArrowRight} from 'assets';
 import themes from 'themes';
 import styles from './styles';
 
@@ -146,7 +146,7 @@ const Areas = ({
           <TouchableOpacity
             onPress={() => handleAreaLeftArrow()}
             style={[styles.swiperArrow, styles.leftArrow]}>
-            {renderArrow('chevron-left')}
+            {renderArrow('left')}
           </TouchableOpacity>
         )}
         <ScrollView
@@ -162,7 +162,7 @@ const Areas = ({
           <TouchableOpacity
             onPress={() => handleAreaRightArrow()}
             style={[styles.swiperArrow, styles.rightArrow]}>
-            {renderArrow('chevron-right')}
+            {renderArrow('right')}
           </TouchableOpacity>
         )}
       </View>
@@ -172,9 +172,12 @@ const Areas = ({
   /**function to return renderAreas() with scollable View
    * @param {String} icon name of icon to use
    */
-  const renderArrow = icon => (
-    <Icon name={icon} size={10} color={themes.colors.blue} />
-  );
+  const renderArrow = icon =>
+    icon === 'left' ? (
+      <ArrowLeft width={10} height={10} />
+    ) : (
+      <ArrowRight width={10} height={10} />
+    );
 
   return (
     <View style={styles.selectAreaContainer}>

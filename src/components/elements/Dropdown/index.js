@@ -3,7 +3,7 @@ import {ScrollView, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {TextInput} from 'react-native-paper';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {DropdownIcon} from 'assets';
 import styles from './styles';
 import {Label, LabelVariant} from 'components/elements';
 import {translate} from 'locale';
@@ -20,9 +20,6 @@ import {translate} from 'locale';
  */
 
 const Dropdown = forwardRef((props, ref) => {
-  const [togglePicker, setTogglePicker] = useState(false);
-  const [dropDownData, setDropDownData] = useState(data);
-  const [dropDownText, setDropdownText] = useState(defaultLabel);
   const {
     defaultLabel,
     valueSelected,
@@ -32,6 +29,9 @@ const Dropdown = forwardRef((props, ref) => {
     hideDropdown,
     setHideDropDown,
   } = props;
+  const [togglePicker, setTogglePicker] = useState(false);
+  const [dropDownData, setDropDownData] = useState(data);
+  const [dropDownText, setDropdownText] = useState(defaultLabel);
 
   const handleValueSelected = val => {
     setDropdownText(val?.value || defaultLabel);
@@ -91,7 +91,9 @@ const Dropdown = forwardRef((props, ref) => {
           right={
             <TextInput.Icon
               name={() => (
-                <Icon name="sort-down" size={20} style={styles.sortDown} />
+                <>
+                  <DropdownIcon width={20} height={20} />
+                </>
               )}
             />
           }
@@ -106,7 +108,9 @@ const Dropdown = forwardRef((props, ref) => {
             title={dropDownText || defaultLabel}
             variant={LabelVariant.subtitleSmall}
           />
-          <Icon name={'sort-down'} size={20} style={styles.sortDown} />
+          <>
+            <DropdownIcon width={20} height={20} />
+          </>
         </TouchableOpacity>
       )}
       {togglePicker && (

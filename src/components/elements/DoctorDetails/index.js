@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import {Frequency, Label} from 'components/elements';
 import themes from 'themes';
 import styles from './styles';
 import {DoctorVisitStates, DoctorTag, DivisionType} from 'components/widgets';
-import {MoreVerticalIcon} from 'assets';
+import {MoreVerticalIcon, Check} from 'assets';
 import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
 import {capitalize} from 'screens/tour-plan/helper';
@@ -225,11 +224,7 @@ const DoctorDetails = ({
         )}
         {isTicked && (
           <View style={styles.checkContainer}>
-            <Icon
-              name="check-circle"
-              size={16}
-              color={themes.colors.checkCircleBlue}
-            />
+            <Check width={12} height={12} color={themes.colors.white} />
           </View>
         )}
         {showVisitPlan && renderVisitData()}

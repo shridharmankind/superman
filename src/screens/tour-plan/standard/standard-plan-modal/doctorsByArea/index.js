@@ -28,6 +28,33 @@ const DoctorsByArea = ({
     [doctorsSelected],
   );
 
+  /**method to check if party is part of patch
+   * @param {String} id party id
+   * @return {Boolean}
+   */
+  const isPartyInPatch = useCallback(
+    (id, area) => {
+      return allPartiesByPatchID?.some(
+        party => party.partyId === id && area === party.areaId,
+      );
+    },
+    [allPartiesByPatchID],
+  );
+
+  /**check if party selected is also in other area
+   * @param {String} id party id to check
+   * @param {String} area party area id to check
+   * @return {Boolean}
+   */
+  const isSamePartySelectedInOtherArea = useCallback(
+    (id, area) => {
+      return doctorsSelected?.some(
+        par => par.partyId === id && par.areaId !== area,
+      );
+    },
+    [doctorsSelected],
+  );
+
   /** function to filter parties by area selected from area chiklets
    * @param {Number} area area id passed as number
    */
@@ -133,33 +160,6 @@ const DoctorsByArea = ({
       </View>
     );
   };
-
-  /**method to check if party is part of patch
-   * @param {String} id party id
-   * @return {Boolean}
-   */
-  const isPartyInPatch = useCallback(
-    (id, area) => {
-      return allPartiesByPatchID?.some(
-        party => party.partyId === id && area === party.areaId,
-      );
-    },
-    [allPartiesByPatchID],
-  );
-
-  /**check if party selected is also in other area
-   * @param {String} id party id to check
-   * @param {String} area party area id to check
-   * @return {Boolean}
-   */
-  const isSamePartySelectedInOtherArea = useCallback(
-    (id, area) => {
-      return doctorsSelected?.some(
-        par => par.partyId === id && par.areaId !== area,
-      );
-    },
-    [doctorsSelected],
-  );
 
   return (
     <View style={styles.doctorDetailsContainer}>

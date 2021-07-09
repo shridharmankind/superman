@@ -2,7 +2,6 @@
 /*todo*/
 import React from 'react';
 import {View} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import themes from 'themes';
 import styles from './styles';
@@ -25,14 +24,7 @@ const Frequency = ({visited, testID, ...props}) => {
 
   return (
     <View style={[styles.container, isVisited]} testID={testID}>
-      {visited && (
-        <Icon
-          name="circle"
-          testID={'frequency-circle-icon'}
-          size={10}
-          color={themes.colors.grey[200]}
-        />
-      )}
+      {visited && <View style={styles.dot} />}
     </View>
   );
 };
