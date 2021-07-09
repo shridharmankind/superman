@@ -2,6 +2,7 @@ import {Platform, StyleSheet, Dimensions} from 'react-native';
 import theme from 'themes';
 
 const {width} = Dimensions.get('window');
+const vh = window.innerHeight * 0.01;
 
 const styles = StyleSheet.create({
   container: {
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     ...Platform.select({
       web: {
+        height: 100 * vh,
         width: 0.64 * window.innerWidth,
       },
     }),
@@ -55,6 +57,11 @@ const styles = StyleSheet.create({
   loginButtonContainer: {
     position: 'absolute',
     bottom: 40,
+    ...Platform.select({
+      web: {
+        position: 'relative',
+      },
+    }),
   },
 });
 
