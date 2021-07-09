@@ -38,6 +38,11 @@
       "noPatchFound": "No patch found"
     }
   },
+  "performance": {
+    "title": "Performance",
+    "myPerformance": "My Performance",
+    "leaderboard": "leaderboard"
+  },
   "missedVisit": "Missed Visit!",
   "upcomingVisit": "Upcoming Visit",
   "detailedProducts": "Detailed Products: ",

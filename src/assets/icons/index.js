@@ -30,3 +30,4 @@ export {default as MissedVisit} from './missedVisit';
 export {default as Focus} from './focus';
 export {default as StarIcon} from './star';
 export {default as Mic} from './Mic';
+export {default as PerformanceInside} from './performanceInside';
