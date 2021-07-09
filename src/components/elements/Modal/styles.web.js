@@ -26,6 +26,17 @@ const styles = StyleSheet.create({
     width: 500,
     height: 500,
   },
+  close: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    width: '10%',
+  },
+  title: {
+    width: '90%',
+  },
+  titleView: {
+    flexDirection: 'row',
+  },
 });
 
 export default styles;

@@ -51,6 +51,9 @@ const styles = StyleSheet.create({
     color: theme.colors.grey[200],
     fontFamily: theme.fonts.fontBold,
   },
+  visitTextWeb: {
+    fontWeight: 'bold',
+  },
   removeCardButtonContainer: {
     alignItems: 'flex-end',
     width: '100%',

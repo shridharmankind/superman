@@ -168,7 +168,9 @@ const DailyTourPlan = () => {
         result.splice(
           ++numberOfItemsAdded + i,
           0,
-          <Label key={i} style={styles.visitText}>
+          <Label
+            key={i}
+            style={[styles.visitText, isWeb() && styles.visitTextWeb]}>
             {boldText}
           </Label>,
         );

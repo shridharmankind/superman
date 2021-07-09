@@ -47,11 +47,11 @@ const CustomModal = ({
         onRequestClose={onClose}>
         <View style={[stylesWeb.centeredView, props?.customModalCenteredView]}>
           <View style={[stylesWeb.modalView, customModalPosition]}>
-            <View style={styles.titleView}>
-              <View style={styles.title}>{modalTitle}</View>
+            <View style={stylesWeb.titleView}>
+              <View style={stylesWeb.title}>{modalTitle}</View>
               {closeAction && (
                 <TouchableWithoutFeedback
-                  style={styles.close}
+                  style={stylesWeb.close}
                   onPress={onClose}
                   testID={closeTestId}>
                   <CloseIcon width={32} height={32} />

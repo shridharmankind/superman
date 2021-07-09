@@ -196,27 +196,19 @@ const MissedCalls = () => {
 
         {!isWeb() && (
           <View style={customStyles.listHeader}>
-            <View style={!isWeb() && customStyles.listHeaderSpacing1}>
+            <View style={customStyles.listHeaderSpacing1}>
               <Label
                 style={customStyles.division}
                 title={translate('tourPlan.daily.partyName')}
               />
             </View>
-            <View
-              style={[
-                !isWeb() && customStyles.listHeaderSpacing2,
-                !isWeb() && customStyles.listHeaderSpacing2Web,
-              ]}>
+            <View style={customStyles.listHeaderSpacing2}>
               <Label
                 style={customStyles.division}
                 title={translate('tourPlan.daily.partyType')}
               />
             </View>
-            <View
-              style={[
-                !isWeb() && customStyles.listHeaderSpacing3,
-                !isWeb() && customStyles.listHeaderSpacing2Web,
-              ]}>
+            <View style={customStyles.listHeaderSpacing3}>
               <Label
                 style={customStyles.division}
                 title={translate('speciality')}

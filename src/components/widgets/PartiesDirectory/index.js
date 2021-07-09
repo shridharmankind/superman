@@ -135,7 +135,11 @@ const PartiesDirectory = ({
         ]}>
         <View style={styles.details}>
           {partyType === Constants.PARTY_TYPE.DOCTOR && (
-            <View style={styles.divisionContainer}>
+            <View
+              style={[
+                styles.divisionContainer,
+                isWeb() && styles.divisionContainerWeb,
+              ]}>
               {isKyc && (
                 <DoctorTag
                   division={DivisionType.KYC}

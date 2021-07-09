@@ -45,6 +45,7 @@ import {ActivityIndicator} from 'components/elements';
 import {FetchEnumStatus} from 'reducers';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {Constants} from 'common';
+import {isWeb} from 'helper';
 /**
  * Check if same month is selected
  * @param {Object} monthFound
@@ -486,7 +487,9 @@ const MonthlyTourPlan = ({navigation}) => {
       } else if (isMTPLocked && !isMTPSubmitted) {
         return (
           <>
-            <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
+            <View style={styles.lockIcon}>
+              <LockIcon width={10.7} height={13.3} />
+            </View>
             <Area
               title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
               value={'1'}
@@ -533,11 +536,9 @@ const MonthlyTourPlan = ({navigation}) => {
                     STP_STATUS.SUBMITTED) &&
                   index === 0 && (
                     <>
-                      <LockIcon
-                        width={10.7}
-                        height={13.3}
-                        style={styles.lockIcon}
-                      />
+                      <View style={styles.lockIcon}>
+                        <LockIcon width={10.7} height={13.3} />
+                      </View>
                       <Area
                         title={`${translate(
                           'tourPlan.monthly.submittedOn',
@@ -573,11 +574,11 @@ const MonthlyTourPlan = ({navigation}) => {
         closeAction={true}
         modalTitle={getModalTitle()}
         modalContent={getModalContent()}
-        customModalPosition={
-          optionsToIterate?.length < 7
-            ? [styles.modalPosition, styles.modalHeightHalf]
-            : styles.modalPosition
-        }
+        customModalPosition={[
+          styles.modalPosition,
+          isWeb() && styles.modalPositionWeb,
+          optionsToIterate?.length < 7 && styles.modalHeightHalf,
+        ]}
       />
     );
   };

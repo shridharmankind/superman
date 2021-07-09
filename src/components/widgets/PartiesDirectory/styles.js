@@ -31,13 +31,16 @@ const styles = StyleSheet.create({
   },
   divisionContainer: {
     position: 'absolute',
-    top: -29,
+    top: -31,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     paddingVertical: themes.spacing(5),
     paddingHorizontal: themes.spacing(10),
     left: -43,
+  },
+  divisionContainerWeb: {
+    top: -30,
   },
   container: {
     flex: 1,
