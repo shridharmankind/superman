@@ -1,10 +1,10 @@
 import React from 'react';
-import { ContentWithSidePanel } from 'components/layouts';
-import { Label, LabelVariant } from 'components/elements';
+import {ContentWithSidePanel} from 'components/layouts';
+import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
-import { translate } from 'locale';
-import { View } from 'react-native';
-import { PerformanceInside, Leaderboard } from 'assets';
+import {translate} from 'locale';
+import {View} from 'react-native';
+import {PerformanceInside, Leaderboard} from 'assets';
 
 const PerformanceLanding = () => {
   const renderHeader = () => (
@@ -20,10 +20,7 @@ const PerformanceLanding = () => {
     <ContentWithSidePanel header={renderHeader()}>
       <View style={styles.flexRow}>
         <View style={styles.performanceSectionContainer}>
-          <PerformanceInside
-            width={50}
-            height={50}
-          />
+          <PerformanceInside width={50} height={50} />
           <Label
             style={styles.sectionsTitle}
             type="semiBold"
@@ -42,10 +39,7 @@ const PerformanceLanding = () => {
               title={'/5,000,000'}
             />
           </View>
-          <Label
-            style={styles.sales}
-            title={translate('performance.sales')}
-          />
+          <Label style={styles.sales} title={translate('performance.sales')} />
           <Label
             style={styles.colorPrimary}
             type="semiBold"
@@ -53,10 +47,7 @@ const PerformanceLanding = () => {
           />
         </View>
         <View style={styles.leaderboardSectionContainer}>
-          <Leaderboard
-            width={50}
-            height={50}
-          />
+          <Leaderboard width={50} height={50} />
           <Label
             style={styles.sectionsTitle}
             type="semiBold"
@@ -64,11 +55,7 @@ const PerformanceLanding = () => {
           />
 
           <View style={styles.flexRow}>
-            <Label
-              style={styles.sectionNumber}
-              type="semiBold"
-              title={'2'}
-            />
+            <Label style={styles.sectionNumber} type="semiBold" title={'2'} />
           </View>
           <Label
             style={styles.sales}
