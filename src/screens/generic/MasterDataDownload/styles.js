@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   downloadingTextStyle: {
-    marginTop: 110,
+    marginTop: 80,
     alignSelf: 'center',
   },
   downloadTextStyle: {
@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
   imageBg: {
     width: '100%',
     height: '100%',
+  },
+  noInternetTextStyle: {
+    marginTop: 10,
+    alignSelf: 'center',
   },
 });
 

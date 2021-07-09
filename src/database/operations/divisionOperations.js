@@ -9,7 +9,7 @@ export default dbInstance => ({
         divisions.forEach(division => {
           const {id, name, shortName, maxPatchCount, kycPartyLimit} = division;
           let syncParameters =
-            division.syncParameters == undefined
+            division.syncParameters === undefined
               ? syncParametersObject()
               : division.syncParameters;
           dbInstance.create(
@@ -47,7 +47,6 @@ export default dbInstance => ({
         'modified',
       );
     } catch (err) {
-      console.log(err);
       recordsUpdated = false;
     }
     return recordsUpdated;

@@ -152,44 +152,36 @@ const runBackgroundTask = async (tableName, value) => {
         Schemas.masterTablesDownLoadStatus,
         item[0].name,
       );
+      let lastSyncTime = null;
+      let modifiedRecords = [];
       if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
-        let modifiedRecords = await getModifiedRecords(item[0].schema[0]);
-
-        const response = await callRequest(
+        lastSyncTime = record.lastSync;
+        modifiedRecords = await getModifiedRecords(item[0].schema[0]);
+      }
+      const response = await callRequest(
+        item[0],
+        lastSyncTime,
+        Array.from(modifiedRecords),
+      );
+      if (response?.status === DBConstants.HTTP_OK) {
+        await SyncOperations.getSyncOperations(
           item[0],
-          record.lastSync,
-          Array.from(modifiedRecords),
+          response.data,
+          value,
+        ).then(res => {
+          resultArray = [...resultArray, ...res];
+        });
+        await Operations.updateRecord(
+          Schemas.masterTablesDownLoadStatus,
+          DBConstants.downloadStatus.DOWNLOADED,
+          item[0].name,
         );
-        if (response?.status === DBConstants.HTTP_OK) {
-          await SyncOperations.getSyncOperations(
-            item[0],
-            response.data,
-            value,
-          ).then(res => {
-            resultArray = [...resultArray, ...res];
-            //console.log(`${item[0].name} result `, resultArray);
-          });
 
-          // const updatedRecord = await Operations.getAllRecord(
-          //   item[0].schema[0],
-          // );
-          // console.log("UpdatedRecord length ",updatedRecord.length);
-
-          await Operations.updateRecord(
-            Schemas.masterTablesDownLoadStatus,
-            DBConstants.downloadStatus.DOWNLOADED,
-            item[0].name,
-          );
-
-          return resultArray;
-        } else {
-          console.log(
-            `${item[0].name}'s response from API is ${response?.status}`,
-          );
-          return resultArray;
-        }
+        return resultArray;
       } else {
-        console.log(`${item[0].name} table status is still Pending`);
+        console.log(
+          `${item[0].name}'s response from API is ${response?.status}`,
+        );
         return resultArray;
       }
     }

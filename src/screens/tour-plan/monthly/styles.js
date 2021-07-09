@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     color: theme.colors.grey[900],
   },
   tourPlanViewContainer: {
-    marginTop: theme.spacing(15),
+    marginTop: theme.spacing(2),
   },
   stpLegend: {
     paddingLeft: theme.spacing(56),
@@ -92,8 +92,43 @@ const styles = StyleSheet.create({
   dueDateChip: {
     color: theme.colors.red[600],
   },
+  centeredView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  calendarContainer: {
+    position: 'absolute',
+    justifyContent: 'center',
+    top: 20,
+    left: -29,
+    zIndex: 9999,
+    width: 500,
+  },
+  calendar: {
+    borderColor: theme.colors.borderColor,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.9,
+    shadowRadius: 20,
+    elevation: 3,
+  },
+  swapDate: {
+    paddingVertical: theme.spacing(10),
+    borderWidth: 1,
+    borderColor: theme.colors.grey[300],
+    marginBottom: theme.spacing(20),
+  },
+  swapDateText: {
+    paddingHorizontal: theme.spacing(10),
+  },
+  swapContent: {
+    paddingVertical: theme.spacing(50),
+  },
   notSubmittedChip: {
     color: theme.colors.black,
+  },
+  modalHeight: {
+    height: 'auto',
+    paddingBottom: theme.spacing(0),
   },
 });
 

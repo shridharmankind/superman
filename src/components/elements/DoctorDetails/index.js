@@ -27,6 +27,7 @@ import {capitalize} from 'screens/tour-plan/helper';
  * @param {Object} visitData doctor's visit plan speicify upcoming, today, missed etc. visits
  * @param {Boolean} isTicked flag to identify is user has clicked on chiclet
  * @param {Function} onTileNamePress Fire when click on tile name
+ * @param {String} gender M/F passed as string
  */
 
 const DoctorDetails = ({
@@ -76,7 +77,7 @@ const DoctorDetails = ({
   const OnErrorHandler = () => {
     if (!isImageErrror) {
       const genderImage =
-        Constants.GENDER.MALE === (gender || '').toUpperCase()
+        Constants.GENDER.MALE === gender?.toUpperCase()
           ? require('assets/images/male.png')
           : require('assets/images/female.png');
       const src =
@@ -151,7 +152,9 @@ const DoctorDetails = ({
                   title={`${DivisionType.CAMPAIGN}`}
                 />
               )}
-              {category && <DoctorTag division={category} title={category} />}
+              {category ? (
+                <DoctorTag division={category} title={category} />
+              ) : null}
             </View>
           )}
 
@@ -259,7 +262,6 @@ DoctorDetails.defaultProps = {
   selected: false,
   division: '',
   showTile: false,
-  gender: 'Male',
 };
 
 DoctorDetails.propTypes = {

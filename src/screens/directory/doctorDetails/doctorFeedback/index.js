@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Dimensions} from 'react-native';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
+import {View, Dimensions, Text} from 'react-native';
 import styles from './styles';
 import {Label, Button, LabelVariant} from 'components/elements';
 import SwiperFlatList from 'react-native-swiper-flatlist';
@@ -8,24 +8,55 @@ import dayjs from 'dayjs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Strings} from 'common';
 import {getFormatDate} from 'utils/dateTimeHelper';
-import AddDoctor from './addDoctor';
+import themes from 'themes';
 import VisitDetail from './visitDetail';
-import {fetchDcrDetail, fetchDoctorList} from './redux/dcrSlice';
+import SampleOpenTasks from './sampleRequest';
+import ItemOpenTask from './itemOpenTask';
+import SamplesRequest from './samplesReq';
+import ItemRequest from './itemsReq';
+import {
+  fetchDcrDetail,
+  fetchStaffDetail,
+  fetchDcrData,
+  fetchDoctorList,
+  fetchEDetailedList,
+  fetchOtherProducts,
+} from './redux/dcrSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {dcrSelector, dcrActions} from './redux';
 import {Helper} from 'database';
 import EDetailingDCR from './discussed';
+import VoiceNote from './voiceNote';
+import InfoOpenTasks from './infoOpenTasks';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AddDoctor from './addDoctor';
+import {
+  searchSamples,
+  searchItems,
+} from 'screens/directory/doctorDetails/doctorFeedback/redux';
 
 const DoctorFeedback = ({navigation, route}) => {
   const doctorData = route?.params?.data || null;
   const [showModal, setShowModal] = useState(false);
   const [staffPositionId, setStaffPositionId] = useState(null);
-  const [disableSwipeGesture, updateSwipeGesture] = useState(false);
+  const [hideRightArrow, toggleRightArrow] = useState(false);
+  const [hideLeftArrow, toggleLeftArrow] = useState(true);
+  const [currentSwapIndex, setCurrentIndex] = useState(0);
+  // const [disableSwipeGesture, updateSwipeGesture] = useState(false);
   const items = [
     {name: 'question1', key: 1},
-    {name: 'question1', key: 2},
+    {name: 'question2', key: 2},
+    {name: 'question3', key: 3},
+    {name: 'question4', key: 4},
+    {name: 'question5', key: 5},
+    {name: 'question6', key: 6},
+    {name: 'question7', key: 7},
+    {name: 'question8', key: 8},
+    // {name: 'question5', key: 5},
+    // {name: 'question5', key: 5},
   ];
   const {width} = Dimensions.get('window');
+  const swiperRef = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,6 +66,38 @@ const DoctorFeedback = ({navigation, route}) => {
     })();
   });
 
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(searchSamples({staffPositionId: staffPositionId}));
+    }
+  }, [dispatch, staffPositionId]);
+
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(searchItems({staffPositionId: staffPositionId}));
+    }
+  }, [dispatch, staffPositionId]);
+
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(
+        fetchOtherProducts({
+          staffPositionId: staffPositionId,
+          partyId: doctorData?.id,
+        }),
+      );
+    }
+  }, [dispatch, doctorData?.id, staffPositionId]);
+  useEffect(() => {
+    if (staffPositionId) {
+      dispatch(
+        fetchEDetailedList({
+          staffPositionId: staffPositionId,
+          partyIds: [doctorData?.id],
+        }),
+      );
+    }
+  }, [dispatch, doctorData?.id, staffPositionId]);
   // dispatching the action
   useEffect(() => {
     dispatch(
@@ -45,13 +108,29 @@ const DoctorFeedback = ({navigation, route}) => {
   }, [dispatch, staffPositionId]);
 
   useEffect(() => {
-    dispatch(fetchDcrDetail({staffPositionId: staffPositionId}));
+    dispatch(fetchStaffDetail({staffPositionId: staffPositionId}));
   }, [dispatch, staffPositionId]);
+
+  useEffect(() => {
+    if (!!doctors && doctors.length <= 0) {
+      dispatch(
+        fetchDcrData({
+          staffPositionId: staffPositionId,
+          partyIds: [doctorData?.id],
+          doctorName: doctorData.name,
+        }),
+      );
+    }
+  }, [dispatch, staffPositionId, doctors, doctorData.id, doctorData.name]);
 
   // To close Feedback screen
   const closeFeedback = () => {
     navigation.pop();
   };
+
+  // const swipeGestureClk = useCallback(isSwipe => {
+  //   updateSwipeGesture(isSwipe);
+  // }, []);
 
   const closeAddHandler = () => {
     setShowModal(false);
@@ -62,39 +141,106 @@ const DoctorFeedback = ({navigation, route}) => {
 
   const updateSelectedData = (doctorData, selectedDocData) => {
     setShowModal(false);
+    let selectedDocpartyIds = [];
+    for (
+      let selectedDoc = 0;
+      selectedDoc <= selectedDocData.length - 1;
+      selectedDoc++
+    ) {
+      selectedDocpartyIds.push(selectedDocData[selectedDoc].id);
+    }
     dispatch(
-      dcrActions.setDoctorList({
+      fetchDcrData({
+        staffPositionId: staffPositionId,
+        partyIds: selectedDocpartyIds,
         doctorData: doctorData,
         selectedDocData: selectedDocData,
+        addDoctor: true,
       }),
     );
   };
-  const swipeGestureClk = isSwipe => {
-    updateSwipeGesture(isSwipe);
+  const seniorList = useSelector(dcrSelector.getSeniors());
+  const doctors = useSelector(dcrSelector.getPartyData());
+
+  const renderSlide = useCallback(
+    index => {
+      if (index === 0) {
+        return (
+          <VisitDetail
+            index={index}
+            width={width}
+            seniorList={seniorList}
+            addDoctorHandler={AddDoctorHandler}
+            hideShowRightArrow={show => hideShowRightArrow(show)}
+          />
+        );
+      } else if (index === 1) {
+        return (
+          <View style={[{width: width - 300}, styles.slideStyle]}>
+            <EDetailingDCR />
+          </View>
+        );
+      } else if (index === 2) {
+        return (
+          <SampleOpenTasks index={index} width={width} doctorData={doctors} />
+        );
+      } else if (index === 3) {
+        return (
+          <ItemOpenTask index={index} width={width} doctorData={doctors} />
+        );
+      } else if (index === 4) {
+        return <SamplesRequest index={index} width={width} />;
+      } else if (index === 5) {
+        return <ItemRequest index={index} width={width} />;
+      } else if (index === 6) {
+        return <InfoOpenTasks index={index} width={width} />;
+      } else if (index === 7) {
+        return (
+          <View style={[{width: width - 300}, styles.slideStyle]}>
+            <VoiceNote />
+          </View>
+        );
+      }
+    },
+    [doctors, seniorList, width],
+  );
+
+  const renderArrow = icon => (
+    <Icon name={icon} size={16} color={themes.colors.primary} />
+  );
+
+  const handleRightArrow = () => {
+    let currentIndex = swiperRef.current.getCurrentIndex();
+    let scrollindex = currentIndex + 1;
+    if (scrollindex < items.length) {
+      swiperRef.current.scrollToIndex({index: scrollindex});
+    }
+    if (scrollindex > 0) {
+      toggleLeftArrow(false);
+    }
+    if (scrollindex >= items.length - 1) {
+      toggleRightArrow(true);
+    }
   };
 
-  const seniorList = useSelector(dcrSelector.getSeniors());
-
-  const renderSlide = index => {
-    if (index === 0) {
-      return (
-        <VisitDetail
-          index={index}
-          width={width}
-          seniorList={seniorList}
-          disSwipeGesture={disable => {
-            swipeGestureClk(disable);
-          }}
-          addDoctorHandler={AddDoctorHandler}
-        />
-      );
-    } else if (index === 1) {
-      return (
-        <View style={[{width: width - 300}, styles.slideStyle]}>
-          <EDetailingDCR />
-        </View>
-      );
+  const handleLeftArrow = () => {
+    let currentIndex = swiperRef.current.getCurrentIndex();
+    let scrollindex = currentIndex - 1;
+    if (scrollindex === 0) {
+      toggleLeftArrow(true);
     }
+    if (scrollindex === items.length - 2) {
+      toggleRightArrow(false);
+    }
+    swiperRef.current.scrollToIndex({index: scrollindex});
+  };
+
+  const handleSlideChange = ({index, prevIndex}) => {
+    setCurrentIndex(index);
+  };
+
+  const hideShowRightArrow = show => {
+    toggleRightArrow(show);
   };
   return (
     <>
@@ -112,12 +258,27 @@ const DoctorFeedback = ({navigation, route}) => {
                 variant={LabelVariant.h2}
                 title={`${Strings.doctorDetail.dcr.feedback} - `}
               />
-              <Label
-                style={styles.nameStyling}
-                variant={LabelVariant.h2}
-                testID="doctor_name"
-                title={`Dr. ${doctorData.name}`}
-              />
+              {doctors.map((doc, ind) => {
+                if (ind === doctors.length - 1) {
+                  return (
+                    <Label
+                      style={styles.nameStyling}
+                      variant={LabelVariant.h2}
+                      testID="doctor_name"
+                      title={`Dr. ${doc.partyName}`}
+                    />
+                  );
+                } else {
+                  return (
+                    <Label
+                      style={styles.nameStyling}
+                      variant={LabelVariant.h2}
+                      testID="doctor_name"
+                      title={`Dr. ${doc.partyName},`}
+                    />
+                  );
+                }
+              })}
             </View>
             <View>
               <Label
@@ -128,21 +289,38 @@ const DoctorFeedback = ({navigation, route}) => {
           </View>
           <Button
             title={Strings.doctorDetail.dcr.btnDone}
-            disabled={true}
+            disabled={currentSwapIndex !== 7}
             contentStyle={styles.button}
           />
         </View>
         <View style={styles.section}>
+          {!hideRightArrow && (
+            <View style={styles.rightArrow}>
+              <TouchableOpacity onPress={() => handleRightArrow()}>
+                {renderArrow('chevron-right')}
+              </TouchableOpacity>
+            </View>
+          )}
+          {!hideLeftArrow && (
+            <View style={styles.LeftArrow}>
+              <TouchableOpacity onPress={() => handleLeftArrow()}>
+                {renderArrow('chevron-left')}
+              </TouchableOpacity>
+            </View>
+          )}
+
           <SwiperFlatList
             data={items}
+            ref={swiperRef}
             renderAll={false}
-            showPagination
+            showPagination={false}
             paginationStyleItemActive={styles.activePaginationItem}
             paginationStyleItem={styles.paginationItem}
             paginationStyle={styles.paginationStyle}
             style={styles.swiperListStyle}
             renderItem={({index}) => renderSlide(index)}
-            disableGesture={disableSwipeGesture}
+            disableGesture={true}
+            onChangeIndex={handleSlideChange}
           />
         </View>
       </View>

@@ -18,16 +18,22 @@ const ShowConflictRecords = ({records}) => {
       </View>
       <View style={styles.listHeader}>
         <Label
-          style={styles.division}
-          title={Strings.backgroundTask.lastModifiedTime}
+          style={[styles.division, styles.firstCol]}
+          title={translate('backgroundTask.conflictScreen.tableName')}
         />
         <Label
           style={[styles.division, styles.colwidth]}
-          title={Strings.backgroundTask.conflictMessage}
+          title={`${translate(
+            'backgroundTask.conflictScreen.lastModifiedTime',
+          )} \n (${translate('backgroundTask.conflictScreen.deviceDb')})`}
         />
         <Label
           style={[styles.division, styles.colwidth]}
-          title={Strings.backgroundTask.errorMessage}
+          title={translate('backgroundTask.conflictScreen.conflictType')}
+        />
+        <Label
+          style={[styles.division, styles.confDesc]}
+          title={translate('backgroundTask.conflictScreen.conflictDesc')}
         />
       </View>
       <FlatList
@@ -37,33 +43,39 @@ const ShowConflictRecords = ({records}) => {
         data={records}
         onEndReachedThreshold={0.5}
         renderItem={({item, index}) => {
+          let objectDetail =
+            Object.values(item)[0] !== undefined
+              ? Object.values(item)[0][0]
+              : [];
           return (
             <View style={styles.conflictRow}>
               <Label
+                style={[styles.dataStyle, styles.firstCol]}
+                title={`${Object.keys(item)[0]}`}
+              />
+              <Label
                 style={styles.dataStyle}
                 title={`${getLocalTimeZone(
-                  item.syncParameters?.lastModifiedOn,
+                  objectDetail.syncParameters?.lastModifiedOn,
                 )}`}
               />
               <Label
                 style={styles.dataStyle}
-                title={`${item.syncParameters?.syncErrorDetails?.conflictType}`}
+                title={`${objectDetail.syncParameters?.syncErrorDetails?.conflictType}`}
               />
               <Label
-                style={styles.dataStyle}
-                title={`${item.syncParameters?.syncErrorDetails?.errorMessage}`}
+                style={[styles.dataStyle, styles.confDesc]}
+                title={`${objectDetail.syncParameters?.syncErrorDetails?.errorMessage}`}
               />
               <View style={styles.btnsContainer}>
                 <Button
-                  title={Strings.backgroundTask.useDevice}
+                  title={translate('backgroundTask.useDevice')}
                   mode="contained"
                   contentStyle={styles.buttonLayout}
                   labelStyle={styles.btnContent}
                 />
-              </View>
-              <View style={styles.btnsContainer}>
                 <Button
-                  title={Strings.backgroundTask.useServer}
+                  title={translate('backgroundTask.useServer')}
                   mode="contained"
                   contentStyle={styles.buttonLayout}
                   labelStyle={styles.btnContent}

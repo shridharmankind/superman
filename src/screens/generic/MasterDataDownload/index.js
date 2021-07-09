@@ -5,6 +5,7 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import styles from './styles';
 import {Strings} from 'common';
 import {NetworkService} from 'services';
@@ -24,6 +25,11 @@ import {
   Weeklyoff,
   Qualifications,
   Specialities,
+  Activities,
+  ActivityType,
+  geoLocations,
+  Leaves,
+  LeaveTypes,
 } from 'database';
 import {KeyChain, CircularProgressBarWithStatus, isWeb} from 'helper';
 import {Background, LogoMankindWhite} from 'assets';
@@ -31,12 +37,35 @@ import {Constants} from 'common';
 import {ROUTE_DASHBOARD} from '../../../navigations/routes';
 import {useDispatch} from 'react-redux';
 import {authTokenActions} from '../RouteHandler/redux';
+import {showToastie} from 'utils/backgroundTask';
 
 const MasterDataDownload = () => {
   const dispatch = useDispatch();
   const progressBarSyncParam = 60 / 10; // (it will be in multiple of 10 and near to actual total tables to download)/10
   const [progress, setProgress] = useState(0);
   const [indeterminate, setIndeterminate] = useState(true);
+  const [isConnected, setConnected] = useState(true);
+
+  useEffect(() => {
+    let subscribeNetworkCheck = null;
+    if (!isWeb()) {
+      subscribeNetworkCheck = NetInfo.addEventListener(
+        handleConnectivityChange,
+      );
+    }
+    return async () => {
+      if (!isWeb()) {
+        if (subscribeNetworkCheck) {
+          subscribeNetworkCheck();
+          subscribeNetworkCheck = null;
+        }
+      }
+    };
+  }, []);
+
+  const handleConnectivityChange = connection => {
+    setConnected(connection.isConnected);
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -66,11 +95,9 @@ const MasterDataDownload = () => {
           );
         };
 
-        const fetchQualifications = async qualificationInfo => {
-          const {name, apiPath} = qualificationInfo;
+        const fetchQualifications = async (qualificationInfo, response) => {
+          const {name} = qualificationInfo;
           let failedToSaveQualifications = false;
-
-          const response = await NetworkService.get(apiPath);
 
           if (response && response.status === Constants.HTTP_OK) {
             const {data} = response;
@@ -87,11 +114,9 @@ const MasterDataDownload = () => {
           !failedToSaveQualifications && updateRecordDownloaded(name);
         };
 
-        const fetchSpecialities = async specialityInfo => {
-          const {name, apiPath} = specialityInfo;
+        const fetchSpecialities = async (specialityInfo, response) => {
+          const {name} = specialityInfo;
           let failedToSaveSpecialities = false;
-
-          const response = await NetworkService.get(apiPath);
 
           if (response && response.status === Constants.HTTP_OK) {
             const {data} = response;
@@ -107,126 +132,158 @@ const MasterDataDownload = () => {
           !failedToSaveSpecialities && updateRecordDownloaded(name);
         };
 
-        for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; i++) {
-          let item = Helper.MASTER_TABLES_DETAILS[i];
-          const record = await Operations.getRecord(
-            Schemas.masterTablesDownLoadStatus,
-            item.name,
-          );
-          if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
-            return;
-          }
-          let response;
-          switch (item.name) {
-            case DBConstants.MASTER_TABLE_USER_INFO:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_WEEKLYOFF:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_PARTY:
-              {
-                const staffPositionId = await Helper.getStaffPositionId();
-                response = await NetworkService.get(
-                  `${item.apiPath}${staffPositionId}`,
-                );
+        for (let i = 0; i < Helper.MASTER_TABLES_DETAILS.length; ) {
+          if (isConnected) {
+            let item = Helper.MASTER_TABLES_DETAILS[i];
+            const record = await Operations.getRecord(
+              Schemas.masterTablesDownLoadStatus,
+              item.name,
+            );
+            if (record?.status === DBConstants.downloadStatus.DOWNLOADED) {
+              if (i % progressBarSyncParam === 0) {
+                setProgress(prevProgress => prevProgress + 0.1);
               }
-              break;
-            case DBConstants.MASTER_TABLE_SKU:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_ORGANIZATION:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_DIVISION:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.MASTER_TABLE_MOTHER_BRAND:
-              response = await NetworkService.get(item.apiPath);
-              break;
-            case DBConstants.QUALIFICATIONS:
-              fetchQualifications(item);
-              break;
-            case DBConstants.SPECIALITIES:
-              fetchSpecialities(item);
-              break;
-            case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
-              {
-                const staffPositionId = await Helper.getStaffPositionId();
-                response = await NetworkService.get(
-                  `${item.apiPath}${staffPositionId}`,
-                );
-              }
-              break;
-          }
-          if (response && response.status === Constants.HTTP_OK) {
-            const data = JSON.stringify(response.data);
+              i = i + 1;
+              return;
+            }
+            let response;
             switch (item.name) {
               case DBConstants.MASTER_TABLE_USER_INFO:
-                await Operations.createUserInfoRecord(
-                  item.schema,
-                  JSON.parse(data),
-                );
-                updateRecordDownloaded(item.name);
-                break;
-
-              case DBConstants.MASTER_TABLE_PARTY:
-                await Operations.createPartyMasterRecord(
-                  item.schema,
-                  JSON.parse(data),
-                );
-                updateRecordDownloaded(item.name);
-                break;
-              case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
-                await MonthlyPlan.createMonthlyMasterRecord(
-                  item.schema,
-                  JSON.parse(data),
-                );
-                updateRecordDownloaded(item.name);
-                break;
-              case DBConstants.MASTER_TABLE_DIVISION:
-                const divisionsUpdated = await Divisions.storeDivisions(
-                  JSON.parse(data),
-                );
-                divisionsUpdated && updateRecordDownloaded(item.name);
-                break;
-              case DBConstants.MASTER_TABLE_MOTHER_BRAND:
-                const updatedMotherBrands =
-                  await MotherBrands.storeMotherBrands(JSON.parse(data));
-                updatedMotherBrands && updateRecordDownloaded(item.name);
-                break;
-              case DBConstants.MASTER_TABLE_ORGANIZATION:
-                const organizationsUpdated =
-                  await Organizations.storeOrganizations(JSON.parse(data));
-                organizationsUpdated && updateRecordDownloaded(item.name);
-                break;
-
               case DBConstants.MASTER_TABLE_SKU:
-                const skusUpdated = await Skus.storeSkus(JSON.parse(data));
-                skusUpdated && updateRecordDownloaded(item.name);
-                break;
-
               case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
-                const partyCategoriesUpdated =
-                  await PartyCategories.storePartyCategories(JSON.parse(data));
-                partyCategoriesUpdated && updateRecordDownloaded(item.name);
-                break;
+              case DBConstants.MASTER_TABLE_ORGANIZATION:
+              case DBConstants.MASTER_TABLE_DIVISION:
+              case DBConstants.MASTER_TABLE_MOTHER_BRAND:
               case DBConstants.MASTER_TABLE_WEEKLYOFF:
-                const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
-                  JSON.parse(data),
-                );
-                weeklyresponse && updateRecordDownloaded(item.name);
+              case DBConstants.LEAVE_TYPES:
+              case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
+              case DBConstants.MASTER_TABLE_ACTIVITIES:
+              case DBConstants.ACTIVITY_TYPE:
+              case DBConstants.QUALIFICATIONS:
+              case DBConstants.SPECIALITIES:
+                response = await NetworkService.get(item.apiPath);
+                break;
+              case DBConstants.MASTER_TABLE_PARTY:
+              case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+                {
+                  const staffPositionId = await Helper.getStaffPositionId();
+                  response = await NetworkService.get(
+                    `${item.apiPath}${staffPositionId}`,
+                  );
+                }
+                break;
+              case DBConstants.LEAVES:
+                {
+                  const userId = await Helper.getUserId();
+                  response = await NetworkService.get(
+                    `${item.apiPath}/${userId}`,
+                  );
+                }
                 break;
             }
+            if (response && response.status === Constants.HTTP_OK) {
+              const data = JSON.stringify(response.data);
+              switch (item.name) {
+                case DBConstants.MASTER_TABLE_USER_INFO:
+                  await Operations.createUserInfoRecord(
+                    item.schema,
+                    JSON.parse(data),
+                  );
+                  updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.QUALIFICATIONS:
+                  await fetchQualifications(item, response);
+                  break;
+                case DBConstants.SPECIALITIES:
+                  await fetchSpecialities(item, response);
+                  break;
+                case DBConstants.MASTER_TABLE_PARTY:
+                  await Operations.createPartyMasterRecord(
+                    item.schema,
+                    JSON.parse(data),
+                  );
+                  updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.MASTER_MONTHLY_TABLE_PLAN:
+                  await MonthlyPlan.createMonthlyMasterRecord(
+                    item.schema,
+                    JSON.parse(data),
+                  );
+                  updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.MASTER_TABLE_DIVISION:
+                  const divisionsUpdated = await Divisions.storeDivisions(
+                    JSON.parse(data),
+                  );
+                  divisionsUpdated && updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.MASTER_TABLE_MOTHER_BRAND:
+                  const updatedMotherBrands =
+                    await MotherBrands.storeMotherBrands(JSON.parse(data));
+                  updatedMotherBrands && updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.MASTER_TABLE_ORGANIZATION:
+                  const organizationsUpdated =
+                    await Organizations.storeOrganizations(JSON.parse(data));
+                  organizationsUpdated && updateRecordDownloaded(item.name);
+                  break;
 
-            if (i % progressBarSyncParam === 0) {
-              setProgress(prevProgress => prevProgress + 0.1);
+                case DBConstants.MASTER_TABLE_SKU:
+                  const skusUpdated = await Skus.storeSkus(JSON.parse(data));
+                  skusUpdated && updateRecordDownloaded(item.name);
+                  break;
+
+                case DBConstants.MASTER_TABLE_ACTIVITIES:
+                  const activitiesUpdated = await Activities.storeActivities(
+                    JSON.parse(data),
+                  );
+                  activitiesUpdated && updateRecordDownloaded(item.name);
+                  break;
+
+                case DBConstants.ACTIVITY_TYPE:
+                  const activityTypeUpdated =
+                    await ActivityType.storeActivityType(JSON.parse(data));
+                  activityTypeUpdated && updateRecordDownloaded(item.name);
+                  break;
+
+                case DBConstants.MASTER_TABLE_PARTY_CATEGORIES:
+                  const partyCategoriesUpdated =
+                    await PartyCategories.storePartyCategories(
+                      JSON.parse(data),
+                    );
+                  partyCategoriesUpdated && updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.MASTER_TABLE_GEO_LOCATIONS:
+                  const geoLocationUpdated =
+                    await geoLocations.storeGeoLocations(JSON.parse(data));
+                  geoLocationUpdated && updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.MASTER_TABLE_WEEKLYOFF:
+                  const weeklyresponse = await Weeklyoff.storeWeeklyoffs(
+                    JSON.parse(data),
+                  );
+                  weeklyresponse && updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.LEAVES:
+                  const leavesUpdated = await Leaves.storeLeaves(
+                    response?.data,
+                  );
+                  leavesUpdated && updateRecordDownloaded(item.name);
+                  break;
+                case DBConstants.LEAVE_TYPES:
+                  const leaveTypessUpdated = await LeaveTypes.storeLeaveTypes(
+                    response?.data,
+                  );
+                  leaveTypessUpdated && updateRecordDownloaded(item.name);
+                  break;
+              }
+              if (i % progressBarSyncParam === 0) {
+                setProgress(prevProgress => prevProgress + 0.1);
+              }
+              i = i + 1;
+            } else {
+              onDownloadError(item.name);
             }
-          } else {
-            onDownloadError(item.name);
           }
         }
         await Operations.createRecord(Schemas.masterTablesDownLoadStatus, {
@@ -239,11 +296,15 @@ const MasterDataDownload = () => {
         onDownloadError(error);
       }
     };
-    fetchData();
+    if (isConnected) {
+      fetchData();
+    } else {
+      showToastie(Constants.TOAST_TYPES.ALERT, Strings.checkInternet);
+    }
     return () => {
       isMounted = false;
     };
-  }, [progressBarSyncParam, dispatch]);
+  }, [progressBarSyncParam, dispatch, isConnected]);
 
   const initMasterTablesDownloadStatus = async () => {
     try {
@@ -275,6 +336,16 @@ const MasterDataDownload = () => {
           type="semiBold"
           style={styles.textStyle}
         />
+
+        {!isConnected ? (
+          <Label
+            title={Strings.checkInternet}
+            size={30}
+            textColor={themes.colors.white}
+            type="regular"
+            style={styles.noInternetTextStyle}
+          />
+        ) : null}
 
         <Label
           title={Strings.downloadingContent}

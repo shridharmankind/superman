@@ -2,6 +2,7 @@ import * as Constants from './constants';
 import * as Schemas from './schemas';
 import * as Operations from './operations';
 import {getActiveUser} from './operations/common';
+
 import {NetworkService} from 'services';
 
 export const MASTER_TABLES_DETAILS = [
@@ -86,6 +87,26 @@ export const MASTER_TABLES_DETAILS = [
       Schemas.Molecule.schema,
     ],
   },
+  {
+    name: Constants.MASTER_TABLE_ACTIVITIES,
+    apiPath: Constants.MASTER_TABLE_ACTIVITIES_API_PATH,
+  },
+  {
+    name: Constants.ACTIVITY_TYPE,
+    apiPath: Constants.ACTIVITY_TYPE_API_PATH,
+  },
+  {
+    name: Constants.MASTER_TABLE_GEO_LOCATIONS,
+    apiPath: Constants.MASTER_TABLE_GEO_LOCATIONS_API_PATH,
+  },
+  {
+    name: Constants.LEAVES,
+    apiPath: NetworkService.API.FETCH_LEAVES,
+  },
+  {
+    name: Constants.LEAVE_TYPES,
+    apiPath: NetworkService.API.FETCH_LEAVE_TYPES,
+  },
 ];
 
 export const syncErrorDetails = {
@@ -121,6 +142,8 @@ export const getUserName = async () => {
     const {firstName = '', lastName = ''} = user;
     return `${firstName} ${lastName}`;
   } catch (error) {}
+
+  return '';
 };
 
 /**
@@ -138,6 +161,16 @@ export const getStaffPositionId = async () => {
     const primaryStaffPosition = primaryStaffPositions[0] || {};
     return primaryStaffPosition?.id;
   } catch (error) {}
+};
+
+export const getUserId = async () => {
+  try {
+    const user = await getActiveUser();
+    const {id} = user;
+    return id;
+  } catch (error) {}
+
+  return null;
 };
 
 /**

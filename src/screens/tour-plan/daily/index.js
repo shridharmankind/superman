@@ -3,7 +3,13 @@ import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {Constants} from 'common';
-import {Label, Modal, Button, LabelVariant} from 'components/elements';
+import {
+  Label,
+  Modal,
+  Button,
+  LabelVariant,
+  ActivityIndicator,
+} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {isWeb} from 'helper';
 import {
@@ -16,11 +22,13 @@ import PartyList from 'screens/tourPlan/daily/doctorListing';
 import {showToast, hideToast} from 'components/widgets/Toast';
 import {translate} from 'locale';
 import {appSelector} from 'selectors';
+import {FetchEnumStatus} from 'reducers';
 /**
  * This file renders the daily plan of the staff - daily visit, missed calls, recommended vists etc.
  */
 const DailyTourPlan = () => {
   const dispatch = useDispatch();
+  const fetchState = useSelector(appSelector.makeGetAppFetch());
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
   const navigation = useNavigation();
 
@@ -275,11 +283,15 @@ const DailyTourPlan = () => {
         {getVisitBifurcationLabel()}
       </View>
       {allDoctorDetail.allRecords.length > 0 && (
-        <PartyList
-          dayPlanData={allDoctorDetail}
-          onTileNamePress={onTileNameHandler}
-          onTilePress={onTilePressHandler}
-        />
+        <>
+          {fetchState === FetchEnumStatus.FETCHING && <ActivityIndicator />}
+
+          <PartyList
+            dayPlanData={allDoctorDetail}
+            onTileNamePress={onTileNameHandler}
+            onTilePress={onTilePressHandler}
+          />
+        </>
       )}
       {allDoctorDetail.allRecords.length === 0 && (
         <Label

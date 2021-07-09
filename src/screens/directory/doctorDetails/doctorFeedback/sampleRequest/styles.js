@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import theme from 'themes';
 import themes from 'themes';
 
 const styles = StyleSheet.create({
@@ -54,7 +53,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginRight: themes.spacing(20),
   },
-  sampleImageStyle: {
+  searchSampleImageStyle: {
+    width: 114,
+    height: 66.7,
+    marginRight: themes.spacing(20),
+    marginBottom: themes.spacing(18),
+  },
+  rowSampleStyle: {
     width: 100,
     height: 46.7,
     marginRight: themes.spacing(20),
@@ -78,8 +83,6 @@ const styles = StyleSheet.create({
     left: '4%',
   },
   centerModal: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
   },
@@ -109,15 +112,79 @@ const styles = StyleSheet.create({
     marginTop: themes.spacing(20),
   },
   searchSampleStyling: {
-    borderWidth: 1,
-    padding: theme.spacing(20),
-    marginRight: theme.spacing(10),
-    borderRadius: 3,
+    borderWidth: 0.7,
+    marginRight: themes.spacing(10),
+    borderRadius: 6.7,
+    width: 200,
+    height: 133,
+    borderColor: themes.colors.primary,
+    paddingHorizontal: themes.spacing(16),
+    paddingVertical: themes.spacing(13.3),
   },
   checkStyling: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: 3.3,
+    right: 3.3,
+  },
+  toastContainer: {
+    position: 'absolute',
+    top: '10%',
+    left: '50%',
+    zIndex: 100,
+    width: 300,
+    padding: themes.spacing(10),
+    minHeight: 50,
+    backgroundColor: themes.colors.yellow[100],
+    borderRadius: 4,
+  },
+  noSampleCheck: {
+    position: 'absolute',
+    right: 60,
+    top: 10,
+    flexDirection: 'row',
+  },
+  iconStyling: {
+    position: 'relative',
+    top: 5,
+    right: 5,
+  },
+  closeIconToast: {
+    width: 32,
+    height: 32,
+    borderRadius: themes.spacing(26),
+    backgroundColor: themes.colors.white,
+    shadowColor: themes.colors.black,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: -30,
+    right: -80,
+    width: 32,
+    height: 32,
+    borderRadius: themes.spacing(26),
+    backgroundColor: themes.colors.primary,
+    shadowColor: themes.colors.black,
+  },
+  sampleListContainer: {
+    maxHeight: 200,
+  },
+  flexRow: {
+    flexDirection: 'row',
+  },
+  errStyling: {
+    color: themes.colors.white,
   },
 });
 

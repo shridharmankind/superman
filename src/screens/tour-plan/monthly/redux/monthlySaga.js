@@ -5,6 +5,7 @@ import {
   fetchWorkingDayCreatorType,
   fetchSTPStatusCreatorType,
   submitSTPCreatorType,
+  swapCreatorType,
   fetchMTPCalendarUpdateCreatorType,
 } from './monthlySlice';
 import {FetchEnumStatus, fetchStatusSliceActions} from 'reducers';
@@ -29,6 +30,10 @@ export function* fetchSTPStatusWatcher() {
 
 export function* submitSTPWatcher() {
   yield takeEvery(submitSTPCreatorType, submitSTPWorker);
+}
+
+export function* setSwapWatcher() {
+  yield takeEvery(swapCreatorType, swapWorker);
 }
 
 /**
@@ -172,6 +177,28 @@ export function* updateMTPCalendarWorker(action) {
         }),
       );
     }
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
+  } catch (error) {
+    yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));
+  }
+}
+
+export function* swapWorker(action) {
+  const {staffPositionId, obj} = action.payload;
+  const valueMap = {
+    staffPositionId: staffPositionId,
+  };
+  yield put(fetchStatusSliceActions.update(FetchEnumStatus.FETCHING));
+  let url = API_PATHS.SWAP;
+  url = url.replace(/\b(?:staffPositionId)\b/gi, matched => valueMap[matched]);
+  try {
+    const response = yield call(NetworkService.put, url, obj);
+    yield put(
+      monthlyActions.setSwap({
+        setSwap: response.data,
+      }),
+    );
+
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.SUCCESS));
   } catch (error) {
     yield put(fetchStatusSliceActions.update(FetchEnumStatus.FAILED));

@@ -2,6 +2,8 @@ import {DivisionSchemaName} from './schemas/Divisions';
 import {WeeklyoffSchemaName} from './schemas/Weeklyoffcountrywise';
 import {QualificationsSchemaName} from './schemas/Qualifications';
 import {SpecialitiesSchemaName} from './schemas/Specialities';
+import {LeavesSchemaName} from './schemas/Leaves';
+import {LeaveTypesSchemaName} from './schemas/LeaveTypes';
 
 //Common
 export const downloadStatus = Object.freeze({
@@ -61,6 +63,12 @@ export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
 export const MASTER_TABLE_DIVISION = DivisionSchemaName;
 export const MASTER_TABLE_DIVISION_API_PATH = 'division';
 
+export const MASTER_TABLE_ACTIVITIES = 'Activities';
+export const MASTER_TABLE_ACTIVITIES_API_PATH = 'activity';
+export const ACTIVITY_TYPE = 'ActivityType';
+export const ACTIVITY_TYPE_API_PATH = 'activitytype';
+export const DURATION_TYPE = 'DurationType';
+
 export const MASTER_TABLE_MOTHER_BRAND = 'MotherBrands';
 export const MASTER_TABLE_MOTHER_BRAND_API_PATH = 'motherBrand';
 export const MOTHER_BRAND_TYPE = 'MotherBrandType';
@@ -69,8 +77,15 @@ export const MOLECULES = 'Molecule';
 export const MASTER_TABLE_WEEKLYOFF = WeeklyoffSchemaName;
 export const MASTER_TABLE_WEEKLYOFF_API_PATH =
   'geolocation/weeklyoffcountrywise';
-export const MASTER_TABLE_GEOLOCATIONS_CONFIGURATION =
+
+export const MASTER_TABLE_GEO_LOCATIONS_CONFIGURATION =
   'GeoLocationConfiguration';
+export const MASTER_TABLE_GEO_LOCATIONS = 'GeoLocations';
+export const MASTER_TABLE_GEO_LOCATIONS_API_PATH = 'geolocation';
+export const MASTER_TABLE_GEO_LOCATION_TYPE = 'GeoLocationType';
 
 export const QUALIFICATIONS = QualificationsSchemaName;
 export const SPECIALITIES = SpecialitiesSchemaName;
+
+export const LEAVES = LeavesSchemaName;
+export const LEAVE_TYPES = LeaveTypesSchemaName;

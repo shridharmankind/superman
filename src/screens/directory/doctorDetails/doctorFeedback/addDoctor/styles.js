@@ -3,10 +3,8 @@ import theme from 'themes';
 
 const styles = StyleSheet.create({
   centerModal: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: theme.spacing(22),
+    marginTop: theme.spacing(35),
   },
   modalPosition: {
     width: '85%',
@@ -28,12 +26,20 @@ const styles = StyleSheet.create({
   },
   modalTitleDone: {
     position: 'absolute',
+    flexDirection: 'row',
     right: 0,
   },
   eDetailingStartContent: {
     width: 165,
     marginHorizontal: theme.spacing(8),
     height: 42,
+  },
+  uncheck: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.colors.checkCircleBlue,
   },
   eDetailingStartText: {
     fontSize: 12,
@@ -95,8 +101,8 @@ const styles = StyleSheet.create({
   },
   mainCheckBox: {
     position: 'absolute',
-    right: 0,
-    top: 0,
+    right: 7,
+    top: 7,
   },
   image: {
     width: 40,

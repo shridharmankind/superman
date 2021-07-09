@@ -29,7 +29,7 @@ const Strings = {
   reviewDCR: 'Review DCR',
   addToTodayPlan: "Add to Today's Plan",
   Legends: {
-    kycDoctor: 'KYC Doctors',
+    kycDoctor: 'KYC / Campaign Doctors',
     visitSchedule: 'High number of visits scheduled',
     events: 'Events',
     leave: 'Leave',
@@ -139,6 +139,38 @@ const Strings = {
           rightPart: 'to the doctor ?',
         },
         error: 'Sample Already Exists',
+        noSamplesGiven: 'No Sample Given',
+      },
+      itemRequest: {
+        addItems: '+ ADD a Item',
+        question: {
+          leftPart: 'Did you provide',
+          midPart: 'any items',
+          rightPart: 'to the doctor ?',
+        },
+        noItemsGiven: 'No Items Given',
+      },
+      sample: {
+        question: {
+          midPart: 'Samples requested',
+          rightPart: 'by the doctor ?',
+        },
+        nosampleReq: 'No Samples Requested',
+      },
+      item: {
+        question: {
+          midPart: 'Items requested',
+          rightPart: 'by the doctor ?',
+        },
+        noItemReq: 'No Items Requested',
+      },
+      task: {
+        question: {
+          leftPart: 'Update',
+          midPart: 'status',
+          rightPart: 'on open tasks?',
+        },
+        noTaskUpdate: 'No Task Update',
       },
     },
   },
@@ -180,7 +212,7 @@ const Strings = {
   },
   setting: {
     tab: {
-      conflicts: 'Conflict',
+      conflicts: 'Sync Summary',
     },
   },
   searchBar: {
@@ -219,11 +251,17 @@ const Strings = {
       successMessage: 'Requested sync has been completed successfully.',
       conflictMessage: 'Sync activity was completed with a conflict.',
       failureMessage: 'Sync activity could not be completed.',
-      alreadRunningMessage: 'Sync activity is already in progress.',
+      alreadRunningMessage: 'Sync activity is already in progress...',
+    },
+    conflictScreen: {
+      tableName: 'Table Name',
+      lastModifiedTime: 'Last Modified',
+      conflictType: 'Type of Conflict',
+      conflictDesc: 'Conflict Description',
     },
   },
   noInternet: 'No Internet',
-  checkInternet: 'Check you internet connection',
+  checkInternet: 'Please check your internet connection',
 };
 
 export default Strings;

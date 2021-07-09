@@ -11,10 +11,9 @@ export const getAllConflictRecords = async () => {
     for (let [key, value] of syncTaskList) {
       await getConflictRecordsPerTable(key, value).then(
         modifiedTableRecords => {
-          modifiedRecordsList = [
-            ...modifiedRecordsList,
-            ...modifiedTableRecords,
-          ]; //collecting result to show toastie
+          let obj = {};
+          obj[key] = [...modifiedTableRecords];
+          modifiedRecordsList = [...modifiedRecordsList, obj]; //collecting result to show toastie
         },
       );
     }

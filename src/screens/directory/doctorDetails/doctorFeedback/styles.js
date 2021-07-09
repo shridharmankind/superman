@@ -112,6 +112,32 @@ const styles = StyleSheet.create({
   highlighted: {
     color: themes.colors.primary,
   },
+  rightArrow: {
+    position: 'absolute',
+    top: '50%',
+    right: '2%',
+    zIndex: 100,
+    borderRadius: 1000,
+    borderWidth: 2,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: themes.colors.primary,
+  },
+  LeftArrow: {
+    position: 'absolute',
+    top: '50%',
+    left: '-2%',
+    zIndex: 100,
+    borderRadius: 1000,
+    borderWidth: 2,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: themes.colors.primary,
+  },
 });
 
 export default styles;

@@ -151,20 +151,6 @@ export const createPartyMasterRecord = async (schema, data) => {
           'modified',
         );
 
-        let syncErrorDetailsObject = {
-          conflictType: 'null',
-          errorMessage: 'null',
-        };
-        let syncParametersObject = {
-          devicePartyId: null,
-          isActive: true,
-          requireSync: false,
-          lastModifiedOn: new Date(),
-          isDeleted: false,
-          errorInSync: false,
-          syncErrorDetails: syncErrorDetailsObject,
-        };
-
         let partyMaster = realm.create(
           schema[0].name,
           {
@@ -180,7 +166,7 @@ export const createPartyMasterRecord = async (schema, data) => {
             syncParameters:
               object.syncParameters != null
                 ? object.syncParameters
-                : syncParametersObject,
+                : syncParametersObject(),
             partyTypes: partyTypes,
             alreadyVisited: object.alreadyVisited,
             birthday: object.birthday,
@@ -191,19 +177,47 @@ export const createPartyMasterRecord = async (schema, data) => {
           'modified',
         );
         object.specialities?.forEach(obj => {
-          specialization = realm.create(schema[1].name, obj, 'modified');
+          obj.divisions = obj.divisions.map(division => {
+            return {
+              ...division,
+              syncParameters: syncParametersObject(),
+            };
+          });
+          specialization = realm.create(
+            schema[1].name,
+            {...obj, syncParameters: syncParametersObject()},
+            'modified',
+          );
           partyMaster.specialities.push(specialization);
         });
         object.areas?.forEach(obj => {
-          area = realm.create(schema[2].name, obj, 'modified');
+          area = realm.create(
+            schema[2].name,
+            {...obj, syncParameters: syncParametersObject()},
+            'modified',
+          );
           partyMaster.areas.push(area);
         });
         object.qualifications?.forEach(obj => {
-          qualification = realm.create(schema[3].name, obj, 'modified');
+          obj.divisions = obj.divisions.map(division => {
+            return {
+              ...division,
+              syncParameters: syncParametersObject(),
+            };
+          });
+          qualification = realm.create(
+            schema[3].name,
+            {...obj, syncParameters: syncParametersObject()},
+            'modified',
+          );
           partyMaster.qualifications.push(qualification);
         });
         object.engagement?.forEach(obj => {
-          engagement = realm.create(schema[4].name, obj, 'modified');
+          engagement = realm.create(
+            schema[4].name,
+            {...obj, syncParameters: syncParametersObject()},
+            'modified',
+          );
           partyMaster.engagement.push(engagement);
         });
       });
@@ -219,130 +233,6 @@ export const closeDB = () => {
   }
 };
 
-export async function insertPartyTableData(schema, id) {
-  let object = dummyPartyData;
-  let specialization,
-    area,
-    qualification,
-    partyTypes,
-    partyTypeGroup,
-    engagement;
-  await realm.write(() => {
-    partyTypeGroup = realm.create(
-      schema[4].name,
-      object.partyTypes?.partyTypeGroup,
-      'modified',
-    );
-    partyTypes = realm.create(
-      schema[5].name,
-      {...object.partyTypes, ...partyTypeGroup},
-      'modified',
-    );
-
-    let syncErrorDetailsObject = {
-      conflictType: 'null',
-      errorMessage: 'null',
-    };
-    let syncParametersObject = {
-      devicePartyId: generateUUID(),
-      isActive: true,
-      requireSync: true,
-      lastModifiedOn: d2,
-      isDeleted: false,
-      errorInSync: false,
-      syncErrorDetails: syncErrorDetailsObject,
-    };
-
-    let partyMaster = realm.create(
-      schema[0].name,
-      {
-        id: object.id,
-        partyTypeId: object.partyTypeId,
-        shortName: 'DOC',
-        name: object.name,
-        qualification: object.qualification,
-        frequency: object.frequency,
-        category: object.category,
-        potential: object.potential,
-        isKyc: object.isKyc,
-        syncParameters: syncParametersObject,
-        partyTypes: partyTypes,
-        alreadyVisited: object.alreadyVisited,
-        birthday: object.birthday,
-        anniversary: object.anniversary,
-        selfDispensing: object.selfDispensing,
-      },
-      'modified',
-    );
-
-    object.specialities.forEach(obj => {
-      specialization = realm.create(schema[1].name, obj, 'modified');
-      partyMaster.specialities.push(specialization);
-    });
-    object.areas.forEach(obj => {
-      area = realm.create(schema[2].name, obj, 'modified');
-      partyMaster.areas.push(area);
-    });
-    object.qualifications.forEach(obj => {
-      qualification = realm.create(schema[3].name, obj, 'modified');
-      partyMaster.qualifications.push(qualification);
-    });
-    return;
-  });
-}
-
-let dummyPartyData = {
-  syncParameters: {
-    devicePartyId: generateUUID(),
-    isActive: true,
-    requireSync: true,
-    lastModifiedOn: d2,
-    isDeleted: false,
-    errorInSync: false,
-    syncErrorDetails: {
-      conflictType: 'null',
-      errorMessage: 'null',
-    },
-  },
-  id: -1,
-  name: 'AshiMa KUMAR',
-  specialities: [],
-  qualifications: [],
-  frequency: 2,
-  alreadyVisited: 0,
-  partyTypes: {
-    id: 1,
-    name: 'Doctor',
-    shortName: 'Che',
-    partyTypeGroup: {
-      id: 2,
-      name: 'Chemist',
-      shortName: 'Chemist',
-    },
-  },
-  category: 'B',
-  potential: 600000,
-  isKyc: false,
-  areas: [
-    {
-      id: 9,
-      name: 'Noida Sector 8',
-      shortName: 'sec8',
-    },
-    {
-      id: 10,
-      name: 'Noida Sector 9',
-      shortName: 'sec9',
-    },
-  ],
-  shortName: 'null',
-  birthday: null,
-  anniversary: null,
-  engagement: null,
-  selfDispensing: false,
-  staffPositionId: 1,
-  partyTypeId: 1,
-};
 export {default as qualificationOperations} from './qualificationOperations';
 export {default as skuOperations} from './skuOperations';
 export {default as monthlyPlanOperations} from './MonthlyPlanOperations';
@@ -359,5 +249,10 @@ export {default as partyCategoryOperations} from './partyCategoryOperations';
 export {default as organizationOperations} from './organizationOperations';
 export {default as divisionOperations} from './divisionOperations';
 export {default as specialityOperations} from './specialityOperations';
+export {default as activityOperations} from './activityOperations';
+export {default as activityTypeOperations} from './activityTypeOperations';
 export {default as motherBrandOperations} from './motherBrandOperations';
 export {default as weeklyoffOperations} from './weeklyoffOperation';
+export {default as geoLocationOperations} from './geoLocationOperations';
+export {default as leaveOperations} from './leaveOperations';
+export {default as leaveTypeOperations} from './leaveTypeOperations';

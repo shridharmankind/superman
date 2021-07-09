@@ -35,10 +35,8 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const dispatch = useDispatch();
   const [complianceData, setComplianceData] = useState();
   const staffPositionId = useSelector(appSelector.getStaffPositionId());
-  const gapRuleErrorCode = useSelector(
-    planComplianceSelector.getGapRuleError(),
-  );
-  const [gapRuleCode, setGapRuleCode] = useState();
+  const gapRuleCode = useSelector(planComplianceSelector.getGapRuleError());
+
   /**
    * Fetch complaince rules list
    */
@@ -54,9 +52,6 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       );
   }, [dispatch, type, week, weekDay, staffPositionId]);
 
-  useEffect(() => {
-    setGapRuleCode(gapRuleErrorCode);
-  }, [gapRuleErrorCode]);
   /**
    * fetch data from selector
    */
@@ -262,8 +257,9 @@ const PlanCompliance = ({type, selectedData, week, weekDay}) => {
       </View>
     );
   };
-
-  return !complianceData || !Object.values(complianceData)?.length
+  return !complianceData ||
+    !Object.values(complianceData)?.length ||
+    complianceData?.error
     ? null
     : render();
 };

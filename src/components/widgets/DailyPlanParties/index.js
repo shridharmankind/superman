@@ -10,6 +10,7 @@ import {Strings, Constants} from 'common';
 import {isWeb} from 'helper';
 import {returnUTCtoLocal} from 'utils/dateTimeHelper';
 import {translate} from 'locale';
+import {capitalize} from 'screens/tourPlan/helper';
 
 /**
  * Custom doctor details component using Chip from react-native-paper.
@@ -66,7 +67,6 @@ const DailyPlanParties = ({
         Constants.PARTY_TYPE.DOCTOR === partyType
           ? genderImage
           : require('assets/images/chemist.png');
-
       setImageSrc(src);
       setIsImageErrror(true);
     }
@@ -78,7 +78,7 @@ const DailyPlanParties = ({
    */
   const getAdhocCallTitle = () => {
     let adhocCallTitle = '';
-    if (visitData.length > 0) {
+    if (visitData && visitData.length > 0) {
       const month = returnUTCtoLocal(visitData[0].date, 'MMM');
       const adhocCallDates = visitData.reduce((accumulator, visit) => {
         if (visit?.isAdhoc) {
@@ -175,7 +175,7 @@ const DailyPlanParties = ({
    * Return string of specializations of parties
    */
   const getSpecialization = () => {
-    return (specialization || {}).map(spec => spec?.name || spec).join(', ');
+    return (specialization || []).map(spec => spec?.name || spec).join(', ');
   };
 
   return (
@@ -204,7 +204,9 @@ const DailyPlanParties = ({
                   title={`${DivisionType.CAMPAIGN}`}
                 />
               )}
-              {category && <DoctorTag division={category} title={category} />}
+              {category ? (
+                <DoctorTag division={category} title={category} />
+              ) : null}
             </View>
           )}
 
@@ -219,11 +221,10 @@ const DailyPlanParties = ({
               <Label
                 title={
                   partyType === Constants.PARTY_TYPE.DOCTOR
-                    ? `${Strings.dr} ${title}`
-                    : title
+                    ? `${Strings.dr} ${capitalize(title)}`
+                    : capitalize(title)
                 }
                 size={customStyle ? customStyle.titleSize : 17}
-                style={styles.capitalize}
                 onPress={() => {
                   onTileNamePress && onTileNamePress();
                 }}
@@ -234,7 +235,7 @@ const DailyPlanParties = ({
             <View style={customStyle && customStyle.nameContainerCustom}>
               <Label
                 size={customStyle ? customStyle.subTitleSize : 12}
-                title={getSpecialization()}
+                title={capitalize(getSpecialization())}
                 style={[
                   styles.capitalize,
                   getSpecialization() !== '' &&

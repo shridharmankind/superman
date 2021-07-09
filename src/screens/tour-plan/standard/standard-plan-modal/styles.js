@@ -5,10 +5,11 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderRadius: 50,
     backgroundColor: themes.colors.white,
-    padding: 40,
+    paddingHorizontal: 40,
+    paddingVertical: 26,
     marginHorizontal: 50,
     marginTop: 40,
-    marginBottom: 100,
+    marginBottom: 75,
     flex: 1,
   },
   container: {
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
     color: themes.colors.grey[200],
     marginHorizontal: 20,
     textTransform: 'capitalize',
+    lineHeight: 24,
   },
   weekArrow: {
     height: 20,

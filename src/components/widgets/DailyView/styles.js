@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomColor: theme.colors.grey[100],
     borderLeftColor: theme.colors.grey[100],
-    height: 95,
+    height: 92,
     minWidth: 100,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
