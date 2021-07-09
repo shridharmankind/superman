@@ -8,7 +8,7 @@ export default StyleSheet.create({
     paddingHorizontal: theme.spacing(32),
     borderRadius: 26.7,
     width: '100%',
-    backgroundColor: '#D5E2E7',
+    backgroundColor: theme.colors.grayishBlue,
   },
   headerLabel: {
     fontSize: 18.7,
@@ -20,34 +20,34 @@ export default StyleSheet.create({
   },
   performanceSectionContainer: {
     width: '50%',
-    backgroundColor: '#F8ECEF',
+    backgroundColor: theme.colors.pink[200],
     borderRadius: 10,
-    padding: 20
+    padding: theme.spacing(20)
   },
   leaderboardSectionContainer: {
     width: '50%',
-    backgroundColor: '#EAE9F2',
+    backgroundColor: theme.colors.blue[400],
     borderRadius: 10,
-    padding: 20,
-    marginLeft: 10
+    padding: theme.spacing(20),
+    marginLeft: theme.spacing(10)
   },
   sectionsTitle: {
     fontSize: 15,
     color: theme.colors.black,
-    marginTop: 20,
-    marginBottom: 20
+    marginTop: theme.spacing(20),
+    marginBottom: theme.spacing(20)
   },
   sectionNumber: {
     fontSize: 25,
     color: theme.colors.primary,
-    marginTop: -15
+    marginTop: theme.spacing(-15)
   },
   sectionNumber2: {
     fontSize: 15,
     color: theme.colors.black
   },
   sales: {
-    marginBottom: 20
+    marginBottom: theme.spacing(20)
   },
   colorPrimary: {
     color: theme.colors.primary

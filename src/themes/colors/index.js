@@ -19,6 +19,7 @@ const Colors = {
     100: '#2293cb',
     200: '#2394cc',
     300: '#e9f4fa',
+    400: '#EAE9F2'
   },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',
@@ -65,8 +66,8 @@ const Colors = {
     300: '#c8e7eb',
     400: '#10606a',
   },
-  blueShades: {100: '#32C5FF14'},
-  pink: {100: '#FF71E7'},
+  blueShades: { 100: '#32C5FF14' },
+  pink: { 100: '#FF71E7', 200: '#F8ECEF' },
   yellow: {
     100: '#f5ad00',
     200: '#f5ad00',
