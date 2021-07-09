@@ -194,6 +194,6 @@ export const checkForPendingMasterDataDownload = async () => {
       }
     });
     // Operations.closeDB();
-    return false;
+    return isPending;
   } catch (error) {}
 };
