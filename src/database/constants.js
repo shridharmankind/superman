@@ -63,6 +63,12 @@ export const MASTER_TABLE_ORGANIZATION_API_PATH = 'organization';
 export const MASTER_TABLE_DIVISION = DivisionSchemaName;
 export const MASTER_TABLE_DIVISION_API_PATH = 'division';
 
+export const MASTER_TABLE_ACTIVITIES = 'Activities';
+export const MASTER_TABLE_ACTIVITIES_API_PATH = 'activity';
+export const ACTIVITY_TYPE = 'ActivityType';
+export const ACTIVITY_TYPE_API_PATH = 'activitytype';
+export const DURATION_TYPE = 'DurationType';
+
 export const MASTER_TABLE_MOTHER_BRAND = 'MotherBrands';
 export const MASTER_TABLE_MOTHER_BRAND_API_PATH = 'motherBrand';
 export const MOTHER_BRAND_TYPE = 'MotherBrandType';
