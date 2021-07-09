@@ -106,14 +106,17 @@ const dcrSlice = createSlice({
       return {...state, ...action.payload};
     },
     setDoctorList: (state, action) => {
-      const {doctorData, selectedDocData} = action.payload;
-      let doctorDataList = [];
-      for (let i = 0; i < selectedDocData.length; i++) {
-        doctorDataList.push({
-          partyId: selectedDocData[i].id,
-          partyName: selectedDocData[i].name,
-          ...DoctorSampleJson,
-        });
+      const {doctorData, selectedDocData, doctors} = action.payload;
+      let doctorDataList = [...doctors];
+      for (let i = 0; i <= selectedDocData.length - 1; i++) {
+        for (let j = 0; j <= doctorDataList.length - 1; j++) {
+          if (selectedDocData[i].id === doctorDataList[j].partyId) {
+            let tempObj = {...doctorDataList[j]};
+            tempObj.partyName = selectedDocData[i].name;
+            doctorDataList[j] = tempObj;
+            break;
+          }
+        }
       }
       const firstDoctor = state.doctors[0];
       const docDcrData = {

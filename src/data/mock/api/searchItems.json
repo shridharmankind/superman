@@ -1,4 +1,26 @@
 [
-  {"itemId": 10, "itemName": "Sanitizer", "StockQty": 200},
-  {"itemId": 11, "itemName": "Gloves", "StockQty": 100}
+  {
+    "itemId": 2,
+    "itemName": "Sanitizer",
+    "shortName": "Sani",
+    "imageUrl": null,
+    "userItemInventory": {
+      "id": 2,
+      "userid": 13,
+      "itemid": 2,
+      "stockQty": 100
+    }
+  },
+  {
+    "itemId": 4,
+    "itemName": "Parker Pen",
+    "shortName": "ParkerPen",
+    "imageUrl": null,
+    "userItemInventory": {
+      "id": 4,
+      "userid": 13,
+      "itemid": 4,
+      "stockQty": 100
+    }
+  }
 ]

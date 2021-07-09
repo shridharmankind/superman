@@ -196,7 +196,7 @@ const MissedCalls = () => {
             />
           </View>
           <View>
-            <Label style={customStyles.division} title={translate('region')} />
+            <Label style={customStyles.division} title={translate('area')} />
           </View>
         </View>
 

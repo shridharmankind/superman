@@ -29,7 +29,7 @@ const Strings = {
   reviewDCR: 'Review DCR',
   addToTodayPlan: "Add to Today's Plan",
   Legends: {
-    kycDoctor: 'KYC Doctors',
+    kycDoctor: 'KYC / Campaign Doctors',
     visitSchedule: 'High number of visits scheduled',
     events: 'Events',
     leave: 'Leave',
@@ -261,7 +261,7 @@ const Strings = {
     },
   },
   noInternet: 'No Internet',
-  checkInternet: 'Check you internet connection',
+  checkInternet: 'Please check your internet connection',
 };
 
 export default Strings;

@@ -37,6 +37,9 @@ const dbInstance = new Realm({
     Schemas.PartyCategories.schema,
     Schemas.Organizations.schema,
     Schemas.Divisions.schema,
+    Schemas.Activities.schema,
+    Schemas.ActivityType.schema,
+    Schemas.DurationType.schema,
     Schemas.MotherBrands.schema,
     Schemas.MotherBrandType.schema,
     Schemas.Molecule.schema,
@@ -66,6 +69,8 @@ export const PartyCategories = Operations.partyCategoryOperations(dbInstance);
 export const Organizations = Operations.organizationOperations(dbInstance);
 export const Divisions = Operations.divisionOperations(dbInstance);
 export const Specialities = Operations.specialityOperations(dbInstance);
+export const Activities = Operations.activityOperations(dbInstance);
+export const ActivityType = Operations.activityTypeOperations(dbInstance);
 export const MotherBrands = Operations.motherBrandOperations(dbInstance);
 export const Weeklyoff = Operations.weeklyoffOperations(dbInstance);
 export const geoLocations = Operations.geoLocationOperations(dbInstance);
