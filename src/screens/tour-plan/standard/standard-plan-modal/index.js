@@ -43,6 +43,7 @@ import {getSelectedPartyTypeData} from 'screens/tourPlan/helper';
 import {appSelector} from 'selectors';
 import {translate} from 'locale';
 import {ArrowLeft, ArrowRight} from 'assets';
+import {isWeb} from 'helper';
 
 /**
  * Standard Plan Modal component for setting daily standard plan.
@@ -1072,11 +1073,18 @@ const StandardPlanModal = ({
    */
   const handleDropDownRef = e => {
     e.persist();
-    const ids =
-      dropDownRef &&
-      dropDownRef.current?._children &&
-      dropDownRef.current?._children[0]._children.map(el => el._nativeTag);
-
+    let ids = null;
+    if (!isWeb()) {
+      ids =
+        dropDownRef &&
+        dropDownRef.current?._children &&
+        dropDownRef.current?._children[0]._children?.map(el => el._nativeTag);
+    } else {
+      if (dropDownRef && !dropDownRef.current?.contains(e.target)) {
+        setHideDropDown(true);
+        return;
+      }
+    }
     if (ids && ids.length) {
       if (ids.includes(e.target._nativeTag)) {
         return;
