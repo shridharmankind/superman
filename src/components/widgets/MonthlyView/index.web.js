@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import {Label, LabelVariant} from 'components/elements';
 import styles from './styles.web';
 import {DailyCell} from 'components/widgets';
 import {getDateFromMonthYear, isSameDate,getFormatDate,addDays,startOfDate, endOfDate} from 'utils/dateTimeHelper';
 import dayjs from 'dayjs';
-
+import theme from 'themes';
 
 /**./webStyles
  * Render Monthly Web View Calendar created using
@@ -33,7 +34,12 @@ const MonthlyView = ({
     for (let i = 0; i < 7; i++) {
       days.push(
         <View style={[styles.col, styles.colCenter]} key={i}>
-          <Text>{addDays(startDate,i).format(dateFormat).toUpperCase()}</Text>
+          <Label
+            testID="label_weekView_verticalHeader_test"
+            variant={LabelVariant.body}
+            textColor={theme.colors.grey[200]}
+            isUpperCase={true}
+            style={styles.dayStyle} title={addDays(startDate,i).format(dateFormat)}/>
         </View>,
       );
     }

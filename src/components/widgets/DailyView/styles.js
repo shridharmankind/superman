@@ -6,15 +6,13 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     borderBottomColor: theme.colors.grey[100],
-    borderLeftColor: theme.colors.grey[100],
     height: 92,
     minWidth: 100,
-    borderLeftWidth: 1,
     borderBottomWidth: 1,
   },
   highVisitBar: {
     borderLeftColor: theme.colors.orange[300],
-    borderLeftWidth: 5,
+    borderLeftWidth: 3,
   },
   sameDayHightVisit: {
     borderLeftColor: theme.colors.primary,
@@ -45,7 +43,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     color: theme.colors.grey[100],
-    opacity: 0.4,
+    opacity: 0.6,
   },
   activeText: {
     color: theme.colors.black,
