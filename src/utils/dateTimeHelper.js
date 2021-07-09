@@ -3,7 +3,9 @@ import localeData from 'dayjs/plugin/localeData';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/en-in';
+var isoWeek = require('dayjs/plugin/isoWeek');
 
+dayjs.extend(isoWeek);
 dayjs.extend(localeData);
 dayjs.extend(advancedFormat);
 dayjs.extend(utc);
@@ -23,7 +25,9 @@ export const isSameDate = (
   selectedDate,
   date = new Date(),
   format = DEFAULT_FORMAT,
-) => selectedDate === dayjs(date).format(format);
+) => {
+  return dayjs(selectedDate).format(format) === dayjs(date).format(format);
+};
 
 /**
  *
@@ -140,3 +144,8 @@ export const getDateIntoObject = date => {
     year: dayjs(date).get('year'),
   };
 };
+
+export const addDays = (date, count) => dayjs(date).add(count, 'day');
+
+export const endOfDate = (date, unit) => dayjs(date).endOf(unit).toDate();
+export const startOfDate = (date, unit) => dayjs(date).startOf(unit).toDate();
