@@ -69,6 +69,7 @@ const linking = {
         },
       },
       StandardPlan: 'standard-plan',
+      MtpPlanPerDay: 'mtp-plan-per-day',
       DoctorFeedback: 'doctor-feedback',
     },
   },

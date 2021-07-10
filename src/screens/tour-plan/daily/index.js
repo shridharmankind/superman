@@ -139,7 +139,7 @@ const DailyTourPlan = () => {
       let sample = {
         sentence: `${translate('tourPlan.daily.youHave')} {0} ${translate(
           'tourPlan.daily.and',
-        )} {1} ${translate('tourPlan.daily.visits')}`,
+        )} {1} ${translate('visits')}`,
         boldText: [doctorString, chemistString],
       };
 
@@ -150,14 +150,14 @@ const DailyTourPlan = () => {
       if (doctorString === '' && chemistString !== '') {
         sample = {
           sentence: `${translate('tourPlan.daily.youHave')} {0} ${translate(
-            'tourPlan.daily.visits',
+            'visits',
           )}`,
           boldText: [chemistString],
         };
       } else if (doctorString !== '' && chemistString === '') {
         sample = {
           sentence: `${translate('tourPlan.daily.youHave')} {0} ${translate(
-            'tourPlan.daily.visits',
+            'visits',
           )}`,
           boldText: [doctorString],
         };

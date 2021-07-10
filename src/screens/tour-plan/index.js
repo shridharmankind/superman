@@ -8,6 +8,7 @@ export {default as MonthlyTourPlan} from './monthly';
 export {default as DailyTourPlan} from './daily';
 export {default as PlanCompliance} from './planCompliance';
 export {default as TourPlanSidePanel} from './sidePanel';
+export {MtpPerDayPlan} from './mtp';
 
 import React from 'react';
 import Schedule from './schedule';

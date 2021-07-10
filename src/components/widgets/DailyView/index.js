@@ -1,5 +1,6 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {Label, LabelVariant} from 'components/elements';
 import styles from './styles';
 import {isSameDate, getFormatDate} from 'utils/dateTimeHelper';
@@ -45,6 +46,7 @@ const isWorkingDay = (date, workingDays) => {
  * @returns selected date data
  */
 const getCellData = (date, monthlyCalendarData) => {
+  console.log('monthlycalendar', monthlyCalendarData, date);
   return monthlyCalendarData?.filter(item => {
     return (
       item.date?.day?.toString() === date.day?.toString() &&
@@ -145,6 +147,7 @@ const DailyView = ({
   workingDays,
   monthlyCalendarData,
 }) => {
+  const navigation = useNavigation();
   // store value cell Data  on basis of date
   const dayCellData = getCellData(props.date, monthlyCalendarData);
   //store value for current day
@@ -178,7 +181,17 @@ const DailyView = ({
   const isInnerContainerHighVisitStyle =
     isSameDayDate && isWorkingDayType && dayCellData?.patch?.isNoOfVisitHigh;
   return (
-    <View
+    <TouchableOpacity
+      onPress={day => {
+        const calendarDate = props.date;
+        // console.log('day clicked', dayCellData, props.date);
+        navigation.navigate('MtpPerDayPlan', {
+          data: {
+            calendarDate,
+            dayCellData,
+          },
+        });
+      }}
       style={[
         styles.dailyViewContainer,
         containterHighVisitStyle,
@@ -219,7 +232,7 @@ const DailyView = ({
         {isWorkingDayType && renderCategory(dayCellData)}
         {isWorkingDayType && dayCellData?.patch && renderPatch(dayCellData)}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
