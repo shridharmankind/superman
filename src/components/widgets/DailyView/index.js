@@ -46,7 +46,6 @@ const isWorkingDay = (date, workingDays) => {
  * @returns selected date data
  */
 const getCellData = (date, monthlyCalendarData) => {
-  console.log('monthlycalendar', monthlyCalendarData, date);
   return monthlyCalendarData?.filter(item => {
     return (
       item.date?.day?.toString() === date.day?.toString() &&
@@ -184,7 +183,6 @@ const DailyView = ({
     <TouchableOpacity
       onPress={day => {
         const calendarDate = props.date;
-        // console.log('day clicked', dayCellData, props.date);
         navigation.navigate('MtpPerDayPlan', {
           data: {
             calendarDate,

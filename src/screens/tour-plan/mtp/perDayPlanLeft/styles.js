@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 75,
     flex: 1,
-    boxShadow: `0 0 40 #0000000D`,
   },
   titleRow: {
     flexDirection: 'row',

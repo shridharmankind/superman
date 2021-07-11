@@ -1,35 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {Label, LabelVariant, RadioButtonGroup} from 'components/elements';
-import {getFormatDate} from 'utils/dateTimeHelper';
 import {translate} from 'locale';
 
-const dayPlanActions = [
-  {
-    text: 'Doctor Visit',
-    value: 1,
-  },
-  {
-    text: 'Chemist Visit',
-    value: 2,
-  },
-  {
-    text: 'Review Meeting',
-    value: 3,
-  },
-  {
-    text: 'Camp',
-    value: 4,
-  },
-  {
-    text: 'Conference',
-    value: 5,
-  },
-];
-
-const MtpPerDayPlanRightPanel = ({route}) => {
+/**
+ * componnet to plan the day - renders left side panel for the planning
+ */
+const MtpPerDayPlanRightPanel = () => {
+  const dayPlanActions = [
+    {
+      text: translate('tourPlan.dayPlan.drVisit'),
+      value: 1,
+    },
+    {
+      text: translate('tourPlan.dayPlan.chVisit'),
+      value: 2,
+    },
+    {
+      text: translate('tourPlan.dayPlan.nonFieldActivity'),
+      value: 3,
+    },
+  ];
   const changeDayPlanActionHandler = selectedAction => {
     console.log('action', selectedAction);
   };
@@ -39,7 +31,7 @@ const MtpPerDayPlanRightPanel = ({route}) => {
       <Label
         variant={LabelVariant.subTitleLarge}
         style={styles.header}
-        title={'Select from the list'}
+        title={translate('tourPlan.dayPlan.selectFromList')}
       />
       <View>
         <RadioButtonGroup

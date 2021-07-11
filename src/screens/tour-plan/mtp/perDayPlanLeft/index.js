@@ -1,18 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {View, Dimensions} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import React from 'react';
+import {View} from 'react-native';
 import styles from './styles';
-import {
-  Label,
-  Modal,
-  Button,
-  LabelVariant,
-  ActivityIndicator,
-} from 'components/elements';
-import {getFormatDate} from 'utils/dateTimeHelper';
-import {translate} from 'locale';
+import {Label, LabelVariant} from 'components/elements';
 
-const MtpPerDayPlanLeftPanel = ({route}) => {
+/**
+ * componnet to plan the day - renders left side panel for the planning
+ */
+const MtpPerDayPlanLeftPanel = () => {
   return (
     <View style={styles.container}>
       <Label variant={LabelVariant.h3} title={'coming soon left'} />

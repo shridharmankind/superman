@@ -486,7 +486,7 @@ const MonthlyTourPlan = ({navigation}) => {
       } else if (isMTPLocked && !isMTPSubmitted) {
         return (
           <>
-            {/* <LockIcon width={10.7} height={13.3} style={styles.lockIcon} /> */}
+            <LockIcon width={10.7} height={13.3} style={styles.lockIcon} />
             <Area
               title={`${translate('tourPlan.monthly.mtpNotSubmitted')}`}
               value={'1'}
@@ -533,11 +533,11 @@ const MonthlyTourPlan = ({navigation}) => {
                     STP_STATUS.SUBMITTED) &&
                   index === 0 && (
                     <>
-                      {/* <LockIcon
+                      <LockIcon
                         width={10.7}
                         height={13.3}
                         style={styles.lockIcon}
-                      /> */}
+                      />
                       <Area
                         title={`${translate(
                           'tourPlan.monthly.submittedOn',

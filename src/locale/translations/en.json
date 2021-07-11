@@ -35,6 +35,12 @@
     "standard": {
       "noRecordsForSelection": "No records for current selection",
       "noPatchFound": "No patch found"
+    },
+    "dayPlan": {
+      "selectFromList": "Select from the list",
+      "drVisit": "Doctor Visit",
+      "chVisit": "Chemist Visit",
+      "nonFieldActivity": "Non-field Activity"
     }
   },
   "performance": {

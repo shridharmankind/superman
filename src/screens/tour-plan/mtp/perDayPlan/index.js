@@ -1,15 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {View, Dimensions} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
-import {
-  Label,
-  Modal,
-  Button,
-  LabelVariant,
-  ActivityIndicator,
-} from 'components/elements';
+import {Label, Button, LabelVariant} from 'components/elements';
 import {getFormatDate} from 'utils/dateTimeHelper';
 import {translate} from 'locale';
 import {
@@ -17,13 +10,21 @@ import {
   MtpPerDayPlanRightPanel,
 } from 'screens/tourPlan/mtp';
 
+/**
+ * componnet to plan the day - renders left and right side panel for the planning
+ * @param {Object} route route object
+ */
+
 const MtpPerDayPlan = ({route}) => {
-  const {height} = Dimensions.get('window');
   const routeParams = route?.params?.data;
   const navigation = useNavigation();
 
   const {calendarDate, dayCellData} = routeParams;
 
+  /**
+   * function to return visits count by summing up the doctor and chemist count
+   * @returns number of visits
+   */
   const getVisitsCount = () => {
     let count = 0;
     if (dayCellData) {
@@ -35,7 +36,6 @@ const MtpPerDayPlan = ({route}) => {
     return count;
   };
 
-  console.log('parmas', routeParams);
   return (
     <View style={styles.container}>
       <View style={styles.titleRow}>

@@ -5,6 +5,15 @@ import {RadioButton} from 'react-native-paper';
 import styles from './styles';
 import theme from 'themes';
 
+/**
+ * Custom radio button group component
+ * @param {Array} radioList array of radio list items
+ * @param {Object} initialSelected initial selected radio button object
+ * @param {Object} radioLabelStyle style for radio label
+ * @param {Object} radioButtonStyle style for radio button
+ * @param {Function} radioButtonChange click event on radio button
+ */
+
 const CustomRadioButtonGroup = ({
   radioList,
   initialSelected,

@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     marginHorizontal: theme.spacing(26.7),
     flex: 1,
-    boxShadow: '0 0 40 #0000000D',
   },
   titleRow: {
     flexDirection: 'row',
