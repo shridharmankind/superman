@@ -5,13 +5,9 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     backgroundColor: theme.colors.white,
-    paddingHorizontal: 40,
-    paddingVertical: 26,
-    marginHorizontal: 50,
-    marginTop: 40,
-    marginBottom: 75,
+    marginHorizontal: theme.spacing(26.7),
     flex: 1,
-    boxShadow: `0 0 40 #0000000D`,
+    boxShadow: '0 0 40 #0000000D',
   },
   titleRow: {
     flexDirection: 'row',
@@ -31,6 +27,9 @@ const styles = StyleSheet.create({
   },
   buttonTabBarText: {
     fontSize: 12.7,
+  },
+  header: {
+    paddingBottom: theme.spacing(11.3),
   },
 });
 

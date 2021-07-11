@@ -5,10 +5,10 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     backgroundColor: theme.colors.white,
-    paddingHorizontal: 32,
-    paddingVertical: 32,
-    marginHorizontal: 68,
-    marginVertical: 26.7,
+    paddingHorizontal: theme.spacing(32),
+    paddingVertical: theme.spacing(32),
+    marginHorizontal: theme.spacing(68),
+    marginVertical: theme.spacing(26.7),
     flex: 1,
     boxShadow: '0 0 40 #0000000D',
   },
@@ -39,8 +39,6 @@ const styles = StyleSheet.create({
   panel: {
     flex: 1,
   },
-  leftPanel: {backgroundColor: 'yellow'},
-  rightPanel: {backgroundColor: 'pink'},
   seperator: {
     borderRightWidth: 1.3,
     borderColor: theme.colors.blue[500],

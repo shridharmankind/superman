@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {
@@ -19,6 +20,7 @@ import {
 const MtpPerDayPlan = ({route}) => {
   const {height} = Dimensions.get('window');
   const routeParams = route?.params?.data;
+  const navigation = useNavigation();
 
   const {calendarDate, dayCellData} = routeParams;
 
@@ -50,12 +52,18 @@ const MtpPerDayPlan = ({route}) => {
             mode="outlined"
             contentStyle={styles.buttonTabBar}
             labelStyle={styles.buttonTabBarText}
+            onPress={() => {
+              navigation.pop();
+            }}
           />
           <Button
             title={translate('save')}
             mode="contained"
             contentStyle={styles.buttonTabBar}
             labelStyle={styles.buttonTabBarText}
+            onPress={() => {
+              navigation.pop();
+            }}
           />
         </View>
       </View>

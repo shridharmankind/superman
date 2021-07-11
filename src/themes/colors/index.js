@@ -21,6 +21,7 @@ const Colors = {
     300: '#e9f4fa',
     400: '#EAE9F2',
     500: '#36287f',
+    600: '#1d183b',
   },
   darkBlue: '#5920B7',
   lightBlue: '#0852C5',

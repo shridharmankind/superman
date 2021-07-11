@@ -24,11 +24,12 @@ import {
 } from 'screens/tourPlan/constants';
 
 /**
- * Tab component rendering as a radio button
- * @param {Boolean} isChecked determines if radio button is selected or not
- * @param {String} text button text
- * @param {Function} onTabPress click event
- * @returns button
+ * component to determine compliance of daily plan/monthly plan
+ * @param {String} type type of compliance - daily/monthly
+ * @param {Object} selectedData patch data
+ * @param {Number} week week number
+ * @param {Number} weekDay day in the week
+ * @returns plan compliance rules
  */
 const PlanCompliance = ({type, selectedData, week, weekDay}) => {
   const {colors} = useTheme();
